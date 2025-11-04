@@ -1,0 +1,177 @@
+﻿<UserControl x:Class="SoakingSettingView.UcSoakingChillingTimeTable"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="700" Background="Transparent">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SettingControlStyle;component/SettingViewStyleDictionaly.xaml" />
+                <ResourceDictionary Source="SoakingParamTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <vc:IntToStringConverter x:Key="IntToStringConv"/>
+        </ResourceDictionary>
+        
+    </UserControl.Resources>
+
+    <Grid Margin="0, 0, 0, -10">
+        <Border Margin="20, 30, 20. 20" BorderThickness="1.5" BorderBrush="DarkGray" CornerRadius="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Save Button, Template Button -->
+                <Grid Grid.Column="1">
+                    <StackPanel Orientation="Vertical">
+                        <Button Width="40" Height="40" Style="{x:Null}" Background="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="0, 30, 0, 0"    
+                                Command="{Binding TemplateSaveCommand}">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="ContentSave" Width="40" Height="40" Foreground="DarkOrange"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Button.Content>
+                        </Button>
+                        <Button Width="40" Height="40" Style="{x:Null}" Background="Transparent" BorderThickness="0" HorizontalAlignment="Left" Margin="0, 20, 0, 0"    
+                                Command="{Binding TemplateEditCommand}">
+                            <Button.Content>
+                                <materialDesign:PackIcon Kind="BookOpenPageVariant" Width="40" Height="40" Foreground="DarkOrange" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Table : Chilling Time Table -->
+                <Grid Grid.Column="2" Margin="0, 10, 0, 10">
+                    <Grid Grid.Row="0" Grid.Column="1" Margin="0, 0, 20, 0">
+                        <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                  VirtualizingPanel.IsContainerVirtualizable="True"
+                                  VirtualizingPanel.IsVirtualizing="True"
+                                  VirtualizingPanel.VirtualizationMode="Recycling"
+                                  Margin="20, 0, 15, 0"
+                                  ItemsSource="{Binding ChillingTimeTable}"
+                                  SelectionMode="Single" 
+                                  SelectedItem="{Binding SelectedChillingTime}"
+                                  SelectionChanged="ListView_SelectionChanged"
+                                  >
+                            <ListView.Resources>
+                                    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">40</sys:Double>
+                                    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">40</sys:Double>
+                                </ListView.Resources>
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Width="180">
+                                            <GridViewColumn.Header>
+                                                <!--
+                                                <TextBlock Text="No." FontSize="14" FontWeight="Bold" Width="100" Margin="0" />
+                                                -->
+                                                <TextBlock Text="" FontSize="14" FontWeight="Bold" Width="20" Margin="0" />
+                                            </GridViewColumn.Header>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <!--
+                                                    <Label Content="{Binding Path=StepIdx.Value , Mode=TwoWay, Converter={StaticResource IntToStringConv}}" 
+                                                            FontSize="13" 
+                                                            Foreground="White" 
+                                                            Height="30" 
+                                                            Width="100"
+                                                            HorizontalContentAlignment="Center" 
+                                                            VerticalAlignment="Center"
+                                                            Margin="0"/>
+                                                    -->
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn Width="300">
+                                            <GridViewColumn.Header>
+                                                <TextBlock Text="Chilling Time (Sec)" FontSize="14" FontWeight="Bold" Width="300" Margin="0"/>
+                                            </GridViewColumn.Header>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBox Name="ChillingTableChillingTime_tb" 
+                                                             Text="{Binding Path=ChillingTimeSec.Value , Mode=TwoWay, Converter={StaticResource IntToStringConv}}"
+                                                             FontSize="13" 
+                                                             Height="28"
+                                                             Width="100"
+                                                             Background="Transparent"
+                                                             Foreground="White"
+                                                             BorderBrush="White"
+                                                             BorderThickness="0, 0, 0, 1"
+                                                             HorizontalContentAlignment="Center" 
+                                                             VerticalAlignment="Bottom"
+                                                             ToolTip="{Binding DataContext.TooltipChillingTime, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" ToolTipService.IsEnabled="True"
+                                                             Margin="0">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                <i:InvokeCommandAction Command="{Binding DataContext.TextBoxClickCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                     </TextBox>
+                                                 </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                        <GridViewColumn >
+                                            <GridViewColumn.Header >
+                                                <TextBlock Text="Soaking Time (Sec)" FontSize="14" FontWeight="Bold" Width="300" Margin="0"/>
+                                            </GridViewColumn.Header>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBox Name="ChillingTableSoakingTimeSec_tb" Text="{Binding Path=SoakingTimeSec.Value , Mode=TwoWay, Converter={StaticResource IntToStringConv}}" 
+                                                             FontSize="13"
+                                                             Height="28"
+                                                             Width="100"
+                                                             Background="Transparent"
+                                                             Foreground="White"
+                                                             BorderBrush="White"
+                                                             BorderThickness="0, 0, 0, 1"
+                                                             HorizontalContentAlignment="Center" 
+                                                             VerticalAlignment="Bottom"
+                                                             ToolTip="{Binding DataContext.TooltipChillingSoakingTime, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" ToolTipService.IsEnabled="True"
+                                                             Margin="0">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="PreviewMouseDown" >
+                                                            <i:InvokeCommandAction Command="{Binding DataContext.TextBoxClickCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                                                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                    </TextBox>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </Grid>
+
+                <!-- Button : ADD, DELETE, DELETE ALL -->
+                <Grid Grid.Column="3">
+                    <StackPanel Orientation="Vertical">
+                        <Button Content="Add" FontSize="13" Height="30" Margin="5, 20, 20, 0" Command="{Binding ChillingTimeTableAddCommand}"></Button>
+                        <Button Content="Delete" FontSize="13" Height="30" Margin="5, 20, 20, 0" Command="{Binding ChillingTimeTableDeleteCommand}"></Button>
+                        <Button Content="Delete All" FontSize="13" Height="30" Margin="5, 20, 20, 0" Command="{Binding ChillingTimeTableDeleteAllCommand}"></Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+        <Border Background="#38393e"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Margin="30, 13, 10, 10"
+                    CornerRadius="10"
+                    Height="32"
+                    >
+            <Label Content="Recovery Chilling Time Table" VerticalAlignment="Center" Margin="0" FontSize="13"/>
+        </Border>
+    </Grid>
+</UserControl>

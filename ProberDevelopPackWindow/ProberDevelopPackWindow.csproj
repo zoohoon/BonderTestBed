@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{55B8C03E-749E-45B6-BEFB-6AB5E86E3102}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>ProberDevelopPackWindow</RootNamespace>
+    <AssemblyName>ProberDevelopPackWindow</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE</DefineConstants>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.AvalonEdit, Version=6.3.0.90, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <HintPath>..\packages\AvalonEdit.6.3.0.90\lib\net462\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net47\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.2.2.920, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.2.2\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.6.0.325, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.6.0\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CommonDLL\DLL\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Tab\ChillerErrorMessage\ViewModel\ChillerErrorMessageSettingViewModel.cs" />
+    <Compile Include="Tab\ChillerErrorMessage\View\ChillerErrorMessageSettingView.xaml.cs">
+      <DependentUpon>ChillerErrorMessageSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tab\GEM\Alarm\GemAlarmEditorView.xaml.cs">
+      <DependentUpon>GemAlarmEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tab\GEM\Main\SecsGemSettingMainView.xaml.cs">
+      <DependentUpon>SecsGemSettingMainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tab\GEM\ParamTransfer\GemParamTransferView.xaml.cs">
+      <DependentUpon>GemParamTransferView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tab\GEM\ParamTransfer\GemParamTransferViewModel.cs" />
+    <Compile Include="Tab\GEM\VIDs\GemVidsEditorView.xaml.cs">
+      <DependentUpon>GemVidsEditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tab\GEM\VIDs\GemVidsEditorViewModel.cs" />
+    <Compile Include="Tab\GPEvnControl\GPEnvControlViewModel.cs" />
+    <Compile Include="Tab\GPEvnControl\GPEnvControlView.xaml.cs">
+      <DependentUpon>GPEnvControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tab\LoaderWindows\LoaderWIndowsView.xaml.cs">
+      <DependentUpon>LoaderWIndowsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tab\LoaderWindows\LoaderWIndowsViewModel.cs" />
+    <Compile Include="Tab\PIV\PIVSettingView.xaml.cs">
+      <DependentUpon>PIVSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tab\PIV\PIVSettingViewModel.cs" />
+    <Compile Include="Tab\Run\Gem\CommandSelectWindow.xaml.cs">
+      <DependentUpon>CommandSelectWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tab\Run\Gem\EditDescriptionWindow.xaml.cs">
+      <DependentUpon>EditDescriptionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tab\Run\Gem\FolderItemViewModel.cs" />
+    <Compile Include="Tab\Run\Gem\RunGemModel.cs" />
+    <Compile Include="Tab\Run\Gem\RunGemRemoteMessage.cs" />
+    <Compile Include="Tab\Run\Gem\RunGemView.xaml.cs">
+      <DependentUpon>RunGemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tab\Run\Gem\RunGemViewModel.cs" />
+    <Compile Include="Tab\Run\Gem\SecsItem.cs" />
+    <Compile Include="Tab\Run\Gem\SecsMessageHelper.cs" />
+    <Compile Include="Tab\Stage\StageTest.xaml.cs">
+      <DependentUpon>StageTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tab\Vision\Camera\VisionCameraSettingView.xaml.cs">
+      <DependentUpon>VisionCameraSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tab\Vision\Camera\VisionCameraSettingViewModel.cs" />
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Assist\ShadowAssist.cs" />
+    <Compile Include="Assist\ToggleButtonAssist.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Tab\ChillerErrorMessage\View\ChillerErrorMessageSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tab\GEM\Alarm\GemAlarmEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tab\GEM\Main\SecsGemSettingMainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tab\GEM\ParamTransfer\GemParamTransferView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tab\GEM\VIDs\GemVidsEditorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tab\GPEvnControl\GPEnvControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tab\LoaderWindows\LoaderWIndowsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tab\PIV\PIVSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tab\Run\Gem\CommandSelectWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tab\Run\Gem\EditDescriptionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tab\Run\Gem\RunGemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tab\Stage\StageTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tab\Vision\Camera\VisionCameraSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BarcordReaderView\BarcordReaderView.csproj">
+      <Project>{D2ED64CA-5273-47F1-9C8A-782843EE1426}</Project>
+      <Name>BarcordReaderView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CameraModule\CameraModule.csproj">
+      <Project>{2533A124-719E-43C3-983B-1DBAE92C21C5}</Project>
+      <Name>CameraModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CameraParam\VisionParameters.csproj">
+      <Project>{41983B7F-C441-418E-B6E4-531BE84B4D3F}</Project>
+      <Name>VisionParameters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChillerCommunicationModule\ControlModules.csproj">
+      <Project>{0A8C2D2B-B02F-48F5-A680-503136383D21}</Project>
+      <Name>ControlModules</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnvControlWindow\EnvControlWindow.csproj">
+      <Project>{4a424167-b3ba-4724-a3d5-f03d6fbc8fa8}</Project>
+      <Name>EnvControlWindow</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderMaster\LoaderMaster.csproj">
+      <Project>{0FA296B1-23E4-4AE6-820C-1AE13D193C7B}</Project>
+      <Name>LoaderMaster</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderBase\LoaderBase.csproj">
+      <Project>{8DBB64B8-644E-475D-8EAF-3B7ECD6F234D}</Project>
+      <Name>LoaderBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{D3B00CCA-3C50-42B1-8DCA-DFE47C759B57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PIVManagerModule\PIVManagerModule.csproj">
+      <Project>{C56073EA-67C5-456D-971C-4E818EE305BF}</Project>
+      <Name>PIVManagerModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{edba3295-ff2a-4368-a217-6495941a8bf5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberViewModel\ProberViewModel.csproj">
+      <Project>{C7D1F978-D3AE-49AF-9A4B-09337BCBFAE9}</Project>
+      <Name>ProberViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberVision\ProberVision.csproj">
+      <Project>{7BB5E629-03A5-4E01-8FA9-FA915F14D9A9}</Project>
+      <Name>ProberVision</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RelayCommandBase\RelayCommandBase.csproj">
+      <Project>{348522c5-8377-4d66-96f3-5d7da3d7762b}</Project>
+      <Name>RelayCommandBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecsGemServiceInterface\SecsGemServiceInterface.csproj">
+      <Project>{9A4AD3B3-F629-4FE6-A373-CBC0ACB4DEF7}</Project>
+      <Name>SecsGemServiceInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecsGemSettingDialogMainProject\SecsGemSettingDlg.csproj">
+      <Project>{2535d615-d7be-4f6b-ad0d-e38cae58bd82}</Project>
+      <Name>SecsGemSettingDlg</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecsGemSettingDialogView\UcSecsGemSettingDialog.csproj">
+      <Project>{1fc388f1-0cc4-48e7-9c44-250e98bae6a0}</Project>
+      <Name>UcSecsGemSettingDialog</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

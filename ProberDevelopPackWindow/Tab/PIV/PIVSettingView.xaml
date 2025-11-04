@@ -1,0 +1,195 @@
+﻿<UserControl x:Class="ProberDevelopPackWindow.Tab.PIVSettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProberDevelopPackWindow.Tab"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="680" d:DesignWidth="1170">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        
+        <!--#region [Foup State]-->
+        <GroupBox   Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="8"
+                        Header="Foup State"
+                        Background="#3C454F"
+                        FontWeight="DemiBold" 
+                        Foreground="WhiteSmoke" 
+                        BorderBrush="#3C454F"
+                        FontSize="12"
+                        >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                </Grid.RowDefinitions>
+                <DataGrid SelectedItem="{Binding SelectedFoupState}" BorderBrush="DimGray" BorderThickness="0.5" Margin="4"
+                                      ItemsSource="{Binding PIVParam.FoupStates}" AutoGenerateColumns="False" CanUserResizeColumns="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="State" Width="180" Binding="{Binding State}"/>
+                        <DataGridTextColumn Header="Value" Width="100" Binding="{Binding Value}"/>
+                        <DataGridComboBoxColumn Header="Enable" Width="100" SelectedItemBinding="{Binding IsEnable}">
+                            <DataGridComboBoxColumn.ItemsSource>
+                                <x:Array Type="system:Boolean">
+                                    <system:Boolean>True</system:Boolean>
+                                    <system:Boolean>False</system:Boolean>
+                                </x:Array>
+                            </DataGridComboBoxColumn.ItemsSource>
+                        </DataGridComboBoxColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <ComboBox Grid.Row="1" Margin="4" ItemsSource="{Binding FoupStateEnums}" SelectedItem="{Binding SelectedFoupStateEnum}"/>
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button Margin="4" Content="ADD" FontSize="16" 
+                    Command="{Binding AddCommand}" CommandParameter="FOUP"/>
+                    <Button Grid.Column="1" Margin="4" Content="DEL" FontSize="16"
+                    Command="{Binding DeleteCommand}" CommandParameter="FOUP"/>
+                    <Button Grid.Column="2" Margin="4" Content="Clear" FontSize="16"
+                    Command="{Binding ClearCommand}" CommandParameter="FOUP"/>
+                </Grid>
+            </Grid>
+        </GroupBox>
+ 
+        
+        <!--#endregion-->
+
+        <!--#region [Stage State]-->
+
+        <GroupBox  
+                        Grid.Column="1"
+                        Margin="8"
+                        Header="Stage State"
+                        Background="#3C454F"
+                        FontWeight="DemiBold" 
+                        Foreground="WhiteSmoke" 
+                        BorderBrush="#3C454F"
+                        FontSize="12"
+                        >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                </Grid.RowDefinitions>
+                <DataGrid Grid.Column="1" SelectedItem="{Binding SelectedStageState}" BorderBrush="DimGray" BorderThickness="0.5"  Margin="4"
+                                      ItemsSource="{Binding PIVParam.StageStates}" AutoGenerateColumns="False" CanUserResizeColumns="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="State" Width="180" Binding="{Binding State}"/>
+                        <DataGridTextColumn Header="Value" Width="100" Binding="{Binding Value}"/>
+                        <DataGridComboBoxColumn Header="Enable" Width="100" SelectedItemBinding="{Binding IsEnable}">
+                            <DataGridComboBoxColumn.ItemsSource>
+                                <x:Array Type="system:Boolean">
+                                    <system:Boolean>True</system:Boolean>
+                                    <system:Boolean>False</system:Boolean>
+                                </x:Array>
+                            </DataGridComboBoxColumn.ItemsSource>
+                        </DataGridComboBoxColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <ComboBox Grid.Row="1" Margin="4" ItemsSource="{Binding StageStateEnums}" SelectedItem="{Binding SelectedStageStateEnum}"/>
+                
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button Margin="4" Content="ADD" FontSize="16" 
+                    Command="{Binding AddCommand}" CommandParameter="STAGE"/>
+                    <Button Grid.Column="1" Margin="4" Content="DEL" FontSize="16"
+                    Command="{Binding DeleteCommand}" CommandParameter="STAGE"/>
+                    <Button Grid.Column="2" Margin="4" Content="Clear" FontSize="16"
+                    Command="{Binding ClearCommand}" CommandParameter="STAGE"/>
+                </Grid>
+            </Grid>
+        </GroupBox>
+       
+        <!--#endregion-->
+
+        <!--#region [PreHeat State]-->
+
+        <GroupBox  Grid.Column="2"
+                        Margin="8"
+                        Header="PreHeat State"
+                        Background="#3C454F"
+                        FontWeight="DemiBold" 
+                        Foreground="WhiteSmoke" 
+                        BorderBrush="#3C454F"
+                        FontSize="12"
+                        >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                </Grid.RowDefinitions>
+                <DataGrid SelectedItem="{Binding SelectedPreHeatState}" BorderBrush="DimGray" BorderThickness="0.5" Margin="4"
+                                      ItemsSource="{Binding PIVParam.PreHeatStates}" AutoGenerateColumns="False" CanUserResizeColumns="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="State" Width="180" Binding="{Binding State}"/>
+                        <DataGridTextColumn Header="Value" Width="100" Binding="{Binding Value}"/>
+                        <DataGridComboBoxColumn Header="Enable" Width="100" SelectedItemBinding="{Binding IsEnable}">
+                            <DataGridComboBoxColumn.ItemsSource>
+                                <x:Array Type="system:Boolean">
+                                    <system:Boolean>True</system:Boolean>
+                                    <system:Boolean>False</system:Boolean>
+                                </x:Array>
+                            </DataGridComboBoxColumn.ItemsSource>
+                        </DataGridComboBoxColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <ComboBox Grid.Row="1" Margin="4" ItemsSource="{Binding PreHeatStateEnums}" SelectedItem="{Binding SelectedPreHeatStateEnum}"/>
+                
+                
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button Margin="4" Content="ADD" FontSize="16" 
+                    Command="{Binding AddCommand}" CommandParameter="PREHEAT"/>
+                    <Button Grid.Column="1" Margin="4" Content="DEL" FontSize="16"
+                    Command="{Binding DeleteCommand}" CommandParameter="PREHEAT"/>
+                    <Button Grid.Column="2" Margin="4" Content="Clear" FontSize="16"
+                    Command="{Binding ClearCommand}" CommandParameter="PREHEAT"/>
+                </Grid>
+                
+            </Grid>
+        </GroupBox>
+
+        <!--#endregion-->
+
+        <Grid Grid.Row="2" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Margin="8" Content="LOAD" FontSize="20" FontWeight="DemiBold"
+                    Command="{Binding LoadParameterCommand}"/>
+            <Button Grid.Column="1" Margin="8" Content="SAVE" FontSize="20" FontWeight="DemiBold"
+                    Command="{Binding SaveParameterCommand}"/>
+        </Grid>
+    </Grid>
+</UserControl>

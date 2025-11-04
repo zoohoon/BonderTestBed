@@ -1,0 +1,55 @@
+<UserControl x:Class="RecipeEditorControl.RecipeEditorParamEdit.UcParamRecord"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"             
+             xmlns:recipeuc="clr-namespace:RecipeEditorControl.RecipeEditorUC"
+             xmlns:local="clr-namespace:RecipeEditorControl.RecipeEditorParamEdit"
+             mc:Ignorable="d" 
+             d:DesignHeight="65" d:DesignWidth="1280" Background="Transparent">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type recipeuc:RecipeEditorCmdButtonViewModel}">
+                <recipeuc:UcRecipeEditorCmdButton AutomationProperties.AutomationId="UcRecipeEditorCmdBtn"/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type recipeuc:RecipeEditorCtxMenuButtonViewModel}">
+                <recipeuc:UcRecipeEditorCtxMenuButton AutomationProperties.AutomationId="UcRecipeEditorCtxMenuBtn"/>
+            </DataTemplate>
+
+            <local:StateToColorConverter x:Key="StateToColorConverter"/>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid MinHeight="65" Width="950" Visibility="{Binding RecordVisibility}" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="4.5*"/>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Element ID-->
+        <!--<recipeuc:UcRecipeEditorButton Grid.Column="0" BtnCaption="{Binding ElementID, StringFormat=D6}"  BtnStroke="{Binding RecordColor}"/>-->
+        <recipeuc:UcRecipeEditorButton Grid.Column="0" BtnCaption="{Binding ElementID, StringFormat=D8}"  BtnStroke="{Binding RecordColor}"/>
+        <!--Element Name-->
+        <recipeuc:UcRecipeEditorButton Grid.Column="1" BtnCaption="{Binding Name}" BtnStroke="{Binding RecordColor}" TextFontSize="14" BtnCommand="{Binding DescriptionCommand}"/>
+        <!--Editor Button-->
+        <recipeuc:UcRecipeEditorButton Grid.Column="2" BtnContent="{Binding EditorButton}"/>
+        <!--Min/Max-->
+        <recipeuc:UcRecipeEditorButton Grid.Column="3" BtnCaption="{Binding MinMax}" BtnStroke="{Binding RecordColor}" BtnTextWrap="Wrap"/>
+        <!--<recipeuc:UcRecipeEditorButton Grid.Column="3" BtnCaption="{Binding MinMax}"
+                                                       BtnCommand="{Binding MinMaxAdvanceCommand}"
+                                                       BtnCommandParameter="{Binding EditorButton}"
+                                                       BtnStroke="{Binding RecordColor}"
+                                                       BtnForeground="White"  
+                                                       BtnBackground="Black"                                                       
+                                                       BtnTextWrap="Wrap"/>-->
+        
+    </Grid>
+</UserControl>

@@ -1,0 +1,315 @@
+﻿<dialogs:CustomDialog x:Class="PinHighAlignModule.UC.PinAlignSetting"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PinHighAlignModule.UC"
+             xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             Style="{DynamicResource FullScreenDialogStyle}" >
+    <!--Style="{DynamicResource FullCustomDialogStyle}">-->
+    <!--Height="500" Width="2500" Margin="10" HorizontalAlignment="Center">-->
+
+    <dialogs:CustomDialog.Resources>
+        <ResourceDictionary>
+            <!--
+            <Style x:Key="TabItemStyle"
+                TargetType="{x:Type TabItem}" BasedOn="{StaticResource {x:Type TabItem}}">
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="HeaderTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Border x:Name="grid" Background="DimGray">
+                                <ContentPresenter>
+                                    <ContentPresenter.Content>
+                                        <TextBlock x:Name="tbHeader" Margin="4" Text="{TemplateBinding Content}"
+                                                   Width="100"/>
+                                    </ContentPresenter.Content>
+                                    <ContentPresenter.LayoutTransform>
+                                        <RotateTransform Angle="0" />
+                                    </ContentPresenter.LayoutTransform>
+                                </ContentPresenter>
+                            </Border>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem}},Path=IsSelected}" Value="True">
+                                    <Setter TargetName="grid" Property="Background" Value="LightGray"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            -->
+            <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TabItem}">
+                            <Border>
+                                <Grid>
+                                    <Grid>
+                                        <Border x:Name="border" 
+                                            CornerRadius="3,3,0,0"
+                                            Background="#FF303030"/>
+                                    </Grid>
+                                    <ContentPresenter ContentSource="Header"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                </Grid>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                    <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="LightGray" />
+                                </Trigger>
+                                <Trigger Property="IsSelected"
+                                     Value="True">
+                                    <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="#FF202020" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </dialogs:CustomDialog.Resources>
+
+    <Grid Margin="0" MaxWidth="1280" Height="490">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2.4*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1.5*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="14" Grid.RowSpan="8" BorderBrush="Black" BorderThickness="2" Background="DimGray"/>
+        <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="3" Grid.Column="0" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="4" Grid.Column="0" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="5" Grid.Column="0" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="6" Grid.Column="0" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="7" Grid.Column="0" BorderBrush="Black" BorderThickness="2" />
+
+        <Label Content="Pin Align&#10; Setting"  Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25"  FontWeight="Bold" />
+        <Label Content="Wafer Interval"  Grid.Row="3" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+        <Label Content="Die Interval"  Grid.Row="4" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+        <Label Content="Time Interval"  Grid.Row="5" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+        <Label Content="for Needle Cleaning"  Grid.Row="6" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"  />
+        <Label Content="for Polish Wafer"  Grid.Row="7" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+
+        <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" BorderBrush="Black" BorderThickness="2" />
+        <Label Content="  Pin&#xd;Count"  Grid.Row="0" Grid.Column="1" Grid.RowSpan="3"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+
+        <Border Grid.Row="0" Grid.Column="2"  Grid.ColumnSpan="7" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="1" Grid.Column="2"  Grid.ColumnSpan="3" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="1" Grid.Column="5"  Grid.ColumnSpan="3" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="1" Grid.Column="8"  Grid.RowSpan="2" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="2" Grid.Column="2" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="2" Grid.Column="3" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="2" Grid.Column="4" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="2" Grid.Column="5" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="2" Grid.Column="6" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="2" Grid.Column="7" BorderBrush="Black" BorderThickness="2" />
+        <Label Content="Each Pin Tolerance Check"  Grid.Row="0" Grid.Column="2"  Grid.ColumnSpan="7"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+        <Label Content="Each Pin Position"  Grid.Row="1" Grid.Column="2"  Grid.ColumnSpan="3"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+        <Label Content="Card Position"  Grid.Row="1" Grid.Column="5"  Grid.ColumnSpan="3"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+        <Label Content="Min/Max Z"  Grid.Row="1" Grid.Column="8"  Grid.RowSpan="2"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+        <Label Content="X"  Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+        <Label Content="Y"  Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+        <Label Content="Z"  Grid.Row="2" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+        <Label Content="X"  Grid.Row="2" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+        <Label Content="Y"  Grid.Row="2" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+        <Label Content="Z"  Grid.Row="2" Grid.Column="7" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+
+        <Border Grid.Row="0" Grid.Column="9"  Grid.ColumnSpan="4" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="1" Grid.Column="9"  Grid.RowSpan="2" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="1" Grid.Column="10"  Grid.ColumnSpan="3" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="2" Grid.Column="10" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="2" Grid.Column="11" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="2" Grid.Column="12" BorderBrush="Black" BorderThickness="2" />
+        <Label Content="Sample Align Setting"  Grid.Row="0" Grid.Column="9"  Grid.ColumnSpan="4"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+        <Label Content="  Pin&#10;Count"  Grid.Row="1" Grid.Column="9"  Grid.RowSpan="2"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+        <Label Content="Position Tolerance"  Grid.Row="1" Grid.Column="10"  Grid.ColumnSpan="3"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+        <Label Content="X"  Grid.Row="2" Grid.Column="10" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+        <Label Content="Y"  Grid.Row="2" Grid.Column="11" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+        <Label Content="Z"  Grid.Row="2" Grid.Column="12" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+
+        <Border Grid.Row="0" Grid.Column="13"  Grid.RowSpan="3" BorderBrush="Black" BorderThickness="2" />
+        <Label Content="  Failure&#10;Determine&#10;Threshold&#10;     (%)"  Grid.Row="0" Grid.Column="13"  Grid.RowSpan="3"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" />
+
+        <Border Grid.Row="3" Grid.Column="1" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="3" Grid.Column="2" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="3" Grid.Column="3" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="3" Grid.Column="4" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="3" Grid.Column="5" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="3" Grid.Column="6" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="3" Grid.Column="7" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="3" Grid.Column="8" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="3" Grid.Column="9" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="3" Grid.Column="10" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="3" Grid.Column="11" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="3" Grid.Column="12" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="3" Grid.Column="13" BorderBrush="Black" BorderThickness="2" />
+
+        <Border Grid.Row="4" Grid.Column="1" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="4" Grid.Column="2" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="4" Grid.Column="3" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="4" Grid.Column="4" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="4" Grid.Column="5" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="4" Grid.Column="6" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="4" Grid.Column="7" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="4" Grid.Column="8" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="4" Grid.Column="9" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="4" Grid.Column="10" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="4" Grid.Column="11" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="4" Grid.Column="12" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="4" Grid.Column="13" BorderBrush="Black" BorderThickness="2" />
+
+        <Border Grid.Row="5" Grid.Column="1" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="5" Grid.Column="2" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="5" Grid.Column="3" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="5" Grid.Column="4" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="5" Grid.Column="5" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="5" Grid.Column="6" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="5" Grid.Column="7" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="5" Grid.Column="8" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="5" Grid.Column="9" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="5" Grid.Column="10" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="5" Grid.Column="11" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="5" Grid.Column="12" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="5" Grid.Column="13" BorderBrush="Black" BorderThickness="2" />
+
+        <Border Grid.Row="6" Grid.Column="1" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="6" Grid.Column="2" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="6" Grid.Column="3" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="6" Grid.Column="4" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="6" Grid.Column="5" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="6" Grid.Column="6" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="6" Grid.Column="7" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="6" Grid.Column="8" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="6" Grid.Column="9" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="6" Grid.Column="10" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="6" Grid.Column="11" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="6" Grid.Column="12" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="6" Grid.Column="13" BorderBrush="Black" BorderThickness="2" />
+
+        <Border Grid.Row="7" Grid.Column="1" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="7" Grid.Column="2" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="7" Grid.Column="3" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="7" Grid.Column="4" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="7" Grid.Column="5" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="7" Grid.Column="6" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="7" Grid.Column="7" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="7" Grid.Column="8" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="7" Grid.Column="9" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="7" Grid.Column="10" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="7" Grid.Column="11" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="7" Grid.Column="12" BorderBrush="Black" BorderThickness="2" />
+        <Border Grid.Row="7" Grid.Column="13" BorderBrush="Black" BorderThickness="2" />
+
+
+        <!--<Button Name="bntExit" Content="Exit" FontSize="30" Background="DarkGray" FontWeight="Bold" Grid.Row="8" Grid.Column="12" Grid.ColumnSpan="2" Width="150" Height="50" BorderBrush="DarkGray" BorderThickness="2" Click="bntExit_Click" />
+        <Button Name="bntSave" Content="Save" FontSize="30" Background="DarkGray" FontWeight="Bold" Grid.Row="8" Grid.Column="10" Grid.ColumnSpan="2" Width="150" Height="50" BorderBrush="DarkGray" BorderThickness="2" Click="bntSave_Click" />-->
+
+        <Button Name="bntExit" Content="Exit" FontSize="30" Background="DimGray" FontWeight="Bold" Grid.Row="8" Grid.Column="12" Grid.ColumnSpan="2" Width="150" Height="50" BorderBrush="Black" BorderThickness="2" Click="bntExit_Click" Margin="0,10,0,0" />
+        <Button Name="bntSave" Content="Save" FontSize="30" Background="DimGray" FontWeight="Bold" Grid.Row="8" Grid.Column="10" Grid.ColumnSpan="2" Width="150" Height="50" BorderBrush="Black" BorderThickness="2" Click="bntSave_Click" Margin="0,10,0,0"/>
+
+
+        <Label Name="lbWI_PinCnt" Grid.Row="3" Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"  MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbWI_EachPinTolX" Grid.Row="3" Grid.Column="2"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47" Margin="10"/>
+        <Label Name="lbWI_EachPinTolY" Grid.Row="3" Grid.Column="3"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbWI_EachPinTolZ" Grid.Row="3" Grid.Column="4"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbWI_CardTolX" Grid.Row="3" Grid.Column="5"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbWI_CardTolY" Grid.Row="3" Grid.Column="6"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbWI_CardTolZ" Grid.Row="3" Grid.Column="7"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbWI_MinMaxZ" Grid.Row="3" Grid.Column="8"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"  MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="209" Height="47" Margin="10"/>
+        <Label Name="lbWI_SamplePinCnt" Grid.Row="3" Grid.Column="9"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbWI_SamplePinTolX" Grid.Row="3" Grid.Column="10"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbWI_SamplePinTolY" Grid.Row="3" Grid.Column="11"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbWI_SamplePinTolZ" Grid.Row="3" Grid.Column="12"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbWI_FailPercent" Grid.Row="3" Grid.Column="13"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"  MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="209" Height="47" Margin="10"/>
+
+        <Label Name="lbDI_PinCnt" Grid.Row="4" Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbDI_EachPinTolX" Grid.Row="4" Grid.Column="2"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbDI_EachPinTolY" Grid.Row="4" Grid.Column="3"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbDI_EachPinTolZ" Grid.Row="4" Grid.Column="4"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbDI_CardTolX" Grid.Row="4" Grid.Column="5"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbDI_CardTolY" Grid.Row="4" Grid.Column="6"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbDI_CardTolZ" Grid.Row="4" Grid.Column="7"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbDI_MinMaxZ" Grid.Row="4" Grid.Column="8"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="209" Height="47" Margin="10"/>
+        <Label Name="lbDI_SamplePinCnt" Grid.Row="4" Grid.Column="9"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbDI_SamplePinTolX" Grid.Row="4" Grid.Column="10"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbDI_SamplePinTolY" Grid.Row="4" Grid.Column="11"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbDI_SamplePinTolZ" Grid.Row="4" Grid.Column="12"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbDI_FailPercent" Grid.Row="4" Grid.Column="13"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="209" Height="47" Margin="10"/>
+
+        <Label Name="lbTI_PinCnt" Grid.Row="5" Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbTI_EachPinTolX" Grid.Row="5" Grid.Column="2"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbTI_EachPinTolY" Grid.Row="5" Grid.Column="3"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbTI_EachPinTolZ" Grid.Row="5" Grid.Column="4"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbTI_CardTolX" Grid.Row="5" Grid.Column="5"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbTI_CardTolY" Grid.Row="5" Grid.Column="6"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbTI_CardTolZ" Grid.Row="5" Grid.Column="7"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbTI_MinMaxZ" Grid.Row="5" Grid.Column="8"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="209" Height="47" Margin="10"/>
+        <Label Name="lbTI_SamplePinCnt" Grid.Row="5" Grid.Column="9"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbTI_SamplePinTolX" Grid.Row="5" Grid.Column="10"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbTI_SamplePinTolY" Grid.Row="5" Grid.Column="11"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbTI_SamplePinTolZ" Grid.Row="5" Grid.Column="12"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbTI_FailPercent" Grid.Row="5" Grid.Column="13"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="209" Height="47" Margin="10"/>
+
+        <Label Name="lbNC_PinCnt" Grid.Row="6" Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbNC_EachPinTolX" Grid.Row="6" Grid.Column="2"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbNC_EachPinTolY" Grid.Row="6" Grid.Column="3"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbNC_EachPinTolZ" Grid.Row="6" Grid.Column="4"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbNC_CardTolX" Grid.Row="6" Grid.Column="5"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15"  MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbNC_CardTolY" Grid.Row="6" Grid.Column="6"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbNC_CardTolZ" Grid.Row="6" Grid.Column="7"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbNC_MinMaxZ" Grid.Row="6" Grid.Column="8"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="209" Height="46" Margin="10"/>
+        <Label Name="lbNC_SamplePinCnt" Grid.Row="6" Grid.Column="9"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbNC_SamplePinTolX" Grid.Row="6" Grid.Column="10"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbNC_SamplePinTolY" Grid.Row="6" Grid.Column="11"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbNC_SamplePinTolZ" Grid.Row="6" Grid.Column="12"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbNC_FailPercent" Grid.Row="6" Grid.Column="13"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="209" Height="46" Margin="10"/>
+
+        <Label Name="lbPW_PinCnt" Grid.Row="7" Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbPW_EachPinTolX" Grid.Row="7" Grid.Column="2"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbPW_EachPinTolY" Grid.Row="7" Grid.Column="3"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbPW_EachPinTolZ" Grid.Row="7" Grid.Column="4"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbPW_CardTolX" Grid.Row="7" Grid.Column="5"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbPW_CardTolY" Grid.Row="7" Grid.Column="6"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbPW_CardTolZ" Grid.Row="7" Grid.Column="7"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbPW_MinMaxZ" Grid.Row="7" Grid.Column="8"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="209" Height="47" Margin="10"/>
+        <Label Name="lbPW_SamplePinCnt" Grid.Row="7" Grid.Column="9"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbPW_SamplePinTolX" Grid.Row="7" Grid.Column="10"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbPW_SamplePinTolY" Grid.Row="7" Grid.Column="11"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbPW_SamplePinTolZ" Grid.Row="7" Grid.Column="12"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="132" Height="47"/>
+        <Label Name="lbPW_FailPercent" Grid.Row="7" Grid.Column="13"  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" MouseDown="lb_MouseDown" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="209" Height="47" Margin="10"/>
+    </Grid>
+
+
+</dialogs:CustomDialog>

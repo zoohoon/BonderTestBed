@@ -1,0 +1,1481 @@
+﻿<Window x:Class="E84SimulatorDialog.E84SimulatorDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:E84SimulatorDialog"
+             mc:Ignorable="d" 
+             Title="E84SimualtorDialog" BorderBrush="Black" BorderThickness="1"
+             ResizeMode="NoResize"
+             MaxHeight="1080" MaxWidth="1920">
+
+
+    <Window.Resources>
+
+        <sys:Boolean x:Key="True">true</sys:Boolean>
+        <sys:Boolean x:Key="False">false</sys:Boolean>
+
+        <local:DoubleToOnOffConverter x:Key="DoubleToOnOffConverter"/>
+        <local:DoubleToForegroundConverter x:Key="DoubleToForegroundConverter"/>
+        <local:BoolToForegroundConverter x:Key="BoolToForegroundConverter"/>
+        <local:ItemHeightConverter x:Key="ItemHeightConverter"/>
+        <local:ItemHeightConverter2 x:Key="ItemHeightConverter2"/>
+        <local:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>
+        <local:BooleanToSignalColorConverter x:Key="BooleanToSignalColorConverter"/>
+        <local:ModeToFalseBooleanConverter x:Key="ModeToFalseBooleanAutoConverter" FalseValue="AUTO"/>
+
+        <local:ModeToCollapsedConverter x:Key="ModeToCollapsedAutoConverter" CollapsedValue="AUTO"/>
+        <local:ModeToCollapsedConverter x:Key="ModeToCollapsedMakerConverter" CollapsedValue="MAKER"/>
+
+        <local:ModeToVisibilityConverter x:Key="ModeToVisibilityAutoConverter" VisibilityValue="AUTO"/>
+        <local:ModeToVisibilityConverter x:Key="ModeToVisibilityManualConverter" VisibilityValue="MANUAL"/>
+        <local:ModeToVisibilityConverter x:Key="ModeToVisibilityMakerConverter" VisibilityValue="MAKER"/>
+
+        <local:BooleanToInverseConverter x:Key="BooleanToInverseConverter"/>
+        <local:LoadPortCardLabelConverter x:Key="LoadPortCardLabelConverter"/>
+
+        <local:E84ExecuteCommandParameterConverter x:Key="E84ExecuteCommandParameterConverter"/>
+
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+
+        <local:GridHeightConverter x:Key="GridHeightConverter"/>
+
+        <local:TextToColorConverter x:Key="TextToColorConverter"/>
+
+        <local:ErrorCodeToBoolConverter x:Key="ErrorCodeToBoolConverter"/>
+
+        <local:IndexToTextConverter x:Key="IndexToTextConverter"/>
+
+        <local:ListIndexConverter x:Key="ListIndexConverter"/>
+
+        <local:SignalBoolToColorConverter x:Key="SignalBoolToColorConverter"/>
+        <local:SignalIntToColorConverter x:Key="SignalIntToColorConverter"/>
+
+        <local:NullToFalseConverter x:Key="NullToFalseConverter" />
+
+        <local:E84OPModuleTypeToFOUPVisibilityConverter x:Key="E84OPModuleTypeToFOUPVisibilityConverter" />
+        <local:E84OPModuleTypeToCARDVisibilityConverter x:Key="E84OPModuleTypeToCARDVisibilityConverter" />
+
+    </Window.Resources>
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="0.8*"/>
+            <ColumnDefinition Width="6.2*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Border BorderThickness="1" BorderBrush="Gray" Grid.Column="0" Margin="3">
+            <Grid>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Border BorderThickness="1" BorderBrush="Gray" Padding="0">
+                            <TextBlock Text="Singal" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+
+                    <Grid Grid.Row="1">
+                        <ListView ItemsSource="{Binding SelectedE84SimulControllerViewModel.Charts}"
+                              Style="{x:Null}"
+                              SelectionMode="Multiple"
+                              HorizontalAlignment="Center"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                              ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                              VirtualizingStackPanel.IsVirtualizing="True"
+                              VirtualizingStackPanel.VirtualizationMode="Recycling">
+
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    <Setter Property="Visibility" Value="{Binding IsVisible}" />
+
+                                    <Setter Property="Height">
+                                        <Setter.Value>
+                                            <MultiBinding Converter="{StaticResource GridHeightConverter}">
+                                                <Binding RelativeSource="{RelativeSource AncestorType=Grid}" Path="ActualHeight" />
+                                                <Binding Path="DataContext.SelectedE84SimulControllerViewModel.Charts" RelativeSource="{RelativeSource AncestorType=ListView}" />
+                                            </MultiBinding>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+
+                                    <Grid Margin="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid Grid.Row="0">
+
+                                            <Label Content="{Binding Series[0].Title}"
+                                                Style="{x:Null}"
+                                                FontSize="12"
+                                                Foreground="{Binding LastValue, Converter={StaticResource DoubleToForegroundConverter}}" 
+                                                VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        </Grid>
+
+                                        <Grid Grid.Row="1">
+                                            <TextBlock FontSize="12" FontWeight="Bold" Margin="0,-5,0,0"
+                                                    Foreground="{Binding LastValue, Converter={StaticResource DoubleToForegroundConverter}}"
+                                                    Text="{Binding LastValue, Converter={StaticResource DoubleToOnOffConverter}}" 
+                                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        </Grid>
+                                    </Grid>
+
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Column="1">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Border BorderThickness="1" BorderBrush="Gray">
+                            <ScrollBar Name="ListViewHorizontalScrollBar"
+                                       Style="{x:Null}"
+                                       Orientation="Horizontal"
+                                       Scroll="ListViewHorizontalScrollBar_Scroll"/>
+                        </Border>
+                    </Grid>
+
+                    <Grid Grid.Row="1">
+                        <ListView x:Name="ChartListView" ItemsSource="{Binding SelectedE84SimulControllerViewModel.Charts}"
+                                  Style="{x:Null}"
+                                  ScrollViewer.CanContentScroll="False"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                  VirtualizingStackPanel.IsVirtualizing="True"
+                                  Loaded="ChartListView_Loaded">
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Loaded">
+                                    <i:InvokeCommandAction Command="{Binding SelectedE84SimulControllerViewModel.SetChartScrollViewerCommand}" 
+                                                           CommandParameter="{Binding ElementName=ChartListView}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Visibility" Value="{Binding IsVisible}" />
+
+                                    <Setter Property="Height">
+                                        <Setter.Value>
+                                            <MultiBinding Converter="{StaticResource GridHeightConverter}">
+                                                <Binding RelativeSource="{RelativeSource AncestorType=Grid}" Path="ActualHeight" />
+                                                <Binding Path="DataContext.SelectedE84SimulControllerViewModel.Charts" RelativeSource="{RelativeSource AncestorType=ListView}" />
+                                            </MultiBinding>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+
+                                    <Grid Margin="0">
+                                        <lvc:CartesianChart Series="{Binding Series}" Width="1500" DisableAnimations="True" Zoom="None">
+
+                                            <lvc:CartesianChart.AxisX>
+                                                <lvc:Axis LabelFormatter="{Binding Formatter}"
+                                                      FontSize="10"
+                                                      MinValue="{Binding MinDateTimeValue}"
+                                                      MaxValue="{Binding MaxDateTimeValue}">
+                                                </lvc:Axis>
+                                            </lvc:CartesianChart.AxisX>
+
+                                            <lvc:CartesianChart.AxisY>
+                                                <lvc:Axis  MinValue="0" MaxValue="1" FontSize="10">
+                                                    <lvc:Axis.Separator>
+                                                        <lvc:Separator Step="1"/>
+                                                    </lvc:Axis.Separator>
+                                                </lvc:Axis>
+                                            </lvc:CartesianChart.AxisY>
+                                        </lvc:CartesianChart>
+                                    </Grid>
+
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </Grid>
+                
+            </Grid>
+        </Border>
+
+        <!-- AUX_SIGNAL -->
+        <Border BorderThickness="1" BorderBrush="Gray" Grid.Column="1" Margin="3">
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <GroupBox>
+                        <GroupBox.Header>
+                            <TextBlock Text="AUX_SIGNAL" FontWeight="Bold" Foreground="Yellow" Padding="2" FontSize="11"/>
+                        </GroupBox.Header>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <GroupBox Grid.Row="0" Header="INPUT" Padding="1" FontWeight="Bold">
+                                
+                                <Grid>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="AUX__0" Foreground="Black"/>
+                                            <Rectangle Width="12" Height="12" Margin="1" Fill="{Binding SelectedE84SimulControllerViewModel.Simulator.nAux_in0, Mode=TwoWay,  Converter={StaticResource SignalIntToColorConverter}}"/>
+                                        </StackPanel>  
+                                    </Grid>
+
+                                    <Grid Grid.Row="1">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="AUX__1" Foreground="Black"/>
+                                            <Rectangle Width="12" Height="12" Margin="1" Fill="{Binding SelectedE84SimulControllerViewModel.Simulator.nAux_in1, Mode=TwoWay,  Converter={StaticResource SignalIntToColorConverter}}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    
+                                    <Grid Grid.Row="2">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="AUX__2" Foreground="Black"/>
+                                             <Rectangle Width="12" Height="12" Margin="1" Fill="{Binding SelectedE84SimulControllerViewModel.Simulator.nAux_in2, Mode=TwoWay,  Converter={StaticResource SignalIntToColorConverter}}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    
+                                    <Grid Grid.Row="3">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="AUX__3" Foreground="Black"/>
+                                            <Rectangle Width="12" Height="12" Margin="1" Fill="{Binding SelectedE84SimulControllerViewModel.Simulator.nAux_in3, Mode=TwoWay,  Converter={StaticResource SignalIntToColorConverter}}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    
+                                    <Grid Grid.Row="4">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="AUX__4" Foreground="Black"/>
+                                            <Rectangle Width="12" Height="12" Margin="1" Fill="{Binding SelectedE84SimulControllerViewModel.Simulator.nAux_in4, Mode=TwoWay,  Converter={StaticResource SignalIntToColorConverter}}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    
+                                    <Grid Grid.Row="5">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Content="AUX__5" Foreground="Black"/>
+                                            <Rectangle Width="12" Height="12" Margin="1" Fill="{Binding SelectedE84SimulControllerViewModel.Simulator.nAux_in5, Mode=TwoWay,  Converter={StaticResource SignalIntToColorConverter}}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    
+                                </Grid>
+                            </GroupBox>
+
+                            <GroupBox Grid.Row="1" Header="OUTPUT" Padding="1" FontWeight="Bold">
+
+                                <Grid>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="AUX__0" Foreground="Black" VerticalAlignment="Center"/>
+                                        <Rectangle Width="12" Height="12" Margin="1" Fill="{Binding SelectedE84SimulControllerViewModel.Simulator.nAux_out, Mode=TwoWay,  Converter={StaticResource SignalIntToColorConverter}}"/>
+                                    </StackPanel>
+                                </Grid>
+                                
+                            </GroupBox>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+                
+                
+            </Grid>
+        </Border>
+        
+        <Border BorderThickness="1" BorderBrush="Gray" Grid.Column="2" Margin="3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <!-- Module -->
+                    <GroupBox Margin="1">
+                        <GroupBox.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Column="0">
+                                    <TextBlock Text="Module" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White"/>
+                                </Grid>
+
+                                <Grid Grid.Column="1">
+                                    <Button Grid.Row="0"  HorizontalAlignment="Right" Margin="4" Width="30" Height="30" 
+                                            IsEnabled="{Binding SelectedE84SimulControllerViewModel.Simulator, Converter={StaticResource NullToFalseConverter}}"
+                                            Command="{Binding SettingClickCommand}">
+                                        <materialDesign:PackIcon Kind="Settings" Width="26" Height="26"
+														VerticalAlignment="Stretch" 
+														Foreground="White"/>
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </GroupBox.Header>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0">
+                                <StackPanel Orientation="Horizontal">
+                                    <ComboBox Width="Auto" MinWidth="100" Margin="5" ItemsSource="{Binding E84SimulControllerViewModels}" Background="LightGray" HorizontalContentAlignment="Center"
+						SelectedItem="{Binding SelectedE84SimulControllerViewModel}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock>
+                                                    <TextBlock.Text>
+                                                        <MultiBinding Converter="{StaticResource LoadPortCardLabelConverter}">
+                                                            <Binding Path="E84Info.FoupIndex"/>
+                                                            <Binding Path="E84Info.E84OPModuleType"/>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+
+                                    <Button Content="Reset" FontSize="14" Foreground="Black" FontWeight="Bold" Width="50" Height="30" Command="{Binding ResetCommand}" 
+						IsEnabled="{Binding SelectedE84SimulControllerViewModel.Simulator, Converter={StaticResource NullToFalseConverter}}"/>
+
+                                    <Button Content="CST_ATTACH" FontSize="14" Foreground="Black" FontWeight="Bold" Width="100" Height="30" Command="{Binding CST_ATTACH_Command}" 
+						IsEnabled="{Binding SelectedE84SimulControllerViewModel.Simulator, Converter={StaticResource NullToFalseConverter}}"
+						Visibility="{Binding SelectedE84SimulControllerViewModel.E84Info.E84OPModuleType, Converter={StaticResource E84OPModuleTypeToFOUPVisibilityConverter}}"/>
+                                    <Button Content="CST_DETACH" FontSize="14" Foreground="Black" FontWeight="Bold" Width="100" Height="30" Command="{Binding CST_DETACH_Command}"
+						IsEnabled="{Binding SelectedE84SimulControllerViewModel.Simulator, Converter={StaticResource NullToFalseConverter}}"
+						Visibility="{Binding SelectedE84SimulControllerViewModel.E84Info.E84OPModuleType, Converter={StaticResource E84OPModuleTypeToFOUPVisibilityConverter}}"/>
+
+                                    <Button Content="CLAMP LOCK" FontSize="14" Foreground="Black" FontWeight="Bold" Width="120" Height="30" Command="{Binding CLAMP_LOCK_Command}"
+						IsEnabled="{Binding SelectedE84SimulControllerViewModel.Simulator, Converter={StaticResource NullToFalseConverter}}"
+						Visibility="{Binding SelectedE84SimulControllerViewModel.E84Info.E84OPModuleType, Converter={StaticResource E84OPModuleTypeToFOUPVisibilityConverter}}"/>
+                                    <Button Content="CLAMP UNLOCK" FontSize="14" Foreground="Black" FontWeight="Bold" Width="120" Height="30" Command="{Binding CLAMP_UNLOCK_Command}"
+						IsEnabled="{Binding SelectedE84SimulControllerViewModel.Simulator, Converter={StaticResource NullToFalseConverter}}"
+						Visibility="{Binding SelectedE84SimulControllerViewModel.E84Info.E84OPModuleType, Converter={StaticResource E84OPModuleTypeToFOUPVisibilityConverter}}"/>
+
+                                    <Button Content="CARD_ATTACH" FontSize="14" Foreground="Black" FontWeight="Bold" Width="100" Height="30" Command="{Binding CARD_ATTACH_Command}" 
+						IsEnabled="{Binding SelectedE84SimulControllerViewModel.Simulator, Converter={StaticResource NullToFalseConverter}}"
+						Visibility="{Binding SelectedE84SimulControllerViewModel.E84Info.E84OPModuleType, Converter={StaticResource E84OPModuleTypeToCARDVisibilityConverter}}"/>
+                                    <Button Content="CARD_DETACH" FontSize="14" Foreground="Black" FontWeight="Bold" Width="100" Height="30" Command="{Binding CARD_DETACH_Command}"
+						IsEnabled="{Binding SelectedE84SimulControllerViewModel.Simulator, Converter={StaticResource NullToFalseConverter}}"
+						Visibility="{Binding SelectedE84SimulControllerViewModel.E84Info.E84OPModuleType, Converter={StaticResource E84OPModuleTypeToCARDVisibilityConverter}}"/>
+
+                                </StackPanel>
+                            </Grid>
+
+                            <Grid Grid.Row="1">
+                                <GroupBox>
+
+                                    <GroupBox.Header>
+                                        <TextBlock Text="Values" FontWeight="Bold" Foreground="Yellow" Padding="2"/>
+                                    </GroupBox.Header>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        
+                                        <Border BorderThickness="1" BorderBrush="LightGray" Margin="1">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Grid.Column="0" Content="CARRIER" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Bold"/>
+
+                                                <Grid Grid.Column="1">
+                                                    <Rectangle Width="20" Height="20" Margin="10"
+                                                               Fill="{Binding SelectedE84SimulControllerViewModel.Simulator.CarrierSignal[0], Mode=TwoWay,  Converter={StaticResource SignalIntToColorConverter}}"/>
+                                                </Grid>
+                                            </Grid>
+                                        </Border>
+
+                                        <Border BorderThickness="1" BorderBrush="LightGray" Margin="1">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Grid.Column="0" Content="CLAMP" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+
+                                                <Grid Grid.Column="1">
+                                                    <Rectangle Width="20" Height="20" Margin="10"
+                                                               Fill="{Binding SelectedE84SimulControllerViewModel.Simulator.ClampSignal[0], Mode=TwoWay,  Converter={StaticResource SignalIntToColorConverter}}"/>
+                                                </Grid>
+                                            </Grid>
+                                        </Border>
+                                    
+                                        <Border BorderThickness="1" BorderBrush="LightGray" Margin="1">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Grid.Column="0" Content="Light Curtain" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                                                <Grid Grid.Column="1">
+                                                    <Rectangle Width="20" Height="20" Margin="10"
+                                                               Fill="{Binding SelectedE84SimulControllerViewModel.Simulator.Aux_in3_Val, Mode=TwoWay,  Converter={StaticResource SignalIntToColorConverter}}"/>
+                                                </Grid>
+
+                                                <Grid Grid.Column="2">
+                                                    <Button Command="{Binding LightCurtainOnOffCommand}" CommandParameter="{StaticResource True}" Content="ON" Width="60" Height="30" Margin="5"/>
+                                                </Grid>
+
+                                                <Grid Grid.Column="3">
+                                                    <Button Command="{Binding LightCurtainOnOffCommand}" CommandParameter="{StaticResource False}" Content="OFF" Width="60" Height="30" Margin="5"/>
+                                                </Grid>
+                                            </Grid>
+                                        </Border>
+                                    </StackPanel>
+                                </GroupBox>
+                            </Grid>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    
+                    <TabControl SelectedIndex="{Binding SelectedE84SimulControllerViewModel.SelectedTapIndex}">
+
+                        <!--<i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectedE84SimulControllerViewModel.SimulModeChangedCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>-->
+
+                        <!-- Manual -->
+                        <TabItem Header="Manual" IsEnabled="{Binding SelectedE84SimulControllerViewModel.CopiedScript.IsRun, Converter={StaticResource BooleanToInverseConverter}}">
+                            <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="Gray" IsEnabled="{Binding SelectedE84SimulControllerViewModel.Simulator, Converter={StaticResource NullToFalseConverter}}"
+			Visibility="{Binding SelectedE84SimulControllerViewModel.SimulMode, Converter={StaticResource ModeToVisibilityManualConverter}}">
+                                <Grid>
+
+                                    <StackPanel Orientation="Vertical">
+
+                                        <GroupBox>
+                                            <GroupBox.Header>
+                                                <TextBlock Text="E84_SIGNAL" FontWeight="Bold" Foreground="Yellow" Padding="2"/>
+                                            </GroupBox.Header>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <GroupBox Header="INPUT" Margin="2" Padding="1" FontWeight="Bold">
+                                                    <ListView ItemsSource="{Binding SelectedE84SimulControllerViewModel.Inputs}" >
+
+                                                        <ListView.ItemContainerStyle>
+                                                            <Style TargetType="ListViewItem">
+                                                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                                                <Setter Property="MaxHeight" Value="45" />
+                                                            </Style>
+                                                        </ListView.ItemContainerStyle>
+
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+
+                                                                <Grid Visibility="{Binding IsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="100"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+
+                                                                    <Grid Grid.Column="0">
+                                                                        <Label Content="{Binding Type}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"
+									   Foreground="{Binding CurrentValue, Converter={StaticResource BoolToForegroundConverter}}"/>
+                                                                    </Grid>
+
+                                                                    <Grid Grid.Column="1">
+                                                                        <Button Content="ON" Width="60" Height="25" Margin="5" 
+										IsEnabled="{Binding DataContext.SelectedE84SimulControllerViewModel.SimulMode, RelativeSource={RelativeSource AncestorType=ListView}, Converter={StaticResource ModeToFalseBooleanAutoConverter}}"
+										Command="{Binding DataContext.SelectedE84SimulControllerViewModel.InputOnCommand, RelativeSource={RelativeSource AncestorType=ListView}}">
+                                                                            <Button.CommandParameter>
+                                                                                <MultiBinding Converter="{StaticResource E84ExecuteCommandParameterConverter}">
+                                                                                    <Binding/>
+                                                                                    <Binding Source="{StaticResource True}"/>
+                                                                                </MultiBinding>
+                                                                            </Button.CommandParameter>
+                                                                        </Button>
+
+                                                                    </Grid>
+
+                                                                    <Grid Grid.Column="2">
+                                                                        <Button Content="OFF" Width="60" Height="25" Margin="5"
+										IsEnabled="{Binding DataContext.SelectedE84SimulControllerViewModel.SimulMode, RelativeSource={RelativeSource AncestorType=ListView}, Converter={StaticResource ModeToFalseBooleanAutoConverter}}"
+										Command="{Binding DataContext.SelectedE84SimulControllerViewModel.InputOffCommand, RelativeSource={RelativeSource AncestorType=ListView}}">
+                                                                            <Button.CommandParameter>
+                                                                                <MultiBinding Converter="{StaticResource E84ExecuteCommandParameterConverter}">
+                                                                                    <Binding/>
+                                                                                    <Binding Source="{StaticResource False}"/>
+                                                                                </MultiBinding>
+                                                                            </Button.CommandParameter>
+                                                                        </Button>
+                                                                    </Grid>
+                                                                </Grid>
+
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                </GroupBox>
+
+                                                <GroupBox Header="OUTPUT" Margin="2" Padding="1" Grid.Column="1" FontWeight="Bold">
+                                                    <ListView ItemsSource="{Binding SelectedE84SimulControllerViewModel.Outputs}">
+
+                                                        <ListView.ItemContainerStyle>
+                                                            <Style TargetType="ListViewItem">
+                                                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                                                <Setter Property="MaxHeight" Value="45" />
+                                                            </Style>
+                                                        </ListView.ItemContainerStyle>
+
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+
+                                                                <Grid Visibility="{Binding IsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="100"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                        <ColumnDefinition Width="*"/>
+                                                                    </Grid.ColumnDefinitions>
+
+                                                                    <Grid Grid.Column="0">
+                                                                        <Label Content="{Binding Type}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"
+									   Foreground="{Binding CurrentValue, Converter={StaticResource BoolToForegroundConverter}}"/>
+                                                                    </Grid>
+
+                                                                </Grid>
+
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                </GroupBox>
+                                            </Grid>
+                                        </GroupBox>
+                                        
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                            
+                        </TabItem>
+
+                        <!-- Auto -->
+                        <TabItem Header="Auto" IsEnabled="{Binding SelectedE84SimulControllerViewModel.CopiedScript.IsRun, Converter={StaticResource BooleanToInverseConverter}}">
+
+                            <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="Gray" IsEnabled="{Binding SelectedE84SimulControllerViewModel.Simulator, Converter={StaticResource NullToFalseConverter}}"
+			Visibility="{Binding SelectedE84SimulControllerViewModel.SimulMode, Converter={StaticResource ModeToVisibilityAutoConverter}}">
+                                <Grid>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0">
+                                        <GroupBox Header="SCRIPT" Margin="1" Visibility="{Binding SelectedE84SimulControllerViewModel.SimulMode, Converter={StaticResource ModeToVisibilityAutoConverter}}">
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <ComboBox Width="Auto" MinWidth="100" Margin="5" ItemsSource="{Binding Scripts}" Background="LightGray" HorizontalContentAlignment="Center"
+                                                          SelectedItem="{Binding SelectedE84SimulControllerViewModel.SelectedScript}" 
+                                                          DisplayMemberPath="Name">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="SelectionChanged">
+                                                            <i:InvokeCommandAction Command="{Binding DataContext.SelectedE84SimulControllerViewModel.SelectedScriptChangedCommand, RelativeSource={RelativeSource AncestorType=ComboBox}}" />
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </ComboBox>
+
+                                                <Button Command="{Binding SelectedE84SimulControllerViewModel.ScriptStartCommand}" Content="START" Width="60" Height="30" Margin="5"
+                                                        IsEnabled="{Binding SelectedE84SimulControllerViewModel.CopiedScript.IsRun, Converter={StaticResource BooleanToInverseConverter}}"/>
+                                                <Button Command="{Binding SelectedE84SimulControllerViewModel.ScriptStopCommand}" Content="STOP" Width="60" Height="30" Margin="5"
+                                                        IsEnabled="{Binding SelectedE84SimulControllerViewModel.CopiedScript.IsRun}"/>
+                                                <CheckBox VerticalAlignment="Center" Content="Reset" IsChecked="{Binding SelectedE84SimulControllerViewModel.IsReset, Mode=TwoWay}" Style="{x:Null}" />
+
+                                            </StackPanel>
+                                        </GroupBox>
+                                    </Grid>
+                                    
+                                    <Grid Grid.Row="1">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Column="0">
+                                            <GroupBox Header="Behaviors">
+                                                <DataGrid ItemsSource="{Binding SelectedE84SimulControllerViewModel.CopiedScript.Behaviors}" 
+                                                          SelectedItem="{Binding SelectedE84SimulControllerViewModel.CopiedScript.SelectedBehavior}"
+                                                          HeadersVisibility="All"
+                                                          HorizontalAlignment="Center" 
+                                                          VerticalAlignment="Top"
+                                                          Margin="5" 
+                                                          AutoGenerateColumns="False"
+                                                          EnableRowVirtualization="false" 
+                                                          EnableColumnVirtualization="False" 
+                                                          FontFamily="2  badr" 
+                                                          FontSize="14" 
+                                                          CanUserSortColumns="False"
+                                                          CanUserAddRows="False" 
+                                                          CanUserReorderColumns="False" 
+                                                          IsReadOnly="True">
+
+                                                    <i:Interaction.Behaviors>
+                                                        <local:DataGridBehavior ShowRowNumber="True" />
+                                                    </i:Interaction.Behaviors>
+
+                                                    <DataGrid.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <VirtualizingStackPanel IsVirtualizing="True"/>
+                                                        </ItemsPanelTemplate>
+                                                    </DataGrid.ItemsPanel>
+
+                                                    <DataGrid.Columns>
+
+                                                        <DataGridCheckBoxColumn Header="" Binding="{Binding IsComplete}" Width="20" CellStyle="{x:Null}">
+                                                        </DataGridCheckBoxColumn>
+
+                                                        <!--<DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="100"/>-->
+
+                                                        <DataGridTemplateColumn Header="Actions">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <ItemsControl ItemsSource="{Binding Actions}">
+                                                                        <ItemsControl.ItemTemplate>
+                                                                            <DataTemplate>
+                                                                                <TextBlock Text="{Binding Name}">
+                                                                                    <TextBlock.Style>
+                                                                                        <Style TargetType="TextBlock">
+                                                                                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                                                            <Style.Triggers>
+                                                                                                <DataTrigger Binding="{Binding State}" Value="True">
+                                                                                                    <Setter Property="Foreground" Value="Red"/>
+                                                                                                </DataTrigger>
+                                                                                                <DataTrigger Binding="{Binding State}" Value="False">
+                                                                                                    <Setter Property="Foreground" Value="White"/>
+                                                                                                </DataTrigger>
+                                                                                            </Style.Triggers>
+                                                                                        </Style>
+                                                                                    </TextBlock.Style>
+                                                                                </TextBlock>
+                                                                            </DataTemplate>
+                                                                        </ItemsControl.ItemTemplate>
+                                                                    </ItemsControl>
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                        </DataGridTemplateColumn>
+
+                                                        <DataGridTextColumn Binding="{Binding StartDelay}">
+
+                                                            <DataGridTextColumn.ElementStyle>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                                </Style>
+                                                            </DataGridTextColumn.ElementStyle>
+
+                                                            <DataGridTextColumn.HeaderTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Vertical">
+                                                                        <TextBlock Text="Start"/>
+                                                                        <TextBlock Text="Delay"/>
+                                                                        <TextBlock Text="(ms)" TextAlignment="Left"/>
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </DataGridTextColumn.HeaderTemplate>
+                                                        </DataGridTextColumn>
+
+                                                        <DataGridTextColumn Binding="{Binding nextBehaviorDelay}">
+
+                                                            <DataGridTextColumn.ElementStyle>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                                </Style>
+                                                            </DataGridTextColumn.ElementStyle>
+
+                                                            <DataGridTextColumn.HeaderTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Vertical">
+                                                                        <TextBlock Text="nextBehavior"/>
+                                                                        <TextBlock Text="Delay"/>
+                                                                        <TextBlock Text="(ms)" TextAlignment="Left"/>
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </DataGridTextColumn.HeaderTemplate>
+                                                        </DataGridTextColumn>
+
+                                                        <DataGridTextColumn Binding="{Binding StartTime, StringFormat='HH:mm:ss.fff'}">
+
+                                                            <DataGridTextColumn.HeaderTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Vertical">
+                                                                        <TextBlock Text="Start"/>
+                                                                        <TextBlock Text="Time" TextAlignment="Center"/>
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </DataGridTextColumn.HeaderTemplate>
+                                                            
+                                                            <DataGridTextColumn.ElementStyle>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                                </Style>
+                                                            </DataGridTextColumn.ElementStyle>
+                                                        </DataGridTextColumn>
+
+                                                        <DataGridTextColumn Binding="{Binding EndTime, StringFormat='HH:mm:ss.fff'}">
+
+                                                            <DataGridTextColumn.HeaderTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Vertical">
+                                                                        <TextBlock Text="End"/>
+                                                                        <TextBlock Text="Time" TextAlignment="Center"/>
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </DataGridTextColumn.HeaderTemplate>
+                                                            
+                                                            <DataGridTextColumn.ElementStyle>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                                </Style>
+                                                            </DataGridTextColumn.ElementStyle>
+                                                        </DataGridTextColumn>
+
+                                                        <DataGridTextColumn>
+
+                                                            <DataGridTextColumn.ElementStyle>
+                                                                <Style TargetType="TextBlock">
+                                                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                                </Style>
+                                                            </DataGridTextColumn.ElementStyle>
+
+                                                            <DataGridTextColumn.HeaderTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Vertical">
+                                                                        <TextBlock Text="Duration"/>
+                                                                        <TextBlock Text="(sec)" TextAlignment="Center"/>
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </DataGridTextColumn.HeaderTemplate>
+
+                                                            <DataGridTextColumn.Binding>
+                                                                <MultiBinding StringFormat="{}{0:F3}">
+                                                                    <Binding Path="Duration.TotalSeconds" />
+                                                                </MultiBinding>
+                                                            </DataGridTextColumn.Binding>
+                                                        </DataGridTextColumn>
+
+                                                        <DataGridTemplateColumn Header="Status">
+                                                            <DataGridTemplateColumn.CellStyle>
+                                                                <Style TargetType="DataGridCell">
+                                                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                                                </Style>
+                                                            </DataGridTemplateColumn.CellStyle>
+
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <Rectangle Width="10" Height="10">
+                                                                        <Rectangle.Style>
+                                                                            <Style TargetType="Rectangle">
+                                                                                <Setter Property="Fill" Value="Green" />
+                                                                                <Style.Triggers>
+                                                                                    <DataTrigger Binding="{Binding Result.ErrorCode.CodeNumber, Converter={StaticResource ErrorCodeToBoolConverter}}" Value="True">
+                                                                                        <Setter Property="Fill" Value="Red" />
+                                                                                        <Setter Property="ToolTipService.ToolTip" Value="{Binding Result, Converter={StaticResource TextToColorConverter}}"/>
+                                                                                    </DataTrigger>
+                                                                                </Style.Triggers>
+                                                                            </Style>
+                                                                        </Rectangle.Style>
+                                                                    </Rectangle>
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                        </DataGridTemplateColumn>
+
+                                                        <DataGridTemplateColumn Header="TimeOut">
+
+                                                            <DataGridTemplateColumn.CellStyle>
+                                                                <Style TargetType="DataGridCell">
+                                                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                                                </Style>
+                                                            </DataGridTemplateColumn.CellStyle>
+
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <Rectangle Width="10" Height="10">
+                                                                        <Rectangle.Style>
+                                                                            <Style TargetType="Rectangle">
+                                                                                <Setter Property="Fill" Value="Green" />
+                                                                                <Style.Triggers>
+                                                                                    <DataTrigger>
+
+                                                                                        <DataTrigger.Binding>
+                                                                                            <Binding Path="Result.ErrorCode.CodeNumber">
+                                                                                                <Binding.Converter>
+                                                                                                    <local:ErrorCodeToBoolConverter/>
+                                                                                                </Binding.Converter>
+                                                                                            </Binding>
+                                                                                        </DataTrigger.Binding>
+
+                                                                                        <Setter Property="Fill" Value="Red" />
+                                                                                        <Setter Property="ToolTipService.ToolTip" Value="{Binding Result, Converter={StaticResource TextToColorConverter}}"/>
+                                                                                    </DataTrigger>
+                                                                                </Style.Triggers>
+                                                                            </Style>
+                                                                        </Rectangle.Style>
+                                                                    </Rectangle>
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                        </DataGridTemplateColumn>
+
+                                                    </DataGrid.Columns>
+                                                </DataGrid>
+                                            </GroupBox>
+                                        </Grid>
+
+                                        <Grid Grid.Column="1">
+                                            <GroupBox>
+                                                <GroupBox.Header>
+                                                    <TextBlock Text="RESULT" FontWeight="Bold" Foreground="Yellow" Padding="2"/>
+                                                </GroupBox.Header>
+                                                <Grid>
+
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="9*"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Grid Grid.Column="0">
+
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                        </Grid.RowDefinitions>
+
+                                                        <Grid Grid.Row="0">
+                                                            <Label Content="" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"
+									Margin="0,5,0,0"/>
+                                                        </Grid>
+
+                                                        <Grid Grid.Row="1">
+                                                            <ListView ItemsSource="{Binding SelectedE84SimulControllerViewModel.InitialTrace.SignalDataList}"
+                                                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                                                                <ListView.ItemContainerStyle>
+                                                                    <Style TargetType="ListViewItem">
+                                                                        <Setter Property="HorizontalAlignment" Value="Center" />
+                                                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                                                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                                                                        <Setter Property="Visibility" Value="{Binding IsEnabled, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                                    </Style>
+                                                                </ListView.ItemContainerStyle>
+
+                                                                <ListView.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <Grid>
+                                                                            <ItemsControl ItemsSource="{Binding Values}">
+
+                                                                                <ItemsControl.ItemsPanel>
+                                                                                    <ItemsPanelTemplate>
+                                                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                                                                                    </ItemsPanelTemplate>
+                                                                                </ItemsControl.ItemsPanel>
+
+                                                                                <ItemsControl.ItemTemplate>
+                                                                                    <DataTemplate>
+                                                                                        <Grid>
+                                                                                            <Border Width="20" Height="20" Margin="5"
+																	BorderThickness="2"
+																	BorderBrush="White"
+																	CornerRadius="5"
+																	Background="{Binding Value, Converter={StaticResource BooleanToSignalColorConverter}}">
+                                                                                            </Border>
+                                                                                        </Grid>
+                                                                                    </DataTemplate>
+                                                                                </ItemsControl.ItemTemplate>
+                                                                            </ItemsControl>
+                                                                        </Grid>
+
+                                                                    </DataTemplate>
+
+                                                                </ListView.ItemTemplate>
+                                                            </ListView>
+                                                        </Grid>
+                                                    </Grid>
+
+                                                    <Grid Grid.Column="1">
+
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                        </Grid.RowDefinitions>
+
+                                                        <Grid Grid.Row="0">
+
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="80"/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <Grid Grid.Column="0">
+                                                                <Label Content="" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                                                            </Grid>
+
+                                                            <Grid Grid.Column="1">
+                                                                <ListView ItemsSource="{Binding SelectedE84SimulControllerViewModel.CopiedScript.Behaviors}">
+
+                                                                    <ListView.ItemsPanel>
+                                                                        <ItemsPanelTemplate>
+                                                                            <VirtualizingStackPanel Orientation="Horizontal"/>
+                                                                        </ItemsPanelTemplate>
+                                                                    </ListView.ItemsPanel>
+
+                                                                    <ListView.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <Grid>
+                                                                                <Border Width="20" Height="20" Margin="2,0,-8,0"
+															BorderThickness="2"
+															BorderBrush="White"
+															CornerRadius="5"
+															Background="LightBlue">
+                                                                                    <TextBlock HorizontalAlignment="Center"
+																VerticalAlignment="Center"
+																Foreground="Black"
+																FontWeight="Bold"
+																FontSize="12">
+                                                                                        <TextBlock.Text>
+                                                                                            <MultiBinding Converter="{StaticResource ListIndexConverter}">
+                                                                                                <Binding RelativeSource="{RelativeSource AncestorType=ListView, Mode=FindAncestor}" />
+                                                                                                <Binding RelativeSource="{RelativeSource AncestorType=ListViewItem, Mode=FindAncestor}" />
+                                                                                            </MultiBinding>
+                                                                                        </TextBlock.Text>
+                                                                                    </TextBlock>
+                                                                                </Border>
+                                                                            </Grid>
+                                                                        </DataTemplate>
+                                                                    </ListView.ItemTemplate>
+                                                                </ListView>
+                                                            </Grid>
+                                                        </Grid>
+
+                                                        <Grid Grid.Row="1">
+                                                            <ListView ItemsSource="{Binding SelectedE84SimulControllerViewModel.CopiedScript.Trace.SignalDataList}">
+
+                                                                <ListView.ItemContainerStyle>
+                                                                    <Style TargetType="ListViewItem">
+                                                                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                                                        <Setter Property="Visibility" Value="{Binding IsEnabled, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                                    </Style>
+                                                                </ListView.ItemContainerStyle>
+
+                                                                <ListView.ItemTemplate>
+
+                                                                    <DataTemplate>
+
+                                                                        <Grid>
+
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="80" />
+                                                                                <ColumnDefinition />
+                                                                            </Grid.ColumnDefinitions>
+
+                                                                            <TextBlock Text="{Binding Name}" Foreground="Black" FontSize="14" VerticalAlignment="Center"/>
+
+                                                                            <ItemsControl Grid.Column="1" ItemsSource="{Binding Values}">
+
+                                                                                <ItemsControl.ItemsPanel>
+                                                                                    <ItemsPanelTemplate>
+                                                                                        <StackPanel Orientation="Horizontal" />
+                                                                                    </ItemsPanelTemplate>
+                                                                                </ItemsControl.ItemsPanel>
+
+                                                                                <ItemsControl.ItemTemplate>
+                                                                                    <DataTemplate>
+                                                                                        <Grid>
+                                                                                            <Border Width="20" Height="20" Margin="5"
+                                                                                                    BorderThickness="2"
+                                                                                                    BorderBrush="White"
+                                                                                                    CornerRadius="5"
+																	Background="{Binding Value, Converter={StaticResource BooleanToSignalColorConverter}}">
+                                                                                            </Border>
+                                                                                        </Grid>
+                                                                                    </DataTemplate>
+                                                                                </ItemsControl.ItemTemplate>
+                                                                            </ItemsControl>
+                                                                        </Grid>
+
+                                                                    </DataTemplate>
+
+                                                                </ListView.ItemTemplate>
+                                                            </ListView>
+                                                        </Grid>
+                                                    </Grid>
+                                                </Grid>
+                                            </GroupBox>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                            
+                        </TabItem>
+
+                        <!-- Maker -->
+                        <TabItem Header="Maker" IsEnabled="{Binding SelectedE84SimulControllerViewModel.CopiedScript.IsRun, Converter={StaticResource BooleanToInverseConverter}}">
+                            
+                            <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="Gray" IsEnabled="{Binding SelectedE84SimulControllerViewModel.Simulator, Converter={StaticResource NullToFalseConverter}}"
+			Visibility="{Binding SelectedE84SimulControllerViewModel.SimulMode, Converter={StaticResource ModeToVisibilityMakerConverter}}">
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="655"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- Script -->
+                                    <Grid Grid.Row="0">
+                                        <GroupBox Header="SCRIPT" Margin="1" Visibility="{Binding SelectedE84SimulControllerViewModel.SimulMode, Converter={StaticResource ModeToVisibilityMakerConverter}}">
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <ComboBox Width="Auto" MinWidth="100" Margin="5" ItemsSource="{Binding Scripts}"
+                                                          HorizontalContentAlignment="Center"
+                                                          SelectedItem="{Binding SelectedE84SimulControllerViewModel.SelectedScript}" 
+                                                          Background="LightGray"
+                                                          DisplayMemberPath="Name"/>
+
+                                                <Button Command="{Binding ScriptAddCommand}" Content="ADD" Width="60" Height="30" Margin="5"/>
+                                                <Button Command="{Binding ScriptDelCommand}" Content="DEL" Width="60" Height="30" Margin="5"/>
+                                                <Button Command="{Binding ScriptLoadCommand}" Content="LOAD" Width="60" Height="30" Margin="5"/>
+                                                <Button Command="{Binding ScriptSaveCommand}" Content="SAVE" Width="60" Height="30" Margin="5"/>
+
+                                            </StackPanel>
+                                        </GroupBox>
+                                    </Grid>
+                                    
+                                    <Grid Grid.Row="1">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="70"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Action -->
+                                        <Grid Grid.Column="0">
+                                            <GroupBox Header="ACTION">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="*"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <Grid Grid.Row="0">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Label Content="nextActionDelay : " VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black" Background="LightGray"/>
+
+                                                            <TextBox MinWidth="100" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" 
+											HorizontalContentAlignment="Center"
+											Background="LightGray">
+                                                                <TextBox.Text>
+                                                                    <Binding Path="nextActionDelay" UpdateSourceTrigger="PropertyChanged">
+                                                                        <Binding.ValidationRules>
+                                                                            <local:PositiveNumberValidationRule ErrorMessage="Please enter a positive number."/>
+                                                                        </Binding.ValidationRules>
+                                                                    </Binding>
+                                                                </TextBox.Text>
+                                                            </TextBox>
+                                                        </StackPanel>
+                                                    </Grid>
+
+                                                    <Grid Grid.Row="1">
+                                                        <StackPanel Orientation="Vertical">
+                                                            <GroupBox Header="Inputs" Visibility="{Binding SelectedE84SimulControllerViewModel.SimulMode, Converter={StaticResource ModeToVisibilityMakerConverter}}">
+                                                                <ListView ItemsSource="{Binding SelectedE84SimulControllerViewModel.Inputs}">
+
+                                                                    <ListView.ItemContainerStyle>
+                                                                        <Style TargetType="ListViewItem">
+                                                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                                                            <Setter Property="MaxHeight" Value="45" />
+                                                                        </Style>
+                                                                    </ListView.ItemContainerStyle>
+
+                                                                    <ListView.ItemTemplate>
+                                                                        <DataTemplate>
+
+                                                                            <Grid Visibility="{Binding IsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                                                <Grid.ColumnDefinitions>
+                                                                                    <ColumnDefinition Width="100"/>
+                                                                                    <ColumnDefinition Width="*"/>
+                                                                                    <ColumnDefinition Width="*"/>
+                                                                                </Grid.ColumnDefinitions>
+
+                                                                                <Grid Grid.Column="0">
+                                                                                    <Label Content="{Binding Type}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"
+														   Foreground="{Binding CurrentValue, Converter={StaticResource BoolToForegroundConverter}}"/>
+                                                                                </Grid>
+
+                                                                                <Grid Grid.Column="1">
+                                                                                    <Button Content="ON" Width="60" Height="30" Margin="5" 
+															IsEnabled="{Binding DataContext.SelectedE84SimulControllerViewModel.SimulMode, RelativeSource={RelativeSource AncestorType=ListView}, Converter={StaticResource ModeToFalseBooleanAutoConverter}}"
+															Command="{Binding DataContext.AddInputOnCommand, RelativeSource={RelativeSource AncestorType=ListView}}">
+                                                                                        <Button.CommandParameter>
+                                                                                            <MultiBinding Converter="{StaticResource E84ExecuteCommandParameterConverter}">
+                                                                                                <Binding/>
+                                                                                                <Binding Source="{StaticResource True}"/>
+                                                                                            </MultiBinding>
+                                                                                        </Button.CommandParameter>
+                                                                                    </Button>
+                                                                                </Grid>
+
+                                                                                <Grid Grid.Column="2">
+                                                                                    <Button Content="OFF" Width="60" Height="30" Margin="5"
+															IsEnabled="{Binding DataContext.SelectedE84SimulControllerViewModel.SimulMode, RelativeSource={RelativeSource AncestorType=ListView}, Converter={StaticResource ModeToFalseBooleanAutoConverter}}"
+															Command="{Binding DataContext.AddInputOffCommand, RelativeSource={RelativeSource AncestorType=ListView}}">
+                                                                                        <Button.CommandParameter>
+                                                                                            <MultiBinding Converter="{StaticResource E84ExecuteCommandParameterConverter}">
+                                                                                                <Binding/>
+                                                                                                <Binding Source="{StaticResource False}"/>
+                                                                                            </MultiBinding>
+                                                                                        </Button.CommandParameter>
+                                                                                    </Button>
+                                                                                </Grid>
+                                                                            </Grid>
+
+                                                                        </DataTemplate>
+                                                                    </ListView.ItemTemplate>
+                                                                </ListView>
+                                                            </GroupBox>
+
+                                                            <GroupBox Header="Outputs" Visibility="Collapsed">
+                                                                <ListView ItemsSource="{Binding SelectedE84SimulControllerViewModel.Outputs}">
+
+                                                                    <ListView.ItemContainerStyle>
+                                                                        <Style TargetType="ListViewItem">
+                                                                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                                                            <Setter Property="MaxHeight" Value="45" />
+                                                                        </Style>
+                                                                    </ListView.ItemContainerStyle>
+
+                                                                    <ListView.ItemTemplate>
+                                                                        <DataTemplate>
+
+                                                                            <Grid Visibility="{Binding IsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                                                <Grid.ColumnDefinitions>
+                                                                                    <ColumnDefinition Width="100"/>
+                                                                                    <ColumnDefinition Width="*"/>
+                                                                                    <ColumnDefinition Width="*"/>
+                                                                                </Grid.ColumnDefinitions>
+
+                                                                                <Grid Grid.Column="0">
+                                                                                    <Label Content="{Binding Type}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0"
+														   Foreground="{Binding CurrentValue, Converter={StaticResource BoolToForegroundConverter}}"/>
+                                                                                </Grid>
+
+                                                                            </Grid>
+
+                                                                        </DataTemplate>
+                                                                    </ListView.ItemTemplate>
+                                                                </ListView>
+                                                            </GroupBox>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                    
+                                                    <Grid Grid.Row="2">
+
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="8*"/>
+                                                            <ColumnDefinition Width="2*"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <Grid Grid.Column="0">
+                                                            <DataGrid ItemsSource="{Binding SelectedE84SimulControllerViewModel.SelectedScript.Actions}" 
+                                                                  SelectedItem="{Binding SelectedE84SimulControllerViewModel.SelectedScript.SelectedAction}"
+                                                                  HorizontalAlignment="Left" 
+                                                                  VerticalAlignment="Top"
+                                                                  Margin="5" 
+                                                                  AutoGenerateColumns="False"
+                                                                  EnableRowVirtualization="false" 
+                                                                  EnableColumnVirtualization="False"
+                                                                  FontFamily="2  badr" 
+                                                                  FontSize="14" 
+                                                                  FlowDirection="LeftToRight" 
+                                                                  CanUserSortColumns="False"
+                                                                  CanUserAddRows="False" 
+                                                                  CanUserReorderColumns="False"
+                                                                  IsReadOnly="False"
+                                                                  PreviewKeyDown="DataGrid_PreviewKeyDown">
+
+                                                                <DataGrid.ItemsPanel>
+                                                                    <ItemsPanelTemplate>
+                                                                        <VirtualizingStackPanel IsVirtualizing="True"/>
+                                                                    </ItemsPanelTemplate>
+                                                                </DataGrid.ItemsPanel>
+
+                                                                <DataGrid.Columns>
+
+                                                                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="200">
+                                                                        <DataGridTextColumn.ElementStyle>
+                                                                            <Style TargetType="TextBlock">
+                                                                                <Style.Triggers>
+                                                                                    <DataTrigger Binding="{Binding State}" Value="True">
+                                                                                        <Setter Property="Foreground" Value="Red"/>
+                                                                                    </DataTrigger>
+                                                                                    <DataTrigger Binding="{Binding State}" Value="False">
+                                                                                        <Setter Property="Foreground" Value="White"/>
+                                                                                    </DataTrigger>
+                                                                                </Style.Triggers>
+                                                                            </Style>
+                                                                        </DataGridTextColumn.ElementStyle>
+                                                                    </DataGridTextColumn>
+
+                                                                    <DataGridTextColumn Header="nextActionDelay (ms)" Binding="{Binding nextActionDelay}" Width="200">
+
+                                                                        <DataGridTextColumn.ElementStyle>
+                                                                            <Style TargetType="TextBlock">
+                                                                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                                            </Style>
+                                                                        </DataGridTextColumn.ElementStyle>
+
+                                                                    </DataGridTextColumn>
+
+                                                                </DataGrid.Columns>
+
+                                                            </DataGrid>
+                                                        </Grid>
+
+                                                        <Grid Grid.Column="1">
+                                                            <Button Command="{Binding ActionsDelCommand}" Content="DEL" Width="60" Height="30" HorizontalAlignment="Right"/>
+                                                        </Grid>
+                                                    </Grid>
+
+                                                    <Grid Grid.Row="2">
+                                                        
+                                                    </Grid>
+                                                </Grid>
+                                            </GroupBox>
+                                        </Grid>
+
+                                        <!-- Add Button -->
+                                        <Grid Grid.Column="1">
+                                            <Button Command="{Binding BehaviorAddCommand}" Content="ADD (→)" Width="60" Height="30" Margin="5"/>
+                                        </Grid>
+
+                                        <!-- Behavior -->
+                                        <Grid Grid.Column="2">
+                                            <Grid>
+                                                <GroupBox Header="BEHAVIOR">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+
+                                                        <Grid Grid.Row="0">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Label Content="StartDelay : " VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black" Background="LightGray"/>
+
+                                                                <TextBox MinWidth="100" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" 
+                                                                         HorizontalContentAlignment="Center"
+                                                                         Background="LightGray">
+                                                                    <TextBox.Text>
+                                                                        <Binding Path="StartDelay" UpdateSourceTrigger="PropertyChanged">
+                                                                            <Binding.ValidationRules>
+                                                                                <local:PositiveNumberValidationRule ErrorMessage="Please enter a positive number."/>
+                                                                            </Binding.ValidationRules>
+                                                                        </Binding>
+                                                                    </TextBox.Text>
+                                                                </TextBox>
+                                                            </StackPanel>
+                                                        </Grid>
+
+                                                        <Grid Grid.Row="1">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Label Content="nextBehaviorDelay : " VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black" Background="LightGray"/>
+
+                                                                <TextBox MinWidth="100" VerticalAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" 
+                                                                         HorizontalContentAlignment="Center"
+                                                                         Background="LightGray">
+                                                                    <TextBox.Text>
+                                                                        <Binding Path="nextBehaviorDelay" UpdateSourceTrigger="PropertyChanged">
+                                                                            <Binding.ValidationRules>
+                                                                                <local:PositiveNumberValidationRule ErrorMessage="Please enter a positive number."/>
+                                                                            </Binding.ValidationRules>
+                                                                        </Binding>
+                                                                    </TextBox.Text>
+                                                                </TextBox>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                        <Grid Grid.Row="2">
+
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="8*"/>
+                                                                <ColumnDefinition Width="2*"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <Grid Grid.Column="0">
+                                                                <DataGrid ItemsSource="{Binding SelectedE84SimulControllerViewModel.SelectedScript.Behaviors}" 
+									                                  SelectedItem="{Binding SelectedE84SimulControllerViewModel.SelectedScript.SelectedBehavior}" 
+									                                  HorizontalAlignment="Left" 
+									                                  VerticalAlignment="Top"
+									                                  Margin="5" 
+									                                  AutoGenerateColumns="False"
+									                                  EnableRowVirtualization="false" 
+									                                  EnableColumnVirtualization="False" 
+									                                  FontFamily="2  badr" 
+									                                  FontSize="14" 
+									                                  FlowDirection="LeftToRight" 
+									                                  CanUserSortColumns="False"
+									                                  CanUserAddRows="False" 
+									                                  CanUserReorderColumns="False" 
+									                                  IsReadOnly="False"
+									                                  PreviewKeyDown="DataGrid_PreviewKeyDown">
+
+                                                                    <DataGrid.ItemsPanel>
+                                                                        <ItemsPanelTemplate>
+                                                                            <VirtualizingStackPanel IsVirtualizing="True"/>
+                                                                        </ItemsPanelTemplate>
+                                                                    </DataGrid.ItemsPanel>
+
+                                                                    <DataGrid.Columns>
+
+                                                                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="100"/>
+
+                                                                        <DataGridTemplateColumn Header="Actions" Width="100">
+                                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                                <DataTemplate>
+                                                                                    <ItemsControl ItemsSource="{Binding Actions}">
+                                                                                        <ItemsControl.ItemTemplate>
+                                                                                            <DataTemplate>
+                                                                                                <TextBlock Text="{Binding Name}">
+                                                                                                    <TextBlock.Style>
+                                                                                                        <Style TargetType="TextBlock">
+                                                                                                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                                                                            <Style.Triggers>
+                                                                                                                <DataTrigger Binding="{Binding State}" Value="True">
+                                                                                                                    <Setter Property="Foreground" Value="Red"/>
+                                                                                                                </DataTrigger>
+                                                                                                                <DataTrigger Binding="{Binding State}" Value="False">
+                                                                                                                    <Setter Property="Foreground" Value="White"/>
+                                                                                                                </DataTrigger>
+                                                                                                            </Style.Triggers>
+                                                                                                        </Style>
+                                                                                                    </TextBlock.Style>
+                                                                                                </TextBlock>
+                                                                                            </DataTemplate>
+                                                                                        </ItemsControl.ItemTemplate>
+                                                                                    </ItemsControl>
+                                                                                </DataTemplate>
+                                                                            </DataGridTemplateColumn.CellTemplate>
+                                                                        </DataGridTemplateColumn>
+
+                                                                        <DataGridTextColumn Width="80" Binding="{Binding StartDelay}">
+
+                                                                            <DataGridTextColumn.ElementStyle>
+                                                                                <Style TargetType="TextBlock">
+                                                                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                                                </Style>
+                                                                            </DataGridTextColumn.ElementStyle>
+
+                                                                            <DataGridTextColumn.HeaderTemplate>
+                                                                                <DataTemplate>
+                                                                                    <StackPanel Orientation="Vertical">
+                                                                                        <TextBlock Text="Start"/>
+                                                                                        <TextBlock Text="Delay"/>
+                                                                                        <TextBlock Text="(ms)" TextAlignment="Left"/>
+                                                                                    </StackPanel>
+                                                                                </DataTemplate>
+                                                                            </DataGridTextColumn.HeaderTemplate>
+
+                                                                        </DataGridTextColumn>
+
+                                                                        <DataGridTextColumn Width="140" Binding="{Binding nextBehaviorDelay}">
+
+                                                                            <DataGridTextColumn.ElementStyle>
+                                                                                <Style TargetType="TextBlock">
+                                                                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                                                </Style>
+                                                                            </DataGridTextColumn.ElementStyle>
+
+                                                                            <DataGridTextColumn.HeaderTemplate>
+                                                                                <DataTemplate>
+                                                                                    <StackPanel Orientation="Vertical">
+                                                                                        <TextBlock Text="nextBehavior"/>
+                                                                                        <TextBlock Text="Delay"/>
+                                                                                        <TextBlock Text="(ms)" TextAlignment="Left"/>
+                                                                                    </StackPanel>
+                                                                                </DataTemplate>
+                                                                            </DataGridTextColumn.HeaderTemplate>
+
+                                                                        </DataGridTextColumn>
+
+                                                                    </DataGrid.Columns>
+                                                                </DataGrid>
+                                                            </Grid>
+
+                                                            <Grid Grid.Column="1">
+                                                                <Button Command="{Binding BehaviorDelCommand}" Content="DEL" Width="60" Height="30" HorizontalAlignment="Right"/>
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Grid>
+                                                </GroupBox>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </TabItem>
+
+                    </TabControl>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+    
+</Window>

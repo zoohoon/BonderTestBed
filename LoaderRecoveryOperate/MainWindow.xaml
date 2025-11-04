@@ -1,0 +1,23 @@
+﻿<Window x:Class="LoaderRecoveryOperate.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LoaderRecoveryOperate"
+        mc:Ignorable="d"
+         Title="Loader Recovery" Height="300" Width="600" Background="Black" >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Label Foreground="White" FontSize="30" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">Do you want to recover the loader?</Label>
+        <Button x:Name="LoaderStateInitBtn"   Grid.Row="1" Grid.Column="0" Command="{Binding LoaderInitCommnad}" FontSize="20" Margin="5">OK</Button>
+        <Button x:Name="ExitBtn"              Grid.Row="1" Grid.Column="1"  Command="{Binding ExitCommand}" IsEnabled="{Binding IsEnableExitBtn}" FontSize="20" Margin="5">Cancel</Button>
+
+    </Grid>
+</Window>

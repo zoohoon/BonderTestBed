@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{73D2898A-FB92-408F-BAD9-D0A049CAE7E9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ImageResourcePack</RootNamespace>
+    <AssemblyName>ImageResourcePack</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WAFocusing.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\020-settings-5.png" />
+    <Resource Include="Images\ARM1_NoWafer.png" />
+    <Resource Include="Images\ARM1_W.png" />
+    <Resource Include="Images\ARM2_NoWafer.png" />
+    <Resource Include="Images\ARM2_W.png" />
+    <Resource Include="Images\ArrowDown.png" />
+    <Resource Include="Images\ArrowDownW.png" />
+    <Resource Include="Images\ArrowLeft.png" />
+    <Resource Include="Images\ArrowLeftG.png" />
+    <Resource Include="Images\ArrowLeftW.png" />
+    <Resource Include="Images\ArrowRight.png" />
+    <Resource Include="Images\ArrowRightG.png" />
+    <Resource Include="Images\ArrowRightW.png" />
+    <Resource Include="Images\ArrowUp.png" />
+    <Resource Include="Images\ArrowUpW.png" />
+    <Resource Include="Images\bars.png" />
+    <Resource Include="Images\Bin.png" />
+    <Resource Include="Images\Chuck_NoWafer.png" />
+    <Resource Include="Images\Chuck_W.png" />
+    <Resource Include="Images\Cleaning.png" />
+    <Resource Include="Images\Clockwise.png" />
+    <Resource Include="Images\Contact.png" />
+    <Resource Include="Images\CoordLeftDown.png" />
+    <Resource Include="Images\CoordLeftUp.png" />
+    <Resource Include="Images\CoordRightDown.png" />
+    <Resource Include="Images\CoordRightUp.png" />
+    <Resource Include="Images\CounterClockwise.png" />
+    <Resource Include="Images\ExtendHeight.png" />
+    <Resource Include="Images\ExtendWidth.png" />
+    <Resource Include="Images\FixedTray_NoWafer.png" />
+    <Resource Include="Images\FixedTray_W.png" />
+    <Resource Include="Images\GPIB.png" />
+    <Resource Include="Images\Image1.png" />
+    <Resource Include="Images\Inspect.png" />
+    <Resource Include="Images\job.png" />
+    <Resource Include="Images\JogDown.png" />
+    <Resource Include="Images\JogLeft.png" />
+    <Resource Include="Images\JogLeftDown.png" />
+    <Resource Include="Images\JogLeftUp.png" />
+    <Resource Include="Images\JogRight.png" />
+    <Resource Include="Images\JogRightDown.png" />
+    <Resource Include="Images\JogRightUp.png" />
+    <Resource Include="Images\JogUp.png" />
+    <Resource Include="Images\Menu.png" />
+    <Resource Include="Images\Minus.png" />
+    <Resource Include="Images\monitoring.png" />
+    <Resource Include="Images\notes.png" />
+    <Resource Include="Images\OCR.png" />
+    <Resource Include="Images\pause.png" />
+    <Resource Include="Images\Plus.png" />
+    <Resource Include="Images\PreAligner_NoWafer.png" />
+    <Resource Include="Images\PreAligner_W.png" />
+    <Resource Include="Images\puzzle.png" />
+    <Resource Include="Images\Recipe.png" />
+    <Resource Include="Images\ReduceHeight.png" />
+    <Resource Include="Images\ReduceWidth.png" />
+    <Resource Include="Images\settings.png" />
+    <Resource Include="Images\start.png" />
+    <Resource Include="Images\Statistics.png" />
+    <Resource Include="Images\target.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WAPTAddIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WAInputUserCoordIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WARotateUserDirectionICon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WABoundaryLCIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WABoundaryRCIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\content-cut.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Skip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DoneCircle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CoordLeftDown2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CoordLeftUp2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CoordRightDown2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CoordRightUp2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WABoundary.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WARecoveryRefPad.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WAReocveryRefPad2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Focusing.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\MinusWhite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PlusWhite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SettingWhite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WASetting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PadSet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SetEdge.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PnpAbort.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PnpResume.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ic_find_in_page_white_48dp_2x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\FolderIcon.png" />
+    <Resource Include="Images\ZipIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\AppDeleteIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PnpIdle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PnpWaferSkip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\12LOCK.png" />
+    <Resource Include="Images\12UNLOCK.png" />
+    <Resource Include="Images\6_8LOCK.png" />
+    <Resource Include="Images\6_8UNLOCK.png" />
+    <Resource Include="Images\COVERLOCK.png" />
+    <Resource Include="Images\COVERUNLOCK.png" />
+    <Resource Include="Images\COVERVACOFF.png" />
+    <Resource Include="Images\COVERVACON.png" />
+    <Resource Include="Images\OPENER40IN.png" />
+    <Resource Include="Images\OPENER40OUT.png" />
+    <Resource Include="Images\OPENERDOWN.png" />
+    <Resource Include="Images\OPENERUP.png" />
+    <Resource Include="Images\PLATE40IN.png" />
+    <Resource Include="Images\PLATE40OUT.png" />
+    <Resource Include="Images\PLATEIN.png" />
+    <Resource Include="Images\PLATEOUT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BlueFolder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\BeginArrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WizardBack.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WizardModify.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WizardUtility.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WizardCategorySubBackground.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WABoundaryLCSIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WizardBtn_Begin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WizardBtn_NewStart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\DeviceSetting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Apply_GrayText.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\WA_Map_AUTOMANUAL.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PNP_Setting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\JogLeftDownG.png" />
+    <Resource Include="Images\JogLeftUpG.png" />
+    <Resource Include="Images\JogRightDownG.png" />
+    <Resource Include="Images\JogRightUpG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\JogDownG.png" />
+    <Resource Include="Images\JogLeftG.png" />
+    <Resource Include="Images\JogRightG.png" />
+    <Resource Include="Images\JogUpG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\file-import_B.png" />
+    <Resource Include="Images\file-import_W.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cloud-download_B.png" />
+    <Resource Include="Images\cloud-download_W.png" />
+    <Resource Include="Images\cloud-upload_B.png" />
+    <Resource Include="Images\cloud-upload_W.png" />
+    <Resource Include="Images\feature-search-outline_B.png" />
+    <Resource Include="Images\feature-search-outline_W.png" />
+    <Resource Include="Images\feature-search_B.png" />
+    <Resource Include="Images\feature-search_W.png" />
+    <Resource Include="Images\file-download_B.png" />
+    <Resource Include="Images\file-download_W.png" />
+    <Resource Include="Images\file-find_B.png" />
+    <Resource Include="Images\file-find_W.png" />
+    <Resource Include="Images\file-plus_B.png" />
+    <Resource Include="Images\file-plus_W.png" />
+    <Resource Include="Images\file-upload_B.png" />
+    <Resource Include="Images\file-upload_W.png" />
+    <Resource Include="Images\folder-download_B.png" />
+    <Resource Include="Images\folder-download_W.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\collapse-all-outline_B.png" />
+    <Resource Include="Images\collapse-all-outline_W.png" />
+    <Resource Include="Images\minus-box-outline_B.png" />
+    <Resource Include="Images\minus-box-outline_W.png" />
+    <Resource Include="Images\plus-box-outline_B.png" />
+    <Resource Include="Images\plus-box-outline_W.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Delete_B.png" />
+    <Resource Include="Images\Delete_Forever_B.png" />
+    <Resource Include="Images\Delete_Forever_W.png" />
+    <Resource Include="Images\Delete_W.png" />
+    <Resource Include="Images\Rotation_Search_B.png" />
+    <Resource Include="Images\Rotation_Search_W.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\circle-outline.png" />
+    <Resource Include="Images\octagon-outline.png" />
+    <Resource Include="Images\octagram-outline.png" />
+    <Resource Include="Images\polygon-plus.png" />
+    <Resource Include="Images\rect-outline.png" />
+    <Resource Include="Images\rectangle-plus.png" />
+    <Resource Include="Images\vector-polygon.png" />
+    <Resource Include="Images\vector-polyline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\diamond-outline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\oval-outline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\halfoctagon-outline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\rectangle-remove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Lock.png" />
+    <Resource Include="Images\UnLock.png" />
+    <Resource Include="Images\Wafer.png" />
+    <None Include="packages.config" />
+    <None Include="Resources\SemicsBackground.bmp" />
+    <Resource Include="Images\OCRICON.png" />
+    <Resource Include="Images\clear-rect.png" />
+    <Resource Include="Images\Overlay.png" />
+    <Resource Include="Images\8InchCST.png" />
+    <Resource Include="Images\Event_Image01.png" />
+    <Resource Include="Images\Alarm_Image01.png" />
+    <Resource Include="Images\Fault_Image01.png" />
+    <Resource Include="Images\Info_Image01.png" />
+    <Resource Include="Images\SemicsBackground.png" />
+    <Resource Include="Images\Debuglog_Image0.png" />
+    <Resource Include="Images\Eventlog_Image0.png" />
+    <Resource Include="Images\Prolog_Image0.png" />
+    <Resource Include="Images\Eventlog_Image1.png" />
+    <Resource Include="Images\Prolog_Image1.png" />
+    <Resource Include="Images\Eventlog_Image2.png" />
+    <Resource Include="Images\Prolog_Image2.png" />
+    <Resource Include="Images\Prolog_Image3.png" />
+    <Resource Include="Images\BW_Minus.png" />
+    <Resource Include="Images\BW_Pluse.png" />
+    <Resource Include="Images\LanCable.png" />
+    <Resource Include="Images\Move.png" />
+    <Resource Include="Images\Cell.png" />
+    <Resource Include="Images\SemicsBackground1_2.png" />
+    <Resource Include="Images\barn.png" />
+    <Resource Include="Images\SemicsBackground1_3.png" />
+    <Resource Include="Images\ImageNotFound.bmp" />
+    <Resource Include="Images\round-rect-outline.png" />
+    <Content Include="Images\timeline_white.png" />
+    <Resource Include="Images\rect-outline-multi.png" />
+    <Resource Include="Images\direction-left.png" />
+    <Resource Include="Images\rotate-rect.png" />
+    <Resource Include="Images\numbox-multi-W.png" />
+    <Resource Include="Images\numbox-W.png" />
+    <Resource Include="Images\unmark-multi-W.png" />
+    <Resource Include="Images\unmark-W.png" />
+    <Resource Include="Images\Question.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\OcrImage.bmp" />
+    <Resource Include="Images\arrow-down-bold-outline_Black.png" />
+    <Resource Include="Images\arrow-left-bold-outline_Black.png" />
+    <Resource Include="Images\arrow-right-bold-outline_Black.png" />
+    <Resource Include="Images\arrow-up-bold-outline_Black.png" />
+    <Resource Include="Images\chevron-left.png" />
+    <Resource Include="Images\chevron-right.png" />
+    <Resource Include="Images\Clockwise_W.png" />
+    <Resource Include="Images\CounterClockwise_W.png" />
+    <Resource Include="Images\Light_minus.png" />
+    <Resource Include="Images\Light_plus.png" />
+    <Resource Include="Images\arrow-collapse-horizontal.png" />
+    <Resource Include="Images\arrow-collapse-vertical.png" />
+    <Resource Include="Images\arrow-split-horizontal.png" />
+    <Resource Include="Images\arrow-split-vertical.png" />
+    <Resource Include="Images\Apply.png" />
+    <Resource Include="Images\grid.png" />
+    <Resource Include="Images\checkbox-multi-W.png" />
+    <Resource Include="Images\checkbox-W.png" />
+    <Resource Include="Images\invert-colors.png" />
+    <Resource Include="Images\ExpanderIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\grid2.png" />
+    <Resource Include="Images\image-search.png" />
+    <Resource Include="Images\arrow-down.png" />
+    <Resource Include="Images\arrow-left.png" />
+    <Resource Include="Images\arrow-right.png" />
+    <Resource Include="Images\arrow-up.png" />
+    <Resource Include="Images\dice-5.png" />
+    <Resource Include="Images\NavPanelDown.png" />
+    <Resource Include="Images\NavPanelUP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SaveIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ExitIcon.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,101 @@
+﻿<Window x:Class="SECS_Host.View.Dialog_SendCMD"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SECS_Host.View"
+        mc:Ignorable="d"
+        Title="Dialog_SendCMD" Height="320" Width="640" Closing="Window_Closing">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="120*"/>
+                <RowDefinition Height="240*"/>
+                <RowDefinition Height="400*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button     Grid.Column="0"     Margin="8"
+                            Content="Get xls"
+                            Command="{Binding GetDataFromXLSCommand}"/>
+                <ComboBox   Grid.Column="1"     Margin="8"
+                            ItemsSource="{Binding RCMD_Collection}"
+                            DisplayMemberPath="RCMDName"
+                            SelectedValue="{Binding Path=SelectedData}">
+                </ComboBox>
+            </Grid>
+
+            <GroupBox       Grid.Row="1"        Margin="4"
+                            Header="Description">
+                <TextBox    Margin="4"          TextWrapping="Wrap"
+                            IsEnabled="False"
+                            Text="{Binding DescriptionStr}"/>
+            </GroupBox>
+
+            <DataGrid Grid.Row="2" Margin="8" AutoGenerateColumns="False"
+                      ItemsSource="{Binding Path=SelectedData.CP}"
+                      CanUserAddRows="False">
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn Header="CPNAME" IsReadOnly="True"
+                                    Binding="{Binding CPNAME}" Width="12*"/>
+                    <DataGridTextColumn Header="CPValType" IsReadOnly="True"
+                                    Binding="{Binding CPValType}" Width="6*"/>
+                    <DataGridTextColumn Header="CPVAL"
+                                    Binding="{Binding CPVal}" Width="6*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+
+            <Button Grid.Row="0" Margin="8" Content="Send CMD"
+                    Command="{Binding SendCMDCommand}"/>
+            <Button Grid.Row="1" Margin="8" Content="Send Host CMD"
+                    Command="{Binding SendHostCMDCommand}"/>
+            <GroupBox       Grid.Row="2"        Margin="4"
+                            Header="Description">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="72*"/>
+                        <RowDefinition Height="120*"/>
+                        <RowDefinition Height="160*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0"
+                           Content="DataID" VerticalAlignment="Bottom"/>
+                    <Label Grid.Row="0" Grid.Column="1" 
+                           Content="OBJSPEC" VerticalAlignment="Bottom"/>
+                    <TextBox Grid.Row="1" Grid.Column="0"
+                             Text="{Binding DataID}"
+                             Margin="8"/>
+                    <TextBox Grid.Row="1" Grid.Column="1"
+                             Text="{Binding OBJSPEC}"
+                             Margin="8"/>
+                    <Button Grid.Row="2" Margin="8"
+                            Grid.Column="0" Grid.ColumnSpan="2"
+                            Content="Enhanced Remote CMD"
+                            Command="{Binding EnhancedRemoteCMOCommand}"/>
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,244 @@
+﻿<UserControl x:Class="FoupRecoveryControl.FoupRecoveryControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FoupRecoveryControl"
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             mc:Ignorable="d" 
+             xmlns:cui="clr-namespace:CUI;assembly=CUI"
+             d:DesignHeight="792" d:DesignWidth="500">
+
+    <UserControl.Resources>
+        <vc:FoupProcedureStateToBrushConvert x:Key="conv"/>
+        <vc:FoupStateToBoolConvert x:Key="FoupStateToBoolConvert"/>
+    </UserControl.Resources>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" >
+
+            <Grid ShowGridLines="True">
+                <!--<Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="5*"/>
+                </Grid.ColumnDefinitions>-->
+
+                <ItemsControl   Grid.Column="0"
+                                ItemsSource="{Binding FoupProcedureManager.SelectedProcedureStateMaps}" >
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+
+                        <DataTemplate>
+
+                            <Grid>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="7*"/>
+                                    <RowDefinition Height="5*"/>
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Row="0" 
+                                        BorderThickness="5"
+                                        BorderBrush="{Binding ProcedureStateEnum, Converter={StaticResource conv}}"
+                                        
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Height="70"
+                                        Width="240"
+                                         >
+
+
+                                    <!--<Label  VerticalAlignment="Center" Margin="0"
+                                            HorizontalAlignment="Center"
+                                            Background="DimGray"
+                                            >-->
+                                    <TextBlock Text="{Binding Procedure.Caption}" 
+                                                   Margin="5,5,5,5"
+                                                   Background="Black"
+                                                   TextWrapping="Wrap"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   TextAlignment="Center"
+                                                   FontSize="15"
+                                                   Height="Auto"
+                                                   Width="Auto"
+                                                   >
+                                    </TextBlock>
+                                    <!--</Label>-->
+                                </Border>
+
+                                <Viewbox Visibility ="{Binding Procedure.MenuDownVisibility}" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" Height="36">
+                                    <Canvas Width="24" Height="24">
+                                        <Path Data="M7,10L12,15L17,10H7Z" Fill="White"  />
+                                    </Canvas>
+                                </Viewbox>
+
+                                <!--<Label Grid.Row="0" x:Name="label" IsEnabled="{Binding IsEnabled}" 
+                                       VerticalAlignment="Center"  
+                                       HorizontalContentAlignment="Stretch" 
+                                       Margin="8" 
+                                       Foreground="White" 
+                                       Background="DimGray" 
+                                       MinHeight="70" Width="140"/>-->
+
+
+
+                                <!--<Viewbox Visibility ="{Binding Visibility}" Grid.Row="1" Width="48" Height="48">
+                                <Canvas Width="24" Height="24">
+                                    <Path Data="M7,10L12,15L17,10H7Z" Fill="Black" />
+                                </Canvas>
+                            </Viewbox>-->
+
+                            </Grid>
+
+                        </DataTemplate>
+
+                    </ItemsControl.ItemTemplate>
+
+                </ItemsControl>
+
+
+            </Grid>
+
+
+
+        </Grid>
+
+
+
+        <StackPanel Grid.Row="2">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <!--Example-->
+                <UniformGrid  Grid.Column="0">
+                    <cui:Button  GUID="1de06aa7-ba15-493b-a6e2-f540d6199170" 
+							 Margin="5,5,5,5"
+                             CommandParameter="{Binding RelativeSource={RelativeSource Self}}"                              
+							 Command="{Binding RecoveryFastBackwardCommand}" 
+							 IsEnabled="{Binding FoupController.FoupModuleInfo.State, Converter={StaticResource FoupStateToBoolConvert}}">
+                        <Viewbox Grid.Column="0" Width="48" Height="48">
+                            <Canvas Width="24" Height="24">
+                                <Path Data="M17,5H14V19H17V5M12,5L1,12L12,19V5M22,5H19V19H22V5Z" Fill="Black" />
+                            </Canvas>
+                        </Viewbox>
+                    </cui:Button>
+                </UniformGrid>
+
+                <UniformGrid  Grid.Column="1">
+                    <cui:Button  GUID="e2945b43-bdf4-453a-90ba-2a3ca8a14e8a" 
+							 Margin="5,5,5,5"
+                             CommandParameter="{Binding RelativeSource={RelativeSource Self}}"                              
+							 Command="{Binding RecoveryPreviousCommand}" 
+							 IsEnabled="{Binding FoupController.FoupModuleInfo.State, Converter={StaticResource FoupStateToBoolConvert}}">
+                        <Viewbox Grid.Column="1" Width="48" Height="48">
+                            <Canvas Width="24" Height="24">
+                                <Path Data="M19,5V19H16V5M14,5V19L3,12" Fill="Black" />
+                            </Canvas>
+                        </Viewbox>
+                    </cui:Button>
+                </UniformGrid>
+
+                <UniformGrid  Grid.Column="2">
+                    <cui:Button  GUID="917783a8-13a7-4a81-aca6-28c3e4877063" 
+							 Margin="5,5,5,5"
+                             CommandParameter="{Binding RelativeSource={RelativeSource Self}}"                              
+							 Command="{Binding RecoveryReverseCommand}" 
+							 IsEnabled="{Binding FoupController.FoupModuleInfo.State, Converter={StaticResource FoupStateToBoolConvert}}">
+                        <Viewbox Grid.Column="2" Width="48" Height="48">
+                            <Canvas Width="24" Height="24">
+                                <Path Data="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M8,8H10V16H8M16,8V16L11,12" Fill="Black" />
+                            </Canvas>
+                        </Viewbox>
+                    </cui:Button>
+                </UniformGrid>
+
+                <UniformGrid  Grid.Column="3">
+                    <cui:Button  GUID="067fffd3-c754-42d4-a11e-f0610163d146" 
+							 Margin="5,5,5,5"
+                             CommandParameter="{Binding RelativeSource={RelativeSource Self}}"                              
+							 Command="{Binding RecoveryNextCommand}" 
+							 IsEnabled="{Binding FoupController.FoupModuleInfo.State, Converter={StaticResource FoupStateToBoolConvert}}">
+                        <Viewbox Grid.Column="3" Width="48" Height="48">
+                            <Canvas Width="24" Height="24">
+                                <Path Data="M5,5V19H8V5M10,5V19L21,12" Fill="Black" />
+                            </Canvas>
+                        </Viewbox>
+                    </cui:Button>
+                </UniformGrid>
+
+                <UniformGrid  Grid.Column="4">
+                    <cui:Button  GUID="61f0e52b-4c26-401a-9c2f-82b1ea1d6c1e" 
+							 Margin="5,5,5,5"
+                             CommandParameter="{Binding RelativeSource={RelativeSource Self}}"                              
+							 Command="{Binding RecoveryFastForwardCommand}" 
+							 IsEnabled="{Binding FoupController.FoupModuleInfo.State, Converter={StaticResource FoupStateToBoolConvert}}">
+                        <Viewbox Grid.Column="4" Width="48" Height="48">
+                            <Canvas Width="24" Height="24">
+                                <Path Data="M7,5H10V19H7V5M12,5L23,12L12,19V5M2,5H5V19H2V5Z" Fill="Black" />
+                            </Canvas>
+                        </Viewbox>
+                    </cui:Button>
+                </UniformGrid>
+                <!--ExampleEnd-->
+                <!--<Button Grid.Column="0" Margin="5,5,5,5" Command="{Binding RecoveryFastBackwardCommand}" IsEnabled="{Binding FoupController.FoupModuleInfo.State, Converter={StaticResource FoupStateToBoolConvert}}">
+                    <Viewbox Grid.Column="0" Width="48" Height="48">
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M17,5H14V19H17V5M12,5L1,12L12,19V5M22,5H19V19H22V5Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>-->
+
+                <!--<Button Grid.Column="1" Margin="5,5,5,5" Command="{Binding RecoveryPreviousCommand}" IsEnabled="{Binding FoupController.FoupModuleInfo.State, Converter={StaticResource FoupStateToBoolConvert}}">
+                    <Viewbox  Width="48" Height="48">
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M19,5V19H16V5M14,5V19L3,12" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>
+
+                <Button Grid.Column="2" Margin="5,5,5,5" Command="{Binding RecoveryReverseCommand}" IsEnabled="{Binding FoupController.FoupModuleInfo.State, Converter={StaticResource FoupStateToBoolConvert}}">
+                    <Viewbox  Width="48" Height="48">
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M8,8H10V16H8M16,8V16L11,12" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>
+
+                <Button Grid.Column="3" Margin="5,5,5,5" Command="{Binding RecoveryNextCommand}" IsEnabled="{Binding FoupController.FoupModuleInfo.State, Converter={StaticResource FoupStateToBoolConvert}}">
+                    <Viewbox  Width="48" Height="48">
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M5,5V19H8V5M10,5V19L21,12" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>
+
+                <Button Grid.Column="4" Margin="5,5,5,5" Command="{Binding RecoveryFastForwardCommand}" IsEnabled="{Binding FoupController.FoupModuleInfo.State, Converter={StaticResource FoupStateToBoolConvert}}">
+                    <Viewbox  Width="48" Height="48">
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M7,5H10V19H7V5M12,5L23,12L12,19V5M2,5H5V19H2V5Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>-->
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

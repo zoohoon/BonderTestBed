@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="UcExtraCameraDialogView.LineDrawerCanvas"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UcExtraCameraDialogView"
+             xmlns:vs="clr-namespace:ValueConverters;assembly=ValueConverters"
+             mc:Ignorable="d" 
+             SizeChanged="Canvas_SizeChanged"
+             MouseDown="UserControl_MouseDown"
+             MouseUp="UserControl_MouseUp"
+             d:DesignHeight="460" d:DesignWidth="460">
+    <UserControl.Resources>
+        <vs:PositionAdjustmentConverter x:Key="PositionAdjustmentConverter"/>
+        <vs:RelPosCalConvert x:Key="RelPosCalConvert"/>
+    </UserControl.Resources>
+
+    <Canvas MouseMove="Canvas_MouseMove"
+            HorizontalAlignment="Stretch"
+            Background="Transparent"
+            VerticalAlignment="Stretch"
+            >
+        <Line IsHitTestVisible="False"
+            X1="{Binding LineFromCenterToMouse.StartPoint.X}" 
+            Y1="{Binding LineFromCenterToMouse.StartPoint.Y}"
+            X2="{Binding LineFromCenterToMouse.EndPoint.X}" 
+            Y2="{Binding LineFromCenterToMouse.EndPoint.Y}"
+            Stroke="Red" StrokeThickness="2"
+             MouseDown="UserControl_MouseDown"
+             MouseUp="UserControl_MouseUp"
+              />
+        <TextBlock 
+            Foreground="White"
+            Canvas.Left="{Binding LineFromCenterToMouse.EndPoint.X,
+            Converter={StaticResource PositionAdjustmentConverter},
+            ConverterParameter=10}"
+            Canvas.Top="{Binding LineFromCenterToMouse.EndPoint.Y,
+            Converter={StaticResource PositionAdjustmentConverter},
+            ConverterParameter=-10}"
+             MouseDown="UserControl_MouseDown"
+             MouseUp="UserControl_MouseUp"
+           >
+            <TextBlock.Text >
+                <MultiBinding Converter="{StaticResource RelPosCalConvert}">
+                    <Binding Path="LineFromCenterToMouse.StartPoint"/>
+                    <Binding Path="LineFromCenterToMouse.EndPoint"/>
+                    <Binding Path="XPosRate"/>
+                    <Binding Path="YPosRate"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+    </Canvas>
+</UserControl>

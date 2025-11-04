@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D962BC4B-2925-4664-992F-BC5043C86BC6}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>BonderSystem</RootNamespace>
+    <AssemblyName>BonderSystem</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="ControlzEx">
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro">
+      <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net47\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.MahApps">
+      <HintPath>..\packages\MaterialDesignThemes.MahApps.0.1.0\lib\net45\MaterialDesignThemes.MahApps.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.6.0.325, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MaterialDesignThemes.2.6.0\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Drawing">
+      <HintPath>..\packages\Microsoft.Expression.Drawing.3.0.0\lib\net45\Microsoft.Expression.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows.Presentation" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework">
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Assist\ShadowAssist.cs" />
+    <Compile Include="Assist\ToggleButtonAssist.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AccountModule\AccountModule.csproj">
+      <Project>{4d2007eb-9874-4024-8986-3209415ad660}</Project>
+      <Name>AccountModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CUIService\CUIService.csproj">
+      <Project>{822fab06-827f-4cde-87da-469aacad3660}</Project>
+      <Name>CUIService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CUIToolTip\CUIToolTip.csproj">
+      <Project>{095540b2-5028-4def-ab3a-cf24b1af845c}</Project>
+      <Name>CUIToolTip</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CUI\CUI.csproj">
+      <Project>{3c5e49e6-7976-45be-aba3-c245b5317b4d}</Project>
+      <Name>CUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataTemplateService\DataTemplateService.csproj">
+      <Project>{acd1c295-f7e7-4bab-aac4-2de2df4b9905}</Project>
+      <Name>DataTemplateService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DutEditorView\ucDutViewer.csproj">
+      <Project>{0e8eb5f9-ee95-4e4d-a896-b6074b1f05e1}</Project>
+      <Name>ucDutViewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DutViewer\DutViewer.csproj">
+      <Project>{a1e82ecb-6854-4792-9936-a70754e7ecee}</Project>
+      <Name>DutViewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FocusingControl\FocusingControl.csproj">
+      <Project>{9fa03069-97db-47e5-ad49-4eb8aa6bca73}</Project>
+      <Name>FocusingControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HighMagAdvanceSetup\HighMagAdvanceSetup.csproj">
+      <Project>{d2fe6846-269e-423c-9b4a-bdd2f4c1e572}</Project>
+      <Name>HighMagAdvanceSetup</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImageResourcePack\ImageResourcePack.csproj">
+      <Project>{73d2898a-fb92-408f-bad9-d0a049cae7e9}</Project>
+      <Name>ImageResourcePack</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LightJog\LightJog.csproj">
+      <Project>{c1bd4a8e-c666-49ca-bb0c-f7f6d6c3d466}</Project>
+      <Name>LightJog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderFactory\LoaderFactory.csproj">
+      <Project>{8475fcd1-c9d7-455d-b2f0-96380263fd73}</Project>
+      <Name>LoaderFactory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{d3b00cca-3c50-42b1-8dca-dfe47c759b57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroDialogInterfaces\MetroDialogInterfaces.csproj">
+      <Project>{2c3114e3-137b-44ed-a9c2-ba5f2198a672}</Project>
+      <Name>MetroDialogInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModuleFactory\ModuleFactory.csproj">
+      <Project>{3115c8bd-3126-4fa5-ba83-03462b88e604}</Project>
+      <Name>ModuleFactory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NavPanelControl\NavPanelControl.csproj">
+      <Project>{fca3cb85-30f8-4e4f-8a1a-c506dd6dde22}</Project>
+      <Name>NavPanelControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NotifyEventModule\NotifyEventModule.csproj">
+      <Project>{40f3e74a-35b7-417c-9118-ee5db75340a6}</Project>
+      <Name>NotifyEventModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpusVStageMove\OpusVStageMove.csproj">
+      <Project>{30ac08f8-0655-49e6-8455-cc0b4b9bc945}</Project>
+      <Name>OpusVStageMove</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{edba3295-ff2a-4368-a217-6495941a8bf5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberSystem\ProberSystem.csproj">
+      <Project>{a61a114e-b263-4732-84d8-494319d54d13}</Project>
+      <Name>ProberSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberViewModel\ProberViewModel.csproj">
+      <Project>{c7d1f978-d3ae-49af-9a4b-09337bcbfae9}</Project>
+      <Name>ProberViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RelayCommandBase\RelayCommandBase.csproj">
+      <Project>{348522c5-8377-4d66-96f3-5d7da3d7762b}</Project>
+      <Name>RelayCommandBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SchedulerStandardModule\SchedulerStandardModule.csproj">
+      <Project>{5a46cfba-c80d-4c44-ac05-743381e0b67d}</Project>
+      <Name>SchedulerStandardModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SequenceRunnerBehaviors\SequenceRunnerBehaviors.csproj">
+      <Project>{ec7b7e56-37c3-44ab-b48d-45ec42440c09}</Project>
+      <Name>SequenceRunnerBehaviors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SideViewer\UcSideViewer.csproj">
+      <Project>{8760a376-2cba-49e0-b5bb-1457abee35af}</Project>
+      <Name>UcSideViewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Splasher\SplasherService.csproj">
+      <Project>{f43ad2a3-262c-44c9-80dd-4aa929720fe1}</Project>
+      <Name>SplasherService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SplashWindowControl\SplashWindowControl.csproj">
+      <Project>{9c74c3d5-6cc5-459d-aaae-2ba93f8d4c91}</Project>
+      <Name>SplashWindowControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UcDisplayPort\UcDisplayPort.csproj">
+      <Project>{fba75c26-7e9c-4e69-a6cb-1a6110e76805}</Project>
+      <Name>UcDisplayPort</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UIElementDropBebavior\DragAndDropBehavior.csproj">
+      <Project>{357c8e10-3cc7-4e54-9da8-2a04189d68f9}</Project>
+      <Name>DragAndDropBehavior</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ValueConverters\ValueConverters.csproj">
+      <Project>{90e38e59-8fea-4da7-937f-888390b913c3}</Project>
+      <Name>ValueConverters</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,3 @@
+﻿GemCommandProcessor는 GEM Module의 Core 기능을 구현하고 있습니다.
+Messeg 분석 후 처리, 중계기, 명령 할당의 역할을 하고 있습니다.
+Group Prober의 Loader에서 주로 사용할 것입니다.

@@ -1,0 +1,314 @@
+﻿<UserControl x:Class="LuncherListViewModule.LuncherListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LuncherListViewModule"
+             xmlns:aniScroll="clr-namespace:UcAnimationScrollViewer;assembly=UcAnimationScrollViewer"
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+              xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             mc:Ignorable="d" x:Name="window">
+
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--<ResourceDictionary Source="/SciChart.Examples.ExternalDependencies;component/Resources/Styles/MergedResources.xaml"/>
+                <ResourceDictionary Source="/SciChart.Examples.ExternalDependencies;component/Resources/Styles/ToolbarButtonsCommon.xaml"/>-->
+            </ResourceDictionary.MergedDictionaries>
+            <vc:SubsStatusToValueConverter x:Key="StatusToColorConv" />
+            <vc:StageStateToValueConverter x:Key="StageStateToValueConverter" />
+            <vc:StageStateToValueTextConverter x:Key="StageStateToValueTextConverter" />
+            <vc:EnumWaferStatusTextConverter x:Key="StatusToTextConv" />
+
+            <vc:EnumGPLoaderWaferStatusTextColorConverter x:Key="EnumGPLoaderWaferStatusTextColorConverter" />
+            <local:ListViewConverter x:Key="ListViewConverter"/>
+            <local:CellObjectForeGroundConverter x:Key="CellObjectForeGroundConverter"/>
+            <local:VisibleDriveObjectForeGroundConverter x:Key="VisibleDriveObjectForeGroundConverter"/>
+            <local:HiddenDriveObjectForeGroundConverter x:Key="HiddenDriveObjectForeGroundConverter"/>
+            <Style x:Key="PieChartListBoxForegroundStyle" TargetType="ListBox">
+                <Setter Property="Foreground" Value="#FFDFE0E6"/>
+                <Setter Property="Background" Value="DarkGray" />
+            </Style>
+
+            <vc:LotStateToStringConverter x:Key="BtoVConv" />
+            <vc:LotStateToStringConverter2 x:Key="BtoVConv2" />
+            <vc:ProbingStateToConverter x:Key="BtoVConv3" />
+            <vc:StageLoaderErrorStateCon x:Key="StageLoaderErrorStateConv"/>
+            <vc:ViewTargetConverter x:Key="ViewTargetConverter"/>
+            
+            <DataTemplate x:Key="OutsideLabelDataTemplate" DataType="s:IPieSegmentViewModel">
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="14" Foreground="#FFDFE0E6" Text="{Binding Name}"/>
+                    <TextBlock 
+                               FontSize="14"
+                               Foreground="#FFDFE0E6"
+                               Text="{Binding Percentage,
+                                              StringFormat={}{0:#.##}%}" />
+                </StackPanel>
+
+            </DataTemplate>
+
+            <DataTemplate x:Key="InsideLabelDataTemplate" DataType="s:IPieSegmentViewModel">
+                <TextBlock FontSize="14"
+                           FontWeight="Bold"
+                           Foreground="#FF1C1C1F"
+                           Text="{Binding Percentage,
+                                          StringFormat={}{0:#.##}%}" />
+            </DataTemplate>
+            <Style x:Key="StatusLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Foreground" Value="DimGray"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="BorderBrush" Value="DimGray"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Height" Value="36"/>
+                <Setter Property="Width" Value="120"/>
+            </Style>
+            <Style x:Key="ModuleNameLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <!--<Setter Property="Foreground" Value="White"/>-->
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="BorderBrush" Value="White"/>
+                <Setter Property="BorderThickness" Value="0"/>
+            </Style>
+
+            <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+            <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+            <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+            <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+            <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+            <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+            <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+            <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+
+            <Style x:Key="UpButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid Opacity="0.5">
+                                <Border Name="UpButtonBorderStyle" Background="#333333">
+                                    <Border.BitmapEffect>
+                                        <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                    Color="LightGray" 
+                                    ShadowDepth="10"
+                                    Softness="0.5"
+                                    />
+                                    </Border.BitmapEffect>
+                                </Border>
+                                <Viewbox Margin="8">
+                                    <Path Data="M1,21H23L12,2" Fill="White" Name="TryAngleIcon"/>
+                                </Viewbox>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsDefaulted" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="UpButtonBorderStyle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true"/>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Fill" TargetName="TryAngleIcon" Value="{StaticResource Button.Pressed.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="UpButtonBorderStyle" Value="{StaticResource Button.Disabled.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="UpButtonBorderStyle" Value="{StaticResource Button.Disabled.Border}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="DwButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid Opacity="0.5">
+                                <Border Name="DwButtonBorderStyle" Background="#333333">
+                                    <Border.BitmapEffect>
+                                        <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                    Color="LightGray" 
+                                    ShadowDepth="10"
+                                    Softness="0.5"/>
+                                    </Border.BitmapEffect>
+                                </Border>
+                                <Viewbox Margin="8">
+                                    <Path Data="M1,2H23L12,21"
+                                          Fill="White" Name="TryAngleIcon"
+                                          />
+                                </Viewbox>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsDefaulted" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="DwButtonBorderStyle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true"/>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Fill" TargetName="TryAngleIcon" Value="{StaticResource Button.Pressed.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="DwButtonBorderStyle" Value="{StaticResource Button.Disabled.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="DwButtonBorderStyle" Value="{StaticResource Button.Disabled.Border}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+    <Grid Margin="0,0,2,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.8*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Border Grid.RowSpan="3" BorderBrush="WhiteSmoke" BorderThickness="0.6"/>
+
+        <aniScroll:AnimationScrollViewer x:Name="svCategoryLuncherView" Grid.Row="1"
+                          VerticalScrollBarVisibility="Hidden"
+                          HorizontalScrollBarVisibility="Hidden" Visibility="{Binding LauncherListViewVisibility}">
+            <ListView Grid.Row="1"  x:Name="LaunchersListView" ItemsSource="{Binding MultiLaunchers}" Background="#FF2C2C2F" 
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" VerticalAlignment="Top">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding Path=DataContext.ObjectClickCommand, ElementName=window}" >
+                            <i:InvokeCommandAction.CommandParameter>
+                                <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                    <Binding ElementName="LaunchersListView"/>
+                                    <Binding ElementName="LaunchersListView" Path="SelectedIndex"/>
+                                    <Binding ElementName="LaunchersListView" Path="SelectedItem"/>
+                                </MultiBinding>
+                            </i:InvokeCommandAction.CommandParameter>
+                        </i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                        <Setter Property="IsEnabled" Value="{Binding IsEnableTransfer, Mode=TwoWay}"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="1"></UniformGrid>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <Border BorderBrush="DimGray" BorderThickness="1">
+                            <Grid Height="180" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0.8*" />
+                                    <RowDefinition Height="3*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Rectangle Fill="Transparent">
+                                </Rectangle>
+                                <Image Grid.Row="1" Stretch="UniformToFill" Margin="0,8,0,0"  Width="84" Height="84" Visibility="{Binding IsConnected, Mode=OneWay, Converter={StaticResource HiddenDriveObjectForeGroundConverter}}">
+                                    <Image.Source>
+                                        <BitmapImage UriSource="./Resources/Computer.png"  />
+                                    </Image.Source>
+                                </Image>
+                                <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" Width="360" VerticalAlignment="Top" ItemsSource="{Binding LauncherDiskObjectCollection}" Visibility="{Binding IsConnected, Mode=OneWay, Converter={StaticResource VisibleDriveObjectForeGroundConverter}}">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Drive" DisplayMemberBinding="{Binding DriveName}"/>
+                                            <GridViewColumn Header="Usage(%)" DisplayMemberBinding="{Binding Percent}"/>
+                                            <GridViewColumn Header="Available(GB)" DisplayMemberBinding="{Binding AvailableSpace}"/>
+                                            <GridViewColumn Header="Total(GB)" DisplayMemberBinding="{Binding TotalSpace}"/>
+                                            <!--<Label Grid.Column="0" BorderBrush="White" Content="{Binding DriveName}"/>
+                                            <Label Grid.Column="1" BorderBrush="White" >Drive</Label>
+                                            <ProgressBar  Grid.Column="2" Minimum="0" Maximum="100" Value="{Binding Percent}" Name="Disk"/>
+                                            <TextBlock Text="{Binding ElementName=Disk, Path=Value, StringFormat={}{0:0}%}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            <Label Grid.Column="3" BorderBrush="White" Content="{Binding AvailableSpace}"/>
+                                            <Label Grid.Column="4" BorderBrush="White">GB</Label>
+                                            <Label Grid.Column="5" BorderBrush="White" Content="{Binding TotalSpace}"/>
+                                            <Label Grid.Column="6" BorderBrush="White">/ GB</Label>-->
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                                <Label Grid.Row="2" Content="{Binding Name}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" 
+                                       Style="{StaticResource ModuleNameLabelStyle}" 
+                                       Foreground="{Binding IsConnected, Mode=OneWay, Converter={StaticResource CellObjectForeGroundConverter}}"/>
+
+                                <CheckBox AutomationProperties.AutomationId="cbLauncherCheck"
+                                          Width="44" Height="44" VerticalAlignment="Top" HorizontalAlignment="Left" BorderBrush="White"
+                                          Margin="10,0,0,0"
+                                          IsChecked="{Binding IsChecked}"/>
+
+                                <Viewbox VerticalAlignment="Top" HorizontalAlignment="Right" Margin="4" Height="26" Width="26">
+                                    <materialDesign:PackIcon Kind="LanConnect" 
+                                         Foreground="{Binding IsConnected, Mode=OneWay, Converter={StaticResource CellObjectForeGroundConverter}}"
+                                         />
+                                </Viewbox>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+        </aniScroll:AnimationScrollViewer>
+        <Label Margin="4,0,4,4" Content="Launcher" Foreground="WhiteSmoke" FontSize="30" 
+                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                   FontWeight="DemiBold" BorderBrush="WhiteSmoke" BorderThickness="0.6">
+            </Label>
+        <Button HorizontalAlignment="Right" Width="48" Height="48" Margin="10" 
+                            Command="{Binding GetDriveInfoCommand}">
+            <Image Stretch="Fill" Width="38" Height="38" Source="./Resources/updatedriveInfo.png" />
+        </Button>
+        <!--<Button Background="Transparent" Style="{x:Null}" Margin="8" Width="100" BorderThickness="0" Command="{Binding ToggleCellLuncherCommand}"/>-->
+
+        <CheckBox AutomationProperties.AutomationId="cbSelectedAll"
+                  Margin="16,4" Width="44" Height="44" VerticalAlignment="Top" HorizontalAlignment="Left" BorderBrush="White"
+                  IsChecked="{Binding SelectedAllLaunchers, Mode=TwoWay}"/>
+        
+        
+        <Border Grid.Row="2" BorderBrush="WhiteSmoke" BorderThickness="0.6" Margin="0,0,0,4">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button AutomationProperties.AutomationId="btnUp"
+                        Grid.Column="0"
+                        Margin="12"
+                        Opacity="0.5"
+                        Style="{StaticResource UpButtonStyle}"
+                        Click="StageListUpBtnClick"/>
+
+                <Button AutomationProperties.AutomationId="btnDown"
+                        Grid.Column="2"
+                        Margin="12"
+                        Opacity="0.5"
+                        Style="{StaticResource DwButtonStyle}"
+                        Click="StageListDownBtnClick"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

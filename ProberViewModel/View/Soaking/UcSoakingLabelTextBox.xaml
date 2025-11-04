@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="SoakingSettingView.UcSoakingLabelTextBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:SoakingSettingView"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="800" x:Name="LabelTextBox" >
+    <Grid Margin="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="{Binding TextWidth, ElementName =LabelTextBox}"/>
+            <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
+        <!--<Label Grid.Column="0" Content="{Binding Tag, ElementName=LabelTextBox}"  Margin="0" Padding="0" Foreground="{Binding Path=Foreground, ElementName=LabelTextBox}"/>
+        <TextBox Grid.Column="1" Text="{Binding Text, ElementName=LabelTextBox}"  Margin="0" Padding="0" TextAlignment="Center"/>
+        <Label Grid.Column="2" Content="{Binding EndTag, ElementName=LabelTextBox}"  Margin="0" Padding="0" Foreground="{Binding Path=Foreground, ElementName=LabelTextBox}"/>-->
+        <TextBlock Grid.Column="0" Text="{Binding Tag, ElementName=LabelTextBox}"  Margin="0" Padding="0" 
+               Foreground="{Binding Path=Foreground, ElementName=LabelTextBox}" 
+               FontSize="{Binding Path=FontSize, ElementName=LabelTextBox}"               
+               VerticalAlignment="Center"                   TextWrapping="Wrap"
+               >
+            
+        </TextBlock>
+        <Border Grid.Column="1" BorderThickness="1" BorderBrush="LightGray">
+            <TextBox  Text="{Binding Text, ElementName=LabelTextBox}" 
+                 Margin="0" Padding="0" TextAlignment="Center" 
+                 Foreground="{Binding Path=Foreground, ElementName=LabelTextBox}"
+                 FontSize="{Binding Path=FontSize, ElementName=LabelTextBox}" 
+                 VerticalContentAlignment="Center" ToolTip="{Binding ToolTipMessage, ElementName=LabelTextBox}" ToolTipService.IsEnabled="True">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewMouseDown" >
+                        <i:InvokeCommandAction Command="{Binding DataContext.OnScreenIntegerKeyboard, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}"
+                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+            </TextBox>
+        </Border>
+        <Label Grid.Column="2" Content="{Binding EndTag, ElementName=LabelTextBox}" 
+               Margin="4,0,0,0" Padding="0" 
+               Foreground="{Binding Path=Foreground, ElementName=LabelTextBox}"
+               FontSize="{Binding Path=FontSize, ElementName=LabelTextBox}" 
+               VerticalContentAlignment="Center"/>
+    </Grid>
+</UserControl>

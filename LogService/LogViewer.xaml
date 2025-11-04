@@ -1,0 +1,121 @@
+﻿<UserControl x:Class="LogService.LogViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LogService"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="640" d:DesignWidth="300">
+    <materialDesign:DrawerHost Name="Drawer">
+        <!--<materialDesign:DrawerHost.TopDrawerContent>
+            <Grid Height="480">
+                <ListView ItemsSource="{Binding FilteredLogInfos}" 
+                  Name="FilteredLogView" 
+                  VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="ToolTip" Value="{Binding FormattedMessage}" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding TimeStamp}" TextWrapping="Wrap" FontSize="15" Margin="4"/>
+                                <TextBlock Text="|" TextWrapping="Wrap" FontSize="15" Margin="4"/>
+                                <TextBlock Text="{Binding Level}" TextWrapping="Wrap" FontSize="15" Margin="4"/>
+                                <TextBlock Text="|" TextWrapping="Wrap" FontSize="15" Margin="4"/>
+                                <TextBlock Text="{Binding FormattedMessage}" TextWrapping="Wrap" FontSize="15" Margin="4"/>
+                            </StackPanel>
+
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </materialDesign:DrawerHost.TopDrawerContent>-->
+        
+        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ListView ItemsSource="{Binding Collection}" 
+                  Name="logView" 
+                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Top"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="ToolTip" Value="{Binding FormattedMessage}" />
+                        <!--<Setter Property="Background" Value="{Binding Level, Converter={StaticResource LogItemBgColorConverter}}" />
+                    <Setter Property="Foreground" Value="{Binding Level, Converter={StaticResource LogItemFgColorConverter}}" />-->
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding TimeStamp}" TextWrapping="Wrap" FontSize="15" Margin="4"/>
+                            <TextBlock Text="|" TextWrapping="Wrap" FontSize="15" Margin="4"/>
+                            <TextBlock Text="{Binding Level}" TextWrapping="Wrap" FontSize="15" Margin="4"/>
+                            <TextBlock Text="|" TextWrapping="Wrap" FontSize="15" Margin="4"/>
+                            <TextBlock Text="{Binding FormattedMessage}" TextWrapping="Wrap" FontSize="15" Margin="4"/>
+                        </StackPanel>
+
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <!--<ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn DisplayMemberBinding="{Binding Level}" 
+                                        Width="60" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=TimeStamp, StringFormat=yyyy/MM/dd HH:mm:ss}"
+                                        Width="Auto" />
+                        <GridViewColumn DisplayMemberBinding="{Binding FormattedMessage}" 
+                                        Width="Auto"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding Exception}" 
+                                        Width="Auto"/>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>-->
+            </ListView>
+            <ListView ItemsSource="{Binding FilteredLogInfos}" 
+                  Name="FilteredLogView" 
+                  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="ToolTip" Value="{Binding FormattedMessage}" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding TimeStamp}" TextWrapping="Wrap" FontSize="15" Margin="4"/>
+                            <TextBlock Text="|" TextWrapping="Wrap" FontSize="15" Margin="4"/>
+                            <TextBlock Text="{Binding Level}" TextWrapping="Wrap" FontSize="15" Margin="4"/>
+                            <TextBlock Text="|" TextWrapping="Wrap" FontSize="15" Margin="4"/>
+                            <TextBlock Text="{Binding FormattedMessage}" TextWrapping="Wrap" FontSize="15" Margin="4"/>
+                        </StackPanel>
+
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="1"  HorizontalAlignment="Left">
+                <materialDesign:PackIcon Kind="AccountSearch" Margin="4" 
+                                         Foreground="WhiteSmoke"
+                                         VerticalAlignment="Center" Height="32" Width="32"/>
+                <TextBox materialDesign:HintAssist.Hint="Search" Name="SearchTextBox"
+                         Text="{Binding Path=SearchKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         materialDesign:HintAssist.IsFloating="True" Foreground="White"
+                         Width="256" Margin="4" VerticalAlignment="Center" >
+                </TextBox>
+            </StackPanel>
+
+        </Grid>
+    </materialDesign:DrawerHost>
+</UserControl>

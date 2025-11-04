@@ -1,0 +1,1506 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="WaferMapGenerate" xml:space="preserve">
+    <value>硅片地图生成</value>
+  </data>
+  <data name="ChangeCoord" xml:space="preserve">
+    <value>改变坐标</value>
+  </data>
+  <data name="MultiSelectionEnable" xml:space="preserve">
+    <value>多选择启用</value>
+  </data>
+  <data name="CoordInfo" xml:space="preserve">
+    <value>坐标信息</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>zh-cn</value>
+  </data>
+  <data name="ManualTeach" xml:space="preserve">
+    <value>手册教</value>
+  </data>
+  <data name="WaferEdgeData" xml:space="preserve">
+    <value>硅片边缘数据</value>
+  </data>
+  <data name="WaferMapStatus" xml:space="preserve">
+    <value>硅片地图状况</value>
+  </data>
+  <data name="AddPattern" xml:space="preserve">
+    <value>添加模式</value>
+  </data>
+  <data name="AlignPatternStatus" xml:space="preserve">
+    <value>对齐模式状态</value>
+  </data>
+  <data name="AutoSearch" xml:space="preserve">
+    <value>自动搜索</value>
+  </data>
+  <data name="DeleteAllPad" xml:space="preserve">
+    <value>删除所有垫</value>
+  </data>
+  <data name="DeletePad" xml:space="preserve">
+    <value>删除垫</value>
+  </data>
+  <data name="DeleteSelectedPattern" xml:space="preserve">
+    <value>删除选定的模式</value>
+  </data>
+  <data name="RegisteredPad" xml:space="preserve">
+    <value>注册的垫</value>
+  </data>
+  <data name="RegisterPad" xml:space="preserve">
+    <value>注册垫</value>
+  </data>
+  <data name="TeachBottomLeft" xml:space="preserve">
+    <value>教左下角</value>
+  </data>
+  <data name="TeachingCross" xml:space="preserve">
+    <value>教学交叉</value>
+  </data>
+  <data name="TeachUpperRight" xml:space="preserve">
+    <value>教右上角</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存设置</value>
+  </data>
+  <data name="ARM1_NoWafer" xml:space="preserve">
+    <value>..\Resources\ARM1_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM1_W" xml:space="preserve">
+    <value>..\Resources\ARM1_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM2_NoWafer" xml:space="preserve">
+    <value>..\Resources\ARM2_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM2_W" xml:space="preserve">
+    <value>..\Resources\ARM2_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowDown" xml:space="preserve">
+    <value>..\Resources\ArrowDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeft" xml:space="preserve">
+    <value>..\Resources\ArrowLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeftG" xml:space="preserve">
+    <value>..\Resources\ArrowLeftG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeftW" xml:space="preserve">
+    <value>..\Resources\ArrowLeftW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRight" xml:space="preserve">
+    <value>..\Resources\ArrowRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRightG" xml:space="preserve">
+    <value>..\Resources\ArrowRightG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRightW" xml:space="preserve">
+    <value>..\Resources\ArrowRightW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowUp" xml:space="preserve">
+    <value>..\Resources\ArrowUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Chuck_NoWafer" xml:space="preserve">
+    <value>..\Resources\Chuck_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Chuck_W" xml:space="preserve">
+    <value>..\Resources\Chuck_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Clockwise" xml:space="preserve">
+    <value>..\Resources\Clockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordLeftDown" xml:space="preserve">
+    <value>..\Resources\CoordLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordLeftUp" xml:space="preserve">
+    <value>..\Resources\CoordLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordRightDown" xml:space="preserve">
+    <value>..\Resources\CoordRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordRightUp" xml:space="preserve">
+    <value>..\Resources\CoordRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CounterClockwise" xml:space="preserve">
+    <value>..\Resources\CounterClockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ExtendHeight" xml:space="preserve">
+    <value>..\Resources\ExtendHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ExtendWidth" xml:space="preserve">
+    <value>..\Resources\ExtendWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FixedTray_NoWafer" xml:space="preserve">
+    <value>..\Resources\FixedTray_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FixedTray_W" xml:space="preserve">
+    <value>..\Resources\FixedTray_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Minus" xml:space="preserve">
+    <value>..\Resources\Minus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Plus" xml:space="preserve">
+    <value>..\Resources\Plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PreAligner_NoWafer" xml:space="preserve">
+    <value>..\Resources\PreAligner_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PreAligner_W" xml:space="preserve">
+    <value>..\Resources\PreAligner_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReduceHeight" xml:space="preserve">
+    <value>..\Resources\ReduceHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReduceWidth" xml:space="preserve">
+    <value>..\Resources\ReduceWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CheckOperationParameter" xml:space="preserve">
+    <value>检查操作参数</value>
+  </data>
+  <data name="CheckProbeMark" xml:space="preserve">
+    <value>检查探针标记</value>
+  </data>
+  <data name="CheckRecipe" xml:space="preserve">
+    <value>检查食谱</value>
+  </data>
+  <data name="CleanPadChange" xml:space="preserve">
+    <value>清洁垫变化</value>
+  </data>
+  <data name="CopyRecipe" xml:space="preserve">
+    <value>复制食谱</value>
+  </data>
+  <data name="CreateNewRecipe" xml:space="preserve">
+    <value>创建一个新的食谱</value>
+  </data>
+  <data name="DeleteRecipe" xml:space="preserve">
+    <value>删除食谱</value>
+  </data>
+  <data name="Diagonostics" xml:space="preserve">
+    <value>Diagonostics</value>
+  </data>
+  <data name="DownloadRecipe" xml:space="preserve">
+    <value>下载食谱</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>信息</value>
+  </data>
+  <data name="LoadRecipe" xml:space="preserve">
+    <value>负载食谱</value>
+  </data>
+  <data name="LogManagement" xml:space="preserve">
+    <value>日志管理</value>
+  </data>
+  <data name="LOTMENU" xml:space="preserve">
+    <value>很多菜单</value>
+  </data>
+  <data name="MENU" xml:space="preserve">
+    <value>菜单</value>
+  </data>
+  <data name="NeedleCleaning" xml:space="preserve">
+    <value>清洗的针</value>
+  </data>
+  <data name="OPERATION" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="PolishWaferChange" xml:space="preserve">
+    <value>波兰硅片变化</value>
+  </data>
+  <data name="ProbeCardChange" xml:space="preserve">
+    <value>探针卡变化</value>
+  </data>
+  <data name="SETUP" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="SetupLotProcess" xml:space="preserve">
+    <value>安装很多过程</value>
+  </data>
+  <data name="SetupOperationParameter" xml:space="preserve">
+    <value>安装操作参数</value>
+  </data>
+  <data name="SetupRecipe" xml:space="preserve">
+    <value>安装程序食谱</value>
+  </data>
+  <data name="ShutDown" xml:space="preserve">
+    <value>关机</value>
+  </data>
+  <data name="SYSTEM" xml:space="preserve">
+    <value>系统</value>
+  </data>
+  <data name="UserAccount" xml:space="preserve">
+    <value>用户帐户</value>
+  </data>
+  <data name="WaferLoadUnload" xml:space="preserve">
+    <value>硅片加载/卸载</value>
+  </data>
+  <data name="Recipe" xml:space="preserve">
+    <value>食谱</value>
+  </data>
+  <data name="Best" xml:space="preserve">
+    <value>最佳</value>
+  </data>
+  <data name="Chuck" xml:space="preserve">
+    <value>查克</value>
+  </data>
+  <data name="CST1" xml:space="preserve">
+    <value>盒式 1</value>
+  </data>
+  <data name="CST2" xml:space="preserve">
+    <value>盒式 2</value>
+  </data>
+  <data name="CurProcess" xml:space="preserve">
+    <value>当前进程</value>
+  </data>
+  <data name="CurrentValue" xml:space="preserve">
+    <value>当前图表</value>
+  </data>
+  <data name="CurYield" xml:space="preserve">
+    <value>收益</value>
+  </data>
+  <data name="DeviceName" xml:space="preserve">
+    <value>设备名称</value>
+  </data>
+  <data name="FailDieCnt" xml:space="preserve">
+    <value>不死</value>
+  </data>
+  <data name="Hand1" xml:space="preserve">
+    <value>手 1</value>
+  </data>
+  <data name="Hand2" xml:space="preserve">
+    <value>手 2</value>
+  </data>
+  <data name="HoldingTime" xml:space="preserve">
+    <value>保温时间</value>
+  </data>
+  <data name="InspectionTray" xml:space="preserve">
+    <value>抽屉</value>
+  </data>
+  <data name="LotName" xml:space="preserve">
+    <value>很多名称</value>
+  </data>
+  <data name="LotSetup" xml:space="preserve">
+    <value>很多运行安装程序</value>
+  </data>
+  <data name="OPName" xml:space="preserve">
+    <value>操作员姓名</value>
+  </data>
+  <data name="OverHeat" xml:space="preserve">
+    <value>过热</value>
+  </data>
+  <data name="PassDieCnt" xml:space="preserve">
+    <value>通过模具</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>暂停</value>
+  </data>
+  <data name="RetestYield" xml:space="preserve">
+    <value>重新测试产量</value>
+  </data>
+  <data name="RunningTime" xml:space="preserve">
+    <value>运行时间</value>
+  </data>
+  <data name="SettingValue" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>开始</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>开始时间</value>
+  </data>
+  <data name="StopAfterFirstProbe" xml:space="preserve">
+    <value>停止后第一个探测器</value>
+  </data>
+  <data name="StopAfterLoadCST" xml:space="preserve">
+    <value>停止后负荷 CST</value>
+  </data>
+  <data name="StopAfterOCRProcess" xml:space="preserve">
+    <value>在 OCR 过程后停止</value>
+  </data>
+  <data name="StopAfterProbe" xml:space="preserve">
+    <value>在探头后停止</value>
+  </data>
+  <data name="StopAfterWaferLoad" xml:space="preserve">
+    <value>在硅片负载后停止</value>
+  </data>
+  <data name="StopBeforeProbe" xml:space="preserve">
+    <value>在探测器前停止</value>
+  </data>
+  <data name="StopBeforeRetest" xml:space="preserve">
+    <value>在复试前停止</value>
+  </data>
+  <data name="SubChuck" xml:space="preserve">
+    <value>子卡盘</value>
+  </data>
+  <data name="totalTestDieCnt" xml:space="preserve">
+    <value>总测试模</value>
+  </data>
+  <data name="Tray1" xml:space="preserve">
+    <value>纸盒 1</value>
+  </data>
+  <data name="Tray2" xml:space="preserve">
+    <value>纸盒 2</value>
+  </data>
+  <data name="Tray3" xml:space="preserve">
+    <value>纸盒 3</value>
+  </data>
+  <data name="Tray4" xml:space="preserve">
+    <value>纸盒 4</value>
+  </data>
+  <data name="Tray5" xml:space="preserve">
+    <value>纸盒 5</value>
+  </data>
+  <data name="Worst" xml:space="preserve">
+    <value>最差</value>
+  </data>
+  <data name="ChangeSequence" xml:space="preserve">
+    <value>更改顺序</value>
+  </data>
+  <data name="ArrowDownW" xml:space="preserve">
+    <value>..\Resources\ArrowDownW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowUpW" xml:space="preserve">
+    <value>..\Resources\ArrowUpW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AutoSelect" xml:space="preserve">
+    <value>自动选择</value>
+  </data>
+  <data name="AutoThreshold" xml:space="preserve">
+    <value>自动阈值</value>
+  </data>
+  <data name="Base" xml:space="preserve">
+    <value>基准</value>
+  </data>
+  <data name="BeginNeedleSetup" xml:space="preserve">
+    <value>开始针安装程序</value>
+  </data>
+  <data name="Blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="Cantilever" xml:space="preserve">
+    <value>悬臂梁</value>
+  </data>
+  <data name="ChangeCardType" xml:space="preserve">
+    <value>更改卡类型</value>
+  </data>
+  <data name="Circle" xml:space="preserve">
+    <value>圆圈</value>
+  </data>
+  <data name="DeleteAllPin" xml:space="preserve">
+    <value>删除所有的针</value>
+  </data>
+  <data name="DeletePin" xml:space="preserve">
+    <value>删除针</value>
+  </data>
+  <data name="DiscardAll" xml:space="preserve">
+    <value>放弃所有</value>
+  </data>
+  <data name="DiscardPin" xml:space="preserve">
+    <value>丢弃针</value>
+  </data>
+  <data name="Edge" xml:space="preserve">
+    <value>边缘</value>
+  </data>
+  <data name="EnablePinGroup" xml:space="preserve">
+    <value>启用 Pin 组</value>
+  </data>
+  <data name="Finish" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="FormFactor" xml:space="preserve">
+    <value>之后</value>
+  </data>
+  <data name="GoNextStep" xml:space="preserve">
+    <value>走下一步</value>
+  </data>
+  <data name="GoPrevStep" xml:space="preserve">
+    <value>走上一步</value>
+  </data>
+  <data name="HighAlignKey" xml:space="preserve">
+    <value>高对齐关键</value>
+  </data>
+  <data name="InitFromPadData" xml:space="preserve">
+    <value>垫数据的初始化</value>
+  </data>
+  <data name="Manual" xml:space="preserve">
+    <value>手动</value>
+  </data>
+  <data name="PinNumber" xml:space="preserve">
+    <value>针号</value>
+  </data>
+  <data name="PinRegistrationStatus" xml:space="preserve">
+    <value>引脚登记状态</value>
+  </data>
+  <data name="PinSelection" xml:space="preserve">
+    <value>针的选择</value>
+  </data>
+  <data name="Rectangle" xml:space="preserve">
+    <value>矩形</value>
+  </data>
+  <data name="RegisteredDut" xml:space="preserve">
+    <value>注册的 Dut</value>
+  </data>
+  <data name="RegisteredPin" xml:space="preserve">
+    <value>注册的 Pin</value>
+  </data>
+  <data name="RegisteredPosition" xml:space="preserve">
+    <value>注册的位置</value>
+  </data>
+  <data name="RegisterFirst" xml:space="preserve">
+    <value>第一次注册</value>
+  </data>
+  <data name="RegisterPin" xml:space="preserve">
+    <value>登记册销</value>
+  </data>
+  <data name="RegisterSecond" xml:space="preserve">
+    <value>第二注册</value>
+  </data>
+  <data name="ROI" xml:space="preserve">
+    <value>ROI</value>
+  </data>
+  <data name="SelectPin" xml:space="preserve">
+    <value>选择 Pin</value>
+  </data>
+  <data name="SetLimitation" xml:space="preserve">
+    <value>设置的限制</value>
+  </data>
+  <data name="SetPinDataFromPad" xml:space="preserve">
+    <value>设置的 Pin 数据从垫</value>
+  </data>
+  <data name="SetReferenceDut" xml:space="preserve">
+    <value>SetReferenceDut</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>大小</value>
+  </data>
+  <data name="Step" xml:space="preserve">
+    <value>单步执行</value>
+  </data>
+  <data name="TeachNeedleBase" xml:space="preserve">
+    <value>教针基地</value>
+  </data>
+  <data name="TeachNeedleTip" xml:space="preserve">
+    <value>教针尖</value>
+  </data>
+  <data name="Tip" xml:space="preserve">
+    <value>提示</value>
+  </data>
+  <data name="TipRegistration" xml:space="preserve">
+    <value>提示注册</value>
+  </data>
+  <data name="UpdateForAllPin" xml:space="preserve">
+    <value>更新所有销</value>
+  </data>
+  <data name="UpdatePinPosition" xml:space="preserve">
+    <value>更新销的位置</value>
+  </data>
+  <data name="Updating" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>垂直</value>
+  </data>
+  <data name="BinSummary" xml:space="preserve">
+    <value>Bin 摘要</value>
+  </data>
+  <data name="CardPosition" xml:space="preserve">
+    <value>卡位置</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>类别</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="DutSummary" xml:space="preserve">
+    <value>Dut 摘要</value>
+  </data>
+  <data name="EachPinPosition" xml:space="preserve">
+    <value>每个引脚位置</value>
+  </data>
+  <data name="LotSummary" xml:space="preserve">
+    <value>很多摘要</value>
+  </data>
+  <data name="MinMaxZ" xml:space="preserve">
+    <value>最小/最大 Z</value>
+  </data>
+  <data name="OperationLog" xml:space="preserve">
+    <value>操作日志</value>
+  </data>
+  <data name="PinAlignmentTolerence" xml:space="preserve">
+    <value>销对准容忍</value>
+  </data>
+  <data name="PinCount" xml:space="preserve">
+    <value>针脚数</value>
+  </data>
+  <data name="PinPositionTolerance" xml:space="preserve">
+    <value>引脚位置度公差</value>
+  </data>
+  <data name="PMISummary" xml:space="preserve">
+    <value>采购经理人指数摘要</value>
+  </data>
+  <data name="SamplePinAlignment" xml:space="preserve">
+    <value>示例销定位</value>
+  </data>
+  <data name="Tolerance" xml:space="preserve">
+    <value>公差</value>
+  </data>
+  <data name="AllContact" xml:space="preserve">
+    <value>所有联系人</value>
+  </data>
+  <data name="ApplyShift" xml:space="preserve">
+    <value>适用的转变</value>
+  </data>
+  <data name="BumpView" xml:space="preserve">
+    <value>撞视图</value>
+  </data>
+  <data name="ColorView" xml:space="preserve">
+    <value>彩色视图</value>
+  </data>
+  <data name="FinishLot" xml:space="preserve">
+    <value>完成多</value>
+  </data>
+  <data name="FirstContact" xml:space="preserve">
+    <value>第一次接触</value>
+  </data>
+  <data name="MarkShiftX" xml:space="preserve">
+    <value>马克 Shift X</value>
+  </data>
+  <data name="MarkShiftY" xml:space="preserve">
+    <value>马克转变 Y</value>
+  </data>
+  <data name="MarkShiftZ" xml:space="preserve">
+    <value>马克移 Z</value>
+  </data>
+  <data name="Overdrive" xml:space="preserve">
+    <value>超速档</value>
+  </data>
+  <data name="PMIMenu" xml:space="preserve">
+    <value>PMI 菜单</value>
+  </data>
+  <data name="ResetMarkShift" xml:space="preserve">
+    <value>重置标记移</value>
+  </data>
+  <data name="RestartLot" xml:space="preserve">
+    <value>重新启动很多</value>
+  </data>
+  <data name="SkipCurrentWafer" xml:space="preserve">
+    <value>跳过当前硅片</value>
+  </data>
+  <data name="TogglePCInspection" xml:space="preserve">
+    <value>切换探针卡菜单</value>
+  </data>
+  <data name="UnloadAllWafers" xml:space="preserve">
+    <value>卸载所有晶片</value>
+  </data>
+  <data name="Zup" xml:space="preserve">
+    <value>Z 了</value>
+  </data>
+  <data name="AddDut" xml:space="preserve">
+    <value>添加 DUT</value>
+  </data>
+  <data name="AutoUpdate" xml:space="preserve">
+    <value>自动更新</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>更改</value>
+  </data>
+  <data name="DeleteDut" xml:space="preserve">
+    <value>删除 Dut</value>
+  </data>
+  <data name="DieSizeX" xml:space="preserve">
+    <value>模具尺寸 X</value>
+  </data>
+  <data name="DieSizeY" xml:space="preserve">
+    <value>模具尺寸 Y</value>
+  </data>
+  <data name="Dut" xml:space="preserve">
+    <value>DUT</value>
+  </data>
+  <data name="DutCountNum" xml:space="preserve">
+    <value>Dut 计数</value>
+  </data>
+  <data name="ImportCardData" xml:space="preserve">
+    <value>ImportCardData</value>
+  </data>
+  <data name="InitializePallet" xml:space="preserve">
+    <value>初始化托盘</value>
+  </data>
+  <data name="LoadingAngle" xml:space="preserve">
+    <value>荷载角</value>
+  </data>
+  <data name="MultiLocation" xml:space="preserve">
+    <value>多位置</value>
+  </data>
+  <data name="Squareness" xml:space="preserve">
+    <value>垂直度</value>
+  </data>
+  <data name="ToggleState" xml:space="preserve">
+    <value>切换状态</value>
+  </data>
+  <data name="WaferCenter" xml:space="preserve">
+    <value>硅片中心</value>
+  </data>
+  <data name="ZoomIn" xml:space="preserve">
+    <value>放大</value>
+  </data>
+  <data name="ZoomOut" xml:space="preserve">
+    <value>缩小</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="DoPTPA" xml:space="preserve">
+    <value>针垫对齐方式</value>
+  </data>
+  <data name="SetPTPATolerance" xml:space="preserve">
+    <value>设置的 PTPA 公差</value>
+  </data>
+  <data name="CardChange" xml:space="preserve">
+    <value>卡变化</value>
+  </data>
+  <data name="Diagnostic" xml:space="preserve">
+    <value>诊断</value>
+  </data>
+  <data name="HigherPriority" xml:space="preserve">
+    <value>更高的优先级</value>
+  </data>
+  <data name="Inking" xml:space="preserve">
+    <value>朱</value>
+  </data>
+  <data name="LowerPriority" xml:space="preserve">
+    <value>较低的优先级</value>
+  </data>
+  <data name="ManualOp" xml:space="preserve">
+    <value>手动操作</value>
+  </data>
+  <data name="MarkAlign" xml:space="preserve">
+    <value>标记对齐方式</value>
+  </data>
+  <data name="NeedleBrush" xml:space="preserve">
+    <value>针刷</value>
+  </data>
+  <data name="PinAlign" xml:space="preserve">
+    <value>销定位</value>
+  </data>
+  <data name="PMI" xml:space="preserve">
+    <value>采购经理人指数</value>
+  </data>
+  <data name="PolishWafer" xml:space="preserve">
+    <value>波兰的硅片</value>
+  </data>
+  <data name="Probing" xml:space="preserve">
+    <value>正在探测</value>
+  </data>
+  <data name="Remote" xml:space="preserve">
+    <value>远程</value>
+  </data>
+  <data name="Soaking" xml:space="preserve">
+    <value>浸泡</value>
+  </data>
+  <data name="WaferAlign" xml:space="preserve">
+    <value>硅片对齐方式</value>
+  </data>
+  <data name="WaferHandling" xml:space="preserve">
+    <value>晶圆处理</value>
+  </data>
+  <data name="Waiting" xml:space="preserve">
+    <value>正在等待</value>
+  </data>
+  <data name="JogDown" xml:space="preserve">
+    <value>..\Resources\JogDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogLeft" xml:space="preserve">
+    <value>..\Resources\JogLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogLeftDown" xml:space="preserve">
+    <value>..\Resources\JogLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogLeftUp" xml:space="preserve">
+    <value>..\Resources\JogLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogRight" xml:space="preserve">
+    <value>..\Resources\JogRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogRightDown" xml:space="preserve">
+    <value>..\Resources\JogRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogRightUp" xml:space="preserve">
+    <value>..\Resources\JogRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogUp" xml:space="preserve">
+    <value>..\Resources\JogUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AutoFocus" xml:space="preserve">
+    <value>自动对焦</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>高</value>
+  </data>
+  <data name="Index" xml:space="preserve">
+    <value>索引</value>
+  </data>
+  <data name="Low" xml:space="preserve">
+    <value>低</value>
+  </data>
+  <data name="Scan" xml:space="preserve">
+    <value>扫描</value>
+  </data>
+  <data name="SetZero" xml:space="preserve">
+    <value>设置为零</value>
+  </data>
+  <data name="ShiftMode" xml:space="preserve">
+    <value>转变模式</value>
+  </data>
+  <data name="ZAxis" xml:space="preserve">
+    <value>Z 轴</value>
+  </data>
+  <data name="TaskManagement" xml:space="preserve">
+    <value>任务管理</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>住宅</value>
+  </data>
+  <data name="AutoSeq" xml:space="preserve">
+    <value>汽车 Seq</value>
+  </data>
+  <data name="DeleteAllSeq" xml:space="preserve">
+    <value>DeleteAll.Seq</value>
+  </data>
+  <data name="DeleteSeq" xml:space="preserve">
+    <value>Delete.Seq</value>
+  </data>
+  <data name="DUTLocation" xml:space="preserve">
+    <value>DUTLocation</value>
+  </data>
+  <data name="IndexX" xml:space="preserve">
+    <value>IndexX</value>
+  </data>
+  <data name="IndexY" xml:space="preserve">
+    <value>IndexY</value>
+  </data>
+  <data name="InsertSeq" xml:space="preserve">
+    <value>Insert.Seq</value>
+  </data>
+  <data name="NextEvent" xml:space="preserve">
+    <value>NextEvent</value>
+  </data>
+  <data name="NotchDirection" xml:space="preserve">
+    <value>NotchDirection</value>
+  </data>
+  <data name="Seq1" xml:space="preserve">
+    <value>..\Resources\Seq1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq2" xml:space="preserve">
+    <value>..\Resources\Seq2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq3" xml:space="preserve">
+    <value>..\Resources\Seq3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq4" xml:space="preserve">
+    <value>..\Resources\Seq4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq5" xml:space="preserve">
+    <value>..\Resources\Seq5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq6" xml:space="preserve">
+    <value>..\Resources\Seq6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq7" xml:space="preserve">
+    <value>..\Resources\Seq7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq8" xml:space="preserve">
+    <value>..\Resources\Seq8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Set" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="TotalSeq" xml:space="preserve">
+    <value>总的 Seq:</value>
+  </data>
+  <data name="WaferSize" xml:space="preserve">
+    <value>晶圆尺寸</value>
+  </data>
+  <data name="Thickness" xml:space="preserve">
+    <value>Thickness</value>
+  </data>
+  <data name="WaferType" xml:space="preserve">
+    <value>对夹式</value>
+  </data>
+  <data name="ExportFileAs" xml:space="preserve">
+    <value>ExportFileAs</value>
+  </data>
+  <data name="PreviousEvent" xml:space="preserve">
+    <value>上一页事件</value>
+  </data>
+  <data name="SysInit" xml:space="preserve">
+    <value>系统初始化</value>
+  </data>
+  <data name="DONE" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="IDLE" xml:space="preserve">
+    <value>空闲</value>
+  </data>
+  <data name="INIT" xml:space="preserve">
+    <value>初始化</value>
+  </data>
+  <data name="RUNNING" xml:space="preserve">
+    <value>正在运行</value>
+  </data>
+  <data name="SUSPENDED" xml:space="preserve">
+    <value>暂停</value>
+  </data>
+  <data name="UNDEFINED" xml:space="preserve">
+    <value>未定义</value>
+  </data>
+  <data name="ChangeProbeCard" xml:space="preserve">
+    <value>更改探针卡</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>重试</value>
+  </data>
+  <data name="DisableYAxis" xml:space="preserve">
+    <value>禁用 Y 轴</value>
+  </data>
+  <data name="EnableYAxis" xml:space="preserve">
+    <value>启用 Y 轴</value>
+  </data>
+  <data name="DrawPad" xml:space="preserve">
+    <value>绘制垫</value>
+  </data>
+  <data name="Abort" xml:space="preserve">
+    <value>中止</value>
+  </data>
+  <data name="CSTNum" xml:space="preserve">
+    <value>盒式磁带数量</value>
+  </data>
+  <data name="SlotNum" xml:space="preserve">
+    <value>插槽数</value>
+  </data>
+  <data name="WaferID" xml:space="preserve">
+    <value>硅片 ID</value>
+  </data>
+  <data name="AlignmentImage" xml:space="preserve">
+    <value>对齐图像</value>
+  </data>
+  <data name="AlignmentOperation" xml:space="preserve">
+    <value>对齐方式操作</value>
+  </data>
+  <data name="Arm1" xml:space="preserve">
+    <value>手臂 1</value>
+  </data>
+  <data name="Arm2" xml:space="preserve">
+    <value>手臂 2</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>自动</value>
+  </data>
+  <data name="BasicMap" xml:space="preserve">
+    <value>基本图</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="CardRelativeZHeight" xml:space="preserve">
+    <value>卡相对 Z 高度</value>
+  </data>
+  <data name="Cassette" xml:space="preserve">
+    <value>纸盒</value>
+  </data>
+  <data name="Clearance" xml:space="preserve">
+    <value>净空</value>
+  </data>
+  <data name="CurrentZPosition" xml:space="preserve">
+    <value>当前的 Z 位置</value>
+  </data>
+  <data name="DataIn" xml:space="preserve">
+    <value>输入数据量</value>
+  </data>
+  <data name="Degree" xml:space="preserve">
+    <value>deg</value>
+  </data>
+  <data name="DeviceParameterChange" xml:space="preserve">
+    <value>设备参数的变化</value>
+  </data>
+  <data name="DeviceSetInformation" xml:space="preserve">
+    <value>设备设置信息</value>
+  </data>
+  <data name="Down" xml:space="preserve">
+    <value>向下</value>
+  </data>
+  <data name="ExistenceOfData" xml:space="preserve">
+    <value>存在的数据</value>
+  </data>
+  <data name="FixedTray1" xml:space="preserve">
+    <value>固定的纸盒 1</value>
+  </data>
+  <data name="FixedTray2" xml:space="preserve">
+    <value>固定的纸盒 2</value>
+  </data>
+  <data name="FixedTray3" xml:space="preserve">
+    <value>固定的纸盒 3</value>
+  </data>
+  <data name="FixedTray4" xml:space="preserve">
+    <value>固定的盘 4</value>
+  </data>
+  <data name="FixedTray5" xml:space="preserve">
+    <value>固定的盘 5</value>
+  </data>
+  <data name="FlatDir" xml:space="preserve">
+    <value>平的 Dir</value>
+  </data>
+  <data name="HeightOfChuck" xml:space="preserve">
+    <value>查克的高度</value>
+  </data>
+  <data name="ImageDisplayChange" xml:space="preserve">
+    <value>图像显示更改</value>
+  </data>
+  <data name="IndexSizeX" xml:space="preserve">
+    <value>IndexSize X</value>
+  </data>
+  <data name="IndexSizeY" xml:space="preserve">
+    <value>索引大小 Y</value>
+  </data>
+  <data name="KeySW" xml:space="preserve">
+    <value>3KEY SW</value>
+  </data>
+  <data name="LoaderSW" xml:space="preserve">
+    <value>装载机 SW</value>
+  </data>
+  <data name="LoadingPosition" xml:space="preserve">
+    <value>装载位置</value>
+  </data>
+  <data name="LotSetInformation" xml:space="preserve">
+    <value>很多设置信息</value>
+  </data>
+  <data name="LotSettings" xml:space="preserve">
+    <value>很多设置</value>
+  </data>
+  <data name="MaintAndAdjust" xml:space="preserve">
+    <value>维护和调整</value>
+  </data>
+  <data name="MatchAndConfirm" xml:space="preserve">
+    <value>匹配与确认</value>
+  </data>
+  <data name="MethodOfExternalControl" xml:space="preserve">
+    <value>外部控制方法</value>
+  </data>
+  <data name="NowTemp" xml:space="preserve">
+    <value>当前温度</value>
+  </data>
+  <data name="Offline" xml:space="preserve">
+    <value>脱机</value>
+  </data>
+  <data name="Online" xml:space="preserve">
+    <value>联机</value>
+  </data>
+  <data name="OperationSetting" xml:space="preserve">
+    <value>操作设置</value>
+  </data>
+  <data name="OverDriveChange" xml:space="preserve">
+    <value>超速的变化</value>
+  </data>
+  <data name="PadPosition" xml:space="preserve">
+    <value>垫的位置</value>
+  </data>
+  <data name="PreAligner" xml:space="preserve">
+    <value>PreAlign</value>
+  </data>
+  <data name="ProberModeSettings" xml:space="preserve">
+    <value>探针模式设置</value>
+  </data>
+  <data name="ProbingOverDrive" xml:space="preserve">
+    <value>探测超速</value>
+  </data>
+  <data name="Resume" xml:space="preserve">
+    <value>继续</value>
+  </data>
+  <data name="SamplingDie" xml:space="preserve">
+    <value>采样模</value>
+  </data>
+  <data name="SetTemp" xml:space="preserve">
+    <value>设定温度</value>
+  </data>
+  <data name="SlotInformation" xml:space="preserve">
+    <value>插槽信息</value>
+  </data>
+  <data name="SystemModeChange" xml:space="preserve">
+    <value>系统模式更改</value>
+  </data>
+  <data name="TaskVersion" xml:space="preserve">
+    <value>任务版本</value>
+  </data>
+  <data name="TestCountDisplay" xml:space="preserve">
+    <value>测试计数显示</value>
+  </data>
+  <data name="TestStart" xml:space="preserve">
+    <value>测试开始</value>
+  </data>
+  <data name="Transfer" xml:space="preserve">
+    <value>转移</value>
+  </data>
+  <data name="Up" xml:space="preserve">
+    <value>向上</value>
+  </data>
+  <data name="UserSW" xml:space="preserve">
+    <value>用户的 SW</value>
+  </data>
+  <data name="Utility" xml:space="preserve">
+    <value>实用程序</value>
+  </data>
+  <data name="ZDrive" xml:space="preserve">
+    <value>Z 驱动器</value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>续</value>
+  </data>
+  <data name="CST" xml:space="preserve">
+    <value>科学和技术委员会</value>
+  </data>
+  <data name="ContactCheck" xml:space="preserve">
+    <value>接触者检查</value>
+  </data>
+  <data name="Interrupt" xml:space="preserve">
+    <value>中断</value>
+  </data>
+  <data name="LogScreen" xml:space="preserve">
+    <value>日志屏幕</value>
+  </data>
+  <data name="LotProcess" xml:space="preserve">
+    <value>多进程</value>
+  </data>
+  <data name="LotRunMenu" xml:space="preserve">
+    <value>很多运行的菜单</value>
+  </data>
+  <data name="LotStatistics" xml:space="preserve">
+    <value>很多统计</value>
+  </data>
+  <data name="WaferInspection" xml:space="preserve">
+    <value>硅片检测</value>
+  </data>
+  <data name="LoaderStatus" xml:space="preserve">
+    <value>加载程序状态</value>
+  </data>
+  <data name="StageStatus" xml:space="preserve">
+    <value>阶段状态</value>
+  </data>
+  <data name="UIModeChange" xml:space="preserve">
+    <value>用户界面模式更改</value>
+  </data>
+  <data name="GPIB" xml:space="preserve">
+    <value>GPIB 接口</value>
+  </data>
+  <data name="LotOP" xml:space="preserve">
+    <value>LotOP</value>
+  </data>
+  <data name="Stage" xml:space="preserve">
+    <value>阶段</value>
+  </data>
+  <data name="MenualMode" xml:space="preserve">
+    <value>手册的模式</value>
+  </data>
+  <data name="PutProbeCard" xml:space="preserve">
+    <value>把探针卡</value>
+  </data>
+  <data name="Reverse" xml:space="preserve">
+    <value>反向</value>
+  </data>
+  <data name="HighLight1" xml:space="preserve">
+    <value>高光明 1</value>
+  </data>
+  <data name="HighLight2" xml:space="preserve">
+    <value>高光明 2</value>
+  </data>
+  <data name="LowLight1" xml:space="preserve">
+    <value>低光 1</value>
+  </data>
+  <data name="LowLight2" xml:space="preserve">
+    <value>低光 2</value>
+  </data>
+  <data name="HighCam" xml:space="preserve">
+    <value>高相机</value>
+  </data>
+  <data name="LowCam" xml:space="preserve">
+    <value>相机低</value>
+  </data>
+  <data name="Loader" xml:space="preserve">
+    <value>装载机</value>
+  </data>
+  <data name="ARM1_NoWafer1" xml:space="preserve">
+    <value>..\Resources\ARM1_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM1_W1" xml:space="preserve">
+    <value>..\Resources\ARM1_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM2_NoWafer1" xml:space="preserve">
+    <value>..\Resources\ARM2_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM2_W1" xml:space="preserve">
+    <value>..\Resources\ARM2_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowDown1" xml:space="preserve">
+    <value>..\Resources\ArrowDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowDownW1" xml:space="preserve">
+    <value>..\Resources\ArrowDownW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeft1" xml:space="preserve">
+    <value>..\Resources\ArrowLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeftG1" xml:space="preserve">
+    <value>..\Resources\ArrowLeftG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeftW1" xml:space="preserve">
+    <value>..\Resources\ArrowLeftW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRight1" xml:space="preserve">
+    <value>..\Resources\ArrowRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRightG1" xml:space="preserve">
+    <value>..\Resources\ArrowRightG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRightW1" xml:space="preserve">
+    <value>..\Resources\ArrowRightW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowUp1" xml:space="preserve">
+    <value>..\Resources\ArrowUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowUpW1" xml:space="preserve">
+    <value>..\Resources\ArrowUpW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Chuck_NoWafer1" xml:space="preserve">
+    <value>..\Resources\Chuck_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Chuck_W1" xml:space="preserve">
+    <value>..\Resources\Chuck_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Clockwise1" xml:space="preserve">
+    <value>..\Resources\Clockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordLeftDown1" xml:space="preserve">
+    <value>..\Resources\CoordLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordLeftUp1" xml:space="preserve">
+    <value>..\Resources\CoordLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordRightDown1" xml:space="preserve">
+    <value>..\Resources\CoordRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordRightUp1" xml:space="preserve">
+    <value>..\Resources\CoordRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CounterClockwise1" xml:space="preserve">
+    <value>..\Resources\CounterClockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ExtendHeight1" xml:space="preserve">
+    <value>..\Resources\ExtendHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ExtendWidth1" xml:space="preserve">
+    <value>..\Resources\ExtendWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FixedTray_NoWafer1" xml:space="preserve">
+    <value>..\Resources\FixedTray_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FixedTray_W1" xml:space="preserve">
+    <value>..\Resources\FixedTray_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Image1" xml:space="preserve">
+    <value>..\Resources\Image1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogDown1" xml:space="preserve">
+    <value>..\Resources\JogDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogLeft1" xml:space="preserve">
+    <value>..\Resources\JogLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogLeftDown1" xml:space="preserve">
+    <value>..\Resources\JogLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogLeftUp1" xml:space="preserve">
+    <value>..\Resources\JogLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogRight1" xml:space="preserve">
+    <value>..\Resources\JogRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogRightDown1" xml:space="preserve">
+    <value>..\Resources\JogRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogRightUp1" xml:space="preserve">
+    <value>..\Resources\JogRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogUp1" xml:space="preserve">
+    <value>..\Resources\JogUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Minus1" xml:space="preserve">
+    <value>..\Resources\Minus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Plus1" xml:space="preserve">
+    <value>..\Resources\Plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PreAligner_NoWafer1" xml:space="preserve">
+    <value>..\Resources\PreAligner_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PreAligner_W1" xml:space="preserve">
+    <value>..\Resources\PreAligner_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReduceHeight1" xml:space="preserve">
+    <value>..\Resources\ReduceHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReduceWidth1" xml:space="preserve">
+    <value>..\Resources\ReduceWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq11" xml:space="preserve">
+    <value>..\Resources\Seq1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq21" xml:space="preserve">
+    <value>..\Resources\Seq2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq31" xml:space="preserve">
+    <value>..\Resources\Seq3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq41" xml:space="preserve">
+    <value>..\Resources\Seq4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq51" xml:space="preserve">
+    <value>..\Resources\Seq5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq61" xml:space="preserve">
+    <value>..\Resources\Seq6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq71" xml:space="preserve">
+    <value>..\Resources\Seq7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq81" xml:space="preserve">
+    <value>..\Resources\Seq8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Camera" xml:space="preserve">
+    <value>摄像头</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>浅</value>
+  </data>
+  <data name="MapControl" xml:space="preserve">
+    <value>地图控件</value>
+  </data>
+  <data name="MotionControl" xml:space="preserve">
+    <value>运动控制</value>
+  </data>
+  <data name="bars" xml:space="preserve">
+    <value>..\Resources\bars.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GPIBStatus" xml:space="preserve">
+    <value>Gpib 接口状态</value>
+  </data>
+  <data name="NetWorkStatus" xml:space="preserve">
+    <value>网络状态</value>
+  </data>
+  <data name="AlarmSetup" xml:space="preserve">
+    <value>报警设置</value>
+  </data>
+  <data name="BasicSetup" xml:space="preserve">
+    <value>基本设置</value>
+  </data>
+  <data name="BINSetup" xml:space="preserve">
+    <value>本安装程序</value>
+  </data>
+  <data name="ContactSetup" xml:space="preserve">
+    <value>联系人设置</value>
+  </data>
+  <data name="GPIBSetup" xml:space="preserve">
+    <value>Gpib 接口安装程序</value>
+  </data>
+  <data name="NCSetup" xml:space="preserve">
+    <value>清洁安装的针</value>
+  </data>
+  <data name="OCRSetup" xml:space="preserve">
+    <value>OCR 安装程序</value>
+  </data>
+  <data name="PinAlignSetup" xml:space="preserve">
+    <value>销对齐方式安装</value>
+  </data>
+  <data name="PinAlignToleranceSetup" xml:space="preserve">
+    <value>Pin 对齐容差设置</value>
+  </data>
+  <data name="PMISetup" xml:space="preserve">
+    <value>PMI 的安装程序</value>
+  </data>
+  <data name="PTPASetup" xml:space="preserve">
+    <value>PTPA 安装程序</value>
+  </data>
+  <data name="RetestSetup" xml:space="preserve">
+    <value>复验安装程序</value>
+  </data>
+  <data name="SequenceSetup" xml:space="preserve">
+    <value>规则设置</value>
+  </data>
+  <data name="SystemInit" xml:space="preserve">
+    <value>系统初始化</value>
+  </data>
+  <data name="TemperatureSetup" xml:space="preserve">
+    <value>温度设置</value>
+  </data>
+  <data name="WaferAlignRun" xml:space="preserve">
+    <value>硅片对齐方式运行</value>
+  </data>
+  <data name="WaferAlignSetup" xml:space="preserve">
+    <value>硅片对齐方式设置</value>
+  </data>
+  <data name="SoakSetup" xml:space="preserve">
+    <value>浸泡安装程序</value>
+  </data>
+  <data name="BasicWaferAlign" xml:space="preserve">
+    <value>基本的硅片对齐方式</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="SetupStart" xml:space="preserve">
+    <value>安装程序启动</value>
+  </data>
+  <data name="CustomWaferAlign" xml:space="preserve">
+    <value>自定义对齐模式</value>
+  </data>
+  <data name="SelectableMode" xml:space="preserve">
+    <value>可选模式</value>
+  </data>
+  <data name="AlignMode" xml:space="preserve">
+    <value>对齐方式</value>
+  </data>
+  <data name="Chiller" xml:space="preserve">
+    <value>冷却器</value>
+  </data>
+  <data name="Cur" xml:space="preserve">
+    <value>电流</value>
+  </data>
+  <data name="GEM" xml:space="preserve">
+    <value>创业板</value>
+  </data>
+  <data name="SONET" xml:space="preserve">
+    <value>Sonet</value>
+  </data>
+  <data name="BinStat" xml:space="preserve">
+    <value>二进制</value>
+  </data>
+  <data name="Stat" xml:space="preserve">
+    <value>统计信息</value>
+  </data>
+  <data name="Inspection" xml:space="preserve">
+    <value>检查</value>
+  </data>
+  <data name="OCRapp" xml:space="preserve">
+    <value>OCR</value>
+  </data>
+  <data name="NC" xml:space="preserve">
+    <value>NC</value>
+  </data>
+  <data name="Coaxial" xml:space="preserve">
+    <value>同轴</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="WaferIntervalConfiguration" xml:space="preserve">
+    <value>硅片间隔配置</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>后退</value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value>配置</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>下一层</value>
+  </data>
+  <data name="Add_Delete" xml:space="preserve">
+    <value>添加
+&amp;
+删除</value>
+  </data>
+  <data name="RegisterEdge" xml:space="preserve">
+    <value>注册
+边缘</value>
+  </data>
+  <data name="RegisterPattern1" xml:space="preserve">
+    <value>注册
+模式 1</value>
+  </data>
+  <data name="RegisterPattern2" xml:space="preserve">
+    <value>注册
+模式 2</value>
+  </data>
+  <data name="SetCoordinate" xml:space="preserve">
+    <value>设置
+坐标</value>
+  </data>
+  <data name="EMPTY" xml:space="preserve">
+    <value>清空</value>
+  </data>
+  <data name="MARK" xml:space="preserve">
+    <value>马克</value>
+  </data>
+  <data name="SKIP" xml:space="preserve">
+    <value>跳过</value>
+  </data>
+  <data name="TEST" xml:space="preserve">
+    <value>测试</value>
+  </data>
+  <data name="LOT" xml:space="preserve">
+    <value>很多</value>
+  </data>
+  <data name="ProbeMark" xml:space="preserve">
+    <value>探针标记</value>
+  </data>
+  <data name="NextDut" xml:space="preserve">
+    <value>下一个 Dut</value>
+  </data>
+  <data name="NextPad" xml:space="preserve">
+    <value>下一个垫</value>
+  </data>
+  <data name="PrevDut" xml:space="preserve">
+    <value>上一页 Dut</value>
+  </data>
+  <data name="PrevPad" xml:space="preserve">
+    <value>上一页垫</value>
+  </data>
+  <data name="Coordinate" xml:space="preserve">
+    <value>协调</value>
+  </data>
+  <data name="X" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="Y" xml:space="preserve">
+    <value>Y</value>
+  </data>
+  <data name="Z" xml:space="preserve">
+    <value>Z</value>
+  </data>
+  <data name="Inspect" xml:space="preserve">
+    <value>检查</value>
+  </data>
+  <data name="LightDown" xml:space="preserve">
+    <value>光-</value>
+  </data>
+  <data name="LightUp" xml:space="preserve">
+    <value>光 +</value>
+  </data>
+  <data name="LotEnd" xml:space="preserve">
+    <value>很多结束</value>
+  </data>
+</root>

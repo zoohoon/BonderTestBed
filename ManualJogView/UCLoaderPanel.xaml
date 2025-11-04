@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="ManualJogView.UCLoaderPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ManualJogView"
+             mc:Ignorable="d" 
+             d:DesignHeight="340" d:DesignWidth="1280" Background="Transparent"
+             >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="JogButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="FontSize" Value="19"></Setter>
+                <Setter Property="FontFamily" Value="NanumGothic"></Setter>
+                <Setter Property="Margin" Value="8,8,8,8"></Setter>
+                <Setter Property="MinHeight" Value="36"></Setter>
+                <Setter Property="MinWidth" Value="48"></Setter>
+                <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+                <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Name="LoaderJogMotionGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="32"/>
+            <RowDefinition Height="32"/>
+        </Grid.RowDefinitions>
+
+        <Label Content="AXIS" Grid.Row="0" VerticalAlignment="Center" HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Center" FontFamily="NanumGothic" FontWeight="Bold" FontSize="20" Margin="4,0,6,0"/>
+        <Label Content="STAT" Grid.Row="1" FontSize="20" VerticalAlignment="Center" HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Center" FontFamily="NanumGothic" FontWeight="Bold" Margin="4,0,6,0"/>
+        <Label Content="+" Grid.Row="2" VerticalAlignment="Center" HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Center" FontFamily="NanumGothic" FontWeight="Bold"
+               FontSize="25" Margin="4,0,6,0"/>
+        <Label Content="!" Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+               FontWeight="Bold" FontSize="25" FontFamily="NanumGothic" Margin="4,0,6,0" />
+        <Label Content="-" VerticalAlignment="Center" Grid.Row="4" HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Center" FontWeight="Bold" FontSize="25" FontFamily="NanumGothic" Margin="4,0,6,0"/>
+        <Label Content="STEP" VerticalAlignment="Center" 
+                               HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                               FontFamily="NanumGothic" FontWeight="Bold" FontSize="20" Grid.Row="5" Margin="4,0,6,0" />
+        <Label Content="APOS" VerticalAlignment="Center" 
+                               HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                               Grid.Row="6" Margin="4,0,6,0"  
+                               FontFamily="NanumGothic" FontWeight="Bold" FontSize="20"/>
+
+        <Border BorderThickness="1" BorderBrush="WhiteSmoke" Grid.Row="0"/>
+        <Border BorderThickness="1" BorderBrush="WhiteSmoke" Grid.Row="1"/>
+        <Border BorderThickness="1" BorderBrush="WhiteSmoke" Grid.Row="2"/>
+        <Border BorderThickness="1" BorderBrush="WhiteSmoke" Grid.Row="3"/>
+        <Border BorderThickness="1" BorderBrush="WhiteSmoke" Grid.Row="4"/>
+        <Border BorderThickness="1" BorderBrush="WhiteSmoke" Grid.Row="5"/>
+        <Border BorderThickness="1" BorderBrush="WhiteSmoke" Grid.Row="6"/>
+        
+        <ItemsControl Grid.Column="1" Grid.RowSpan="7" ItemsSource="{Binding LoaderAxisObjectVmList}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <local:AxisJogPanel DataContext="{Binding}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

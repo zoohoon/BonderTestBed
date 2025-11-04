@@ -1,0 +1,664 @@
+﻿<UserControl x:Class="LoaderFileTransferViewModule.LoaderFileTransferView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LoaderFileTransferViewModule"
+             xmlns:stagelistview="clr-namespace:StageListViewModule;assembly=StageListViewModule"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:cui="clr-namespace:CUI;assembly=CUI"
+             xmlns:devexp="clr-namespace:DeviceUpDownControl;assembly=DeviceUpDownControl"
+             xmlns:enum="clr-namespace:ProberInterfaces.Enum;assembly=ProberInterfaces"
+             mc:Ignorable="d" d:DesignHeight="1010" d:DesignWidth="1850" x:Name="ucwindow">
+    <Grid ShowGridLines="False">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="85"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="85"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Grid Col : 0 --><!--
+        <Grid Grid.Column="0">
+
+            <Grid.RowDefinitions>
+                --><!--<RowDefinition Height="50"/>--><!--
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            --><!--<Grid Grid.Row="0">
+                <ToggleButton></ToggleButton>
+            </Grid>--><!--
+
+            <StackPanel Grid.Row="0">
+                <Label Content="Detach device"/>
+                <ToggleButton Style="{DynamicResource ON_OFF_ToggleBtn}" 
+                              IsChecked="{Binding DetachDevice}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Checked">
+                            <i:InvokeCommandAction Command="{Binding DataContext.DetachDeviceFlagChangeCommand, ElementName=ucwindow}"/>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="Unchecked">
+                            <i:InvokeCommandAction Command="{Binding DataContext.DetachDeviceFlagChangeCommand, ElementName=ucwindow}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ToggleButton>
+            </StackPanel>
+            <Grid Grid.Row="1">
+                <stagelistview:StageListView Height="Auto" DataContext="{Binding LoaderViewModelManager.StageListVM}"/>
+            </Grid>
+
+        </Grid>-->
+
+        <!-- Grid Col : 0 -->
+        <Grid Grid.Column="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!--<RowDefinition Height="50"/>-->
+                <!--<RowDefinition Height="50"/>-->
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Row="0" BorderBrush="White" BorderThickness="2">
+                    <Grid>
+                        <Label Content="Stage file list" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="24"/>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="1" BorderBrush="White" BorderThickness="2">
+                    <Grid>
+                        <Button AutomationProperties.AutomationId="btnStageFileRefresh"
+                                Width="60" Height="60"
+                                Command="{Binding RefreshStagelistCommand}">
+                            <Button.Content>
+                                <Viewbox Width="48" Height="48">
+                                    <Canvas Width="24" Height="24">
+                                        <Path Data="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z" Fill="Black" />
+                                    </Canvas>
+                                </Viewbox>
+                            </Button.Content>
+                        </Button>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <!--<Grid Grid.Row="1">
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                -->
+            <!--<Grid Grid.Column="0">
+                    <Button Command="{Binding ChangeSelectedCellIndexCommand}"
+                            CommandParameter="{x:Static enum:EnumPrevNext.Prev}">
+                        <Button.Content>
+                            <Viewbox Width="48" Height="48">
+                                <Canvas Width="24" Height="24">
+                                    <Path Data="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" Fill="Black" />
+                                </Canvas>
+                            </Viewbox>
+                        </Button.Content>
+                    </Button>
+                </Grid>
+                
+                <Grid Grid.Column="1">
+                    <Label Content="{Binding Path=LoaderCommunicationManager.SelectedStageIndex}" ContentStringFormat="Stage No. {0}" 
+                           HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="16"/>
+                </Grid>
+
+                <Grid Grid.Column="2">
+                    <Button Command="{Binding ChangeSelectedCellIndexCommand}"
+                            CommandParameter="{x:Static enum:EnumPrevNext.Next}">
+                        <Button.Content>
+                            <Viewbox Width="48" Height="48">
+                                <Canvas Width="24" Height="24">
+                                    <Path Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" Fill="Black" />
+                                </Canvas>
+                            </Viewbox>
+                        </Button.Content>
+                    </Button>
+                </Grid>-->
+            <!--
+            </Grid>-->
+
+            <!--<Grid Grid.Row="2">
+                
+                <ComboBox Name="cbObjects" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="2,2,6,0" 
+                          >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsSelected}" Width="20" VerticalAlignment="Center" 
+                                           />
+                                <TextBlock Text="{Binding ObjectData}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                
+            </Grid>-->
+
+            <Grid Grid.Row="1">
+
+                <devexp:UcDeviceExplorer DataContext="{Binding StageDeviceExplorer}"/>
+
+                <!--<Border BorderBrush="White" BorderThickness="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="8*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        --><!--Search--><!--
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0"
+                   Content="Search:"
+                   Foreground="White" 
+                   FontSize="20" 
+                   FontWeight="Bold"
+                   VerticalAlignment="Center"
+                   VerticalContentAlignment="Center"/>
+                            <TextBox Text="{Binding DeviceSearchBoxText}" Grid.Column="1" Margin="8" Background="LightGray" FontSize="24" TextAlignment="Center">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                        <i:InvokeCommandAction Command="{Binding ParamSearchBoxClickCommand}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+                        </Grid>
+                        <ListBox Grid.Row="1" Name="StageFileList"  Background="Gray" 
+                                 ItemsSource="{Binding StageFileNamelist}" 
+                                 SelectedItem="{Binding SelectedStageFileName}"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="8" TextElement.FontSize="24">
+                            --><!--<ListBox.ItemTemplate>
+                                <HierarchicalDataTemplate DataType="{x:Type local:DeviceItemViewModel}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                        AncestorType={x:Type UserControl}},
+                                        Path=DataContext.DeviceIcon}" 
+                               Margin="8 4"
+                               MaxWidth="20" MaxHeight="20"/>
+                                        <TextBlock Text="{Binding DeviceName}" 
+                                   Foreground="White"
+                                   Height="20"
+                                   FontSize="15" 
+                                   Margin="0 4"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                            </ListBox.ItemTemplate>--><!--
+                        </ListBox>
+
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0"
+                    Command="{Binding PrevPageCommand}" 
+                    Style="{DynamicResource ControlButtonStyle}"
+                    Content="&lt;"
+                    FontSize="24"  
+                    FontWeight="Bold"
+                    Margin="8"
+                    />
+                            <StackPanel Grid.Column="1" 
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="4"
+                        >
+                                <TextBlock Text="{Binding CurPageIndex}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+                                <TextBlock Text="/" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+                                <TextBlock Text="{Binding TotalPageCount}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+                            </StackPanel>
+                            <Button Grid.Column="2" 
+                    Command="{Binding NextPageCommand}" 
+                    Style="{DynamicResource ControlButtonStyle}"
+                    Content="&gt;"
+                    FontSize="24" 
+                    FontWeight="Bold"
+                    Margin="8"
+                    />
+                        </Grid>
+                    </Grid>
+                </Border>-->
+            </Grid>
+        </Grid>
+
+        <!-- Grid Col : 1 -->
+        <Grid Grid.Column="1">
+
+            <StackPanel VerticalAlignment="Center">
+                <cui:Button Width="60" Height="180"
+                            GUID="6F2FC10D-25E4-48FC-AFBB-C851722DDEDD"
+                            Command="{Binding DeviceFileTransferCommand}"
+                            CommandParameter="{x:Static enum:EnumFileTransferDirection.StageToNetwork}">
+                    <Button.Content>
+                        <Viewbox Width="48" Height="48">
+                            <Canvas Width="24" Height="24">
+                                <Path Data="M4,15V9H12V4.16L19.84,12L12,19.84V15H4Z" Fill="Black" />
+                                <Path Data="M17,5V20L25,12Z" Fill="Black"/>
+                            </Canvas>
+                        </Viewbox>
+                    </Button.Content>
+                </cui:Button>
+                <cui:Button AutomationProperties.AutomationId="btnStageToLoader"
+                            GUID="E92DD743-A5DC-4B47-B6EB-0537B8497D24"
+                            Width="60" Height="180" Margin="0, 25"
+                            Command="{Binding DeviceFileTransferCommand}"
+                            CommandParameter="{x:Static enum:EnumFileTransferDirection.StageToLoader}">
+                    <Button.Content>
+                        <Viewbox Width="48" Height="48">
+                            <Canvas Width="24" Height="24">
+                                <Path Data="M4,15V9H12V4.16L19.84,12L12,19.84V15H4Z" Fill="Black" />
+                            </Canvas>
+                        </Viewbox>
+                    </Button.Content>
+                </cui:Button>
+                <cui:Button AutomationProperties.AutomationId="btnLoaderToStage"
+                            GUID="A8F9D600-5C82-4E0F-B518-3140AAF3CD1D"
+                            Width="60" Height="180"
+                            Command="{Binding DeviceFileTransferCommand}"
+                            CommandParameter="{x:Static enum:EnumFileTransferDirection.LoaderToStage}">
+                    <Button.Content>
+                        <Viewbox Width="48" Height="48">
+                            <Canvas Width="24" Height="24">
+                                <Path Data="M20,9V15H12V19.84L4.16,12L12,4.16V9H20Z" Fill="Black" />
+                            </Canvas>
+                        </Viewbox>
+                    </Button.Content>
+                </cui:Button>
+            </StackPanel>
+
+        </Grid>
+
+        <!-- Grid Col : 2 -->
+        <Grid Grid.Column="2">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Row="0" BorderBrush="White" BorderThickness="2">
+                    <Grid>
+                        <Label Content="Loader file list" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="24"/>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="1" BorderBrush="White" BorderThickness="2">
+                    <Grid>
+                        <Button AutomationProperties.AutomationId="btnLoaderFileRefresh"
+                                Width="60" Height="60"
+                                Command="{Binding RefreshLoaderlistCommand}">
+                            <Button.Content>
+                                <Viewbox Width="48" Height="48">
+                                    <Canvas Width="24" Height="24">
+                                        <Path Data="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z" Fill="Black" />
+                                    </Canvas>
+                                </Viewbox>
+                            </Button.Content>
+                        </Button>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Grid Grid.Row="1">
+
+                <devexp:UcDeviceExplorer DataContext="{Binding LoaderDeviceExplorer}"/>
+                
+                <!--<Border BorderBrush="White" BorderThickness="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="8*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        --><!--Search--><!--
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0"
+                   Content="Search:"
+                   Foreground="White" 
+                   FontSize="20" 
+                   FontWeight="Bold"
+                   VerticalAlignment="Center"
+                   VerticalContentAlignment="Center"/>
+                            <TextBox Text="{Binding DeviceSearchBoxText}" Grid.Column="1" Margin="8" Background="LightGray" FontSize="24" TextAlignment="Center">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                        <i:InvokeCommandAction Command="{Binding ParamSearchBoxClickCommand}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+                        </Grid>
+                        <ListBox Grid.Row="1" Name="Loaderlist" Background="Gray"
+                                 ItemsSource="{Binding LoaderFileNamelist}" 
+                                 SelectedItem="{Binding SelectedLoaderFileName}"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="8" TextElement.FontSize="24">
+                            --><!--<ListBox.ItemTemplate>
+                                <HierarchicalDataTemplate DataType="{x:Type local:DeviceItemViewModel}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                        AncestorType={x:Type UserControl}},
+                                        Path=DataContext.DeviceIcon}" 
+                               Margin="8 4"
+                               MaxWidth="20" MaxHeight="20"/>
+                                        <TextBlock Text="{Binding DeviceName}" 
+                                   Foreground="White"
+                                   Height="20"
+                                   FontSize="15" 
+                                   Margin="0 4"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                            </ListBox.ItemTemplate>--><!--
+                        </ListBox>
+
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0"
+                    Command="{Binding PrevPageCommand}" 
+                    Style="{DynamicResource ControlButtonStyle}"
+                    Content="&lt;"
+                    FontSize="24"  
+                    FontWeight="Bold"
+                    Margin="8"
+                    />
+                            <StackPanel Grid.Column="1" 
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="4"
+                        >
+                                <TextBlock Text="{Binding CurPageIndex}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+                                <TextBlock Text="/" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+                                <TextBlock Text="{Binding TotalPageCount}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+                            </StackPanel>
+                            <Button Grid.Column="2" 
+                    Command="{Binding NextPageCommand}" 
+                    Style="{DynamicResource ControlButtonStyle}"
+                    Content="&gt;"
+                    FontSize="24" 
+                    FontWeight="Bold"
+                    Margin="8"
+                    />
+                        </Grid>
+                    </Grid>
+                </Border>-->
+
+            </Grid>
+        </Grid>
+
+        <!-- Grid Col : 3 -->
+        <Grid Grid.Column="3">
+
+            <StackPanel VerticalAlignment="Center">
+                <cui:Button Width="60" Height="180" 
+                            GUID="6F2FC10D-25E4-48FC-AFBB-C851722DDEDD"
+                            Command="{Binding DeviceFileTransferCommand}"
+                            CommandParameter="{x:Static enum:EnumFileTransferDirection.LoaderToNetwork}">
+                    <Button.Content>
+                        <Viewbox Width="48" Height="48">
+                            <Canvas Width="24" Height="24">
+                                <Path Data="M4,15V9H12V4.16L19.84,12L12,19.84V15H4Z" Fill="Black" />
+                            </Canvas>
+                        </Viewbox>
+                    </Button.Content>
+                </cui:Button>
+                <cui:Button Width="60" Height="180"
+                            GUID="B8925D51-B7A5-4F3E-932D-2C14694680BD"
+                            Command="{Binding DeviceFileTransferCommand}"
+                            CommandParameter="{x:Static enum:EnumFileTransferDirection.NetworkToLoader}">
+                    <Button.Content>
+                        <Viewbox Width="48" Height="48">
+                            <Canvas Width="24" Height="24">
+                                <Path Data="M20,9V15H12V19.84L4.16,12L12,4.16V9H20Z" Fill="Black" />
+                            </Canvas>
+                        </Viewbox>
+                    </Button.Content>
+                </cui:Button>
+                <cui:Button Width="60" Height="180"
+                            GUID="B8925D51-B7A5-4F3E-932D-2C14694680BD"
+                            Command="{Binding DeviceFileTransferCommand}"
+                            CommandParameter="{x:Static enum:EnumFileTransferDirection.NetworkToStage}">
+                    <Button.Content>
+                        <Viewbox Width="48" Height="48">
+                            <Canvas Width="24" Height="24">
+                                <Path Data="M20,9V15H12V19.84L4.16,12L12,4.16V9H20Z" Fill="Black"/>
+                                <Path Data="M7,4V20L0,12Z" Fill="Black"/>
+                            </Canvas>
+                        </Viewbox>
+                    </Button.Content>
+                </cui:Button>
+                
+            </StackPanel>
+
+        </Grid>
+
+        <!-- Grid Col : 4 -->
+        <Grid Grid.Column="4">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Row="0" BorderBrush="White" BorderThickness="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="1.3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Network file list" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" FontSize="24"/>
+                        <cui:ComboBox AutomationProperties.AutomationId="cmbServerPathType"
+                                      GUID="69230A25-4589-45DE-8041-9951C19C2E3E"
+                                      Grid.Column="1" ItemsSource="{Binding ServerPathTypes}" SelectedItem="{Binding SelectedServerPathType}" Foreground="Wheat" 
+                                      FontWeight="Bold">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged" >
+                                    <i:InvokeCommandAction Command="{Binding ServerPathChangedCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </cui:ComboBox>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="1" BorderBrush="White" BorderThickness="2">
+                    <Grid>
+                        <Button AutomationProperties.AutomationId="btnNetworkFileRefresh"
+                                Width="60" Height="60"
+                                Command="{Binding RefreshNetworklistCommand}">
+                            <Button.Content>
+                                <Viewbox Width="48" Height="48">
+                                    <Canvas Width="24" Height="24">
+                                        <Path Data="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z" Fill="Black" />
+                                    </Canvas>
+                                </Viewbox>
+                            </Button.Content>
+                        </Button>   
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Grid Grid.Row="1">
+
+                <devexp:UcDeviceExplorer DataContext="{Binding NetworkDeviceExplorer}"/>
+
+                <!--<Border BorderBrush="White" BorderThickness="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="8*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        --><!--Search--><!--
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0"
+                   Content="Search:"
+                   Foreground="White" 
+                   FontSize="20" 
+                   FontWeight="Bold"
+                   VerticalAlignment="Center"
+                   VerticalContentAlignment="Center"/>
+                            <TextBox Text="{Binding DeviceSearchBoxText}" Grid.Column="1" Margin="8" Background="LightGray" FontSize="24" TextAlignment="Center">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                        <i:InvokeCommandAction Command="{Binding ParamSearchBoxClickCommand}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+                        </Grid>
+                        <ListBox Grid.Row="1" Name="Networklist"  
+                                 ItemsSource="{Binding NetworkFileNamelist}" Background="Gray" 
+                                 SelectedItem="{Binding SelectedNetworkFileName}"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ScrollViewer.VerticalScrollBarVisibility="Disabled" Margin="8" TextElement.FontSize="24">
+                            --><!--<ListBox.ItemTemplate>
+                                <HierarchicalDataTemplate DataType="{x:Type local:DeviceItemViewModel}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                        AncestorType={x:Type UserControl}},
+                                        Path=DataContext.DeviceIcon}" 
+                               Margin="8 4"
+                               MaxWidth="20" MaxHeight="20"/>
+                                        <TextBlock Text="{Binding DeviceName}" 
+                                   Foreground="White"
+                                   Height="20"
+                                   FontSize="15" 
+                                   Margin="0 4"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                            </ListBox.ItemTemplate>--><!--
+                        </ListBox>
+
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0"
+                    Command="{Binding PrevPageCommand}" 
+                    Style="{DynamicResource ControlButtonStyle}"
+                    Content="&lt;"
+                    FontSize="24"  
+                    FontWeight="Bold"
+                    Margin="8"
+                    />
+                            <StackPanel Grid.Column="1" 
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="4"
+                        >
+                                <TextBlock Text="{Binding CurPageIndex}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+                                <TextBlock Text="/" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+                                <TextBlock Text="{Binding TotalPageCount}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+                            </StackPanel>
+                            <Button Grid.Column="2" 
+                    Command="{Binding NextPageCommand}" 
+                    Style="{DynamicResource ControlButtonStyle}"
+                    Content="&gt;"
+                    FontSize="24" 
+                    FontWeight="Bold"
+                    Margin="8"
+                    />
+                        </Grid>
+                    </Grid>
+                </Border>-->
+            </Grid>
+
+            <Grid Grid.Row="2">
+
+                <StackPanel Orientation="Vertical">
+
+                    <!--<StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Log File Path"></Label>
+                            <TextBox VerticalAlignment="Center" Width="Auto" Text="{Binding LoaderLogModule.LoaderLogParam.UpDownLoadPath.Value}" 
+                                     FontSize="18" Foreground="WhiteSmoke"></TextBox>
+                        </StackPanel>
+                    </StackPanel>-->
+
+                    <!--<StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="File Path"></Label>
+                            <TextBox VerticalAlignment="Center" Width="Auto" Text="{Binding LoaderLogModule.LoaderLogParam.UpDownLoadPath.Value}" 
+                                     FontSize="18" Foreground="WhiteSmoke"></TextBox>
+                        </StackPanel>
+                    </StackPanel>-->
+
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <cui:Button AutomationProperties.AutomationId="btnLogUpload"
+                                GUID="0A8893BB-D0F5-41FC-A25E-69BEC03BEC0C"
+                                Content="Log Upload" Width="180" Height="80" Background="Beige"
+                                Command="{Binding LogUploadCommand}" 
+                                Margin="4"/>
+                        <cui:Button AutomationProperties.AutomationId="btnServerPathSetting"
+                                GUID="970E42DF-8980-4BDB-A4EB-86FE82143D4E"
+                                Content="Server Path Setting" Width="180" Height="80" Background="AntiqueWhite" 
+                                Command="{Binding LoaderLogSettingCommand}" 
+                                Margin="4"/>
+                        <cui:Button AutomationProperties.AutomationId="btnFailedToUploadListShow"
+                                GUID="156A7F30-0DBD-45F6-B905-6F8CEB2C6175"
+                                Content="Failed to upload ResultMap" Width="180" Height="80" Background="AntiqueWhite" 
+                                Command="{Binding FailedUploadResultMapShowCmd}" 
+                                Margin="4"/>
+                    </StackPanel>
+                    
+                </StackPanel>
+                
+            </Grid>
+            
+        </Grid>
+
+    </Grid>
+</UserControl>

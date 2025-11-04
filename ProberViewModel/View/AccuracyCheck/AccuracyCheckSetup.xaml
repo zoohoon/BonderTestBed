@@ -1,0 +1,869 @@
+﻿<UserControl x:Class="ProberViewModel.AccuracyCheckSetup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:pnpcontrol="clr-namespace:PnPControl;assembly=PnPControl"
+             xmlns:prober="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             xmlns:MapUC="clr-namespace:MapView;assembly=MapView"
+             xmlns:hjc="clr-namespace:HexagonJogControl;assembly=HexagonJogControl"
+             xmlns:ljc="clr-namespace:LightJog;assembly=LightJog"
+             xmlns:MahAppsControls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:ProberViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="960" d:DesignWidth="1024">
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <vc:BinaryImageConverter x:Key="imgConverter" />
+            <vc:BoolToVisibleOrCollapsedConverter x:Key="visibleOrCollapsConv" />
+
+            <DataTemplate x:Key="DisplayViewTemplate" DataType="{x:Type prober:IDisplayPort}" >
+                <ContentControl Name="DisPlay" Content="{Binding}">
+                </ContentControl>
+            </DataTemplate>
+            <pnpcontrol:TemplateSelector x:Key="ViewTargetTemplateSelector" 
+                                    DisplayViewDataTemplate="{StaticResource DisplayViewTemplate}"/>
+
+            <!-- Bool to String Converter -->
+            <local:BoolToStringConverter x:Key="BoolToStringConverter"/>
+            <!-- Bool to Color Converter -->
+            <local:BoolToColorConverter x:Key="BoolToColorConverter"/>
+
+            <local:OffsetToColorConverter x:Key="OffsetToColorConverter"/>
+
+            <local:IncrementConverter x:Key="IncrementConverter"/>
+            
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                
+                <Border Margin="1" BorderThickness="1" BorderBrush="WhiteSmoke">
+                    <ContentControl Width="600" Height="600" Content="{Binding DisplayPort}" ContentTemplateSelector="{StaticResource ViewTargetTemplateSelector}"/>
+                </Border>
+
+                <Viewbox VerticalAlignment="Bottom" Width="220" Height="75" HorizontalAlignment="Right" Margin="5">
+                    <ljc:UcLightJog Width="250" Height="100" Opacity="0.9" DataContext="{Binding LightJog}"/>
+                </Viewbox>
+                
+            </Grid>
+
+            <Grid Grid.Column="1">
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <!--<RowDefinition Height="Auto"/>-->
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Border BorderThickness="2" BorderBrush="White">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Path : " Foreground="White" Height="40"  VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                            <TextBox Text="{Binding FilePath}" Width="300" Height="40" TextWrapping="Wrap" Foreground="White" IsEnabled="False" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="10,0,0,0"/>
+                            <Button Command="{Binding OpenOutputPathCommand}" Content="OPEN" Width="55" Height="55" FontSize="14" Foreground="White"/>
+                            <Button Content="SAVE" Command="{Binding SaveScanDieCommand}" Width="55" Height="55" Foreground="White"/>
+                            <Button Content="LOAD" Command="{Binding LoadScanDieCommand}" Width="55" Height="55" Foreground="White"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                
+                <!--<Grid Grid.Row="1">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        --><!--<Grid Grid.Column="0">
+                            <Border Margin="1" BorderThickness="1" BorderBrush="WhiteSmoke">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="X : " 
+                                               VerticalAlignment="Center" 
+                                               FontSize="14" 
+                                               Margin="2.5,0,0,0"
+                                               Foreground="White"/>
+                                        <TextBox VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 MinWidth="20"
+                                                 Foreground="White"
+                                                 HorizontalContentAlignment="Center"
+                                                 Text="{Binding TargetUserIndex.XIndex}">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </TextBox>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Y : " 
+                                               VerticalAlignment="Center" 
+                                               FontSize="14" 
+                                               Margin="2.5,0,0,0"
+                                               Foreground="White"/>
+                                        <TextBox VerticalAlignment="Center" 
+                                                 HorizontalAlignment="Center"
+                                                 MinWidth="20"
+                                                 Foreground="White"
+                                                 HorizontalContentAlignment="Center"
+                                                 Margin="0,0,8,0"
+                                                 Text="{Binding TargetUserIndex.YIndex}">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </TextBox>
+                                    </StackPanel>
+                                </StackPanel>
+                                
+                            </Border>
+                        </Grid>--><!--
+
+                        <Grid Grid.Column="1">
+                            <StackPanel Orientation="Horizontal">
+                                <Border Margin="1" BorderThickness="1" BorderBrush="WhiteSmoke">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="ADD" Command="{Binding AddScanDieCommand}" Width="55" Height="55" Foreground="White"/>
+                                        <Button Content="DELETE" Command="{Binding DeleteScanDieCommand}" Width="55" Height="55" Foreground="White"/>
+                                        <Button Content="CLEAR" Command="{Binding ClearScanDieCommand}" Width="55" Height="55" Foreground="White"/>
+                                    </StackPanel>
+                                </Border>
+
+                                --><!--<Border Margin="1" BorderThickness="1" BorderBrush="WhiteSmoke">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="SAVE" Command="{Binding SaveScanDieCommand}" Width="55" Height="55" Foreground="White"/>
+                                        <Button Content="LOAD" Command="{Binding LoadScanDieCommand}" Width="55" Height="55" Foreground="White"/>
+                                    </StackPanel>
+                                </Border>-->
+
+                                <!--<Border Margin="1" BorderThickness="1" BorderBrush="WhiteSmoke">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="START" Command="{Binding AccuracyCheckStartCommand}" Width="55" Height="55" Foreground="White"/>
+                                    </StackPanel>
+                                </Border>--><!--
+
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>-->
+
+                <!-- MapViewControl -->
+                <Grid Grid.Row="1">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+
+                        <Grid Grid.Row="1">
+                            <Border Margin="1" BorderThickness="1" BorderBrush="WhiteSmoke">
+                                <ListView ItemsSource="{Binding TargetDies}" Height="520" SelectedItem="{Binding SelectedTargetDie}" ScrollViewer.VerticalScrollBarVisibility="Visible" AlternationCount="10000">
+
+                                    <ListView.View>
+                                        <GridView>
+
+                                            <!-- Index Column -->
+                                            <GridViewColumn Header="#" Width="40">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding (ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType=ListViewItem}, Converter={StaticResource IncrementConverter}}" 
+                                                                       VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <!-- X Index Column -->
+                                            <GridViewColumn Header="X" Width="40">
+                                                <GridViewColumn.DisplayMemberBinding>
+                                                    <Binding Path="XIndex" />
+                                                </GridViewColumn.DisplayMemberBinding>
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <TextBlock Text="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+
+                                            <!-- Y Index Column -->
+                                            <GridViewColumn Header="Y" Width="40">
+                                                <GridViewColumn.DisplayMemberBinding>
+                                                    <Binding Path="YIndex" />
+                                                </GridViewColumn.DisplayMemberBinding>
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <TextBlock Text="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </Border>
+                        </Grid>
+                        
+                        
+                        
+                        
+                    </Grid>
+
+                    <Grid Grid.Column="1">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Border Margin="1" BorderThickness="1" BorderBrush="WhiteSmoke">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Content="ADD" Command="{Binding AddScanDieCommand}" Width="140" Height="30" Foreground="White"/>
+                                    <Button Content="DELETE" Command="{Binding DeleteScanDieCommand}" Width="140" Height="30" Foreground="White"/>
+                                    <Button Content="CLEAR" Command="{Binding ClearScanDieCommand}" Width="140" Height="30" Foreground="White"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                        
+                        <Border Grid.Row="1" Margin="1" BorderThickness="1" BorderBrush="White">
+                            <MapUC:ucWaferMapviewer Width="460" Height="460" 
+                                            Lockable="True"
+                                            WaferObject="{Binding DataContext.StageSupervisor.WaferObject, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"      
+                                            UnderDutDices="{Binding DataContext.Probing.ProbingProcessStatus.UnderDutDevs,RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"      
+                                            CursorXIndex="{Binding DataContext.StageSupervisor.WaferObject.CurrentMXIndex,Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl},Mode=FindAncestor}}" 
+                                            CursorYIndex="{Binding DataContext.StageSupervisor.WaferObject.CurrentMYIndex,Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl},Mode=FindAncestor}}"
+                                            CoordinateManager="{Binding DataContext.CoordinateManager, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                                            EnalbeClickToMove="{Binding DataContext.WaferObject.MapViewStageSyncEnable, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                                            RenderMode="{Binding DataContext.WaferObject.MapViewControlMode, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                                            StageSyncEnalbe="{Binding DataContext.WaferObject.MapViewStageSyncEnable, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                                            StepLabel="{Binding DataContext.WaferObject.MapViewStepLabel, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                                            CurCamera="{Binding DataContext.CurCam, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl},Mode=FindAncestor}}" >
+                            </MapUC:ucWaferMapviewer>
+                        </Border>
+                    </Grid>
+                    
+                </Grid>
+            </Grid>
+
+        </Grid>
+
+        <Grid Grid.Row="1">
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6.26*"/>
+                <ColumnDefinition Width="3.74*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Border Margin="1" BorderThickness="1" BorderBrush="White">
+
+                    <!-- TabControl -->
+                    <MahAppsControls:MetroAnimatedSingleRowTabControl SelectedIndex="{Binding SeletedTabControlIndex}">
+
+                        <MahAppsControls:MetroAnimatedSingleRowTabControl.Resources>
+                            <SolidColorBrush x:Key="AccentColorBrush" Color="#9370d8"/>
+                            <SolidColorBrush x:Key="HighlightBrush" Color="#7260b5"/>
+                        </MahAppsControls:MetroAnimatedSingleRowTabControl.Resources>
+
+                        <MahAppsControls:MetroTabItem Header="PATTERN"
+                                                      MahAppsControls:ControlsHelper.HeaderFontSize="20"
+                                                      FontSize="12">
+                            <Grid>
+                                <!-- Define the columns -->
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Column="0">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0">
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <!-- Circle with number indicating the order --><!--
+                                            <Border Width="30" Height="30" Background="Orange" CornerRadius="15" VerticalAlignment="Center" Margin="0,0,10,0">
+                                                <TextBlock Text="1" FontSize="20" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </Border>-->
+
+                                            <!-- Your Button -->
+                                            <Button Command="{Binding ViewRectCommand}" Width="100" Height="50">
+                                                <Button.Content>
+                                                    <TextBlock Foreground="White" Text="View (ON/OFF)" TextWrapping="Wrap"/>
+                                                </Button.Content>
+                                            </Button>
+                                        </StackPanel>
+                                        
+                                    </Grid>
+
+                                    <Grid Grid.Row="1">
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <!-- Circle with number indicating the order --><!--
+                                            <Border Width="30" Height="30" Background="Orange" CornerRadius="15" VerticalAlignment="Center" Margin="0,0,10,0">
+                                                <TextBlock Text="2" FontSize="20" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </Border>-->
+
+                                            <!-- Your Button -->
+                                            <Button Command="{Binding FocusingCommand}" Width="100" Height="50">
+                                                <Button.Content>
+                                                    <TextBlock Foreground="White" Text="Focusing" TextWrapping="Wrap"/>
+                                                </Button.Content>
+                                            </Button>
+                                        </StackPanel>
+                                        
+                                    </Grid>
+                                    
+                                    <Grid Grid.Row="2">
+
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <!-- Circle with number indicating the order -->
+                                            <!--<Border Width="30" Height="30" Background="Orange" CornerRadius="15" VerticalAlignment="Center" Margin="0,0,10,0">
+                                                <TextBlock Text="필" FontSize="20" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </Border>-->
+
+                                            <!-- Your Button -->
+                                            <Button Command="{Binding RegistePatternCommand}" Width="100" Height="50" Background="Orange">
+                                                <Button.Content>
+                                                    <TextBlock Foreground="White" Text="Registration" TextWrapping="Wrap"/>
+                                                </Button.Content>
+                                            </Button>
+                                        </StackPanel>
+                                        
+                                        <!--<Button Command="{Binding RegistePatternCommand}" Width="100" Height="50">
+                                            <Button.Content>
+                                                <TextBlock Foreground="White" Text="Registration" TextWrapping="Wrap"/>
+                                            </Button.Content>
+                                            
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="BorderBrush" Value="Red"/>
+                                                    <Setter Property="BorderThickness" Value="3"/>
+                                                    <Setter Property="Background" Value="Black"/>
+                                                    <Setter Property="Effect">
+                                                        <Setter.Value>
+                                                            <DropShadowEffect Color="Red" Direction="270" ShadowDepth="3" Opacity="0.8"/>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Button.Style>
+                                            
+                                        </Button>-->
+                                    </Grid>
+
+                                    <Grid Grid.Row="3">
+                                        <Button Command="{Binding GoPatternCommand}" Width="100" Height="50">
+                                            <Button.Content>
+                                                <TextBlock Foreground="White" Text="Go Pattern" TextWrapping="Wrap"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </Grid>
+
+                                </Grid>
+
+                                <Grid Grid.Column="1" ShowGridLines="True">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0" Grid.Column="1">
+                                        <Button Command="{Binding UCDisplayRectHeightPlusCommand}" Width="50" Height="50">
+                                            <Button.Content>
+                                                <StackPanel Orientation="Vertical">
+                                                    <Viewbox Width="24" Height="24">
+                                                        <Canvas Width="24" Height="24">
+                                                            <Path Data="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z" Fill="White" />
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                    <TextBlock Text="( + )" HorizontalAlignment="Center" Foreground="White" FontSize="14"/>
+                                                </StackPanel>
+                                            </Button.Content>
+                                        </Button>
+                                    </Grid>
+
+                                    <Grid Grid.Row="1" Grid.Column="0">
+                                        <Button Command="{Binding UCDisplayRectWidthMinusCommand}" Width="50" Height="50">
+                                            <Button.Content>
+                                                <StackPanel Orientation="Vertical">
+                                                    <Viewbox Width="24" Height="24">
+                                                        <Canvas Width="24" Height="24">
+                                                            <Path Data="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" Fill="White" />
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                    <TextBlock Text="( - )" HorizontalAlignment="Center" Foreground="White" FontSize="14"/>
+                                                </StackPanel>
+                                            </Button.Content>
+                                        </Button>
+                                    </Grid>
+
+                                    <Grid Grid.Row="1" Grid.Column="2">
+                                        <Button Command="{Binding UCDisplayRectWidthPlusCommand}" Width="50" Height="50">
+                                            <Button.Content>
+                                                <StackPanel Orientation="Vertical">
+                                                    <Viewbox Width="24" Height="24">
+                                                        <Canvas Width="24" Height="24">
+                                                            <Path Data="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" Fill="White" />
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                    <TextBlock Text="( + )" HorizontalAlignment="Center" Foreground="White" FontSize="14"/>
+                                                </StackPanel>
+                                            </Button.Content>
+                                        </Button>
+                                    </Grid>
+
+                                    <Grid Grid.Row="2" Grid.Column="1">
+                                        <Button Command="{Binding UCDisplayRectHeightMinusCommand}" Width="50" Height="50">
+                                            <Button.Content>
+                                                <StackPanel Orientation="Vertical">
+                                                    <Viewbox Width="24" Height="24">
+                                                        <Canvas Width="24" Height="24">
+                                                            <Path Data="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" Fill="White" />
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                    <TextBlock Text="( - )" HorizontalAlignment="Center" Foreground="White" FontSize="14"/>
+                                                </StackPanel>
+                                            </Button.Content>
+                                        </Button>
+                                    </Grid>
+
+                                </Grid>
+
+                                <!-- Image -->
+                                <Grid Grid.Column="2">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0">
+                                        <Border Margin="1" BorderThickness="1" BorderBrush="WhiteSmoke">
+                                            <TextBlock Foreground="White" Text="IMAGE" TextWrapping="Wrap" FontSize="14" HorizontalAlignment="Center"/>
+                                        </Border>
+                                    </Grid>
+
+                                    <Grid Grid.Row="1">
+                                        <Border Margin="1" BorderThickness="1" BorderBrush="WhiteSmoke">
+                                            <Viewbox>
+                                                <Grid>
+                                                    <!-- 이미지 -->
+                                                    <Image Source="{Binding ImageSource}" Stretch="Uniform"/>
+
+                                                    <!-- 세로선 (정중앙) -->
+                                                    <Line
+                                                        X1="0" Y1="0"
+                                                        X2="0" Y2="1"
+                                                        Stretch="Fill"
+                                                        Stroke="LimeGreen" 
+                                                        StrokeThickness="2"
+                                                        StrokeDashArray="2,2"
+                                                        Opacity="0.7"
+                                                        VerticalAlignment="Stretch"
+                                                        HorizontalAlignment="Center"/>
+
+                                                    <!-- 가로선 (정중앙) -->
+                                                    <Line
+                                                        X1="0" Y1="0"
+                                                        X2="1" Y2="0"
+                                                        Stretch="Fill"
+                                                        Stroke="LimeGreen" 
+                                                        StrokeThickness="2"
+                                                        StrokeDashArray="2,2"
+                                                        Opacity="0.7"
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="Center"/>
+                                                </Grid>
+                                            </Viewbox>
+                                        </Border>
+                                    </Grid>
+                                    
+                                </Grid>
+
+                            </Grid>
+
+                        </MahAppsControls:MetroTabItem>
+
+                        <MahAppsControls:MetroTabItem Header="SETTING"
+                                                      MahAppsControls:ControlsHelper.HeaderFontSize="20"
+                                                      FontSize="12">
+                            <Grid>
+                                <StackPanel Orientation="Vertical">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Spec X in : "
+                                                    HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center" 
+                                                    FontSize="14" 
+                                                    Foreground="White"/>
+                                        <TextBox VerticalAlignment="Center"
+                                                        HorizontalAlignment="Center"
+                                                        Foreground="White"
+                                                        HorizontalContentAlignment="Center" 
+                                                        MinWidth="20"
+                                                        Margin="0,0,10,0"
+                                                        Text="{Binding Spec_X_um}">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                                    <i:InvokeCommandAction Command="{Binding TextBoxDoubleClickCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </TextBox>
+                                        <Label Content="um" 
+                                                    HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center" 
+                                                    FontSize="14" 
+                                                    Foreground="White"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Spec Y in : " 
+                                                    HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center" 
+                                                    FontSize="14" 
+                                                    Foreground="White"/>
+                                        <TextBox VerticalAlignment="Center" 
+                                                        HorizontalAlignment="Center"
+                                                        Foreground="White"
+                                                        HorizontalContentAlignment="Center"
+                                                        MinWidth="20"
+                                                        Text="{Binding Spec_Y_um}">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                                    <i:InvokeCommandAction Command="{Binding TextBoxDoubleClickCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </TextBox>
+                                        <Label Content="um" 
+                                                    HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center" 
+                                                    FontSize="14" 
+                                                    Foreground="White"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Wait Time : " 
+                                                    HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center" 
+                                                    FontSize="14" 
+                                                    Foreground="White"/>
+                                        <TextBox VerticalAlignment="Center" 
+                                                        HorizontalAlignment="Center"
+                                                        Foreground="White"
+                                                        HorizontalContentAlignment="Center"
+                                                        MinWidth="20"
+                                                        Text="{Binding WaitTime}">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </TextBox>
+                                        <Label Content="ms" 
+                                                    HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center" 
+                                                    FontSize="14" 
+                                                    Foreground="White"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Focus All Dies : " 
+                                                    HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center" 
+                                                    FontSize="14" 
+                                                    Foreground="White"/>
+
+                                        <CheckBox IsChecked="{Binding IsFocusing}" VerticalAlignment="Center" Content="Focus Active" />
+
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="Focus ROI Margin : " 
+                                                    HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center" 
+                                                    FontSize="14" 
+                                                    Foreground="White"/>
+                                        <TextBox VerticalAlignment="Center" 
+                                                        HorizontalAlignment="Center"
+                                                        Foreground="White"
+                                                        HorizontalContentAlignment="Center"
+                                                        MinWidth="20"
+                                                        Text="{Binding FocusROIMargin}">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </TextBox>
+                                        <Label Content="um" 
+                                                    HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center" 
+                                                    FontSize="14" 
+                                                    Foreground="White"/>
+                                        <Label Content="(*The default ROI used for focusing matches the registered pattern size.)"
+                                                    HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center" 
+                                                    FontSize="14" 
+                                                    Foreground="White"/>
+                                    </StackPanel>
+                                    
+                                </StackPanel>
+                                
+                            </Grid>
+
+                        </MahAppsControls:MetroTabItem>
+
+                        <MahAppsControls:MetroTabItem Header="OPERRATION"
+                                                      MahAppsControls:ControlsHelper.HeaderFontSize="20"
+                                                      FontSize="12">
+                            <StackPanel Orientation="Horizontal">
+                                <!--<Button Content="WAFER ALIGN" Command="{Binding AccuracyCheckStartCommand}" Width="55" Height="55" Foreground="White"/>-->
+                                <Button Content="START" Command="{Binding AccuracyCheckStartCommand}" Width="770" Height="220" Foreground="White" FontSize="100"/>
+                            </StackPanel>
+                        </MahAppsControls:MetroTabItem>
+
+                        <MahAppsControls:MetroTabItem Header="RESULT"
+                                                      MahAppsControls:ControlsHelper.HeaderFontSize="20"
+                                                      FontSize="12">
+                            <Grid>
+
+                                <Border Margin="1" BorderThickness="1" BorderBrush="WhiteSmoke">
+                                    <ListView ItemsSource="{Binding AccuracyInfos}" Height="Auto" SelectedItem="{Binding SelectedAccuracyInfo}" ScrollViewer.VerticalScrollBarVisibility="Auto" AlternationCount="100000">
+
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem">
+                                                <Setter Property="Height" Value="23"/>
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+
+                                        <ListView.View>
+                                            <GridView  AllowsColumnReorder="False">
+
+                                                <!-- Index Column -->
+                                                <GridViewColumn Header="#" Width="40">
+                                                    
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding (ItemsControl.AlternationIndex), RelativeSource={RelativeSource AncestorType=ListViewItem}, Converter={StaticResource IncrementConverter}}" HorizontalAlignment="Center"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+
+
+                                                <!-- X Index Column -->
+                                                <GridViewColumn Header="X Index" Width="80">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding TargetUserIndex.XIndex}" HorizontalAlignment="Center"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+
+                                                <!-- Y Index Column -->
+                                                <GridViewColumn Header="Y Index" Width="80">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding TargetUserIndex.YIndex}" HorizontalAlignment="Center"/>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+
+                                                <!-- X Offset Column -->
+                                                <GridViewColumn Header="X Offset" Width="100">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+
+                                                            <TextBlock HorizontalAlignment="Center">
+                                                                <TextBlock.Text>
+                                                                    <Binding Path="XOffset"/>
+                                                                </TextBlock.Text>
+                                                                <TextBlock.Foreground>
+                                                                    <MultiBinding Converter="{StaticResource OffsetToColorConverter}">
+                                                                        <Binding Path="XOffset"/>
+                                                                        <Binding Path="DataContext.Spec_X_um" RelativeSource="{RelativeSource AncestorType=ListView}"/>
+                                                                    </MultiBinding>
+                                                                </TextBlock.Foreground>
+                                                            </TextBlock>
+
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+
+                                                <!-- Y Offset Column -->
+                                                <GridViewColumn Header="Y Offset" Width="100">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+
+                                                            <TextBlock HorizontalAlignment="Center">
+                                                                <TextBlock.Text>
+                                                                    <Binding Path="YOffset"/>
+                                                                </TextBlock.Text>
+                                                                <TextBlock.Foreground>
+                                                                    <MultiBinding Converter="{StaticResource OffsetToColorConverter}">
+                                                                        <Binding Path="YOffset"/>
+                                                                        <Binding Path="DataContext.Spec_Y_um" RelativeSource="{RelativeSource AncestorType=ListView}"/>
+                                                                    </MultiBinding>
+                                                                </TextBlock.Foreground>
+                                                            </TextBlock>
+
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+
+                                                <!-- X Diff Column -->
+                                                <GridViewColumn Header="X Diff" Width="100">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock HorizontalAlignment="Center">
+                                                                <TextBlock.Text>
+                                                                    <Binding Path="XDifference"/>
+                                                                </TextBlock.Text>
+                                                            </TextBlock>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+
+                                                <!-- Y Diff Column -->
+                                                <GridViewColumn Header="Y Diff" Width="100">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock HorizontalAlignment="Center">
+                                                                <TextBlock.Text>
+                                                                    <Binding Path="YDifference"/>
+                                                                </TextBlock.Text>
+                                                            </TextBlock>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+
+                                                <!-- IsSuccess Column -->
+                                                <GridViewColumn Header="Result" Width="80">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock HorizontalAlignment="Center">
+                                                                <TextBlock.Text>
+                                                                    <MultiBinding Converter="{StaticResource BoolToStringConverter}">
+                                                                        <Binding Path="IsSuccess"/>
+                                                                        <Binding Path="XOffset" RelativeSource="{RelativeSource AncestorType=ListView}"/>
+                                                                        <Binding Path="YOffset" RelativeSource="{RelativeSource AncestorType=ListView}"/>
+                                                                    </MultiBinding>
+                                                                </TextBlock.Text>
+                                                                <TextBlock.Foreground>
+                                                                    <MultiBinding Converter="{StaticResource BoolToColorConverter}">
+                                                                        <Binding Path="IsSuccess"/>
+                                                                        <Binding Path="XOffset" RelativeSource="{RelativeSource AncestorType=ListView}"/>
+                                                                        <Binding Path="YOffset" RelativeSource="{RelativeSource AncestorType=ListView}"/>
+                                                                    </MultiBinding>
+                                                                </TextBlock.Foreground>
+                                                            </TextBlock>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+
+                                                <!-- GO Column -->
+                                                <GridViewColumn Header="GO TO" Width="80">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Button Width="30" Height="21" Content="#" Command="{Binding Path=DataContext.GoToCommand, RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}" HorizontalAlignment="Center">
+                                                                <Button.Style>
+                                                                    <Style TargetType="Button"/>
+                                                                </Button.Style>
+                                                            </Button>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+
+                                                <!-- TEST Column -->
+                                                <!--
+                                                <GridViewColumn Header="TEST" Width="80">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+
+                                                            <Button Width="30" Height="21" Content="PM" Command="{Binding Path=DataContext.TestCommand, RelativeSource={RelativeSource AncestorType=ListView}}" CommandParameter="{Binding}">
+                                                                <Button.Style>
+                                                                    <Style TargetType="Button"/>
+                                                                </Button.Style>
+                                                            </Button>
+
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>-->
+
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </Border>
+                            </Grid>
+
+                        </MahAppsControls:MetroTabItem>
+                        
+                    </MahAppsControls:MetroAnimatedSingleRowTabControl>
+                </Border>
+                
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Border Margin="1" BorderThickness="1" BorderBrush="WhiteSmoke">
+                    <Viewbox Width="280" Height="280">
+                        <!-- Motion Jog -->
+                        <hjc:UcHexagonJog DataContext="{Binding MotionJog}" 
+                                              AssignedCamera="{Binding DataContext.CurCam, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                                              IsEnabled="{Binding DataContext.MotionJogEnabled, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                                              Visibility="{Binding DataContext.MotionJogVisibility, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"/>
+                    </Viewbox>
+                </Border>
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+    
+</UserControl>

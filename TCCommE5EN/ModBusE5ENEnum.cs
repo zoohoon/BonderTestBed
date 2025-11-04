@@ -1,0 +1,153 @@
+﻿namespace Temperature.Temp
+{
+
+    // Modbus
+    public enum ModBusE5ENEnum
+    {
+        Slave_Address = 0x01,
+
+        PV = 0x0000,
+        Status = 0x0002,
+        R_Set_Point = 0x0106,
+        MV_Monitor_Heating = 0x0008,
+        MV_Monitor_Cooling = 0x000A,
+
+        Set_OP_Com_Wrt = 0x0000,
+        ON = 0x01,
+        OFF = 0x00,
+        Set_OP = 0x0000,
+        RUN = 0x0100,
+        STOP = 0x0101,
+
+
+        W_Set_Point = 0x2103,
+        Temp_Offset = 0x2723,
+        Set_PID_PB = 0x2A00,
+        SET_PID_IT = 0x2A01,
+        SET_PID_DT = 0x2A02,
+
+        //=============================================================
+        Function_Code_Read_Variable_Multiple = 0x03,
+        Function_Code_Write_Variable_Multiple = 0x10,
+        Function_Code_Write_Variable_Single = 0x06,
+        Function_Code_Echoback_Test = 0x08,
+
+        Internal_Set_Point = 0x0004,
+        Heater_Current_1_Value_Monitor = 0x0006,
+
+
+
+        Alarm_Value1 = 0x0108,
+        Alarm_Value_Upper_Limit1 = 0x010A,
+        Alarm_Value_Lower_Limit1 = 0x010C,
+
+        Alarm_Value2 = 0x010E,
+        Alarm_Value_Upper_Limit2 = 0x0110,
+        Alarm_Value_Lower_Limit2 = 0x0112,
+        Multi_SP_Monitor = 0x0408,
+
+        Decimal_Point_Monitor = 0x0420,
+        Control_Output_1_ONOFF_Count_Monitor = 0x0422,
+        Control_Output_2_ONOFF_Count_Monitor = 0x0424,
+        Operation_Adjustment_Protect = 0x0500,
+        InitialSetting_CommunicationsProtect = 0x0502,
+        Setting_Change_Protect = 0x0504,
+        PF_Key_Protect = 0x0506,
+        Move_to_Protect_Level = 0x0508,
+        Password_to_Move_to_ProtectLevel = 0x050A,
+        Parameter_Mask_Enable = 0x050C,
+
+        Manual_MV = 0x0600,
+        Cooling_Coefficient = 0x0700,
+        Dead_Band = 0x0708,
+        Manual_Reset_Value = 0x070A,
+        Hysteresis_Heating = 0x070C,
+        Hysteresis_Cooling = 0x070E,
+        Control_Period_Heating = 0x0710,
+        Control_Period_Cooling = 0x0712,
+        SP_Ramp_Time_Unit = 0x0718,
+        SP_Ramp_Set_Value = 0x071A,
+        MV_At_Stop = 0x071E,
+        MV_AT_PV_Error = 0x0722,
+        MV_Change_Rate_Limit = 0x0726,
+        Lower_Limit_TemperatureInput_Shift_Value = 0x072C,
+        Upper_Limit_TemperatureInput_Shift_Value = 0x0730,
+        Heater_Burnout_Detection1 = 0x0736,
+        Leakage_Current1_Monitor = 0x0738,
+        HS_Alarm1 = 0x073A,
+        Temperature_Input_Shift = 0x0746,
+        Heater_Current_2_Value_Monitor = 0x0748,
+        Heater_Burnout_Detection2 = 0x074A,
+        Leakage_Current2_Monitor = 0x074C,
+        HS_Alarm2 = 0x074E,
+        Soak_Time_Remain = 0x0750,
+        Soak_Time = 0x0752,
+        Wait_Band = 0x0754,
+        Heater_Overcurrent_Detection1 = 0x0756,
+        Heater_Overcurrent_Detection2 = 0x0758,
+
+        Input_Digital_Filter = 0x0800,
+        SP_0 = 0x0900,
+        Alarm_Value3 = 0x0910,
+        Alarm_Value_Upper_Limit3 = 0x0912,
+        Alarm_Value_Lower_Limit3 = 0x0914,
+        SP_1 = 0x091C,
+        SP_2 = 0x0938,
+        SP_3 = 0x0954,
+
+        MV_Upper_Linit = 0x0A0A,
+        MV_Lower_Limit = 0x0A0C,
+
+        Input_Type = 0x0C00,
+        Temperature_Unit = 0x0C02,
+        Scaling_Lower_Limit = 0x0C12,
+        Scaling_Upper_Limit = 0x0C16,
+        Decimal_Point = 0x0C18,
+        PV_Decimal_Point_Display = 0x0C1E,
+
+        Linear_Current_Output = 0x0D06,
+        SP_Upper_Limit = 0x0D1E,
+        SP_Lower_Limit = 0x0D20,
+        Standard_or_Heating_Cooling = 0x0D22,
+        Direct_Reverse_Operation = 0x0D24,
+        PID_ON_OFF = 0x0D28,
+        ST = 0x0D2A,
+        Program_Pattern = 0x0D2C,
+        Transfer_Output_Type = 0x0E00,
+        Control_OutPut_1_Assignment = 0x0E0C,
+        Control_OutPut_2_Assignment = 0x0E0E,
+        Event_Input_Assignment_1 = 0x0E14,
+        Event_Input_Assignment_2 = 0x0E16,
+        Event_Input_Assignment_3 = 0x0E18,
+        Event_Input_Assignment_4 = 0x0E1A,
+        Auxiliary_Output_1_Assignment = 0x0E20,
+        Auxiliary_Output_2_Assignment = 0x0E22,
+        Auxiliary_Output_3_Assignment = 0x0E24,
+        Transfer_Output_Upper_Limit = 0x0E28,
+        Transfer_Output_Lower_Limit = 0x0E2A,
+        Extraction_Of_Square_Root_Enable = 0x0E48,
+        PV_SP_Display_Screen_Selection = 0x1000,
+        MV_Display_Selection = 0x1002,
+        Automatic_Display_Return_Time = 0x1006,
+        Display_Refresh_Period = 0x1008,
+        Additional_PV_Display = 0x1010,
+        MV_Display = 0x1016,
+        Move_to_Protect_Level_Time = 0x1018,
+        PV_Change_Color = 0x101A,
+        PV_Stable_Band = 0x101C,
+        Auto_Manual_Select_Addition = 0x101E,
+        Character_Select = 0x1020,
+        PV_Status_Display_Function = 0x1022,
+        SV_Status_Display_Function = 0x1024,
+        Protocol_Settion = 0x1100, //0:CompoWay/F(SYSWAY) , 1 : Modbus
+        Communication_Unit_No = 0x1102,
+        Communication_BaudRate = 0x1104,
+        Communication_DataLength = 0x1106,
+        Commnuication_StopBits = 0x1108,
+        Communications_Parity = 0x110A,
+        Send_Data_Wait_Time = 0x110C,
+        PF_Setting = 0x1200
+
+    }
+  
+}

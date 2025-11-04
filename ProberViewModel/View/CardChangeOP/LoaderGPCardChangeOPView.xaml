@@ -1,0 +1,1304 @@
+﻿<UserControl x:Class="ProberViewModel.LoaderGPCardChangeOPView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProberViewModel"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:view="clr-namespace:ProberViewModel.View"
+             x:Name="ucwindow"
+             mc:Ignorable="d" 
+             d:DesignHeight="960" d:DesignWidth="1800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--<ResourceDictionary Source="/SciChart.Examples.ExternalDependencies;component/Resources/Styles/MergedResources.xaml"/>
+                <ResourceDictionary Source="/SciChart.Examples.ExternalDependencies;component/Resources/Styles/ToolbarButtonsCommon.xaml"/>-->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <vc:SubsStatusToValueConverter x:Key="StatusToColorConv" />
+            <vc:EnumStageCardStateBrushConverter x:Key="CardStateToBrushConv" />
+            <vc:StageStateToValueConverter1 x:Key="CellStateColorConv" />
+            <vc:EnumWaferStatusTextConverter x:Key="StatusToTextConv" />
+            <vc:EnumStageCardStatusTextConverter x:Key="CardStatusToTextConv" />
+            <vc:EnumStageWaferStatusTextConverter x:Key="WaferStatusToTextConv" />
+            <vc:GPLotStateToStringConverter4 x:Key="BtoVConv" />
+            <vc:GPHandlingBtnEnableConverter x:Key="GPHandlingBtnEnableConverter" />
+            <vc:ScanStateValueConverter x:Key="ScanStateValueConverter" />
+            <vc:EnumGPLoaderWaferStatusTextColorConverter x:Key="EnumGPLoaderWaferStatusTextColorConverter" />
+            <vc:ModuleStateToBoolConverter x:Key="ModuleStateToBoolConv" />
+            <vc:ModuleStateToBoolConverter2 x:Key="ModuleStateToBoolConv2" />
+            <vc:ModuleStateToBoolConverter3 x:Key="ModuleStateToBoolConv3" />
+            <vc:EnumSlotTextConverter x:Key="EnumSlotTextConverter" />
+            <local:ListViewConverter x:Key="ListViewConverter"/>
+            <local:ImageConverter x:Key="ImageConverter"/>
+            <local:TransferObjectLabelConverter x:Key="TransferObjectLabelConverter"/>
+            <vc:InputOutputDescriptionConverter x:Key="InputOutputDescriptionConverter"/>
+            <vc:EnumCardBufferStateBrushConverter x:Key="CardBufferStateBrushConv"/>
+            <local:DockSequenceVisibilityConverter x:Key="DockSequenceVisibilityConv"/>
+            <Style x:Key="PieChartListBoxForegroundStyle" TargetType="ListBox">
+                <Setter Property="Foreground" Value="#FFDFE0E6"/>
+                <Setter Property="Background" Value="DarkGray" />
+            </Style>
+
+            <DataTemplate x:Key="OutsideLabelDataTemplate" DataType="s:IPieSegmentViewModel">
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="14" Foreground="#FFDFE0E6" Text="{Binding Name}"/>
+                    <TextBlock 
+                               FontSize="14"
+                               Foreground="#FFDFE0E6"
+                               Text="{Binding Percentage,
+                                              StringFormat={}{0:#.##}%}" />
+                </StackPanel>
+
+            </DataTemplate>
+
+            <DataTemplate x:Key="InsideLabelDataTemplate" DataType="s:IPieSegmentViewModel">
+                <TextBlock FontSize="14"
+                           FontWeight="Bold"
+                           Foreground="#FF1C1C1F"
+                           Text="{Binding Percentage,
+                                          StringFormat={}{0:#.##}%}" />
+            </DataTemplate>
+            <Style x:Key="StatusLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Foreground" Value="DimGray"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="BorderBrush" Value="DimGray"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Height" Value="36"/>
+                <Setter Property="Width" Value="120"/>
+            </Style>
+            <Style x:Key="ModuleNameLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="BorderBrush" Value="White"/>
+                <Setter Property="BorderThickness" Value="0"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.0*"/>
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="1.7*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.8*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3">
+                <ListView Grid.Row="1"  x:Name="CellListView" 
+                              ItemsSource="{Binding Cells}"
+                              Background="#FF1C1C1F" 
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                              MinWidth="30" MinHeight="40">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding Path=DataContext.ObjectClickCommand, ElementName=ucwindow}" >
+                                <i:InvokeCommandAction.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                        <Binding ElementName="CellListView"/>
+                                        <Binding ElementName="CellListView" Path="SelectedIndex"/>
+                                        <Binding ElementName="CellListView" Path="SelectedItem"/>
+                                    </MultiBinding>
+                                </i:InvokeCommandAction.CommandParameter>
+                            </i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                            <!--<Setter Property="IsSelected" Value="{Binding DataContext.IsSelected,
+                                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                                    Mode=FindAncestor}, Mode=OneWay}"/>-->
+                            <Setter Property="IsEnabled" Value="{Binding IsEnableTransfer, Mode=TwoWay}"/>
+
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="4"></UniformGrid>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate >
+                            <Border BorderBrush="DimGray" BorderThickness="1" Height="210" VerticalAlignment="Top" Margin="0,0,0,0">
+                                <Grid MaxWidth="150" Height="200" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="1.5*" />
+                                        <RowDefinition Height="0.9*" />
+                                        <RowDefinition Height="1*" />
+                                        <RowDefinition Height="1*" />
+                                    </Grid.RowDefinitions>
+                                    <Rectangle Fill="Transparent">
+
+                                    </Rectangle>
+                                    <Label Grid.Row="0" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" MaxWidth="120" Margin="0,0,0,0"
+                                                       VerticalContentAlignment="Center"
+                                                      HorizontalContentAlignment="Center"
+                                                        BorderThickness="0"
+                                                        Content="{Binding StageState}"
+                                                       Foreground="{Binding StageState, Converter={StaticResource CellStateColorConv}}"
+                                                       >
+                                    </Label>
+                                    <Label Grid.Row="3" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" MaxWidth="120" Margin="0,0,0,1"
+                                                       VerticalContentAlignment="Center"
+                                                       Style="{StaticResource StatusLabelStyle}"  
+                                                      BorderThickness="1">
+                                        <Label.Foreground>
+                                            <MultiBinding Converter="{StaticResource CardStateToBrushConv}">
+                                                <Binding Path="CardStatus"/>
+                                                <Binding Path="CardObj.WaferState"/>
+                                            </MultiBinding>
+                                        </Label.Foreground>
+                                        <Label.BorderBrush>
+                                            <MultiBinding Converter="{StaticResource CardStateToBrushConv}">
+                                                <Binding Path="CardStatus"/>
+                                                <Binding Path="CardObj.WaferState"/>
+                                            </MultiBinding>
+                                        </Label.BorderBrush>
+                                        <MultiBinding Converter="{StaticResource CardStatusToTextConv}">
+                                            <Binding Path="CardStatus" />
+                                            <Binding Path="Progress"/>
+                                            <Binding Path="CardObj"/>
+                                        </MultiBinding>
+                                    </Label>
+
+                                    <Image Grid.Row="1" Stretch="UniformToFill"  Width="64" Height="48">
+                                        <Image.Source>
+                                            <BitmapImage UriSource="./Resources/Cell.png" />
+                                        </Image.Source>
+                                    </Image>
+
+                                    <Label Grid.Row="2" Content="{Binding Name}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" 
+                                           Style="{StaticResource ModuleNameLabelStyle}"/>
+
+
+                                    <Label Grid.Row="4" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" Width="120" 
+                                                       Style="{StaticResource StatusLabelStyle}"  
+                                                        BorderThickness="1"
+                                                       Foreground="{Binding WaferStatus, Converter={StaticResource StatusToColorConv}}"
+                                                       BorderBrush="{Binding WaferStatus, Converter={StaticResource StatusToColorConv}}">
+                                        <MultiBinding Converter="{StaticResource WaferStatusToTextConv}">
+                                            <Binding Path="WaferStatus" />
+                                            <Binding Path="Progress"/>
+                                            <Binding Path="WaferObj"/>
+                                        </MultiBinding>
+                                    </Label>
+
+
+
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+
+            <Grid  Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" Margin="4">
+                <StackPanel Orientation="Vertical">
+                    <Grid Grid.Column="1" Grid.Row="0"  Margin="0" VerticalAlignment="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Image Width="64" Height="48" HorizontalAlignment="Left" VerticalAlignment="Top" >
+                                <Image.Source>
+                                    <BitmapImage UriSource="./Resources/Cardbuffer.png"/>
+                                </Image.Source>
+                            </Image>
+                            <Label Content="Card Buffers" FontSize="12" FontWeight="Bold" HorizontalAlignment="Center" 
+                                           Style="{StaticResource ModuleNameLabelStyle}"/>
+                        </StackPanel>
+                        <ListView Grid.Row="1" x:Name="CardBufferListView" ItemsSource="{Binding CardBuffers}" 
+                          Background="#FF2C2C2F" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Top"
+                          MinWidth="30" MinHeight="40">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.ObjectClickCommand, ElementName=ucwindow}" >
+                                        <i:InvokeCommandAction.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                <Binding ElementName="CardBufferListView"/>
+                                                <Binding ElementName="CardBufferListView" Path="SelectedIndex"/>
+                                                <Binding ElementName="CardBufferListView" Path="SelectedItem"/>
+                                            </MultiBinding>
+                                        </i:InvokeCommandAction.CommandParameter>
+                                    </i:InvokeCommandAction>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                    <!--<Setter Property="IsSelected" Value="{Binding DataContext.IsSelected,
+                                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                                    Mode=FindAncestor}, Mode=OneWay}"/>-->
+                                    <Setter Property="IsEnabled" Value="{Binding IsEnableTransfer, Mode=TwoWay}"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="DimGray" BorderThickness="1">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="0"  Content="{Binding Name}" Width="80"
+                                               FontSize="8" FontWeight="Bold" HorizontalAlignment="Center" 
+                                           Style="{StaticResource ModuleNameLabelStyle}"/>
+                                            <Label Grid.Column="1" Style="{StaticResource StatusLabelStyle}" FontSize="8" Width="64" BorderThickness="0" VerticalContentAlignment="Center"
+                                            Content="{Binding WaferStatus}"                                        
+                                            BorderBrush="{Binding WaferStatus, Converter={StaticResource StatusToColorConv}}">
+                                                <Label.Foreground >
+                                                    <MultiBinding Converter="{StaticResource CardBufferStateBrushConv}">
+                                                        <Binding Path="WaferStatus"/>
+                                                        <Binding Path="CardPRESENCEState"/>
+                                                    </MultiBinding>
+                                                </Label.Foreground>
+                                            </Label>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                    <Grid Grid.Row="1" Margin="2" VerticalAlignment="Top">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Image Width="64" Height="48" HorizontalAlignment="Left" VerticalAlignment="Top" >
+                                <Image.Source>
+                                    <BitmapImage UriSource="./Resources/CardTray.png"/>
+                                </Image.Source>
+                            </Image>
+                            <Label Content="Card Trays" FontSize="12" FontWeight="Bold" HorizontalAlignment="Center" 
+                                           Style="{StaticResource ModuleNameLabelStyle}"/>
+                        </StackPanel>
+                        <ListView  Grid.Row="1" 
+                               HorizontalAlignment="Stretch" VerticalAlignment="Top" x:Name="CardTrayListView" 
+                               ItemsSource="{Binding CardTrays}" Background="#FF2C2C2F" 
+                               ScrollViewer.HorizontalScrollBarVisibility="Disabled" MinWidth="30" MinHeight="40">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.ObjectClickCommand, ElementName=ucwindow}" >
+                                        <i:InvokeCommandAction.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                <Binding ElementName="CardTrayListView"/>
+                                                <Binding ElementName="CardTrayListView" Path="SelectedIndex"/>
+                                                <Binding ElementName="CardTrayListView" Path="SelectedItem"/>
+                                            </MultiBinding>
+                                        </i:InvokeCommandAction.CommandParameter>
+                                    </i:InvokeCommandAction>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                    <Setter Property="IsEnabled" Value="{Binding IsEnableTransfer, Mode=TwoWay}"/>
+                                    <!--<Setter Property="IsSelected" Value="{Binding DataContext.IsSelected,
+                                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                                    Mode=FindAncestor}, Mode=OneWay}"/>-->
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="DimGray" BorderThickness="1" >
+                                        <Grid >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="0"  Content="{Binding Name}" FontSize="8" FontWeight="Bold" HorizontalAlignment="Center" 
+                                           Style="{StaticResource ModuleNameLabelStyle}" VerticalAlignment="Center"  Width="80"/>
+                                            <Label  Grid.Column="1"  Style="{StaticResource StatusLabelStyle}" FontSize="8" Width="64" BorderThickness="0" VerticalContentAlignment="Center"
+                                               Content="{Binding WaferStatus}" VerticalAlignment="Center"
+                                               Foreground="{Binding WaferStatus, Converter={StaticResource StatusToColorConv}}"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <ListView Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="CardArmsListView" Margin="2"
+                                   ItemsSource="{Binding CardArms}" Background="#FF1C1C1F" 
+                                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.ObjectClickCommand, ElementName=ucwindow}" >
+                                        <i:InvokeCommandAction.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                <Binding ElementName="CardArmsListView"/>
+                                                <Binding ElementName="CardArmsListView" Path="SelectedIndex"/>
+                                                <Binding ElementName="CardArmsListView" Path="SelectedItem"/>
+                                            </MultiBinding>
+                                        </i:InvokeCommandAction.CommandParameter>
+                                    </i:InvokeCommandAction>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                    <Setter Property="VerticalContentAlignment" Value="Top" />
+                                    <Setter Property="IsEnabled" Value="{Binding IsEnableTransfer, Mode=TwoWay}"/>
+                                    <!--<Setter Property="IsSelected" Value="{Binding DataContext.IsSelected,
+                                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                                    Mode=FindAncestor}, Mode=OneWay}"/>-->
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderBrush="DimGray" BorderThickness="1" Width="150" >
+                                        <Grid Height="140" HorizontalAlignment="Stretch">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="1.6*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Image Height="48" Width="128" HorizontalAlignment="Stretch" VerticalAlignment="Center"  >
+                                                <Image.Source>
+                                                    <BitmapImage UriSource="./Resources/CardHand.PNG"/>
+                                                </Image.Source>
+                                            </Image>
+                                            <Label Grid.Row="1"  Content="{Binding Name}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" 
+                                           Style="{StaticResource ModuleNameLabelStyle}"/>
+                                            <Label  Grid.Row="2"  Grid.Column="0"   Style="{StaticResource StatusLabelStyle}" Width="140"
+                                               Content="{Binding WaferStatus}"
+                                               Foreground="{Binding WaferStatus, Converter={StaticResource StatusToColorConv}}"
+                                               BorderBrush="{Binding WaferStatus, Converter={StaticResource StatusToColorConv}}"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="1" Margin="1,1,1,1" MinWidth="64" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Border BorderBrush="WhiteSmoke" BorderThickness="0.8" Margin="4">
+                    <Grid Margin="0,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" Margin='4' >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Border BorderBrush="WhiteSmoke" BorderThickness="0.6" Margin="4" 
+                                Grid.RowSpan="2">
+                            </Border>
+                            <Image VerticalAlignment="Stretch" Margin="4" Grid.Row="0"
+                                   Source="{Binding TransferSource ,Converter={StaticResource ImageConverter}}"/>
+                            <Label Grid.Row="1" FontSize="18" Foreground="WhiteSmoke" Margin="4"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Content="{Binding TransferSource, Converter={StaticResource TransferObjectLabelConverter}}" 
+                               Grid.Column="1"/>
+                        </Grid>
+                        <Button Grid.Row='1' Margin="8" Content="Source" FontWeight="Bold" Height="48"  Command="{Binding TransferSourceClickCommand}">
+                            <Button.IsEnabled>
+                                <MultiBinding Converter="{StaticResource GPHandlingBtnEnableConverter}">
+                                    <Binding Path="loaderModule.LoaderMaster.CurrentModuleState"/>
+                                    <Binding Path="SourceEnable"/>
+                                </MultiBinding>
+                            </Button.IsEnabled>
+                        </Button>
+                    </Grid>
+                </Border>
+                <Label Grid.Column="1" Content="→" FontSize="24" FontWeight="Bold" Foreground="WhiteSmoke" 
+                               VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5"/>
+
+                <Border BorderBrush="WhiteSmoke" BorderThickness="0.8" Margin="4" Grid.Column="2">
+                    <Grid Margin="0,0,0,0" Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" Margin='4' >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Border BorderBrush="WhiteSmoke" BorderThickness="0.6" Margin="4" Grid.Row="0" Grid.RowSpan="3">
+                            </Border>
+                            <Image HorizontalAlignment="Stretch" Margin="4"  Grid.Row="0"
+                                   Source="{Binding TransferTarget ,Converter={StaticResource ImageConverter}}">
+                            </Image>
+                            <Label Grid.Row="1" FontSize="18" Foreground="WhiteSmoke" Margin="4"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   Content="{Binding TransferTarget, Converter={StaticResource TransferObjectLabelConverter}}"/>
+                        </Grid>
+                        <Button Grid.Row='1' Margin="8" Content="Target" FontWeight="Bold" Height="48" Command="{Binding TransferTargetClickCommand}">
+                            <Button.IsEnabled>
+                                <MultiBinding Converter="{StaticResource GPHandlingBtnEnableConverter}">
+                                    <Binding Path="loaderModule.LoaderMaster.CurrentModuleState"/>
+                                    <Binding Path="TargetEnable"/>
+                                </MultiBinding>
+                            </Button.IsEnabled>
+                        </Button>
+                    </Grid>
+                </Border>
+                <Button  Content="Transfer" Margin="8" FontWeight="Bold"  MinHeight="48" Command="{Binding TransferCommand}" Grid.Column="4" VerticalAlignment="Center" Height="100">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource GPHandlingBtnEnableConverter}">
+                            <Binding Path="loaderModule.LoaderMaster.CurrentModuleState"/>
+                            <Binding Path="TransferEnable"/>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
+            </Grid>
+            <TabControl Grid.RowSpan="3" Grid.Column="3" Margin="4" SelectedIndex="{Binding SelectedTabIndex}">
+                <TabItem Header="Dock" Background="DimGray" HorizontalAlignment="Right" Visibility="{Binding CardChangeType, Converter={StaticResource DockSequenceVisibilityConv}}">
+                    <Grid Background="Black">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="0.2*"/>
+                            <RowDefinition Height="0.5*"/>
+                        </Grid.RowDefinitions>
+                        <GroupBox Grid.Row="0" Grid.Column="0"
+                      Margin="8"
+                    Header="Sequence List"
+                          Foreground="White"
+                          FontSize="15"
+                          FontWeight="Bold"                      
+                                  >
+                            <ListBox    local:ListBoxExtensions.KeepSelectedItemVisible="True"
+                            Background="#333333"
+                            ItemsSource="{Binding DockSequences}"
+                            SelectedIndex="{Binding SequenceRunnerModule.SelectedBehaviorIdx}">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                        <Setter Property="Padding" Value="1"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid x:Name="_ItemGrid" Height="30" VerticalAlignment="Stretch">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock  Grid.Row="0" Grid.Column="0" x:Name="textblockBehavior" Text="{Binding SequenceDescription}"
+                                           Foreground="Black"
+                                           Margin="8 0 0 0"
+                                           VerticalAlignment="Center"/>
+                                            <TextBlock  Grid.Row="0" Grid.Column="2" x:Name="textblockState" Text="{Binding StateEnum}"
+                                           Foreground="Black"
+                                           VerticalAlignment="Center"/>
+                                            <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="1" VerticalAlignment="Top"/>
+                                        </Grid>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding StateEnum}" Value="IDLE">
+                                                <Setter TargetName="_ItemGrid" Property="Background" Value="#999999"/>
+                                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="Black"/>
+                                                <Setter TargetName="textblockState" Property="Foreground" Value="Black"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding StateEnum}" Value="RUNNING">
+                                                <Setter TargetName="_ItemGrid" Property="Background" Value="#004B8D"/>
+                                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="White"/>
+                                                <Setter TargetName="textblockState" Property="Foreground" Value="White"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding StateEnum}" Value="ERROR">
+                                                <Setter TargetName="_ItemGrid" Property="Background" Value="#ff0040"/>
+                                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="White"/>
+                                                <Setter TargetName="textblockState" Property="Foreground" Value="White"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding StateEnum}" Value="CLEAR">
+                                                <Setter TargetName="_ItemGrid" Property="Background" Value="Black"/>
+                                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="White"/>
+                                                <Setter TargetName="textblockState" Property="Foreground" Value="White"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding StateEnum}" Value="PRE_SAFETY_INVALID">
+                                                <Setter TargetName="_ItemGrid" Property="Background" Value="#CE3175"/>
+                                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="White"/>
+                                                <Setter TargetName="textblockState" Property="Foreground" Value="White"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding StateEnum}" Value="POST_SAFETY_INVALID">
+                                                <Setter TargetName="_ItemGrid" Property="Background" Value="#CE3175"/>
+                                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="White"/>
+                                                <Setter TargetName="textblockState" Property="Foreground" Value="White"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding StateEnum}" Value="DONE">
+                                                <Setter TargetName="_ItemGrid" Property="Background" Value="#999999"/>
+                                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="Black"/>
+                                                <Setter TargetName="textblockState" Property="Foreground" Value="Green"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding StateEnum}" Value="PAUSED">
+                                                <Setter TargetName="_ItemGrid" Property="Background" Value="Yellow"/>
+                                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="Black"/>
+                                                <Setter TargetName="textblockState" Property="Foreground" Value="Green"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </GroupBox>
+
+                        <GroupBox   Grid.Row="1"
+                        Header="Sequence Control"
+                        Margin="8, 0, 8, 0"
+                        Foreground="White"
+                        FontSize="12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <!--<ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>-->
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <!--<Button Margin="2.5,5,2.5,2.5" Grid.Column="0" IsEnabled="False">
+                                    --><!--<Button.IsEnabled>
+                                        <MultiBinding Converter="{StaticResource ModuleStateToBoolConv}">
+                                            <Binding Path="CurrState"/>
+                                        </MultiBinding>
+                                    </Button.IsEnabled>--><!--
+                                    <Button.Content>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Viewbox Grid.Row="0" >
+                                                <Canvas Width="24" Height="24" Margin="5">
+                                                    <Path   Data="M 25.370002 0.7440033 L 25.370002 31.259995 6.8229996 16.003006 z M 0 0 L 6.8229996 0 6.8229996 16.003006 6.8229996 32 0 32 z" 
+                                                        Fill="Black" />
+                                                </Canvas>
+                                            </Viewbox>
+                                            <TextBlock Margin="0,4,0,2" FontSize="15" Grid.Row="1" 
+                                                    TextAlignment="Center" FontWeight="Bold"
+                                                    Text="Reverse"
+                                        />
+                                        </Grid>
+                                    </Button.Content>
+                                </Button>-->
+                                <!--<Button Margin="2.5,5,2.5,2.5" 
+                                         Command="{Binding DockingAbortCommand}" Grid.Column="0" >
+                                    --><!--IsEnabled="False" >--><!--
+                                    <Button.IsEnabled>
+                                        <MultiBinding Converter="{StaticResource ModuleStateToBoolConv2}">
+                                            <Binding Path="DockCurrState"/>
+                                        </MultiBinding>
+                                    </Button.IsEnabled>
+                                    <Button.Content>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="9*"/>
+                                                <RowDefinition Height="5*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Viewbox Grid.Row="0" Margin="0,0,-6,0" Grid.RowSpan="2" >
+                                                <Canvas Width="24" Height="24" Margin="5">
+                                                    <Path   Data="M 0 0 L 29.198001 0 29.198001 32 0 32 z" 
+                                                        Fill="Black" Canvas.Left="-4" Stretch="Fill" Width="33" />
+                                                </Canvas>
+                                            </Viewbox>
+                                            <TextBlock Margin="0,4,-6,2" FontSize="15" Grid.Row="2" 
+                                                    TextAlignment="Center" FontWeight="Bold"
+                                                    Text="Abort"
+                                        />
+                                        </Grid>
+                                    </Button.Content>
+                                </Button>-->
+                                <Button Margin="2.5,5,2.5,2.5"
+                                            Command="{Binding DockingPauseCommand}" Grid.Column="0">
+                                    <!--IsEnabled="False">-->
+                                    <Button.IsEnabled>
+                                        <MultiBinding Converter="{StaticResource ModuleStateToBoolConv}">
+                                            <Binding Path="DockCurrState"/>
+                                            <Binding Path="DockSequencesCount"/>
+                                            <Binding Path="CurBehaviorIdx"/>
+                                        </MultiBinding>
+                                    </Button.IsEnabled>
+                                    <Button.Content>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Viewbox Grid.Row="0" >
+                                                <Canvas Width="24" Height="24" Margin="5">
+                                                    <Path   Data="M 18.51899 0 L 29.981999 0 29.981999 32 18.51899 32 z M 0 0 L 11.464992 0 11.464992 32 0 32 z" 
+                                                        Fill="Black" />
+                                                </Canvas>
+                                            </Viewbox>
+                                            <TextBlock Margin="0,4,0,2" FontSize="15" Grid.Row="1" 
+                                                    TextAlignment="Center" FontWeight="Bold"
+                                                    Text="Pause"
+                                        />
+                                        </Grid>
+                                    </Button.Content>
+                                </Button>
+                                <Button Margin="2.5,5,2.5,2.5"
+                                            Command="{Binding DockingContinueCommand}" Grid.Column="1">
+                                    <!--IsEnabled="False">-->
+                                    <Button.IsEnabled>
+                                        <MultiBinding Converter="{StaticResource ModuleStateToBoolConv2}">
+                                            <Binding Path="DockCurrState"/>
+                                        </MultiBinding>
+                                    </Button.IsEnabled>
+                                    <Button.Content>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Viewbox Grid.Row="0" >
+                                                <Canvas Width="24" Height="24" Margin="5">
+                                                    <Path   Data="M 0 0 L 22.652 15.996998 0 31.999996 z" 
+                                                        Fill="Black" />
+                                                </Canvas>
+                                            </Viewbox>
+                                            <TextBlock Margin="0,4,0,2" FontSize="15" Grid.Row="1" 
+                                                    TextAlignment="Center" FontWeight="Bold"
+                                                    Text="continue"
+                                        />
+                                        </Grid>
+                                    </Button.Content>
+                                </Button>
+                                <Button Margin="2.5,5,2.5,2.5"
+                                            Command="{Binding DockingStepUpCommand}" Grid.Column="2" >
+                                    <!--IsEnabled="False">-->
+                                    <Button.IsEnabled>
+                                        <MultiBinding Converter="{StaticResource ModuleStateToBoolConv2}">
+                                            <Binding Path="DockCurrState"/>
+                                        </MultiBinding>
+                                    </Button.IsEnabled>
+                                    <Button.Content>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Viewbox Grid.Row="0" >
+                                                <Canvas Width="24" Height="24" Margin="4">
+                                                    <Path   Data="M 0 0.7440033 L 18.551971 16.002998 0 31.255997 z M 18.551971 0 L 25.368 0 25.368 32 18.551971 32 18.551971 16.002998 z" 
+                                                        Fill="Black" />
+                                                </Canvas>
+                                            </Viewbox>
+                                            <TextBlock Margin="0,4,0,2" FontSize="12" Grid.Row="1" 
+                                                    TextAlignment="Center" FontWeight="Bold"
+                                                    Text="Next Step"
+                                        />
+                                        </Grid>
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox   Grid.Row="2"
+                        Header="Error Message"
+                        Margin="8"
+                        Foreground="White"
+                        FontSize="12">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+
+                                </Grid.RowDefinitions>
+                                <Border Grid.Row="1" BorderThickness="1" BorderBrush="White">
+                                    <Grid>
+                                        <TextBox Text="{Binding Reason}"  Foreground="White" x:Name="reason_Dock" HorizontalAlignment="Left"
+                                                 VerticalAlignment="Top" IsReadOnly="True"  Margin="8, 0, 0, 0"/>
+                                        <TextBlock IsHitTestVisible="False" Text="When an error occurs, the cause of the error is displayed." Margin="16, 4, 4, 4" Foreground="DarkGray" FontSize="15" TextWrapping="Wrap">
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Text, ElementName= reason_Dock}" Value="">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Grid>
+                                </Border>
+
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Undock" Background="DimGray" Visibility="{Binding CardChangeType, Converter={StaticResource DockSequenceVisibilityConv}}">
+                    <Grid Background="Black">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="0.2*"/>
+                            <RowDefinition Height="0.5*"/>
+                        </Grid.RowDefinitions>
+                        <GroupBox Grid.Row="0" Grid.Column="0"
+                      Margin="8"
+                    Header="Sequence List"
+                          Foreground="White"
+                          FontSize="15"
+                          FontWeight="Bold">
+                            <ListBox    local:ListBoxExtensions.KeepSelectedItemVisible="True"
+                            Background="#333333"
+                            ItemsSource="{Binding UnDockSequences}"
+                            SelectedIndex="{Binding SequenceRunnerModule.SelectedBehaviorIdx}">
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                        <Setter Property="Padding" Value="1"/>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid x:Name="_ItemGrid" Height="30" VerticalAlignment="Stretch">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Row="0" Grid.Column="0" x:Name="textblockBehavior" Text="{Binding SequenceDescription}"
+                                           Foreground="Black"
+                                           Margin="8 0 0 0"
+                                           VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Row="0" Grid.Column="2" x:Name="textblockState" Text="{Binding StateEnum}"
+                                           Foreground="Black"
+                                           VerticalAlignment="Center"/>
+                                            <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="1" VerticalAlignment="Top"/>
+                                        </Grid>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding StateEnum}" Value="IDLE">
+                                                <Setter TargetName="_ItemGrid" Property="Background" Value="#999999"/>
+                                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="Black"/>
+                                                <Setter TargetName="textblockState" Property="Foreground" Value="Black"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding StateEnum}" Value="RUNNING">
+                                                <Setter TargetName="_ItemGrid" Property="Background" Value="#004B8D"/>
+                                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="White"/>
+                                                <Setter TargetName="textblockState" Property="Foreground" Value="White"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding StateEnum}" Value="ERROR">
+                                                <Setter TargetName="_ItemGrid" Property="Background" Value="#ff0040"/>
+                                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="White"/>
+                                                <Setter TargetName="textblockState" Property="Foreground" Value="White"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding StateEnum}" Value="CLEAR">
+                                                <Setter TargetName="_ItemGrid" Property="Background" Value="Black"/>
+                                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="White"/>
+                                                <Setter TargetName="textblockState" Property="Foreground" Value="White"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding StateEnum}" Value="PRE_SAFETY_INVALID">
+                                                <Setter TargetName="_ItemGrid" Property="Background" Value="#CE3175"/>
+                                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="White"/>
+                                                <Setter TargetName="textblockState" Property="Foreground" Value="White"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding StateEnum}" Value="POST_SAFETY_INVALID">
+                                                <Setter TargetName="_ItemGrid" Property="Background" Value="#CE3175"/>
+                                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="White"/>
+                                                <Setter TargetName="textblockState" Property="Foreground" Value="White"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding StateEnum}" Value="DONE">
+                                                <Setter TargetName="_ItemGrid" Property="Background" Value="#999999"/>
+                                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="Black"/>
+                                                <Setter TargetName="textblockState" Property="Foreground" Value="Green"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding StateEnum}" Value="PAUSED">
+                                                <Setter TargetName="_ItemGrid" Property="Background" Value="Yellow"/>
+                                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="Black"/>
+                                                <Setter TargetName="textblockState" Property="Foreground" Value="Green"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </GroupBox>
+
+                        <GroupBox   Grid.Row="1"
+                        Header="Sequence Control"
+                        Margin="8, 0, 8, 0"
+                        Foreground="White"
+                        FontSize="12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <!--<ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>-->
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <!--<Button Margin="2.5,5,2.5,2.5" IsEnabled="False"
+                                            Command="{Binding CellLotResumeCommand}" Grid.Column="0">
+                                    <Button.Content>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Viewbox Grid.Row="0" >
+                                                <Canvas Width="24" Height="24" Margin="5">
+                                                    <Path   Data="M 25.370002 0.7440033 L 25.370002 31.259995 6.8229996 16.003006 z M 0 0 L 6.8229996 0 6.8229996 16.003006 6.8229996 32 0 32 z" 
+                                                        Fill="Black" />
+                                                </Canvas>
+                                            </Viewbox>
+                                            <TextBlock Margin="0,4,0,2" FontSize="15" Grid.Row="1" 
+                                                    TextAlignment="Center" FontWeight="Bold"
+                                                    Text="Reverse"/>
+                                        </Grid>
+                                    </Button.Content>
+                                </Button>-->
+                                <!--<Button Margin="2.5,5,2.5,2.5" 
+                                            Command="{Binding UnDockingAbortCommand}" Grid.Column="0">
+                                    --><!--IsEnabled="False">--><!--
+                                    <Button.IsEnabled>
+                                        <MultiBinding Converter="{StaticResource ModuleStateToBoolConv2}">
+                                            <Binding Path="UnDockCurrState"/>
+                                        </MultiBinding>
+                                    </Button.IsEnabled>
+                                    <Button.Content>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Viewbox Grid.Row="0" >
+                                                <Canvas Width="24" Height="24" Margin="5">
+                                                    <Path   Data="M 0 0 L 29.198001 0 29.198001 32 0 32 z" 
+                                                        Fill="Black" Canvas.Left="-3.692" Stretch="Fill" Width="32.692" />
+                                                </Canvas>
+                                            </Viewbox>
+                                            <TextBlock Margin="0,4,0,2" FontSize="15" Grid.Row="1" 
+                                                    TextAlignment="Center" FontWeight="Bold"
+                                                    Text="Abort"
+                                        />
+                                        </Grid>
+                                    </Button.Content>
+                                </Button>-->
+                                <Button Margin="2.5,5,2.5,2.5" 
+                                            Command="{Binding UnDockingPauseCommand}" Grid.Column="0" >
+                                    <!--IsEnabled="False">-->
+                                    <Button.IsEnabled>
+                                        <MultiBinding Converter="{StaticResource ModuleStateToBoolConv}">
+                                            <Binding Path="UnDockCurrState"/>
+                                            <Binding Path="UnDockSequencesCount"/>
+                                            <Binding Path="CurBehaviorIdx"/>
+                                        </MultiBinding>
+                                    </Button.IsEnabled>
+                                    <Button.Content>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Viewbox Grid.Row="0" >
+                                                <Canvas Width="24" Height="24" Margin="5">
+                                                    <Path   Data="M 18.51899 0 L 29.981999 0 29.981999 32 18.51899 32 z M 0 0 L 11.464992 0 11.464992 32 0 32 z" 
+                                                        Fill="Black" />
+                                                </Canvas>
+                                            </Viewbox>
+                                            <TextBlock Margin="0,4,0,2" FontSize="15" Grid.Row="1" 
+                                                    TextAlignment="Center" FontWeight="Bold"
+                                                    Text="Pause"
+                                        />
+                                        </Grid>
+                                    </Button.Content>
+                                </Button>
+                                <Button Margin="2.5,5,2.5,2.5"
+                                            Command="{Binding UnDockingContinueCommand}" Grid.Column="1" >
+                                    <!--IsEnabled="False">-->
+                                    <Button.IsEnabled>
+                                        <MultiBinding Converter="{StaticResource ModuleStateToBoolConv2}">
+                                            <Binding Path="UnDockCurrState"/>
+                                        </MultiBinding>
+                                    </Button.IsEnabled>
+                                    <Button.Content>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Viewbox Grid.Row="0" >
+                                                <Canvas Width="24" Height="24" Margin="5">
+                                                    <Path   Data="M 0 0 L 22.652 15.996998 0 31.999996 z" 
+                                                        Fill="Black" />
+                                                </Canvas>
+                                            </Viewbox>
+                                            <TextBlock Margin="0,4,0,2" FontSize="15" Grid.Row="1" 
+                                                    TextAlignment="Center" FontWeight="Bold"
+                                                    Text="continue"
+                                        />
+                                        </Grid>
+                                    </Button.Content>
+                                </Button>
+                                <Button Margin="2.5,5,2.5,2.5"
+                                            Command="{Binding UnDockingStepUpCommand}" Grid.Column="2">
+                                    <!--IsEnabled="False">-->
+                                    <Button.IsEnabled>
+                                        <MultiBinding Converter="{StaticResource ModuleStateToBoolConv2}">
+                                            <Binding Path="UnDockCurrState"/>
+                                        </MultiBinding>
+                                    </Button.IsEnabled>
+                                    <Button.Content>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Viewbox Grid.Row="0" >
+                                                <Canvas Width="24" Height="24" Margin="4">
+                                                    <Path   Data="M 0 0.7440033 L 18.551971 16.002998 0 31.255997 z M 18.551971 0 L 25.368 0 25.368 32 18.551971 32 18.551971 16.002998 z" 
+                                                        Fill="Black" />
+                                                </Canvas>
+                                            </Viewbox>
+                                            <TextBlock Margin="0,4,0,2" FontSize="12" Grid.Row="1" 
+                                                    TextAlignment="Center" FontWeight="Bold"
+                                                    Text="Next Step"
+                                        />
+                                        </Grid>
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox   Grid.Row="2"
+                        Header="Error Message"
+                        Margin="8"
+                        Foreground="White"
+                        FontSize="12">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <Border Grid.Row="1" BorderThickness="1" BorderBrush="White">
+                                    <Grid>
+                                        <TextBox Text="{Binding Reason}"  Foreground="White" x:Name="reason_UnDock" HorizontalAlignment="Left" VerticalAlignment="Top" IsReadOnly="True" Margin="8,0,0,0"/>
+                                        <TextBlock IsHitTestVisible="False" Text="When an error occurs, the cause of the error is displayed." Margin="16, 4, 4, 4" Foreground="DarkGray" FontSize="15" TextWrapping="Wrap">
+                                            <TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Text, ElementName= reason_UnDock}" Value="">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Grid>
+                                </Border>
+
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Parameter" Background="DimGray" >
+                    <Grid Background="Black">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Margin="20" Background="Black">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+
+                            <GroupBox Grid.Row="0" Grid.ColumnSpan="3" Header="Card Contact Pos Z" FontSize="15" Height="100">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="3*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Current Value" Foreground="White" FontSize="15" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding CardContactPosZ,StringFormat={}: {0:0}}" HorizontalAlignment="Left" Foreground="White" FontSize="15" VerticalAlignment="Center"/>
+                                </Grid>
+                            </GroupBox>
+
+                            <GroupBox Grid.Row="1" Grid.ColumnSpan="3" Header="Contact Offset" FontSize="15" Height="100">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="3*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Current Value " Foreground="White" FontSize="15" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding ContactCorrectionZ, StringFormat={}: {0:0}}"  Foreground="White" FontSize="15" VerticalAlignment="Center"/>
+
+                                    <StackPanel Grid.Column="2" HorizontalAlignment="Left"  Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="Setting Value : " Foreground="White" HorizontalAlignment="Left" FontSize="15" Margin="20 0 0 0"/>
+                                        <TextBox  Text="{Binding CardContactOffsetSettingZ}"  Width="100" Foreground="White" FontSize="15" />
+                                    </StackPanel>
+                                    <Button AutomationProperties.AutomationId="btnDockApply" 
+                                            Grid.Column="2"  Margin="0 0 20 0" Content="Apply" Width="150" Command="{Binding CardContactSettingZCommand}" HorizontalAlignment="Right"/>
+                                </Grid>
+                            </GroupBox>
+
+                            <GroupBox Grid.Row="2" Grid.ColumnSpan="3" Header="UndockContact Offset" FontSize="15" Height="100">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="3*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Current Value " Foreground="White" FontSize="15" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding CardUndockContactOffsetZ, StringFormat={}: {0:0}}" HorizontalAlignment="Left" Foreground="White" FontSize="15" VerticalAlignment="Center"/>
+
+                                    <StackPanel Grid.Column="2" HorizontalAlignment="Left"  Orientation="Horizontal"  VerticalAlignment="Center">
+                                        <TextBlock Text="Setting Value : " Foreground="White" HorizontalAlignment="Center" FontSize="15" Margin="20 0 0 0"/>
+                                        <TextBox  Text="{Binding CardUndockContactOffsetSettingZ}"  Width="100" Foreground="White" FontSize="15"/>
+                                    </StackPanel>
+                                    <Button AutomationProperties.AutomationId="btnUndockApply"
+                                            Grid.Column="3"  Margin="0 0 20 0" Content="Apply" Width="150" Command="{Binding CardUndockContactSettingZCommand}" HorizontalAlignment="Right"/>
+                                </Grid>
+                            </GroupBox>
+
+                            <GroupBox Grid.Row="3" Grid.ColumnSpan="3" Header="Focus Range" FontSize="15" Height="100">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="3*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Current Value " Foreground="White" FontSize="15" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding FocusRange, StringFormat={}: {0:0}}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontSize="15"/>
+
+                                    <StackPanel Grid.Column="2" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center" >
+                                        <TextBlock Text="Setting Value : " Foreground="White" HorizontalAlignment="Center" FontSize="15" Margin="20 0 0 0"/>
+                                        <TextBox  Text="{Binding FocusRangeSetting}"  Width="100" Foreground="White" FontSize="15"/>
+                                    </StackPanel>
+                                    <Button AutomationProperties.AutomationId="btnSetFocus"
+                                            Grid.Column="3"  Margin="0 0 20 0" Content="Apply" Width="150"  Command="{Binding FocusRangeSettingZCommand}" HorizontalAlignment="Right"/>
+                                </Grid>
+                            </GroupBox>
+
+                            <GroupBox Grid.Row="4" Grid.ColumnSpan="3" Header="Align Retry Count" FontSize="15" Height="100">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="3*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Current Value"  Foreground="White" FontSize="15" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding CardAlignRetryCount, StringFormat={}: {0:0}}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontSize="15"/>
+
+                                    <StackPanel Grid.Column="2" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="Setting Value : " Foreground="White" HorizontalAlignment="Center" FontSize="15" Margin="20 0 0 0"/>
+                                        <TextBox  Text="{Binding CardAlignRetryCountSetting}"  Width="100" Foreground="White" FontSize="15"/>
+                                    </StackPanel>
+                                    <Button AutomationProperties.AutomationId="btnSetRetryCnt"
+                                            Grid.Column="3" Margin="0 0 20 0"  Content="Apply" Width="150" Command="{Binding SetAlignRetryCountCommand}" HorizontalAlignment="Right"/>
+                                </Grid>
+                            </GroupBox>
+
+                            <GroupBox Grid.Row="5" Grid.ColumnSpan="3" Header="Distance Offset" FontSize="15" Height="100">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="3*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Current Value" Foreground="White" FontSize="15" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding DistanceOffset, StringFormat={}: {0:0}}" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontSize="15"/>
+
+                                    <StackPanel Grid.Column="2" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="Setting Value : " Foreground="White" HorizontalAlignment="Center" FontSize="15" Margin="20 0 0 0"/>
+                                        <TextBox  Text="{Binding DistanceOffsetSetting}"  Width="100" Foreground="White" FontSize="15"/>
+                                    </StackPanel>
+                                    <Button AutomationProperties.AutomationId="btnSetDistance"
+                                            Grid.Column="3" Margin="0 0 20 0"  Content="Apply" Width="150" Command="{Binding SetDistanceOffsetCommand}" HorizontalAlignment="Right"/>
+                                </Grid>
+                            </GroupBox>
+
+                            <GroupBox Grid.Row="6" Grid.ColumnSpan="3" Header="I/O (Read Only)" FontSize="15">
+                                <StackPanel Orientation="Vertical">
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1.3*"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="Card on Card Pod" Foreground="White" FontSize="15" VerticalAlignment="Center"/>
+                                        <ToggleButton Grid.Column="1" AutomationProperties.AutomationId="tglCardOnPogoPod" HorizontalAlignment="Left" Margin="20 10 0 10"
+                                            IsChecked="{Binding CardOnPogoPod}"  Foreground="White">
+                                        </ToggleButton>
+                                    </Grid>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1.3*"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="Tester and Pogo touched each other" Foreground="White" FontSize="15" VerticalAlignment="Center"/>
+                                        <ToggleButton Grid.Column="1" AutomationProperties.AutomationId="tglTesterandPogotouched" HorizontalAlignment="Left" Margin="20 10 0 10"
+                                            IsChecked="{Binding TesterPogoTouched}"  Foreground="White">
+                                        </ToggleButton>
+                                    </Grid>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1.3*"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="Card and Pogo touched each other" Foreground="White" FontSize="15" VerticalAlignment="Center"/>
+                                        <ToggleButton Grid.Column="1" AutomationProperties.AutomationId="tglCardandPogotouched" HorizontalAlignment="Left" Margin="20 10 0 10"
+                                            IsChecked="{Binding CardPogoTouched}"  Foreground="White">
+                                        </ToggleButton>
+                                    </Grid>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1.3*"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="Tester MotherBoard Connected" Foreground="White" FontSize="15" VerticalAlignment="Center"/>
+                                        <ToggleButton Grid.Column="1" AutomationProperties.AutomationId="tgTesterMotherBoardConnected" HorizontalAlignment="Left" Margin="20 10 0 10"
+                                            IsChecked="{Binding IsTesterMotherBoardConnected}"  Foreground="White">
+                                        </ToggleButton>
+                                    </Grid>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1.3*"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="Tester PCB Unlock" Foreground="White" FontSize="15" VerticalAlignment="Center"/>
+                                        <ToggleButton Grid.Column="1" AutomationProperties.AutomationId="tgTesterPCBUnlock" HorizontalAlignment="Left" Margin="20 10 0 10"
+                                            IsChecked="{Binding IsTesterPCBUnlock}"  Foreground="White">
+                                        </ToggleButton>
+                                    </Grid>
+
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1.3*"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="Wait Card Permission" Foreground="White" FontSize="15" VerticalAlignment="Center"/>
+                                        <ToggleButton Grid.Column="1" HorizontalAlignment="Left" Margin="20 10 0 10"
+                                                    IsChecked="{Binding WaitForCardPermitEnable}"
+                                                    Foreground="White" Command="{Binding Path=SetWaitForCardPermitEnableCommand}" CommandParameter="{Binding Path=IsChecked, RelativeSource={RelativeSource Self}}">
+                                        </ToggleButton>
+                                    </Grid>
+                                </StackPanel>
+                            </GroupBox>
+                        </Grid>
+
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Manual Control" Background="DimGray">
+                    <Grid Background="Black">
+                        <Grid.IsEnabled>
+                            <MultiBinding Converter="{StaticResource ModuleStateToBoolConv3}">
+                                <Binding Path="DockCurrState"/>
+                                <Binding Path="UnDockCurrState"/>
+                            </MultiBinding>
+                        </Grid.IsEnabled>
+                        <Grid Margin="4" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <UniformGrid Rows="12" Columns="3" Visibility="Visible">
+                                <Button Content="Move to &#xa;Loader" Margin="4" Command="{Binding MoveToLoaderCommand}"/>
+
+                                <Button Content="Raise Pod" Margin="4" Command="{Binding RaisePodCommand}" />
+                                <Button Content="Drop Pod" Margin="4" Command="{Binding DropPodCommand}"/>
+
+                                <Button Content="Sol Lock" Margin="4" Command="{Binding TopPlateSolLockCommand}"/>
+                                <Button Content="Sol UnLock" Margin="4" Command="{Binding TopPlateSolUnLockCommand}"/>
+
+                                <Button Content="Card Pod &#xa;Vac Off" Margin="4" Command="{Binding PCardPodVacuumOffCommand}"/>
+                                <Button Content="Card Pod &#xa;Vac On" Margin="4" Command="{Binding PCardPodVacuumOnCommand}"/>
+
+
+                                <Button Content="Upplate Tester&#xa;Vac Off" Margin="4" Command="{Binding UpPlateTesterCOfftactVacuumOffCommand}"/>
+                                <Button Content="Upplate Tester&#xa;Vac On" Margin="4" Command="{Binding UpPlateTesterContactVacuumOnCommand}"/>
+
+                                <Button Content="Dock Card" Margin="4" Command="{Binding DockCardCommand}"/>
+                                <Button Content="Undock Card" Margin="4" Command="{Binding UnDockCardCommand}"/>
+
+                                <Button Grid.Column="0" Grid.Row="1" Content="Small&#xa;Raise" Margin="4" Background="OrangeRed" Command="{Binding SmallRaiseChuckCommand}"/>
+                                <Button Grid.Column="1" Grid.Row="1" Content="Small&#xa;Drop" Margin="4" Background="OrangeRed" Command="{Binding SmallDropChuckCommand}"/>
+
+                                <Button Content="ZIF Toggle" Margin="4" Command="{Binding ZIFLockToggleCommand}"/>
+                                <Button Content="PGV Clear" Margin="4" Command="{Binding PGVClearCommand}"/>
+
+                            </UniformGrid>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+
+
+            </TabControl>
+        </Grid>
+        <Grid>
+            <view:ScreenLock DataContext="{Binding SelectedStage}"/>
+        </Grid>
+    </Grid>
+</UserControl>

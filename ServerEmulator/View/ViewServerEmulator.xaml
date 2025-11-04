@@ -1,0 +1,208 @@
+<UserControl x:Class="ServerEmulator.View.ViewServerEmulator"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ServerEmulator.View"
+             xmlns:vm="clr-namespace:ServerEmulator.ViewModel"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:pie="clr-namespace:ProberInterfaces.Enum;assembly=ProberInterfaces"
+             xmlns:Bin="clr-namespace:BinAnalyzer.Data;assembly=BinAnalyzer"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="960" d:DesignWidth="1024">
+    <Grid>
+        <Grid.Resources>
+
+            <ResourceDictionary>
+
+                <x:Array Type="{x:Type System:String}" x:Key="myClassArray">
+                    <!--<System:String>BIN_8BIT</System:String>
+                <System:String>BIN_16BIT</System:String>
+                <System:String>BIN_32BIT</System:String>-->
+                    <System:String>BIN_32BIT_SPECIAL</System:String>
+                    <System:String>BIN_U32_32BIT</System:String>
+                    <System:String>BIN_U32_64BIT</System:String>
+                    <System:String>BIN_1024BIT</System:String>
+                    <System:String>BIN_USERBIN</System:String>
+                </x:Array>
+                
+                <ObjectDataProvider x:Key="getDataBinType" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                    <ObjectDataProvider.MethodParameters>
+                        <x:Type TypeName="pie:BinType"/>
+                    </ObjectDataProvider.MethodParameters>
+                </ObjectDataProvider>
+
+                <local:EnumExcludeSpecificConverter x:Key="EnumExcludeSpecificConv" ExcludeStr="{StaticResource myClassArray}"/>
+
+            </ResourceDictionary>
+            
+        </Grid.Resources>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="8*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Column="0" Margin="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80*"/>
+            </Grid.RowDefinitions>
+            <ListBox Grid.Row="0" Margin="10" x:Name="CommandCollectionList" Background="White"
+                     ItemsSource="{Binding CommandCollection}"
+                     local:ListBoxBehavior.ScrollOnNewItem="true">
+                <ListBox.Resources>
+                    <vm:StringToForegroundConverter  x:Key="ForegroundConverter"/>
+                </ListBox.Resources>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Message}" FontWeight="DemiBold" FontSize="18"
+                                   Foreground="{Binding Converter={StaticResource ForegroundConverter}}"
+                                   />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <Button AutomationProperties.AutomationId="btnInit" Margin="8" Content="Init" Command="{Binding InitExecuteCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnConnect" Margin="8" Content="Connect" Command="{Binding ConnectExecuteCommand}" IsEnabled="{Binding ConnectFlag}"/>
+                    <Button AutomationProperties.AutomationId="btnDisconnect" Margin="8" Content="Disconnect" Command="{Binding DisconnectExecuteCommand}"/>
+                </StackPanel>
+                <StackPanel Grid.Row="1">
+                    <StackPanel Orientation="Vertical">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2.2*"></ColumnDefinition>
+                                <ColumnDefinition Width="2.8*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0">IP : </Label>
+                            <TextBox AutomationProperties.AutomationId="txtIP" 
+                                     Grid.Column="1" VerticalAlignment="Center" Width="100" Text="{Binding IP}"></TextBox>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2.2*"></ColumnDefinition>
+                                <ColumnDefinition Width="2.8*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0">Send Port :</Label>
+                            <TextBox AutomationProperties.AutomationId="txtSendPort"
+                                     Grid.Column="1" VerticalAlignment="Center" Width="100" Text="{Binding SendPortNo}"></TextBox>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2.2*"></ColumnDefinition>
+                                <ColumnDefinition Width="2.8*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0">Receive Port :</Label>
+                            <TextBox AutomationProperties.AutomationId="txtReceivePort"
+                                     Grid.Column="1" VerticalAlignment="Center" Width="100" Text="{Binding ReceivePortNo}"></TextBox>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2.2*"></ColumnDefinition>
+                                <ColumnDefinition Width="2.8*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0">Connect :</Label>
+                            <Ellipse Grid.Column="1" Fill="{Binding ClientConnect}" Margin="10 0 0 0" Stroke="LightGray" HorizontalAlignment="Left" Width="15" Height="15"></Ellipse>
+                        </Grid>
+                    </StackPanel>
+
+                </StackPanel>
+
+                <StackPanel Grid.Row="2">
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2.2*"></ColumnDefinition>
+                            <ColumnDefinition Width="2.8*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0">Dut count :</Label>
+                        <TextBox AutomationProperties.AutomationId="txtDutCount"
+                                 Grid.Column="1" VerticalAlignment="Center" Width="100" Text="{Binding DutCount}"></TextBox>
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2.2*"></ColumnDefinition>
+                            <ColumnDefinition Width="2.8*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0">BIN Type :</Label>
+                        <ComboBox  AutomationProperties.AutomationId="cbBINType"
+                                   Grid.Column="1"  Margin="0,0,5,0"
+                                   VerticalAlignment="Center" 
+                                   HorizontalAlignment="Stretch"
+                                   VerticalContentAlignment="Center"
+                                   HorizontalContentAlignment="Center"
+                                   FontSize="20"
+                                   ItemsSource="{Binding Source={StaticResource getDataBinType}, Converter={StaticResource EnumExcludeSpecificConv}}"
+                                   SelectedItem="{Binding BinType}">
+                            
+                            <!--<i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding BinTypeSelectionChangedCommand}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>-->
+                        </ComboBox>
+                    </Grid>
+
+                    <Button AutomationProperties.AutomationId="btnMakeBINData"
+                            Margin="8" Content="Make BIN data" Command="{Binding MakeBinDataCommand}"/>
+                    
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="8*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Margin="3" Text="Send Command : " HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox AutomationProperties.AutomationId="txtSendMsg"
+                     Grid.Column="1"  Margin="3" Text="{Binding SendMsg}" HorizontalAlignment="Stretch"/>
+
+            <Label Grid.Column="2" Content="{Binding SendMsg.Length}" ContentStringFormat="Length is {0}" HorizontalAlignment="Center"/>
+
+            <Button AutomationProperties.AutomationId="btnSendToInterruptPort"
+                    Grid.Column="3" Margin="3" Content="Send to Interrup port" Command="{Binding SendToInterruptPortCommand}"/>
+            <Button AutomationProperties.AutomationId="btnSendToCommandPort"
+                    Grid.Column="4" Margin="3" Content="Send to Command port" Command="{Binding SendToCommandPortCommand}"/>
+        </Grid>
+        <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0 0 0 5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="15*"/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="8*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Margin="3" Text="Receive Command : "
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox AutomationProperties.AutomationId="txtReceiveMsg"
+                     Grid.Column="1"  Margin="3" Text="{Binding ReceiveMsg}" Width="200" HorizontalAlignment="Left"/>
+
+            <Button AutomationProperties.AutomationId="btnClear"
+                    Grid.Column="3" Grid.ColumnSpan="2"
+                    Margin="3" Content="Clear" Command="{Binding ClearCommand}"/>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,186 @@
+﻿<UserControl x:Class="SoakingSettingView.ManualSoakingView"
+             xmlns:local="clr-namespace:SoakingSettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:view="clr-namespace:ProberViewModel.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="940" d:DesignWidth="1280">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SettingControlStyle;component/SettingViewStyleDictionaly.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="130"/>
+                <!--
+            <RowDefinition Height="110"/>
+            -->
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="80"/>
+            </Grid.RowDefinitions>
+
+            <!-- Title -->
+            <Grid Grid.Row="0">
+                <Label Content="Manual Soaking" FontSize="20" FontWeight="Bold" VerticalContentAlignment="Top" Margin="10, 10, 0, 0"/>
+            </Grid>
+
+            <!-- Manual Soaking Time  -->
+            <Grid Grid.Row="1" >
+                <Border Margin="20, 30, 20, 10" BorderThickness="1.5" BorderBrush="DarkGray" CornerRadius="5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1.5*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0"
+                           Content="Time : "
+                           FontSize="13"
+                           VerticalAlignment="Bottom"
+                           HorizontalAlignment="Left"
+                           Margin="0" />
+                        <TextBox Grid.Row="0" Grid.Column="1"
+                             FontSize="13"
+                             Text="{Binding ManualSoakingTime}"
+                             Background="Transparent"
+                             Foreground="White"
+                             BorderBrush="White"
+                             BorderThickness="0, 0, 0, 1"
+                           VerticalAlignment="Bottom"
+                           HorizontalAlignment="Left"
+                           Height="25"
+                           Width="150"
+                             Margin="0">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                        <Label Grid.Row="0" Grid.Column="2"
+                           Content="sec"
+                           FontSize="13"
+                           VerticalAlignment="Bottom"
+                           HorizontalAlignment="Left"
+                           Margin="0" />
+                        <StackPanel Grid.Row="1" Grid.ColumnSpan="3" Orientation="Horizontal">
+                            <Label Content="(Minimum recommended time : "
+                               FontSize="13"
+                               VerticalAlignment="top"
+                               HorizontalAlignment="Left"                           
+                               Margin="0" />
+                            <Label Content="{Binding RecommandedSoakingTime}"
+                               FontSize="13"
+                               VerticalAlignment="top"
+                               HorizontalAlignment="Left"                           
+                               Margin="0" />
+                            <Label Content="sec)"
+                               FontSize="13"
+                               VerticalAlignment="top"
+                               HorizontalAlignment="Left"                           
+                               Margin="0" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Border Background="#38393e"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Margin="30, 13, 10, 10"
+                    CornerRadius="10"
+                    Height="32"
+                    >
+                    <Label Content="Manual Soaking Time (sec)"
+                       FontSize="13"
+                       VerticalAlignment="Center" Margin="0"/>
+                </Border>
+            </Grid>
+
+            <!-- Use Polish Wafer -->
+            <!--
+        <Grid Grid.Row="2" >
+            <local:UcSoakingPolishWafer DataContext="{Binding ManualSoakingPolishWafer}"/>
+        </Grid>
+        -->
+
+            <!-- Config Soaking Step -->
+            <Grid Grid.Row="2">
+                <local:UcSoakingStep DataContext="{Binding ManualSoakingStep}"/>
+            </Grid>
+
+            <!-- Soaking Time & Start/Stop Button -->
+            <Grid Grid.Row="3" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="200"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Soaking Time -->
+                <Grid Grid.Row="0" Grid.Column="0">
+                    <Label Content="Soaked Time : " 
+                       FontSize="14"
+                       VerticalAlignment="Bottom" Margin="10, 0, 0, 0"></Label>
+                </Grid>
+                <Grid Grid.Row="1" Grid.Column="0">
+                    <Label Content="Remaining Time : " 
+                       FontSize="14"
+                       VerticalAlignment="Top" Margin="10, 0, 0, 0"></Label>
+                </Grid>
+
+                <Grid Grid.Row="0" Grid.Column="1">
+                    <Label Content="{Binding SoakedTime}"
+                       FontSize="14"
+                       VerticalAlignment="Bottom" Margin="0"></Label>
+                </Grid>
+                <Grid Grid.Row="1" Grid.Column="1">
+                    <Label Content="{Binding RemainingTime}" 
+                       FontSize="14"
+                       VerticalAlignment="Top" Margin="0"></Label>
+                </Grid>
+
+                <!-- Button : Start Soaking -->
+                <Grid Grid.RowSpan="2" Grid.Column="2">
+                    <Button Content="Start Soaking" VerticalAlignment="Center" Margin="10, 0, 10, 0" Height="40"
+                        Command="{Binding StartSoakingCommand}"
+                        IsEnabled="{Binding CanStartSoak}"></Button>
+                </Grid>
+
+                <!-- Button : Stop Soaking -->
+                <Grid Grid.RowSpan="2" Grid.Column="3">
+                    <Button Content="Stop Soaking" VerticalAlignment="Center" Margin="0, 0, 20, 0" Height="40"
+                        Command="{Binding StopSoakingCommand}" CommandParameter="{Binding ElementName=ManualSoakingViewWnd}"
+                        IsEnabled="{Binding CanStopSoak}"></Button>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="1" Grid.RowSpan="2" Background="Black" Opacity="0.5"
+              Visibility="{Binding EditLockMode}"
+              Margin="2"/>
+        </Grid>
+        <Grid>
+            <view:ScreenLock DataContext="{Binding SelectedStage}"/>
+        </Grid>
+    </Grid>
+</UserControl>

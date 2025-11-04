@@ -1,0 +1,34 @@
+﻿<Window x:Class="UtilityDialogs.Account.AccountSettingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UtilityDialogs.Account"
+        mc:Ignorable="d"
+        Title="Account" Height="400" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Content="USER NAME : " Foreground="Black"></Label>
+            <Label Grid.Column="1" Content="{Binding UserName}" Foreground="Black"></Label>
+
+            <Label Grid.Row="1" Content="PASSWORD : " Foreground="Black"></Label>
+            <TextBox  Grid.Row="1" Grid.Column="1" Text="{Binding Password}" Foreground="Black"
+                       BorderBrush="Black"></TextBox>
+
+            <Button Grid.Row="2" Grid.Column="1" Content="SAVE" Click="Button_Click"/>
+        </Grid>
+    </Grid>
+</Window>

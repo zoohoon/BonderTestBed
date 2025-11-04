@@ -1,0 +1,553 @@
+﻿<UserControl x:Class="ProberViewModel.PMIDutInfoControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProberViewModel"
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:pmi="clr-namespace:ProberInterfaces.PMI;assembly=ProberInterfaces"
+             mc:Ignorable="d" 
+             d:DesignHeight="890" d:DesignWidth="374">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+            <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+            <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+            <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+            <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+            <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+            <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+            <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+            <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+            <!--Control colors.-->
+            <Color x:Key="WindowColor">#FFE8EDF9</Color>
+            <Color x:Key="ContentAreaColorLight">#FFC5CBF9</Color>
+            <Color x:Key="ContentAreaColorDark">#FF7381F9</Color>
+
+            <Color x:Key="DisabledControlLightColor">#FFE8EDF9</Color>
+            <Color x:Key="DisabledControlDarkColor">#FFC5CBF9</Color>
+            <Color x:Key="DisabledForegroundColor">#FF888888</Color>
+
+            <Color x:Key="SelectedBackgroundColor">#FFC5CBF9</Color>
+            <Color x:Key="SelectedUnfocusedColor">#FFDDDDDD</Color>
+
+            <Color x:Key="ControlLightColor">White</Color>
+            <Color x:Key="ControlMediumColor">#FF7381F9</Color>
+            <Color x:Key="ControlDarkColor">#FF211AA9</Color>
+
+            <Color x:Key="ControlMouseOverColor">#FF3843C4</Color>
+            <Color x:Key="ControlPressedColor">#FF211AA9</Color>
+
+
+            <Color x:Key="GlyphColor">#FF444444</Color>
+            <Color x:Key="GlyphMouseOver">sc#1, 0.004391443, 0.002428215, 0.242281124</Color>
+
+            <!--Border colors-->
+            <Color x:Key="BorderLightColor">#FFCCCCCC</Color>
+            <Color x:Key="BorderMediumColor">#FF888888</Color>
+            <Color x:Key="BorderDarkColor">#FF444444</Color>
+
+            <Color x:Key="PressedBorderLightColor">#FF888888</Color>
+            <Color x:Key="PressedBorderDarkColor">#FF444444</Color>
+
+            <Color x:Key="DisabledBorderLightColor">#FFAAAAAA</Color>
+            <Color x:Key="DisabledBorderDarkColor">#FF888888</Color>
+
+            <Color x:Key="DefaultBorderBrushDarkColor">Black</Color>
+
+            <!--Control-specific resources.-->
+            <Color x:Key="HeaderTopColor">#FFC5CBF9</Color>
+            <Color x:Key="DatagridCurrentCellBorderColor">Black</Color>
+            <Color x:Key="SliderTrackDarkColor">#FFC5CBF9</Color>
+
+            <Color x:Key="NavButtonFrameColor">#FF3843C4</Color>
+
+            <LinearGradientBrush x:Key="MenuPopupBrush"
+                     EndPoint="0.5,1"
+                     StartPoint="0.5,0">
+                <GradientStop Color="{DynamicResource ControlLightColor}"
+                Offset="0" />
+                <GradientStop Color="{DynamicResource ControlMediumColor}"
+                Offset="0.5" />
+                <GradientStop Color="{DynamicResource ControlLightColor}"
+                Offset="1" />
+            </LinearGradientBrush>
+
+            <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill"
+                     StartPoint="0,0"
+                     EndPoint="1,0">
+                <LinearGradientBrush.GradientStops>
+                    <GradientStopCollection>
+                        <GradientStop Color="#000000FF"
+                    Offset="0" />
+                        <GradientStop Color="#600000FF"
+                    Offset="0.4" />
+                        <GradientStop Color="#600000FF"
+                    Offset="0.6" />
+                        <GradientStop Color="#000000FF"
+                    Offset="1" />
+                    </GradientStopCollection>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+
+            <Style x:Key="RightButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid Opacity="0.5">
+                                <Border Name="UpButtonBorderStyle" Background="#333333">
+                                    <Border.BitmapEffect>
+                                        <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                    Color="LightGray" 
+                                    ShadowDepth="10"
+                                    Softness="0.5"
+                                    />
+                                    </Border.BitmapEffect>
+                                </Border>
+                                <Viewbox Margin="8">
+                                    <Path Data="M1,21H23L12,2" Fill="White" Name="TryAngleIcon" RenderTransformOrigin="0.5,0.5">
+                                        <Path.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform/>
+                                                <SkewTransform/>
+                                                <RotateTransform Angle="90"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </Path.RenderTransform>
+                                    </Path>
+                                </Viewbox>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsDefaulted" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="UpButtonBorderStyle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true"/>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Fill" TargetName="TryAngleIcon" Value="{StaticResource Button.Pressed.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="UpButtonBorderStyle" Value="{StaticResource Button.Disabled.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="UpButtonBorderStyle" Value="{StaticResource Button.Disabled.Border}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="LeftButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid Opacity="0.5">
+                                <Border Name="UpButtonBorderStyle" Background="#333333">
+                                    <Border.BitmapEffect>
+                                        <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                    Color="LightGray" 
+                                    ShadowDepth="10"
+                                    Softness="0.5"
+                                    />
+                                    </Border.BitmapEffect>
+                                </Border>
+                                <Viewbox Margin="8">
+                                    <Path Data="M1,21H23L12,2" Fill="White" Name="TryAngleIcon" RenderTransformOrigin="0.5,0.5">
+                                        <Path.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform/>
+                                                <SkewTransform/>
+                                                <RotateTransform Angle="270"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </Path.RenderTransform>
+                                    </Path>
+                                </Viewbox>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsDefaulted" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="UpButtonBorderStyle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true"/>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Fill" TargetName="TryAngleIcon" Value="{StaticResource Button.Pressed.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="UpButtonBorderStyle" Value="{StaticResource Button.Disabled.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="UpButtonBorderStyle" Value="{StaticResource Button.Disabled.Border}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="CustomToggleButtonStryle" TargetType="{x:Type ToggleButton}">
+                <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Grid Opacity="0.5">
+                                <Border Name="UpButtonBorderStyle" Background="#333333">
+                                    <Border.BitmapEffect>
+                                        <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                    Color="LightGray" 
+                                    ShadowDepth="10"
+                                    Softness="0.5"
+                                    />
+                                    </Border.BitmapEffect>
+                                </Border>
+                                <Label Content="{TemplateBinding Content}"
+                                       Name="TglBtnContent"
+                                       HorizontalContentAlignment="Center"
+                                       VerticalContentAlignment="Center"
+                                       Margin="0"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="true"/>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="UpButtonBorderStyle" Value="{StaticResource Button.Disabled.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="UpButtonBorderStyle" Value="{StaticResource Button.Disabled.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="true">
+                                    <Setter Property="Background" TargetName="UpButtonBorderStyle" Value="{StaticResource Button.Pressed.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="UpButtonBorderStyle" Value="{StaticResource Button.Pressed.Border}"/>
+                                    <Setter Property="Foreground" TargetName="TglBtnContent" Value="#333333"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <vc:EnumBooleanConverter x:Key="EnumBooleanConv"/>
+            <!--<vc:MathConverter x:Key="Mathconv"/>-->
+            <vc:IntToStringPlusOneConverter x:Key="PlusOneConv"/>
+            
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="160*"/>
+            <RowDefinition Height="80*"/>
+            <RowDefinition Height="160*"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0"
+                  Margin="8"
+                  Header="DUT Info">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80*"/>
+                    <RowDefinition Height="24*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Border BorderBrush="White" BorderThickness="1" CornerRadius="5">
+                    </Border>
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80*"/>
+                        <ColumnDefinition Width="80*"/>
+                        <ColumnDefinition Width="80*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0"
+                            Margin="8"
+                            Style="{StaticResource LeftButtonStyle}"
+                            />
+                    
+                    <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{} {0} / {1}">
+                                <!--<Binding Path="PadInfos.SelectedPMIPadIndex"
+                                         Converter="{StaticResource Mathconv}"
+                                         ConverterParameter="@VALUE+1"/>-->
+                                
+                                <Binding Path="PadInfos.SelectedPMIPadIndex"
+                                         Converter="{StaticResource PlusOneConv}"
+                                         ConverterParameter="plusOne"
+                                         />
+                                
+                                <Binding Path="ProbeCardObject.ProbeCardDevObject.DutList.Count" Mode="OneWay" 
+                                         />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    
+                    <Button Grid.Column="2"
+                            Margin="8"
+                            Style="{StaticResource RightButtonStyle}"/>
+                </Grid>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="1"
+                  Margin="8"
+                  Header="PAD">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80*"/>
+                    <RowDefinition Height="80*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <!--0 Row-->
+                <Button Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="8"
+                        Command="{Binding PadMoveCommand}"
+                        CommandParameter="{x:Static pmi:SETUP_DIRECTION.PREV}"
+                        Style="{StaticResource LeftButtonStyle}"
+                        />
+
+                <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White">
+
+                    <!--<TextBlock.Style>
+                        <Style>
+                            <Style.Triggers>
+
+                                <DataTrigger Binding="{Binding CurrentDie.Pads.SelectedPMIPad.SelectedPMIPadResult.DetectedMarkResult.Count}" Value="0">
+                                            <Setter Property="UIElement.Visibility" Value="Hidden" />
+                                        </DataTrigger>
+
+                                <DataTrigger Binding="{Binding CurrentDie.Pads.SelectedPMIPad.SelectedPMIPadResult}" Value="{x:Null}">
+                                            <Setter Property="TextBlock.Text" Value="Hi" />
+                                        </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>-->
+
+
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{} {0} / {1}">
+                            <!--<Binding Path="PadInfos.SelectedPMIPadIndex"
+                                         Converter="{StaticResource Mathconv}"
+                                         ConverterParameter="@VALUE+1"/>-->
+                            
+                            <Binding Path="PadInfos.SelectedPMIPadIndex"
+                                         Converter="{StaticResource PlusOneConv}"
+                                     ConverterParameter="plusOne"
+                                         />
+                            
+                            <Binding Path="PadInfos.PMIPadInfos.Count" Mode="OneWay" 
+                                         />
+                        </MultiBinding>
+                    </TextBlock.Text>
+
+                </TextBlock>
+                
+                <Button Grid.Row="0"
+                        Grid.Column="2"
+                        Margin="8"
+                        Command="{Binding PadMoveCommand}"
+                        CommandParameter="{x:Static pmi:SETUP_DIRECTION.NEXT}"
+                        Style="{StaticResource RightButtonStyle}"/>
+                
+                <!--1 Row-->
+                <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                    <RadioButton Foreground="White" 
+                                 FontSize="15" 
+                                 GroupName="PadVisibleMode"
+                                 IsChecked="{Binding PadResultMoveModeEnum, Converter={StaticResource EnumBooleanConv}, ConverterParameter=ALL}"
+                                 VerticalContentAlignment="Center"
+                                 >ALL</RadioButton>
+                    <RadioButton Foreground="White" 
+                                 FontSize="15" 
+                                 GroupName="PadVisibleMode"
+                                 IsChecked="{Binding PadResultMoveModeEnum, Converter={StaticResource EnumBooleanConv}, ConverterParameter=PASS}"
+                                 VerticalContentAlignment="Center"
+                                 >PASS</RadioButton>
+                    <RadioButton Foreground="White" 
+                                 FontSize="15" 
+                                 GroupName="PadVisibleMode"
+                                 IsChecked="{Binding PadResultMoveModeEnum, Converter={StaticResource EnumBooleanConv}, ConverterParameter=FAIL}"
+                                 VerticalContentAlignment="Center"
+                                 >FAIL</RadioButton>
+                </StackPanel>
+                <!--<ToggleButton Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="8"
+                        Content="ALL"
+                        Style="{StaticResource CustomToggleButtonStryle}"
+                        IsChecked="{Binding IsAllPadOverlay}"
+                        />
+
+                <ToggleButton Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="8"
+                        Content="FAIL"
+                        Style="{StaticResource CustomToggleButtonStryle}"
+                        IsChecked="{Binding IsFailPadOverlay}"
+                        />-->
+
+                <CheckBox Grid.Row="1"
+                          Grid.Column="2"
+                          Content="Overlay"
+                          HorizontalAlignment="Center"
+                          HorizontalContentAlignment="Center"
+                          VerticalContentAlignment="Center"
+                          Foreground="White"
+                          IsChecked="{Binding DrawingGroup.IsOverlay}"
+                          />
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="2"
+                  Margin="8"
+                  Header="Probe Mark Information (Current pad)">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80*"/>
+                    <RowDefinition Height="24*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0"
+                       Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                            Grid.Row="0"
+                            Foreground="White"
+                            Text="{Binding ProbeMarkInform.AreaSum,
+                            StringFormat=01. Area sum : {0} %}"
+                            />
+                    <TextBlock
+                            Grid.Row="1"
+                            Foreground="White"
+                            Text="{Binding ProbeMarkInform.SizeXSum,
+                            StringFormat=02. Size X sum : {0} ㎛}"/>
+                    <TextBlock
+                            Grid.Row="2"
+                            Foreground="White"
+                            Text="{Binding ProbeMarkInform.SizeYSum,
+                            StringFormat=03. Size Y sum : {0} ㎛}"/>
+                    <TextBlock
+                            Grid.Row="3"
+                            Foreground="White"
+                            Text="{Binding ProbeMarkInform.PositionX,
+                            StringFormat=04. Position X : {0} ㎛}"/>
+                    <TextBlock
+                            Grid.Row="4"
+                            Foreground="White"
+                            Text="{Binding ProbeMarkInform.PositionY,
+                            StringFormat=05. Position Y : {0} ㎛}"/>
+                    <TextBlock
+                            Grid.Row="5"
+                            Foreground="White"
+                            Text="{Binding ProbeMarkInform.FailCode,
+                            StringFormat=06. Fail Code : {0} %}"/>
+                    <TextBlock
+                            Grid.Row="6"
+                            Foreground="White"
+                            Text="{Binding ProbeMarkInform.SizeX,
+                            StringFormat=07. Size X : {0} ㎛}"/>
+                    <TextBlock
+                            Grid.Row="7"
+                            Foreground="White"
+                            Text="{Binding ProbeMarkInform.SizeY,
+                            StringFormat=08. Size Y : {0} ㎛}"/>
+                    <TextBlock
+                            Grid.Row="8"
+                            Foreground="White"
+                            Text="{Binding ProbeMarkInform.Area01,
+                            StringFormat=09. Area : {0} ㎛^2}"/>
+                    <TextBlock
+                            Grid.Row="9"
+                            Foreground="White"
+                            Text="{Binding ProbeMarkInform.Area02,
+                            StringFormat=10. Area : {0} %}"/>
+
+
+                </Grid>
+                
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80*"/>
+                        <ColumnDefinition Width="80*"/>
+                        <ColumnDefinition Width="80*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Button Grid.Column="0"
+                            Margin="8"
+                            Style="{StaticResource LeftButtonStyle}"
+                            />
+
+                    <TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White">
+
+                        <TextBlock.Style>
+                            <Style>
+                                <Style.Triggers>
+
+                                    <!--<DataTrigger Binding="{Binding CurrentDie.Pads.SelectedPMIPad.SelectedPMIPadResult.DetectedMarkResult.Count}" Value="0">
+                                            <Setter Property="UIElement.Visibility" Value="Hidden" />
+                                        </DataTrigger>-->
+
+                                    <!--<DataTrigger Binding="{Binding CurrentDie.Pads.SelectedPMIPad.SelectedPMIPadResult}" Value="{x:Null}">
+                                            <Setter Property="TextBlock.Text" Value="Hi" />
+                                        </DataTrigger>-->
+
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                            
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{} {0} / {1}">
+                                    <!--<Binding Path="CurrentDie.Pads.SelectedPMIPad.SelectedPMIPadResult.SelectedPMIMarkIndex"
+                                         Converter="{StaticResource Mathconv}"
+                                         ConverterParameter="@VALUE+1"/>-->
+
+                                <Binding Path="CurrentDie.Pads.SelectedPMIPad.SelectedPMIPadResult.SelectedPMIMarkIndex"
+                                         Converter="{StaticResource PlusOneConv}"
+                                         ConverterParameter="plusOne"
+                                         />
+                                    
+                                <Binding Path="CurrentDie.Pads.SelectedPMIPad.SelectedPMIPadResult.MarkResults.Count" Mode="OneWay"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        
+                    </TextBlock>
+
+                    <Button Grid.Column="2"
+                            Margin="8"
+                            Style="{StaticResource RightButtonStyle}"
+                            />
+
+                </Grid>
+            </Grid>
+
+        </GroupBox>
+    </Grid>
+</UserControl>

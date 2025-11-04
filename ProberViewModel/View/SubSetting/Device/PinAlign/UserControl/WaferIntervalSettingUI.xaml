@@ -1,0 +1,37 @@
+﻿<dialogs:CustomDialog x:Class="PinAlignIntervalSettingViewProject.UC.WaferIntervalSettingUI"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:prvm="clr-namespace:ProberViewModel"
+             mc:Ignorable="d" Height="880" Width="500" 
+             Background="#FF232222">
+    <Grid Margin="-120 -5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0"  BorderBrush="LightGray" BorderThickness="1" Margin="8">
+            <prvm:UcWaferSelectionView Width="auto" Height="auto"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    />
+        </Border>
+        <Button Grid.Row="1" 
+                Content="EXIT"     
+                Margin="10"
+                FontSize="35"
+                FontWeight="Bold"
+                Foreground="Linen"
+                Style="{DynamicResource DarkActionBtnSytle}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction Command="{Binding CmdExitClick}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
+    </Grid>
+</dialogs:CustomDialog>

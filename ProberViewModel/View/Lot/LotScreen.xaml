@@ -1,0 +1,984 @@
+﻿<UserControl x:Class="ProberViewModel.LotScreen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:MapUC="clr-namespace:MapView;assembly=MapView"
+             xmlns:module="clr-namespace:AppSelector;assembly=AppSelector"
+             xmlns:pnpcontrol="clr-namespace:PnPControl;assembly=PnPControl"
+             xmlns:conv="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:prober="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:needle="clr-namespace:NeedleCleanViewer;assembly=NeedleCleanViewer"
+             xmlns:cui="clr-namespace:CUI;assembly=CUI"
+             xmlns:resources="clr-namespace:ProberViewModel.Properties"
+             xmlns:waferuc="clr-namespace:WaferHandlingControl.WaferHandlingUC"
+             xmlns:view3DModel="clr-namespace:Viewer3DModel;assembly=Viewer3DModel"
+             xmlns:local="clr-namespace:ProberViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="892" d:DesignWidth="1960">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <!--Converter-->
+            <conv:LotStateToStringConverter x:Key="BtoVConv" />
+            <conv:LotStateToStringConverter2 x:Key="BtoVConv2" />
+            <conv:LotStateToStringConverter4 x:Key="BtoVConv4" />
+            <conv:ProbingStateToConverter x:Key="BtoVConv3" />
+            <conv:StageLoaderErrorStateCon x:Key="StageLoaderErrorStateConv"/>
+            <conv:ViewTargetConverter x:Key="ViewTargetConverter"/>
+            <conv:LotTimeConverter x:Key="LotTimeConverter"/>
+
+            <local:AlignStateToForegroundConverter x:Key="AlignStateToForegroundConv"/>
+            <local:PadCountToForegroundConverter x:Key="PadCountToForegroundConv"/>
+            <local:PadCountToTextConverter x:Key="PadCountToTextConv"/>
+            <local:WaferStatusToForegroundConverter x:Key="WaferStatusToForegroundConv"/>
+
+            <!--Converter-->
+
+            <!--DataTemplate-->
+            <DataTemplate x:Key="DisplayViewTemplate"
+                          DataType="{x:Type prober:IDisplayPort}" 
+                          >
+                <ContentControl Name="DisPlay" 
+                                Content="{Binding}"
+                                />
+            </DataTemplate>
+
+            <DataTemplate x:Key="MapViewTemplate" 
+                          DataType="{x:Type prober:IWaferObject}" >
+                <MapUC:ucWaferMapviewer
+                    Grid.RowSpan="2" Margin="4" 
+                    MinHeight="200" MinWidth="200" 
+                    Opacity="1" 
+                    Lockable="False"
+                    WaferObject="{Binding }" 
+                    UnderDutDices="{Binding 
+                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, 
+                        Path=DataContext.ProbingModule.ProbingProcessStatus.UnderDutDevs, 
+                        Mode=TwoWay}" 
+                    CursorXIndex="{Binding 
+                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, 
+                        Path=DataContext.ProbingModule.ProbingMXIndex, 
+                        Mode=TwoWay}" 
+                    CursorYIndex="{Binding 
+                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},
+                        Path=DataContext.ProbingModule.ProbingMYIndex, 
+                        Mode=TwoWay}" 
+                    CoordinateManager="{Binding 
+                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, 
+                        Path=DataContext.CoordinateManager, 
+                        Mode=TwoWay}"
+                    RenderMode="{Binding MapViewControlMode}"
+                    EnalbeClickToMove="False"
+                    IsCrossLineVisible="False"
+                    ZoomLevelVisibility ="Hidden"
+                    />
+                <!--<MapUC:MapViewControl   
+                    Grid.RowSpan="2" Margin="4" 
+                    MinHeight="200" MinWidth="200" 
+                    Opacity="1" 
+                    WaferObject="{Binding 
+                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},
+                        Path=DataContext.StageSupervisor.WaferObject, 
+                        Mode=TwoWay}" 
+                    UnderDutDices="{Binding 
+                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, 
+                        Path=DataContext.ProbingModule.ProbingProcessStatus.UnderDutDevs, 
+                        Mode=TwoWay}" 
+                    CursorXIndex="{Binding 
+                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, 
+                        Path=DataContext.ProbingModule.ProbingMXIndex, 
+                        Mode=TwoWay}" 
+                    CursorYIndex="{Binding 
+                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}},
+                        Path=DataContext.ProbingModule.ProbingMYIndex, 
+                        Mode=TwoWay}" 
+                    CoordinateManager="{Binding 
+                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, 
+                        Path=DataContext.CoordinateManager, 
+                        Mode=TwoWay}"
+                    ZoomLevel="{Binding ZoomLevel, Mode=TwoWay}"
+                    RenderMode="{Binding MapViewControlMode}"
+                    EnalbeClickToMove="False"
+                    IsCrossLineVisible="False"
+                    />-->
+            </DataTemplate>
+
+            <DataTemplate x:Key="NeedleCleanViewTemplate" 
+                          DataType="{x:Type needle:NeedleCleanViewModel}"
+                          >
+                <needle:NeedleCleanView/>
+            </DataTemplate>
+
+            <pnpcontrol:TemplateSelector    x:Key="ViewTargetTemplateSelector" 
+                                            MapViewDataTemplate="{StaticResource MapViewTemplate}"
+                                            DisplayViewDataTemplate="{StaticResource DisplayViewTemplate}"
+                                            NeedleCleanDataTemplate="{StaticResource NeedleCleanViewTemplate}"/>
+            <!--DataTemplate-->
+
+            <!--Style-->
+            <Style x:Key="ImageBtn" 
+                   TargetType="Button"
+                   >
+                <Setter Property="OverridesDefaultStyle" Value="True" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Name="border" 
+                                    BorderThickness="0" BorderBrush="Black" 
+                                    Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.8" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <!--Style-->
+
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+
+    <Border>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="680*"/>
+                <ColumnDefinition Width="680*"/>
+                <ColumnDefinition Width="520*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="600*"/>
+                <RowDefinition Height="292*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Border Margin="8,8,4,8" 
+                        BorderBrush="WhiteSmoke" BorderThickness="1" >
+                    <Grid>
+                        <ContentControl Width="570" Height="570"
+                Content="{Binding LotOPModule.ViewTarget,
+                          Converter={StaticResource ViewTargetConverter},
+                          ConverterParameter=Left}" />
+
+                        <Grid   Width="100" Height="150" 
+                                Margin="8,20"
+                                VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+                                Opacity="1" 
+                                >
+                            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                                    Opacity="0.25" 
+                                    Visibility="{Binding LotOPModule.ZoomVisiability}">
+                                <RepeatButton AutomationProperties.AutomationId="ZoomPlusBtn"  
+                                              Width="50" Height="50" 
+                                              HorizontalAlignment="Right" VerticalAlignment="Top" 
+                                              FontSize="40" FontWeight="Black" Background="Transparent"
+                                              Command="{Binding PlusCommand}" 
+                                              Style="{DynamicResource RepeatBtnStyle}">
+                                    <Image Width="40" Source="pack://application:,,,/ImageResourcePack;component/Images/BW_Pluse.png"/>
+                                </RepeatButton>
+                                <RepeatButton AutomationProperties.AutomationId="ZoomMinusBtn"
+                                              Width="50" Height="50" 
+                                              HorizontalAlignment="Right" VerticalAlignment="Top" 
+                                              FontSize="40" FontWeight="Black" Background="Transparent"
+                                              Command="{Binding MinusCommand}" 
+                                              Style="{DynamicResource RepeatBtnStyle}">
+                                    <Image Width="40" Source="pack://application:,,,/ImageResourcePack;component/Images/BW_Minus.png"/>
+                                </RepeatButton>
+                            </StackPanel>
+                        </Grid>
+
+                    </Grid>
+                </Border>
+
+                <Grid   Width="200" Height="200" 
+                        Margin="8,20"
+                        VerticalAlignment="Top" HorizontalAlignment="Right" 
+                        Opacity="1" 
+                        >
+                    <ContentControl Visibility="{Binding LotOPModule.MiniVisible}"
+                                    Opacity="0.7"
+                                    Content="{Binding LotOPModule.MiniViewTarget,
+                                    Converter={StaticResource ViewTargetConverter}}" 
+                                    />
+                    <!--<StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" 
+                                Visibility="{Binding LotOPModule.SwitchVisiability}"
+                                Opacity="0.25"
+                                >
+                        <Button Width="50" Height="50" 
+                                FontSize="40" FontWeight="Black"
+                                Background="Black" Foreground="White" 
+                                Content="↔" 
+                                Command="{Binding ViewSwipCommand}" 
+                                />
+                    </StackPanel>-->
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Border Margin="8,8,4,8" 
+                        BorderBrush="WhiteSmoke" BorderThickness="1" >
+                    <Grid>
+                        <ContentControl Width="570" Height="570"
+                Content="{Binding LotOPModule.ViewTarget,
+                          Converter={StaticResource ViewTargetConverter},
+                          ConverterParameter=Right}" />
+
+                        <Grid   Width="100" Height="150" 
+                                Margin="8,20"
+                                VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+                                Opacity="1" 
+                                >
+                            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                                    Opacity="0.25" 
+                                    Visibility="{Binding LotOPModule.ZoomVisiability}">
+                                <RepeatButton AutomationProperties.AutomationId="ZoomPlusBtn"  
+                                              Width="50" Height="50" 
+                                              HorizontalAlignment="Right" VerticalAlignment="Top" 
+                                              FontSize="40" FontWeight="Black" Background="Transparent"
+                                              Command="{Binding PlusCommand}" 
+                                              Style="{DynamicResource RepeatBtnStyle}">
+                                    <Image Width="40" Source="pack://application:,,,/ImageResourcePack;component/Images/BW_Pluse.png"/>
+                                </RepeatButton>
+                                <RepeatButton AutomationProperties.AutomationId="ZoomMinusBtn"
+                                              Width="50" Height="50" 
+                                              HorizontalAlignment="Right" VerticalAlignment="Top" 
+                                              FontSize="40" FontWeight="Black" Background="Transparent"
+                                              Command="{Binding MinusCommand}" 
+                                              Style="{DynamicResource RepeatBtnStyle}">
+                                    <Image Width="40" Source="pack://application:,,,/ImageResourcePack;component/Images/BW_Minus.png"/>
+                                </RepeatButton>
+                            </StackPanel>
+                        </Grid>
+
+                    </Grid>
+                </Border>
+
+                <Grid   Width="200" Height="200" 
+                        Margin="8,20"
+                        VerticalAlignment="Top" HorizontalAlignment="Right" 
+                        Opacity="1" 
+                        >
+                    <ContentControl Visibility="{Binding LotOPModule.MiniVisible}"
+                                    Opacity="0.7"
+                                    Content="{Binding LotOPModule.MiniViewTarget,
+                                    Converter={StaticResource ViewTargetConverter}}" 
+                                    />
+                    <!--<StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" 
+                                Visibility="{Binding LotOPModule.SwitchVisiability}"
+                                Opacity="0.25"
+                                >
+                        <Button Width="50" Height="50" 
+                                FontSize="40" FontWeight="Black"
+                                Background="Black" Foreground="White" 
+                                Content="↔" 
+                                Command="{Binding ViewSwipCommand}" 
+                                />
+                    </StackPanel>-->
+                </Grid>
+            </Grid>
+
+            <Border Grid.Row="1" Grid.Column="0"
+                    Margin="8,0,4,8"
+                    >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="6*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--App-->
+                    <Border Grid.Column="0" Grid.ColumnSpan="2" 
+                            BorderBrush="WhiteSmoke" BorderThickness="1" 
+                            Margin="0,0,0,0" 
+                            >
+                        <!--Lot Info-->
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="4*"/>
+                            </Grid.RowDefinitions>
+
+                            <Label  Height="40" 
+                                    Margin="5"
+                                    VerticalContentAlignment="Center"
+                                    FontSize="23"
+                                    HorizontalContentAlignment="Center"
+                                    Style="{DynamicResource TitleBorderLabel}" 
+                                    Content="LOT Information" 
+                                    />
+
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3.6*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="3.7*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="8*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Column="0" Margin="5,5,5,5" >
+                                    <StackPanel Orientation="Vertical"  >
+                                        <Label Content="LOT Name" 
+                                               Margin="0" FontSize="15"
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <Label Content="Device Name" FontSize="15"
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <Label Content="Operator ID" FontSize="15"
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <Label Content="Current Wafer ID" FontSize="15"
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <Label Content="Cassette ID" FontSize="15"
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <Label Content="Lot Start Time "  FontSize="15"
+                                               Style="{DynamicResource ContentLabel}">
+                                        </Label>
+
+                                    </StackPanel>
+                                </Border>
+                                <Border Grid.Column="1" Margin="-2,5,5,5"  >
+                                    <StackPanel Orientation="Vertical"  >
+                                        <Label Content="{Binding LotModule.LotInfo.LotName.Value}" 
+                                               ContentStringFormat=":  {0}" 
+                                               Margin="0" FontSize="15"
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <Label Content="{Binding LotModule.LotInfo.DeviceName.Value}" FontSize="15"
+                                               ContentStringFormat=":  {0}"   
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <Label Content="{Binding LotModule.LotInfo.OperatorID.Value}" FontSize="15"
+                                               ContentStringFormat=":  {0}"  
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <!--<Label Content="{Binding Wafer.WaferDevObject.PhysInfo.WaferID.Value}" FontSize="15"-->
+                                        <Label Content="{Binding Wafer.WaferDevObject.Info.WaferID.Value}" FontSize="15"
+                                               ContentStringFormat=":  {0}"  
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <!--<Label Content="{Binding Wafer.WaferDevObject.PhysInfo.CassetteID.Value}" FontSize="15"-->
+                                        <Label Content="{Binding Wafer.WaferDevObject.Info.CassetteID}" FontSize="15"
+                                               ContentStringFormat=":  {0}" 
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <Label  FontSize="15"
+                                               ContentStringFormat=":  {0}" 
+                                               Style="{DynamicResource ContentLabel}">
+                                            <Label.Content>
+                                                <MultiBinding Converter="{StaticResource LotTimeConverter}">
+                                                    <Binding Path="LotModule.LotInfo.LotStartTime"/>
+                                                    <Binding Path="LotModule.LotInfo.LotStartTimeEnable"/>
+                                                </MultiBinding>
+                                            </Label.Content>
+                                        </Label>
+
+                                    </StackPanel>
+                                </Border>
+                                <Border  Grid.Column="2" Margin="5"  >
+                                    <StackPanel Orientation="Vertical" >
+                                        <Label Content="Probing Yieid" FontSize="15"
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <Label Content="Passed Die Count" FontSize="15"
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <Label Content="Failed Die Count" FontSize="15"
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <Label Content="Tested Die Count" FontSize="15"
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <Label Content="Total  Die Count" FontSize="15"
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <Label Content="Lot End Time"  FontSize="15"
+                                               Style="{DynamicResource ContentLabel}">
+                                        </Label>
+                                    </StackPanel>
+                                </Border>
+                                <Border  Grid.Column="3" Margin="-2,5,5,5"  >
+                                    <StackPanel Orientation="Vertical" >
+                                        <Label Content="{Binding Wafer.WaferDevObject.Info.Yield}" FontSize="15"
+                                               ContentStringFormat=":  {0:0.###} %" 
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <Label Content="{Binding Wafer.WaferDevObject.Info.CurPassedDieCount.Value}" FontSize="15"
+                                               ContentStringFormat=":  {0} "
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <Label Content="{Binding Wafer.WaferDevObject.Info.CurFailedDieCount.Value}" FontSize="15"
+                                               ContentStringFormat=":  {0} "
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <Label Content="{Binding Wafer.WaferDevObject.Info.CurTestedDieCount.Value}" FontSize="15"
+                                               ContentStringFormat=":  {0} " 
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <Label Content="{Binding Wafer.WaferDevObject.Info.TestDieCount.Value}" FontSize="15"
+                                               ContentStringFormat=":  {0} " 
+                                               Style="{DynamicResource ContentLabel}"/>
+                                        <Label  FontSize="15"
+                                               ContentStringFormat=":  {0}" 
+                                               Style="{DynamicResource ContentLabel}">
+
+                                            <Label.Content>
+                                                <MultiBinding Converter="{StaticResource LotTimeConverter}">
+                                                    <Binding Path="LotModule.LotInfo.LotEndTime"/>
+                                                    <Binding Path="LotModule.LotInfo.LotEndTimeEnable"/>
+                                                </MultiBinding>
+                                            </Label.Content>
+                                        </Label>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
+                                        Grid.Row="0"
+                                        VerticalAlignment="Center">
+
+                                <cui:Button AutomationProperties.AutomationId="LotInfoYieldBtn"
+                                            Height="50" Width="40" 
+                                            Lockable="False"
+                                            Margin="4,0,4,0" 
+                                            IsEnabled="True"
+                                            Style="{StaticResource ImageBtn}"
+                                            Command="{Binding LotInfoCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
+                                            GUID="fcc03d05-202d-41c0-8f0a-4ee63961a4b2">
+                                    <Image  Source="Images/statistics.png" />
+                                </cui:Button>
+                                <cui:Button AutomationProperties.AutomationId="LotInfoRecipeBtn"
+                                            Height="50" Width="40"
+                                            Margin="4,0,4,0"
+                                            Style="{StaticResource ImageBtn}"
+                                            Command="{Binding LotInfoCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
+                                            GUID="c820c484-7b89-4cd0-b677-2d506f08ae7d">
+                                    <Image Source="Images/Recipe.png" />
+                                </cui:Button>
+                                <!--<cui:Button Height="50" Width="40" 
+                                            Margin="4,0,4,0"
+                                            Style="{StaticResource ImageBtn}"
+                                            Command="{Binding LotInfoCommand}" 
+                                            CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
+                                            GUID="1057874e-b364-4ac1-9845-77ae011bc512">
+                                    <Image Source="Images/casslte.png" />
+                                </cui:Button>-->
+                                <cui:Button AutomationProperties.AutomationId="OCRManualBtn"
+                                            Height="50" Width="40"
+                                            Margin="4,0,4,0" 
+                                            Style="{StaticResource ImageBtn}"
+                                            GUID="c3aa3a94-8179-466a-a9e3-36f16f4e03fb"
+                                            Command="{Binding OCRManualInputCommand}">
+                                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/OCRICON.png" Opacity="0.8"/>
+                                </cui:Button>
+                                <!--<cui:Button Height="50" Width="40"
+                                            Margin="4,0,4,0" 
+                                            Style="{StaticResource ImageBtn}"
+                                            Command="{Binding LoaderTestCommand}">
+                                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/Clockwise_W.png" Opacity="0.8"/>
+                                </cui:Button>-->
+
+                            </StackPanel>
+
+                        </Grid>
+
+                    </Border>
+
+                </Grid>
+            </Border>
+
+            <!--3D View-->
+
+            <Grid Grid.Row="0" Grid.Column="2">
+                <Border Margin="4,8,8,8" BorderBrush="WhiteSmoke" BorderThickness="1">
+
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+
+                            <Grid>
+
+                                <!--IsEnabled="{Binding LoaderControllerExt.ModuleState.State, Converter={StaticResource CommandButtonEnableConverter}}"-->
+
+                                <Border BorderBrush="#FFd6d9f4" BorderThickness="0.5" Margin="0" Padding="4">
+                                    <ItemsControl Grid.Column="0" 
+                                              ItemsSource="{Binding LoaderController.LoaderInfo.StateMap.CassetteModules[0].SlotModules}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <UniformGrid Columns="1" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <waferuc:UcSlotStatusRecord/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Border>
+                            </Grid>
+
+                        </Grid>
+
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4.3*"/>
+                                <ColumnDefinition Width="5.7*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Center" 
+                                   Margin="0,0,0,0"
+                                   Foreground="White" 
+                                   Content="Wafer&#10;Align"></Label>
+                            <Label Grid.Row="0" Grid.Column="1" 
+                                   Margin="0,0,0,0"
+                                   HorizontalAlignment="Left"  
+                                   FontSize="14" 
+                                   VerticalAlignment="Center" 
+                                   Foreground="{Binding Wafer.AlignState.Value, Converter={StaticResource AlignStateToForegroundConv}}" >
+                                <TextBlock   Text="{Binding Wafer.AlignState.Value, StringFormat={}:  {0}}"></TextBlock>
+                            </Label>
+
+                            <Label Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Center" 
+                                   Margin="0,0,0,0"
+                                   Foreground="White"
+                                   Content="Pad"/>
+                            <Label Grid.Row="1" Grid.Column="1" 
+                                   Margin="0,0,0,0"
+                                   HorizontalAlignment="Left"  
+                                   FontSize="14" 
+                                   VerticalAlignment="Center" 
+                                   Foreground="{Binding PadCount, Converter={StaticResource PadCountToForegroundConv}}" >
+                                <TextBlock   Text="{Binding PadCount, Converter={StaticResource PadCountToTextConv}, StringFormat={}:  {0}}"></TextBlock>
+                            </Label>
+
+                            <Label Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Center" 
+                                   Margin="0,0,0,0"
+                                   Foreground="White" 
+                                   Content="Pin&#10;Align"></Label>
+                            <Label Grid.Row="2" Grid.Column="1" 
+                                   Margin="0,0,0,0"
+                                   HorizontalAlignment="Left"  
+                                   FontSize="14" 
+                                   VerticalAlignment="Center" 
+                                               Foreground="{Binding ProbeCard.AlignState.Value, Converter={StaticResource AlignStateToForegroundConv}}" >
+                                <TextBlock   Text="{Binding ProbeCard.AlignState.Value, StringFormat={}:  {0}}"></TextBlock>
+                            </Label>
+
+                            <Label Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Center" 
+                                   Margin="0,0,0,0"
+                                   Foreground="White" 
+                                   Content="Mark&#10;Align"></Label>
+                            <Label Grid.Row="3" Grid.Column="1" 
+                                   Margin="0,0,0,0"
+                                   HorizontalAlignment="Left"  
+                                   FontSize="14" 
+                                   VerticalAlignment="Center" 
+                                               Foreground="{Binding Mark.AlignState.Value, Converter={StaticResource AlignStateToForegroundConv}}" >
+                                <TextBlock   Text="{Binding Mark.AlignState.Value, StringFormat={}:  {0}}"></TextBlock>
+                            </Label>
+
+                            <Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Center" 
+                                   Margin="0,0,0,0"
+                                   Foreground="White" 
+                                   Content="  Wafer&#10;On Chuck"></Label>
+                            <Label Grid.Row="4" Grid.Column="1"
+                                   Margin="0,0,0,0"
+                                   HorizontalAlignment="Left"  
+                                   FontSize="14" 
+                                   VerticalAlignment="Center"
+                                   Foreground="{Binding Wafer.WaferStatus, Converter={StaticResource WaferStatusToForegroundConv}}" >
+                                <TextBlock Text="{Binding Wafer.WaferStatus, StringFormat={}:  {0}}"/>
+                            </Label>
+                        </Grid>
+                    </Grid>
+
+                    <!--<Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="8*"/>
+                </Grid.RowDefinitions>
+                <Border Grid.RowSpan="2"
+                            Margin="4,8,8,8" 
+                            BorderBrush="WhiteSmoke" BorderThickness="1"
+                            >
+                    <ContentControl  Margin="2"
+                                         VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                         DataContext="{Binding}" 
+                                         Content="{Binding Stage3DModel}" 
+                                         />
+                </Border>
+
+                <Button Grid.Row="0" 
+                        Opacity="0" 
+                        Margin="8 8 8 0"
+                        Command="{Binding X2ViewChangeCommand}"/>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" 
+                                Opacity="0"
+                            Margin="8 0 0 8"
+                                Command="{Binding CWViewChangeCommand}"/>
+                    <Button Grid.Column="1" 
+                                Opacity="0"
+                            Margin="0 0 0 8"
+                                Command="{Binding CenterViewChangeCommand}"/>
+                    <Button Grid.Column="2" 
+                                Opacity="0"
+                            Margin="0 0 8 8"
+                                Command="{Binding CCWViewChangeCommand}"/>
+                </Grid>-->
+                </Border>
+            </Grid>
+
+            <Grid Grid.Row="1" Grid.Column="2"
+                  >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0"
+                        Margin="4,0,8,0" 
+                        BorderBrush="WhiteSmoke" 
+                        BorderThickness="1">
+                    <module:UCAppSelector Margin="0"
+                                          GUID="59217259-A2D7-4F9E-AD58-182FA46F4EB5"
+                                          />
+                </Border>
+
+                <Border Grid.Row="2" Grid.Column="1"
+                        Margin="4,8,8,8" 
+                        VerticalAlignment="Center" 
+                        BorderBrush="WhiteSmoke" BorderThickness="1"
+                        >
+                    <UniformGrid    Rows="2" Columns="4"  
+                                    Margin="0">
+                        <cui:Button AutomationProperties.AutomationId="FastRewindBtn"
+                                    Margin="5,5,2.5,2.5" 
+                                    Lockable="False"
+                                    Command="{Binding FastRewindCommand}"
+                                    GUID="b1aa95e2-8943-412c-8b46-e754db6cba4d">
+                            
+                            <Button.Content>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Viewbox Grid.Row="0">
+                                        <Canvas Width="24" Height="24">
+                                            <Path   Data="M17,5H14V19H17V5M12,5L1,12L12,19V5M22,5H19V19H22V5Z" 
+                                                    Fill="Black" />
+                                        </Canvas>
+
+                                    </Viewbox>
+                                    <TextBlock Margin="0,-10,0,0" FontSize="15" Grid.Row="1" 
+                                                TextAlignment="Center" FontWeight="Bold"
+                                                Text="x10"
+                                    />
+                                </Grid>
+                            </Button.Content>
+                            <cui:Button.IsEnabled>
+                                <MultiBinding Converter="{StaticResource BtoVConv3}">
+                                    <Binding Path="LotOPModule.CurrentModuleState"/>
+                                    <Binding Path="ProbingModule.PreProbingStateEnum"/>
+                                </MultiBinding>
+                            </cui:Button.IsEnabled>
+                        </cui:Button>
+
+                        <cui:Button AutomationProperties.AutomationId="NormalRewindBtn"
+                                    Margin="2.5,5,2.5,2.5" 
+                                    Lockable="False"
+                                    Command="{Binding NormalRewindCommand}"  
+                                    GUID="59a307d1-8e6b-442e-8bc8-68ceeb93b66c">
+                            <Button.Content>
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Viewbox Grid.Row="0" >
+                                        <Canvas Width="24" Height="24">
+                                            <Path   Data="M19,5V19H16V5M14,5V19L3,12" 
+                                                    Fill="Black" />
+                                        </Canvas>
+                                    </Viewbox>
+                                    <TextBlock Margin="0,-10,0,0" FontSize="15" Grid.Row="1" 
+                                                TextAlignment="Center" FontWeight="Bold"
+                                                Text="x1"
+                                    />
+                                </Grid>
+                            </Button.Content>
+                            <cui:Button.IsEnabled>
+                                <MultiBinding Converter="{StaticResource BtoVConv3}">
+                                    <Binding Path="LotOPModule.CurrentModuleState"/>
+                                    <Binding Path="ProbingModule.PreProbingStateEnum"/>
+                                </MultiBinding>
+                            </cui:Button.IsEnabled>
+                        </cui:Button>
+
+                        <cui:Button AutomationProperties.AutomationId="NormalForwardBtn"
+                                    Margin="2.5,5,2.5,2.5"
+                                    Lockable="False"
+                                    Command="{Binding NormalForwardCommand}"
+                                    GUID="dfe6543f-f852-4c43-ba92-1902af1412cb">
+                            <Button.Content>
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Viewbox Grid.Row="0" >
+                                        <Canvas Width="24" Height="24">
+                                            <Path   Data="M5,5V19H8V5M10,5V19L21,12" 
+                                                    Fill="Black" />
+                                        </Canvas>
+                                    </Viewbox>
+                                    <TextBlock Margin="0,-10,0,0" FontSize="15" Grid.Row="1" 
+                                                TextAlignment="Center" FontWeight="Bold"
+                                                Text="x1"
+                                    />
+                                </Grid>
+                            </Button.Content>
+                            <cui:Button.IsEnabled>
+                                <MultiBinding Converter="{StaticResource BtoVConv3}">
+                                    <Binding Path="LotOPModule.CurrentModuleState"/>
+                                    <Binding Path="ProbingModule.PreProbingStateEnum"/>
+                                </MultiBinding>
+                            </cui:Button.IsEnabled>
+                        </cui:Button>
+
+                        <cui:Button AutomationProperties.AutomationId="FastForwardBtn"
+                                    Margin="2.5,5,5,2.5"
+                                    Lockable="false"
+                                    Command="{Binding FastForwardCommand}"
+                                    GUID="761d35d9-780d-440e-8661-188cc3799525">
+                            <Button.Content>
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Viewbox Grid.Row="0" >
+                                        <Canvas Width="24" Height="24">
+                                            <Path   Data="M7,5H10V19H7V5M12,5L23,12L12,19V5M2,5H5V19H2V5Z"
+                                                    Fill="Black" />
+                                        </Canvas>
+                                    </Viewbox>
+                                    <TextBlock Margin="0,-10,0,0" FontSize="15"
+                                        Grid.Row="1" 
+                                                TextAlignment="Center" FontWeight="Bold"
+                                                Text="Rotation &#10;Process"
+                                    />
+                                </Grid>
+                            </Button.Content>
+                            <cui:Button.IsEnabled>
+                                <MultiBinding Converter="{StaticResource BtoVConv3}">
+                                    <Binding Path="LotOPModule.CurrentModuleState"/>
+                                    <Binding Path="ProbingModule.PreProbingStateEnum"/>
+                                </MultiBinding>
+                            </cui:Button.IsEnabled>
+                        </cui:Button>
+
+                        <cui:Button AutomationProperties.AutomationId="LotRestartBtn"
+                                    Margin="5,2.5,2.5,5"
+                                    Lockable="False"
+                                    Command="{Binding LotRestartCommand}" 
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
+                                    GUID="a0744ecd-c106-40eb-abda-e6bc52a40516">
+
+                            <Button.Content>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <materialDesign:PackIcon    Height="48" Width="48"
+                                                                    HorizontalAlignment="Center" >
+
+                                        <materialDesign:PackIcon.Style>
+                                            <Style TargetType="materialDesign:PackIcon"
+                                                   BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}">
+                                                <Setter Property="Kind" Value="Replay" />
+                                            </Style>
+                                        </materialDesign:PackIcon.Style>
+
+                                    </materialDesign:PackIcon>
+
+                                    <TextBlock  Text="Restart" Grid.Row="1"
+                                                    TextAlignment="Center" FontWeight="Bold"/>
+                                </Grid>
+                            </Button.Content>
+
+                            <cui:Button.IsEnabled>
+                                <MultiBinding Converter="{StaticResource BtoVConv3}">
+                                    <Binding Path="LotOPModule.CurrentModuleState"/>
+                                    <Binding Path="ProbingModule.PreProbingStateEnum"/>
+                                </MultiBinding>
+                            </cui:Button.IsEnabled>
+
+                        </cui:Button>
+
+                        <cui:Button AutomationProperties.AutomationId="LotStartBtn"
+                                    Margin="2.5,2.5,2.5,5" 
+                                    Lockable="False"
+                                    Command="{Binding StartLotOP}" 
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
+                                    GUID="ba1fc6ab-088c-4a2d-a51a-ccc9123ba079">
+
+                            <Button.Content>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="3*"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <materialDesign:PackIcon Height="48" Width="48"
+                                                             HorizontalAlignment="Center">
+
+                                        <materialDesign:PackIcon.Style>
+                                            <Style  TargetType="materialDesign:PackIcon"
+                                                        BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}">
+                                                <Setter Property="Kind" Value="PlayPause" />
+                                            </Style>
+                                        </materialDesign:PackIcon.Style>
+
+                                    </materialDesign:PackIcon>
+
+                                    <TextBlock  Grid.Row="1" 
+                                                    Width="48"
+                                                    HorizontalAlignment="Left" 
+                                                    TextAlignment="Center" FontWeight="Bold" 
+                                                    Text="{Binding LotOPModule.CurrentModuleState, 
+                                                        Converter={StaticResource BtoVConv}}"
+                                                    />
+
+                                </Grid>
+                            </Button.Content>
+                        </cui:Button>
+
+                        <cui:Button AutomationProperties.AutomationId="LotEndBtn"
+                                    Margin="2.5,2.5,2.5,5" 
+                                    Lockable="False"
+                                    IsEnabled="{Binding LotOPModule.CurrentModuleState, Converter={StaticResource BtoVConv2}}"
+                                    Command="{Binding EndLotOPCommand}" 
+                                    GUID="d293677c-09e4-45df-9e78-a5dba2daa1ae">
+                            <Button.Content>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <materialDesign:PackIcon Height="48" Width="48">
+                                        <materialDesign:PackIcon.Style>
+                                            <Style  TargetType="materialDesign:PackIcon" 
+                                                        BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}">
+                                                <Setter Property="Kind" Value="Stop" />
+                                            </Style>
+                                        </materialDesign:PackIcon.Style>
+                                    </materialDesign:PackIcon>
+
+                                    <TextBlock  Grid.Row="1" 
+                                                    TextAlignment="Center" FontWeight="Bold"
+                                                    Text="{x:Static resources:Resources.LotEnd}"
+                                                    />
+
+                                </Grid>
+                            </Button.Content>
+                        </cui:Button>
+
+                        <cui:Button AutomationProperties.AutomationId="LotEndBtn"
+                                    Margin="2.5,2.5,5,5"   
+                                    Lockable="False"
+                                    Command="{Binding OpenFlyout}"
+                                    GUID="ff73b7f2-3f38-4375-8b1d-137d62d89336">
+                            <Button.Content>
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!--<materialDesign:PackIcon 
+                                        Height="48" Width="48"
+                                        >
+                                        <materialDesign:PackIcon.Style>
+                                            <Style  TargetType="materialDesign:PackIcon" 
+                                                        BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}">
+                                                <Setter Property="Kind" Value="Settings" />
+                                            </Style>
+                                        </materialDesign:PackIcon.Style>
+                                    </materialDesign:PackIcon>-->
+
+                                    <TextBlock  Grid.Row="1" 
+                                                    TextAlignment="Center" FontWeight="Bold"
+                                                    Text="{x:Static resources:Resources.SETUP}" 
+                                                    />
+                                </Grid>
+
+                            </Button.Content>
+
+                        </cui:Button>
+                    </UniformGrid>
+                </Border>
+            </Grid>
+            <!-- <== 251013 sebas -->
+            <Button Content="Bonder&#10;Run Start" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    Height="50" Width="100" Margin="100,125,0,0"
+                    Command="{Binding BonderStartCommand}" />
+            <Button Content="Bonder&#10;Run End" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    Height="50" Width="100" Margin="210,125,0,0"
+                    Command="{Binding BonderEndCommand}" />
+            <Button Content="Picker" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    Height="50" Width="100" Margin="320,125,0,0"
+                    Command="{Binding PickCommand}"
+                    IsEnabled="{Binding IsPickEnable}"/>
+            <Button Content="Rotation" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    Height="50" Width="100" Margin="430,125,0,0"
+                    Command="{Binding RotationCommand}"
+                    IsEnabled="{Binding IsRotationEnable}"/>
+            <Button Content="Placer" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    Height="50" Width="100" Margin="540,125,0,0"
+                    Command="{Binding PlaceCommand}"
+                    IsEnabled="{Binding IsPlaceEnable}"/>
+            <Button Content="FD Align" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    Height="50" Width="100" Margin="210,185,0,0"
+                    Command="{Binding FDAlignCommand}" />
+            <Button Content="Die Align" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                    Height="50" Width="100" Margin="320,185,0,0"
+                    Command="{Binding DieAlignCommand}" />
+            <!-- 251013 sebas ==> -->            
+        </Grid>
+    </Border>
+</UserControl>
+
+
+<!-- 온도 차트 <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
+    <tg:TempGraph></tg:TempGraph>
+</Grid>-->

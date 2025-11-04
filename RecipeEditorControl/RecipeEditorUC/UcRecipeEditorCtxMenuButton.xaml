@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="RecipeEditorControl.RecipeEditorUC.UcRecipeEditorCtxMenuButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RecipeEditorControl.RecipeEditorUC"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Border x:Name="editBtn" Margin="5" PreviewMouseDown="editBtn_PreviewMouseDown" Background="White">
+        <Border.ContextMenu>
+            <ContextMenu AutomationProperties.AutomationId="cxmElementMenu"
+                         ItemsSource="{Binding MenuListSource}">
+                <ContextMenu.ItemTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type local:ContextMenuItemViewModel}">
+                        <MenuItem Header="{Binding MenuItemHeader}" Command="{Binding MenuItemCommand}" CommandParameter="{Binding }" Width="200"/>
+                    </HierarchicalDataTemplate>
+                </ContextMenu.ItemTemplate>
+            </ContextMenu>
+        </Border.ContextMenu>
+        <TextBlock x:Name="btnText" Text="{Binding Caption}" TextTrimming="WordEllipsis" 
+                   Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+    </Border>
+    <!--<Border x:Name="editBtn" Margin="5" PreviewMouseDown="editBtn_PreviewMouseDown">
+        <Border.ContextMenu>
+            <ContextMenu ItemsSource="{Binding MenuListSource}">
+                <ContextMenu.ItemTemplate>
+                    <HierarchicalDataTemplate DataType="{x:Type local:ContextMenuItemViewModel}">
+                        <MenuItem Header="{Binding MenuItemHeader}" Command="{Binding MenuItemCommand}" CommandParameter="{Binding }" Width="200"/>
+                    </HierarchicalDataTemplate>
+                </ContextMenu.ItemTemplate>
+            </ContextMenu>
+        </Border.ContextMenu>
+        <TextBlock x:Name="btnText" Text="{Binding Caption}" TextTrimming="WordEllipsis" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+    </Border>-->
+</UserControl>

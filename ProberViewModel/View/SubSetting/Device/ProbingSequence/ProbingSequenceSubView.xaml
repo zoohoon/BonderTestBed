@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="ProbingSequenceSubView.ProbingSequenceSubView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProbingSequenceSubView"
+             xmlns:cui="clr-namespace:CUI;assembly=CUI"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SettingControlStyle;component/SettingViewStyleDictionaly.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel>
+            <Label Content="Probing Sequence"
+                Foreground="White"
+                FontWeight="Bold"
+                FontSize="32"
+                />
+            <Separator Margin="4" Background="White"/>
+            <StackPanel>
+                <Border Margin="4,0,0,0" Background="#3C454F">
+                    <Label Padding="0" FontWeight="DemiBold" Content="Setup " Foreground="WhiteSmoke" FontSize="16" VerticalAlignment="Center" />
+                </Border>
+                <Grid Margin="16" HorizontalAlignment="Left">
+                    <cui:Button AutomationProperties.AutomationId="btnSetup"
+                                GUID="98bc50c7-7db5-42a9-b9ab-61983a4fc97e"
+                                Style="{DynamicResource NormalTypeCUIButtonStyle}"
+                                Height="52" Width="200" Margin="8"
+                                Command="{Binding ProbingSequenceViewCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                Content="Setup"/>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

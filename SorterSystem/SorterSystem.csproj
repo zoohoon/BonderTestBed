@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\OpenCvSharp4.runtime.win.4.10.0.20240616\build\netstandard\OpenCvSharp4.runtime.win.props" Condition="Exists('..\packages\OpenCvSharp4.runtime.win.4.10.0.20240616\build\netstandard\OpenCvSharp4.runtime.win.props')" />
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7D4170E1-A207-4471-96B6-1CE4A4E6553A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>SorterSystem</RootNamespace>
+    <AssemblyName>SorterSystem</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <FileAlignment>4096</FileAlignment>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="GlmSharp, Version=0.9.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GlmSharp.0.9.8\lib\Net45\GlmSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenCvSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenCvSharp4.4.10.0.20240616\lib\netstandard2.0\OpenCvSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenCvSharp.WpfExtensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenCvSharp4.WpfExtensions.4.5.3.20211228\lib\net461\OpenCvSharp.WpfExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Charting, Version=4.2.1.9358, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL" />
+    <Reference Include="SciChart.Data, Version=4.2.1.9358, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CommonDLL\DLL\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+    <Compile Include="Converter\StringConverter.cs" />
+    <Compile Include="Converter\IntToStringConverter.cs" />
+    <Compile Include="Converter\IOValueConverter.cs" />
+    <Compile Include="TempCtrlSorter.cs" />
+    <Compile Include="UC\ucSequence.xaml.cs">
+      <DependentUpon>ucSequence.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VM\IOControlVM.cs" />
+    <Compile Include="OpenCV\VisionOpenCV.cs" />
+    <Compile Include="OpenCV\VisionOpenCVParamters.cs" />
+    <Compile Include="SorterModuleResolver.cs" />
+    <Compile Include="SorterModuleVM.cs" />
+    <Compile Include="UC\ucIOControl.xaml.cs">
+      <DependentUpon>ucIOControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\ucMotionJog.xaml.cs">
+      <DependentUpon>ucMotionJog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\ucMotionJogAxis.xaml.cs">
+      <DependentUpon>ucMotionJogAxis.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\ucVisionOpenCV.xaml.cs">
+      <DependentUpon>ucVisionOpenCV.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VM\ISorterModuleVM.cs" />
+    <Compile Include="VM\SequenceVM.cs" />
+    <Compile Include="VM\VisionVM.cs" />
+    <Compile Include="VM\VisionVM_Action.cs" />
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="UC\ucIOControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UC\ucMotionJog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UC\ucMotionJogAxis.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UC\ucSequence.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UC\ucVisionOpenCV.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CameraChannelManager\CameraChannelManager.csproj">
+      <Project>{9E07FD55-ACFF-4F8F-A4D7-557DCD54DF6B}</Project>
+      <Name>CameraChannelManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CUICommands\CUICommands.csproj">
+      <Project>{fae6c357-afad-4122-89c6-4188d7c2e245}</Project>
+      <Name>CUICommands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CUIContectMenu\CUIContextMenu.csproj">
+      <Project>{74683f81-897b-43ca-aef6-c001c3875024}</Project>
+      <Name>CUIContextMenu</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CUIService\CUIService.csproj">
+      <Project>{822fab06-827f-4cde-87da-469aacad3660}</Project>
+      <Name>CUIService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CUIToolTipInfoData\CUIToolTipInfoData.csproj">
+      <Project>{7f50a599-ae7c-4600-8048-80d5206d80f8}</Project>
+      <Name>CUIToolTipInfoData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CUIToolTip\CUIToolTip.csproj">
+      <Project>{095540b2-5028-4def-ab3a-cf24b1af845c}</Project>
+      <Name>CUIToolTip</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CUI\CUI.csproj">
+      <Project>{3c5e49e6-7976-45be-aba3-c245b5317b4d}</Project>
+      <Name>CUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataTemplateService\DataTemplateService.csproj">
+      <Project>{acd1c295-f7e7-4bab-aac4-2de2df4b9905}</Project>
+      <Name>DataTemplateService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ElmoManager\ElmoManager.csproj">
+      <Project>{dcd39fa9-b02b-47ce-a697-310b78e0e91f}</Project>
+      <Name>ElmoManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ErrorCompensation\ErrorCompensation.csproj">
+      <Project>{b42f4909-8c07-4494-b507-d187cfa56edd}</Project>
+      <Name>ErrorCompensation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ErrorParam\ErrorParam.csproj">
+      <Project>{d039b2d7-9f31-4d48-8bf1-b2fce327f960}</Project>
+      <Name>ErrorParam</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileSystem\FileSystem.csproj">
+      <Project>{B4317916-BAA6-44C7-9ADB-753F00C0929E}</Project>
+      <Name>FileSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileUtil\FileUtil.csproj">
+      <Project>{8F3773B0-BB37-4ED2-ACD0-3224C5DB18E9}</Project>
+      <Name>FileUtil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FocusingManager\FocusingManager.csproj">
+      <Project>{D3B2C584-4824-4080-870A-7C361D5921F4}</Project>
+      <Name>FocusingManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Focusing\Focusing.csproj">
+      <Project>{E59F4F23-CFF5-414A-AB35-C0F547CA0299}</Project>
+      <Name>Focusing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FoupOP\FoupOP.csproj">
+      <Project>{061C377A-2413-47BC-8F2F-B01F0D5F8C09}</Project>
+      <Name>FoupOP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IOManager\IOManager.csproj">
+      <Project>{8761AC2B-3144-4025-A12D-1DBB4DDBACB2}</Project>
+      <Name>IOManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LightManager\LightManager.csproj">
+      <Project>{923E3378-7346-499D-A8ED-A13ED2C1952A}</Project>
+      <Name>LightManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{D3B00CCA-3C50-42B1-8DCA-DFE47C759B57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroDialogInterfaces\MetroDialogInterfaces.csproj">
+      <Project>{2C3114E3-137B-44ED-A9C2-BA5F2198A672}</Project>
+      <Name>MetroDialogInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroDialogManager\MetroDialogModule.csproj">
+      <Project>{5C29E10E-AA00-4449-8494-6A12C1576E39}</Project>
+      <Name>MetroDialogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MotionManager\ProbeMotion.csproj">
+      <Project>{96c82965-7558-4a99-94f6-bd020b46e917}</Project>
+      <Name>ProbeMotion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MotionProvider\Motion.csproj">
+      <Project>{8d074fcd-a86e-4675-bd04-a3119d29f461}</Project>
+      <Name>Motion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NotifyEventModule\NotifyEventModule.csproj">
+      <Project>{40F3E74A-35B7-417C-9118-EE5DB75340A6}</Project>
+      <Name>NotifyEventModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ParameterManager\ParameterManager.csproj">
+      <Project>{15AED574-B40E-4343-9CE5-08E112F957AF}</Project>
+      <Name>ParameterManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{edba3295-ff2a-4368-a217-6495941a8bf5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberVision\ProberVision.csproj">
+      <Project>{7BB5E629-03A5-4E01-8FA9-FA915F14D9A9}</Project>
+      <Name>ProberVision</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RelayCommandBase\RelayCommandBase.csproj">
+      <Project>{348522C5-8377-4D66-96F3-5D7DA3D7762B}</Project>
+      <Name>RelayCommandBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SequenceEngine\SequenceEngineService.csproj">
+      <Project>{752EC230-0BC1-4209-B04E-A2826A2EB738}</Project>
+      <Name>SequenceEngineService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SerializerProject\SerializerUtil.csproj">
+      <Project>{89ED1BE4-FE82-406E-AE2C-6F3DF03FCC90}</Project>
+      <Name>SerializerUtil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SystemExceptions\SystemExceptions.csproj">
+      <Project>{ACC1AE05-1091-40C6-B0FE-0035C61B3416}</Project>
+      <Name>SystemExceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TempControllerParameter\TempControllerData.csproj">
+      <Project>{3373e203-6a08-4870-955a-8f0eb8530296}</Project>
+      <Name>TempControllerData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TempControl\TempManager.csproj">
+      <Project>{c8500883-4229-4187-accf-fbee20503c9b}</Project>
+      <Name>TempManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TempDisplayDialogServiceProvider\TempDisplayDialogServiceProvider.csproj">
+      <Project>{89c61b0b-cd59-4868-940c-0f00f739193d}</Project>
+      <Name>TempDisplayDialogServiceProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TempGraphControl\TempGraphControl.csproj">
+      <Project>{8644d2aa-06fb-4221-b411-f5b1a963ae9f}</Project>
+      <Name>TempGraphControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TempManager\TempController.csproj">
+      <Project>{7E060321-EAD9-43E8-8E76-5ECC3C26C6B6}</Project>
+      <Name>TempController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UcDisplayPort\UcDisplayPort.csproj">
+      <Project>{fba75c26-7e9c-4e69-a6cb-1a6110e76805}</Project>
+      <Name>UcDisplayPort</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UIElementDropBebavior\DragAndDropBehavior.csproj">
+      <Project>{357c8e10-3cc7-4e54-9da8-2a04189d68f9}</Project>
+      <Name>DragAndDropBehavior</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ValueConverters\ValueConverters.csproj">
+      <Project>{90e38e59-8fea-4da7-937f-888390b913c3}</Project>
+      <Name>ValueConverters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModelModule\ViewModelModule.csproj">
+      <Project>{8fe95141-929e-4a07-b84d-94acef65ab79}</Project>
+      <Name>ViewModelModule</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
+    <Error Condition="!Exists('..\packages\OpenCvSharp4.runtime.win.4.10.0.20240616\build\netstandard\OpenCvSharp4.runtime.win.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OpenCvSharp4.runtime.win.4.10.0.20240616\build\netstandard\OpenCvSharp4.runtime.win.props'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
+</Project>

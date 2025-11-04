@@ -1,0 +1,203 @@
+﻿<Window x:Class="EmulGemView.DryRunTmpWindow"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+         xmlns:local="clr-namespace:EmulGemView"
+         mc:Ignorable="d" x:Name="ucWindow"
+         d:DesignHeight="450" d:DesignWidth="800"
+         Title="Dry Run" Height="1000" Width="1620">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SettingControlStyle;component/SettingViewStyleDictionaly.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="Black"/>
+            </Style>
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="Margin" Value="2"/>
+            </Style>
+            
+            <local:CellSelectedToBrushConverter x:Key="CellSelectedToBrushConv"/>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Background="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.6*"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <!-- LOT -->
+        <GroupBox Grid.ColumnSpan="3" Header="LOT" FontSize="14" FontWeight="DemiBold" Padding="2" Margin="2">
+            <Grid >
+                <ListView ItemsSource="{Binding FoupLotInfos}" Background="#FF2C2C2F"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                          SelectedItem="{Binding SelectedFoup}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                            <!--<Setter Property="IsEnabled" Value="{Binding IsEnableTransfer, Mode=TwoWay}"/>-->
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="4" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate >
+                            <Border BorderBrush="DimGray" BorderThickness="1">
+                                <Border BorderThickness="3" BorderBrush="{Binding IsSelected,
+                                            Converter={StaticResource CellSelectedToBrushConv}}">
+                                    <Grid>
+                                        <Grid Grid.Column="0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="1.8*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label Content="{Binding FoupIndex}" ContentStringFormat="LOT {0} ID :" 
+                                                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="DemiBold"/>
+                                            <TextBox Grid.Column="1" Margin="2" Text="{Binding LotID}"
+                                                        BorderBrush="Black" BorderThickness="0.4"/>
+
+                                            <Button Grid.Row="1" Grid.Column="1" Content=" LOT START" FontWeight="DemiBold" Margin="2"
+                                                        Command="{Binding Path=LotStartCommand, ElementName=ucWindow}"
+                                                        CommandParameter="{Binding FoupIndex}"/>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </GroupBox>
+
+        <!-- CELL -->
+        <GroupBox Grid.Row="1" Grid.Column="1" Header=" CELLS" FontSize="14" FontWeight="DemiBold" Padding="2" Margin="2">
+            <ListView x:Name="lv_cells" ItemsSource="{Binding Cells}" Background="#FF2C2C2F" SelectionMode="Multiple"
+                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}"  
+                                                   CommandParameter="{Binding ElementName=lv_cells, Path=SelectedItems}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="4" Rows="3"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <Border BorderThickness="3" BorderBrush="DimGray">
+                            <Border BorderThickness="3" BorderBrush="{Binding IsChecked,
+                                            Converter={StaticResource CellSelectedToBrushConv}}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="1.2*"/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Content="{Binding Index}" ContentStringFormat="CELL {0}"
+                                                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                                                    FontSize="18" FontWeight="DemiBold"/>
+
+                                    <Label Grid.Row="2" Visibility="{Binding ForcedDoneLabelVisibility}" Background="Orange" Content="DEMO" 
+                                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                       FontSize="15" Foreground="Red" Padding="1" Margin="2"/>
+                                </Grid>
+                            </Border>
+                        </Border>
+
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </GroupBox>
+        
+        <!-- SLOT -->
+        <GroupBox Grid.Row="1" Grid.RowSpan="3" Header=" SLOTS" FontSize="14" FontWeight="DemiBold" Padding="2" Margin="2">
+            <StackPanel>
+                <CheckBox AutomationProperties.AutomationId="SlotAllchk" VerticalAlignment="Center" Content="SELECT__ALL"
+                          x:Name="CB_SlotAll" Checked="CB_SlotAll_Checked" Unchecked="CB_SlotAll_Unchecked" Height="32"></CheckBox>
+                <ListView ItemsSource="{Binding SelectedFoup.SlotInfos}" Background="#FF2C2C2F" Name="lv_slots"
+                      SelectionMode="Multiple" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SlotSelectedItemChangedCommand}"  
+                                                   CommandParameter="{Binding ElementName=lv_slots, Path=SelectedItems}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="25"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate >
+                            <Border BorderBrush="DimGray" BorderThickness="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox IsChecked="{Binding IsSelected}"/>
+                                    <Label Grid.Column="1"  Content="{Binding SlotIndex}" ContentStringFormat="SLOT #{0}" Padding="3"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </GroupBox>
+        
+        <!-- ETC -->
+        <GroupBox Grid.Row="2" Grid.RowSpan="2" Grid.Column="1" Header="ETC" FontSize="14" FontWeight="DemiBold" Padding="2" Margin="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel HorizontalAlignment="Center">
+                    <ComboBox SelectedItem="{Binding ForcedState}" Margin="0,2,0,2" ItemsSource="{Binding ForceStateArray}" FontSize="14" AutomationProperties.AutomationId="cmbForcedState"/>
+                    <Button AutomationProperties.AutomationId="forceddonebtn" x:Name="stage_forcedone" Content="Stage Force Done&#xa;(All Module)" Click="Stage_forcedone_Click" Style="{x:Null}"/>
+
+                    <ComboBox SelectedItem="{Binding ModuleType}" Margin="0,2,0,2" ItemsSource="{Binding ModuleTypeArrayArray}" FontSize="14" AutomationProperties.AutomationId="cmbModueType"/>
+                    <Button AutomationProperties.AutomationId="forceddoneSelectedbtn" Content="Stage Force Done&#xa;(Selected Module)" Click="Stage_forcedoneSelected_Click" Style="{x:Null}"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+        
+    </Grid>
+</Window>

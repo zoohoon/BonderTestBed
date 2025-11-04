@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="GPCCAlignSettingView_Standard.GPCCAlignSettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cui="clr-namespace:CUI;assembly=CUI"
+             xmlns:local="clr-namespace:GPCCAlignSettingView_Standard"
+             mc:Ignorable="d" 
+             d:DesignHeight="2000" d:DesignWidth="1000">
+    <Grid>
+
+        <StackPanel>
+            <Label Content="GPCC Align" Foreground="White" FontWeight="Bold" FontSize="56"/>
+            <Separator Margin="4" Background="White"/>
+            <StackPanel>
+                <Grid Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid  HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0">
+                        <cui:Button Margin="24 24 0 0" GUID="15c2a43e-a0cd-4c12-b030-845d52e4973d" Style="{DynamicResource NormalTypeCUIButtonStyle}" 
+                                    HorizontalAlignment="Left" 
+                                    Height="52" Width="200"
+                                    Command="{Binding SetupCommand}" 
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                    Content="Setup"/>
+                    </Grid>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="ProberViewModel.View.Chiller.ChillerConnSetupView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:local="clr-namespace:ProberViewModel.View.Chiller"
+             mc:Ignorable="d" Background="MediumPurple">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!--Row 0-->
+        <Label Grid.Row="0" Content="Chiller #1 " Margin="0"/>
+
+        <!--Row 1-->
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <!--  IP & Port -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Content="IP : "/>
+                <TextBox Grid.Column="1">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown" >
+                            <i:InvokeCommandAction Command="{Binding Path=DataContext.ChillerSVTextBoxClickCommand, ElementName=ucWindow}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+                <Label Grid.Column="2" Content="PORT : "/>
+                <TextBox Grid.Column="3">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown" >
+                            <i:InvokeCommandAction Command="{Binding Path=DataContext.ChillerSVTextBoxClickCommand, ElementName=ucWindow}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+            </Grid>
+            
+            <!-- Mode -->
+            <ComboBox Margin="0,4,0,2">
+                
+            </ComboBox>
+            
+            <!-- Operation Lock -->
+            
+        </StackPanel>
+
+        <!--Row 2-->
+        <Grid Grid.Row="2">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="SAVE" Width="60" Height="26" Style="{DynamicResource ControlButtonStyle}"/>
+                <Button Content="EXIT" Width="60" Height="26" Style="{DynamicResource ControlButtonStyle}" Margin="8,0,0,0"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

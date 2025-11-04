@@ -1,0 +1,876 @@
+﻿<UserControl x:Class="ProberViewModel.View.E84.E84ControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:ienum="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:ProberViewModel.View.E84"
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             mc:Ignorable="d" x:Name="ucWindow"
+             d:DesignHeight="1010" d:DesignWidth="1850">
+    <UserControl.Resources>
+        <local:ConnectLabelConverter x:Key="connectLabelConverter"/>
+        <local:CurrentStateLabelConverter x:Key="currentStateLabelConverter"/>
+        <local:E84ModeLabelConverter x:Key="e84ModeLabelConverter"/>
+        <local:SignalColorConverter x:Key="signalColorConverter"/>
+        <local:ListViewConverter x:Key="ListViewConverter"/>
+        <local:LoadPortCardLabelConverter x:Key="LoadPortCardLabelConverter"/>
+        <vc:IndexConverter x:Key="IndexConv"/>
+    </UserControl.Resources>
+    <Grid>
+        <ListView ItemsSource="{Binding E84Infos}" 
+                  Background="#FF2C2C2F"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border Name="_Border"
+                                Padding="2"
+                                SnapsToDevicePixels="true">
+                                    <ContentPresenter />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter TargetName="_Border" Property="Background" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+
+            </ListView.ItemContainerStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="{Binding E84InfosCount}"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate >
+                    <Grid Background="WhiteSmoke">
+                        <Grid.Resources>
+                            <Style TargetType="Label">
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Style>
+                        </Grid.Resources>
+                        <Grid>
+                            <Border BorderBrush="Black" BorderThickness="1">
+                                <Grid>
+                                    <Grid.Resources>
+                                        <Style TargetType="Rectangle">
+                                            <Setter Property="Stroke" Value="DarkGray"/>
+                                            <Setter Property="StrokeThickness" Value="1"/>
+                                        </Style>
+                                    </Grid.Resources>
+                                    
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="5.5*" />
+                                        <RowDefinition Height="3.1*"/>
+                                        <RowDefinition Height="375"/>
+                                    </Grid.RowDefinitions>
+                                    
+                                    <!--Content="{Binding FoupIndex}" ContentStringFormat="LOAD PORT #{0}"-->
+                                    <Label Grid.Row="0" FontSize="18" Margin="2" FontWeight="DemiBold"
+                                            VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="LightGray" >
+                                        <Label.Content>
+                                            <MultiBinding Converter="{StaticResource LoadPortCardLabelConverter}">
+                                                <Binding Path="FoupIndex" />
+                                                <Binding Path="E84OPModuleType" />
+                                            </MultiBinding>
+                                        </Label.Content>
+                                    </Label>
+                                    <Button Grid.Row="0"  HorizontalAlignment="Right" Margin="4" Width="40" Height="40"
+                                        Command="{Binding DataContext.SettingClickCommand, ElementName=ucWindow}">
+                                        <materialDesign:PackIcon Kind="Settings" Width="36" Height="36"
+                                                                     VerticalAlignment="Stretch" 
+                                                                     Foreground="White"/>
+                                        <Button.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                <Binding Path="FoupIndex" />
+                                                <Binding Path="E84OPModuleType" />
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+                                    <GroupBox Grid.Row="1" FontSize="12" Padding="1">
+                                        <GroupBox.Header>
+                                            <TextBlock Text="E84_SIGNAL" FontWeight="Bold" Foreground="Yellow"  Padding="2"/>
+                                        </GroupBox.Header>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <GroupBox Header="INPUT" Margin="2" Padding="1" FontWeight="Bold">
+                                                <StackPanel>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.E84Inputs.Valid, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="VALID"/>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.E84Inputs.CS0, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="CS__0"/>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.E84Inputs.CS1, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="CS__1"/>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.E84Inputs.AmAvbl, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="AM__AVBL"/>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.E84Inputs.TrReq, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="TR__REQ"/>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.E84Inputs.Busy, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="BUSY"/>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.E84Inputs.Compt, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="COMPT"/>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.E84Inputs.Cont, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="CONT"/>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2"
+                                                               Fill="{Binding E84Controller.CommModule.E84Inputs.Go, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="GO"/>
+                                                    </Grid>
+                                                </StackPanel>
+                                            </GroupBox>
+                                            <GroupBox Header="OUTPUT" Margin="2" Grid.Column="2" Padding="1"  FontWeight="Bold">
+                                                <StackPanel>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.E84Outputs.LReq, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="L__REQ"/>
+                                                        <CheckBox AutomationProperties.AutomationId="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource IndexConv}, StringFormat={}cbL_REQ_{0}}"
+                                                                  Width="20" Height="20" VerticalContentAlignment="Center" HorizontalAlignment="Right">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="Checked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.TrueString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.L_REQ}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="Unchecked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.FalseString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.L_REQ}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                            <CheckBox.LayoutTransform>
+                                                                <ScaleTransform ScaleX="1.6" ScaleY="1.6" />
+                                                            </CheckBox.LayoutTransform>
+                                                        </CheckBox>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.E84Outputs.UlReq, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="UL__REQ"/>
+                                                        <CheckBox AutomationProperties.AutomationId="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource IndexConv}, StringFormat={}cbUL_REQ_{0}}"
+                                                                  Width="20" Height="20" VerticalContentAlignment="Center" HorizontalAlignment="Right">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="Checked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.TrueString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.U_REQ}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="Unchecked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.FalseString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.U_REQ}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                            <CheckBox.LayoutTransform>
+                                                                <ScaleTransform ScaleX="1.6" ScaleY="1.6" />
+                                                            </CheckBox.LayoutTransform>
+                                                        </CheckBox>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.E84Outputs.Va,  Mode=TwoWay, Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="VA"/>
+                                                        <CheckBox AutomationProperties.AutomationId="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource IndexConv}, StringFormat={}cbVA_{0}}"
+                                                                  Width="20" Height="20" VerticalContentAlignment="Center" HorizontalAlignment="Right">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="Checked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.TrueString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.VA}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="Unchecked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.FalseString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.VA}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                            <CheckBox.LayoutTransform>
+                                                                <ScaleTransform ScaleX="1.6" ScaleY="1.6" />
+                                                            </CheckBox.LayoutTransform>
+                                                        </CheckBox>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2"
+                                                               Fill="{Binding E84Controller.CommModule.E84Outputs.Ready, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="READY"/>
+                                                        <CheckBox AutomationProperties.AutomationId="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource IndexConv}, StringFormat={}cbREADY_{0}}"
+                                                                  Width="20" Height="20" VerticalContentAlignment="Center" HorizontalAlignment="Right">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="Checked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.TrueString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.READY}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="Unchecked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.FalseString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.READY}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                            <CheckBox.LayoutTransform>
+                                                                <ScaleTransform ScaleX="1.6" ScaleY="1.6" />
+                                                            </CheckBox.LayoutTransform>
+                                                        </CheckBox>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.E84Outputs.VS0, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="VS__0"/>
+                                                        <CheckBox AutomationProperties.AutomationId="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource IndexConv}, StringFormat={}cbVS_0_{0}}"
+                                                                  Width="20" Height="20" VerticalContentAlignment="Center" HorizontalAlignment="Right">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="Checked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.TrueString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.VS_0}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="Unchecked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.FalseString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.VS_0}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                            <CheckBox.LayoutTransform>
+                                                                <ScaleTransform ScaleX="1.6" ScaleY="1.6" />
+                                                            </CheckBox.LayoutTransform>
+                                                        </CheckBox>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.E84Outputs.VS1, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="VS__1"/>
+                                                        <CheckBox AutomationProperties.AutomationId="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource IndexConv}, StringFormat={}cbVS_1_{0}}"
+                                                                  Width="20" Height="20" VerticalContentAlignment="Center" HorizontalAlignment="Right">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="Checked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.TrueString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.VS_1}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="Unchecked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.FalseString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.VS_1}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                            <CheckBox.LayoutTransform>
+                                                                <ScaleTransform ScaleX="1.6" ScaleY="1.6" />
+                                                            </CheckBox.LayoutTransform>
+                                                        </CheckBox>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2"
+                                                               Fill="{Binding E84Controller.CommModule.E84Outputs.HoAvbl, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="HO__AVBL"/>
+                                                        <CheckBox AutomationProperties.AutomationId="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource IndexConv}, StringFormat={}cbHO_AVBL_{0}}"
+                                                                  Width="20" Height="20" VerticalContentAlignment="Center" HorizontalAlignment="Right">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="Checked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.TrueString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.HO_AVBL}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="Unchecked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.FalseString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.HO_AVBL}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                            <CheckBox.LayoutTransform>
+                                                                <ScaleTransform ScaleX="1.6" ScaleY="1.6" />
+                                                            </CheckBox.LayoutTransform>
+                                                        </CheckBox>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.E84Outputs.ES, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="ES"/>
+                                                        <CheckBox AutomationProperties.AutomationId="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource IndexConv}, StringFormat={}cbES_{0}}"
+                                                                  Width="20" Height="20" VerticalContentAlignment="Center" HorizontalAlignment="Right">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="Checked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.TrueString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.ES}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="Unchecked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.FalseString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.ES}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                            <CheckBox.LayoutTransform>
+                                                                <ScaleTransform ScaleX="1.6" ScaleY="1.6" />
+                                                            </CheckBox.LayoutTransform>
+                                                        </CheckBox>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.E84Outputs.Select, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="SELECT"/>
+                                                        <CheckBox AutomationProperties.AutomationId="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource IndexConv}, StringFormat={}cbSELECT_{0}}"
+                                                                  Width="20" Height="20" VerticalContentAlignment="Center" HorizontalAlignment="Right">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="Checked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.TrueString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.SELECT}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="Unchecked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.FalseString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.SELECT}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                            <CheckBox.LayoutTransform>
+                                                                <ScaleTransform ScaleX="1.6" ScaleY="1.6" />
+                                                            </CheckBox.LayoutTransform>
+                                                        </CheckBox>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.E84Outputs.Mode, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="MODE"/>
+                                                        <CheckBox AutomationProperties.AutomationId="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource IndexConv}, StringFormat={}cbMODE_{0}}"
+                                                                  Width="20" Height="20" VerticalContentAlignment="Center" HorizontalAlignment="Right">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="Checked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.TrueString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.MODE}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="Unchecked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.OutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.FalseString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType"/>
+                                                                                <Binding Source="{x:Static ienum:E84SignalTypeEnum.MODE}"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                            <CheckBox.LayoutTransform>
+                                                                <ScaleTransform ScaleX="1.6" ScaleY="1.6" />
+                                                            </CheckBox.LayoutTransform>
+                                                        </CheckBox>
+                                                    </Grid>
+                                                </StackPanel>
+                                            </GroupBox>
+                                        </Grid>
+                                    </GroupBox>
+
+                                    <GroupBox Grid.Row="2" FontSize="12" Padding="1">
+                                        <GroupBox.Header>
+                                            <TextBlock Text="AUX_SIGNAL" FontWeight="Bold" Foreground="Yellow" Padding="2"/>
+                                        </GroupBox.Header>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <GroupBox Header="INPUT" Margin="2" Padding="1" FontWeight="Bold">
+                                                <StackPanel>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.AuxInputs[0], Mode=TwoWay, Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="AUX__0"/>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.AuxInputs[1], Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="AUX__1"/>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.AuxInputs[2], Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="AUX__2"/>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.LightCurtainAuxFlag, Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="AUX__3"/>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.AuxInputs[4], Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="AUX__4"/>
+                                                    </Grid>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.AuxInputs[5], Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="AUX__5"/>
+                                                    </Grid>
+                                                </StackPanel>
+                                            </GroupBox>
+                                            <GroupBox Header="OUTPUT" Margin="2" Padding="1" Grid.Column="1" FontWeight="Bold">
+                                                <StackPanel>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Rectangle Width="20" Height="20" Margin="2" 
+                                                               Fill="{Binding E84Controller.CommModule.AuxOutputs[0], Mode=TwoWay,  Converter={StaticResource signalColorConverter}}"/>
+                                                        <Label Grid.Column="1" Content="AUX__0"/>
+                                                        <CheckBox AutomationProperties.AutomationId="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource IndexConv}, StringFormat={}cbAUX_0_{0}}"
+                                                                  Width="20" Height="20" Margin="2" 
+                                                  VerticalContentAlignment="Center" HorizontalAlignment="Right">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="Checked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.AuxOutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.TrueString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                                <Binding Path="E84OPModuleType" />
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                                <i:EventTrigger EventName="Unchecked" >
+                                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.AuxOutPutCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                                <Binding Source="{x:Static s:Boolean.FalseString}"/>
+                                                                                <Binding Path="FoupIndex"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                            <CheckBox.LayoutTransform>
+                                                                <ScaleTransform ScaleX="1.6" ScaleY="1.6" />
+                                                            </CheckBox.LayoutTransform>
+                                                        </CheckBox>
+                                                    </Grid>
+                                                </StackPanel>
+                                            </GroupBox>
+                                        </Grid>
+                                    </GroupBox>
+
+                                    <GroupBox Grid.Row="3" Padding="1">
+                                        <GroupBox.Header>
+                                            <TextBlock Text="OPERATION" FontWeight="Bold" Foreground="Yellow" Padding="2"/>
+                                        </GroupBox.Header>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="1.6*"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+                                                <Grid.Resources>
+                                                    <Style TargetType="Label">
+                                                        <Setter Property="FontSize" Value="16"/>
+                                                        <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+                                                    </Style>
+                                                </Grid.Resources>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition Width="2*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+
+                                                <Label Content="CONNECTION " FontSize="14"/>
+                                                <Label Grid.Row="1" Content="MODE" FontSize="14"/>
+                                                <Label Grid.Row="2" Content="CURRENT__STATUS" FontSize="14"/>
+                                                <Label Grid.Row="3" Content="CARRIER__STATUS" FontSize="14"/>
+
+                                                <Border Grid.Row="0" Grid.Column="1" BorderBrush="DimGray" BorderThickness="0.6"  Margin="2" Background="PeachPuff">
+                                                    <TextBlock Text="{Binding E84Controller.CommModule.Connection}" Foreground="Black" FontSize="14" FontWeight="DemiBold" VerticalAlignment="Center"/>
+                                                </Border>
+
+                                                <Border Grid.Row="1" Grid.Column="1" BorderBrush="DimGray" BorderThickness="0.6"  Margin="2" Background="PeachPuff">
+                                                    <TextBlock Text="{Binding E84Controller.CommModule.RunMode}" Foreground="Black" FontSize="14" FontWeight="DemiBold" VerticalAlignment="Center"/>
+                                                </Border>
+
+                                                <Border Grid.Row="2" Grid.Column="1" BorderBrush="DimGray" BorderThickness="0.6"  Margin="2" Background="PeachPuff">
+                                                    <TextBlock Text="{Binding E84Controller.CommModule.CurrentStep}" Foreground="Black"  FontSize="14" FontWeight="DemiBold" VerticalAlignment="Center"/>
+                                                </Border>
+
+                                                <Border Grid.Row="3" Grid.Column="1" BorderBrush="DimGray" BorderThickness="0.6"  Margin="2" Background="PeachPuff">
+                                                    <TextBlock Text="{Binding E84Controller.CommModule.Carrier[0]}" Foreground="Black" FontSize="14" FontWeight="DemiBold" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </Grid>
+
+                                            <StackPanel Grid.Row="1">
+                                                <Button AutomationProperties.AutomationId="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource IndexConv}, StringFormat={}btnLOCK_{0}}"
+                                                        Content="LOCK" Margin="2" Padding="2" Style="{x:Null}" Height="32"
+                                                    Command="{Binding Path=DataContext.FoupLockCommand, ElementName=ucWindow}" CommandParameter="{Binding FoupIndex}"/>
+                                                <Button AutomationProperties.AutomationId="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource IndexConv}, StringFormat={}btnUNLOCK_{0}}"
+                                                        Content="UN LOCK"  Margin="2" Padding="2" Style="{x:Null}" Height="32"
+                                                    Command="{Binding Path=DataContext.FoupUnLockCommand, ElementName=ucWindow}" CommandParameter="{Binding FoupIndex}"/>
+                                                <Button AutomationProperties.AutomationId="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource IndexConv}, StringFormat={}btnLOAD_{0}}"
+                                                        Content="LOAD" Margin="2" Padding="2" Style="{x:Null}" Height="32"
+                                                    Command="{Binding Path=DataContext.FoupLoadCommand, ElementName=ucWindow}" CommandParameter="{Binding FoupIndex}"/>
+                                                <Button AutomationProperties.AutomationId="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource IndexConv}, StringFormat={}btnUNLOAD_{0}}"
+                                                        Content="UNLOAD" Margin="2" Padding="2" Style="{x:Null}" Height="32"
+                                                    Command="{Binding Path=DataContext.FoupUnloadCommand, ElementName=ucWindow}" CommandParameter="{Binding FoupIndex}"/>
+                                                <Button AutomationProperties.AutomationId="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource IndexConv}, StringFormat={}btnSCAN_{0}}"
+                                                        Content="SCAN" Margin="2" Padding="2" Style="{x:Null}"  Height="32"
+                                                    Command="{Binding Path=DataContext.FoupScanCommand, ElementName=ucWindow}" CommandParameter="{Binding FoupIndex}"/>
+                                                <Button Content="Initialize" Margin="2" Padding="2" Style="{x:Null}"  Height="32"
+                                                    Command="{Binding Path=DataContext.InitializeCommand, ElementName=ucWindow}" >
+                                                    <Button.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                            <Binding Path="FoupIndex" />
+                                                            <Binding Path="E84OPModuleType" />
+                                                        </MultiBinding>
+                                                    </Button.CommandParameter>
+                                                </Button>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Row="1" Grid.Column="1">
+                                                <Button Content="Clear Seq" Margin="2" Padding="2" Style="{x:Null}" Height="32"
+                                                    Command="{Binding Path=DataContext.ClearSequenceCommand, ElementName=ucWindow}">
+                                                    <Button.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                            <Binding Path="FoupIndex" />
+                                                            <Binding Path="E84OPModuleType" />
+                                                        </MultiBinding>
+                                                    </Button.CommandParameter>
+                                                </Button>
+                                                <Button Content="Clear Event" Margin="2" Padding="2" Style="{x:Null}" Height="32"
+                                                    Command="{Binding Path=DataContext.ClarEventCommand, ElementName=ucWindow}">
+                                                    <Button.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                            <Binding Path="FoupIndex" />
+                                                            <Binding Path="E84OPModuleType" />
+                                                        </MultiBinding>
+                                                    </Button.CommandParameter>
+                                                </Button>
+                                                <Button Content="Set Carrier(Card) Attach" Margin="2" Padding="2" Style="{x:Null}" Height="32"
+                                                    Command="{Binding Path=DataContext.SetCarrierCardAttachStateCommand, ElementName=ucWindow}">
+                                                    <Button.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                            <Binding Path="FoupIndex" />
+                                                            <Binding Path="E84OPModuleType" />
+                                                        </MultiBinding>
+                                                    </Button.CommandParameter>
+                                                </Button>
+                                                 <Button Content="Set Carrier(Card) Detach" Margin="2" Padding="2" Style="{x:Null}" Height="32"
+                                                    Command="{Binding Path=DataContext.SetCarrierCardDetachStateCommand, ElementName=ucWindow}">
+                                                    <Button.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                            <Binding Path="FoupIndex" />
+                                                            <Binding Path="E84OPModuleType" />
+                                                        </MultiBinding>
+                                                    </Button.CommandParameter>
+                                                </Button>
+                                                <Button Content="Set Load State" Margin="2" Padding="2" Style="{x:Null}" Height="32"
+                                                    Command="{Binding Path=DataContext.SetLoadStateCommand, ElementName=ucWindow}">
+                                                    <Button.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                            <Binding Path="FoupIndex" />
+                                                            <Binding Path="E84OPModuleType" />
+                                                        </MultiBinding>
+                                                    </Button.CommandParameter>
+                                                </Button>
+                                                <Button Content="Set UnLoad State" Margin="2" Padding="2" Style="{x:Null}" Height="32"
+                                                    Command="{Binding Path=DataContext.SetUnloadStateCommand, ElementName=ucWindow}">
+                                                    <Button.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                            <Binding Path="FoupIndex" />
+                                                            <Binding Path="E84OPModuleType" />
+                                                        </MultiBinding>
+                                                    </Button.CommandParameter>
+                                                </Button>
+                                            </StackPanel>
+
+                                        </Grid>
+                                    </GroupBox>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</UserControl>

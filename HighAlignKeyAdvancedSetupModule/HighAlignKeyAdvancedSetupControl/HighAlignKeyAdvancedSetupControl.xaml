@@ -1,0 +1,1512 @@
+﻿<dialogs:CustomDialog x:Class="HighAlignKeyAdvancedSetupModule.HighAlignKeyAdvancedSetupControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HighAlignKeyAdvancedSetupModule"
+             xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:pc="clr-namespace:ProbeCardObject;assembly=ProbeCardObject"         
+             xmlns:conv="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:pco="clr-namespace:ProbeCardObject;assembly=ProbeCardObject"
+             mc:Ignorable="d" Height="1054" Width="1260"
+             Background="#FF232222"
+             Style="{DynamicResource FullScreenDialogStyle}">
+
+    <dialogs:CustomDialog.Resources>
+        <conv:TabSizeConverter x:Key="tabsizeconverter"/>
+        <local:CheckBoxConvert x:Key="CheckBoxConv"/>
+        <local:PinSelectionConverter x:Key="PinSelectionConv"/>
+        <local:Rec_CenterConverter x:Key="Rec_CenterConv"/>
+        <local:ComparisonConverter x:Key="ComparisonConv"/>
+        <local:InvertAllOptionConverter x:Key="InvertAllOptionConv"/>
+        <local:BoolRadioConverter x:Key="BoolRadioConverter" />
+        <local:BoolRadioConverter x:Key="InverseBoolRadioConverter" Inverse="True" />
+        <local:FTPUploadConverter x:Key="FTPUploadConv"/>
+        <local:RectangleScaleConverter x:Key="RectangleScaleConv"/>
+
+        <ObjectDataProvider x:Key="getDataFocusingRange" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="pco:FOCUSINGRAGE"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+    </dialogs:CustomDialog.Resources>
+
+    <Grid >
+        <Grid.Resources>
+            <ResourceDictionary>
+
+                <!--<ObjectDataProvider x:Key="getDataFromSizeValidationOption" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                    <ObjectDataProvider.MethodParameters>
+                        <x:Type TypeName="pc:SizeValidationOption"/>
+                    </ObjectDataProvider.MethodParameters>
+                </ObjectDataProvider>-->
+
+                <System:Boolean x:Key="FalseValue">False</System:Boolean>
+                <System:Boolean x:Key="TrueValue">True</System:Boolean>
+
+                <System:Double x:Key="DialogTitleFontSize">26</System:Double>
+                <System:Double x:Key="DialogMessageFontSize">15</System:Double>
+
+                <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+                <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+                <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+                <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+                <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+                <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+                <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+                <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+
+                <Style x:Key="TitleLabel" TargetType="Label">
+                    <Setter Property="Margin" Value="0 5 0 0"/>
+                    <Setter Property="Background" Value="DodgerBlue" />
+                    <Setter Property="FontSize" Value="30" />
+                    <Setter Property="Foreground" Value="#FFE8E8E8"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+
+                <Style x:Key="ContentLabel" TargetType="Label">
+                    <Setter Property="Margin" Value="10 0"/>
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="Foreground" Value="#FF3BA83B"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+
+                <Style x:Key="ContentLabel_Small" TargetType="Label">
+                    <Setter Property="FontSize" Value="15" />
+                    <Setter Property="Foreground" Value="#FF3BA83B"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+
+                <Style x:Key="ContentLabel_Small_CornflowerBlue" TargetType="Label">
+                    <Setter Property="FontSize" Value="15" />
+                    <Setter Property="Foreground" Value="CornflowerBlue"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="Normal"/>
+                </Style>
+
+                <Style x:Key="ContentLabel_DarkRed" TargetType="Label">
+                    <Setter Property="FontSize" Value="12" />
+                    <Setter Property="Foreground" Value="Red"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                </Style>
+
+                <Style x:Key="ContentTextBox" TargetType="TextBox">
+                    <Setter Property="Margin" Value="2 0"/>
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="Foreground" Value="#FFE8E8E8"/>
+                    <Setter Property="Background" Value="Black" />
+                    <Setter Property="TextAlignment" Value="Center"/>
+                    <Setter Property="Height" Value="35"/>
+                </Style>
+                <Style x:Key="ContentTextBox_Small" TargetType="TextBox">
+                    <Setter Property="Margin" Value="2 0"/>
+                    <Setter Property="FontSize" Value="15" />
+                    <Setter Property="Foreground" Value="#FFE8E8E8"/>
+                    <Setter Property="Background" Value="Black" />
+                    <Setter Property="TextAlignment" Value="Center"/>
+                    <Setter Property="Height" Value="25"/>
+                    <Setter Property="BorderBrush" Value="CornflowerBlue"/>
+                </Style>
+
+                <Style x:Key="DefaultButton" TargetType="Button">
+                    <Setter Property="Margin" Value="10"/>
+                    <Setter Property="FontSize" Value="30" />
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+
+                <Style x:Key="DefaultRadioButton" TargetType="RadioButton">
+                    <Setter Property="Margin" Value="4"/>
+                    <Setter Property="FontSize" Value="20"/>
+                    <Setter Property="Foreground" Value="#FFE8E8E8"/>
+                    <!--<Setter Property="HorizontalContentAlignment" Value="Center"/>-->
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+
+                <Style x:Key="DefaultGroupBox" TargetType="GroupBox">
+                    <Setter Property="Foreground" Value="#FFE8E8E8"/>
+                    <Setter Property="Margin" Value="10 0"/>
+                    <Setter Property="FontSize" Value="25" />
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+
+                <Style x:Key="DefaultGroupBox_Sub" TargetType="GroupBox">
+                    <Setter Property="Foreground" Value="#FFE8E8E8"/>
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="FontSize" Value="18" />
+                    <Setter Property="BorderThickness" Value="0.5" />
+                    <Setter Property="FontWeight" Value="Normal"/>
+                </Style>
+
+                <Style x:Key="DefaultTabControl" TargetType="TabControl">
+                    <Setter Property="Foreground" Value="#FFE8E8E8"/>
+                    <Setter Property="Margin" Value="10"/>
+                    <Setter Property="FontSize" Value="30" />
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+
+                <Style x:Key="UpButtonStyle" TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Padding" Value="1"/>
+                    <Setter Property="Width" Value="60"/>
+                    <Setter Property="Height" Value="60"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Grid>
+                                    <Border Name="UpButtonBorderStyle" Background="#333333">
+                                        <Border.BitmapEffect>
+                                            <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                    Color="LightGray"
+                                    ShadowDepth="5"
+                                    Softness="0"/>
+                                        </Border.BitmapEffect>
+                                    </Border>
+                                    <Viewbox Margin="8">
+                                        <Path Data="M1,21H23L12,2" Fill="White" Name="TryAngleIcon"/>
+                                    </Viewbox>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsDefaulted" Value="true">
+                                        <Setter Property="BorderBrush" TargetName="UpButtonBorderStyle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="true"/>
+                                    <Trigger Property="IsPressed" Value="true">
+                                        <Setter Property="Fill" TargetName="TryAngleIcon" Value="{StaticResource Button.Pressed.Border}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="false">
+                                        <Setter Property="Background" TargetName="UpButtonBorderStyle" Value="{StaticResource Button.Disabled.Background}"/>
+                                        <Setter Property="BorderBrush" TargetName="UpButtonBorderStyle" Value="{StaticResource Button.Disabled.Border}"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+
+                <Style x:Key="DwButtonStyle" TargetType="{x:Type Button}">
+                    <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Padding" Value="1"/>
+                    <Setter Property="Width" Value="60"/>
+                    <Setter Property="Height" Value="60"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Grid>
+                                    <Border Name="DwButtonBorderStyle" Background="#333333">
+                                        <Border.BitmapEffect>
+                                            <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                    Color="LightGray" 
+                                    ShadowDepth="5"
+                                    Softness="0"/>
+                                        </Border.BitmapEffect>
+                                    </Border>
+                                    <Viewbox Margin="8">
+                                        <Path Data="M1,2H23L12,21"
+                                          Fill="White" Name="TryAngleIcon"
+                                          />
+                                    </Viewbox>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsDefaulted" Value="true">
+                                        <Setter Property="BorderBrush" TargetName="DwButtonBorderStyle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="true"/>
+                                    <Trigger Property="IsPressed" Value="true">
+                                        <Setter Property="Fill" TargetName="TryAngleIcon" Value="{StaticResource Button.Pressed.Border}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="false">
+                                        <Setter Property="Background" TargetName="DwButtonBorderStyle" Value="{StaticResource Button.Disabled.Background}"/>
+                                        <Setter Property="BorderBrush" TargetName="DwButtonBorderStyle" Value="{StaticResource Button.Disabled.Border}"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <!--<Style TargetType="{x:Type TabItem}">
+                    <Setter Property="Width">
+                        <Setter.Value>
+                            <MultiBinding Converter="{StaticResource tabsizeconverter}">
+                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}" />
+                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}" Path="ActualWidth" />
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
+                </Style>-->
+
+            </ResourceDictionary>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.8*" MinHeight="20" />
+            <RowDefinition Height="12*" />
+            <RowDefinition Height="0.8*" MinHeight="10"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Style="{StaticResource TitleLabel}" Content ="High Align Key Advanced Settings" />
+
+        <TabControl Grid.Row="1" Background="#FF232222" Margin="0 4" BorderThickness="2.5" BorderBrush="#FFE8E8E8">
+            <TabControl.Resources>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="HeaderTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <ContentPresenter>
+                                    <ContentPresenter.Content>
+                                        <Label x:Name="txtBlock" Style="{StaticResource ContentLabel}" Content="{TemplateBinding Content}" Foreground="Black" Padding="0"/>
+                                    </ContentPresenter.Content>
+                                </ContentPresenter>
+
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabItem}},Path=IsSelected}" Value="True">
+                                        <Setter TargetName="txtBlock" Property="Foreground" Value="DodgerBlue"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Width">
+                        <Setter.Value>
+                            <MultiBinding Converter="{StaticResource tabsizeconverter}">
+                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}" />
+                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}" Path="ActualWidth" />
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            <!-- Focusing -->
+            <TabItem Header="Focusing">
+
+                <StackPanel>
+
+                    <GroupBox Header="Extension Setting" Style="{StaticResource DefaultGroupBox}">
+
+                        <StackPanel Margin="10">
+
+                            <Grid Margin="0 0 0 10">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="2.5*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Column="0" Style="{StaticResource ContentLabel}" Content="Extension Function" />
+
+                                <Grid Grid.Column="1" Margin="20 0 0 0">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="0.5*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <RadioButton AutomationProperties.AutomationId="rbtnFocusingExtensionDisable"
+                                                 Grid.Column="0" Style="{StaticResource DefaultRadioButton}" Content="Disable"                                         
+                                                 IsChecked="{Binding PinAlignDevParam.PinHighAlignParam.HighAlignKeyParameter.KeyFocusingExtension.Value, Converter={StaticResource InverseBoolRadioConverter}}">
+                                    </RadioButton>
+
+                                    <RadioButton AutomationProperties.AutomationId="rbtnFocusingExtensionEnable"
+                                                 Grid.Column="1" Style="{StaticResource DefaultRadioButton}" Content="Enable" 
+                                                 IsChecked="{Binding PinAlignDevParam.PinHighAlignParam.HighAlignKeyParameter.KeyFocusingExtension.Value, Converter={StaticResource BoolRadioConverter}}">
+                                    </RadioButton>
+
+                                </Grid>
+                            </Grid>
+
+                            <Grid Margin="0 0 0 10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="2.5*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Style="{StaticResource ContentLabel}" Content="Extension Width" />
+                                <Grid Grid.Column="1" Margin="20 0 0 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox AutomationProperties.AutomationId="txtFocusingExtensionWidth"
+                                             Style="{StaticResource ContentTextBox}" Text="{Binding PinAlignDevParam.PinHighAlignParam.HighAlignKeyParameter.KeyFocusingExtensionWidth.Value}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding DataContext.DecimalTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>
+                            </Grid>
+
+                            <Grid Margin="0 0 0 10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="2.5*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Style="{StaticResource ContentLabel}" Content="Extension Height" />
+                                <Grid Grid.Column="1" Margin="20 0 0 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox AutomationProperties.AutomationId="txtFocusingExtensionHeight"
+                                             Style="{StaticResource ContentTextBox}" Text="{Binding PinAlignDevParam.PinHighAlignParam.HighAlignKeyParameter.KeyFocusingExtensionHeight.Value}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding DataContext.DecimalTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>
+                            </Grid>
+
+                            <Grid Margin="0 0 0 10">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Column="0" FontSize="16" Margin="10, 0"
+                                       Content="* Depending on the direction the key is set, the area used for processing is expanded." />
+
+                            </Grid>
+
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="Base parameter" Style="{StaticResource DefaultGroupBox}">
+
+                        <StackPanel Margin="10">
+
+                            <Grid Margin="0,4,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Content="Focusing Range" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                <ComboBox AutomationProperties.AutomationId="cmbBaseFocusingRange"
+                                          Margin="0,4,0,4" Grid.Column="1"
+                                          Style="{x:Null}"
+                                          VerticalContentAlignment="Center"
+                                          HorizontalContentAlignment="Center"
+                                          Foreground="Black"
+                                          FontSize="18"
+                                          ItemsSource="{Binding Source={StaticResource getDataFocusingRange}}"
+                                          SelectedItem="{Binding KeyFocusingRange}">
+                                </ComboBox>
+                            </Grid>
+
+                            <Grid Margin="0 0 0 10">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Column="0" FontSize="16" Margin="10, 0"
+                                       Content="* The above values are not stored data. When changing the value, All range values used to focus the keys are changed." />
+
+                            </Grid>
+
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </TabItem>
+
+            <!-- Blob -->
+            <TabItem Header="Blob">
+
+                <StackPanel>
+
+                    <GroupBox Header="Extension setting" Style="{StaticResource DefaultGroupBox}">
+
+                        <StackPanel Margin="10">
+
+                            <Grid Margin="0 0 0 10">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="2.5*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Column="0" Style="{StaticResource ContentLabel}" Content="Extension function" />
+
+                                <Grid Grid.Column="1" Margin="20 0 0 0">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="0.5*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <RadioButton AutomationProperties.AutomationId="rbtnBlobExtensionDisable"
+                                                 Grid.Column="0" Style="{StaticResource DefaultRadioButton}" Content="Disable"
+                                                 IsChecked="{Binding PinAlignDevParam.PinHighAlignParam.HighAlignKeyParameter.KeyBlobExtension.Value, Converter={StaticResource InverseBoolRadioConverter}}">
+                                    </RadioButton>
+
+                                    <RadioButton AutomationProperties.AutomationId="rbtnBlobExtensionEnable"
+                                                 Grid.Column="1" Style="{StaticResource DefaultRadioButton}" Content="Enable"
+                                                 IsChecked="{Binding PinAlignDevParam.PinHighAlignParam.HighAlignKeyParameter.KeyBlobExtension.Value, Converter={StaticResource BoolRadioConverter}}">
+                                    </RadioButton>
+
+                                </Grid>
+                            </Grid>
+
+                            <Grid Margin="0 0 0 10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="2.5*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Style="{StaticResource ContentLabel}" Content="Extension width" />
+                                <Grid Grid.Column="1" Margin="20 0 0 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox AutomationProperties.AutomationId="txtBlobExtensionWidth"
+                                             Style="{StaticResource ContentTextBox}" Text="{Binding PinAlignDevParam.PinHighAlignParam.HighAlignKeyParameter.KeyBlobExtensionWidth.Value}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding DataContext.DecimalTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>
+                            </Grid>
+
+                            <Grid Margin="0 0 0 10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="2.5*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Style="{StaticResource ContentLabel}" Content="Extension height" />
+                                <Grid Grid.Column="1" Margin="20 0 0 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox AutomationProperties.AutomationId="txtBlobExtensionHeight"
+                                             Style="{StaticResource ContentTextBox}" Text="{Binding PinAlignDevParam.PinHighAlignParam.HighAlignKeyParameter.KeyBlobExtensionHeight.Value}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding DataContext.DecimalTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>
+                            </Grid>
+
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="Size margin setting" Style="{StaticResource DefaultGroupBox}">
+
+                        <StackPanel Margin="10">
+
+                            <Grid Margin="0 0 0 10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="2.5*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Style="{StaticResource ContentLabel}" Content="Minimum margin of size X (%)" />
+                                <Grid Grid.Column="1" Margin="20 0 0 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox AutomationProperties.AutomationId="txtBlobExtensionMarginMinimumX"
+                                             Style="{StaticResource ContentTextBox}" Text="{Binding PinAlignDevParam.PinHighAlignParam.HighAlignKeyParameter.KeyBlobSizeXMinimumMargin.Value}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>
+                            </Grid>
+
+                            <Grid Margin="0 0 0 10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="2.5*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Style="{StaticResource ContentLabel}" Content="Maximum margin of size X (%)" />
+                                <Grid Grid.Column="1" Margin="20 0 0 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox AutomationProperties.AutomationId="txtBlobExtensionMarginMaximumX"
+                                             Style="{StaticResource ContentTextBox}" Text="{Binding PinAlignDevParam.PinHighAlignParam.HighAlignKeyParameter.KeyBlobSizeXMaximumMargin.Value}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>
+                            </Grid>
+
+                            <Grid Margin="0 0 0 10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="2.5*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Style="{StaticResource ContentLabel}" Content="Minimum margin of size Y (%)" />
+                                <Grid Grid.Column="1" Margin="20 0 0 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox AutomationProperties.AutomationId="txtBlobExtensionMarginMinimumY"
+                                             Style="{StaticResource ContentTextBox}" Text="{Binding PinAlignDevParam.PinHighAlignParam.HighAlignKeyParameter.KeyBlobSizeYMinimumMargin.Value}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>
+                            </Grid>
+
+                            <Grid Margin="0 0 0 10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="2.5*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Style="{StaticResource ContentLabel}" Content="Maximum margin of size Y (%)" />
+                                <Grid Grid.Column="1" Margin="20 0 0 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox AutomationProperties.AutomationId="txtBlobExtensionMarginMaximumY"
+                                             Style="{StaticResource ContentTextBox}" Text="{Binding PinAlignDevParam.PinHighAlignParam.HighAlignKeyParameter.KeyBlobSizeYMaximumMargin.Value}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>
+                            </Grid>
+
+                        </StackPanel>
+                    </GroupBox>
+
+                </StackPanel>
+            </TabItem>
+            <!-- Pin Tip Measurement -->
+            <TabItem Header="Pin Tip Measurement">
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0"  Margin="5,0,5,0" >
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.6*"/>
+                                <ColumnDefinition Width="0.6*"/>
+                                <ColumnDefinition Width="1.9*"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Style="{StaticResource ContentLabel}" Content="Pin Tip Measurement" />
+
+                            <RadioButton AutomationProperties.AutomationId="rbtnTipFocusEnable" Margin="0,0,0,0"
+                                                 Grid.Column="1" Style="{StaticResource DefaultRadioButton}" Content="Enable" 
+                                                 IsChecked="{Binding PinAlignDevParam.PinHighAlignParam.PinTipFocusEnable.Value, Converter={StaticResource BoolRadioConverter}}">
+                            </RadioButton>
+
+                            <RadioButton AutomationProperties.AutomationId="rbtnTipFocusDisable" Margin="0,0,0,0"
+                                                 Grid.Column="2" Style="{StaticResource DefaultRadioButton}" Content="Disable"                                         
+                                                 IsChecked="{Binding PinAlignDevParam.PinHighAlignParam.PinTipFocusEnable.Value, Converter={StaticResource InverseBoolRadioConverter}}">
+                            </RadioButton>
+                        </Grid>
+                    </Border>
+
+                    <Grid Grid.Row="1" Margin="4">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0" Content="Focusing Range" Margin="4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                        <ComboBox AutomationProperties.AutomationId="cmbTipFocusingRange"
+                                          Margin="4" Grid.Column="1"
+                                          Style="{x:Null}"
+                                          VerticalContentAlignment="Center"
+                                          HorizontalContentAlignment="Center"
+                                          Foreground="Black"
+                                          FontSize="18"
+                                          ItemsSource="{Binding Source={StaticResource getDataFocusingRange}}"
+                                          SelectedItem="{Binding PinAlignDevParam.PinHighAlignParam.PinTipFocusRange.Value}">
+                        </ComboBox>
+
+                        <Label Grid.Column="0" Content="Pin Tip-Key Minimum Distance" Margin="4" Grid.Row="1"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+
+                        <TextBox AutomationProperties.AutomationId="txtPinTipKeyMinimumDistance"
+                                         Style="{StaticResource ContentTextBox}"  Grid.Column="1" Grid.Row="1" Text="{Binding PinAlignDevParam.PinHighAlignParam.PinKeyMinDistance.Value}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding DataContext.DecimalTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                        <Label Grid.Column="0" Content="PinTipFocus Percentage" Margin="4" Grid.Row="2"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+
+                        <TextBox AutomationProperties.AutomationId="txtPinTipFocusPercentage"
+                                         Style="{StaticResource ContentTextBox}"  Grid.Column="1" Grid.Row="2" Text="{Binding PinAlignDevParam.PinHighAlignParam.PinTipFocusPassPercentage.Value}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding DataContext.DecimalTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </Grid>
+
+                    <GroupBox Grid.Row="2" Grid.RowSpan="4"  Header="PinTip Size Validation Option" Style="{StaticResource DefaultGroupBox_Sub}" 
+                              IsEnabled="{Binding PinAlignDevParam.PinHighAlignParam.PinTipFocusEnable.Value}"
+                              Margin="5, 0, 5, 5">
+                        <Grid >
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition Height="5*"/>
+                            </Grid.RowDefinitions>
+                            <!-- Enable -->
+                            <Border Grid.Row="0" Height="55" BorderThickness="1" BorderBrush="DarkGray" CornerRadius="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1.3*"/>
+                                        <ColumnDefinition Width="0.6*"/>
+                                        <ColumnDefinition Width="1.5*"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Style="{StaticResource ContentLabel}" Content="Pin Tip Size Vailidation" />
+
+                                    <RadioButton AutomationProperties.AutomationId="rbtnTipSizeValidationEnable"
+                                                 Grid.Column="1" Style="{StaticResource DefaultRadioButton}" Content="Enable"                                         
+                                                 IsChecked="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidationEnable.Value, Converter={StaticResource BoolRadioConverter}}">
+                                    </RadioButton>
+
+                                    <RadioButton AutomationProperties.AutomationId="rbtnTipSizeValidationDisable"
+                                                 Grid.Column="2" Style="{StaticResource DefaultRadioButton}" Content="Disable" 
+                                                 IsChecked="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidationEnable.Value, Converter={StaticResource InverseBoolRadioConverter}}">
+                                    </RadioButton>
+                                </Grid>
+                            </Border>
+
+                            <!-- Pause Option -->
+                            <Border Grid.Row="1" Height="55" BorderThickness="1" BorderBrush="DarkGray" CornerRadius="1" 
+                                    IsEnabled="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidationEnable.Value}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1.7*"/>
+                                        <ColumnDefinition Width="0.8*"/>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="1.5*"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Grid.Column="0" Style="{StaticResource ContentLabel}" Content="Pause Option" />
+
+                                    <RadioButton AutomationProperties.AutomationId="rbtnTipSizeValidationPauseOption_Alarm" 
+                                                 Grid.Column="1" Style="{StaticResource DefaultRadioButton}" Content="ON" Margin="0, 0, 0, 0" HorizontalAlignment="Left"
+                                                 IsChecked="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Lot_Pause_Option.Value, Converter={StaticResource BoolRadioConverter}}">
+                                    </RadioButton>
+
+                                    <RadioButton AutomationProperties.AutomationId="rbtnTipSizeValidationPauseOption_Warning" HorizontalAlignment="Left"
+                                                 Grid.Column="2" Style="{StaticResource DefaultRadioButton}" Content="OFF" Margin="0, 0, 0, 0"                               
+                                                 IsChecked="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Lot_Pause_Option.Value, Converter={StaticResource InverseBoolRadioConverter}}">
+                                    </RadioButton>
+
+                                    <Grid Grid.Column="3" Grid.ColumnSpan="3">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid Grid.Row="0">
+                                            <TextBlock Foreground="Red" FontSize="12" Text="* When the 'ON' option is enabled and a validation failure occurs during the Pin Align operation, Fail will occur." Margin="-75,0,0,0"/>
+                                        </Grid>
+
+                                        <Grid Grid.Row="1">
+                                            <TextBlock Foreground="Red" FontSize="12" Text="If the lot is currently in progress, it will be automatically paused as a result." Margin="-75,0,0,0"/>
+                                        </Grid>
+                                    </Grid>
+
+                                    <!--<Label Grid.Row="3" Foreground="Red" Grid.Column="3" FontWeight="Regular" Grid.ColumnSpan="3" FontSize="15" Content="* [Warning]: Only notify.  [Alram]: Stop Lot with notifications if Lot is running." />-->
+
+                                </Grid>
+                            </Border>
+
+                            <!-- Image Save Option -->
+                            <Grid Grid.Row="2"
+                                  IsEnabled="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidationEnable.Value}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0" Height="55" BorderThickness="1" BorderBrush="DarkGray" CornerRadius="1" >
+
+                                    <Grid>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1.85*"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- InRange Image Save Option -->
+                                        <Label Grid.Column="0" Style="{StaticResource ContentLabel}" Content="Save In-Range Size Image" />
+                                        <RadioButton AutomationProperties.AutomationId="rbtninScopeSizesSaveEnable"
+                                                         Grid.Column="1" Style="{StaticResource DefaultRadioButton}" Content="Enable"                                         
+                                                         IsChecked="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_SizeInRange_Image.Value, Converter={StaticResource BoolRadioConverter}}">
+                                        </RadioButton>
+
+                                        <RadioButton AutomationProperties.AutomationId="rbtnInScopeSizesSavedisable"
+                                                         Grid.Column="2" Style="{StaticResource DefaultRadioButton}" Content="Disable" 
+                                                         IsChecked="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_SizeInRange_Image.Value, Converter={StaticResource InverseBoolRadioConverter}}">
+                                        </RadioButton>
+
+                                    </Grid>
+                                </Border>
+
+                                <Border Grid.Column="1" Height="55" BorderThickness="1" BorderBrush="DarkGray" CornerRadius="1" >
+                                    <Grid>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2.5*"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Out Range Image Save Option -->
+                                        <Label Grid.Column="0" Style="{StaticResource ContentLabel}" Content="Save Out-Of-Range Size Image" />
+
+                                        <RadioButton AutomationProperties.AutomationId="rbtnOutOfScopeSizesSaveEnable"
+                                                 Grid.Column="1" Style="{StaticResource DefaultRadioButton}" Content="Enable"                                         
+                                                 IsChecked="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_OutOfSize_Image.Value, Converter={StaticResource BoolRadioConverter}}">
+                                        </RadioButton>
+
+                                        <RadioButton AutomationProperties.AutomationId="rbtnOutOfScopeSizesSaveDisable"
+                                                 Grid.Column="2" Style="{StaticResource DefaultRadioButton}" Content="Disable" 
+                                                 IsChecked="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_OutOfSize_Image.Value, Converter={StaticResource InverseBoolRadioConverter}}">
+                                        </RadioButton>
+
+                                    </Grid>
+                                </Border>
+
+                            </Grid>
+                            
+                            <!-- FTP Upload Option -->
+                            <Grid Grid.Row="3">
+                                <Grid.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource FTPUploadConv}">
+                                        <Binding Path="PinAlignDevParam.PinHighAlignParam.PinTipSizeValidationEnable.Value"/>
+                                        <Binding Path="PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_OutOfSize_Image.Value"/>
+                                        <Binding Path="PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_SizeInRange_Image.Value"/>
+                                    </MultiBinding>
+                                </Grid.IsEnabled>
+                                <Border Height="55" BorderThickness="1" BorderBrush="DarkGray" CornerRadius="1" >
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1.3*"/>
+                                            <ColumnDefinition Width="0.6*"/>
+                                            <ColumnDefinition Width="1.5*"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- InRange Image Save Option -->
+                                        <Label Grid.Column="0" Style="{StaticResource ContentLabel}" Content="Upload To FTP Server" />
+                                        <RadioButton AutomationProperties.AutomationId="rbtninScopeSizesSaveEnable"
+                                                         Grid.Column="1" Style="{StaticResource DefaultRadioButton}" Content="Enable"                                         
+                                                         IsChecked="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_UploadToServer.Value, Converter={StaticResource BoolRadioConverter}}">
+                                        </RadioButton>
+
+                                        <RadioButton AutomationProperties.AutomationId="rbtnInScopeSizesSavedisable"
+                                                         Grid.Column="2" Style="{StaticResource DefaultRadioButton}" Content="Disable" 
+                                                         IsChecked="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_UploadToServer.Value, Converter={StaticResource InverseBoolRadioConverter}}">
+                                        </RadioButton>
+
+                                    </Grid>
+                                </Border>
+                            </Grid>
+
+                            <!-- Target Pin Setting -->
+                            <Grid Grid.Row="4"
+                                  IsEnabled="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidationEnable.Value}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1.5*"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border  Grid.Column="0"  BorderThickness="1" BorderBrush="DarkGray" CornerRadius="1" >
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+
+                                        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource ContentLabel}" Content="Target Pin" VerticalAlignment="Center"/>
+
+                                        <!-- Validtion Targeting Option -->
+
+                                        <RadioButton Grid.Row="0" Grid.Column="1"
+                                                     Style="{StaticResource DefaultRadioButton}" Content="All"
+                                                     IsChecked="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Targeting_Option.Value, Converter={StaticResource ComparisonConv}, ConverterParameter={x:Static pco:SizeValidationOption.ALL}}">
+                                        </RadioButton>
+
+                                        <RadioButton Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2"
+                                                     Style="{StaticResource DefaultRadioButton}" Content="Individual"
+                                                     IsChecked="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Targeting_Option.Value, Converter={StaticResource ComparisonConv}, ConverterParameter={x:Static pco:SizeValidationOption.INDIVIDUAL}}">
+                                        </RadioButton>
+
+                                        <DataGrid x:Name="myDataGrid"
+                                                  Grid.Row="1" Grid.Column="0" Grid.RowSpan="4" Grid.ColumnSpan="6"
+                                                  Margin="20, 0, 0, 10"
+                                                  FontSize="20"
+                                                  Background="Black" 
+                                                  Foreground="White"
+                                                  Loaded="MyDataGrid_Loaded"
+                                                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                                  VirtualizingStackPanel.IsVirtualizing="False"
+                                                  IsEnabled="{Binding DataContext.PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Targeting_Option.Value, Converter={StaticResource InvertAllOptionConv},RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}"
+                                                  BorderThickness="2" 
+                                                  ItemsSource="{Binding DataContext.pinList, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}">
+
+                                            <DataGrid.ColumnHeaderStyle>
+                                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                    <Setter Property="Background" Value="DimGray"/>
+                                                    <Setter Property="BorderThickness" Value="1"/>
+                                                    <Setter Property="BorderBrush" Value="Gray"/>
+                                                </Style>
+                                            </DataGrid.ColumnHeaderStyle>
+
+                                            <DataGrid.CellStyle>
+                                                <Style TargetType="{x:Type DataGridCell}">
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsSelected" Value="True">
+                                                            <Setter Property="Background" Value="Gray"/>
+                                                            <Setter Property="Foreground" Value="White"/>
+                                                            <Setter Property="BorderThickness" Value="1"/>
+                                                            <Setter Property="BorderBrush" Value="White"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsSelected" Value="False">
+                                                            <Setter Property="Background" Value="Gray"/>
+                                                            <Setter Property="Foreground" Value="White"/>
+                                                            <Setter Property="BorderThickness" Value="1"/>
+                                                            <Setter Property="BorderBrush" Value="White"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </DataGrid.CellStyle>
+
+                                            <DataGrid.Columns>
+                                                <DataGridTemplateColumn Header="Pin No." Width="100">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding PinNum.Value}" Foreground="Black" HorizontalAlignment="Center" FontSize="15" />
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridTemplateColumn Header="Dut No." Width="100">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock  Text="{Binding DutNumber.Value}" Foreground="Black" HorizontalAlignment="Center" FontSize="15"/>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridTemplateColumn Header="X Pos" Width="100">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock  Text="{Binding MachineCoordPos.X.Value, StringFormat={}{0:#.##}}" Foreground="Black" HorizontalAlignment="Center" FontSize="15"/>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridTemplateColumn Header="Y Pos" Width="100">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock  Text="{Binding MachineCoordPos.Y.Value, StringFormat={}{0:#.##}}" Foreground="Black" HorizontalAlignment="Center" FontSize="15"/>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridTemplateColumn Header="Z Pos" Width="100">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock  Text="{Binding MachineCoordPos.Z.Value, StringFormat={}{0:#.##}}" Foreground="Black" HorizontalAlignment="Center" FontSize="15"/>
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                                <DataGridTemplateColumn Header="Validation" Width="110">
+                                                    <DataGridTemplateColumn.CellTemplate>
+                                                        <DataTemplate>
+
+                                                            <CheckBox HorizontalAlignment="Center">
+                                                                <CheckBox.IsChecked>
+                                                                    <MultiBinding Converter="{StaticResource CheckBoxConv}">
+                                                                        <Binding Path="PinNum.Value"/>
+                                                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}" Path="DataContext.PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Pin_List"/>
+                                                                    </MultiBinding>
+                                                                </CheckBox.IsChecked>
+
+                                                                <CheckBox.LayoutTransform>
+                                                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                                                </CheckBox.LayoutTransform>
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="Checked" >
+                                                                        <i:InvokeCommandAction Command="{Binding Path=DataContext.Add_TargetList_For_PinTipSizeValidation, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}">
+                                                                            <i:InvokeCommandAction.CommandParameter>
+                                                                                <Binding Path="PinNum.Value"/>
+                                                                            </i:InvokeCommandAction.CommandParameter>
+                                                                        </i:InvokeCommandAction>
+                                                                    </i:EventTrigger>
+                                                                    <i:EventTrigger EventName="Unchecked" >
+                                                                        <i:InvokeCommandAction Command="{Binding Path=DataContext.DeletePinTipSizeValidation_TargetList, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}">
+                                                                            <i:InvokeCommandAction.CommandParameter>
+                                                                                <Binding Path="PinNum.Value"/>
+                                                                            </i:InvokeCommandAction.CommandParameter>
+                                                                        </i:InvokeCommandAction>
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </CheckBox>
+
+                                                        </DataTemplate>
+                                                    </DataGridTemplateColumn.CellTemplate>
+                                                </DataGridTemplateColumn>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+
+                                        <!-- Select Pin View Up Down Button -->
+                                        <Button AutomationProperties.AutomationId="btnUp" Grid.Row="1" Grid.Column="6" Grid.RowSpan="2" Style="{StaticResource UpButtonStyle}" Click="btnUp_Click"/>
+                                        <Button AutomationProperties.AutomationId="btnDown" Grid.Row="3" Grid.Column="6"  Grid.RowSpan="2" Style="{StaticResource DwButtonStyle}" Click="btnDown_Click"/>
+                                    </Grid>
+                                </Border>
+
+                                <Border Grid.Column="1"  BorderThickness="1" BorderBrush="DarkGray" CornerRadius="1" >
+
+                                    <!-- Setting Validation Range-->
+                                    <Grid Margin="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="0.5*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="0" Width="Auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <Canvas Name="graphCanvas" Background="White" Width="Auto" Height="Auto" >
+                                                <Grid  Name="graphGrid" Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="55, 60, 0, 0">
+                                                    <!-- MinBlobSize -->
+                                                    <Rectangle Name="MinTipSize" 
+                                                           Stroke="Red" StrokeThickness="2.5" Fill="White"
+                                                           >
+                                                        <Rectangle.Width>
+                                                            <MultiBinding Converter="{StaticResource RectangleScaleConv}">
+                                                                <Binding Path="DataContext.MinBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding  Path="ActualHeight" ElementName="graphGrid" />
+                                                            </MultiBinding>
+                                                        </Rectangle.Width>
+                                                        <Rectangle.Height>
+                                                            <MultiBinding Converter="{StaticResource RectangleScaleConv}">
+                                                                <Binding Path="DataContext.MinBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding  Path="ActualHeight" ElementName="graphGrid" />
+                                                            </MultiBinding>
+                                                        </Rectangle.Height>
+
+                                                        <Canvas.Left>
+                                                            <MultiBinding Converter="{StaticResource Rec_CenterConv}">
+                                                                <Binding Path="DataContext.MinBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding Path="DataContext.MaxBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding  Path="ActualHeight" ElementName="graphGrid" />
+                                                            </MultiBinding>
+                                                        </Canvas.Left>
+                                                        <Canvas.Top>
+                                                            <MultiBinding Converter="{StaticResource Rec_CenterConv}">
+                                                                <Binding Path="DataContext.MinBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualHeight" ElementName="graphGrid" />
+                                                                <Binding Path="DataContext.MaxBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding  Path="ActualHeight" ElementName="graphGrid" />
+
+
+
+                                                            </MultiBinding>
+                                                        </Canvas.Top>
+                                                    </Rectangle>
+
+                                                    <!-- MaxBlobSize -->
+                                                    <Rectangle Name="MaxTipSize" 
+                                                           Stroke="Red" StrokeThickness="2.5">
+                                                        <Rectangle.Width>
+                                                            <MultiBinding Converter="{StaticResource RectangleScaleConv}">
+                                                                <Binding Path="DataContext.MaxBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding  Path="ActualHeight" ElementName="graphGrid" />
+                                                            </MultiBinding>
+                                                        </Rectangle.Width>
+                                                        <Rectangle.Height>
+                                                            <MultiBinding Converter="{StaticResource RectangleScaleConv}">
+                                                                <Binding Path="DataContext.MaxBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding  Path="ActualHeight" ElementName="graphGrid" />
+                                                            </MultiBinding>
+                                                        </Rectangle.Height>
+                                                        <Canvas.Left>
+                                                            <MultiBinding Converter="{StaticResource Rec_CenterConv}">
+                                                                <Binding Path="DataContext.MaxBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding Path="DataContext.MaxBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding  Path="ActualHeight" ElementName="graphGrid" />
+                                                            </MultiBinding>
+                                                        </Canvas.Left>
+                                                        <Canvas.Top>
+                                                            <MultiBinding Converter="{StaticResource Rec_CenterConv}">
+                                                                <Binding Path="DataContext.MaxBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="ActualHeight" ElementName="graphGrid" />
+                                                                <Binding Path="DataContext.MaxBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding  Path="ActualHeight" ElementName="graphGrid" />
+                                                            </MultiBinding>
+                                                        </Canvas.Top>
+                                                        <!--<Rectangle.Fill>
+                                                        <DrawingBrush TileMode="Tile" Viewport="0,0,10,10" ViewportUnits="Absolute">
+                                                            <DrawingBrush.Drawing>
+                                                                <GeometryDrawing>
+                                                                    <GeometryDrawing.Geometry>
+                                                                        <RectangleGeometry Rect="0,0,10,10"/>
+                                                                    </GeometryDrawing.Geometry>
+                                                                    <GeometryDrawing.Brush>
+                                                                        <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute">
+                                                                            <DrawingBrush.Drawing>
+                                                                                <GeometryDrawing>
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <LineGeometry StartPoint="0,0" EndPoint="20,20"/>
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                    <GeometryDrawing.Pen>
+                                                                                        <Pen Brush="Red" Thickness="2"/>
+                                                                                    </GeometryDrawing.Pen>
+                                                                                </GeometryDrawing>
+                                                                            </DrawingBrush.Drawing>
+                                                                        </DrawingBrush>
+                                                                    </GeometryDrawing.Brush>
+                                                                    <GeometryDrawing.Pen>
+                                                                        <Pen Brush="White" Thickness="1"/>
+                                                                    </GeometryDrawing.Pen>
+                                                                </GeometryDrawing>
+                                                            </DrawingBrush.Drawing>
+                                                        </DrawingBrush>
+                                                    </Rectangle.Fill>-->
+                                                    </Rectangle>
+
+                                                    <!-- Validation Min -->
+                                                    <Rectangle Name="ValidationMinSize" 
+                                                           Stroke="CornflowerBlue" StrokeThickness="2">
+                                                        <Rectangle.Width>
+                                                            <MultiBinding Converter="{StaticResource RectangleScaleConv}">
+                                                                <Binding Path="DataContext.PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Min_X.Value" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding  Path="ActualHeight" ElementName="graphGrid" />
+                                                            </MultiBinding>
+                                                        </Rectangle.Width>
+                                                        <Rectangle.Height>
+                                                            <MultiBinding Converter="{StaticResource RectangleScaleConv}">
+                                                                <Binding Path="DataContext.PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Min_Y.Value" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding  Path="ActualHeight" ElementName="graphGrid" />
+                                                            </MultiBinding>
+                                                        </Rectangle.Height>
+                                                        <Canvas.Left>
+                                                            <MultiBinding Converter="{StaticResource Rec_CenterConv}">
+                                                                <Binding Path="DataContext.PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Min_X.Value" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding Path="DataContext.MaxBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding  Path="ActualHeight" ElementName="graphGrid" />
+                                                            </MultiBinding>
+                                                        </Canvas.Left>
+                                                        <Canvas.Top>
+                                                            <MultiBinding Converter="{StaticResource Rec_CenterConv}">
+                                                                <Binding Path="DataContext.PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Min_Y.Value" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="ActualHeight" ElementName="graphGrid" />
+                                                                <Binding Path="DataContext.MaxBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding  Path="ActualHeight" ElementName="graphGrid" />
+                                                            </MultiBinding>
+                                                        </Canvas.Top>
+                                                    </Rectangle>
+
+                                                    <!-- Validation Max -->
+                                                    <Rectangle Name="ValidationMaxSize" 
+                                                           Stroke="CornflowerBlue"  StrokeThickness="2">
+                                                        <Rectangle.Width>
+                                                            <MultiBinding Converter="{StaticResource RectangleScaleConv}">
+                                                                <Binding Path="DataContext.PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Max_X.Value" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding  Path="ActualHeight" ElementName="graphGrid" />
+                                                            </MultiBinding>
+                                                        </Rectangle.Width>
+                                                        <Rectangle.Height>
+                                                            <MultiBinding Converter="{StaticResource RectangleScaleConv}">
+                                                                <Binding Path="DataContext.PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Max_Y.Value" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding  Path="ActualHeight" ElementName="graphGrid" />
+                                                            </MultiBinding>
+                                                        </Rectangle.Height>
+                                                        <Canvas.Left>
+                                                            <MultiBinding Converter="{StaticResource Rec_CenterConv}">
+                                                                <Binding Path="DataContext.PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Max_X.Value" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding Path="DataContext.MaxBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding  Path="ActualHeight" ElementName="graphGrid" />
+                                                            </MultiBinding>
+                                                        </Canvas.Left>
+                                                        <Canvas.Top>
+                                                            <MultiBinding Converter="{StaticResource Rec_CenterConv}">
+                                                                <Binding Path="DataContext.PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Max_Y.Value" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="ActualHeight" ElementName="graphGrid" />
+                                                                <Binding Path="DataContext.MaxBlobSizeX" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding Path="DataContext.MaxBlobSizeY" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}"/>
+                                                                <Binding  Path="ActualWidth" ElementName="graphGrid" />
+                                                                <Binding  Path="ActualHeight" ElementName="graphGrid" />
+                                                            </MultiBinding>
+                                                        </Canvas.Top>
+                                                    </Rectangle>
+                                                </Grid>
+                                                <Line Name="blueLine" X1="10" X2="40" Y1="290" Y2="290" Stroke="CornflowerBlue" StrokeThickness="2"/>
+                                                <Label Name="blueLine_Lable" Content="Validation Size" Foreground="Black" FontSize="10" Margin="30, 275, 0, 0" FontWeight="Bold"/>
+                                                <Line Name="RedLine" X1="10" X2="40" Y1="310" Y2="310" Stroke="Red" StrokeThickness="2"/>
+                                                <Label Name="RedLine_Lable" Content="Tip Size" Foreground="Black" FontSize="10" Margin="30, 295, 0, 0" FontWeight="Bold"/>
+                                            </Canvas>
+
+                                            <Grid Grid.Column="0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="2.5*"/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition Height="11*"/>
+                                                </Grid.RowDefinitions>
+
+                                                <!-- MinBlobSize -->
+                                                <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource ContentLabel_DarkRed}" Content="Tip Size Min (W, H): " HorizontalAlignment="Left"/>
+                                                <Label Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="-10, 0, 0, 0" Style="{StaticResource ContentLabel_DarkRed}" Content="{Binding Path=MinBlobSizeX}" ContentStringFormat=" {0},"/>
+                                                <Label Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" Margin="-30, 0, 0, 0" Style="{StaticResource ContentLabel_DarkRed}" Content="{Binding Path=MinBlobSizeY}"/>
+
+                                                <!-- MaxBlobSize -->
+                                                <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Style="{StaticResource ContentLabel_DarkRed}" Content="Tip Size Max (W, H): "/>
+                                                <Label Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="-10, 0, 0, 0" Style="{StaticResource ContentLabel_DarkRed}" Content="{Binding Path=MaxBlobSizeX}" ContentStringFormat=" {0},"/>
+                                                <Label Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" Margin="-30, 0, 0, 0" Style="{StaticResource ContentLabel_DarkRed}" Content="{Binding Path=MaxBlobSizeY}"/>
+                                            </Grid>
+
+                                        </Grid>
+
+                                        <Grid Grid.Column="1">
+
+                                            <StackPanel Orientation="Vertical">
+                                                <Label Style="{StaticResource ContentLabel_Small}" Content="Set validation size"/>
+                                                <Separator Margin="5, 0, 0, 0"/>
+
+                                                <!-- Min Width -->
+                                                <Label Style="{StaticResource ContentLabel_Small_CornflowerBlue}" Content="Min. Width(㎛)" />
+
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="2*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Grid Grid.Column="4">
+                                                        <TextBlock Text="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Max_X.Value}" FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                    </Grid>
+
+                                                    <Grid Grid.Column="3">
+                                                        <TextBlock Text="&lt;=" FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                    </Grid>
+
+                                                    <Grid Grid.Column="2">
+                                                        <TextBox Name="PinTipSizeValidation_Min_X" AutomationProperties.AutomationId="txtPinTipSizeValidationMinWidth" 
+		                                            Style="{StaticResource ContentTextBox_Small}" Text="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Min_X.Value}">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                    <i:InvokeCommandAction Command="{Binding DataContext.PinTipSizeValidationTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}" 
+												   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </TextBox>
+                                                    </Grid>
+
+                                                    <Grid Grid.Column="1">
+                                                        <TextBlock Text="&lt;=" FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                    </Grid>
+
+                                                    <Grid Grid.Column="0">
+                                                        <TextBlock Text="{Binding MinBlobSizeX}" FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                    </Grid>
+
+                                                </Grid>
+
+
+                                                <!-- Min Height -->
+                                                <Label Style="{StaticResource ContentLabel_Small_CornflowerBlue}" Content="Min. Height(㎛)" />
+
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="2*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Grid Grid.Column="4">
+                                                        <TextBlock Text="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Max_Y.Value}" FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                    </Grid>
+
+                                                    <Grid Grid.Column="3">
+                                                        <TextBlock Text="&lt;=" FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                    </Grid>
+
+                                                    <Grid Grid.Column="2">
+                                                        <TextBox Name="PinTipSizeValidation_Min_Y" Grid.Row="7"  AutomationProperties.AutomationId="txtPinTipSizeValidationMinHeight"
+		                                            Style="{StaticResource ContentTextBox_Small}" Text="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Min_Y.Value}">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                    <i:InvokeCommandAction Command="{Binding DataContext.PinTipSizeValidationTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}" 
+												   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </TextBox>
+                                                    </Grid>
+
+                                                    <Grid Grid.Column="1">
+                                                        <TextBlock Text="&lt;=" FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                    </Grid>
+
+                                                    <Grid Grid.Column="0">
+                                                        <TextBlock Text="{Binding MinBlobSizeY}" FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                    </Grid>
+                                                </Grid>
+
+                                                <!-- Max Width -->
+                                                <Label Grid.Row="4" Style="{StaticResource ContentLabel_Small_CornflowerBlue}" Content="Max. Width(㎛)" />
+
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="2*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Grid Grid.Column="4">
+                                                        <TextBlock Text="{Binding MaxBlobSizeX}" FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                    </Grid>
+
+                                                    <Grid Grid.Column="3">
+                                                        <TextBlock Text="&lt;=" FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                    </Grid>
+
+                                                    <Grid Grid.Column="2">
+                                                        <TextBox Name="PinTipSizeValidation_Max_X" Grid.Row="5" AutomationProperties.AutomationId="txtPinTipSizeValidationMaxWidth"
+		                                                Style="{StaticResource ContentTextBox_Small}" Text="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Max_X.Value}">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                    <i:InvokeCommandAction Command="{Binding DataContext.PinTipSizeValidationTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}" 
+												   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </TextBox>
+                                                    </Grid>
+
+                                                    <Grid Grid.Column="1">
+                                                        <TextBlock Text="&lt;=" FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                    </Grid>
+
+                                                    <Grid Grid.Column="0">
+                                                        <TextBlock Text="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Min_X.Value}" FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                    </Grid>
+                                                </Grid>
+
+                                                <!-- Max Height -->
+                                                <Label Grid.Row="8" Style="{StaticResource ContentLabel_Small_CornflowerBlue}" Content="Max. Height(㎛)" />
+
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="2*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Grid Grid.Column="4">
+                                                        <TextBlock Text="{Binding MaxBlobSizeY}" FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                    </Grid>
+
+                                                    <Grid Grid.Column="3">
+                                                        <TextBlock Text="&lt;=" FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                    </Grid>
+
+                                                    <Grid Grid.Column="2">
+                                                        <TextBox Name="PinTipSizeValidation_Max_Y" Grid.Row="9" AutomationProperties.AutomationId="txtPinTipSizeValidationMaxHeight"
+                                                                 Style="{StaticResource ContentTextBox_Small}" Text="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Max_Y.Value}">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                    <i:InvokeCommandAction Command="{Binding DataContext.PinTipSizeValidationTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}" 
+												   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </TextBox>
+                                                    </Grid>
+
+                                                    <Grid Grid.Column="1">
+                                                        <TextBlock Text="&lt;=" FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                    </Grid>
+
+                                                    <Grid Grid.Column="0">
+                                                        <TextBlock Text="{Binding PinAlignDevParam.PinHighAlignParam.PinTipSizeValidation_Min_Y.Value}" FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                    </Grid>
+                                                </Grid>
+
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </GroupBox>
+
+                </Grid>
+            </TabItem>
+            <!-- End Of TabItems -->
+        </TabControl>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!--<Button Grid.Column="2" Style="{StaticResource DefaultButton}" Content="SAVE"
+                        Command="{Binding CmdMaunalInputContolSaveClick}"/>-->
+            <Button AutomationProperties.AutomationId="btnEXIT"
+                    Grid.Column="3" Style="{StaticResource DefaultButton}" Content="EXIT" Margin="0, 8, 0, 0"
+                    Command="{Binding CmdMaunalInputContolExitClick}"/>
+        </Grid>
+    </Grid>
+</dialogs:CustomDialog>

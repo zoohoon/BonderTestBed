@@ -1,0 +1,1096 @@
+<UserControl x:Class="ProberEmulator.View.ViewProberEmulator"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProberEmulator.View"
+             xmlns:vm="clr-namespace:ProberEmulator.ViewModel"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:pi="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             xmlns:piF="clr-namespace:ProberInterfaces.Foup;assembly=ProberInterfaces"
+             xmlns:pie="clr-namespace:ProberInterfaces.Enum;assembly=ProberInterfaces"
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:Bin="clr-namespace:BinAnalyzer.Data;assembly=BinAnalyzer"
+             xmlns:rm="clr-namespace:ProberInterfaces.ResultMap;assembly=ProberInterfaces"
+             xmlns:MapView="clr-namespace:MapView;assembly=MapView"
+             xmlns:dut="clr-namespace:UCDutEditor;assembly=ProberViewModel"
+             xmlns:ws="clr-namespace:SequenceMakerScreen;assembly=ProberViewModel"
+             xmlns:pvm="clr-namespace:ProberViewModel;assembly=ProberViewModel"
+             xmlns:cmd="http://www.galasoft.ch/mvvmlight"
+             mc:Ignorable="d" 
+             d:DesignHeight="1024" d:DesignWidth="1024" Background="Gray">
+
+    <UserControl.Resources>
+
+        <!--<ObjectDataProvider x:Key="getDataFromEnumProbingState" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="pi:EnumProbingState"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>-->
+
+        <ResourceDictionary>
+
+            <ObjectDataProvider x:Key="getDataBinType" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="pie:BinType"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
+            <ObjectDataProvider x:Key="getResultMapType" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="rm:ResultMapConvertType"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
+            <ObjectDataProvider x:Key="getDataLotOPStateEnum" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="pi:LotOPStateEnum"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            
+            <x:Array Type="{x:Type System:String}" x:Key="myClassArray">
+                <!--<System:String>BIN_8BIT</System:String>
+                <System:String>BIN_16BIT</System:String>
+                <System:String>BIN_32BIT</System:String>-->
+                <System:String>BIN_32BIT_SPECIAL</System:String>
+                <System:String>BIN_U32_32BIT</System:String>
+                <System:String>BIN_U32_64BIT</System:String>
+                <System:String>BIN_1024BIT</System:String>
+                <System:String>BIN_USERBIN</System:String>
+            </x:Array>
+
+            <x:Array Type="{x:Type System:String}" x:Key="myLotStateArray">
+                <System:String>READYTORUNNING</System:String>
+                <System:String>READY_PAUSED_TO_RUNNING</System:String>
+                <System:String>PAUSING</System:String>
+                <System:String>ABORTED</System:String>
+                <System:String>DONE</System:String>
+            </x:Array>
+            
+            <!-- Converter -->
+
+            <vc:ScanStateValueConverter x:Key="ScanStateValueConverter" />
+
+            <local:EnumExcludeSpecificConverter x:Key="EnumExcludeSpecificConv" ExcludeStr="{StaticResource myClassArray}"/>
+            <local:EnumLotStateExcludeSpecificConverter x:Key="EnumLotStateExcludeSpecificConv" ExcludeStr="{StaticResource myLotStateArray}"/>
+            
+            <local:IPAddressToStringConverter x:Key="IPAddressToStringConv"/>
+
+            <local:ZStateToBoolConverter x:Key="ZUpConv" MatchedTrueValue="Zdn"/>
+            <local:ZStateToBoolConverter x:Key="ZDnConv" MatchedTrueValue="Zup"/>
+
+            <local:ConnectedStateToBoolConverter x:Key="ConnectBtnConvert" MatchedTrueValue="False"/>
+            <local:ConnectedStateToBoolConverter x:Key="DisConnectBtnConvert" MatchedTrueValue="True"/>
+
+            <local:MachineIndexToCoordinateStringConverter x:Key="MachineIndexToCoordinateStringConv"/>
+
+            <local:SlotSelectedToColorConverter x:Key="SlotSelectedToColorConv"/>
+            <local:StringToForegroundConverter  x:Key="ForegroundConverter"/>
+            <local:ComTypeToBoolConverter x:Key="ComTypeToBoolConv"/>
+            <local:SelectedSlotToFormattedTextConverter x:Key="SelectedSlotToFormattedTextConv"/>
+
+            <!-- Style -->
+            <Style x:Key="FoupModuleNameLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="BorderBrush" Value="White"/>
+                <Setter Property="BorderThickness" Value="0"/>
+            </Style>
+
+            <Style x:Key="WaferButton" TargetType="{x:Type ToggleButton}">
+                <Setter Property="Margin" Value="8 4"/>
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border VerticalAlignment="Center" x:Name="border"
+                                        Padding="8 8" CornerRadius="4" Background="#C9C9C9" 
+                                        BorderBrush="#FF000000" BorderThickness="1,1,1,1" SnapsToDevicePixels="True">
+
+                                <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="true">
+                                    <Setter Property="Background" TargetName="border" Value="#ACFF12"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+
+    <Grid>
+
+        <TabControl x:Name="MainTabControl"
+            Background="Gray" SelectedIndex="{Binding MainTabSelectedIndex}">
+
+            <TabItem Header="Communication">
+                <Grid>
+                    <Grid Grid.Row="0">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*"/>
+                            <ColumnDefinition Width="4*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid Grid.Column="0">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="9.5*"/>
+                                <RowDefinition Height="0.5*"/>
+                            </Grid.RowDefinitions>
+
+                            <ListBox Grid.Row="0"
+                                     x:Name="CommandCollectionList" 
+                                     local:ListBoxBehavior.ScrollOnNewItem="true"
+                                     Background="WhiteSmoke"
+                                     ItemsSource="{Binding TCPIPModule.TesterComDriver.CommandCollection}">
+
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Message}" IsEnabled="False" FontWeight="DemiBold" FontSize="18"
+                                   Foreground="{Binding Converter={StaticResource ForegroundConverter}}"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                            <Button Grid.Row="1"
+                                    Margin="0,0,0,0" Content="CLEAR" 
+                                    Command="{Binding ClearCommandCollectionListCommand}"/>
+
+                        </Grid>
+
+                        <Viewbox Grid.Column="1">
+                            <GroupBox Header="Control panel" Grid.Column="1" Foreground="White" FontSize="14">
+
+                                <Grid>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="2*"/>
+                                        <RowDefinition Height="7*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid Grid.Row="0" IsEnabled="{Binding ComType,Converter={StaticResource ComTypeToBoolConv}}">
+
+                                        <StackPanel Orientation="Vertical">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="2.2*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="2.8*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" 
+                                   Content="IP :"
+                                   Foreground="White"/>
+                                                <TextBox Grid.Column="1" 
+                                     VerticalAlignment="Center" 
+                                     HorizontalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center">
+                                                    <TextBox.Text>
+
+                                                        <!--TargetNullValue=""
+                                             ValidatesOnExceptions="True"-->
+
+                                                        <Binding UpdateSourceTrigger="PropertyChanged" 
+                                             Path="TCPIPModule.TCPIPSysParam.IP.Value" 
+                                             Converter="{StaticResource IPAddressToStringConv}">
+                                                            <!--<Binding.ValidationRules>
+                                            <ExceptionValidationRule/>
+                                            -->
+                                                            <!--<my:IntValidationRule  ValidatesOnTargetUpdated="True" 
+                                                               Min="{my:DataResourceBinding DataResource={StaticResource min}}"
+                                                               Max="{my:DataResourceBinding DataResource={StaticResource max}}">
+                                        </my:IntValidationRule>-->
+                                                            <!--
+                                        </Binding.ValidationRules>-->
+                                                        </Binding>
+                                                    </TextBox.Text>
+                                                </TextBox>
+
+                                            </Grid>
+
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="2.2*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="2.8*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" 
+                                   Content="Interrupt port :"
+                                   Foreground="White"/>
+                                                <TextBox Grid.Column="1" 
+                                     VerticalAlignment="Center" 
+                                     HorizontalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     Text="{Binding TCPIPModule.TCPIPSysParam.SendPort.Value}"/>
+                                            </Grid>
+
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="2.2*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="2.8*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" 
+                                   Content="Command port :"
+                                   Foreground="White"/>
+                                                <TextBox Grid.Column="1" 
+                                     VerticalAlignment="Center" 
+                                     HorizontalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     Text="{Binding TCPIPModule.TCPIPSysParam.ReceivePort.Value}"/>
+                                            </Grid>
+
+                                            <Grid>
+                                                <Button Margin="0,15,0,0" Content="APPLY" 
+                                    Grid.Column="1"
+                                    Command="{Binding SaveCommand}"/>
+                                            </Grid>
+
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Button Content="CONNECT"
+                                                    Margin="0,15,0,0" 
+                                                    Grid.Column="0"
+                                                    Command="{Binding ConnectExecuteCommand}" 
+                                                    IsEnabled="{Binding IsConnected, Converter={StaticResource ConnectBtnConvert}}"/>
+                                                <Button Margin="0,15,0,0" Content="DISCONNECT" 
+                                                    Grid.Column="1"
+                                                    Command="{Binding DisconnectExecuteCommand}"
+                                                    IsEnabled="{Binding IsConnected, Converter={StaticResource DisConnectBtnConvert}}"/>
+                                            </Grid>
+
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Grid Grid.Row="1" IsEnabled="{Binding ComType,Converter={StaticResource ComTypeToBoolConv}}">
+
+                                        <StackPanel>
+
+                                            <Grid Margin="0,15,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="6*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" 
+                                   Content="Interrupt command list"
+                                   Foreground="White"
+                                   HorizontalAlignment="Center"/>
+                                                <ComboBox Grid.Column="1"
+                                                  VerticalAlignment="Stretch"
+                                                  HorizontalAlignment="Stretch"
+                                                  ItemsSource="{Binding InterruptCommandlist}"
+                                                  SelectedItem="{Binding SelectedInterruptCommand}">
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Response}"></TextBlock>
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                    <!--<i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="SelectionChanged">
+                                                    <i:InvokeCommandAction Command="{Binding DataContext.ChangedInterruptCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>-->
+                                                </ComboBox>
+                                            </Grid>
+
+                                            <Button Margin="0,15,0,0" Content="SEND SELECTED INTERRPUT"
+                                                Command="{Binding SendSelectedInterruptCommand}"
+                                                IsEnabled="{Binding IsConnected, Converter={StaticResource DisConnectBtnConvert}}"/>
+                                            <Grid Margin="0,15,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                                                    <ColumnDefinition Width="6*"></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" 
+                                   Content="Send message"
+                                   Foreground="White"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+                                                <TextBox Grid.Column="1"
+                                     Text="{Binding SendCommand}"
+                                     VerticalAlignment="Stretch"
+                                     HorizontalAlignment="Stretch"
+                                     FontSize="18"/>
+                                            </Grid>
+
+                                            <Button Margin="0,15,0,0" Content="SEND TO INTERRPUT PORT (Use send message)" 
+                                                IsEnabled="{Binding IsConnected, Converter={StaticResource DisConnectBtnConvert}}"
+                            Command="{Binding SendToInterruptPortCommand}"/>
+
+                                            <Button Margin="0,15,0,0" Content="SEND TO COMMAND PORT (Use send message)"  
+                                                IsEnabled="{Binding IsConnected, Converter={StaticResource DisConnectBtnConvert}}"
+                            Command="{Binding SendToCommandPortCommand}"/>
+
+
+                                            <GroupBox Header="Operation" Foreground="White" Height="Auto">
+
+                                                <StackPanel Orientation="Vertical">
+
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <Button Grid.Column="0" Margin="5,0,5,0"
+                                                    Content="Z UP" 
+                                                    IsEnabled="{Binding DummyDataModule.dummyTCPIPQueries.ChuckZState, Converter={StaticResource ZUpConv}}"
+                                                    Command="{Binding ChangeZStateCommand}"
+                                                    CommandParameter="{x:Static pi:EnumProbingState.ZUP}"/>
+
+                                                        <Button Grid.Column="1" Margin="5,0,5,0"
+                                                    Content="Z DOWN" 
+                                                    IsEnabled="{Binding DummyDataModule.dummyTCPIPQueries.ChuckZState, Converter={StaticResource ZDnConv}}"
+                                                    Command="{Binding ChangeZStateCommand}"
+                                                    CommandParameter="{x:Static pi:EnumProbingState.ZDN}"/>
+                                                    </Grid>
+
+                                                    <Grid>
+
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+
+                                                        <Grid Grid.Row="0">
+
+                                                            <Label Content="FOUP Control" Foreground="White"></Label>
+                                                        </Grid>
+
+                                                        <Grid Grid.Row="1">
+
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <Button Grid.Column="0" Margin="5,0,5,0"
+                                                    Content="EMPTY FOUP" 
+                                                    Command="{Binding FoupStateChangeCommand}"
+                                                    CommandParameter="{x:Static piF:FoupStateEnum.EMPTY_CASSETTE}"/>
+
+                                                            <Button Grid.Column="1" Margin="5,0,5,0"
+                                                    Content="LOAD FOUP" 
+                                                    Command="{Binding FoupStateChangeCommand}"
+                                                    CommandParameter="{x:Static piF:FoupStateEnum.LOAD}"/>
+
+                                                            <Button Grid.Column="2" Margin="5,0,5,0"
+                                                    Content="UNLOAD FOUP" 
+                                                    Command="{Binding FoupStateChangeCommand}"
+                                                    CommandParameter="{x:Static piF:FoupStateEnum.UNLOAD}"/>
+
+                                                        </Grid>
+
+
+                                                    </Grid>
+
+
+
+                                                </StackPanel>
+                                            </GroupBox>
+
+                                            <GroupBox Header="Status" Foreground="White" Height="Auto">
+
+                                                <StackPanel Orientation="Vertical">
+
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="2.2*"></ColumnDefinition>
+                                                            <ColumnDefinition Width="2.8*"></ColumnDefinition>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Label Grid.Column="0" Content="Chuck state:" Foreground="White"/>
+                                                        <Label Grid.Column="1" Foreground="White"
+                                                             VerticalAlignment="Center" 
+                                                             HorizontalAlignment="Stretch"
+                                                             VerticalContentAlignment="Center"
+                                                             HorizontalContentAlignment="Center"
+                                                             Content="{Binding ProbingStateEnum}"/>
+                                                    </Grid>
+
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="2.2*"></ColumnDefinition>
+                                                            <ColumnDefinition Width="2.8*"></ColumnDefinition>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Label Grid.Column="0" Content="Lot state:" Foreground="White"/>
+
+                                                        <ComboBox  Grid.Column="1"
+                                                                   VerticalAlignment="Center" 
+                                                                   HorizontalAlignment="Stretch"
+                                                                   VerticalContentAlignment="Center"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   FontSize="20"
+                                                                   Width="350"
+                                                                   ItemsSource="{Binding Source={StaticResource getDataLotOPStateEnum}, Converter={StaticResource EnumLotStateExcludeSpecificConv}}"
+                                                                   SelectedItem="{Binding LotStateEnum}">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="SelectionChanged">
+                                                                    <i:InvokeCommandAction Command="{Binding LotStateChangedCommand}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}"/>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </ComboBox>
+                                                        
+                                                        <!--<Label Grid.Column="1"  Foreground="White"
+                                                             VerticalAlignment="Center" 
+                                                             HorizontalAlignment="Stretch"
+                                                             VerticalContentAlignment="Center"
+                                                             HorizontalContentAlignment="Center"
+                                                             Content="{Binding LotStateEnum}"/>-->
+                                                    </Grid>
+
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="2.2*"></ColumnDefinition>
+                                                            <ColumnDefinition Width="2.8*"></ColumnDefinition>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Label Grid.Column="0" Content="Verified:" Foreground="White"/>
+                                                        <Label Grid.Column="1" Foreground="White"
+                                                             VerticalAlignment="Center" 
+                                                             HorizontalAlignment="Stretch"
+                                                             VerticalContentAlignment="Center"
+                                                             HorizontalContentAlignment="Center"
+                                                             Content="{Binding LotOPModule.LotInfo.LotProcessingVerifed.Value}"/>
+                                                    </Grid>
+                                                    
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="2.2*"></ColumnDefinition>
+                                                            <ColumnDefinition Width="2.8*"></ColumnDefinition>
+                                                            <ColumnDefinition Width="2.8*"></ColumnDefinition>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <Label Grid.Column="0" Content="Selected foup info :" Foreground="White"/>
+
+                                                        <Label Grid.Column="1"  Foreground="White"
+                                                             VerticalAlignment="Center" 
+                                                             HorizontalAlignment="Stretch"
+                                                             VerticalContentAlignment="Center"
+                                                             HorizontalContentAlignment="Center"
+                                                             Content="{Binding DummyDataModule.dummyTCPIPQueries.SelectedFoup.Name}"/>
+
+                                                        <Label Grid.Column="2"  Foreground="White"
+                                                             VerticalAlignment="Center" 
+                                                             HorizontalAlignment="Stretch"
+                                                             VerticalContentAlignment="Center"
+                                                             HorizontalContentAlignment="Center"
+                                                             Content="{Binding DummyDataModule.dummyTCPIPQueries.SelectedFoup.State}"/>
+                                                    </Grid>
+
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="2.2*"></ColumnDefinition>
+                                                            <ColumnDefinition Width="2.8*"></ColumnDefinition>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Label Grid.Column="0" Content="Selected slot index :" Foreground="White"/>
+
+
+
+                                                        <!-->="{Binding Path=SelectedSlotObject, Converter={StaticResource SelectedSlotToFormattedTextConv}}"/>-->
+
+                                                        <TextBlock Grid.Column="1"
+                                                           VerticalAlignment="Center"
+                                                           HorizontalAlignment="Center"
+                                                           TextWrapping="WrapWithOverflow">
+                                                    
+                                                            <local:TextBlockEx.FormattedText>
+                                                                <MultiBinding Converter="{StaticResource SelectedSlotToFormattedTextConv}">
+                                                                    <Binding Path="SelectedSlotObject"/>
+                                                                    <Binding Path="DummyDataModule.dummyTCPIPQueries.SelectedSlot.WaferState"/>
+                                                                    <Binding Path="SelectedSlotCount"/>
+                                                                </MultiBinding>
+                                                            </local:TextBlockEx.FormattedText>
+
+                                                        </TextBlock>
+
+
+                                                        <!--<Label Grid.Column="1"  Foreground="White"
+                                                             VerticalAlignment="Center" 
+                                                             HorizontalAlignment="Stretch"
+                                                             VerticalContentAlignment="Center"
+                                                             HorizontalContentAlignment="Center">
+                                                    <AccessText TextWrapping="WrapWithOverflow"
+                                                                Text="{Binding SelectedSlotIndex}">
+                                                    </AccessText>
+                                                </Label>-->
+
+                                                    </Grid>
+
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="2.2*"></ColumnDefinition>
+                                                            <ColumnDefinition Width="2.8*"></ColumnDefinition>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Label Grid.Column="0" Content="Selected X-Y coordianate :" Foreground="White"/>
+                                                        <!--<Label Grid.Column="1"  Foreground="White"
+                                                             VerticalAlignment="Center" 
+                                                             HorizontalAlignment="Stretch"
+                                                             VerticalContentAlignment="Center"
+                                                             HorizontalContentAlignment="Center"
+                                                             Content="{Binding DummyDataModule.dummyTCPIPQueries.SelectedCoordiante, Converter={StaticResource MachineIndexToCoordinateStringConv}}"/>-->
+
+                                                        <ComboBox  Grid.Column="1"
+                                                           VerticalAlignment="Center" 
+                                                             HorizontalAlignment="Stretch"
+                                                             VerticalContentAlignment="Center"
+                                                             HorizontalContentAlignment="Center"
+                                                           FontSize="20"
+                                                           Width="350"
+                                                           ItemsSource="{Binding DummyDataModule.dummyTCPIPQueries.ProbingSequence}"
+                                                           SelectedItem="{Binding ProbingModule.ProbingLastMIndex}">
+                                                            <ComboBox.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <TextBlock Text="{Binding Converter={StaticResource MachineIndexToCoordinateStringConv}}"></TextBlock>
+                                                                    </StackPanel>
+                                                                </DataTemplate>
+                                                            </ComboBox.ItemTemplate>
+                                                            <!--<i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="SelectionChanged">
+                                                                    <i:InvokeCommandAction Command="{Binding BinTypeSelectionChangedCommand}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}"/>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>-->
+                                                        </ComboBox>
+
+                                                    </Grid>
+
+                                                </StackPanel>
+                                            </GroupBox>
+
+                                        </StackPanel>
+
+                                    </Grid>
+
+                                    <Grid Grid.Row="2">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <!--<ColumnDefinition Width="*"/>-->
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <!--IsEnabled="{Binding IsConnected, Converter={StaticResource DisConnectBtnConvert}}"-->
+
+                                        <Button Margin="5,15,5,0"  Grid.Column="0"
+                                                IsEnabled="{Binding CanLotStart}"
+                                        Content="LOT START" FontWeight="Bold"
+                                        Command="{Binding LotFlowTestCommand}">
+                                            <Button.Style>
+                                                <Style>
+                                                    <Style.Triggers>
+
+                                                        <DataTrigger Binding="{Binding Path=ContinueLot}" 
+                                                             Value="True">
+
+                                                            <DataTrigger.EnterActions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimation Storyboard.TargetProperty='Opacity' From='0' To='1' Duration='0:0:1' AutoReverse='True' RepeatBehavior='Forever' />
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </DataTrigger.EnterActions>
+
+                                                            <DataTrigger.ExitActions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard FillBehavior='Stop'>
+                                                                        <DoubleAnimation Storyboard.TargetProperty='Opacity' To='1' Duration='0:0:1' />
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </DataTrigger.ExitActions>
+                                                        </DataTrigger>
+
+                                                        <!--<DataTrigger Binding="{Binding Path=ContinueLot, UpdateSourceTrigger=PropertyChanged}"
+                                                             Value="True">
+                                                    
+                                                    <DataTrigger.EnterActions>
+                                                        <BeginStoryboard>
+
+                                                            <Storyboard>
+                                                                <DoubleAnimation 
+                                                                                     Storyboard.TargetProperty="Opacity"
+                                                                                     From="1" To="0.3" Duration="0:0:1" RepeatBehavior="Forever"
+                                                                                     AutoReverse="True">
+                                                                </DoubleAnimation>
+                                                            </Storyboard>
+                                                            
+                                                            -->
+                                                        <!--<Storyboard Storyboard.TargetProperty="Foreground"
+                                                                        Duration="0:0:0.5">
+                                                                
+                                                                -->
+                                                        <!--<ColorAnimation From="Transparent" To="Red" AutoReverse="True" RepeatBehavior="Forever"/>-->
+
+                                                        <!--<Storyboard x:Key="sbBlinking">
+                                                                    <DoubleAnimation Storyboard.TargetName="btnStartOrEnd"
+                                                                                     Storyboard.TargetProperty="Opacity"
+                                                                                     From="1" To="0.3" Duration="0:0:1" RepeatBehavior="Forever"
+                                                                                     AutoReverse="True">
+                                                                    </DoubleAnimation>
+                                                                </Storyboard>-->
+                                                        <!--
+                                                                
+                                                            </Storyboard>-->
+                                                        <!--
+                                                        </BeginStoryboard>
+                                                    </DataTrigger.EnterActions>
+                                                </DataTrigger>-->
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+
+                                        <Button Grid.Column="1" Style="{x:Null}" Visibility="Collapsed"
+                                                Margin="5,15,5,0"  Content="Forced Activation" 
+                                                Command="{Binding LotForcedActivationCommand}"/>
+                                    </Grid>
+
+                                </Grid>
+
+                            </GroupBox>
+                        </Viewbox>
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Data">
+                <TabControl Background="Gray" x:Name="DataTabControl" SelectedIndex="{Binding DataTabSelectedIndex}">
+
+                    <!--<i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                            <cmd:EventToCommand Command="{Binding TabControlChangedCommand}" 
+                                                PassEventArgsToCommand="True"
+                                                AlwaysInvokeCommand="False"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>-->
+
+                    <TabItem Header="Base information">
+
+                        <StackPanel Orientation="Vertical">
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" 
+                                   Content="Set Temperature :"
+                                   Foreground="White"/>
+                                <TextBox Grid.Column="1" 
+                                     VerticalAlignment="Center" 
+                                     HorizontalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     Text="{Binding TempController.TempControllerDevParameter.SetTemp.Value}"/>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" 
+                                   Content="Current Temperature :"
+                                   Foreground="White"/>
+                                <TextBox Grid.Column="1" 
+                                     VerticalAlignment="Center" 
+                                     HorizontalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     Text="{Binding TempController.TempInfo.CurTemp.Value}"/>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" 
+                                   Content="Prober ID :"
+                                   Foreground="White"/>
+                                <TextBox Grid.Column="1" 
+                                     VerticalAlignment="Center" 
+                                     HorizontalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     Text="{Binding FileManager.FileManagerParam.ProberID.Value}"/>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" 
+                                   Content="ProbeCard ID :"
+                                   Foreground="White"/>
+                                <TextBox Grid.Column="1" 
+                                     VerticalAlignment="Center" 
+                                     HorizontalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     Text="{Binding StageSupervisorModule.StagePIV.ProbeCardID.Value}"/>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" 
+                                   Content="Lot Name :"
+                                   Foreground="White"/>
+                                <TextBox Grid.Column="1" 
+                                     VerticalAlignment="Center" 
+                                     HorizontalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     Text="{Binding LotOPModule.LotInfo.LotName.Value}"/>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" 
+                                   Content="Recipe Name :"
+                                   Foreground="White"/>
+                                <TextBox Grid.Column="1" 
+                                     VerticalAlignment="Center" 
+                                     HorizontalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     Text="{Binding LotOPModule.LotInfo.DeviceName.Value}"/>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" 
+                                   Content="Wafer Size :"
+                                   Foreground="White"/>
+                                <TextBox Grid.Column="1" 
+                                     VerticalAlignment="Center" 
+                                     HorizontalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     Text="{Binding DummyDataModule.dummyTCPIPQueries.WaferSizeInch.Value}"/>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" 
+                                   Content="Notch Angle :"
+                                   Foreground="White"/>
+                                <TextBox Grid.Column="1" 
+                                     VerticalAlignment="Center" 
+                                     HorizontalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     Text="{Binding PhysicalInfo.NotchAngle.Value}"/>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" 
+                                   Content="Wafer ID :"
+                                   Foreground="White"/>
+                                <TextBox Grid.Column="1" 
+                                     VerticalAlignment="Center" 
+                                     HorizontalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     Text="{Binding SubstrateInfo.WaferID.Value}"/>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" 
+                                   Content="Overdrive :"
+                                   Foreground="White"/>
+                                <TextBox Grid.Column="1" 
+                                     VerticalAlignment="Center" 
+                                     HorizontalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     Text="{Binding ProbingModule.ProbingModuleDevParam_IParam.OverDrive.Value}"/>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" 
+                                   Content="BIN type :"
+                                   Foreground="White"/>
+                                <!--<TextBox Grid.Column="1" 
+                                     VerticalAlignment="Center" 
+                                     HorizontalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     Text="{Binding TCPIPModule.TCPIPSysParam.EnumBinType.Value}"/>-->
+                                <ComboBox  Grid.Column="1"
+                                                           VerticalAlignment="Center" 
+                                                         HorizontalAlignment="Stretch"
+                                                         VerticalContentAlignment="Center"
+                                                         HorizontalContentAlignment="Center"
+                                                           FontSize="20"
+                                                           Width="350"
+                                                           ItemsSource="{Binding Source={StaticResource getDataBinType}, Converter={StaticResource EnumExcludeSpecificConv}}"
+                                                           SelectedItem="{Binding TCPIPModule.TCPIPSysParam.EnumBinType.Value}">
+                                    <!--<i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="SelectionChanged">
+                                                <i:InvokeCommandAction Command="{Binding BinTypeSelectionChangedCommand}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>-->
+                                    </ComboBox>
+                                </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" 
+                                       Content="Result Map Upload type :"
+                                       Foreground="White"/>
+                                <ComboBox  Grid.Column="1"
+                                           VerticalAlignment="Center" 
+                                           HorizontalAlignment="Stretch"
+                                           VerticalContentAlignment="Center"
+                                           HorizontalContentAlignment="Center"
+                                           FontSize="20"
+                                           Width="350"
+                                           ItemsSource="{Binding Source={StaticResource getResultMapType}}"
+                                           SelectedItem="{Binding ResultMapManager.ResultMapSysParam.UploadComponent.ConverterType.Value}">
+                                </ComboBox>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" 
+                                       Content="Result Map Download type :"
+                                       Foreground="White"/>
+                                <ComboBox  Grid.Column="1"
+                                           VerticalAlignment="Center" 
+                                           HorizontalAlignment="Stretch"
+                                           VerticalContentAlignment="Center"
+                                           HorizontalContentAlignment="Center"
+                                           FontSize="20"
+                                           Width="350"
+                                           ItemsSource="{Binding Source={StaticResource getResultMapType}}"
+                                           SelectedItem="{Binding ResultMapManager.ResultMapSysParam.DownloadComponent.ConverterType.Value}">
+                                </ComboBox>
+                            </Grid>
+
+                        </StackPanel>
+
+                    </TabItem>
+
+                    <TabItem Header="Dut editor">
+                        <Grid>
+                            <ContentControl DataContext="{Binding ''}" Content="{Binding DataTabScreenView}"/>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="User coordinate">
+                        <Grid>
+                            <ContentControl DataContext="{Binding ''}" Content="{Binding DataTabScreenView}"/>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Probing Sequecne">
+                        <Grid>
+                            <ContentControl DataContext="{Binding ''}" Content="{Binding DataTabScreenView}"/>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Foup information">
+                        <Viewbox PreviewMouseWheel="Viewbox_PreviewMouseWheel">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="9*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+
+                                <ListView x:Name="FoupListView" Grid.Row="0"
+                                          VirtualizingPanel.IsContainerVirtualizable="True"
+                                          VirtualizingPanel.IsVirtualizing="True"
+                                          VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                          ItemsSource="{Binding DummyDataModule.dummyTCPIPQueries.Foups}" 
+                                          SelectedItem="{Binding DummyDataModule.dummyTCPIPQueries.SelectedFoup}"
+                                          Background="#FF1C1C1F" 
+                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                          Focusable="True">
+
+                                    <ListView.ItemTemplate>
+
+                                        <DataTemplate>
+                                            <Border BorderBrush="{Binding ScanState, Converter={StaticResource ScanStateValueConverter}}"
+                                                            BorderThickness="1">
+                                                <Grid >
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1*"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                                                        <Label Content="{Binding Name}" FontSize="18" FontWeight="Bold"
+                                                                               Style="{StaticResource FoupModuleNameLabelStyle}"/>
+                                                    </StackPanel>
+
+                                                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                                                        <Label Content="LOT State : " FontSize="13" FontWeight="Bold"
+                                                                               Style="{StaticResource FoupModuleNameLabelStyle}"/>
+                                                        <Label Content="{Binding LotState}" FontSize="13" FontWeight="Bold"
+                                                                               Style="{StaticResource FoupModuleNameLabelStyle}"/>
+                                                    </StackPanel>
+
+                                                    <Grid Grid.Row="2" Background="#FF1C1C1F">
+
+                                                        <ListView x:Name="SlotListView"
+                                                                                  ItemsSource="{Binding Slots}"
+                                                                                  SelectedItem="{Binding DataContext.DummyDataModule.dummyTCPIPQueries.SelectedSlot,RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                                                                                  Background="#FF1C1C1F" 
+                                                                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                                                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                                                                  Focusable="True">
+
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="SelectionChanged">
+                                                                    <i:InvokeCommandAction 
+                                                                                        Command="{Binding DataContext.SelectedSlotChangedCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+
+                                                            <ListView.ItemContainerStyle>
+
+                                                                <Style TargetType="ListViewItem">
+                                                                    <!--<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                                            <Setter Property="VerticalContentAlignment" Value="Center" />-->
+                                                                    <Setter Property="IsEnabled" Value="True"/>
+                                                                    <!--<Setter Property="IsSelected" Value="{Binding DataContext.IsSelected, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}, Mode=OneWay}"/>-->
+                                                                </Style>
+                                                            </ListView.ItemContainerStyle>
+
+                                                            <ListView.ItemTemplate>
+
+                                                                <DataTemplate>
+                                                                    <Border BorderThickness="1">
+
+                                                                        <Border.BorderBrush>
+                                                                            <Binding Path="IsSelected" Converter="{StaticResource SlotSelectedToColorConv}"/>
+                                                                        </Border.BorderBrush>
+
+                                                                        <Grid MinWidth="220">
+                                                                            <Label HorizontalAlignment="Left" 
+                                                                                           Content="{Binding Name}"
+                                                                                           FontSize="10" 
+                                                                                           Foreground="White"/>
+                                                                        </Grid>
+                                                                    </Border>
+                                                                </DataTemplate>
+
+                                                            </ListView.ItemTemplate>
+
+                                                        </ListView>
+                                                    </Grid>
+
+                                                </Grid>
+
+                                            </Border>
+
+                                        </DataTemplate>
+
+                                    </ListView.ItemTemplate>
+
+                                </ListView>
+
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5*"/>
+                                        <ColumnDefinition Width="5*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0" Content="SELECT ALL" Command="{Binding SelectAllSlotCommand}"/>
+                                    <Button Grid.Column="1" Content="CLEAR ALL" Command="{Binding ClearAllSlotCommand}"/>
+                                </Grid>
+                            </Grid>
+                        </Viewbox>
+                    </TabItem>
+
+                    <TabItem Header="Exception">
+                        <Grid>
+                            <Button Margin="0,15,0,0" Content="Data reset (need execute again)" 
+                                    Grid.Column="1"
+                                    Command="{Binding DataResetComand}"/>
+                        </Grid>
+                    </TabItem>
+
+                </TabControl>
+            </TabItem>
+
+            <TabItem Header="BIN Analyzer">
+                <Grid>
+                    <ContentControl DataContext="{Binding ''}" Content="{Binding MainTabScreenView}"/>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Result Map">
+                <Grid>
+                    <TabControl Background="Gray" x:Name="ResultMapTabControl" SelectedIndex="{Binding ResultMapTabSelectedIndex}">
+                        <TabItem Header="STIF">
+                            <ContentControl DataContext="{Binding ''}" Content="{Binding ResultMapTabScreenView}"/>
+                        </TabItem>
+
+                        <TabItem Header="E142">
+                            <ContentControl DataContext="{Binding ''}" Content="{Binding ResultMapTabScreenView}"/>
+                        </TabItem>
+                    </TabControl>
+
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+
+    </Grid>
+
+</UserControl>
+
+    

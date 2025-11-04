@@ -1,0 +1,259 @@
+﻿<UserControl x:Class="UcNCPadChangeScreenView.NCPadChangeScreenView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UcNCPadChangeScreenView"
+             xmlns:resources="clr-namespace:ProberViewModel.Properties"
+             mc:Ignorable="d" 
+             d:DesignHeight="940" d:DesignWidth="1280">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <local:ModuleStateIsIdleStateConverter x:Key="ModuleStateIsIdleStateConverter"/>
+            <local:StateIsErrorStateConverter x:Key="StateIsErrorStateConverter"/>
+            <local:StateIsManualStateConverter x:Key="StateIsManualStateConverter"/>
+            <local:StateIsErrorOrManualStateConverter x:Key="StateIsErrorOrManualStateConverter"/>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="16*"/>
+            <ColumnDefinition Width="16*"/>
+            <ColumnDefinition Width="8*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="16*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="8*"/>
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0" Grid.Column="0" Grid.RowSpan="3"
+                  Margin="8"
+                Header="Sequence List"
+                      Foreground="White"
+                      FontSize="12">
+            <ListBox    local:ListBoxExtensions.KeepSelectedItemVisible="True"
+                        Background="#333333"
+                        ItemsSource="{Binding SequenceCollection}"
+                        SelectedIndex="{Binding  SequenceRunnerModule.SelectedBehaviorIdx}">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid x:Name="_ItemGrid" Height="30" VerticalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" x:Name="textblockBehavior" Text="{Binding Behavior}"
+                                       Foreground="Black"
+                                           Margin="8 0 0 0"
+                                        VerticalAlignment="Center"/>
+                            <TextBlock Grid.Row="0" Grid.Column="2" x:Name="textblockState" Text="{Binding StateEnum}"
+                                       Foreground="Black"
+                                        VerticalAlignment="Center"/>
+                            <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Height="1" VerticalAlignment="Top"/>
+                        </Grid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding StateEnum}" Value="IDLE">
+                                <Setter TargetName="_ItemGrid" Property="Background" Value="#999999"/>
+                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="Black"/>
+                                <Setter TargetName="textblockState" Property="Foreground" Value="Black"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding StateEnum}" Value="RUNNING">
+                                <Setter TargetName="_ItemGrid" Property="Background" Value="#004B8D"/>
+                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="White"/>
+                                <Setter TargetName="textblockState" Property="Foreground" Value="White"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding StateEnum}" Value="ERROR">
+                                <Setter TargetName="_ItemGrid" Property="Background" Value="#CE3175"/>
+                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="White"/>
+                                <Setter TargetName="textblockState" Property="Foreground" Value="White"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding StateEnum}" Value="CLEAR">
+                                <Setter TargetName="_ItemGrid" Property="Background" Value="Black"/>
+                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="White"/>
+                                <Setter TargetName="textblockState" Property="Foreground" Value="White"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding StateEnum}" Value="PRE_SAFETY_INVALID">
+                                <Setter TargetName="_ItemGrid" Property="Background" Value="#CE3175"/>
+                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="White"/>
+                                <Setter TargetName="textblockState" Property="Foreground" Value="White"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding StateEnum}" Value="POST_SAFETY_INVALID">
+                                <Setter TargetName="_ItemGrid" Property="Background" Value="#CE3175"/>
+                                <Setter TargetName="textblockBehavior" Property="Foreground" Value="White"/>
+                                <Setter TargetName="textblockState" Property="Foreground" Value="White"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </GroupBox>
+
+        <GroupBox   Grid.Row="1" Grid.Column="1" Grid.RowSpan="2"
+                    Header="Using Input Ports"
+                    Margin="8"
+                    Foreground="White"
+                    FontSize="12">
+            <ItemsControl ItemsSource="{Binding IOPorts}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock x:Name="textblockItem" 
+                                   Text="{Binding Key}"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Margin="12 8"
+                                   />
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Value}" Value="true">
+                                <Setter TargetName="textblockItem" Property="Foreground" Value="Yellow"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Value}" Value="false">
+                                <Setter TargetName="textblockItem" Property="Foreground" Value="#555555"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </GroupBox>
+
+        <Grid Grid.Row="0" Grid.Column="1"
+              Margin="0"
+              >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+            <Border Grid.RowSpan="2"
+                            Margin="4,8,8,8" 
+                            BorderBrush="WhiteSmoke" BorderThickness="1"
+                            >
+                <ContentControl  Margin="2"
+                                         VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                         DataContext="{Binding}" 
+                                         Content="{Binding Stage3DModel}" 
+                                         />
+            </Border>
+
+            <Button Grid.Row="0" 
+                            Opacity="0" 
+                            Command="{Binding X2ViewChangeCommand}"/>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" 
+                                Opacity="0"
+                                Command="{Binding CWViewChangeCommand}"/>
+                <Button Grid.Column="1" 
+                                Opacity="0"
+                                Command="{Binding CenterViewChangeCommand}"/>
+                <Button Grid.Column="2" 
+                                Opacity="0"
+                                Command="{Binding CCWViewChangeCommand}"/>
+            </Grid>
+        </Grid>
+
+        <!--<ListBox local:ListBoxExtensions.KeepSelectedItemVisible="True"
+                 Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Margin="8" 
+                 Background="LightGray" Foreground="Black"
+                 SelectedIndex="{Binding  CardChangeModule.CCLogCollectionSelect}"
+                 ItemsSource="{Binding CardChangeModule.CCLogCollection}"/>-->
+        <Grid Grid.Row="0" Grid.Column="2"
+              IsEnabled="{Binding SequenceRunnerModule.ModuleState, Converter={StaticResource ModuleStateIsIdleStateConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Button Grid.Row="0" Margin="8" Content="{x:Static resources:Resources.NCPadChange}"
+                    Command="{Binding Path=ChangeNCPadCommand}" />
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="2" Grid.RowSpan="2"
+              IsEnabled="{Binding SequenceRunnerModule.InnerState, Converter={StaticResource StateIsErrorStateConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32*"/>
+                <RowDefinition Height="24*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Button Grid.Row="1" Margin="8" Content="{x:Static resources:Resources.Retry}"
+                    Command="{Binding Path=CCRetryCommand}"/>
+
+                <Button Grid.Row="3" Margin="8" Foreground="Black"
+                        Command="{Binding BehaviorReverseCommand}" 
+                        Content="{x:Static resources:Resources.Reverse}"/>
+
+            </Grid>
+
+            <Grid Grid.Row="1"
+                  >
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Button Grid.Row="0" Margin="8"
+                        IsEnabled="{Binding SequenceRunnerModule.InnerState, 
+                                    Converter={StaticResource StateIsErrorOrManualStateConverter}}"
+                    Command="{Binding AlternateRecoveryManualModeCommand}"
+                    Content="{x:Static resources:Resources.ManualMode}"/>
+
+                <Grid Grid.Row="1"  IsEnabled="{Binding SequenceRunnerModule.InnerState, 
+                      Converter={StaticResource StateIsManualStateConverter}}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Margin="8"
+                            Command="{Binding ManualReverseCommand}" 
+                            Content="{x:Static resources:Resources.ManualReverse}"/>
+                    <Button Grid.Column="1" Margin="8"
+                            Command="{Binding ManualRetryCommand}" 
+                            Content="{x:Static resources:Resources.ManualRetry}"/>
+                </Grid>
+
+                <Button Grid.Row="2" Margin="8"
+                        IsEnabled="{Binding SequenceRunnerModule.InnerState, Converter={StaticResource StateIsErrorStateConverter}}"
+                        Command="{Binding EndCommand}"
+                        Content="{x:Static resources:Resources.End}"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

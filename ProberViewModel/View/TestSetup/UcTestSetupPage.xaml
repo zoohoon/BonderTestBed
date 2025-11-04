@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="TestSetupDialog.UcTestSetupPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:pintab="clr-namespace:TestSetupDialog.Tab.Pin"
+             xmlns:nctab="clr-namespace:TestSetupDialog.Tab.NC"
+             xmlns:gpcc="clr-namespace:TestSetupDialog.Tab.GPCC"
+             mc:Ignorable="d" 
+             d:DesignHeight="900" d:DesignWidth="1250">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="18*"/>
+        </Grid.RowDefinitions>
+        <!--Title Bar-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="12*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Background="WhiteSmoke" Grid.Column="0" Margin="3" TextAlignment="Center" FontSize="24">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDown">
+                        <i:InvokeCommandAction Command="{Binding TopBarMouseDownCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBlock>
+            <TextBlock x:Name="exitBtn" Background="WhiteSmoke" Text="X" Grid.Column="1" Margin="3" TextAlignment="Center" FontSize="24" MouseDown="exitBtn_MouseDown" MouseUp="exitBtn_MouseUp" MouseLeave="exitBtn_MouseLeave">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseUp">
+                        <i:InvokeCommandAction Command="{Binding ExitCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBlock>
+        </Grid>
+        <TabControl Grid.Row="1" SelectedIndex="{Binding SelectedIndex}">
+            <TabItem Header="PIN">
+                <pintab:UcPinTab DataContext="{Binding PinTabViewModel}"/>
+            </TabItem>
+            <TabItem Header="NeedleCleaning">
+                <nctab:UcNCTab DataContext="{Binding NCTabViewModel}"/>
+            </TabItem>
+            <TabItem Header="GPCC">
+                <gpcc:UcGPCardChangeSetting DataContext="{Binding GPCCViewModel}"/>
+            </TabItem>
+            <TabItem Header="GPCC Observation" >
+                <gpcc:UcGPCardChangeObservation DataContext="{Binding GPObservaSetting}"/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

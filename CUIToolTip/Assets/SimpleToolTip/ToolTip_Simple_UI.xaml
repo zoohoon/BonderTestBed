@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Model="clr-namespace:CUIToolTipInfoData.Model;assembly=CUIToolTipInfoData"
+                    xmlns:ToolTipView="clr-namespace:CUIToolTip.Assets.SimpleToolTip">
+
+
+    <DataTemplate x:Key="tooltip_SimpleTemplate" DataType="{x:Type Model:SimpleTooltipInfo}">
+        <ToolTipView:ToolTip_Simple_Item/>
+    </DataTemplate>
+</ResourceDictionary>
+

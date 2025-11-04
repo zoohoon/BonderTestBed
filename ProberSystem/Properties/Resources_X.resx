@@ -1,0 +1,604 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="WaferMapGenerate" xml:space="preserve">
+    <value>Wafer Map Generate</value>
+  </data>
+  <data name="ChangeCoord" xml:space="preserve">
+    <value>Change Coordinate</value>
+  </data>
+  <data name="MultiSelectionEnable" xml:space="preserve">
+    <value>Multi Selection Enable</value>
+  </data>
+  <data name="CoordInfo" xml:space="preserve">
+    <value>Coordinate Information</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="ManualTeach" xml:space="preserve">
+    <value>Manual Teach</value>
+  </data>
+  <data name="WaferEdgeData" xml:space="preserve">
+    <value>Wafer Edge Data</value>
+  </data>
+  <data name="WaferMapStatus" xml:space="preserve">
+    <value>Wafer Map Status</value>
+  </data>
+  <data name="AddPattern" xml:space="preserve">
+    <value>Add Pattern</value>
+  </data>
+  <data name="AlignPatternStatus" xml:space="preserve">
+    <value>Align Pattern Status</value>
+  </data>
+  <data name="AutoSearch" xml:space="preserve">
+    <value>Auto Search</value>
+  </data>
+  <data name="DeleteAllPad" xml:space="preserve">
+    <value>Delete All Pad</value>
+  </data>
+  <data name="DeletePad" xml:space="preserve">
+    <value>Delete Pad</value>
+  </data>
+  <data name="DeleteSelectedPattern" xml:space="preserve">
+    <value>Delete Selected Pattern</value>
+  </data>
+  <data name="RegisteredPad" xml:space="preserve">
+    <value>Registered Pad</value>
+  </data>
+  <data name="RegisterPad" xml:space="preserve">
+    <value>Register Pad</value>
+  </data>
+  <data name="TeachBottomLeft" xml:space="preserve">
+    <value>Teach Bottom Left</value>
+  </data>
+  <data name="TeachingCross" xml:space="preserve">
+    <value>Teaching Cross</value>
+  </data>
+  <data name="TeachUpperRight" xml:space="preserve">
+    <value>Teach Upper Right</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save Settings</value>
+  </data>
+  <data name="CheckOperationParameter" xml:space="preserve">
+    <value>Check Operation Parameter</value>
+  </data>
+  <data name="CheckProbeMark" xml:space="preserve">
+    <value>Check Probe Mark</value>
+  </data>
+  <data name="CheckRecipe" xml:space="preserve">
+    <value>Check Recipe</value>
+  </data>
+  <data name="CleanPadChange" xml:space="preserve">
+    <value>Clean Pad Change</value>
+  </data>
+  <data name="CopyRecipe" xml:space="preserve">
+    <value>Copy Recipe</value>
+  </data>
+  <data name="CreateNewRecipe" xml:space="preserve">
+    <value>Create a New Recipe</value>
+  </data>
+  <data name="DeleteRecipe" xml:space="preserve">
+    <value>Delete Recipe</value>
+  </data>
+  <data name="Diagonostics" xml:space="preserve">
+    <value>Diagonostics</value>
+  </data>
+  <data name="DownloadRecipe" xml:space="preserve">
+    <value>Download Recipe</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="LoadRecipe" xml:space="preserve">
+    <value>Load Recipe</value>
+  </data>
+  <data name="LogManagement" xml:space="preserve">
+    <value>Log Management</value>
+  </data>
+  <data name="LOTMENU" xml:space="preserve">
+    <value>LOT MENU</value>
+  </data>
+  <data name="MENU" xml:space="preserve">
+    <value>MENU</value>
+  </data>
+  <data name="NeedleCleaning" xml:space="preserve">
+    <value>Needle Cleaning</value>
+  </data>
+  <data name="OPERATION" xml:space="preserve">
+    <value>OPERATION</value>
+  </data>
+  <data name="PolishWaferChange" xml:space="preserve">
+    <value>Polish Wafer Change</value>
+  </data>
+  <data name="ProbeCardChange" xml:space="preserve">
+    <value>Probe Card Change</value>
+  </data>
+  <data name="SETUP" xml:space="preserve">
+    <value>SET UP</value>
+  </data>
+  <data name="SetupLotProcess" xml:space="preserve">
+    <value>Setup Lot Process</value>
+  </data>
+  <data name="SetupOperationParameter" xml:space="preserve">
+    <value>Setup Operation Parameter</value>
+  </data>
+  <data name="SetupRecipe" xml:space="preserve">
+    <value>Setup Recipe</value>
+  </data>
+  <data name="ShutDown" xml:space="preserve">
+    <value>Shut Down</value>
+  </data>
+  <data name="SYSTEM" xml:space="preserve">
+    <value>SYSTEM</value>
+  </data>
+  <data name="UserAccount" xml:space="preserve">
+    <value>User Account</value>
+  </data>
+  <data name="WaferLoadUnload" xml:space="preserve">
+    <value>Wafer Load/Unload</value>
+  </data>
+  <data name="Recipe" xml:space="preserve">
+    <value>RECIPE</value>
+  </data>
+  <data name="Best" xml:space="preserve">
+    <value>Best</value>
+  </data>
+  <data name="Chuck" xml:space="preserve">
+    <value>Chuck</value>
+  </data>
+  <data name="CST1" xml:space="preserve">
+    <value>Cassete 1</value>
+  </data>
+  <data name="CST2" xml:space="preserve">
+    <value>Cassete 2</value>
+  </data>
+  <data name="CurProcess" xml:space="preserve">
+    <value>Current Process</value>
+  </data>
+  <data name="CurrentValue" xml:space="preserve">
+    <value>Current</value>
+  </data>
+  <data name="CurYield" xml:space="preserve">
+    <value>Yield</value>
+  </data>
+  <data name="DeviceName" xml:space="preserve">
+    <value>Device Name</value>
+  </data>
+  <data name="FailDieCnt" xml:space="preserve">
+    <value>Fail Die</value>
+  </data>
+  <data name="Hand1" xml:space="preserve">
+    <value>Hand 1</value>
+  </data>
+  <data name="Hand2" xml:space="preserve">
+    <value>Hand 2</value>
+  </data>
+  <data name="HoldingTime" xml:space="preserve">
+    <value>Holding Time</value>
+  </data>
+  <data name="InspectionTray" xml:space="preserve">
+    <value>Inspection</value>
+  </data>
+  <data name="LotName" xml:space="preserve">
+    <value>Lot Name</value>
+  </data>
+  <data name="LotSetup" xml:space="preserve">
+    <value>Lot Run Setup</value>
+  </data>
+  <data name="OPName" xml:space="preserve">
+    <value>Operator Name</value>
+  </data>
+  <data name="OverHeat" xml:space="preserve">
+    <value>Over Heat</value>
+  </data>
+  <data name="PassDieCnt" xml:space="preserve">
+    <value>Pass Die</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="RetestYield" xml:space="preserve">
+    <value>Retest Yield</value>
+  </data>
+  <data name="RunningTime" xml:space="preserve">
+    <value>Running Time</value>
+  </data>
+  <data name="SettingValue" xml:space="preserve">
+    <value>Setting</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Start Time</value>
+  </data>
+  <data name="StopAfterFirstProbe" xml:space="preserve">
+    <value>Stop After First Probe</value>
+  </data>
+  <data name="StopAfterLoadCST" xml:space="preserve">
+    <value>Stop After Load CST</value>
+  </data>
+  <data name="StopAfterOCRProcess" xml:space="preserve">
+    <value>Stop After OCR Process</value>
+  </data>
+  <data name="StopAfterProbe" xml:space="preserve">
+    <value>Stop After Probe</value>
+  </data>
+  <data name="StopAfterWaferLoad" xml:space="preserve">
+    <value>Stop After Wafer Load</value>
+  </data>
+  <data name="StopBeforeProbe" xml:space="preserve">
+    <value>Stop Before Probe</value>
+  </data>
+  <data name="StopBeforeRetest" xml:space="preserve">
+    <value>Stop Before Retest</value>
+  </data>
+  <data name="SubChuck" xml:space="preserve">
+    <value>Sub Chuck</value>
+  </data>
+  <data name="totalTestDieCnt" xml:space="preserve">
+    <value>Total Test Die</value>
+  </data>
+  <data name="Tray1" xml:space="preserve">
+    <value>Tray 1</value>
+  </data>
+  <data name="Tray2" xml:space="preserve">
+    <value>Tray 2</value>
+  </data>
+  <data name="Tray3" xml:space="preserve">
+    <value>Tray 3</value>
+  </data>
+  <data name="Tray4" xml:space="preserve">
+    <value>Tray 4</value>
+  </data>
+  <data name="Tray5" xml:space="preserve">
+    <value>Tray 5</value>
+  </data>
+  <data name="Worst" xml:space="preserve">
+    <value>Worst</value>
+  </data>
+  <data name="ChangeSequence" xml:space="preserve">
+    <value>Change Sequence</value>
+  </data>
+  <data name="AutoSelect" xml:space="preserve">
+    <value>Auto Select</value>
+  </data>
+  <data name="AutoThreshold" xml:space="preserve">
+    <value>Auto Threshold</value>
+  </data>
+  <data name="Base" xml:space="preserve">
+    <value>Base</value>
+  </data>
+  <data name="BeginNeedleSetup" xml:space="preserve">
+    <value>Begin Needle Setup</value>
+  </data>
+  <data name="Cantilever" xml:space="preserve">
+    <value>Cantilever</value>
+  </data>
+  <data name="ChangeCardType" xml:space="preserve">
+    <value>Change Card Type</value>
+  </data>
+  <data name="DeleteAllPin" xml:space="preserve">
+    <value>Delete All Pin</value>
+  </data>
+  <data name="DeletePin" xml:space="preserve">
+    <value>Delete Pin</value>
+  </data>
+  <data name="DiscardAll" xml:space="preserve">
+    <value>Discard All</value>
+  </data>
+  <data name="DiscardPin" xml:space="preserve">
+    <value>Discard Pin</value>
+  </data>
+  <data name="EnablePinGroup" xml:space="preserve">
+    <value>Enable Pin Group</value>
+  </data>
+  <data name="Finish" xml:space="preserve">
+    <value>Finish</value>
+  </data>
+  <data name="FormFactor" xml:space="preserve">
+    <value>FormFactor</value>
+  </data>
+  <data name="GoNextStep" xml:space="preserve">
+    <value>Go Next Step</value>
+  </data>
+  <data name="GoPrevStep" xml:space="preserve">
+    <value>Go Previous Step</value>
+  </data>
+  <data name="InitFromPadData" xml:space="preserve">
+    <value>Init From Pad Data</value>
+  </data>
+  <data name="Manual" xml:space="preserve">
+    <value>Manual</value>
+  </data>
+  <data name="PinNumber" xml:space="preserve">
+    <value>Pin No.</value>
+  </data>
+  <data name="PinRegistrationStatus" xml:space="preserve">
+    <value>Pin Registration Status</value>
+  </data>
+  <data name="PinSelection" xml:space="preserve">
+    <value>Pin Selection</value>
+  </data>
+  <data name="PinStep1" xml:space="preserve">
+    <value>Step 1. Teach Needle Tip</value>
+  </data>
+  <data name="PinStep2" xml:space="preserve">
+    <value>Step 2. Teach Needle Base</value>
+  </data>
+  <data name="PinStep3" xml:space="preserve">
+    <value>Step 3. Set Limitation</value>
+  </data>
+  <data name="RegisteredDut" xml:space="preserve">
+    <value>Registered Dut</value>
+  </data>
+  <data name="RegisteredPin" xml:space="preserve">
+    <value>Registered Pin</value>
+  </data>
+  <data name="RegisteredPosition" xml:space="preserve">
+    <value>Registered Position</value>
+  </data>
+  <data name="RegisterFirst" xml:space="preserve">
+    <value>Register First</value>
+  </data>
+  <data name="RegisterPin" xml:space="preserve">
+    <value>Register Pin</value>
+  </data>
+  <data name="RegisterSecond" xml:space="preserve">
+    <value>Register Second</value>
+  </data>
+  <data name="ROI" xml:space="preserve">
+    <value>ROI</value>
+  </data>
+  <data name="SelectPin" xml:space="preserve">
+    <value>Select Pin</value>
+  </data>
+  <data name="SetPinDataFromPad" xml:space="preserve">
+    <value>Set Pin Data From Pad</value>
+  </data>
+  <data name="SetReferenceDut" xml:space="preserve">
+    <value>SetReferenceDut</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="Tip" xml:space="preserve">
+    <value>Tip</value>
+  </data>
+  <data name="TipRegistration" xml:space="preserve">
+    <value>Tip Registration</value>
+  </data>
+  <data name="UpdateForAllPin" xml:space="preserve">
+    <value>Update For All Pin</value>
+  </data>
+  <data name="UpdatePinPosition" xml:space="preserve">
+    <value>Update Pin Position</value>
+  </data>
+  <data name="Updating" xml:space="preserve">
+    <value>Updating</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Vertical</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ARM1_NoWafer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ARM1_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM1_W" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ARM1_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM2_NoWafer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ARM2_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM2_W" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ARM2_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ArrowDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowDownW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ArrowDownW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ArrowLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeftG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ArrowLeftG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeftW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ArrowLeftW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ArrowRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRightG" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ArrowRightG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRightW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ArrowRightW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ArrowUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowUpW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ArrowUpW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Chuck_NoWafer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Chuck_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Chuck_W" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Chuck_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Clockwise" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Clockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordLeftDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoordLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordLeftUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoordLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordRightDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoordRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordRightUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoordRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CounterClockwise" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CounterClockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ExtendHeight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ExtendHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ExtendWidth" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ExtendWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FixedTray_NoWafer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FixedTray_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FixedTray_W" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FixedTray_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Minus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Minus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PreAligner_NoWafer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PreAligner_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PreAligner_W" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PreAligner_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReduceHeight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReduceHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReduceWidth" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ReduceWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="TaskManagement" xml:space="preserve">
+    <value>TaskManagement</value>
+  </data>
+</root>

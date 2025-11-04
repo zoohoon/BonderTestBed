@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="SoakingSettingView.UCSoaking"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SoakingSettingView"
+             xmlns:NodeConverter="clr-namespace:NodeConverter;assembly=NodeConverter"
+             mc:Ignorable="d" 
+             d:DesignHeight="940" d:DesignWidth="1280" Background="Transparent">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <NodeConverter:ParamToSourceConverter x:Key="SoakingParamToSourceConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml"/>
+                <ResourceDictionary Source="SoakingParamTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="500"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="400"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="120"/>
+                <RowDefinition Height="120"/>
+                <RowDefinition Height="120"/>
+                <RowDefinition Height="120"/>
+                <RowDefinition Height="120"/>
+                <RowDefinition Height="120"/>
+            </Grid.RowDefinitions>
+
+
+            <Button Grid.Row="0" Name="Button_NewParam" Content="Soaking NewParam" FontSize="30" 
+                    Command="{Binding NewCommand}"/>
+            <Button Grid.Row="1" Name="Button_LoadParam" Content="Soaking LoadParam" FontSize="30" 
+                    Command="{Binding LoadParam}"/>
+            <Button Grid.Row="2" Name="Button_SaveParam" Content="Soaking SaveParam" FontSize="30"
+                    Command="{Binding SaveCommand}"/>
+        </Grid>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="800"/>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="80"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" >
+                <TabControl Name="TabControl_Soaking" >
+
+                    <TabItem Grid.Row="0" Background="DarkGray">
+                        <TabItem.Header>
+                            <TextBlock Text="EventSoaking" FontSize="23" />
+                        </TabItem.Header>
+                        <GroupBox Grid.Row="0">
+                            <TreeView ItemsSource="{Binding SoakingDevFile, Converter={StaticResource SoakingParamToSourceConverter}}"/>
+
+                        </GroupBox>
+                    </TabItem>
+
+                </TabControl>
+            </Grid>
+
+
+        </Grid>
+
+
+    </Grid>
+</UserControl>

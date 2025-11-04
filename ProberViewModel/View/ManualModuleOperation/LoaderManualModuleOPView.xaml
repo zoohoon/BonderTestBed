@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="LoaderManualModuleOPViewModule.LoaderManualModuleOPView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LoaderManualModuleOPViewModule"
+             xmlns:stagelistview="clr-namespace:StageListViewModule;assembly=StageListViewModule"
+             xmlns:mapview="clr-namespace:MapView;assembly=MapView"
+             mc:Ignorable="d" 
+             d:DesignHeight="1010" d:DesignWidth="1850">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <stagelistview:StageListView DataContext="{Binding LoaderViewModelManager.StageListVM}"/>
+        </Grid>
+        
+        <Grid Grid.Row="0" Grid.Column="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+               
+                <Border  Grid.Row="0" Grid.Column="1" Margin="4,0,0,0" BorderBrush="WhiteSmoke" BorderThickness="0.5"
+                         Width="890" Height="890">
+                    <Grid>
+                        <ContentControl Content="{Binding DisplayPort}"/>
+                    </Grid>
+                </Border>
+
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="0" Grid.Column="1" Margin="8">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center">
+                <Button Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Command="{Binding SystemInitExcuteCommand}"
+                            Content="System Init" Width="140" Height="40" HorizontalAlignment="Left" Margin="4"/>
+
+                <Button Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Command="{Binding WaferAlignmentExcuteCommand}"
+                            Content="Wafer Alignment" Width="140" Height="40"  HorizontalAlignment="Left" Margin="4"/>
+
+                <Button Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Command="{Binding PinAlignmentExcuteCommand}"
+                            Content="Pin Alignment" Width="140" Height="40"  HorizontalAlignment="Left" Margin="4"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

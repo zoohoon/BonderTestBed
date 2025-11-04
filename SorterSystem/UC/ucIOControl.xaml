@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="SorterSystem.UC.ucIOControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:SorterSystem.UC"
+             xmlns:conv="clr-namespace:SorterSystem.Converter"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <conv:IOValueConverter x:Key="IOValueConveter" />
+        <conv:AnalogValueConverter x:Key="AnalogConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row ="0" Width="150" HorizontalAlignment="Left">INPUT</Label>
+            <DataGrid Grid.Row ="1" ItemsSource="{Binding InputPorts}" AutoGenerateColumns="False">
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Value}" Value="True">
+                                <Setter Property="Background" Value="#00FF00"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Width="50" Header="State" Binding="{Binding Value, Converter={StaticResource IOValueConveter}}" />
+                    <DataGridTextColumn IsReadOnly="True" Width="40" Header="Ch" Binding="{Binding ChannelIndex.Value}" />
+                    <DataGridTextColumn IsReadOnly="True" Width="40" Header="Port" Binding="{Binding PortIndex.Value}" />
+                    <DataGridTextColumn IsReadOnly="True" Width="*" Header="Name" Binding="{Binding Key.Value}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Grid Grid.Column="1"></Grid>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Width="150" HorizontalAlignment="Left">OUTPUT</Label>
+            <DataGrid Grid.Row="1" Name="gridOutput" ItemsSource="{Binding OutputPorts}" AutoGenerateColumns="False">
+                <DataGrid.InputBindings>
+                    <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding DoubleClickCommand}" CommandParameter="{Binding ElementName=gridOutput, Path=CurrentItem}" />
+                </DataGrid.InputBindings>
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Value}" Value="True">
+                                <Setter Property="Background" Value="Red"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Width="50" Header="State" Binding="{Binding Value}" />
+                    <DataGridTextColumn IsReadOnly="True" Width="40" Header="Ch" Binding="{Binding ChannelIndex.Value}" />
+                    <DataGridTextColumn IsReadOnly="True" Width="40" Header="Port" Binding="{Binding PortIndex.Value}" />
+                    <DataGridTextColumn IsReadOnly="True" Width="*" Header="Name" Binding="{Binding Key.Value}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Grid Grid.Column="3"></Grid>
+        <Grid Grid.Column="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Width="150" HorizontalAlignment="Left">ANALOG INPUTS</Label>
+            <DataGrid Grid.Row="1" Name="gridAnalog" ItemsSource="{Binding AnalogInputs}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Width="50" Header="Value" Binding="{Binding Analog.PortVal, Converter={StaticResource AnalogConverter}}" />
+                    <DataGridTextColumn IsReadOnly="True" Width="40" Header="Ch" Binding="{Binding ChannelIndex.Value}" />
+                    <DataGridTextColumn IsReadOnly="True" Width="40" Header="Port" Binding="{Binding PortIndex.Value}" />
+                    <DataGridTextColumn IsReadOnly="True" Width="*" Header="Name" Binding="{Binding Key.Value}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</UserControl>

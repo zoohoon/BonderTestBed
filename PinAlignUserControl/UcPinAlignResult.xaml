@@ -1,0 +1,741 @@
+﻿<dialogs:CustomDialog x:Class="PinAlignUserControl.UcPinAlignResult"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             xmlns:local="clr-namespace:PinAlignUserControl"             
+             xmlns:dutedit="clr-namespace:ucDutViewer;assembly=ucDutViewer"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             Width="1280" Height="1024" Background="#FF232222"
+             Style="{DynamicResource FullScreenDialogStyle}">
+
+    <dialogs:CustomDialog.Resources>
+        <local:PinStatusToBrushConverter x:Key="PinStatusToBrushConv" />
+        <local:CheckStatusToBrushConverter x:Key="CheckStatusToBrushConv" />
+    </dialogs:CustomDialog.Resources>
+
+    <Grid Name="MainGrid" >
+
+        <Grid.Resources>
+            <ResourceDictionary>
+
+                <System:Boolean x:Key="FalseValue">False</System:Boolean>
+                <System:Boolean x:Key="TrueValue">True</System:Boolean>
+
+                <System:Double x:Key="DialogTitleFontSize">26</System:Double>
+                <System:Double x:Key="DialogMessageFontSize">15</System:Double>
+
+                <Style x:Key="TitleLabel" TargetType="Label">
+                    <Setter Property="Margin" Value="0 5 0 0"/>
+                    <Setter Property="Background" Value="DodgerBlue" />
+                    <Setter Property="FontSize" Value="30" />
+                    <Setter Property="Foreground" Value="#FFE8E8E8"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+
+                <Style x:Key="ContentLabel" TargetType="Label">
+                    <Setter Property="Margin" Value="10 0"/>
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="Foreground" Value="#FF3BA83B"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+
+                <Style x:Key="ContentTextBox" TargetType="TextBox">
+                    <Setter Property="Margin" Value="4 0"/>
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="Foreground" Value="#FFE8E8E8"/>
+                    <Setter Property="Background" Value="Black" />
+                    <Setter Property="TextAlignment" Value="Center"/>
+                    <Setter Property="Height" Value="40"/>
+                </Style>
+
+                <Style x:Key="DefaultButton" TargetType="Button">
+                    <Setter Property="Margin" Value="10"/>
+                    <Setter Property="FontSize" Value="35" />
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+
+                <Style x:Key="DefaultRadioButton" TargetType="RadioButton">
+                    <Setter Property="Margin" Value="4"/>
+                    <Setter Property="FontSize" Value="20"/>
+                    <Setter Property="Foreground" Value="#FFE8E8E8"/>
+                    <!--<Setter Property="HorizontalContentAlignment" Value="Center"/>-->
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+
+                <Style x:Key="DefaultGroupBox" TargetType="GroupBox">
+                    <Setter Property="Foreground" Value="#FFE8E8E8"/>
+                    <Setter Property="Margin" Value="10 0"/>
+                    <Setter Property="FontSize" Value="25" />
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+
+                <Style x:Key="DefaultTabControl" TargetType="TabControl">
+                    <Setter Property="Foreground" Value="#FFE8E8E8"/>
+                    <Setter Property="Margin" Value="10"/>
+                    <Setter Property="FontSize" Value="30" />
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+
+            </ResourceDictionary>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--<Border Grid.Row="0" Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" CornerRadius="50"/>-->
+
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Border BorderBrush="LightGray" BorderThickness="1" >
+                <dutedit:ucDUTviewer DataContext="{Binding }"/>
+            </Border>
+        </Grid>
+
+        <Grid Name="InfoGrid"  Grid.Row="1" Grid.Column="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Name="ColorGrid" Grid.Column="0">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="8*"/>
+                </Grid.RowDefinitions>
+
+                <Border  Grid.ColumnSpan="2" BorderBrush="LightGray" BorderThickness="1"/>
+                <Border  Grid.RowSpan="2" Grid.ColumnSpan="2" BorderBrush="LightGray" BorderThickness="1"/>
+
+                <Label Content="Pin Color Information" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0"/>
+
+                <Grid Name="ColorTable" Grid.Row="1">
+
+                    <UniformGrid Columns="2" Rows="6" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+
+                        <Label Content="Not Performed" HorizontalAlignment="Center" VerticalAlignment="Center" Width="140" Height="36" />
+                        <Rectangle Fill="#AAAAAA" HorizontalAlignment="Center" Height="30" Stroke="#AAAAAA" VerticalAlignment="Center" Width="30"/>
+
+                        <Label Content="Passed" HorizontalAlignment="left" VerticalAlignment="Center" Width="140" Height="36"/>
+                        <Rectangle Fill="Lime" HorizontalAlignment="Center" Height="30" Stroke="Lime" VerticalAlignment="Center" Width="30" />
+
+                        <Label Content="Focus Failed" HorizontalAlignment="left" VerticalAlignment="Center" Width="140" Height="36" />
+                        <Rectangle Fill="Red" HorizontalAlignment="Center" Height="30" Stroke="Red" VerticalAlignment="Center" Width="30" />
+
+                        <Label Content="Blob Failed" HorizontalAlignment="left" VerticalAlignment="Center" Width="140" Height="36" />
+                        <Rectangle Fill="Yellow" HorizontalAlignment="Center" Height="30" Stroke="Yellow" VerticalAlignment="Center" Width="30" />
+
+                        <Label Content="Over Tolerence"  HorizontalAlignment="left" VerticalAlignment="Center" Width="140" Height="36" />
+                        <Rectangle Fill="Cyan" HorizontalAlignment="Center" Height="30" Stroke="Cyan" VerticalAlignment="Center" Width="30" />
+
+                        <Label Content="Skip" HorizontalAlignment="left" VerticalAlignment="Center" Width="140" Height="36" />
+                        <Rectangle Fill="Purple" HorizontalAlignment="Center" Height="30" Stroke="Purple" VerticalAlignment="Center" Width="30" Margin="0"/>
+
+                    </UniformGrid>
+                </Grid>
+            </Grid>
+
+            <Grid Name="AlignSumaryGrid" Grid.Column="1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="8*"/>
+                </Grid.RowDefinitions>
+
+                <Border  Grid.ColumnSpan="2" BorderBrush="LightGray" BorderThickness="1"/>
+                <Border  Grid.RowSpan="2" Grid.ColumnSpan="2" BorderBrush="LightGray" BorderThickness="1"/>
+
+                <Label Content="Align Result Summary" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="0"/>
+
+                <Grid Grid.Row="1">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" MinWidth="200"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" Content="Tested pin count : " VerticalAlignment="Center" HorizontalAlignment="Stretch" FontSize="15"/>
+                    <Label Grid.Row="0" Grid.Column="1" Name ="PinNum" Content="{Binding PinAlignInfo.AlignResult.TotalAlignPinCount}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+
+                    <Label Grid.Row="1" Grid.Column="0" Content="Passed pin count : " VerticalAlignment="Center" HorizontalAlignment="Stretch" FontSize="15"/>
+                    <Label Grid.Row="1" Grid.Column="1" Name ="PassedPinNum" Content="{Binding PinAlignInfo.AlignResult.TotalPassPinCount}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+
+                    <Label Grid.Row="2" Grid.Column="0" Content="Failed pin count : " VerticalAlignment="Center" HorizontalAlignment="Stretch" FontSize="15"/>
+                    <Label Grid.Row="2" Grid.Column="1" Name ="FailedPinNum" Content="{Binding PinAlignInfo.AlignResult.TotalFailPinCount}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+
+                    <Label Grid.Row="3" Grid.Column="0" Content="Pass Percentage : " VerticalAlignment="Center" HorizontalAlignment="Stretch" FontSize="15"/>
+                    <Label Grid.Row="3" Grid.Column="1" Name ="PassedPinPercentage" Content="{Binding PinAlignInfo.AlignResult.PassPercentage}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+                    
+                    <!--<StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">-->
+
+                        <!--<StackPanel Orientation="Horizontal">
+                            <Label Content="Tested pin count : " VerticalAlignment="Center" HorizontalAlignment="Stretch" FontSize="15"/>
+                            <Label Name ="PinNum" Content="{Binding PinAlignInfo.AlignResult.TotalAlignPinCount}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Passed pin count : " VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+                            <Label Name ="PassedPinNum" Content="{Binding PinAlignInfo.AlignResult.TotalPassPinCount}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Failed pin count : " VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+                            <Label Name ="FailedPinNum" Content="{Binding PinAlignInfo.AlignResult.TotalFailPinCount}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Pass Percentage : " VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+                            <Label Name ="PassedPinPercentage" Content="{Binding PinAlignInfo.AlignResult.PassPercentage}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+                        </StackPanel>
+                        
+                    </StackPanel>-->
+
+                    <!--<UniformGrid Columns="2" Rows="4">
+                        
+                        <Label Content="Tested pin count" VerticalAlignment="Center" HorizontalAlignment="Stretch" FontSize="15"/>
+                        <Label Name ="PinNum" Content="{Binding PinAlignInfo.AlignResult.TotalAlignPinCount}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+                        
+                        <Label Content="Passed pin count" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+                        <Label Name ="PassedPinNum" Content="{Binding PinAlignInfo.AlignResult.TotalPassPinCount}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+                        
+                        <Label Content="Failed pin count" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+                        <Label Name ="FailedPinNum" Content="{Binding PinAlignInfo.AlignResult.TotalFailPinCount}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+                        
+                        <Label Content="Pass Percentage" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+                        <Label Name ="PassedPinPercentage" Content="{Binding PinAlignInfo.AlignResult.PassPercentage}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="15"/>
+                        
+                    </UniformGrid>-->
+
+                </Grid>
+
+            </Grid>
+        </Grid>
+
+
+        <Grid Name="SummaryGrid" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
+
+            <Grid.RowDefinitions>
+                <!--<RowDefinition Height="0.7*"/>-->
+                <RowDefinition Height="1.3*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="0.5*"/>
+            </Grid.RowDefinitions>
+
+            <Border  Grid.Row="0" BorderBrush="LightGray" BorderThickness="1"/>
+            <Border  Grid.Row="1" BorderBrush="LightGray" BorderThickness="1"/>
+            <Border  Grid.Row="2" BorderBrush="LightGray" BorderThickness="1"/>
+            <Border  Grid.Row="3" BorderBrush="LightGray" BorderThickness="1"/>
+            <Border  Grid.Row="4" BorderBrush="LightGray" BorderThickness="1"/>
+
+            <Grid Grid.Row="0">
+
+                <StackPanel Orientation="Vertical">
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Align Result"/>
+                        <TextBox Text="{Binding strAlignResult}" 
+                                 VerticalAlignment="Center" 
+                                 Width="Auto"
+                                 Foreground="{Binding strTextColor}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label Foreground="White" VerticalAlignment="Center" Content="{Binding LowestPinResult.PinNum}" ContentStringFormat="Lowest pin#{0}"/>
+
+                        <!--<Label Margin="-5" Foreground="White" VerticalAlignment="Center" Content="{Binding LowestPinResult.Height}" ContentStringFormat="{}{0:0,00}"/>-->
+
+                        <TextBox Text="{Binding LowestPinResult.Height, StringFormat={}{0:#.###}}" IsReadOnly="True" Foreground="White"
+                                 VerticalAlignment="Center" 
+                                 Width="Auto"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label Foreground="White" VerticalAlignment="Center" Content="{Binding HighestPinResult.PinNum}" ContentStringFormat="Highest pin#{0}"/>
+
+                        <!--<Label Margin="-5" Foreground="White" VerticalAlignment="Center" Content="{Binding LowestPinResult.Height}" ContentStringFormat="{}{0:0,00}"/>-->
+
+                        <TextBox Text="{Binding HighestPinResult.Height, StringFormat={}{0:#.###}}" IsReadOnly="True" Foreground="White"
+                                 VerticalAlignment="Center" 
+                                 Width="Auto"/>
+                    </StackPanel>
+
+                    <!--<StackPanel Orientation="Horizontal">
+                        <Label Foreground="White" VerticalAlignment="Center" Content="Tilt function : "/>
+
+                        --><!--<Label Margin="-5" Foreground="White" VerticalAlignment="Center" Content="{Binding LowestPinResult.Height}" ContentStringFormat="{}{0:0,00}"/>--><!--
+
+                        <TextBox Text="{Binding EnablePinPlaneCompensation}"
+                                 VerticalAlignment="Center" 
+                                 Width="Auto"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label Foreground="White" VerticalAlignment="Center" Content="Tilt result"/>
+
+                        --><!--<Label Margin="-5" Foreground="White" VerticalAlignment="Center" Content="{Binding LowestPinResult.Height}" ContentStringFormat="{}{0:0,00}"/>--><!--
+
+                        PinAlignInfo.AlignResult.PlaneOffset[0]
+                        PinAlignInfo.AlignResult.PlaneOffset[1]
+                        PinAlignInfo.AlignResult.PlaneOffset[2]
+                        
+                        <TextBox Text="{Binding EnablePinPlaneCompensation}"
+                                 VerticalAlignment="Center" 
+                                 Width="Auto"/>
+                    </StackPanel>-->
+                    
+                </StackPanel>
+                
+                <!--Text="{Binding strAlignResult, StringFormat= Result : {0}}"-->
+                <!--<TextBlock Text="{Binding strAlignResult}"
+                           Foreground="{Binding strTextColor}" 
+                           FontSize="60"  
+                           TextAlignment="Center" 
+                           HorizontalAlignment="Center" 
+                           VerticalAlignment="Center" 
+                           Width="auto" Height="auto">
+                    --><!--<TextBlock.Effect>
+                        <DropShadowEffect ShadowDepth="4" Direction="330" Color="Gray" Opacity="0.5" BlurRadius="4"/>
+                    </TextBlock.Effect>--><!--
+                </TextBlock>-->
+
+            </Grid>
+
+            <!--<Grid Grid.Row="1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+
+                --><!--<Grid Grid.Column="0">
+
+                    <GroupBox FontSize="18"  HorizontalAlignment="Left" Margin="2" Padding="2">
+                        <GroupBox.Header>
+                            <TextBlock HorizontalAlignment="Center" Foreground="White" Text="Each pin &#x0a;tolerance"></TextBlock>
+                        </GroupBox.Header>
+
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="20,0,0,0">
+                            
+                            <StackPanel Orientation="Horizontal" Margin="0,-10,0,0">
+                                <TextBlock FontWeight="Bold" Foreground="White" VerticalAlignment="Center">X :</TextBlock>
+                                <Label Foreground="White" VerticalAlignment="Center" Content="{Binding PinAlignSettignParameter.EachPinToleranceX.Value}" ContentStringFormat="{}{0} um"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,-30,0,0">
+                                <TextBlock FontWeight="Bold" Foreground="White" VerticalAlignment="Center">Y :</TextBlock>
+                                <Label Foreground="White" VerticalAlignment="Center" Content="{Binding PinAlignSettignParameter.EachPinToleranceY.Value}" ContentStringFormat="{}{0} um"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,-30,0,0">
+                                <TextBlock FontWeight="Bold" Foreground="White" VerticalAlignment="Center">Z :</TextBlock>
+                                <Label Foreground="White" VerticalAlignment="Center" Content="{Binding PinAlignSettignParameter.EachPinToleranceZ.Value}" ContentStringFormat="{}{0} um"/>
+                            </StackPanel>
+                        </StackPanel>
+                        
+                    </GroupBox>
+
+                </Grid>-->
+
+                <!--<Grid Grid.Column="0" ShowGridLines="True">
+
+                    <GroupBox FontSize="18"  HorizontalAlignment="Left" Margin="2" Padding="2">
+                        <GroupBox.Header>
+                            <TextBlock HorizontalAlignment="Center" Foreground="White" Text="Highest pin"></TextBlock>
+                        </GroupBox.Header>
+
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            
+                            <StackPanel Orientation="Horizontal" Margin="0,-10,0,0" HorizontalAlignment="Center">
+                                <TextBlock FontWeight="Bold" Foreground="White" VerticalAlignment="Center">Pin #</TextBlock>
+                                <Label Foreground="White" VerticalAlignment="Center" Content="{Binding HighestPinResult.PinNum}" ContentStringFormat="{}{0}"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,-10,0,0" HorizontalAlignment="Center">
+                                <TextBlock FontWeight="Bold" Foreground="White" VerticalAlignment="Center">Height : </TextBlock>
+                                <Label Margin="-5" Foreground="White" VerticalAlignment="Center" Content="{Binding HighestPinResult.Height}" ContentStringFormat="{}{0:0,00}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+
+                </Grid>
+
+                <Grid Grid.Column="1" ShowGridLines="True">
+
+                    <GroupBox FontSize="18"  HorizontalAlignment="Left" Margin="2" Padding="2">
+                        <GroupBox.Header>
+                            <TextBlock HorizontalAlignment="Center" Foreground="White" Text="Lowest pin"></TextBlock>
+                        </GroupBox.Header>
+
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                            <StackPanel Orientation="Horizontal" Margin="0,-10,0,0" HorizontalAlignment="Center">
+                                <TextBlock FontWeight="Bold" Foreground="White" VerticalAlignment="Center">Pin #</TextBlock>
+                                <Label Foreground="White" VerticalAlignment="Center" Content="{Binding LowestPinResult.PinNum}" ContentStringFormat="{}{0}"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,-10,0,0" HorizontalAlignment="Center">
+                                <TextBlock FontWeight="Bold" Foreground="White" VerticalAlignment="Center">Height :</TextBlock>
+                                <Label Margin="-5" Foreground="White" VerticalAlignment="Center" Content="{Binding LowestPinResult.Height}" ContentStringFormat="{}{0:0,00}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+
+                </Grid>
+
+                <Grid Grid.Column="2" ShowGridLines="True">
+
+                    <GroupBox FontSize="18"  HorizontalAlignment="Left" Margin="2" Padding="2">
+                        <GroupBox.Header>
+                            <TextBlock HorizontalAlignment="Center" Foreground="White" Text="{Binding EnablePinPlaneCompensation, StringFormat=Tilt Info ({0})}"></TextBlock>
+                        </GroupBox.Header>
+
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Center">
+                                <TextBlock FontWeight="Bold" Foreground="White" VerticalAlignment="Center">Z0 :</TextBlock>
+                                <Label Foreground="White" VerticalAlignment="Center" Content="{Binding PinAlignInfo.AlignResult.PlaneOffset[0]}" ContentStringFormat="{}{0}"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,-20,0,0" HorizontalAlignment="Center">
+                                <TextBlock FontWeight="Bold" Foreground="White" VerticalAlignment="Center">Z1 :</TextBlock>
+                                <Label Foreground="White" VerticalAlignment="Center" Content="{Binding PinAlignInfo.AlignResult.PlaneOffset[1]}" ContentStringFormat="{}{0}"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,-20,0,0" HorizontalAlignment="Center">
+                                <TextBlock FontWeight="Bold" Foreground="White" VerticalAlignment="Center">Z2 :</TextBlock>
+                                <Label Foreground="White" VerticalAlignment="Center" Content="{Binding PinAlignInfo.AlignResult.PlaneOffset[2]}" ContentStringFormat="{}{0}"/>
+                            </StackPanel>
+                            
+                        </StackPanel>
+                    </GroupBox>
+
+                </Grid>--><!--
+                
+            </Grid>-->
+
+
+            <Grid Grid.Row="1">
+
+                <!--<DataGrid x:Name="dgEachPinResultes" ItemsSource="{Binding PinAlignInfo.AlignResult.EachPinResultes, IsAsync=True}" Loaded="dgEachPinResultes_Loaded"-->
+
+
+                <DataGrid x:Name="dgEachPinResultes" ItemsSource="{Binding EachPinCollectionView}" Loaded="dgEachPinResultes_Loaded"
+                          SelectedItem="{Binding SelectedEachPinResult, Mode=TwoWay}"
+                          SelectionChanged ="dgEachPinResultes_SelectionChanged"
+                          IsSynchronizedWithCurrentItem ="True"
+                          HorizontalAlignment="Center" 
+                          SelectionMode="Single"  
+                          VerticalAlignment="Top" 
+                          HorizontalScrollBarVisibility="Hidden"  
+                          Width="auto" Height="auto"  
+                          IsReadOnly="True"
+                          CanUserSortColumns="False"
+                          CanUserAddRows="False"
+                          CanUserReorderColumns="False"
+                          CanUserDeleteRows="False"
+                          AutoGenerateColumns="False"
+                          EnableColumnVirtualization ="True"
+                          EnableRowVirtualization ="True"
+                          VerticalScrollBarVisibility="Disabled" 
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                          Background="Black">
+                    
+                    <DataGrid.Resources>
+
+                        <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}" >
+                            <Setter Property="Background" Value="DimGray" />
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="BorderBrush" Value="Black"/>
+                            <Setter Property="BorderThickness" Value="1 1 1 1"/>
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="Margin" Value="-1,-1,0,0" />
+                            <!--<Setter Property="Height" Value="28" />-->
+                            <!--<Setter Property="Width" Value="auto"/>-->
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+
+                        </Style>
+
+                        <Style TargetType="DataGridCell">
+
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="White" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                </Trigger>
+                            </Style.Triggers>
+                            
+                            <Setter Property="Foreground">
+                                <Setter.Value>
+                                    <!--<Binding Path="." RelativeSource="{RelativeSource AncestorType=DataGridCell}" Converter="{StaticResource  PinStatusToBrushConv}"/>-->
+                                    <Binding RelativeSource="{RelativeSource self}" Converter="{StaticResource  PinStatusToBrushConv}">
+                                    </Binding>
+                                </Setter.Value>
+                            </Setter>
+
+                            <Setter Property="MinHeight" Value="43" />
+                            
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+
+                                        <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                                Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+
+                    </DataGrid.Resources>
+
+                    <DataGrid.Columns>
+
+                        <DataGridTextColumn Binding="{Binding DutNo, StringFormat=F0}" Header="Dut&#x0a;No."/>
+                        <DataGridTextColumn Binding="{Binding PinNum}" Header="Pin&#x0a;No."/>
+                        <DataGridTextColumn Binding="{Binding PinResult}" Header="Status"/>
+                        <DataGridTextColumn Binding="{Binding DiffX, StringFormat=F0}" Header="Diff. X"/>
+                        <DataGridTextColumn Binding="{Binding DiffY, StringFormat=F0}" Header="Diff. Y"/>
+                        <DataGridTextColumn Binding="{Binding DiffZ, StringFormat=F0}" Header="Diff. Z"/>
+                        <DataGridTextColumn Binding="{Binding Height, StringFormat=F0}" Header="Height"/>
+                        <DataGridTextColumn Binding="{Binding Group}" Header="Group&#x0a;No."/>
+
+                    </DataGrid.Columns>
+
+                </DataGrid>
+            </Grid>
+
+            <Grid Grid.Row="2">
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                    <Button Background="DimGray" Content="&lt;" Width="230" Command="{Binding EachPinDGPreviousPage}" Margin="2"/>
+
+                    <TextBlock Text="{Binding EachPinCollectionView.CurrentPage}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+                    <TextBlock Text="/" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+                    <TextBlock Text="{Binding EachPinCollectionView.PageCount}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24"/>
+
+                    <Button Background="DimGray" Content="&gt;" Width="230" Command="{Binding EachPinDGNextPage}" Margin="2"/>
+                    
+                </StackPanel>
+                
+            </Grid>
+            
+            <Grid Grid.Row="3">
+
+                <DataGrid x:Name="dgCheckItems" ItemsSource="{Binding CheckItems}" Loaded="dgCheckItems_Loaded"
+                          SelectionChanged ="dgCheckItems_SelectionChanged"
+                          IsSynchronizedWithCurrentItem ="True"
+                          HorizontalAlignment="Center" 
+                          SelectionMode="Single"  
+                          VerticalAlignment="Top" 
+                          HorizontalScrollBarVisibility="Hidden"  
+                          Width="auto" Height="auto"  
+                          IsReadOnly="True"
+                          CanUserSortColumns="False"
+                          CanUserAddRows="False"
+                          CanUserReorderColumns="False"
+                          CanUserDeleteRows="False"
+                          AutoGenerateColumns="False"
+                          EnableColumnVirtualization ="True"
+                          EnableRowVirtualization ="True"
+                          VerticalScrollBarVisibility="Disabled" 
+                          VirtualizingPanel.IsVirtualizing="True"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                          Background="Black">
+
+                    <DataGrid.Resources>
+
+                        <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}" >
+                            <Setter Property="Background" Value="DimGray" />
+                            <Setter Property="Foreground" Value="White" />
+                            <Setter Property="BorderBrush" Value="Black"/>
+                            <Setter Property="BorderThickness" Value="1 1 1 1"/>
+                            <Setter Property="Margin" Value="-1,-1,0,0" />
+                            <!--<Setter Property="Height" Value="28" />-->
+                            <!--<Setter Property="Width" Value="auto"/>-->
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+
+                            <EventSetter Event="Click" Handler="columnHeader_Click" />
+                            
+                        </Style>
+
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="{x:Null}" />
+                                    <Setter Property="Foreground" Value="{x:Null}" />
+                                </Trigger>
+                            </Style.Triggers>
+
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+
+                                        <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                                Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            
+                        </Style>
+
+                        <!--<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Black" />
+                        <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Black" />-->
+                        
+                        <Style TargetType="DataGridRow">
+
+                            <Style.Triggers>
+                                
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="Black" />
+                                </Trigger>
+
+                                <Trigger Property="IsSelected" Value="false">
+                                    <Setter Property="Background" Value="Black" />
+                                </Trigger>
+                                
+                                <Trigger Property="IsMouseOver" Value="True" >
+                                    <Setter Property="Background" Value="Black" />
+                                </Trigger>
+                                
+                            </Style.Triggers>
+                        </Style>
+                        
+                    </DataGrid.Resources>
+
+                    <DataGrid.Columns>
+
+                        <DataGridTextColumn Binding="{Binding ItemStr}" Header="Checking item">
+
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="Background" Value="Black"/>
+
+                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                            
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Binding="{Binding ToleranceStr}" Header="Tolerance">
+
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="Background" Value="Black"/>
+
+                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Binding="{Binding ResultStr}" Header="Result">
+
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Foreground">
+                                        <Setter.Value>
+                                            <Binding Path="StatusStr" Converter="{StaticResource  CheckStatusToBrushConv}">
+                                            </Binding>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Background" Value="Black"/>
+
+                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    
+                                    <!--<Setter Property="MinHeight" Value="32"/>-->
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn Binding="{Binding StatusStr}" Header="Status">
+
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Foreground">
+                                        <Setter.Value>
+                                            <Binding Path="StatusStr" Converter="{StaticResource  CheckStatusToBrushConv}">
+                                            </Binding>
+                                        </Setter.Value>
+                                    </Setter>
+
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Background" Value="Black"/>
+
+                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    
+                                    <!--<Setter Property="MinHeight" Value="32"/>-->
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+
+
+                        </DataGridTextColumn>
+
+                    </DataGrid.Columns>
+
+                </DataGrid>
+
+            </Grid>
+
+            <Grid Grid.Row="4">
+                <Button Width="Auto" Height="Auto" Content="EXIT" FontSize="32" Foreground="Black"
+                        Command="{Binding CmdExitClick}"/>
+            </Grid>
+
+
+        </Grid>
+
+    </Grid>
+
+</dialogs:CustomDialog>

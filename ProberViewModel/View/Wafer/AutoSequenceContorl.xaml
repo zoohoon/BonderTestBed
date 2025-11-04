@@ -1,0 +1,104 @@
+﻿<dialogs:CustomDialog x:Class="AutoSequenceMakerControl.AutoSequenceContorl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AutoSequenceMakerControl" 
+             xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             mc:Ignorable="d" Height="460" >
+    <Grid Margin="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.2"/>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="0.4"/>
+            <!--<RowDefinition Height="0.6*"/>-->
+        </Grid.RowDefinitions>
+
+        <Button AutomationProperties.AutomationId="btnSeq1"
+                Command="{Binding Path=SeqNumberSeletedCommand}" CommandParameter="1" Style="{StaticResource ImageIConBtnStyle}" Grid.Row="1" Grid.Column="0" Margin="1">
+            <Button.Background>
+                <ImageBrush  ImageSource="Images/Seq1.png" />
+            </Button.Background>
+        </Button>
+        <Button AutomationProperties.AutomationId="btnSeq2"
+                Command="{Binding Path=SeqNumberSeletedCommand}" CommandParameter="2" Style="{StaticResource ImageIConBtnStyle}" Grid.Row="1" Grid.Column="1" Margin="1">
+            <Button.Background>
+                <ImageBrush  ImageSource="Images/Seq2.png" />
+            </Button.Background>
+        </Button>
+        <Button AutomationProperties.AutomationId="btnSeq3"
+                Command="{Binding Path=SeqNumberSeletedCommand}" CommandParameter="3" Style="{StaticResource ImageIConBtnStyle}"  Grid.Row="1" Grid.Column="2" Margin="1">
+            <Button.Background>
+                <ImageBrush  ImageSource="Images/Seq3.png" />
+            </Button.Background>
+        </Button>
+        <Button AutomationProperties.AutomationId="btnSeq4"
+                Command="{Binding Path=SeqNumberSeletedCommand}" CommandParameter="4" Style="{StaticResource ImageIConBtnStyle}" Grid.Row="1" Grid.Column="3" Margin="1">
+            <Button.Background>
+                <ImageBrush  ImageSource="Images/Seq4.png" />
+            </Button.Background>
+        </Button>
+        <Button AutomationProperties.AutomationId="btnSeq5"
+                Command="{Binding Path=SeqNumberSeletedCommand}" CommandParameter="5" Style="{StaticResource ImageIConBtnStyle}" Grid.Row="2" Grid.Column="0" Margin="1">
+            <Button.Background>
+                <ImageBrush  ImageSource="Images/Seq5.png" />
+            </Button.Background>
+        </Button>
+        <Button AutomationProperties.AutomationId="btnSeq6"
+                Command="{Binding Path=SeqNumberSeletedCommand}" CommandParameter="6" Style="{StaticResource ImageIConBtnStyle}" Grid.Row="2" Grid.Column="1" Margin="1">
+            <Button.Background>
+                <ImageBrush  ImageSource="Images/Seq6.png" />
+            </Button.Background>
+        </Button>
+        <Button AutomationProperties.AutomationId="btnSeq7"
+                Command="{Binding Path=SeqNumberSeletedCommand}" CommandParameter="7" Style="{StaticResource ImageIConBtnStyle}" Grid.Row="2" Grid.Column="2" Margin="1">
+
+            <Button.Background>
+                <ImageBrush  ImageSource="Images/Seq7.png" />
+            </Button.Background>
+        </Button>
+        <Button AutomationProperties.AutomationId="btnSeq8"
+                Command="{Binding Path=SeqNumberSeletedCommand}" CommandParameter="8" Style="{StaticResource ImageIConBtnStyle}" Grid.Row="2" Grid.Column="3" Margin="1">
+            <Button.Background>
+                <ImageBrush  ImageSource="Images/Seq8.png" />
+            </Button.Background>
+        </Button>
+        <!--<Grid Grid.Row="3" Grid.ColumnSpan="4" >
+            <StackPanel >
+                <Viewbox Height="32" HorizontalAlignment="Left" Margin="4" >
+                    <CheckBox IsEnabled="False" Content="Enable Forced Inserting Sequence." Style="{x:Null}"/>
+                </Viewbox>
+                <Viewbox Height="32" HorizontalAlignment="Left" Margin="4">
+                    <CheckBox IsEnabled="False" Content="Test Die Prb.Seq. nearby Edge in Single DUT." Style="{x:Null}" />
+                </Viewbox>
+                <Viewbox Height="32" HorizontalAlignment="Left" Margin="4" >
+                    <CheckBox IsEnabled="False" Content="Test Die Only." Style="{x:Null}" />
+                </Viewbox>
+                <Viewbox Height="32" HorizontalAlignment="Left" Margin="4">
+                    <CheckBox IsEnabled="False" Content="Avoid Overlap."  Style="{x:Null}"/>
+                </Viewbox>
+            </StackPanel>
+        </Grid>-->
+
+        <!--<Grid Grid.Row="4" Grid.ColumnSpan="4" HorizontalAlignment="Right">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            --><!--<Label Content="{Binding AutoSeqSummary}" Margin="0" Foreground="OrangeRed" FontSize="14" FontWeight="DemiBold"/>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Button Grid.Row="1"  Height="48" Width="200" FontSize="24" Margin="0,0,16,16" 
+                    Style="{DynamicResource ControlButtonStyle}" Content="Apply" VerticalAlignment="Bottom"
+                         Command="{Binding MakeSequenceCommand}"/>
+            </StackPanel>--><!--
+        </Grid>-->
+       
+    </Grid>
+</dialogs:CustomDialog>

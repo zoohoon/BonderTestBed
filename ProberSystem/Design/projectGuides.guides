@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<ProjectGuidesConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectItemGuides>
+    <ProjectItemGuide TargetFile="UserControls\Jog\BtnTrapezoidArrow.xaml">
+      <GuideModels>
+        <GuideModel>
+          <Guides>
+            <Guide Alignment="Top" Position="-38" />
+            <Guide Alignment="Left" Position="182" />
+            <Guide Alignment="Left" Position="225" />
+            <Guide Alignment="Top" Position="225" />
+            <Guide Alignment="Left" Position="150" />
+            <Guide Alignment="Left" Position="210" />
+            <Guide Alignment="Left" Position="231" />
+            <Guide Alignment="Top" Position="210" />
+            <Guide Alignment="Left" Position="186" />
+          </Guides>
+        </GuideModel>
+      </GuideModels>
+    </ProjectItemGuide>
+  </ProjectItemGuides>
+</ProjectGuidesConfiguration>

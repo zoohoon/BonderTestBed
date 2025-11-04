@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="WizardEditorView.WizardEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:uc="clr-namespace:WizardEditorView.EditorUserControls"
+             xmlns:local="clr-namespace:WizardEditorView"
+             xmlns:interface="clr-namespace:ProberInterfaces.Wizard;assembly=ProberInterfaces"
+             xmlns:editoruc="clr-namespace:WizardEditorView.EditorUserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="892" d:DesignWidth="1280">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="WizardCategoryEditroTemplate" DataType="{x:Type interface:IWizardCategoryEditorVM}">
+                <editoruc:WizardCategoryEditor DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                            AncestorType={x:Type UserControl}}, Path=DataContext.CategoryEditorViewModel}"/>
+
+            </DataTemplate>
+            <local:WizardEditorViewSelector x:Key="ViewTargetTemplateSeletor"
+                                            WizardCategoryEditorDataTemplate="{StaticResource WizardCategoryEditroTemplate}"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0" Background="White" IsMainMenu="True"
+              Foreground="Black" FontSize="12" FontWeight="DemiBold">
+            <MenuItem Header="Category Editor" 
+                      Command="{Binding MoveScreenToCategoryEditorCmd}"/>
+            <MenuItem Header="Template Editor"/>
+            <MenuItem Header="Utility Editor"/>
+        </Menu>
+
+        <ContentControl Grid.Row="1"
+                        Content="{Binding WizardEditorViewTarget}"
+                        ContentTemplateSelector="{StaticResource ViewTargetTemplateSeletor}">
+            
+        </ContentControl>
+        <!--<TabControl Background="DimGray">
+            <TabItem Header="Category">
+                <uc:WizardCategoryEditor DataContext="{Binding CategoryEditorViewModel}"/>
+            </TabItem>
+            <TabItem Header="Utility">
+                <uc:WizardUtilityEditor/>
+            </TabItem>
+        </TabControl>-->
+    </Grid>
+</UserControl>

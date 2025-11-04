@@ -1,0 +1,242 @@
+﻿<UserControl x:Class="SECS_Host.View.Gem_MainFrame"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SECS_Host.View"
+             mc:Ignorable="d" Background="White"
+             d:DesignHeight="720" d:DesignWidth="1040">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <Menu Grid.Row="0" Grid.ColumnSpan="2">
+            <MenuItem Header="File" Margin="8">
+                <MenuItem Header="Connect Info" Margin="8"
+                          Command="{Binding Path=ConnInfoCommand}"
+                          IsEnabled="{Binding EnableMenuItemConnInfo}"/>
+            </MenuItem>
+        </Menu>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="9*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ListBox Grid.Row="0" Margin="8" Name="lboxLog" SelectionChanged="lboxLog_SelectionChange"
+                 SelectedIndex="{Binding SelectedIndex}"
+                 ItemsSource="{Binding LogCollection}"/>
+            <Button Grid.Row="1" Command="{Binding ClearLogCollectionCommand}"/>
+            
+        </Grid>
+
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80*"/>
+                <RowDefinition Height="80*"/>
+                <RowDefinition Height="96*"/>
+                <RowDefinition Height="80*"/>
+                <RowDefinition Height="88*"/>
+                <RowDefinition Height="80*"/>
+                <RowDefinition Height="64*"/>
+            </Grid.RowDefinitions>
+
+            <GroupBox Grid.Row="0" Header="Host Control">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label  Grid.Row="0"    Grid.Column="0"
+                            IsEnabled="{Binding ElementName=tglbtnStartStop, Path=IsChecked}"
+                            Content="{Binding StartStopLbStr}"/>
+                    <Label  Grid.Row="0"    Grid.Column="1"
+                            IsEnabled="{Binding ElementName=tglbtnStartStop, Path=IsChecked}"
+                            Content="{Binding SetOnlineLbStr}"/>
+                    <Label  Grid.Row="0"    Grid.Column="2"
+                            IsEnabled="{Binding ElementName=tglbtnStartStop, Path=IsChecked}"
+                            Content="{Binding SetOfflineLbStr}"/>
+                    <Label  Grid.Row="0"    Grid.Column="3"
+                            IsEnabled="{Binding ElementName=tglbtnStartStop, Path=IsChecked}"
+                            Content="{Binding AreYouThereLbStr}"/>
+                    
+                    <ToggleButton Grid.Row="1" Grid.Column="0" Margin="8"
+                                  Command="{Binding Path=StartStopHostCommand}"
+                                  CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}"
+                                  Name="tglbtnStartStop" Content="{Binding StartHostButtonStr}"/>
+                    <Button Grid.Row="1" Grid.Column="1" Margin="8"
+                            Command="{Binding Path=SetOnlineCommand}"
+                            IsEnabled="{Binding Secs_HostOperator.IsConnected}"
+                            Name="btnSetOnline" Content="SetOnline"/>
+                    <Button Grid.Row="1" Grid.Column="2" Margin="8"
+                            Command="{Binding Path=SetOfflineCommand}"
+                            IsEnabled="{Binding Secs_HostOperator.IsConnected}"
+                            Name="btnSetOffline" Content="SetOffline"/>
+                    <Button Grid.Row="1" Grid.Column="3" Margin="8"
+                            Command="{Binding Path=AreYouThereCommand}"
+                            IsEnabled="{Binding Secs_HostOperator.IsConnected}"
+                            Name="btnAreYouThere" Content="AreYouThere"/>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Grid.Row="1" Header="Host Control" IsEnabled="{Binding Secs_HostOperator.IsConnected}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid   Grid.Row="0"    Grid.Column="0" Margin="8,4,8,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox    Grid.Column="0" Text="{Binding Path=DynamicReportPath}"
+                                    PreviewTextInput="DynamicReportTxtBox_PreviewTextInput"/>
+                        <Button     Grid.Column="1" Content="Path"  FontSize="10"
+                                    Command="{Binding Path=SearchDynamicReportPathCommand}"/>
+                    </Grid>
+                    <Label  Grid.Row="0"    Grid.Column="1"
+                            Content="{Binding GetStatusNamelistLbStr}"/>
+                    <Label  Grid.Row="0"    Grid.Column="2"
+                            Content="{Binding RequestEquipSVLbStr}"/>
+
+                    <Button Grid.Row="1" Grid.Column="0" Margin="8"
+                            Command="{Binding Path=SendDynamicReportCommand}"
+                            Name="btnSendDynamicReport" Content="Send DynamicReport"/>
+                    <Button Grid.Row="1" Grid.Column="1" Margin="8"
+                            Command="{Binding Path=GetStatusNamelistCommand}"
+                            Name="btnGetStatusNameList" Content="Get Status NameList"/>
+                    <Button Grid.Row="1" Grid.Column="2" Margin="8"
+                            Command="{Binding Path=RequestEquipSVCommand}"
+                            Name="btnRequestEquipSV" Content="Request SV"/>
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Grid.Row="2" Header="Host Control" IsEnabled="{Binding Secs_HostOperator.IsConnected}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label  Grid.Row="0"    Grid.Column="0"
+                            Content="{Binding ChangeECVLbStr}"/>
+                    <Label  Grid.Row="0"    Grid.Column="1"
+                            Content="{Binding RequestDateTimeLBStr}"/>
+
+                    <Button  Grid.Row="1"   Grid.Column="0" Margin="8"
+                             Command="{Binding Path=ChangeECVCommand}"
+                             Name="btnChangeECV" Content="Change ECV"/>
+                    <Button  Grid.Row="1"   Grid.Column="1" Margin="8"
+                             Command="{Binding Path=RequestDateTimeCommand}"
+                             Name="btnRequestDateTime" Content="Request Date/Time"/>
+
+                    <GroupBox  Grid.Row="0"     Grid.RowSpan="2" Header="{Binding SetTimeGBoxStr}"
+                               Grid.Column="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBox    Grid.Row="0"    Margin="4"  Text="{Binding SetTimeStr}"
+                                        PreviewTextInput="TextBox_PreviewTextInput"/>
+                            <Button     Grid.Row="1"    Margin="4"
+                                        Name="btnSetDateTime"       Content="Set DateTime"
+                                        Command="{Binding Path=SetDateTimeCommand}"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </GroupBox>
+            
+            <GroupBox Grid.Row="3"      Header="Host Control"
+                      ><!--IsEnabled="{Binding Secs_HostOperator.IsConnected}"-->
+                <Grid IsEnabled="{Binding Secs_HostOperator.IsConnected}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label      Grid.Row="0"    Grid.Column="0"
+                                Content="s10 f3"/>
+                    <Button     Grid.Row="1"    Grid.Column="0"     Margin="8"
+                                Content="Terminal Display"
+                                Command="{Binding Path=TerminalDisplayCommand}"/>
+                    <Button     Grid.Row="1"    Grid.Column="1"     Margin="8"
+                                Content="Alarm List Display"
+                                Command="{Binding Path=AlarmListDisplayCommand}"/>
+
+
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Grid.Row="4"      Header="Host Control"
+                      >
+                <!--IsEnabled="{Binding Secs_HostOperator.IsConnected}"-->
+                <Grid IsEnabled="{Binding Secs_HostOperator.IsConnected}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <GroupBox  Grid.Row="0"     Grid.RowSpan="2" Header="{Binding SetTimeGBoxStr}"
+                               Grid.Column="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBox    Grid.Row="0"    Margin="4"  Text="{Binding RemoteCMDStr}"
+                                        />
+                            <Button     Grid.Row="1"    Margin="4"
+                                        Content="Send Remote CMD"
+                                        Command="{Binding Path=SendRemoteCMDCommand}"/>
+                        </Grid>
+                    </GroupBox>
+                    <Label      Grid.Row="0"    Grid.Column="1
+                                " Content="S2 F41, S2 F49"/>
+                    <Button     Grid.Row="1"    Grid.Column="1"     Margin="8" 
+                                Content="Send CMD"
+                                Command="{Binding Path=SendCMDCommand}"/>
+                </Grid>
+            </GroupBox>
+            <Button     Grid.Row="6"    Grid.Column="2"     Margin="8"
+                                Content="S1F13"
+                                Command="{Binding Path=EstablishRequestCommand}"/>
+        </Grid>
+    </Grid>
+</UserControl>

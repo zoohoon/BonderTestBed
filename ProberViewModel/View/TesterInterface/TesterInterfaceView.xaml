@@ -1,0 +1,115 @@
+﻿<UserControl x:Class="ProberViewModel.View.TesterInterface.TesterInterfaceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProberViewModel.View.TesterInterface"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:pi="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             mc:Ignorable="d" 
+                d:DesignHeight="1080" d:DesignWidth="1280">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!-- TesterInterface -->
+        <GroupBox Margin="4" BorderBrush="MintCream" >
+            <GroupBox.Header>
+                <TextBlock Text="Tester Interface" FontWeight="Bold" Foreground="WhiteSmoke" FontSize="18" HorizontalAlignment="Center"/>
+            </GroupBox.Header>
+            <Grid Margin="0">
+                <StackPanel>
+                    <Grid Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Tester Vacuum : " Padding="0" Margin="0" FontWeight="DemiBold"
+                                               VerticalContentAlignment="Center"/>
+
+                        <ToggleButton Grid.Column="1" Margin="0" Padding="0"
+                                      Style="{StaticResource ON_OFF_ToggleBtn}"
+                                      IsChecked="{Binding TesterPogoTouched}"
+                                      IsHitTestVisible="False">
+                        </ToggleButton>
+                    </Grid>
+                    <Border BorderBrush="WhiteSmoke" BorderThickness="1" Height="1" VerticalAlignment="Bottom"/>
+                    <!--<Grid Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Tester Clamped : " Padding="0" Margin="0" FontWeight="DemiBold"
+                                               VerticalContentAlignment="Center"/>
+                        <ToggleButton Grid.Column="1" Margin="0" Padding="0"
+                                      Style="{StaticResource ON_OFF_ToggleBtn}"
+                                      IsChecked="{Binding TesterClamped}"
+                                      IsHitTestVisible="False">
+                        </ToggleButton>
+                    </Grid>-->
+                    <Border BorderBrush="WhiteSmoke" BorderThickness="1" Height="1" VerticalAlignment="Bottom"/>
+                    <Grid Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Card Vacuum : " Padding="0" Margin="0" FontWeight="DemiBold"
+                                               VerticalContentAlignment="Center"/>
+                        <ToggleButton Grid.Column="1" Margin="0" Padding="0"
+                                      Style="{StaticResource ON_OFF_ToggleBtn}"
+                                      IsChecked="{Binding CardPogoTouched}"
+                                      IsHitTestVisible="False">
+                        </ToggleButton>
+                    </Grid>
+                    <Border BorderBrush="WhiteSmoke" BorderThickness="1" Height="1" VerticalAlignment="Bottom"/>
+                    <Grid Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                    <Button Grid.Column="0" Content="Dock Tester" FontSize="25" Margin="4" Command="{Binding DockTesterCommand}"/>
+                        <Label Grid.Row="1" Grid.ColumnSpan="2" Margin="4,2,0,4" Padding="0" Foreground="LightGray"
+                                   Content="Purge Air Off + Tester Vacuum On + Clamped On" FontSize="15"/>
+                    </Grid>
+                    <Border BorderBrush="WhiteSmoke" BorderThickness="1" Height="1" VerticalAlignment="Bottom"/>
+                    <Grid Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Button Grid.Column="0" Content="Undock Tester" FontSize="25" Margin="4" Command="{Binding UnDockTesterCommand}"/>
+                        <Label Grid.Row="1" Grid.ColumnSpan="2" Margin="4,2,0,4" Padding="0" Foreground="LightGray"
+                                   Content="Tester Vacuum Off + Purge Air On + Clamped Off" FontSize="15"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

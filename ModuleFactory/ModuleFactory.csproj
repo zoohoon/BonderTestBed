@@ -1,0 +1,518 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3115C8BD-3126-4FA5-BA83-03462B88E604}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ModuleFactory</RootNamespace>
+    <AssemblyName>ModuleFactory</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Matrox.MatroxImagingLibrary, Version=10.0.2564.1, Culture=neutral, PublicKeyToken=5a83d419d44a9d98, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MIL\Matrox.MatroxImagingLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.NI4882, Version=13.0.45.159, Culture=neutral, PublicKeyToken=4febd62461bf11a4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\NI\NationalInstruments.NI4882.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ModuleResolver.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AirBlowModule\AirBlowModule.csproj">
+      <Project>{61fd83e4-aea1-4121-9ca6-ea83ff3fe6bf}</Project>
+      <Name>AirBlowModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AirCoolingMoodule\AirCoolingMoodule.csproj">
+      <Project>{7b2095f5-3773-41ff-a97f-caf9e27f42a8}</Project>
+      <Name>AirCoolingMoodule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoLightModule\AutoLightModule.csproj">
+      <Project>{fd3cc130-7a2e-444f-b40b-0f7c3f96e9f5}</Project>
+      <Name>AutoLightModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AutoTilt\AutoTiltModule.csproj">
+      <Project>{a369199f-9c90-4fc5-be29-1f41db1a9ba4}</Project>
+      <Name>AutoTiltModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BonderSupervisor\BonderSupervisor.csproj">
+      <Project>{AB9F00D0-77CB-4D8B-ADEE-8DDED91F136A}</Project>
+      <Name>BonderSupervisor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bonder\Bonder.csproj">
+      <Project>{8DE4C3D2-FA89-4D72-A38E-AC5972FD4155}</Project>
+      <Name>Bonder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CameraChannelManager\CameraChannelManager.csproj">
+      <Project>{9e07fd55-acff-4f8f-a4d7-557dcd54df6b}</Project>
+      <Name>CameraChannelManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CardChange\CardChange.csproj">
+      <Project>{533859f2-13e3-4139-a637-df71951bf8fb}</Project>
+      <Name>CardChange</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cognex.Controls\Cognex.Controls.csproj">
+      <Project>{CDA466B0-020D-4FF5-8625-D105325A1C66}</Project>
+      <Name>Cognex.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoordinateSystem\CoordinateSystem.csproj">
+      <Project>{cfa8cfa5-70f2-4838-8738-67a79ba5b511}</Project>
+      <Name>CoordinateSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CylinderManagerModule\CylinderManagerModule.csproj">
+      <Project>{badb877e-a36a-43b0-a4cc-b517c9a51443}</Project>
+      <Name>CylinderManagerModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataProxy\RemoteServiceProxy.csproj">
+      <Project>{72CCA8A3-28B4-4E93-A713-0F4C75E87ABD}</Project>
+      <Name>RemoteServiceProxy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DeviceModule\DeviceModule.csproj">
+      <Project>{c5245279-1f21-4ac7-9dd6-6476e03faf25}</Project>
+      <Name>DeviceModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DeviceUpDownModule\DeviceUpDownModule.csproj">
+      <Project>{78D03C32-11EA-4D50-B420-2A634CEF594E}</Project>
+      <Name>DeviceUpDownModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DisplayModule\DisplayModule.csproj">
+      <Project>{52d36f67-9601-42bc-a2b7-748cc6d91931}</Project>
+      <Name>DisplayModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DisplayPortDialogViewModelProject\DisplayPortDialogVM.csproj">
+      <Project>{78BA535C-7BED-48C0-8095-8B7E9027E464}</Project>
+      <Name>DisplayPortDialogVM</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\E84\E84.csproj">
+      <Project>{dd69d5ee-fbbc-464b-a03b-0f391f177600}</Project>
+      <Name>E84</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ElmoManager\ElmoManager.csproj">
+      <Project>{dcd39fa9-b02b-47ce-a697-310b78e0e91f}</Project>
+      <Name>ElmoManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnvControlModule\EnvControlModule.csproj">
+      <Project>{3F7FC0E2-C81A-443B-BAAD-47B53AD0D46F}</Project>
+      <Name>EnvControlModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnvModule\EnvModule.csproj">
+      <Project>{d7481fee-2815-4669-b39a-1ba7532c7caf}</Project>
+      <Name>EnvModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ErrorCompensation\ErrorCompensation.csproj">
+      <Project>{b42f4909-8c07-4494-b507-d187cfa56edd}</Project>
+      <Name>ErrorCompensation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FDWaferAlign\FDWaferAlign.csproj">
+      <Project>{0DD299E9-9B6A-459F-B0ED-00F79FC5E6BD}</Project>
+      <Name>FDWaferAlign</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FileSystem\FileSystem.csproj">
+      <Project>{b4317916-baa6-44c7-9adb-753f00c0929e}</Project>
+      <Name>FileSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FocusingManager\FocusingManager.csproj">
+      <Project>{D3B2C584-4824-4080-870A-7C361D5921F4}</Project>
+      <Name>FocusingManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ForceMeasureModule\ForceMeasureModule.csproj">
+      <Project>{3970AF0F-D342-4385-8664-AEFC9CEC9D8E}</Project>
+      <Name>ForceMeasureModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FoupController\FoupController.csproj">
+      <Project>{59c3ba19-62f3-49ea-ab62-77f8d860024e}</Project>
+      <Name>FoupController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FoupModules\FoupModules.csproj">
+      <Project>{B59743E0-2FCF-48A5-BB06-C942D38D9365}</Project>
+      <Name>FoupModules</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FoupOP\FoupOP.csproj">
+      <Project>{061c377a-2413-47bc-8f2f-b01f0d5f8c09}</Project>
+      <Name>FoupOP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GEMModule\GEMModule.csproj">
+      <Project>{9f7a512a-39ff-4630-a4c4-e7b5513cb58b}</Project>
+      <Name>GEMModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GPCardAlign\GPCardAlign.csproj">
+      <Project>{96C1040D-04C4-4580-8701-6C70C982AEC2}</Project>
+      <Name>GPCardAlign</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GPIBModule\GPIBModule.csproj">
+      <Project>{cf3b89a7-ab7b-4ccb-b6a3-10c2cbf92b69}</Project>
+      <Name>GPIBModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GPLoaderRouter\GPLoaderRouter.csproj">
+      <Project>{cda49d6a-7f4a-41c0-b9d0-e419fca46291}</Project>
+      <Name>GPLoaderRouter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GrabberModule\GrabberModule.csproj">
+      <Project>{8c923857-e46e-48fe-8564-8332ed42ea1e}</Project>
+      <Name>GrabberModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InspectionModules\InspectionModules\InspectionModules.csproj">
+      <Project>{50C31AB1-856B-4621-9A75-75989F16BDAB}</Project>
+      <Name>InspectionModules</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InternalModule\InternalModule.csproj">
+      <Project>{6aa7ec93-c39a-4d7e-926c-a51451845d9c}</Project>
+      <Name>InternalModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IOManager\IOManager.csproj">
+      <Project>{8761ac2b-3144-4025-a12d-1dbb4ddbacb2}</Project>
+      <Name>IOManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IOServiceProvider\IOServiceProvider.csproj">
+      <Project>{5577D63C-3DD3-4A4F-BE7A-3D32A098AB84}</Project>
+      <Name>IOServiceProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LampModule\LampModule.csproj">
+      <Project>{a4a2394e-55bf-45f1-9f47-850393b0b0ec}</Project>
+      <Name>LampModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LightManager\LightManager.csproj">
+      <Project>{923e3378-7346-499d-a8ed-a13ed2c1952a}</Project>
+      <Name>LightManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderControllerBase\LoaderControllerBase.csproj">
+      <Project>{9EBE6298-FE0A-4E7E-B8DE-E7F26C2B29A9}</Project>
+      <Name>LoaderControllerBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderController\LoaderController.csproj">
+      <Project>{160872CD-291E-4109-B7F3-48170DCAD0D7}</Project>
+      <Name>LoaderController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderBase\LoaderBase.csproj">
+      <Project>{8DBB64B8-644E-475D-8EAF-3B7ECD6F234D}</Project>
+      <Name>LoaderBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderCore\LoaderCore.csproj">
+      <Project>{59DD27B2-5BCC-46D4-8B20-0F853F210A71}</Project>
+      <Name>LoaderCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderOP\LoaderOP.csproj">
+      <Project>{4cc1c7f3-073f-4d6c-8b37-da082fa8f91b}</Project>
+      <Name>LoaderOP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderServiceBase\LoaderServiceBase.csproj">
+      <Project>{B73C4A86-E81A-42B5-B859-8155A90E74C2}</Project>
+      <Name>LoaderServiceBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{d3b00cca-3c50-42b1-8dca-dfe47c759b57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LotOP\LotOP.csproj">
+      <Project>{e05c8ad3-df4e-43a7-bed0-376e78f8a41b}</Project>
+      <Name>LotOP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ManualContactProject\ManualContact.csproj">
+      <Project>{b9ffb7b2-3bb1-49a5-9a49-f1f476e63abd}</Project>
+      <Name>ManualContact</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MapManagerModule\ResultMapModule.csproj">
+      <Project>{76b81089-01ac-4173-8842-8fe896c7f7a7}</Project>
+      <Name>ResultMapModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MarkAlign\MarkAlign.csproj">
+      <Project>{7837562d-6e0b-4bf1-a82e-506ea5e0292a}</Project>
+      <Name>MarkAlign</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroDialogInterfaces\MetroDialogInterfaces.csproj">
+      <Project>{2C3114E3-137B-44ED-A9C2-BA5F2198A672}</Project>
+      <Name>MetroDialogInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroDialogManager\MetroDialogModule.csproj">
+      <Project>{5c29e10e-aa00-4449-8494-6a12c1576e39}</Project>
+      <Name>MetroDialogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MilSystem\MilSystem.csproj">
+      <Project>{54e32ddf-f906-4b20-a647-6568c575e397}</Project>
+      <Name>MilSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModuleManager\ModuleManager.csproj">
+      <Project>{79067003-c223-42af-bafa-01212cbe8ef4}</Project>
+      <Name>ModuleManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MonitoringModule\MonitoringModule.csproj">
+      <Project>{a00de0e5-6bbd-4068-90d9-a4fe61db46d6}</Project>
+      <Name>MonitoringModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MotionManager\ProbeMotion.csproj">
+      <Project>{96c82965-7558-4a99-94f6-bd020b46e917}</Project>
+      <Name>ProbeMotion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MotionProvider\Motion.csproj">
+      <Project>{8d074fcd-a86e-4675-bd04-a3119d29f461}</Project>
+      <Name>Motion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NeedleBrushModule\NeedleBrushModule.csproj">
+      <Project>{675E5561-75BC-42EE-BC18-3E2C9783944F}</Project>
+      <Name>NeedleBrushModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NeedleCleaner\NeedleCleanerModule\NeedleCleanerModule.csproj">
+      <Project>{AD0D2695-B752-43B9-8483-ADDD4F2E4C45}</Project>
+      <Name>NeedleCleanerModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NotifyModule\NotifyModule.csproj">
+      <Project>{4ba1df29-e2a2-43db-ae62-c1df1da3fc4c}</Project>
+      <Name>NotifyModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ODTPModule\ODTPModule.csproj">
+      <Project>{3afb3f39-9c18-4164-8ebd-3025c7199b9b}</Project>
+      <Name>ODTPModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PadModule\PadModule.csproj">
+      <Project>{53eb6d22-0e01-4f1c-a8ad-f65f48a4dc3f}</Project>
+      <Name>PadModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ParameterManager\ParameterManager.csproj">
+      <Project>{15aed574-b40e-4343-9ce5-08e112f957af}</Project>
+      <Name>ParameterManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PasswordInputDialogServiceProvider\PasswordInputDialogServiceProvider.csproj">
+      <Project>{641B8BE6-3305-4E65-A6E4-2AB4053A31B0}</Project>
+      <Name>PasswordInputDialogServiceProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PControl\PnPControl.csproj">
+      <Project>{6BE9F617-1527-4711-9A3E-61B3E6C84F3B}</Project>
+      <Name>PnPControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PHIP\TCPIP.csproj">
+      <Project>{7C25FDE0-A1DF-454B-90E5-CAD432778973}</Project>
+      <Name>TCPIP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PinAlign\PinAlign.csproj">
+      <Project>{08d07649-63bf-4595-8985-61fc649cd14e}</Project>
+      <Name>PinAlign</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PIVManagerModule\PIVManagerModule.csproj">
+      <Project>{C56073EA-67C5-456D-971C-4E818EE305BF}</Project>
+      <Name>PIVManagerModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PMI\PMIModule\PMIModule.csproj">
+      <Project>{4f0a0a25-b3b2-4e52-bfe7-c5d69d8c0a8b}</Project>
+      <Name>PMIModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PnpServiceManager\PnpServiceManager.csproj">
+      <Project>{fd82ccf4-fa4a-4db4-a0b9-84003cbaaefb}</Project>
+      <Name>PnpServiceManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PolishWaferModule\PolishWaferModule.csproj">
+      <Project>{5f8abcdb-0751-47b6-b120-1c9b4bf43421}</Project>
+      <Name>PolishWaferModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProbeCommand\ProbeCommand.csproj">
+      <Project>{075637d7-aedb-4ac6-964c-a5702688ef0b}</Project>
+      <Name>ProbeCommand</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProbeEvent\ProbeEvent.csproj">
+      <Project>{4b7707ad-a4df-4f58-8ff1-e71bb3b39690}</Project>
+      <Name>ProbeEvent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberCore\ProberCore.csproj">
+      <Project>{2467135d-d695-4a63-810b-87e216ee5a2d}</Project>
+      <Name>ProberCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{EDBA3295-FF2A-4368-A217-6495941A8BF5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberVision\ProberVision.csproj">
+      <Project>{7bb5e629-03a5-4e01-8fa9-fa915f14d9a9}</Project>
+      <Name>ProberVision</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProbingModule\ProbingModule.csproj">
+      <Project>{4d863027-8140-4e04-b93d-73cd6fb59894}</Project>
+      <Name>ProbingModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProbingSequenceManager\ProbingSequenceManager.csproj">
+      <Project>{a7cf6725-4b5a-493c-8c04-efaac7c28624}</Project>
+      <Name>ProbingSequenceManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProcessingModule\ProcessingModule.csproj">
+      <Project>{46da05c6-a05f-45e4-8163-4c7602c3728f}</Project>
+      <Name>ProcessingModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RetestModule\RetestModule.csproj">
+      <Project>{5F7D5C4A-DF2B-4F68-9C99-0CBCD730E9A3}</Project>
+      <Name>RetestModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RFID\RFID.csproj">
+      <Project>{51B3BA62-9F09-461D-961E-21AE5005F348}</Project>
+      <Name>RFID</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SequenceEngineManager\SequenceEngineManager.csproj">
+      <Project>{d250142e-e3ab-42b3-90cd-7dac116554f7}</Project>
+      <Name>SequenceEngineManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SequenceEngine\SequenceEngineService.csproj">
+      <Project>{752ec230-0bc1-4209-b04e-a2826a2eb738}</Project>
+      <Name>SequenceEngineService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SequenceRunnerModuleProject\SequenceRunnerModule.csproj">
+      <Project>{647f7a4c-eb9a-4945-87a4-0dda8031cf67}</Project>
+      <Name>SequenceRunnerModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServiceModule\ServiceModule.csproj">
+      <Project>{ED8114ED-5AEC-4DF4-B679-0E37EF9AC57F}</Project>
+      <Name>ServiceModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDXRender\SharpDXRender.csproj">
+      <Project>{29E2C211-0F8C-47B7-85AE-10F7C66F0738}</Project>
+      <Name>SharpDXRender</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SignalTowerModule\SignalTowerModule.csproj">
+      <Project>{B73F76F3-FE03-4E90-AE75-EF9B97D7A610}</Project>
+      <Name>SignalTowerModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SingleInputDialogServiceProvider\SingleInputDialogServiceProvider.csproj">
+      <Project>{997127c2-e026-4809-aa31-0b9760edf75f}</Project>
+      <Name>SingleInputDialogServiceProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SmokeSensorModule\EnvMonitoring.csproj">
+      <Project>{B5250F83-B9B6-4F1F-9B22-63F153C35E47}</Project>
+      <Name>EnvMonitoring</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Soaking\Soaking.csproj">
+      <Project>{6b4fd8f0-16d5-42c4-a9ce-c33001db0680}</Project>
+      <Name>Soaking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StageCommunicationModule\StageCommunicationModule.csproj">
+      <Project>{a461bb33-0d55-473e-8919-78bc19e6c31d}</Project>
+      <Name>StageCommunicationModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StageDataModule\LoaderRemoteMediatorModule.csproj">
+      <Project>{256C9952-43C3-4017-8469-DF4C85B2CA32}</Project>
+      <Name>LoaderRemoteMediatorModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StageModule\StageModule.csproj">
+      <Project>{c84de0d8-70d5-483b-89c1-11a9935c1276}</Project>
+      <Name>StageModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StatisticsModule\ModuleStatistics.csproj">
+      <Project>{b8914b0e-82f4-456d-b84e-8455e60376fe}</Project>
+      <Name>ModuleStatistics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SubstrateObjects\SubstrateObjects.csproj">
+      <Project>{EFB47AA8-B3C8-439C-8A01-D26DB8522710}</Project>
+      <Name>SubstrateObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SystemState\SystemState.csproj">
+      <Project>{14f693af-2eb3-420a-b08a-ee06334c29fc}</Project>
+      <Name>SystemState</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TempControl\TempManager.csproj">
+      <Project>{C8500883-4229-4187-ACCF-FBEE20503C9B}</Project>
+      <Name>TempManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TempDisplayDialogServiceProvider\TempDisplayDialogServiceProvider.csproj">
+      <Project>{89c61b0b-cd59-4868-940c-0f00f739193d}</Project>
+      <Name>TempDisplayDialogServiceProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TemplateManager\TemplateManager.csproj">
+      <Project>{7EBC3C13-47AD-4098-AFAB-B08FDCD6714F}</Project>
+      <Name>TemplateManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TempManager\TempController.csproj">
+      <Project>{7E060321-EAD9-43E8-8E76-5ECC3C26C6B6}</Project>
+      <Name>TempController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TesterCommunicationModule\TesterCommunicationModule.csproj">
+      <Project>{D514CF42-8F04-4B61-93C9-461D9B75DCCD}</Project>
+      <Name>TesterCommunicationModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TesterDriverModule\TesterDriverModule.csproj">
+      <Project>{4eaaa0e2-07a6-4437-aeed-9b9da425e277}</Project>
+      <Name>TesterDriverModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TouchSensorBaseRegisterModule\TouchSensorBaseRegisterModule.csproj">
+      <Project>{9615C426-DE97-4F11-86C9-5B1F2DDB5A4D}</Project>
+      <Name>TouchSensorBaseRegisterModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TouchSensorOffsetRegisterModule\TouchSensorOffsetRegisterModule.csproj">
+      <Project>{23987CF3-4923-4D40-B082-364E2ED01907}</Project>
+      <Name>TouchSensorOffsetRegisterModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TouchSensorPadRefRegisterModule\TouchSensorPadRefRegisterModule.csproj">
+      <Project>{66DE6389-9CE6-48B7-A0F9-6110B3F4735C}</Project>
+      <Name>TouchSensorPadRefRegisterModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TouchSensorRegisterModule\TouchSensorRegisterModule.csproj">
+      <Project>{A1FE1A56-5C30-46A7-A00B-34C98561E17A}</Project>
+      <Name>TouchSensorRegisterModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModelModule\ViewModelModule.csproj">
+      <Project>{8FE95141-929E-4A07-B84D-94ACEF65AB79}</Project>
+      <Name>ViewModelModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WaferAlign\WaferAlign.csproj">
+      <Project>{4be84477-c458-415e-bb98-ae3aa6d94196}</Project>
+      <Name>WaferAlign</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WaferTransfer\WaferTransfer.csproj">
+      <Project>{D2A2DDBB-1A47-4FA8-AA50-8CEAA84A9326}</Project>
+      <Name>WaferTransfer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WaitCancelDialogServiceProvider\WaitCancelDialogServiceProvider.csproj">
+      <Project>{B3180AF3-803B-40EB-B41F-E617D2A55315}</Project>
+      <Name>WaitCancelDialogServiceProvider</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

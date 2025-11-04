@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="WASettingView_Standard.WASettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cui="clr-namespace:CUI;assembly=CUI"
+             xmlns:local="clr-namespace:WASettingView_Standard"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:param="clr-namespace:RecipeEditorControl.RecipeEditorParamEdit;assembly=RecipeEditorControl"
+             mc:Ignorable="d" d:DesignHeight="900" d:DesignWidth="1200" >
+
+    <Grid>
+       
+        <StackPanel>
+            <Label Content="Wafer"
+                Foreground="White"
+                FontWeight="Bold"
+                FontSize="32"
+                />
+            <Separator Margin="4" Background="White"/>
+            <StackPanel>
+                <Grid Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left">
+
+                    <UniformGrid Columns="5">
+
+                        <cui:Button AutomationProperties.AutomationId="WaferAlignSetupbtn"
+                                    Grid.Column="0"
+                                    GUID="a05a34bf-e63f-41ee-9819-285274faef1a" Style="{DynamicResource NormalTypeCUIButtonStyle}" 
+                                    HorizontalAlignment="Stretch" 
+                                    Height="52" Width="Auto"
+                                    Command="{Binding WaferAlignSetupCommand}" 
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                    Content="Setup Start(NEW)"/>
+
+                        <cui:Button AutomationProperties.AutomationId="WaferAlignSubStepSetupbtn"
+                                    GUID="0FA740C6-FEC8-1C7F-BAB0-A1725716BD62" Style="{DynamicResource NormalTypeCUIButtonStyle}" 
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Stretch" 
+                                    Height="52" Width="Auto"
+                                    Command="{Binding WaferAlignSubStepSetupCommand}" 
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                    Content="Wafer Map Setup"/>
+
+                        <cui:Button AutomationProperties.AutomationId="WaferAlignSubStepSetupbtn"
+                                    GUID="9B0D3A32-C44C-D98F-210E-20E65A1A3900" Style="{DynamicResource NormalTypeCUIButtonStyle}" 
+                                    Grid.Column="2"
+                                    HorizontalAlignment="Stretch" 
+                                    Height="52" Width="Auto"
+                                    Command="{Binding WaferAlignSubStepSetupCommand}" 
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                    Content="User Coordinate Setup"/>
+
+                        <cui:Button GUID="A8A532A5-A961-4391-8B8C-E91D193B18AB" 
+                                    Style="{DynamicResource NormalTypeCUIButtonStyle}" 
+                                    Grid.Column="3"    
+                                    HorizontalAlignment="Stretch" 
+                                    Height="52" Width="Auto"
+                                    Command="{Binding WaferAlignSetupModifyCommand}" 
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                    Content="Index Align Setup"/>
+
+                        <cui:Button AutomationProperties.AutomationId="WaferAlignRecoverybtn"
+                                    GUID="D0A33FFE-DD22-4572-5B69-73F66C38CEB4" Style="{DynamicResource NormalTypeCUIButtonStyle}" 
+                                    Grid.Column="4"
+                                    HorizontalAlignment="Stretch" 
+                                    Height="52" Width="Auto"
+                                    IsEnabled="{Binding IsWaferAlignRecoveryState}"
+                                    Command="{Binding WaferAlignRecoveryCommand}" 
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                    Content="Recovery Setup"/>
+                    </UniformGrid>
+                </Grid>
+                
+                <Grid>
+                    <param:UcRecipeEditorParamEdit DataContext="{Binding RecipeEditorParamEdit}"/>
+                </Grid>
+                    
+            </StackPanel>
+        </StackPanel>
+      
+    </Grid>
+</UserControl>

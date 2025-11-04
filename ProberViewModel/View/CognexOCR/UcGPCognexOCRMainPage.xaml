@@ -1,0 +1,728 @@
+﻿<UserControl x:Class="GPCognexOCRMainPageView.UcGPCognexOCRMainPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:GPCognexOCRMainPageView"
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:MahAppsControls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d" d:DesignHeight="892" d:DesignWidth="1280" Background="#FF1C1C1F">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="FileItemStyle" TargetType="{x:Type ListViewItem}">
+                <Setter Property="Margin" Value="5,5,5,5"/>
+
+                <Setter Property="Padding" Value="0,0,0,0"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate  TargetType="{x:Type ListViewItem}">
+                            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Height="50" >
+                                <Border x:Name="border" BorderBrush="{x:Null}" BorderThickness="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="2.5"/>
+                                <StackPanel HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
+                                    <ContentPresenter/>
+                                </StackPanel>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="{x:Type TabItem}">
+                <Setter Property="FontSize" Value="36"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TabItem}">
+                            <Border Name="Border" Margin="0,0,0,0" Background="Transparent" BorderBrush="Black" BorderThickness="1,1,1,1" CornerRadius="5">
+                                <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="12,2,12,2" RecognizesAccessKey="True">
+                                    <ContentPresenter.LayoutTransform>
+                                        <RotateTransform Angle="360" />
+                                    </ContentPresenter.LayoutTransform>
+                                </ContentPresenter>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="False">
+                                    <Setter TargetName="Border" Property="BorderThickness" Value="4,4,4,0"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="True">
+                                    <Setter TargetName="Border" Property="Background" Value="LightGray"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="False">
+                        <Setter Property="Foreground" Value="Gray"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <vc:GPOCRMovingEnableConverter x:Key="GPOCRMovingEnableConverter" />
+            <vc:BoolToVisibilityConverter x:Key="BoolToVisibilityConvs"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2.5*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" BorderBrush="#3F51B5" BorderThickness="3" Margin="8"/>
+            <Canvas Grid.Row="0" Grid.Column="0" x:Name="viewCanvas" Width="752" Height="480" Margin="0 100 0 0">
+                <Image Source="{Binding ImageSource}" Canvas.Left="0" Canvas.Top="0"
+                            Width="{Binding ActualWidth, ElementName=viewCanvas}"
+                            Height="{Binding ActualHeight, ElementName=viewCanvas}" Stretch="None"/>
+                <Rectangle Stroke="Blue" StrokeThickness="2" Canvas.Top="{Binding RegionY}" Canvas.Left="{Binding RegionX}" Width="{Binding RegionWidth}" Height="{Binding RegionHeight}"/>
+                <Rectangle Stroke="Red" StrokeThickness="2" Canvas.Top="{Binding CharY}" Canvas.Left="{Binding CharX}" Width="{Binding CharWidth}" Height="{Binding CharHeight}"/>
+            </Canvas>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+            </Grid>
+
+            <Grid Grid.Column="0" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.75*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <!--Flag Jog-->
+                <StackPanel Grid.Column="0" Orientation="Vertical" Grid.ColumnSpan="2">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Foreground="White" FontSize="15" >OCR Angle :</Label>
+                        <TextBox AutomationProperties.AutomationId="txtOCRAngle"
+                                 Grid.Column="0" Foreground="White" FontSize="16" HorizontalContentAlignment="Left" Margin="7" Text="{Binding OCRDevParam.OCRAngle}"  Height="42" VerticalAlignment="Stretch" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding AngleSettingTextBoxClickCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </StackPanel>
+                    <GroupBox  Header="Rotate Jog" FontSize="14" Foreground="White">
+                        <Grid Margin="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition Width="0.35*"/>
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition Width="0.5*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <!--<Button Grid.Column="1" Grid.Row="0" Margin="8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Command="{Binding FlatJogUpCommand}">
+                            <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-up-bold-outline_Black.png"/>
+                        </Button>-->
+
+                            <!--<Button Grid.Column="0" Grid.Row="2" Margin="8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Command="{Binding FlatJogLeftCommand}">
+                            <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-left-bold-outline_Black.png"/>
+                        </Button>
+
+                        <Button Grid.Column="1" Grid.Row="1" Margin="8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Command="{Binding FlatJogDownCommand}">
+                            <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-down-bold-outline_Black.png"/>
+                        </Button>-->
+
+                            <!--<Button Grid.Column="2" Grid.Row="1" Margin="8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Command="{Binding FlatJogRightCommand}">
+                            <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-right-bold-outline_Black.png"/>
+                        </Button>-->
+                            <!--<StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                <Slider  Grid.Row="0" Grid.Column="0"  IsEnabled="{Binding IsWafer}" Orientation="Horizontal" VerticalAlignment="Center"  HorizontalAlignment="Center" FlowDirection="LeftToRight" IsSnapToTickEnabled="True"  TickPlacement="TopLeft" Width="270" TickFrequency="1" Minimum="1" Maximum="6" Value="{Binding TickValue}"/>
+                                <Label Content="{Binding AngleValue}" Foreground="White" FontSize="15"> </Label>
+                            </StackPanel>-->
+                            <Button AutomationProperties.AutomationId="btnClockWise"
+                                    Grid.Column="0" Grid.Row="1" Margin="8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Command="{Binding FlatJogCRCommand}">
+                                <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ClockWise.png"/>
+                                <Button.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource GPOCRMovingEnableConverter}">
+                                        <Binding Path="IsWafer"/>
+                                        <Binding Path="BtnEnable"/>
+                                    </MultiBinding>
+                                </Button.IsEnabled>
+                            </Button>
+                            <StackPanel Grid.Column="1"  Orientation="Vertical" >
+                                <Label Foreground="White" HorizontalAlignment="Center">Angle Pos</Label>
+                                <TextBox AutomationProperties.AutomationId="txtAnglePos"
+                                         Grid.Column="0" Foreground="White" FontSize="14" HorizontalContentAlignment="Center"  Text="{Binding RelAngle}" IsEnabled="{Binding IsWafer}" Height="42" VerticalAlignment="Top" >
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseDown" >
+                                            <i:InvokeCommandAction Command="{Binding AngleTextBoxClickCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                            </StackPanel>
+                            <Button AutomationProperties.AutomationId="btnCounterClockWise"
+                                    Grid.Column="2" Grid.Row="1" Margin="8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Command="{Binding FlatJogCCRCommand}">
+                                <Image Source="pack://application:,,,/ImageResourcePack;component/Images/CounterClockWise.png"/>
+                                <Button.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource GPOCRMovingEnableConverter}">
+                                        <Binding Path="IsWafer"/>
+                                        <Binding Path="BtnEnable"/>
+                                    </MultiBinding>
+                                </Button.IsEnabled>
+                            </Button>
+
+                            <Button AutomationProperties.AutomationId="btnAngleMove"
+                                    Grid.Column="3" Grid.Row="1" Margin="8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Command="{Binding CurAngleMoveCommand}">
+                                <Image Source="pack://application:,,,/ImageResourcePack;component/Images/target.png"/>
+                                <Button.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource GPOCRMovingEnableConverter}">
+                                        <Binding Path="IsWafer"/>
+                                        <Binding Path="BtnEnable"/>
+                                    </MultiBinding>
+                                </Button.IsEnabled>
+                            </Button>
+                        </Grid>
+                    </GroupBox>
+                </StackPanel>
+                <!--NEW LIGHT JOG-->
+                <GroupBox Grid.Column="2" Header="Light Jog" FontSize="14" Foreground="White">
+                    <Grid Grid.Column="2" Margin="8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Margin="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button AutomationProperties.AutomationId="btnLightPrevType"
+                                    Grid.Column="0" Margin="0" Command="{Binding LightPrevTypeCommand}" IsEnabled="{Binding IsWafer}" >
+                                <Button.Content>
+                                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowLeftW.png"/>
+                                    <!--<ed:BlockArrow Fill="Black" Orientation="Left"  Stroke="Black" Height="20" Width="20"/>-->
+                                </Button.Content>
+                            </Button>
+                            <Border Grid.Column="1" Margin="3" CornerRadius="5" BorderThickness="2" BorderBrush="Gray">
+                                <Grid Background="Gray">
+                                    <TextBlock IsEnabled="False" Text="{Binding SelectedLight.Name}" FontSize="11"
+                                           Foreground="White" FontWeight="Bold" Background="Gray" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                            <Button AutomationProperties.AutomationId="btnLightNextType"
+                                    Grid.Column="2" Margin="0" Command="{Binding LightNextTypeCommand}" IsEnabled="{Binding IsWafer}" >
+                                <Button.Content>
+                                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowRightW.png"/>
+                                    <!--<ed:BlockArrow Fill="Black" Orientation="Right" Stroke="Black" Height="20" Width="20"/>-->
+                                </Button.Content>
+                            </Button>
+                        </Grid>
+                        <Grid Grid.Row="1" Margin="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <RepeatButton AutomationProperties.AutomationId="btnLightPowerIncrease"
+                                          Grid.Column="0" Margin="0"  Command="{Binding LightPowerIncreaseCommand}" IsEnabled="{Binding IsWafer}">
+                                <RepeatButton.Content>
+                                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowUpW.png"/>
+                                    <!--<ed:BlockArrow Fill="Black" Orientation="Up" Stroke="Black" Height="20" Width="20"/>-->
+                                </RepeatButton.Content>
+                            </RepeatButton >
+                            <Border Grid.Column="1" Margin="3" CornerRadius="5" BorderThickness="2" BorderBrush="Gray">
+                                <Grid Background="Gray">
+                                    <TextBlock IsEnabled="False" Text="{Binding LightIntensity}" FontSize="11"
+                                           Foreground="White" FontWeight="Bold" Background="Gray" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                            <RepeatButton AutomationProperties.AutomationId="btnLightPowerDecrease"
+                                          Grid.Column="2" Margin="0"  Command="{Binding LightPowerDecreaseCommand}" IsEnabled="{Binding IsWafer}">
+                                <RepeatButton.Content>
+                                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowDownW.png"/>
+                                    <!--<ed:BlockArrow Fill="Black" Orientation="Down" Stroke="Black" Height="20" Width="20"/>-->
+                                </RepeatButton.Content>
+                            </RepeatButton >
+                            <!--<RepeatButton Grid.Row="1" Grid.Column="0" Margin="8,0,8,0" Command="{Binding CharRegionDownMoveCommand}"  >
+                                <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowDownW.png"/>
+                            </RepeatButton>
+                            <RepeatButton Grid.Row="1" Grid.Column="1" Margin="8,0,8,0" Command="{Binding CharRegionUpMoveCommand}"  >
+                                <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowUpW.png"/>
+                            </RepeatButton>
+                            <RepeatButton Grid.Row="1" Grid.Column="2" Margin="8,0,8,0" Command="{Binding CharRegionLeftMoveCommand}"  >
+                                <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowLeftW.png"/>
+                            </RepeatButton>
+                            <RepeatButton Grid.Row="1" Grid.Column="3" Margin="8,0,8,0" Command="{Binding CharRegionRightMoveCommand}"  >
+                                <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowRightW.png"/>
+                            </RepeatButton>-->
+                        </Grid>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+
+        </Grid>
+
+
+        <Grid Grid.Column="1" Margin="8,0,8,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="1.5*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <GroupBox Grid.Row="0" Header="Config" FontSize="14" Foreground="White">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" Content="Module IP" Foreground="#d9d9d9" BorderBrush="#474343" BorderThickness="0.8" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="18" Margin="4"/>
+                    <ComboBox AutomationProperties.AutomationId="cmbModuleIP"
+                              Grid.Row="0" Grid.Column="1" Margin="4" Foreground="White" FontSize="14" Background="Black" ItemsSource="{Binding ModuleIPList}" SelectedItem="{Binding SelectedModuleIP}" DisplayMemberPath="Name" SelectedIndex="{Binding SelectedModuleIndex, Mode=TwoWay}" IsEnabled="False" />
+                    <Label Grid.Row="1" Content="Device Name" Foreground="#d9d9d9" BorderBrush="#474343" BorderThickness="0.8" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="18" Margin="4"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding DeviceName}" FontSize="14" Foreground="White" HorizontalContentAlignment="Left" VerticalAlignment="Center" Margin="5" IsReadOnly="True" IsEnabled="False"/>
+                    <ComboBox AutomationProperties.AutomationId="cmbDeviceName"
+                              Grid.Row="1" Grid.Column="1" Margin="4" Foreground="White" FontSize="14" Background="Black" ItemsSource="{Binding DeviceList}" SelectedItem="{Binding SelectedDevice}" DisplayMemberPath="Name" IsEnabled="True"   />
+                    <!--<Label Grid.Row="2" Grid.Column="0" Content="Device Setting" Foreground="#d9d9d9" BorderBrush="#474343" BorderThickness="0.8" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="15" Margin="4"/>-->
+                    <!--<Grid Grid.Row="2" Grid.Column="1" Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox Grid.Column="0" Foreground="White" FontSize="14" HorizontalContentAlignment="Center"  Text="{Binding DeviceNameText}" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding DeiveTextBoxClickCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                        <Button Grid.Column="1" Content="Add" Margin="0" Command="{Binding DeviceAddCommand}" />
+                        <Button Grid.Column="2" Content="Del" Margin="0" Command="{Binding DeviceDelCommand}" />
+                    </Grid>-->
+                    <Label Grid.Row="2" Grid.Column="0" Content="Config Setting" Foreground="#d9d9d9" BorderBrush="#474343" BorderThickness="0.8" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="15" Margin="4"/>
+                    <Grid Grid.Row="2" Grid.Column="1" Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding ConfigName}" FontSize="14" Foreground="White" HorizontalContentAlignment="Left" VerticalAlignment="Center" Margin="5" IsReadOnly="True" IsEnabled="False"/>
+                        <ComboBox AutomationProperties.AutomationId="cmbConfigSetting"
+                                  Grid.Row="0" Grid.Column="0" Margin="4" Foreground="White" FontSize="14" Background="Black" ItemsSource="{Binding ConfigList}" SelectedItem="{Binding SelectedConfig}" DisplayMemberPath="Name" IsEnabled="True"   />
+                        <Button AutomationProperties.AutomationId="btnConfigAdd"
+                                Grid.Column="1" Content="Add" Margin="0" Command="{Binding ConfigAddCommand}" />
+                        <Button AutomationProperties.AutomationId="btnConfigDel"
+                                Grid.Column="2" Content="Del" Margin="0" Command="{Binding ConfigDelCommand}" />
+                    </Grid>
+
+                    <Label Grid.Row="3" Content="Direction" Foreground="#d9d9d9" BorderBrush="#474343" BorderThickness="0.8" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="18" Margin="4"/>
+                    <ComboBox AutomationProperties.AutomationId="cmbDirection"
+                              Grid.Row="3" Grid.Column="1" Margin="4" Foreground="White" FontSize="14" Background="Black" ItemsSource="{Binding ImageDirectionList}" SelectedItem="{Binding SelectedImageDirection}" DisplayMemberPath="Name"   />
+
+                    <Label Grid.Row="4" Content="Mark" Foreground="#d9d9d9" BorderBrush="#474343" BorderThickness="0.8" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="18" Margin="4"/>
+                    <ComboBox AutomationProperties.AutomationId="cmbMark"
+                              Grid.Row="4" Grid.Column="1" Margin="4" Foreground="White" FontSize="14" Background="Black" ItemsSource="{Binding MarkList}" SelectedItem="{Binding SelectedMark}" DisplayMemberPath="Name"   />
+
+                    <Label Grid.Row="5" Content="Check Sum" Foreground="#d9d9d9" BorderBrush="#474343" BorderThickness="0.8" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="18" Margin="4"/>
+                    <ComboBox AutomationProperties.AutomationId="cmbCheckSum"
+                              Grid.Row="5" Grid.Column="1" Margin="4" Foreground="White" FontSize="14" Background="Black" ItemsSource="{Binding CheckSumList}" SelectedItem="{Binding SelectedCheckSum}" DisplayMemberPath="Name"   />
+
+                    <Label Grid.Row="6" Content="Retry" Foreground="#d9d9d9" BorderBrush="#474343" BorderThickness="0.8" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="18" Margin="4"/>
+                    <ComboBox AutomationProperties.AutomationId="cmbRetry"
+                              Grid.Row="6" Grid.Column="1" Margin="4" Foreground="White" FontSize="14" Background="Black" ItemsSource="{Binding RetryOptionList}" SelectedItem="{Binding SelectedRetryOption}" DisplayMemberPath="Name"   />
+
+                    <Label Grid.Row="7" Content="Field String" Foreground="#d9d9d9" BorderBrush="#474343" BorderThickness="0.8" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="18" Margin="4"/>
+                    <Grid Grid.Row="7" Grid.Column="1" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox AutomationProperties.AutomationId="txtFieldString"
+                                 Grid.Column="0" Foreground="White" FontSize="14" HorizontalContentAlignment="Center"  Text="{Binding FieldString}"  Height="42" VerticalAlignment="Top" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding FieldStringTextBoxClickCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                        <Button AutomationProperties.AutomationId="btnSetField"
+                                Grid.Column="1" Content="Set Field" Margin="0" FontSize="14" Command="{Binding SetFieldCommand}"  />
+                        <Button AutomationProperties.AutomationId="btnAutoField"
+                                Grid.Column="2" Content="Auto Field" Margin="0" FontSize="14" Command="{Binding AutoFieldCommand}" />
+                    </Grid>
+
+                    <Label Grid.Row="8" Content="Cutline Score" Foreground="#d9d9d9" BorderBrush="#474343" BorderThickness="0.8" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="18" Margin="4"/>
+                    <TextBox AutomationProperties.AutomationId="txtCutLineScore"
+                             Grid.Row="8" Grid.Column="1" Foreground="White" FontSize="14" HorizontalContentAlignment="Center"  Text="{Binding OCRCutLineScore}" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                <i:InvokeCommandAction Command="{Binding OCRScoreTextBoxClickCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+
+                </Grid>
+            </GroupBox>
+            <GroupBox Grid.Row="1" Header="Setting" FontSize="14" Foreground="White" Margin="0,16,0,0">
+                <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Margin="3" BorderThickness="2" BorderBrush="White" >
+                    <MahAppsControls:MetroAnimatedSingleRowTabControl 
+                        SelectedIndex="{Binding SelectedTabIndex}" 
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ScrollViewer.VerticalScrollBarVisibility="Disabled">
+
+                        <MahAppsControls:MetroTabItem 
+                            Header="Region"  
+                            BorderThickness="1" 
+                            BorderBrush="Black"
+                            MahAppsControls:ControlsHelper.HeaderFontSize="20"
+                            MahAppsControls:ControlsHelper.HeaderMargin="8">
+                            <Grid Grid.Row="0">
+                                <Grid Margin="8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <RepeatButton AutomationProperties.AutomationId="rbtnRegionWidthPlus"
+                                                  Grid.Row="1" Grid.Column="3" Margin="8,0,8,0" Command="{Binding RegionWidthPlusCommand}"  IsEnabled="{Binding IsWafer}" >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-split-vertical.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton AutomationProperties.AutomationId="rbtnRegionHeightPlus"
+                                                  Grid.Row="0" Grid.Column="4" Margin="8,0,8,0" Command="{Binding RegionHeightPlusCommand}" IsEnabled="{Binding IsWafer}"  >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-split-horizontal.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton AutomationProperties.AutomationId="rbtnRegionWidthMinus"
+                                                  Grid.Row="1" Grid.Column="5" Margin="8,0,8,0" Command="{Binding RegionWidthMinusCommand}" IsEnabled="{Binding IsWafer}"  >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-collapse-horizontal.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton AutomationProperties.AutomationId="rbtnRegionHeightMinus"
+                                                  Grid.Row="2" Grid.Column="4" Margin="8,0,8,0" Command="{Binding RegionHeightMinusCommand}" IsEnabled="{Binding IsWafer}"  >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-collapse-vertical.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton AutomationProperties.AutomationId="rbtnRegionDownMove"
+                                                  Grid.Row="2" Grid.Column="1" Margin="8,0,8,0" Command="{Binding RegionDownMoveCommand}" IsEnabled="{Binding IsWafer}" >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowDownW.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton AutomationProperties.AutomationId="rbtnRegionUpMove"
+                                                  Grid.Row="0" Grid.Column="1" Margin="8,0,8,0" Command="{Binding RegionUpMoveCommand}"  IsEnabled="{Binding IsWafer}" >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowUpW.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton AutomationProperties.AutomationId="rbtnRegionLeftMove"
+                                                  Grid.Row="1" Grid.Column="0" Margin="8,0,8,0" Command="{Binding RegionLeftMoveCommand}"  IsEnabled="{Binding IsWafer}" >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowLeftW.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton AutomationProperties.AutomationId="rbtnRegionRightMove"
+                                                  Grid.Row="1" Grid.Column="2" Margin="8,0,8,0" Command="{Binding RegionRightMoveCommand}" IsEnabled="{Binding IsWafer}"  >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowRightW.png"/>
+                                    </RepeatButton>
+                                    <Label Grid.Row="0" Grid.Column="0" Content="POS" Style="{DynamicResource ContentLabel}" FontSize="20"/>
+                                    <Label Grid.Row="0" Grid.Column="3" Content="SIZE" Style="{DynamicResource ContentLabel}" FontSize="20"/>
+                                    <Button AutomationProperties.AutomationId="btnRegionSetPos"
+                                            Grid.Row="1" Grid.Column="1" Content="Set" Margin="4,4,4,4" Style="{DynamicResource ControlButtonStyle}" Command="{Binding RegionSet}"  IsEnabled="{Binding IsWafer}" />
+                                    <Button AutomationProperties.AutomationId="btnRegionSetSize"
+                                            Grid.Row="1" Grid.Column="4" Content="Set" Margin="4,4,4,4" Style="{DynamicResource ControlButtonStyle}" Command="{Binding RegionSet}"  IsEnabled="{Binding IsWafer}" />
+                                </Grid>
+                            </Grid>
+                        </MahAppsControls:MetroTabItem>
+                        <MahAppsControls:MetroTabItem 
+                            Header="Char"  
+                            BorderThickness="1" 
+                            BorderBrush="Black"
+                            MahAppsControls:ControlsHelper.HeaderFontSize="20"
+                            MahAppsControls:ControlsHelper.HeaderMargin="8">
+                            <Grid Grid.Row="0">
+                                <Grid Margin="8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <RepeatButton AutomationProperties.AutomationId="rbtnCharWidthPlus"
+                                                  Grid.Row="1" Grid.Column="3" Margin="8,0,8,0" Command="{Binding CharRegionWidthPlusCommand}" IsEnabled="{Binding IsWafer}" >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-split-vertical.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton AutomationProperties.AutomationId="rbtnCharHeightPlus"
+                                                  Grid.Row="0" Grid.Column="4" Margin="8,0,8,0" Command="{Binding CharRegionHeightPlusCommand}"  IsEnabled="{Binding IsWafer}" >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-split-horizontal.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton AutomationProperties.AutomationId="rbtnCharWidthMinus"
+                                                  Grid.Row="1" Grid.Column="5" Margin="8,0,8,0" Command="{Binding CharRegionWidthMinusCommand}"  IsEnabled="{Binding IsWafer}" >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-collapse-horizontal.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton AutomationProperties.AutomationId="rbtnCharHeightMinus"
+                                                  Grid.Row="2" Grid.Column="4" Margin="8,0,8,0" Command="{Binding CharRegionHeightMinusCommand}"  IsEnabled="{Binding IsWafer}" >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-collapse-vertical.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton AutomationProperties.AutomationId="rbtnCharDownMove"
+                                                  Grid.Row="2" Grid.Column="1" Margin="8,0,8,0" Command="{Binding CharRegionDownMoveCommand}"  IsEnabled="{Binding IsWafer}" >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowDownW.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton AutomationProperties.AutomationId="rbtnCharUpMove"
+                                                  Grid.Row="0" Grid.Column="1" Margin="8,0,8,0" Command="{Binding CharRegionUpMoveCommand}"  IsEnabled="{Binding IsWafer}" >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowUpW.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton AutomationProperties.AutomationId="rbtnCharLeftMove"
+                                                  Grid.Row="1" Grid.Column="0" Margin="8,0,8,0" Command="{Binding CharRegionLeftMoveCommand}"  >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowLeftW.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton AutomationProperties.AutomationId="rbtnCharRightMove"
+                                                  Grid.Row="1" Grid.Column="2" Margin="8,0,8,0" Command="{Binding CharRegionRightMoveCommand}"  >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowRightW.png"/>
+                                    </RepeatButton>
+                                    <Label Grid.Row="0" Grid.Column="0" Content="POS" Style="{DynamicResource ContentLabel}" FontSize="20"/>
+                                    <Label Grid.Row="0" Grid.Column="3" Content="SIZE" Style="{DynamicResource ContentLabel}" FontSize="20"/>
+                                    <Button AutomationProperties.AutomationId="btnCharSetPos"
+                                            Grid.Row="1" Grid.Column="1" Content="Set" Margin="4,4,4,4" Style="{DynamicResource ControlButtonStyle}" Command="{Binding CharRegionSet}"  />
+                                    <Button AutomationProperties.AutomationId="btnCharSetSize"
+                                            Grid.Row="1" Grid.Column="4" Content="Set" Margin="4,4,4,4" Style="{DynamicResource ControlButtonStyle}" Command="{Binding CharRegionSet}"  />
+                                </Grid>
+                            </Grid>
+                        </MahAppsControls:MetroTabItem>
+                        <MahAppsControls:MetroTabItem 
+                            Header="OCR Check Option"  
+                            BorderThickness="1" 
+                            BorderBrush="Black"
+                            MahAppsControls:ControlsHelper.HeaderFontSize="20"
+                            MahAppsControls:ControlsHelper.HeaderMargin="8">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox MinHeight="32" VerticalContentAlignment="Center" Margin="4" Content="Lot Integrity" 
+                                              Command="{Binding LotIntegrityEnableCommand}"
+                                              IsChecked="{Binding OCRDevParam.lotIntegrity.LotIntegrityEnable , Mode=TwoWay}"
+                                              Background="White" Foreground="White" FontSize="20"/>
+                                <Label Grid.Row="0"  Grid.Column="1"  Content="Digit" Foreground="#d9d9d9" 
+                                       VerticalAlignment="Top" 
+                                       HorizontalAlignment="Stretch" 
+                                       HorizontalContentAlignment="Center" 
+                                       FontSize="14"
+                                       Visibility="{Binding OCRDevParam.lotIntegrity.LotIntegrityEnable, Converter={StaticResource BoolToVisibilityConvs}}"/>
+                                <TextBox Grid.Row="0" Grid.Column="2" Foreground="White" FontSize="14" 
+                                         Text="{Binding LotidDigit}" 
+                                         HorizontalContentAlignment="Center" 
+                                         VerticalAlignment="Center" 
+                                         Visibility="{Binding OCRDevParam.lotIntegrity.LotIntegrityEnable, Converter={StaticResource BoolToVisibilityConvs}}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseDown" >
+                                            <i:InvokeCommandAction Command="{Binding LotIntegrityDigitCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                                <Label Grid.Row="0"  Grid.Column="3"  Content="Length" Foreground="#d9d9d9" 
+                                       VerticalAlignment="Top" 
+                                       HorizontalAlignment="Stretch" 
+                                       HorizontalContentAlignment="Center" 
+                                       FontSize="14"
+                                       Visibility="{Binding OCRDevParam.lotIntegrity.LotIntegrityEnable, Converter={StaticResource BoolToVisibilityConvs}}"/>
+                                <TextBox Grid.Row="0" Grid.Column="4" Foreground="White" FontSize="14" 
+                                         HorizontalContentAlignment="Center" 
+                                         VerticalAlignment="Center" 
+                                         Text="{Binding LotidLength}"
+                                         Visibility="{Binding OCRDevParam.lotIntegrity.LotIntegrityEnable, Converter={StaticResource BoolToVisibilityConvs}}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseDown" >
+                                            <i:InvokeCommandAction Command="{Binding LotIntegrityLengthCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                                <!--<CheckBox MinHeight="32" VerticalContentAlignment="Center" Margin="4" Content="Slot Integrity" IsChecked="{Binding OCRDevCloneParam.SlotIntegrityEnable.Value}"/>-->
+                                <!--<CheckBox MinHeight="32" VerticalContentAlignment="Center" Margin="4" Content="Wafer Integrity" IsChecked="{Binding OCRDevCloneParam.WaferIntegrityEnable.Value}"/>-->
+                            </Grid>
+                        </MahAppsControls:MetroTabItem>
+                        <!--<TabControl Grid.Row="0" TabStripPlacement="Left">
+                            <TabItem Header="Region" FontSize="18" IsEnabled="{Binding IsWafer}">
+                                <Grid Margin="8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <RepeatButton Grid.Row="1" Grid.Column="3" Margin="8,0,8,0" Command="{Binding RegionWidthPlusCommand}"  IsEnabled="{Binding IsWafer}" >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-split-vertical.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton Grid.Row="0" Grid.Column="4" Margin="8,0,8,0" Command="{Binding RegionHeightPlusCommand}" IsEnabled="{Binding IsWafer}"  >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-split-horizontal.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton Grid.Row="1" Grid.Column="5" Margin="8,0,8,0" Command="{Binding RegionWidthMinusCommand}" IsEnabled="{Binding IsWafer}"  >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-collapse-horizontal.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton Grid.Row="2" Grid.Column="4" Margin="8,0,8,0" Command="{Binding RegionHeightMinusCommand}" IsEnabled="{Binding IsWafer}"  >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-collapse-vertical.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton Grid.Row="2" Grid.Column="1" Margin="8,0,8,0" Command="{Binding RegionDownMoveCommand}" IsEnabled="{Binding IsWafer}" >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowDownW.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton Grid.Row="0" Grid.Column="1" Margin="8,0,8,0" Command="{Binding RegionUpMoveCommand}"  IsEnabled="{Binding IsWafer}" >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowUpW.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton Grid.Row="1" Grid.Column="0" Margin="8,0,8,0" Command="{Binding RegionLeftMoveCommand}"  IsEnabled="{Binding IsWafer}" >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowLeftW.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton Grid.Row="1" Grid.Column="2" Margin="8,0,8,0" Command="{Binding RegionRightMoveCommand}" IsEnabled="{Binding IsWafer}"  >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowRightW.png"/>
+                                    </RepeatButton>
+                                    <Label Grid.Row="0" Grid.Column="0" Content="POS" Style="{DynamicResource ContentLabel}" FontSize="20"/>
+                                    <Label Grid.Row="0" Grid.Column="3" Content="SIZE" Style="{DynamicResource ContentLabel}" FontSize="20"/>
+                                    <Button Grid.Row="1" Grid.Column="1" Content="Set" Margin="4,4,4,4" Style="{DynamicResource ControlButtonStyle}" Command="{Binding RegionSet}"  IsEnabled="{Binding IsWafer}" />
+                                    <Button Grid.Row="1" Grid.Column="4" Content="Set" Margin="4,4,4,4" Style="{DynamicResource ControlButtonStyle}" Command="{Binding RegionSet}"  IsEnabled="{Binding IsWafer}" />
+                                </Grid>
+
+                            </TabItem>
+                            <TabItem Header="Char" FontSize="18" IsEnabled="{Binding IsWafer}">
+                                <Grid Margin="8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+
+                                    <RepeatButton Grid.Row="1" Grid.Column="3" Margin="8,0,8,0" Command="{Binding CharRegionWidthPlusCommand}"  >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-split-vertical.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton Grid.Row="0" Grid.Column="4" Margin="8,0,8,0" Command="{Binding CharRegionHeightPlusCommand}"  >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-split-horizontal.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton Grid.Row="1" Grid.Column="5" Margin="8,0,8,0" Command="{Binding CharRegionWidthMinusCommand}"  >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-collapse-horizontal.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton Grid.Row="2" Grid.Column="4" Margin="8,0,8,0" Command="{Binding CharRegionHeightMinusCommand}"  >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-collapse-vertical.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton Grid.Row="2" Grid.Column="1" Margin="8,0,8,0" Command="{Binding CharRegionDownMoveCommand}"  >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowDownW.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton Grid.Row="0" Grid.Column="1" Margin="8,0,8,0" Command="{Binding CharRegionUpMoveCommand}"  >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowUpW.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton Grid.Row="1" Grid.Column="0" Margin="8,0,8,0" Command="{Binding CharRegionLeftMoveCommand}"  >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowLeftW.png"/>
+                                    </RepeatButton>
+                                    <RepeatButton Grid.Row="1" Grid.Column="2" Margin="8,0,8,0" Command="{Binding CharRegionRightMoveCommand}"  >
+                                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowRightW.png"/>
+                                    </RepeatButton>
+                                    <Label Grid.Row="0" Grid.Column="0" Content="POS" Style="{DynamicResource ContentLabel}" FontSize="20"/>
+                                    <Label Grid.Row="0" Grid.Column="3" Content="SIZE" Style="{DynamicResource ContentLabel}" FontSize="20"/>
+                                    <Button Grid.Row="1" Grid.Column="1" Content="Set" Margin="4,4,4,4" Style="{DynamicResource ControlButtonStyle}" Command="{Binding CharRegionSet}"  />
+                                    <Button Grid.Row="1" Grid.Column="4" Content="Set" Margin="4,4,4,4" Style="{DynamicResource ControlButtonStyle}" Command="{Binding CharRegionSet}"  />
+                                </Grid>
+                            </TabItem>
+                        </TabControl>-->
+
+                    </MahAppsControls:MetroAnimatedSingleRowTabControl>
+
+                </Border>
+
+            </GroupBox>
+
+            <GroupBox Grid.Row="3" Header="Tune" FontSize="14" Foreground="White" Margin="0,16,0,4">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <ProgressBar Grid.Row="0" Margin="5" Minimum="0" Maximum="100" Value="{Binding ProgressValue}"/>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Text="{Binding OCRString}" FontSize="24" Foreground="White" HorizontalContentAlignment="Center" VerticalAlignment="Center" Margin="5" IsReadOnly="True"/>
+                            <Label Grid.Column="1" Content="{Binding OCRScore}" Foreground="White" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0"/>
+                            <Label Grid.Column="2" Content="{Binding OCRResult}" Foreground="White" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0"></Label>
+                        </Grid>
+                    </Grid>
+
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Button AutomationProperties.AutomationId="btnTuneStart"
+                                Grid.Row="0" Margin="8" Content="Auto Tune" FontSize="24" Command="{Binding TuneStartCommand}" IsEnabled="{Binding IsWafer}"/>
+                        <Button AutomationProperties.AutomationId="btnRead"
+                                Grid.Row="1" Margin="8" Content="Read" FontSize="24" Command="{Binding ReadingCommand}"  IsEnabled="{Binding IsWafer}" />
+                    </Grid>
+
+                </Grid>
+            </GroupBox>
+
+        </Grid>
+    </Grid>
+</UserControl>

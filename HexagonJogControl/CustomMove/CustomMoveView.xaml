@@ -1,0 +1,60 @@
+﻿<Controls:MetroWindow
+     xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+           x:Class="CustomMoveView.CustomMove"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CustomMoveView"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             WindowStyle="ToolWindow"
+    WindowStartupLocation="CenterScreen"
+    ShowCloseButton="true"
+    ShowMaxRestoreButton="False"
+    ShowMinButton="False"
+    ResizeMode="NoResize"
+    Title="Move Custom Jog"
+    Closing="MetroWindow_Closing"
+             d:DesignHeight="300" d:DesignWidth="350" Background="White"
+             >
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center">
+            <TextBlock Text="X Distance :" Foreground="Black" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBox Margin="20, 0, 0, 0" Width="120" Height="30" Foreground="Black" FontSize="17" HorizontalAlignment="Center" Text="{Binding CustomXDistance}"    >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewMouseDown" >
+                        <i:InvokeCommandAction Command="{Binding CustomXDistanceTextBoxClickCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
+            <TextBlock Text="Y Distance :" Foreground="Black" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBox Margin="20, 0, 0, 0" Width="120" Height="30"  Text="{Binding CustomYDistance}" FontSize="17" Foreground="Black" VerticalAlignment="Center">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewMouseDown" >
+                        <i:InvokeCommandAction Command="{Binding CustomYDistanceTextBoxClickCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBox>
+        </StackPanel>
+        <!--<StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
+            <TextBlock Text="Z Distance :" Foreground="Black" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBox Margin="20, 0, 0, 0" Text="{Binding CustomZDistance}" FontSize="17" Width="100" Foreground="Black" VerticalAlignment="Center">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="PreviewMouseDown" >
+                        <i:InvokeCommandAction Command="{Binding CustomZDistanceTextBoxClickCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBox>
+        </StackPanel>-->
+        <Button Grid.Row="2" Content="Move" Width="80" Height="50" Command="{Binding MoveCustomJogCommand}" FontSize="20" FontWeight="Bold"/>
+
+    </Grid>
+</Controls:MetroWindow>

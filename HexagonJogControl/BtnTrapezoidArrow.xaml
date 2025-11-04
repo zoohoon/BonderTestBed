@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="HexagonJogControl.BtnTrapezoidArrow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HexagonJogControl"
+             xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="100">
+    <Grid Name="mainGrid" MouseDown="mainGrid_MouseDown" MouseUp="mainGrid_MouseUp" MouseLeave="mainGrid_MouseLeave">
+        <!--이유는 모르겠지만 1 Pixel의 오차가 있어서 Width 와 Height에 1을 더했다-->
+        <Path Stroke="DarkGray" StrokeThickness="0.5" Stretch="None"  Width="95" Height="95">
+            <Path.Fill>
+                <RadialGradientBrush GradientOrigin="4 4">
+                    <GradientStop Offset="0.5" Color="White" />
+                    <GradientStop Offset="1" Color="#FF363636" />
+                </RadialGradientBrush>
+            </Path.Fill>
+            <Path.Data>
+                <PathGeometry>
+                    <PathGeometry.Figures>
+                        <PathFigure StartPoint="10,95" IsClosed="true">
+                            <LineSegment Point="50,95" />
+                            <ArcSegment Point="95,50" Size="120 120" SweepDirection="Clockwise" />
+                            <LineSegment Point="95,10" />
+                            <ArcSegment Point="10,95" Size="150 150" SweepDirection="Counterclockwise" IsLargeArc="False"/>
+                        </PathFigure>
+                    </PathGeometry.Figures>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+
+        <Path Stroke="DarkGray" StrokeThickness="0.5" Stretch="None"  Width="90" Height="90">
+            <Path.Fill>
+                <LinearGradientBrush StartPoint="0.4, 0.4" EndPoint="0.8, 0.8" >
+                    <GradientStop Color="#FF515151" Offset="0"/>
+                    <GradientStop Color="Black" Offset="0.2"/>
+                    <GradientStop Color="Black" Offset="0.4"/>
+                    <GradientStop Color="#FF363636" Offset="0.75"/>
+                </LinearGradientBrush>
+            </Path.Fill>
+            <Path.Data>
+                <PathGeometry>
+                    <PathGeometry.Figures>
+                        <PathFigure StartPoint="10,90" IsClosed="true">
+                            <LineSegment Point="46,90" />
+                            <ArcSegment Point="90,46" Size="120 120" SweepDirection="Clockwise" />
+                            <LineSegment Point="90,10" />
+                            <ArcSegment Point="10,90" Size="150 150" SweepDirection="Counterclockwise" IsLargeArc="False"/>
+                        </PathFigure>
+                    </PathGeometry.Figures>
+                </PathGeometry>
+            </Path.Data>
+        </Path>
+
+        <Viewbox Width="24" Height="24" Margin="47,47,29,29" RenderTransformOrigin="0.5,0.5" MouseDown="mainGrid_MouseDown" MouseUp="mainGrid_MouseUp" MouseLeave="mainGrid_MouseLeave">
+            <Viewbox.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="-45"/>
+                </TransformGroup>
+            </Viewbox.RenderTransform>
+            <Canvas Width="24" Height="24">
+                <Path Data="M4.08,11.92L12,4L19.92,11.92L18.5,13.33L13,7.83V22H11V7.83L5.5,13.33L4.08,11.92M12,4H22V2H2V4H12Z" Fill="White" Canvas.Left="-0.25" />
+            </Canvas>
+        </Viewbox>
+    </Grid>
+</UserControl>
+

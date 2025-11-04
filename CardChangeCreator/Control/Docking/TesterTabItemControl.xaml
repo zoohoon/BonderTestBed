@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="CardChangeCreator.TesterTabItemControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CardChangeCreator"
+             mc:Ignorable="d" Background="White"
+             d:DesignHeight="800" d:DesignWidth="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="88*"/>
+            <!--<RowDefinition Height="8*"/>-->
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <!--<ComboBox x:Name="comboxTHType" Grid.Column="2" Margin="8" IsEditable="True"
+                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                      IsReadOnly="True" Text="Select Tester Type"
+                      />
+
+            <ComboBox x:Name="comboxTHType" Grid.Column="2" Margin="8" IsEditable="True"
+                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                      IsReadOnly="True" Text="Select Tester Type"
+                      />-->
+
+            <ComboBox x:Name="comboxTHType" Grid.Column="2" Margin="8" IsEditable="True"
+                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                      IsReadOnly="True" Text="Select Tester Type"
+                      />
+
+            <Button x:Name="btnNewData" Grid.Column="3" Margin="8"
+                    Content="New Data" Click="btnNewData_Click"
+                    />
+            <Button x:Name="btnloadData" Grid.Column="4" Margin="8"
+                    Content="Load Data" Click="btnloadData_Click"
+                    />
+        </Grid>
+
+        <local:Pre_Post_ProcessingSettingControl x:Name="ppSettingControl" Grid.Row="1" IsEnabled="False" Visibility="Visible"/>
+        <local:TesterOrderSettingControl x:Name="testerOrderSettingControl" Grid.Row="1" IsEnabled="False" Visibility="Hidden"/>
+        <local:DesideNextBehaviorControl x:Name="desideNextBehaviorControl" Grid.Row="1" IsEnabled="False" Visibility="Hidden"/>
+
+        <!--<Grid Grid.Row="2" Grid.Column="2" Margin="16, 8, 16, 8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btnNext" Grid.Column="4" Content="NEXT" IsEnabled="False" Click="btnNext_Click"></Button>
+        </Grid>-->
+    </Grid>
+</UserControl>

@@ -1,0 +1,266 @@
+﻿<UserControl x:Class="UcTempDeviationView.TempDeviationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UcTempDeviationView"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:TempPauseType_Enum="clr-namespace:ProberInterfaces.Temperature;assembly=ProberInterfaces"
+             mc:Ignorable="d" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SettingControlStyle;component/SettingViewStyleDictionaly.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <local:DeviationPresentationConverter x:Key="DeviationPresentationConverter"/>
+            <ObjectDataProvider x:Key="getTempPauseType" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="TempPauseType_Enum:TempPauseTypeEnum"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel Margin="4">
+            <Label  Content="Deviation Setup"
+                Foreground="White"
+                FontWeight="Bold"
+                FontSize="56"
+                />
+            <Separator Margin="4" Background="White"/>
+            <StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <!-- Prober Deviation -->
+                    <StackPanel Orientation="Horizontal">
+                        <Label Grid.Row="0" Content="Deviation (℃)" Foreground="White" FontSize="16"/>
+                        <Label Grid.Row="0" Content="( The operations of wafer load, align, and probing are limited during lot )" Foreground="LightGray" FontSize="14" HorizontalAlignment="Center" Margin="30,10,10,10"/>
+                    </StackPanel>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox AutomationProperties.AutomationId="txtInputDeviation"
+                             Grid.Column="0"
+                             Foreground="Black"
+                             HorizontalContentAlignment="Center"
+                             FontSize="24"
+                             Text="{Binding ValueForDeviation}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+
+                        <Button AutomationProperties.AutomationId="btnSetDeviation"
+                            Grid.Column="1" Content="Set"
+                            FontSize="24"
+                            Margin="4"
+                            Width="160"
+                            Command="{Binding SettingDeviationCommand}"
+                            CommandParameter="ValueForDeviation"/>
+                    </Grid>
+
+                </Grid>
+                <StackPanel>
+                    <!-- Monitoring -->
+                    <Border Margin="4,10,0,0" Background="#3C454F" >
+                        <Label Padding="0" FontWeight="DemiBold" Content="Alarm,Interlock (Probing)" Foreground="WhiteSmoke" FontSize="16"/>
+                    </Border>
+
+                    <Grid Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+
+                        <!-- Emergency Deviation For Abort -->
+                        <Label Grid.Row="0" Content="Emergency Probing Abort Deviation (℃)" Foreground="White" FontSize="16"/>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox AutomationProperties.AutomationId="txtInputEmergencyDeviation"
+                             Grid.Column="0"
+                             Foreground="Black"
+                             HorizontalContentAlignment="Center"
+                             FontSize="24"
+                             Text="{Binding EmergencyAbortTempDeviation}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                        <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+
+                            <Button AutomationProperties.AutomationId="btnSetEmergencyDeviation"
+                            Grid.Column="1" Content="Set"
+                            FontSize="24"
+                            Margin="4"
+                            Width="160"
+                            Command="{Binding SettingDeviationCommand}"
+                            CommandParameter="EmergencyAbortTempDeviation"/>
+                        </Grid>
+                        <!-- TempPauseType -->
+                        <Label Grid.Row="0" Grid.Column="1" Content="Probing Abort Type" Foreground="White" FontSize="16"/>
+                        <Grid Grid.Row="1"  Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox AutomationProperties.AutomationId="InputTempPauseType"
+                                                                SelectedValue="{Binding TemperaturePauseType}" ItemsSource="{Binding Source={StaticResource getTempPauseType}}" Name="ComboBox_TempPauseType">
+                                <!--<i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding SetTempPauseTypeCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>-->
+                            </ComboBox>
+                        </Grid>
+                        <!--  Deviation -->
+                        <Label Grid.Row="4" Content="Alarm Deviation (℃)" Foreground="White" FontSize="16"/>
+                        <Grid Grid.Row="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox AutomationProperties.AutomationId="txtAlarmDeviation"
+                             Grid.Column="0"
+                             Foreground="Black"
+                             HorizontalContentAlignment="Center"
+                             FontSize="24"
+                             Text="{Binding TempGEMToleranceDeviation}" IsEnabled="{Binding DeviationNotificationDiffEnable}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                        <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+
+                            <Button AutomationProperties.AutomationId="btnSetAlarmDeviation"
+                            Grid.Column="1" Content="Set"
+                            FontSize="24"
+                            Margin="4"
+                            Width="160"
+                            Command="{Binding SetAndSaveTempDevParamCommand}"  IsEnabled="{Binding DeviationNotificationDiffEnable}"/>
+                        </Grid>
+
+
+                    </Grid>
+
+
+                    <Border BorderBrush="WhiteSmoke" BorderThickness="0.5" Margin="20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <!-- Enable-->
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label HorizontalAlignment="Left" VerticalAlignment="Center" Content="Temp Monitoring Enable " FontSize="16"/>
+                                        <Label HorizontalAlignment="Left" Content="( provided only during contact )" FontSize="14" Foreground="LightGray"/>
+                                    </StackPanel>
+                                   
+                                    <ToggleButton AutomationProperties.AutomationId="tglTempMonitoringEnable" Grid.Row="1"
+                                              FontSize="24" IsChecked="{Binding TempMonitoringEnable}" HorizontalAlignment="Left" Margin="50,0,0,0"
+                                              Style="{DynamicResource ON_OFF_ToggleBtn}">
+                                    </ToggleButton>
+                                </Grid>
+
+                                <!-- Temp Monitoring Devigation-->
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label HorizontalAlignment="Left" VerticalAlignment="Center" Content="Temp Monitoring Range " FontSize="16"/>
+                                        <Label HorizontalAlignment="Left" Content="( Alarm occurs every time it changes by range )" FontSize="14" Foreground="LightGray"/>
+                                    </StackPanel>
+                                    <TextBox AutomationProperties.AutomationId="txtTempMonitoringRange" Grid.Row="1" HorizontalAlignment="Left"
+                                         FontSize="24" Text="{Binding TempMonitorRange}" IsEnabled="{Binding TempMonitoringEnable}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}" 
+                                                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+
+                                    </TextBox>
+                                </Grid>
+
+                                <!-- Temp Monitoring Start Delay Time-->
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label HorizontalAlignment="Left" VerticalAlignment="Center" Content="Temp Monitoring Start Delay Time (sec) " FontSize="16"/>
+                                    <TextBox AutomationProperties.AutomationId="txtTempMonitoringStartDelayTime"
+                                         Grid.Row="1" FontSize="24" Text="{Binding WaitMonitorTimeSec}"  IsEnabled="{Binding TempMonitoringEnable}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}" 
+                                                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+
+                                    </TextBox>
+
+                                </Grid>
+                                
+                                <Button AutomationProperties.AutomationId="btnApplyTempMonitoringToDevice"
+                                    Grid.ColumnSpan="2" Command="{Binding SetAndSaveTempDevParamCommand}"  HorizontalAlignment="Center"
+                                    FontSize="16" Height="40" Content="Apply Temp Monitoring. To Device" Margin="16" FontWeight="Bold" Foreground="White"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

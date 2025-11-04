@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="UCPolishWaferUserSeq.UCPolishWaferUserSeq"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UCPolishWaferUserSeq"
+             mc:Ignorable="d" 
+    d:DesignHeight="940" d:DesignWidth="1280" Background="Transparent">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="0.1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.15*" />
+                    <RowDefinition Height="0.60*" />
+                    <RowDefinition Height="0.12*"/>
+                    <RowDefinition Height="0.12*"/>
+                    <RowDefinition Height="0.12*"/>
+                    <RowDefinition Height="0.3*"/>
+
+                </Grid.RowDefinitions>
+                <GroupBox Header="PolishWaferSetting" Grid.Row="0" >
+                    <ComboBox 
+                  Background="White"
+                  Foreground="Black"
+                  ItemsSource="{Binding Path = PWModule.PolishWaferParams_IParam.PolishWaferParameters}"
+                  SelectedItem="{Binding Path = PWModule.PolishWaferParams_IParam.SelectedPolishWaferParameter}"
+                  DisplayMemberPath="ID"/>
+                </GroupBox>
+                <GroupBox Grid.Row="1" Header="Shot Jog" Foreground="White">
+                    <StackPanel Orientation="Vertical">
+                        <Button Height="50" Margin="10" FontSize="20" FontWeight="Heavy" Command="{Binding Path=cmdAddShot}">Add Shot</Button>
+                        <Button Height="50" Margin="10" FontSize="20" FontWeight="Heavy" Command="{Binding Path=cmdDeleteShot}">Delete Shot</Button>
+                        <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                            <Button Width="60" Command="{Binding Path=cmdPrev}">
+                                <ContentControl>
+                                    <Image Source="/Resources/JogLeft.png" Stretch="Uniform"/>
+                                </ContentControl>
+                            </Button>
+                            <Label BorderThickness="2" Width="40" Height="30" BorderBrush="White" Foreground="White" FontSize="12" HorizontalContentAlignment="Center" Content="{Binding Path=PWModule.PolishWaferParams_IParam.SequenceParam.SelectNumber}" ></Label>
+                            <Button Width="60" Command="{Binding Path=cmdNext}">
+                                <ContentControl>
+                                    <Image Source="/Resources/JogRight.png" Stretch="Uniform"/>
+                                </ContentControl>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Foreground="Yellow" FontSize="20">TOTAL SHOT:</Label>
+                            <Label Foreground="Yellow" FontSize="20" Content="{Binding Path=PWModule.PolishWaferParams_IParam.SequenceParam.TotalCount}" ></Label>
+                        </StackPanel>
+                        <Button Height="50" Margin="10" FontSize="20" FontWeight="Heavy" Background="Orange" Foreground="White" Command="{Binding Path=cmdDeleteAll}">Delete All</Button>
+                    </StackPanel>
+                </GroupBox>
+                <Button Grid.Row="2" Height="50" Margin="10" FontSize="15" FontWeight="Heavy" Foreground="White" Background="DarkGreen" Command="{Binding Path=cmdPolishSetting}">Polish Wafer Settings</Button>
+                <Button Grid.Row="3" Height="50" Margin="10" FontSize="20" FontWeight="Heavy" Background="DarkSeaGreen" Command="{Binding Path=cmdSaveSequence}" >Save Sequence</Button>
+                <Button Grid.Row="4" Height="50" Margin="10" FontSize="20" FontWeight="Heavy" Command="{Binding Path=cmdExit}">EXIT</Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

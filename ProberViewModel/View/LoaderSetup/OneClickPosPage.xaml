@@ -1,0 +1,278 @@
+﻿<UserControl x:Class="LoaderSetupPageView.OneClickPosPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LoaderSetupPageView"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:mhs="clr-namespace:MahApps.Metro;assembly=MahApps.Metro"
+             xmlns:contr23ols="http://metro.mahapps.com/winfx/xaml/controls"   
+             mc:Ignorable="d" 
+             d:DesignHeight="1200" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- MahApps -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />-->
+                <!-- Material Design -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.indigo.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.deeporange.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Slider.xaml" />
+                <!-- Material Design: MahApps Compatibility -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Flyout.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Border Background="Black" BorderBrush="LightGray" BorderThickness="1.5" Grid.Row="0" Margin="3">
+            <StackPanel Orientation="Horizontal">
+                <Border Background="Black" BorderBrush="LightGray" BorderThickness="1.5" Grid.Row="0" Margin="3">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Margin="2">
+                        <Label Content="U1 Enable" Foreground="DarkGray" FontSize="20" />
+                        <ToggleButton VerticalAlignment="Center" Margin="4" IsChecked="{Binding U1Enable}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Checked">
+                                    <i:InvokeCommandAction Command="{Binding SetU1EnableCommand}"/>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="Unchecked">
+                                    <i:InvokeCommandAction Command="{Binding SetU1DisableCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ToggleButton> 
+                </StackPanel>
+                </Border>
+
+
+                <Border Background="Black" BorderBrush="LightGray" BorderThickness="1.5" Grid.Row="0" Margin="3">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Margin="2">
+                    <Label Content="U2 Enable" Foreground="DarkGray" FontSize="20"/>
+                        <ToggleButton VerticalAlignment="Center" Margin="4" IsChecked="{Binding U2Enable}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Checked">
+                                    <i:InvokeCommandAction Command="{Binding SetU2EnableCommand}"/>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="Unchecked">
+                                    <i:InvokeCommandAction Command="{Binding SetU2DisableCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ToggleButton>
+                </StackPanel>
+                </Border>
+
+                <Border Background="Black" BorderBrush="LightGray" BorderThickness="1.5" Grid.Row="0" Margin="3" >
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal" Margin="2">
+                        <Label Content="Skip AxisU" Foreground="DarkGray" FontSize="20"/>
+                        <ToggleButton VerticalAlignment="Center" Margin="4" 
+                                      IsChecked="{Binding UAxisSkip}" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Checked">
+                                    <i:InvokeCommandAction Command="{Binding SetUSkipTrueValueCommand}"/>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="Unchecked">
+                                    <i:InvokeCommandAction Command="{Binding SetUSkipFalseValueCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ToggleButton>
+                    </StackPanel>
+                </Border>
+
+
+
+            </StackPanel>
+            
+        </Border>
+
+        <Border Background="Black" BorderBrush="LightGray" BorderThickness="1.5" Grid.Row="1" Margin="3">
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Vertical">
+                    <Border Background="Black" BorderBrush="LightGray" BorderThickness="1.5" Grid.Row="0" Margin="3" >
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Button Content="ToCstSlot1" Margin="3" Width="100
+                                " FontSize="12" VerticalAlignment="Center" Command="{Binding ToCstSlot1Command}"/>
+                            
+                            <Label Content="A:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding CSTSlot1A}"/>
+                            
+                            <Label Content="U:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding CSTSlot1U}"/>
+                            
+                            <Label Content="W:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding CSTSlot1W}"/>
+                            
+                            <Label Content="E:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding CSTSlot1E}"/>
+
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="Black" BorderBrush="LightGray" BorderThickness="1.5" Grid.Row="0" Margin="3" >
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Button Content="ToPA" Margin="3" Width="100
+                                " FontSize="12" VerticalAlignment="Center" Command="{Binding ToPACommand}"/>
+
+                            <Label Content="A:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToPAA}"/>
+
+                            <Label Content="U:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToPAU}"/>
+
+                            <Label Content="W:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToPAW}"/>
+
+                            <Label Content="E:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToPAE}"/>
+
+                        </StackPanel>
+                    </Border>
+
+
+                    <Border Background="Black" BorderBrush="LightGray" BorderThickness="1.5" Grid.Row="0" Margin="3" >
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Button Content="ToSemicsOCR" Margin="3" Width="100
+                                " FontSize="12" VerticalAlignment="Center" Command="{Binding ToSemicsOCRCommand}"/>
+
+                            <Label Content="A:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToSemicsOCRA}"/>
+
+                            <Label Content="U:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToSemicsOCRU}"/>
+
+                            <Label Content="W:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToSemicsOCRW}"/>
+
+                            <Label Content="E:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToSemicsOCRE}"/>
+
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="Black" BorderBrush="LightGray" BorderThickness="1.5" Grid.Row="0" Margin="3" >
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Button Content="ToChuck" Margin="3" Width="100
+                                " FontSize="12" VerticalAlignment="Center" Command="{Binding ToChuckCommand}"/>
+
+                            <Label Content="A:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToChuckA}"/>
+
+                            <Label Content="U:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToChuckU}"/>
+
+                            <Label Content="W:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToChuckW}"/>
+
+                            <Label Content="E:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToChuckE}"/>
+
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="Black" BorderBrush="LightGray" BorderThickness="1.5" Grid.Row="0" Margin="3" >
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Button Content="ToFixedTray" Margin="3" Width="100
+                                " FontSize="12" VerticalAlignment="Center" Command="{Binding ToFixedTrayCommand}"/>
+
+                            <Label Content="A:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToFixedTrayA}"/>
+
+                            <Label Content="U:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToFixedTrayU}"/>
+
+                            <Label Content="W:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToFixedTrayW}"/>
+
+                            <Label Content="E:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToFixedTrayE}"/>
+
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="Black" BorderBrush="LightGray" BorderThickness="1.5" Grid.Row="0" Margin="3" >
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Button Content="ToInspecTray" Margin="3" Width="100
+                                " FontSize="12" VerticalAlignment="Center" Command="{Binding ToInspectionTrayCommand}"/>
+
+                            <Label Content="A:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToInspectionTrayA}"/>
+
+                            <Label Content="U:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToInspectionTrayU}"/>
+
+                            <Label Content="W:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToInspectionTrayW}"/>
+
+                            <Label Content="E:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <TextBox Width="70" Margin="1" Foreground="LightGray" FontSize="15" Text="{Binding ToInspectionTrayE}"/>
+
+                        </StackPanel>
+                    </Border>
+                    
+                    <Border Background="Black" BorderBrush="LightGray" BorderThickness="1.5" Grid.Row="0" Margin="3" >
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <Button Content="ToCST" Margin="3" Width="100
+                                " FontSize="12" VerticalAlignment="Center" Command="{Binding ToCstCommand}"/>
+                            <Label Content="CSTNUM:" Foreground="DarkGray" FontSize="20" VerticalAlignment="Center" Margin="2"/>
+                            <Controls:NumericUpDown 
+                                Minimum="1" Maximum="25" Interval="1" StringFormat="0" Width="80" HasDecimals="True" Margin="3" Foreground="WhiteSmoke"
+                                 Value="{Binding CstNum}" FontSize="20" />
+                        </StackPanel>
+
+                    </Border>
+                    
+                </StackPanel>
+            </ScrollViewer>
+
+
+        </Border>
+
+        <Border Background="Black" BorderBrush="LightGray" BorderThickness="1.5" Grid.Row="2" Margin="4" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button Grid.Column="0" Height="32"  Content="Dry Run" Margin="2"  Command="{Binding LoaderDryRunCommand}"/>
+                <Button Grid.Column="1" Height="32"  Content="Stop dry run" Margin="2"  Command="{Binding DryRunStopCommand}"/>
+
+                    <Label Grid.Column="0" Grid.Row="1" Content="CenteringFlag" Foreground="DarkGray" FontSize="20"/>
+                    <ToggleButton Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Margin="4">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                            <i:InvokeCommandAction Command="{Binding CenteringTestFlagOnCommand}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="Unchecked">
+                            <i:InvokeCommandAction Command="{Binding CenteringTestFlagOffCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ToggleButton>
+                
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

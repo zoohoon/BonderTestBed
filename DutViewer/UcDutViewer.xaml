@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="DutViewer.UcDutViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DutViewer"
+             xmlns:sharprender="clr-namespace:SharpDXRender;assembly=SharpDXRender"
+             mc:Ignorable="d" 
+             d:DesignHeight="911" d:DesignWidth="892" Background="Transparent">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+    </UserControl.Resources>
+    <Grid >
+        <sharprender:RenderControl x:Name="mainRender" RenderLayerData="{Binding MainRenderLayer}"/>
+        <Viewbox Width="250" Height="250" Margin="610,10, 10,630" Visibility="{Binding MinimapVisible, Converter={StaticResource BoolToVisConverter}}">
+            <Border BorderBrush="White" BorderThickness="5">
+                <sharprender:RenderControl RenderLayerData="{Binding SideRenderLayer}"
+                                        Width="{Binding Path=ActualWidth, ElementName=mainRender}"
+                                        Height="{Binding Path=ActualHeight, ElementName=mainRender}"/>
+            </Border>
+        </Viewbox>
+    </Grid>
+</UserControl>

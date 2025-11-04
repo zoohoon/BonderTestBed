@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="WizardCategoryView.UCCategoryDeviceSetting"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WizardCategoryView"
+             mc:Ignorable="d" 
+             d:DesignHeight="892" d:DesignWidth="1280">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="0.5*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="2" Grid.Column="1" Margin="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="2" FontSize="64" Margin="4"
+                    Command="{Binding ChangeCategoryPadgeCommand}">
+                <Button.Content>
+                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/WizardBack.png" 
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                </Button.Content>
+            </Button>
+
+            <Button Grid.Column="3" FontSize="64" Margin="4"
+                    Command="{Binding SetupStartCommand}">
+                <Button.Content>
+                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/WizardBtn_Begin.png" 
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                </Button.Content>
+            </Button>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="ManualJogView.RadiusMeasuremnt"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ManualJogView"
+             mc:Ignorable="d" 
+             d:DesignHeight="240" d:DesignWidth="720" Background="Transparent">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="JogButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="FontSize" Value="19"></Setter>
+                <Setter Property="FontFamily" Value="NanumGothic"></Setter>
+                <Setter Property="Margin" Value="8,8,8,8"></Setter>
+                <Setter Property="MinHeight" Value="36"></Setter>
+                <Setter Property="MinWidth" Value="48"></Setter>
+                <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+                <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="75"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="180"/>
+        </Grid.ColumnDefinitions>
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+        </Grid.Resources>
+
+        <Border Background="Black" BorderBrush="LightGray" BorderThickness="1.5" Grid.Column="0" Grid.RowSpan="3">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" >
+                    <Label Content="XPos:" Foreground="Red" FontSize="8" Margin="1"/>
+                    <TextBox Text="{Binding MeasuermentXPos}" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="DimGray" FontSize="10" Margin="1"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="YPos:" Foreground="Red" FontSize="8" Margin="1"/>
+                    <TextBox Text="{Binding MeasuermentYPos}" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="DimGray" FontSize="10" Margin="1"/>
+                </StackPanel>
+                <StackPanel>
+                    <Button Content="AddPositoin" Command="{Binding AddMeasurmentPosCommand}" Margin="1"/>
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Sensor1:" Foreground="Red" FontSize="8" Margin="1"/>
+                    <TextBox Text="{Binding Sensor1Pos}" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="DimGray" FontSize="8" Margin="1"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Sensor2:" Foreground="Red" FontSize="8" Margin="1"/>
+                    <TextBox Text="{Binding Sensor2Pos}" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="DimGray" FontSize="8" Margin="1"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Sensor3:" Foreground="Red" FontSize="8" Margin="1"/>
+                    <TextBox Text="{Binding Sensor3Pos}" Width="50" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="DimGray" FontSize="8" Margin="1"/>
+                </StackPanel>
+                <StackPanel>
+                    <Button Content="AddSensorPositoin" Command="{Binding AddSensorPosCommand}"/>
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="ShiftRValue:" Foreground="Red" FontSize="10" Margin="1"/>
+                    <Label Content="{Binding ShfitRValue}" Foreground="Green" FontSize="10" Margin="1"/>
+                </StackPanel>
+                
+                <StackPanel>
+                    <Button Content="CalcShiftRValue" Command="{Binding CalcRValueCommand}" Margin="1"/>
+                </StackPanel>
+            </StackPanel>
+            
+        </Border>
+    </Grid>
+</UserControl>

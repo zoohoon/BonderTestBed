@@ -1,0 +1,184 @@
+﻿<UserControl x:Class="VirtualKeyboardControl.UcVirtualKeyboard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VirtualKeyboardControl"
+             mc:Ignorable="d" 
+             Background="Black"
+             d:DesignHeight="400" d:DesignWidth="647" Loaded="UserControl_Loaded"
+             x:Name="_this">
+    <Border BorderThickness="2" BorderBrush="White" CornerRadius="4">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="6*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="9*"/>
+                    <ColumnDefinition x:Name="exitBtnWidthCol" Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="titleBar" Background="WhiteSmoke" Grid.Column="0" Margin="3" TextAlignment="Center" FontSize="24">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0}/{1}">
+                            <Binding ElementName="inputTextBox" Path="Text.Length"/>
+                            <Binding ElementName="_this" Path="MaxCharLen"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <TextBlock x:Name="exitBtn" Background="WhiteSmoke" Text="X" Grid.Column="1" Margin="3" TextAlignment="Center" FontSize="28" MouseDown="exitBtn_MouseDown" MouseUp="exitBtn_MouseUp" MouseLeave="exitBtn_MouseLeave"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <TextBox x:Name="inputTextBox" AutomationProperties.AutomationId="txtinput" Margin="3" Background="LightGray" FontSize="24" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" CaretBrush="Black"  PreviewKeyDown="inputTextBox_PreviewKeyDown" KeyUp="inputTextBox_KeyUp"/>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="46*"/>
+                    <ColumnDefinition Width="46*"/>
+                    <ColumnDefinition Width="46*"/>
+                    <ColumnDefinition Width="46*"/>
+                    <ColumnDefinition Width="46*"/>
+                    <!--5-->
+                    <ColumnDefinition Width="46*"/>
+                    <ColumnDefinition Width="46*"/>
+                    <ColumnDefinition Width="46*"/>
+                    <ColumnDefinition Width="46*"/>
+                    <ColumnDefinition Width="46*"/>
+                    <!--10-->
+                    <ColumnDefinition Width="46*"/>
+                    <ColumnDefinition Width="46*"/>
+                    <ColumnDefinition Width="46*"/>
+                    <ColumnDefinition Width="46*"/>
+                    <!--14-->
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <!--1st Line Key-->
+                <local:UcKey AutomationProperties.AutomationId="key_1btn" 
+                             Grid.Column="0"  Grid.Row="0" x:Name="key_1"        PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="1"/>
+                <local:UcKey AutomationProperties.AutomationId="key_2btn"
+                             Grid.Column="1"  Grid.Row="0" x:Name="key_2"        PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="2"/>
+                <local:UcKey AutomationProperties.AutomationId="key_3btn"
+                             Grid.Column="2"  Grid.Row="0" x:Name="key_3"        PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="3"/>
+                <local:UcKey AutomationProperties.AutomationId="key_4btn"
+                             Grid.Column="3"  Grid.Row="0" x:Name="key_4"        PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="4"/>
+                <local:UcKey AutomationProperties.AutomationId="key_5btn"
+                             Grid.Column="4"  Grid.Row="0" x:Name="key_5"        PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="5"/>
+                <local:UcKey AutomationProperties.AutomationId="key_6btn"
+                             Grid.Column="5"  Grid.Row="0" x:Name="key_6"        PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="6"/>
+                <local:UcKey AutomationProperties.AutomationId="key_7btn"
+                             Grid.Column="6"  Grid.Row="0" x:Name="key_7"        PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="7"/>
+                <local:UcKey AutomationProperties.AutomationId="key_8btn"
+                             Grid.Column="7"  Grid.Row="0" x:Name="key_8"        PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="8"/>
+                <local:UcKey AutomationProperties.AutomationId="key_9btn"
+                             Grid.Column="8"  Grid.Row="0" x:Name="key_9"        PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="9"/>
+                <local:UcKey AutomationProperties.AutomationId="key_0btn"
+                             Grid.Column="9"  Grid.Row="0" x:Name="key_0"        PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="0"/>
+                <local:UcKey AutomationProperties.AutomationId="key_Minusbtn"
+                             Grid.Column="10" Grid.Row="0" x:Name="key_Minus"    PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="-"/>
+                <local:UcKey AutomationProperties.AutomationId="key_Plusbtn"
+                             Grid.Column="11" Grid.Row="0" x:Name="key_Plus"     PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="+"/>
+                <local:UcKey AutomationProperties.AutomationId="key_Clrbtn"
+                             Grid.Column="12" Grid.Row="0" x:Name="key_Clr"      PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="Clr"/>
+                <local:UcKey AutomationProperties.AutomationId="key_Backbtn"
+                             Grid.Column="13" Grid.Row="0" x:Name="key_Back"     PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="&lt;-"/>
+
+                <!--2nd Line Key-->
+                <local:UcKey AutomationProperties.AutomationId="key_qbtn"
+                             Grid.Column="0"  Grid.Row="1" x:Name="key_q"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="q"/>
+                <local:UcKey AutomationProperties.AutomationId="key_wbtn"
+                             Grid.Column="1"  Grid.Row="1" x:Name="key_w"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="w"/>
+                <local:UcKey AutomationProperties.AutomationId="key_ebtn"
+                             Grid.Column="2"  Grid.Row="1" x:Name="key_e"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="e"/>
+                <local:UcKey AutomationProperties.AutomationId="key_rbtn"
+                             Grid.Column="3"  Grid.Row="1" x:Name="key_r"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="r"/>
+                <local:UcKey AutomationProperties.AutomationId="key_tbtn"
+                             Grid.Column="4"  Grid.Row="1" x:Name="key_t"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="t"/>
+                <local:UcKey AutomationProperties.AutomationId="key_ybtn"
+                             Grid.Column="5"  Grid.Row="1" x:Name="key_y"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="y"/>
+                <local:UcKey AutomationProperties.AutomationId="key_ubtn"
+                             Grid.Column="6"  Grid.Row="1" x:Name="key_u"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="u"/>
+                <local:UcKey AutomationProperties.AutomationId="key_ibtn"
+                             Grid.Column="7"  Grid.Row="1" x:Name="key_i"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="i"/>
+                <local:UcKey AutomationProperties.AutomationId="key_obtn"
+                             Grid.Column="8"  Grid.Row="1" x:Name="key_o"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="o"/>
+                <local:UcKey AutomationProperties.AutomationId="key_pbtn"
+                             Grid.Column="9"  Grid.Row="1" x:Name="key_p"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="p"/>
+                <local:UcKey AutomationProperties.AutomationId="key_Sharpbtn"
+                             Grid.Column="10" Grid.Row="1" x:Name="key_Sharp"    PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="#"/>
+                <local:UcKey AutomationProperties.AutomationId="key_BSlashbtn"
+                             Grid.Column="11" Grid.Row="1" x:Name="key_BSlash"   PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="\"/>
+                <local:UcKey AutomationProperties.AutomationId="key_DELbtn"
+                             Grid.Column="12" Grid.Row="1" x:Name="key_DEL"      PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="DEL" Grid.ColumnSpan="2" />
+
+                <!--3th Line Key-->
+                <local:UcKey AutomationProperties.AutomationId="key_abtn"
+                             Grid.Column="0"  Grid.Row="2" x:Name="key_a"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="a"/>
+                <local:UcKey AutomationProperties.AutomationId="key_sbtn"
+                             Grid.Column="1"  Grid.Row="2" x:Name="key_s"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="s"/>
+                <local:UcKey AutomationProperties.AutomationId="key_dbtn"
+                             Grid.Column="2"  Grid.Row="2" x:Name="key_d"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="d"/>
+                <local:UcKey AutomationProperties.AutomationId="key_fbtn"
+                             Grid.Column="3"  Grid.Row="2" x:Name="key_f"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="f"/>
+                <local:UcKey AutomationProperties.AutomationId="key_gbtn"
+                             Grid.Column="4"  Grid.Row="2" x:Name="key_g"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="g"/>
+                <local:UcKey AutomationProperties.AutomationId="key_hbtn"
+                             Grid.Column="5"  Grid.Row="2" x:Name="key_h"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="h"/>
+                <local:UcKey AutomationProperties.AutomationId="key_jbtn"
+                             Grid.Column="6"  Grid.Row="2" x:Name="key_j"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="j"/>
+                <local:UcKey AutomationProperties.AutomationId="key_kbtn"
+                             Grid.Column="7"  Grid.Row="2" x:Name="key_k"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="k"/>
+                <local:UcKey AutomationProperties.AutomationId="key_lbtn"
+                             Grid.Column="8"  Grid.Row="2" x:Name="key_l"        PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="l"/>
+                <local:UcKey AutomationProperties.AutomationId="key_Colonbtn"
+                             Grid.Column="9"  Grid.Row="2" x:Name="key_Colon"    PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText=":"/>
+                <local:UcKey AutomationProperties.AutomationId="key_Alphabtn"
+                             Grid.Column="10" Grid.Row="2" x:Name="key_Alpha"    PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="@"/>
+                <local:UcKey AutomationProperties.AutomationId="key_ENTERbtn"
+                             Grid.Column="11" Grid.Row="2" x:Name="key_ENTER"    PreviewMouseDown="UcKey_PreviewMouseDown"  MouseUp="UcKey_EnterMouseUp" CaptionSize="24" KeyText="ENTER" Grid.ColumnSpan="3" Grid.RowSpan="2" />
+
+                <!--3th Line Key-->
+                <local:UcKey AutomationProperties.AutomationId="key_zbtn"
+                             Grid.Column="0"  Grid.Row="3" x:Name="key_z"        PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="z"/>
+                <local:UcKey AutomationProperties.AutomationId="key_xbtn"
+                             Grid.Column="1"  Grid.Row="3" x:Name="key_x"        PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="x"/>
+                <local:UcKey AutomationProperties.AutomationId="key_cbtn"
+                             Grid.Column="2"  Grid.Row="3" x:Name="key_c"        PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="c"/>
+                <local:UcKey AutomationProperties.AutomationId="key_vbtn"
+                             Grid.Column="3"  Grid.Row="3" x:Name="key_v"        PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="v"/>
+                <local:UcKey AutomationProperties.AutomationId="key_bbtn"
+                             Grid.Column="4"  Grid.Row="3" x:Name="key_b"        PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="b"/>
+                <local:UcKey AutomationProperties.AutomationId="key_nbtn"
+                             Grid.Column="5"  Grid.Row="3" x:Name="key_n"        PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="n"/>
+                <local:UcKey AutomationProperties.AutomationId="key_mbtn"
+                             Grid.Column="6"  Grid.Row="3" x:Name="key_m"        PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="m"/>
+                <local:UcKey AutomationProperties.AutomationId="key_Dotbtn"
+                             Grid.Column="7"  Grid.Row="3" x:Name="key_Dot"      PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="."/>
+                <local:UcKey AutomationProperties.AutomationId="key_Underbtn"
+                             Grid.Column="8"  Grid.Row="3" x:Name="key_Under"    PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="_"/>
+                <local:UcKey AutomationProperties.AutomationId="key_Slashbtn"
+                             Grid.Column="9"  Grid.Row="3" x:Name="key_Slash"    PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="/"/>
+                <local:UcKey AutomationProperties.AutomationId="key_Asteriskbtn"
+                             Grid.Column="10" Grid.Row="3" x:Name="key_Asterisk" PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="*"/>
+
+                <!--4th Line Key-->
+                <local:UcKey AutomationProperties.AutomationId="key_CapsLockbtn"
+                             Grid.Column="0"  Grid.Row="4" x:Name="key_CapsLock" PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="16" KeyText="Caps Lock"  Grid.ColumnSpan="2"/>
+                <local:UcKey AutomationProperties.AutomationId="key_SPACEbtn"
+                             Grid.Column="2"  Grid.Row="4" x:Name="key_SPACE"    PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText=" " Grid.ColumnSpan="8" />
+                <local:UcKey AutomationProperties.AutomationId="key_Ltbtn"
+                             Grid.Column="10" Grid.Row="4" x:Name="key_Lt"       PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="&lt;" Grid.ColumnSpan="2" />
+                <local:UcKey AutomationProperties.AutomationId="key_Gtbtn"
+                             Grid.Column="12" Grid.Row="4" x:Name="key_Gt"       PreviewMouseDown="UcKey_PreviewMouseDown" MouseUp="UcKey_MouseUp" CaptionSize="24" KeyText="&gt;" Grid.ColumnSpan="2" />
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

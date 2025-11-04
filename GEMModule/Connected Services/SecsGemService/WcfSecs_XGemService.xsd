@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/WcfSecs_XGemService" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/WcfSecs_XGemService" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="CarrierActReqData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ActionType" type="tns:EnumCarrierAction" />
+      <xs:element minOccurs="0" name="COUNT" type="xs:long" />
+      <xs:element minOccurs="0" name="Function" type="xs:long" />
+      <xs:element minOccurs="0" name="ObjectID" type="xs:long" />
+      <xs:element minOccurs="0" name="Stream" type="xs:long" />
+      <xs:element minOccurs="0" name="Sysbyte" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CarrierActReqData" nillable="true" type="tns:CarrierActReqData" />
+  <xs:simpleType name="EnumCarrierAction">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PROCEEDWITHCARRIER" />
+      <xs:enumeration value="PROCEEDWITHSLOT" />
+      <xs:enumeration value="CANCELCARRIER" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="EnumCarrierAction" nillable="true" type="tns:EnumCarrierAction" />
+  <xs:complexType name="PROCEEDWITHCARRIER_ReqData">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:CarrierActReqData">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CARRIERACTION" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CARRIERID" nillable="true" type="xs:string" />
+          <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="CATTRDATA" nillable="true" type="q1:ArrayOfstring" />
+          <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="CATTRID" nillable="true" type="q2:ArrayOfstring" />
+          <xs:element minOccurs="0" name="DATAID" type="xs:unsignedInt" />
+          <xs:element minOccurs="0" name="PTN" type="xs:int" />
+          <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="SLOTMAP" nillable="true" type="q3:ArrayOfstring" />
+          <xs:element minOccurs="0" name="SYSTEMBYTE" type="xs:long" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PROCEEDWITHCARRIER_ReqData" nillable="true" type="tns:PROCEEDWITHCARRIER_ReqData" />
+  <xs:complexType name="PROCEEDWITHSLOT_ReqData">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:CarrierActReqData">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CARRIERACTION" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CARRIERID" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="DATAID" type="xs:int" />
+          <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="OCRMAP" nillable="true" type="q4:ArrayOfstring" />
+          <xs:element minOccurs="0" name="PTN" type="xs:int" />
+          <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="SLOTMAP" nillable="true" type="q5:ArrayOfstring" />
+          <xs:element minOccurs="0" name="SYSTEMBYTE" type="xs:long" />
+          <xs:element minOccurs="0" name="USAGE" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PROCEEDWITHSLOT_ReqData" nillable="true" type="tns:PROCEEDWITHSLOT_ReqData" />
+  <xs:complexType name="CANCELCARRIER_ReqData">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:CarrierActReqData">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="CANCELCARRIER_ReqData" nillable="true" type="tns:CANCELCARRIER_ReqData" />
+  <xs:simpleType name="SecsControlStateEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UNKNOWN">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">-1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="EQ_OFFLINE" />
+      <xs:enumeration value="ATTEMPT_ONLINE" />
+      <xs:enumeration value="HOST_OFFLINE" />
+      <xs:enumeration value="ONLINE_LOCAL" />
+      <xs:enumeration value="ONLINE_REMOTE" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="SecsControlStateEnum" nillable="true" type="tns:SecsControlStateEnum" />
+  <xs:simpleType name="SecsGemStateEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UNKNOWN">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">-1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="INIT">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">0</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="IDLE">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SETUP">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="READY">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="EXECUTE">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="SecsGemStateEnum" nillable="true" type="tns:SecsGemStateEnum" />
+  <xs:simpleType name="SecsCommStateEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UNKNOWN">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">-1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="COMM_DISABLED" />
+      <xs:enumeration value="WAIT_CR_FROM_HOST" />
+      <xs:enumeration value="WAIT_DELAY" />
+      <xs:enumeration value="WAIT_CRA" />
+      <xs:enumeration value="COMMUNICATING" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="SecsCommStateEnum" nillable="true" type="tns:SecsCommStateEnum" />
+  <xs:simpleType name="EnumRemoteCommand">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="UNDEFINE">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">-1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ABORT">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">0</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CC_START">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="DLRECIPE">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="JOB_CANCEL">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="JOB_CREATE">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ONLINE_LOCAL">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">5</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ONLINE_REMOTE">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">6</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ONLINEPP_SELECT">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">7</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PAUSE">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">8</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PP_SELECT">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">9</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PSTART">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">10</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="PW_REQUEST">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">11</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="RESTART">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">12</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="RESUME">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">13</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SCAN_CASSETTE">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">14</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="SIGNAL_TOWER">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">15</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="START">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">16</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="STOP">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">17</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="UNDOCK">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">18</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="WFCLN">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">19</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="WFIDCONFPROC">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">20</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ZIF_REQUEST">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">21</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="EnumRemoteCommand" nillable="true" type="tns:EnumRemoteCommand" />
+</xs:schema>

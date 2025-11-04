@@ -1,0 +1,177 @@
+﻿<Window x:Class="ForcedIODialog.ForcedIOView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ForcedIODialog"
+        mc:Ignorable="d"
+        Title="Forced Emul IO" Height="450" Width="600" Background="DarkGray"  Closing="Window_Closing" ResizeMode="NoResize"  >
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- MahApps -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />-->
+
+                <!-- Material Design -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.indigo.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.deeporange.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Slider.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+                <!-- Material Design: MahApps Compatibility -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Flyout.xaml" />
+
+
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="SwitchAccentToggleButton" TargetType="{x:Type ToggleButton}" BasedOn="{DynamicResource MaterialDesignSwitchToggleButton}">
+                <Setter Property="Background" Value="{DynamicResource SecondaryAccentBrush}" />
+                <Style.Triggers>
+                    <Trigger Property="IsChecked" Value="True">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <TextBlock Text="ON"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                    <Trigger Property="IsChecked" Value="False">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <TextBlock Text="OFF"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <BitmapImage x:Key="FindImageSource" 
+                         UriSource="pack://application:,,,/ImageResourcePack;component/Images/ic_find_in_page_white_48dp_2x.png"/>
+            <Style TargetType="CheckBox">
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="Padding" Value="8,5,0,0" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+
+            <!--<Style TargetType="{x:Type materialDesign:PackIcon}" BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="4 0 4 0" />
+            </Style>-->
+        </ResourceDictionary>
+        
+    </Window.Resources>
+    
+    <Grid>
+      
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Label FontSize="20" Foreground="Black" HorizontalAlignment="Center">LOADER</Label>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Label FontSize="20" Foreground="Black" HorizontalAlignment="Center">STAGE</Label>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center">ARM</Label>
+            <ToggleButton x:Name="arm1TB" Grid.Row="0" Grid.Column="1" Width="70" HorizontalAlignment="Center" IsChecked="{Binding DIWAFERONARM.ForcedIO.ForecedValue, Mode=TwoWay}"  VerticalAlignment="Center"></ToggleButton>
+            <CheckBox  x:Name="arm1CB" Grid.Row="0" Grid.Column="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" IsChecked="{Binding DIWAFERONARM.ForcedIO.IsForced , Mode=TwoWay}">Forced</CheckBox>
+
+            <Label Grid.Row="1" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center">ARM2</Label>
+            <ToggleButton Grid.Row="1" Grid.Column="1" Width="70" HorizontalAlignment="Center" IsChecked="{Binding DIWAFERONARM2.ForcedIO.ForecedValue, Mode=TwoWay}" VerticalAlignment="Center"  ></ToggleButton>
+            <CheckBox Grid.Row="1" IsChecked="{Binding DIWAFERONARM2.ForcedIO.IsForced , Mode=TwoWay}" Grid.Column="2" >Forced</CheckBox>
+
+            <Label Grid.Row="2" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center">PREALIGNER</Label>
+            <ToggleButton Grid.Row="2" Grid.Column="1" Width="70" HorizontalAlignment="Center" IsChecked="{Binding DIWAFERONSUBCHUCK.ForcedIO.ForecedValue, Mode=TwoWay}" VerticalAlignment="Center"  ></ToggleButton>
+            <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding DIWAFERONSUBCHUCK.ForcedIO.IsForced , Mode=TwoWay}" >Forced</CheckBox>
+
+            <Label Grid.Row="3" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center">INSPECTION__TRAY</Label>
+            <ToggleButton Grid.Row="3" Grid.Column="1" Width="70"  HorizontalAlignment="Center" IsChecked="{Binding DIWAFERONDRAWER.ForcedIO.ForecedValue, Mode=TwoWay}" VerticalAlignment="Center"  ></ToggleButton>
+            <CheckBox Grid.Row="3" Grid.Column="2" IsChecked="{Binding DIWAFERONDRAWER.ForcedIO.IsForced , Mode=TwoWay}" >Forced</CheckBox>
+
+            <Label Grid.Row="4" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center">FIXED__TRAY1</Label>
+            <ToggleButton Grid.Row="4" Grid.Column="1" Width="70" HorizontalAlignment="Center" IsChecked="{Binding DIWAFERONFIXEDTRAY0.ForcedIO.ForecedValue, Mode=TwoWay}" VerticalAlignment="Center"  ></ToggleButton>
+            <CheckBox Grid.Row="4" Grid.Column="2" IsChecked="{Binding DIWAFERONFIXEDTRAY0.ForcedIO.IsForced , Mode=TwoWay}"  >Forced</CheckBox>
+            
+            <Label Grid.Row="5" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center">FIXED__TRAY2</Label>
+            <ToggleButton Grid.Row="5" Grid.Column="1" Width="70" HorizontalAlignment="Center" IsChecked="{Binding DIWAFERONFIXEDTRAY1.ForcedIO.ForecedValue, Mode=TwoWay}" VerticalAlignment="Center"  ></ToggleButton>
+            <CheckBox Grid.Row="5" Grid.Column="2" IsChecked="{Binding DIWAFERONFIXEDTRAY1.ForcedIO.IsForced , Mode=TwoWay}">Forced</CheckBox>
+
+            <Label Grid.Row="6" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center">FIXED__TRAY3</Label>
+            <ToggleButton Grid.Row="6" Grid.Column="1" Width="70" HorizontalAlignment="Center" IsChecked="{Binding DIWAFERONFIXEDTRAY2.ForcedIO.ForecedValue, Mode=TwoWay}" VerticalAlignment="Center"  ></ToggleButton>
+            <CheckBox Grid.Row="6" Grid.Column="2" IsChecked="{Binding DIWAFERONFIXEDTRAY2.ForcedIO.IsForced , Mode=TwoWay}">Forced</CheckBox>
+
+            <Label Grid.Row="7" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center">FIXED__TRAY4</Label>
+            <ToggleButton Grid.Row="7" Grid.Column="1" Width="70" HorizontalAlignment="Center" IsChecked="{Binding DIWAFERONFIXEDTRAY3.ForcedIO.ForecedValue, Mode=TwoWay}" VerticalAlignment="Center"  ></ToggleButton>
+            <CheckBox Grid.Row="7" Grid.Column="2" IsChecked="{Binding DIWAFERONFIXEDTRAY3.ForcedIO.IsForced , Mode=TwoWay}" >Forced</CheckBox>
+
+            <Label Grid.Row="8" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center">FIXED__TRAY5</Label>
+            <ToggleButton Grid.Row="8" Grid.Column="1" Width="70" HorizontalAlignment="Center" IsChecked="{Binding DIWAFERONFIXEDTRAY4.ForcedIO.ForecedValue, Mode=TwoWay}" VerticalAlignment="Center"  ></ToggleButton>
+            <CheckBox Grid.Row="8" Grid.Column="2" IsChecked="{Binding DIWAFERONFIXEDTRAY4.ForcedIO.IsForced , Mode=TwoWay}" >Forced</CheckBox>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center">CHUCK__6</Label>
+            <ToggleButton Grid.Row="0" Grid.Column="1" Width="70" HorizontalAlignment="Center" IsChecked="{Binding DIWAFERONCHUCK_6.ForcedIO.ForecedValue, Mode=TwoWay}" VerticalAlignment="Center"  ></ToggleButton>
+            <CheckBox Grid.Row="0" Grid.Column="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" IsChecked="{Binding DIWAFERONCHUCK_6.ForcedIO.IsForced , Mode=TwoWay}">Forced</CheckBox>
+
+            <Label Grid.Row="1" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center">CHUCK__8</Label>
+            <ToggleButton Grid.Row="1" Grid.Column="1" Width="70" HorizontalAlignment="Center" IsChecked="{Binding DIWAFERONCHUCK_8.ForcedIO.ForecedValue, Mode=TwoWay}" VerticalAlignment="Center"  ></ToggleButton>
+            <CheckBox Grid.Row="1" Grid.Column="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" IsChecked="{Binding DIWAFERONCHUCK_8.ForcedIO.IsForced , Mode=TwoWay}">Forced</CheckBox>
+
+            <Label Grid.Row="2" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center">CHUCK__12</Label>
+            <ToggleButton Grid.Row="2" Grid.Column="1" Width="70" HorizontalAlignment="Center" IsChecked="{Binding DIWAFERONCHUCK_12.ForcedIO.ForecedValue, Mode=TwoWay}" VerticalAlignment="Center"  ></ToggleButton>
+            <CheckBox Grid.Row="2" Grid.Column="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" IsChecked="{Binding DIWAFERONCHUCK_12.ForcedIO.IsForced , Mode=TwoWay}">Forced</CheckBox>
+
+            <Label Grid.Row="3" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10">THREE__LEG__DOWN</Label>
+            <ToggleButton Grid.Row="3" Grid.Column="1" Width="70" HorizontalAlignment="Center" IsChecked="{Binding DITHREELEGUP_0.ForcedIO.ForecedValue, Mode=TwoWay}" VerticalAlignment="Center"  ></ToggleButton>
+            <CheckBox Grid.Row="3" Grid.Column="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" IsChecked="{Binding DITHREELEGUP_0.ForcedIO.IsForced , Mode=TwoWay}">Forced</CheckBox>
+
+            <Label Grid.Row="4" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10">THREE__LEG__UP</Label>
+            <ToggleButton Grid.Row="4" Grid.Column="1" Width="70" HorizontalAlignment="Center" IsChecked="{Binding DITHREELEGUP_1.ForcedIO.ForecedValue, Mode=TwoWay}" VerticalAlignment="Center"  ></ToggleButton>
+            <CheckBox Grid.Row="4" Grid.Column="2"  HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black" IsChecked="{Binding DITHREELEGUP_1.ForcedIO.IsForced , Mode=TwoWay}">Forced</CheckBox>
+        </Grid>
+
+    </Grid>
+</Window>

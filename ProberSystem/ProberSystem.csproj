@@ -1,0 +1,486 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A61A114E-B263-4732-84D8-494319D54D13}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>ProberSystem</RootNamespace>
+    <AssemblyName>ProberSystem</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationVersion>1.0.3.4</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <FileAlignment>4096</FileAlignment>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>8InchCST.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net47\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.2.2.920, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.2.2\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.6.0.325, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.6.0\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Expression.Drawing.3.0.0\lib\net45\Microsoft.Expression.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="Pranas.ScreenshotCapture, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pranas.ScreenshotCapture.1.0.11\lib\net40\Pranas.ScreenshotCapture.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\PresentationCore.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\PresentationFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Charting, Version=4.2.1.9358, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SciChart\SciChart.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Core, Version=4.2.1.9358, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SciChart\SciChart.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CommonDLL\DLL\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml">
+      <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml">
+      <HintPath>..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Assist\ShadowAssist.cs" />
+    <Compile Include="Assist\ToggleButtonAssist.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="Theme\AccentStyleWindow.xaml.cs">
+      <DependentUpon>AccentStyleWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Theme\ThemeManagerHelper.cs" />
+    <Compile Include="VM\UcVisionMappingOPUSVSetup.xaml.cs">
+      <DependentUpon>UcVisionMappingOPUSVSetup.xaml</DependentUpon>
+    </Compile>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Resources\GlassButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\IconsNonShared.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\AccentStyleWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VM\UcVisionMappingOPUSVSetup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Resource Include="Resources\giphy.gif" />
+    <Resource Include="Resources\novo_media.jpg" />
+    <Resource Include="Resources\lock-open.png" />
+    <Resource Include="Resources\lock.png" />
+    <Resource Include="Resources\DP_Cyl.png" />
+    <Resource Include="Resources\FCSlider_Cyl.png" />
+    <Resource Include="Resources\FC_UpDn_Cyl.png" />
+    <Resource Include="Resources\Foup12_Lock_CylAssy.png" />
+    <Resource Include="Resources\FOUPRotLock_Cyl.png" />
+    <Resource Include="Resources\CST8_Lock_CylAssy.png" />
+    <Resource Include="Resources\Cat2.png" />
+    <Resource Include="Resources\SEMICS.png" />
+    <Resource Include="Resources\map.png" />
+    <Resource Include="Resources\Cat1.jpg" />
+    <Resource Include="Resources\AbstractBlue.png" />
+    <Resource Include="Resources\alvin.png" />
+    <Resource Include="Resources\logo.png" />
+    <Resource Include="Resources\Statistics.png" />
+    <Resource Include="Resources\Recipe.png" />
+    <Resource Include="Resources\OCR.png" />
+    <Resource Include="8InchCST.ico" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\app.manifest" />
+    <None Include="Resources\Menu.png" />
+    <Resource Include="Resources\Inspect.png" />
+    <Resource Include="Resources\GPIB.png" />
+    <Resource Include="Resources\Contact.png" />
+    <Resource Include="Resources\Cleaning.png" />
+    <Resource Include="Resources\Bin.png" />
+    <Resource Include="Resources\job.png" />
+    <Resource Include="Resources\puzzle.png" />
+    <Resource Include="Resources\target.png" />
+    <Resource Include="Resources\bars.png" />
+    <Resource Include="Resources\monitoring.png" />
+    <Resource Include="Resources\notes.png" />
+    <Resource Include="Resources\start.png" />
+    <Resource Include="Resources\settings.png" />
+    <Resource Include="Resources\pause.png" />
+    <None Include="Design\projectGuides.guides" />
+    <None Include="Resources\Image1.png" />
+    <Resource Include="Resources\020-settings-5.png" />
+    <None Include="Resources\Seq8.png" />
+    <None Include="Resources\Seq7.png" />
+    <None Include="Resources\Seq6.png" />
+    <None Include="Resources\Seq5.png" />
+    <None Include="Resources\Seq4.png" />
+    <None Include="Resources\Seq3.png" />
+    <None Include="Resources\Seq2.png" />
+    <None Include="Resources\Seq1.png" />
+    <EmbeddedResource Include="Properties\Resources.fr-FR.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.ja-JP.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.ko-KR.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.ko.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.zh-CN.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.zh-TW.resx" />
+    <Resource Include="Resources\Entypo-license.txt" />
+    <Resource Include="Resources\JogDown.png" />
+    <Resource Include="Resources\JogLeft.png" />
+    <Resource Include="Resources\JogLeftDown.png" />
+    <Resource Include="Resources\JogLeftUp.png" />
+    <Resource Include="Resources\JogRight.png" />
+    <Resource Include="Resources\JogRightDown.png" />
+    <Resource Include="Resources\JogRightUp.png" />
+    <Resource Include="Resources\JogUp.png" />
+    <Resource Include="Resources\WindowsIcons-license.txt" />
+    <Resource Include="Resources\Entypo.ttf" />
+    <Resource Include="Resources\ARM1_NoWafer.png" />
+    <Resource Include="Resources\ARM1_W.png" />
+    <Resource Include="Resources\ARM2_NoWafer.png" />
+    <Resource Include="Resources\ARM2_W.png" />
+    <Resource Include="Resources\ArrowDown.png" />
+    <Resource Include="Resources\ArrowDownW.png" />
+    <Resource Include="Resources\ArrowLeft.png" />
+    <Resource Include="Resources\ArrowLeftG.png" />
+    <Resource Include="Resources\ArrowLeftW.png" />
+    <Resource Include="Resources\ArrowRight.png" />
+    <Resource Include="Resources\ArrowRightG.png" />
+    <Resource Include="Resources\ArrowRightW.png" />
+    <Resource Include="Resources\ArrowUp.png" />
+    <Resource Include="Resources\ArrowUpW.png" />
+    <Resource Include="Resources\Chuck_NoWafer.png" />
+    <Resource Include="Resources\Chuck_W.png" />
+    <Resource Include="Resources\Clockwise.png" />
+    <Resource Include="Resources\CoordLeftDown.png" />
+    <Resource Include="Resources\CoordLeftUp.png" />
+    <Resource Include="Resources\CoordRightDown.png" />
+    <Resource Include="Resources\CoordRightUp.png" />
+    <Resource Include="Resources\CounterClockwise.png" />
+    <Resource Include="Resources\ExtendHeight.png" />
+    <Resource Include="Resources\ExtendWidth.png" />
+    <Resource Include="Resources\FixedTray_NoWafer.png" />
+    <Resource Include="Resources\FixedTray_W.png" />
+    <Resource Include="Resources\Minus.png" />
+    <Resource Include="Resources\Plus.png" />
+    <Resource Include="Resources\PreAligner_NoWafer.png" />
+    <Resource Include="Resources\PreAligner_W.png" />
+    <Resource Include="Resources\ReduceHeight.png" />
+    <Resource Include="Resources\ReduceWidth.png" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AccountModule\AccountModule.csproj">
+      <Project>{4d2007eb-9874-4024-8986-3209415ad660}</Project>
+      <Name>AccountModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AdjustLightDialog\AdjustLightDialog.csproj">
+      <Project>{3b919cab-bdd8-4f45-9c68-7277384c0448}</Project>
+      <Name>AdjustLightDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ComponentVerificationDialog\ComponentVerificationDialog.csproj">
+      <Project>{8cec5551-c7b5-4556-8a81-35cf3ccbbd57}</Project>
+      <Name>ComponentVerificationDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CUIService\CUIService.csproj">
+      <Project>{822fab06-827f-4cde-87da-469aacad3660}</Project>
+      <Name>CUIService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CUI\CUI.csproj">
+      <Project>{3c5e49e6-7976-45be-aba3-c245b5317b4d}</Project>
+      <Name>CUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBTableEditor\DBTableEditor.csproj">
+      <Project>{48a1594b-9e03-405b-a662-38bd78bbd2fe}</Project>
+      <Name>DBTableEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DutEditorView\ucDutViewer.csproj">
+      <Project>{0e8eb5f9-ee95-4e4d-a896-b6074b1f05e1}</Project>
+      <Name>ucDutViewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ErrorMapping\ErrorMapping.csproj">
+      <Project>{f785ca2f-7621-40b0-ae4e-cba12c4abb55}</Project>
+      <Name>ErrorMapping</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ErrorParam\ErrorParam.csproj">
+      <Project>{d039b2d7-9f31-4d48-8bf1-b2fce327f960}</Project>
+      <Name>ErrorParam</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExtraCameraMainDialog\ExtraCameraMainDialog.csproj">
+      <Project>{2897844A-D57E-4790-B0AF-9F85502B9170}</Project>
+      <Name>ExtraCameraMainDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FocusingSettingDialog\FocusingSettingDialog.csproj">
+      <Project>{4d2f296a-216e-45e6-9a0c-58cfbbd270a8}</Project>
+      <Name>FocusingSettingDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Focusing\Focusing.csproj">
+      <Project>{E59F4F23-CFF5-414A-AB35-C0F547CA0299}</Project>
+      <Name>Focusing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ForcedIODialog\ForcedIODialog.csproj">
+      <Project>{8c0b06de-752f-437a-9598-d6f04118de04}</Project>
+      <Name>ForcedIODialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{d3b00cca-3c50-42b1-8dca-dfe47c759b57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroDialogInterfaces\MetroDialogInterfaces.csproj">
+      <Project>{2C3114E3-137B-44ED-A9C2-BA5F2198A672}</Project>
+      <Name>MetroDialogInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModuleFactory\ModuleFactory.csproj">
+      <Project>{3115c8bd-3126-4fa5-ba83-03462b88e604}</Project>
+      <Name>ModuleFactory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MotionManager\ProbeMotion.csproj">
+      <Project>{96C82965-7558-4A99-94F6-BD020B46E917}</Project>
+      <Name>ProbeMotion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NotifyEventModule\NotifyEventModule.csproj">
+      <Project>{40F3E74A-35B7-417C-9118-EE5DB75340A6}</Project>
+      <Name>NotifyEventModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberDevelopPackWindow\ProberDevelopPackWindow.csproj">
+      <Project>{55b8c03e-749e-45b6-befb-6ab5e86e3102}</Project>
+      <Name>ProberDevelopPackWindow</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{EDBA3295-FF2A-4368-A217-6495941A8BF5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberViewModel\ProberViewModel.csproj">
+      <Project>{c7d1f978-d3ae-49af-9a4b-09337bcbfae9}</Project>
+      <Name>ProberViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RelayCommandBase\RelayCommandBase.csproj">
+      <Project>{348522C5-8377-4D66-96F3-5D7DA3D7762B}</Project>
+      <Name>RelayCommandBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecsGemSettingDialogMainProject\SecsGemSettingDlg.csproj">
+      <Project>{2535d615-d7be-4f6b-ad0d-e38cae58bd82}</Project>
+      <Name>SecsGemSettingDlg</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sentinel\Sentinel.csproj">
+      <Project>{3881A71D-BD95-42A5-B872-B73ECFBE18E1}</Project>
+      <Name>Sentinel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Splasher\SplasherService.csproj">
+      <Project>{f43ad2a3-262c-44c9-80dd-4aa929720fe1}</Project>
+      <Name>SplasherService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SplashWindowControl\SplashWindowControl.csproj">
+      <Project>{9c74c3d5-6cc5-459d-aaae-2ba93f8d4c91}</Project>
+      <Name>SplashWindowControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SubstrateObjects\SubstrateObjects.csproj">
+      <Project>{EFB47AA8-B3C8-439C-8A01-D26DB8522710}</Project>
+      <Name>SubstrateObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestResultDialogMainProject\TestResultDlg.csproj">
+      <Project>{B3265FF9-7181-485C-B017-65EB9BA901D2}</Project>
+      <Name>TestResultDlg</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestSetupDialog\TestSetupDialog.csproj">
+      <Project>{D4DEB4FC-02C8-4AD4-AD03-F7528FEA4E24}</Project>
+      <Name>TestSetupDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UcDisplayPort\UcDisplayPort.csproj">
+      <Project>{fba75c26-7e9c-4e69-a6cb-1a6110e76805}</Project>
+      <Name>UcDisplayPort</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UCTaskManagement\UCTaskManagement.csproj">
+      <Project>{854819a3-ac62-471a-b51e-e2fad369cbc2}</Project>
+      <Name>UCTaskManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ValueConverters\ValueConverters.csproj">
+      <Project>{90e38e59-8fea-4da7-937f-888390b913c3}</Project>
+      <Name>ValueConverters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VirtualKeyboardControl\VirtualKeyboardControl.csproj">
+      <Project>{FDA1A497-1086-4987-9C72-2284CF79FD16}</Project>
+      <Name>VirtualKeyboardControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WaferAlignControlDialog\WaferAlignControlDialog.csproj">
+      <Project>{6A255EEA-6BF6-48FE-9A0A-5BE8220758AE}</Project>
+      <Name>WaferAlignControlDialog</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <XliffResource Include="MultilingualResources\ProberSystem.fr-FR.xlf" />
+    <XliffResource Include="MultilingualResources\ProberSystem.ja-JP.xlf">
+      <SubType>Designer</SubType>
+    </XliffResource>
+    <XliffResource Include="MultilingualResources\ProberSystem.ko-KR.xlf">
+      <SubType>Designer</SubType>
+    </XliffResource>
+    <XliffResource Include="MultilingualResources\ProberSystem.ko.xlf" />
+    <XliffResource Include="MultilingualResources\ProberSystem.zh-CN.xlf" />
+    <XliffResource Include="MultilingualResources\ProberSystem.zh-TW.xlf" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2%28x86 및 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>taskkill /f /im "SecsGemServiceHostApp.exe" /fi "memusage gt 2"
+taskkill /f /im "XGem.exe" /fi "memusage gt 2"</PreBuildEvent>
+  </PropertyGroup>
+</Project>

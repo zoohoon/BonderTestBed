@@ -1,0 +1,1506 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="WaferMapGenerate" xml:space="preserve">
+    <value>웨이퍼 맵 생성</value>
+  </data>
+  <data name="ChangeCoord" xml:space="preserve">
+    <value>좌표 변경</value>
+  </data>
+  <data name="MultiSelectionEnable" xml:space="preserve">
+    <value>다중 선택 사용</value>
+  </data>
+  <data name="CoordInfo" xml:space="preserve">
+    <value>좌표 정보</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>ko-KR</value>
+  </data>
+  <data name="ManualTeach" xml:space="preserve">
+    <value>수동 지정</value>
+  </data>
+  <data name="WaferEdgeData" xml:space="preserve">
+    <value>웨이퍼 모서리 데이터</value>
+  </data>
+  <data name="WaferMapStatus" xml:space="preserve">
+    <value>웨이퍼 맵 상태</value>
+  </data>
+  <data name="AddPattern" xml:space="preserve">
+    <value>패턴 추가</value>
+  </data>
+  <data name="AlignPatternStatus" xml:space="preserve">
+    <value>얼라인 패턴 상태</value>
+  </data>
+  <data name="AutoSearch" xml:space="preserve">
+    <value>자동 검색</value>
+  </data>
+  <data name="DeleteAllPad" xml:space="preserve">
+    <value>모든 패드 삭제</value>
+  </data>
+  <data name="DeletePad" xml:space="preserve">
+    <value>패드 삭제</value>
+  </data>
+  <data name="DeleteSelectedPattern" xml:space="preserve">
+    <value>선택한 패턴 삭제</value>
+  </data>
+  <data name="RegisteredPad" xml:space="preserve">
+    <value>등록 된 패드</value>
+  </data>
+  <data name="RegisterPad" xml:space="preserve">
+    <value>패드 등록</value>
+  </data>
+  <data name="TeachBottomLeft" xml:space="preserve">
+    <value>왼쪽 아래 지정</value>
+  </data>
+  <data name="TeachingCross" xml:space="preserve">
+    <value>크로스 지정</value>
+  </data>
+  <data name="TeachUpperRight" xml:space="preserve">
+    <value>오른쪽 위 지정</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>설정 저장</value>
+  </data>
+  <data name="ARM1_NoWafer" xml:space="preserve">
+    <value>..\Resources\ARM1_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM1_W" xml:space="preserve">
+    <value>..\Resources\ARM1_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM2_NoWafer" xml:space="preserve">
+    <value>..\Resources\ARM2_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM2_W" xml:space="preserve">
+    <value>..\Resources\ARM2_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowDown" xml:space="preserve">
+    <value>..\Resources\ArrowDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeft" xml:space="preserve">
+    <value>..\Resources\ArrowLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeftG" xml:space="preserve">
+    <value>..\Resources\ArrowLeftG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeftW" xml:space="preserve">
+    <value>..\Resources\ArrowLeftW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRight" xml:space="preserve">
+    <value>..\Resources\ArrowRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRightG" xml:space="preserve">
+    <value>..\Resources\ArrowRightG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRightW" xml:space="preserve">
+    <value>..\Resources\ArrowRightW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowUp" xml:space="preserve">
+    <value>..\Resources\ArrowUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Chuck_NoWafer" xml:space="preserve">
+    <value>..\Resources\Chuck_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Chuck_W" xml:space="preserve">
+    <value>..\Resources\Chuck_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Clockwise" xml:space="preserve">
+    <value>..\Resources\Clockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordLeftDown" xml:space="preserve">
+    <value>..\Resources\CoordLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordLeftUp" xml:space="preserve">
+    <value>..\Resources\CoordLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordRightDown" xml:space="preserve">
+    <value>..\Resources\CoordRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordRightUp" xml:space="preserve">
+    <value>..\Resources\CoordRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CounterClockwise" xml:space="preserve">
+    <value>..\Resources\CounterClockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ExtendHeight" xml:space="preserve">
+    <value>..\Resources\ExtendHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ExtendWidth" xml:space="preserve">
+    <value>..\Resources\ExtendWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FixedTray_NoWafer" xml:space="preserve">
+    <value>..\Resources\FixedTray_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FixedTray_W" xml:space="preserve">
+    <value>..\Resources\FixedTray_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Minus" xml:space="preserve">
+    <value>..\Resources\Minus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Plus" xml:space="preserve">
+    <value>..\Resources\Plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PreAligner_NoWafer" xml:space="preserve">
+    <value>..\Resources\PreAligner_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PreAligner_W" xml:space="preserve">
+    <value>..\Resources\PreAligner_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReduceHeight" xml:space="preserve">
+    <value>..\Resources\ReduceHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReduceWidth" xml:space="preserve">
+    <value>..\Resources\ReduceWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CheckOperationParameter" xml:space="preserve">
+    <value>오퍼레이션 파라미터 확인</value>
+  </data>
+  <data name="CheckProbeMark" xml:space="preserve">
+    <value>프로브 마크 확인</value>
+  </data>
+  <data name="CheckRecipe" xml:space="preserve">
+    <value>레시피 확인</value>
+  </data>
+  <data name="CleanPadChange" xml:space="preserve">
+    <value>클리닝 패드 교체</value>
+  </data>
+  <data name="CopyRecipe" xml:space="preserve">
+    <value>레시피 복사</value>
+  </data>
+  <data name="CreateNewRecipe" xml:space="preserve">
+    <value>새 레시피 생성</value>
+  </data>
+  <data name="DeleteRecipe" xml:space="preserve">
+    <value>레시피 삭제</value>
+  </data>
+  <data name="Diagonostics" xml:space="preserve">
+    <value>진단</value>
+  </data>
+  <data name="DownloadRecipe" xml:space="preserve">
+    <value>레시피 다운로드</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>정보</value>
+  </data>
+  <data name="LoadRecipe" xml:space="preserve">
+    <value>레시피 불러오기</value>
+  </data>
+  <data name="LogManagement" xml:space="preserve">
+    <value>로그 관리</value>
+  </data>
+  <data name="LOTMENU" xml:space="preserve">
+    <value>랏드 메뉴</value>
+  </data>
+  <data name="MENU" xml:space="preserve">
+    <value>메뉴</value>
+  </data>
+  <data name="NeedleCleaning" xml:space="preserve">
+    <value>핀 청소</value>
+  </data>
+  <data name="OPERATION" xml:space="preserve">
+    <value>오퍼레이션</value>
+  </data>
+  <data name="PolishWaferChange" xml:space="preserve">
+    <value>폴리쉬 웨이퍼 변경</value>
+  </data>
+  <data name="ProbeCardChange" xml:space="preserve">
+    <value>프로브 카드 변경</value>
+  </data>
+  <data name="SETUP" xml:space="preserve">
+    <value>설정</value>
+  </data>
+  <data name="SetupLotProcess" xml:space="preserve">
+    <value>랏드 프로세스 설정</value>
+  </data>
+  <data name="SetupOperationParameter" xml:space="preserve">
+    <value>오퍼레이션 파라미터 설정</value>
+  </data>
+  <data name="SetupRecipe" xml:space="preserve">
+    <value>레시피 설정</value>
+  </data>
+  <data name="ShutDown" xml:space="preserve">
+    <value>종료</value>
+  </data>
+  <data name="SYSTEM" xml:space="preserve">
+    <value>시스템</value>
+  </data>
+  <data name="UserAccount" xml:space="preserve">
+    <value>사용자 계정</value>
+  </data>
+  <data name="WaferLoadUnload" xml:space="preserve">
+    <value>웨이퍼 로드/언로드</value>
+  </data>
+  <data name="Recipe" xml:space="preserve">
+    <value>레시피</value>
+  </data>
+  <data name="Best" xml:space="preserve">
+    <value>최고</value>
+  </data>
+  <data name="Chuck" xml:space="preserve">
+    <value>척</value>
+  </data>
+  <data name="CST1" xml:space="preserve">
+    <value>카세트 1</value>
+  </data>
+  <data name="CST2" xml:space="preserve">
+    <value>카세트 2</value>
+  </data>
+  <data name="CurProcess" xml:space="preserve">
+    <value>현재 프로세스</value>
+  </data>
+  <data name="CurrentValue" xml:space="preserve">
+    <value>현재</value>
+  </data>
+  <data name="CurYield" xml:space="preserve">
+    <value>수율</value>
+  </data>
+  <data name="DeviceName" xml:space="preserve">
+    <value>디바이스 이름</value>
+  </data>
+  <data name="FailDieCnt" xml:space="preserve">
+    <value>페일 다이</value>
+  </data>
+  <data name="Hand1" xml:space="preserve">
+    <value>핸드 1</value>
+  </data>
+  <data name="Hand2" xml:space="preserve">
+    <value>핸드 2</value>
+  </data>
+  <data name="HoldingTime" xml:space="preserve">
+    <value>중단 시간</value>
+  </data>
+  <data name="InspectionTray" xml:space="preserve">
+    <value>서랍</value>
+  </data>
+  <data name="LotName" xml:space="preserve">
+    <value>랏드 이름</value>
+  </data>
+  <data name="LotSetup" xml:space="preserve">
+    <value>랏드 런 셋업</value>
+  </data>
+  <data name="OPName" xml:space="preserve">
+    <value>오퍼레이터 이름</value>
+  </data>
+  <data name="OverHeat" xml:space="preserve">
+    <value>초과 가열</value>
+  </data>
+  <data name="PassDieCnt" xml:space="preserve">
+    <value>패스 다이</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>일시 중지</value>
+  </data>
+  <data name="RetestYield" xml:space="preserve">
+    <value>리테스트 수율</value>
+  </data>
+  <data name="RunningTime" xml:space="preserve">
+    <value>실행 시간</value>
+  </data>
+  <data name="SettingValue" xml:space="preserve">
+    <value>설정</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>시작</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>시작 시간</value>
+  </data>
+  <data name="StopAfterFirstProbe" xml:space="preserve">
+    <value>첫 번째 조사 후 중지</value>
+  </data>
+  <data name="StopAfterLoadCST" xml:space="preserve">
+    <value>부하 중부 표준시 후 중지</value>
+  </data>
+  <data name="StopAfterOCRProcess" xml:space="preserve">
+    <value>OCR 과정 후 중지</value>
+  </data>
+  <data name="StopAfterProbe" xml:space="preserve">
+    <value>조사 후 중지</value>
+  </data>
+  <data name="StopAfterWaferLoad" xml:space="preserve">
+    <value>웨이퍼 부하 후 중지</value>
+  </data>
+  <data name="StopBeforeProbe" xml:space="preserve">
+    <value>조사 하기 전에 중지</value>
+  </data>
+  <data name="StopBeforeRetest" xml:space="preserve">
+    <value>재 시험 전에 중지</value>
+  </data>
+  <data name="SubChuck" xml:space="preserve">
+    <value>하위 척</value>
+  </data>
+  <data name="totalTestDieCnt" xml:space="preserve">
+    <value>총 테스트 다</value>
+  </data>
+  <data name="Tray1" xml:space="preserve">
+    <value>용지함 1</value>
+  </data>
+  <data name="Tray2" xml:space="preserve">
+    <value>용지함 2</value>
+  </data>
+  <data name="Tray3" xml:space="preserve">
+    <value>용지함 3</value>
+  </data>
+  <data name="Tray4" xml:space="preserve">
+    <value>용지함 4</value>
+  </data>
+  <data name="Tray5" xml:space="preserve">
+    <value>용지함 5</value>
+  </data>
+  <data name="Worst" xml:space="preserve">
+    <value>최하위</value>
+  </data>
+  <data name="ChangeSequence" xml:space="preserve">
+    <value>순서 변경</value>
+  </data>
+  <data name="ArrowDownW" xml:space="preserve">
+    <value>..\Resources\ArrowDownW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowUpW" xml:space="preserve">
+    <value>..\Resources\ArrowUpW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AutoSelect" xml:space="preserve">
+    <value>자동 선택</value>
+  </data>
+  <data name="AutoThreshold" xml:space="preserve">
+    <value>자동 임계값</value>
+  </data>
+  <data name="Base" xml:space="preserve">
+    <value>단위</value>
+  </data>
+  <data name="BeginNeedleSetup" xml:space="preserve">
+    <value>시작 바늘 설치</value>
+  </data>
+  <data name="Blob" xml:space="preserve">
+    <value>Blob</value>
+  </data>
+  <data name="Cantilever" xml:space="preserve">
+    <value>캔틸레버</value>
+  </data>
+  <data name="ChangeCardType" xml:space="preserve">
+    <value>카드 종류 변경</value>
+  </data>
+  <data name="Circle" xml:space="preserve">
+    <value>원</value>
+  </data>
+  <data name="DeleteAllPin" xml:space="preserve">
+    <value>모든 핀을 삭제</value>
+  </data>
+  <data name="DeletePin" xml:space="preserve">
+    <value>핀 삭제</value>
+  </data>
+  <data name="DiscardAll" xml:space="preserve">
+    <value>모두 삭제</value>
+  </data>
+  <data name="DiscardPin" xml:space="preserve">
+    <value>핀 삭제</value>
+  </data>
+  <data name="Edge" xml:space="preserve">
+    <value>에지</value>
+  </data>
+  <data name="EnablePinGroup" xml:space="preserve">
+    <value>이블 핀 그룹</value>
+  </data>
+  <data name="Finish" xml:space="preserve">
+    <value>마침</value>
+  </data>
+  <data name="FormFactor" xml:space="preserve">
+    <value>FormFactor</value>
+  </data>
+  <data name="GoNextStep" xml:space="preserve">
+    <value>다음 단계 이동</value>
+  </data>
+  <data name="GoPrevStep" xml:space="preserve">
+    <value>이전 단계를가 서</value>
+  </data>
+  <data name="HighAlignKey" xml:space="preserve">
+    <value>높은 키를 정렬</value>
+  </data>
+  <data name="InitFromPadData" xml:space="preserve">
+    <value>패드 데이터 초기화</value>
+  </data>
+  <data name="Manual" xml:space="preserve">
+    <value>수동</value>
+  </data>
+  <data name="PinNumber" xml:space="preserve">
+    <value>핀 번호</value>
+  </data>
+  <data name="PinRegistrationStatus" xml:space="preserve">
+    <value>핀 등록 상태</value>
+  </data>
+  <data name="PinSelection" xml:space="preserve">
+    <value>핀 선택</value>
+  </data>
+  <data name="Rectangle" xml:space="preserve">
+    <value>사각형</value>
+  </data>
+  <data name="RegisteredDut" xml:space="preserve">
+    <value>등록 된 Dut</value>
+  </data>
+  <data name="RegisteredPin" xml:space="preserve">
+    <value>등록 된 핀</value>
+  </data>
+  <data name="RegisteredPosition" xml:space="preserve">
+    <value>등록된 위치</value>
+  </data>
+  <data name="RegisterFirst" xml:space="preserve">
+    <value>먼저 등록</value>
+  </data>
+  <data name="RegisterPin" xml:space="preserve">
+    <value>핀 등록</value>
+  </data>
+  <data name="RegisterSecond" xml:space="preserve">
+    <value>두 번째 등록</value>
+  </data>
+  <data name="ROI" xml:space="preserve">
+    <value>ROI</value>
+  </data>
+  <data name="SelectPin" xml:space="preserve">
+    <value>핀 선택</value>
+  </data>
+  <data name="SetLimitation" xml:space="preserve">
+    <value>설정된 제한</value>
+  </data>
+  <data name="SetPinDataFromPad" xml:space="preserve">
+    <value>패드에서 set 핀 데이터</value>
+  </data>
+  <data name="SetReferenceDut" xml:space="preserve">
+    <value>SetReferenceDut</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>크기 조정</value>
+  </data>
+  <data name="Step" xml:space="preserve">
+    <value>계단식 영역형</value>
+  </data>
+  <data name="TeachNeedleBase" xml:space="preserve">
+    <value>니 들 자료를 가르쳐</value>
+  </data>
+  <data name="TeachNeedleTip" xml:space="preserve">
+    <value>바늘 팁을 가르쳐</value>
+  </data>
+  <data name="Tip" xml:space="preserve">
+    <value>팁</value>
+  </data>
+  <data name="TipRegistration" xml:space="preserve">
+    <value>팁 등록</value>
+  </data>
+  <data name="UpdateForAllPin" xml:space="preserve">
+    <value>모든 핀에 대 한 업데이트</value>
+  </data>
+  <data name="UpdatePinPosition" xml:space="preserve">
+    <value>핀 위치 업데이트</value>
+  </data>
+  <data name="Updating" xml:space="preserve">
+    <value>업데이트 중</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>세로</value>
+  </data>
+  <data name="BinSummary" xml:space="preserve">
+    <value>빈 요약</value>
+  </data>
+  <data name="CardPosition" xml:space="preserve">
+    <value>카드 위치</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>범주</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>닫다</value>
+  </data>
+  <data name="DutSummary" xml:space="preserve">
+    <value>Dut 요약</value>
+  </data>
+  <data name="EachPinPosition" xml:space="preserve">
+    <value>각 핀 위치</value>
+  </data>
+  <data name="LotSummary" xml:space="preserve">
+    <value>많은 요약</value>
+  </data>
+  <data name="MinMaxZ" xml:space="preserve">
+    <value>최소/최대 Z</value>
+  </data>
+  <data name="OperationLog" xml:space="preserve">
+    <value>작업 로그</value>
+  </data>
+  <data name="PinAlignmentTolerence" xml:space="preserve">
+    <value>핀 정렬 허용</value>
+  </data>
+  <data name="PinCount" xml:space="preserve">
+    <value>핀 수</value>
+  </data>
+  <data name="PinPositionTolerance" xml:space="preserve">
+    <value>핀 위치 공차</value>
+  </data>
+  <data name="PMISummary" xml:space="preserve">
+    <value>PMI 요약</value>
+  </data>
+  <data name="SamplePinAlignment" xml:space="preserve">
+    <value>샘플 핀 정렬</value>
+  </data>
+  <data name="Tolerance" xml:space="preserve">
+    <value>허용 범위</value>
+  </data>
+  <data name="AllContact" xml:space="preserve">
+    <value>모든 연락처</value>
+  </data>
+  <data name="ApplyShift" xml:space="preserve">
+    <value>변화를 적용</value>
+  </data>
+  <data name="BumpView" xml:space="preserve">
+    <value>범프 보기</value>
+  </data>
+  <data name="ColorView" xml:space="preserve">
+    <value>색상 보기</value>
+  </data>
+  <data name="FinishLot" xml:space="preserve">
+    <value>마침 많은</value>
+  </data>
+  <data name="FirstContact" xml:space="preserve">
+    <value>첫 번째 접촉</value>
+  </data>
+  <data name="MarkShiftX" xml:space="preserve">
+    <value>마크 시프트 X</value>
+  </data>
+  <data name="MarkShiftY" xml:space="preserve">
+    <value>마크 Shift Y</value>
+  </data>
+  <data name="MarkShiftZ" xml:space="preserve">
+    <value>마크 이동 Z</value>
+  </data>
+  <data name="Overdrive" xml:space="preserve">
+    <value>오버 드라이브</value>
+  </data>
+  <data name="PMIMenu" xml:space="preserve">
+    <value>PMI 메뉴</value>
+  </data>
+  <data name="ResetMarkShift" xml:space="preserve">
+    <value>리셋 마크 이동</value>
+  </data>
+  <data name="RestartLot" xml:space="preserve">
+    <value>많은 다시 시작</value>
+  </data>
+  <data name="SkipCurrentWafer" xml:space="preserve">
+    <value>건너뛰기 현재 웨이퍼</value>
+  </data>
+  <data name="TogglePCInspection" xml:space="preserve">
+    <value>전환 프로브 카드 메뉴</value>
+  </data>
+  <data name="UnloadAllWafers" xml:space="preserve">
+    <value>모든 웨이퍼를 언로드</value>
+  </data>
+  <data name="Zup" xml:space="preserve">
+    <value>Z 최대</value>
+  </data>
+  <data name="AddDut" xml:space="preserve">
+    <value>DUT를 추가</value>
+  </data>
+  <data name="AutoUpdate" xml:space="preserve">
+    <value>자동 업데이트</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>변경</value>
+  </data>
+  <data name="DeleteDut" xml:space="preserve">
+    <value>Dut를 삭제</value>
+  </data>
+  <data name="DieSizeX" xml:space="preserve">
+    <value>다이 크기 X</value>
+  </data>
+  <data name="DieSizeY" xml:space="preserve">
+    <value>다이 크기 Y</value>
+  </data>
+  <data name="Dut" xml:space="preserve">
+    <value>DUT</value>
+  </data>
+  <data name="DutCountNum" xml:space="preserve">
+    <value>Dut 수</value>
+  </data>
+  <data name="ImportCardData" xml:space="preserve">
+    <value>ImportCardData</value>
+  </data>
+  <data name="InitializePallet" xml:space="preserve">
+    <value>팔레트를 초기화</value>
+  </data>
+  <data name="LoadingAngle" xml:space="preserve">
+    <value>각도 로드</value>
+  </data>
+  <data name="MultiLocation" xml:space="preserve">
+    <value>다중 위치</value>
+  </data>
+  <data name="Squareness" xml:space="preserve">
+    <value>직각도</value>
+  </data>
+  <data name="ToggleState" xml:space="preserve">
+    <value>전환 상태</value>
+  </data>
+  <data name="WaferCenter" xml:space="preserve">
+    <value>웨이퍼 센터</value>
+  </data>
+  <data name="ZoomIn" xml:space="preserve">
+    <value>확대</value>
+  </data>
+  <data name="ZoomOut" xml:space="preserve">
+    <value>축소</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>추가</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>삭제</value>
+  </data>
+  <data name="DoPTPA" xml:space="preserve">
+    <value>핀 맞춤을</value>
+  </data>
+  <data name="SetPTPATolerance" xml:space="preserve">
+    <value>설정된 PTPA 공차</value>
+  </data>
+  <data name="CardChange" xml:space="preserve">
+    <value>카드 변경</value>
+  </data>
+  <data name="Diagnostic" xml:space="preserve">
+    <value>진단</value>
+  </data>
+  <data name="HigherPriority" xml:space="preserve">
+    <value>높은 우선 순위</value>
+  </data>
+  <data name="Inking" xml:space="preserve">
+    <value>잉크 입력</value>
+  </data>
+  <data name="LowerPriority" xml:space="preserve">
+    <value>낮은 우선 순위</value>
+  </data>
+  <data name="ManualOp" xml:space="preserve">
+    <value>수동 작업</value>
+  </data>
+  <data name="MarkAlign" xml:space="preserve">
+    <value>맞춤 표시</value>
+  </data>
+  <data name="NeedleBrush" xml:space="preserve">
+    <value>니 들 브러쉬</value>
+  </data>
+  <data name="PinAlign" xml:space="preserve">
+    <value>핀 정렬</value>
+  </data>
+  <data name="PMI" xml:space="preserve">
+    <value>PMI</value>
+  </data>
+  <data name="PolishWafer" xml:space="preserve">
+    <value>폴란드어 웨이퍼</value>
+  </data>
+  <data name="Probing" xml:space="preserve">
+    <value>검색 중</value>
+  </data>
+  <data name="Remote" xml:space="preserve">
+    <value>원격</value>
+  </data>
+  <data name="Soaking" xml:space="preserve">
+    <value>젖어</value>
+  </data>
+  <data name="WaferAlign" xml:space="preserve">
+    <value>웨이퍼 정렬</value>
+  </data>
+  <data name="WaferHandling" xml:space="preserve">
+    <value>웨이퍼 처리</value>
+  </data>
+  <data name="Waiting" xml:space="preserve">
+    <value>대기 중</value>
+  </data>
+  <data name="JogDown" xml:space="preserve">
+    <value>..\Resources\JogDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogLeft" xml:space="preserve">
+    <value>..\Resources\JogLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogLeftDown" xml:space="preserve">
+    <value>..\Resources\JogLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogLeftUp" xml:space="preserve">
+    <value>..\Resources\JogLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogRight" xml:space="preserve">
+    <value>..\Resources\JogRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogRightDown" xml:space="preserve">
+    <value>..\Resources\JogRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogRightUp" xml:space="preserve">
+    <value>..\Resources\JogRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogUp" xml:space="preserve">
+    <value>..\Resources\JogUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AutoFocus" xml:space="preserve">
+    <value>자동 초점</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>높음</value>
+  </data>
+  <data name="Index" xml:space="preserve">
+    <value>인덱스</value>
+  </data>
+  <data name="Low" xml:space="preserve">
+    <value>낮음</value>
+  </data>
+  <data name="Scan" xml:space="preserve">
+    <value>스캔</value>
+  </data>
+  <data name="SetZero" xml:space="preserve">
+    <value>0 설정</value>
+  </data>
+  <data name="ShiftMode" xml:space="preserve">
+    <value>Shift 모드</value>
+  </data>
+  <data name="ZAxis" xml:space="preserve">
+    <value>Z축</value>
+  </data>
+  <data name="TaskManagement" xml:space="preserve">
+    <value>작업 관리</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>홈</value>
+  </data>
+  <data name="AutoSeq" xml:space="preserve">
+    <value>자동 Seq</value>
+  </data>
+  <data name="DeleteAllSeq" xml:space="preserve">
+    <value>DeleteAll.Seq</value>
+  </data>
+  <data name="DeleteSeq" xml:space="preserve">
+    <value>Delete.Seq</value>
+  </data>
+  <data name="DUTLocation" xml:space="preserve">
+    <value>DUTLocation</value>
+  </data>
+  <data name="IndexX" xml:space="preserve">
+    <value>IndexX</value>
+  </data>
+  <data name="IndexY" xml:space="preserve">
+    <value>IndexY</value>
+  </data>
+  <data name="InsertSeq" xml:space="preserve">
+    <value>Insert.Seq</value>
+  </data>
+  <data name="NextEvent" xml:space="preserve">
+    <value>NextEvent</value>
+  </data>
+  <data name="NotchDirection" xml:space="preserve">
+    <value>NotchDirection</value>
+  </data>
+  <data name="Seq1" xml:space="preserve">
+    <value>..\Resources\Seq1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq2" xml:space="preserve">
+    <value>..\Resources\Seq2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq3" xml:space="preserve">
+    <value>..\Resources\Seq3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq4" xml:space="preserve">
+    <value>..\Resources\Seq4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq5" xml:space="preserve">
+    <value>..\Resources\Seq5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq6" xml:space="preserve">
+    <value>..\Resources\Seq6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq7" xml:space="preserve">
+    <value>..\Resources\Seq7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq8" xml:space="preserve">
+    <value>..\Resources\Seq8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Set" xml:space="preserve">
+    <value>설정</value>
+  </data>
+  <data name="TotalSeq" xml:space="preserve">
+    <value>총 Seq:</value>
+  </data>
+  <data name="WaferSize" xml:space="preserve">
+    <value>웨이퍼 크기</value>
+  </data>
+  <data name="Thickness" xml:space="preserve">
+    <value>Thickness</value>
+  </data>
+  <data name="WaferType" xml:space="preserve">
+    <value>웨이퍼 유형</value>
+  </data>
+  <data name="ExportFileAs" xml:space="preserve">
+    <value>ExportFileAs</value>
+  </data>
+  <data name="PreviousEvent" xml:space="preserve">
+    <value>이전 이벤트</value>
+  </data>
+  <data name="SysInit" xml:space="preserve">
+    <value>시스템 초기화</value>
+  </data>
+  <data name="DONE" xml:space="preserve">
+    <value>완료</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>오류</value>
+  </data>
+  <data name="IDLE" xml:space="preserve">
+    <value>유휴</value>
+  </data>
+  <data name="INIT" xml:space="preserve">
+    <value>초기화</value>
+  </data>
+  <data name="RUNNING" xml:space="preserve">
+    <value>실행 중</value>
+  </data>
+  <data name="SUSPENDED" xml:space="preserve">
+    <value>SUSPENDED</value>
+  </data>
+  <data name="UNDEFINED" xml:space="preserve">
+    <value>정의 되지 않은</value>
+  </data>
+  <data name="ChangeProbeCard" xml:space="preserve">
+    <value>변경 프로브 카드</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>다시 시도</value>
+  </data>
+  <data name="DisableYAxis" xml:space="preserve">
+    <value>Y 축을 사용 안 함</value>
+  </data>
+  <data name="EnableYAxis" xml:space="preserve">
+    <value>Y 축 설정</value>
+  </data>
+  <data name="DrawPad" xml:space="preserve">
+    <value>그리기 패드</value>
+  </data>
+  <data name="Abort" xml:space="preserve">
+    <value>중단</value>
+  </data>
+  <data name="CSTNum" xml:space="preserve">
+    <value>카세트 번호</value>
+  </data>
+  <data name="SlotNum" xml:space="preserve">
+    <value>슬롯 번호</value>
+  </data>
+  <data name="WaferID" xml:space="preserve">
+    <value>웨이퍼 ID</value>
+  </data>
+  <data name="AlignmentImage" xml:space="preserve">
+    <value>맞춤 이미지</value>
+  </data>
+  <data name="AlignmentOperation" xml:space="preserve">
+    <value>정렬 작업</value>
+  </data>
+  <data name="Arm1" xml:space="preserve">
+    <value>팔 1</value>
+  </data>
+  <data name="Arm2" xml:space="preserve">
+    <value>팔 2</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>자동</value>
+  </data>
+  <data name="BasicMap" xml:space="preserve">
+    <value>기본 지도</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>취소</value>
+  </data>
+  <data name="CardRelativeZHeight" xml:space="preserve">
+    <value>카드 상대 Z 높이</value>
+  </data>
+  <data name="Cassette" xml:space="preserve">
+    <value>카세트</value>
+  </data>
+  <data name="Clearance" xml:space="preserve">
+    <value>여유 공간</value>
+  </data>
+  <data name="CurrentZPosition" xml:space="preserve">
+    <value>현재 Z 위치</value>
+  </data>
+  <data name="DataIn" xml:space="preserve">
+    <value>데이터 입력</value>
+  </data>
+  <data name="Degree" xml:space="preserve">
+    <value>deg</value>
+  </data>
+  <data name="DeviceParameterChange" xml:space="preserve">
+    <value>장치 매개 변수 변경</value>
+  </data>
+  <data name="DeviceSetInformation" xml:space="preserve">
+    <value>장치 정보 설정</value>
+  </data>
+  <data name="Down" xml:space="preserve">
+    <value>아래로</value>
+  </data>
+  <data name="ExistenceOfData" xml:space="preserve">
+    <value>데이터의 존재</value>
+  </data>
+  <data name="FixedTray1" xml:space="preserve">
+    <value>고정된 용지함 1</value>
+  </data>
+  <data name="FixedTray2" xml:space="preserve">
+    <value>고정된 용지함 2</value>
+  </data>
+  <data name="FixedTray3" xml:space="preserve">
+    <value>고정된 용지함 3</value>
+  </data>
+  <data name="FixedTray4" xml:space="preserve">
+    <value>고정된 용지함 4</value>
+  </data>
+  <data name="FixedTray5" xml:space="preserve">
+    <value>고정된 용지함 5</value>
+  </data>
+  <data name="FlatDir" xml:space="preserve">
+    <value>플랫 Dir</value>
+  </data>
+  <data name="HeightOfChuck" xml:space="preserve">
+    <value>척의 높이</value>
+  </data>
+  <data name="ImageDisplayChange" xml:space="preserve">
+    <value>이미지 표시 변경</value>
+  </data>
+  <data name="IndexSizeX" xml:space="preserve">
+    <value>IndexSize X</value>
+  </data>
+  <data name="IndexSizeY" xml:space="preserve">
+    <value>인덱스 크기 Y</value>
+  </data>
+  <data name="KeySW" xml:space="preserve">
+    <value>3KEY SW</value>
+  </data>
+  <data name="LoaderSW" xml:space="preserve">
+    <value>로더 소프트웨어</value>
+  </data>
+  <data name="LoadingPosition" xml:space="preserve">
+    <value>로드 위치</value>
+  </data>
+  <data name="LotSetInformation" xml:space="preserve">
+    <value>많은 정보 설정</value>
+  </data>
+  <data name="LotSettings" xml:space="preserve">
+    <value>많은 설정</value>
+  </data>
+  <data name="MaintAndAdjust" xml:space="preserve">
+    <value>Maint 및 조정</value>
+  </data>
+  <data name="MatchAndConfirm" xml:space="preserve">
+    <value>일치 및 확인</value>
+  </data>
+  <data name="MethodOfExternalControl" xml:space="preserve">
+    <value>외부 제어의 방법</value>
+  </data>
+  <data name="NowTemp" xml:space="preserve">
+    <value>현재 온도</value>
+  </data>
+  <data name="Offline" xml:space="preserve">
+    <value>오프라인</value>
+  </data>
+  <data name="Online" xml:space="preserve">
+    <value>온라인</value>
+  </data>
+  <data name="OperationSetting" xml:space="preserve">
+    <value>작업 설정</value>
+  </data>
+  <data name="OverDriveChange" xml:space="preserve">
+    <value>오버 드라이브 변경</value>
+  </data>
+  <data name="PadPosition" xml:space="preserve">
+    <value>패드 위치</value>
+  </data>
+  <data name="PreAligner" xml:space="preserve">
+    <value>PreAlign</value>
+  </data>
+  <data name="ProberModeSettings" xml:space="preserve">
+    <value>Prober 모드 설정</value>
+  </data>
+  <data name="ProbingOverDrive" xml:space="preserve">
+    <value>오버 드라이브 검색</value>
+  </data>
+  <data name="Resume" xml:space="preserve">
+    <value>다시 시작</value>
+  </data>
+  <data name="SamplingDie" xml:space="preserve">
+    <value>샘플링 다</value>
+  </data>
+  <data name="SetTemp" xml:space="preserve">
+    <value>설정 온도</value>
+  </data>
+  <data name="SlotInformation" xml:space="preserve">
+    <value>슬롯 정보</value>
+  </data>
+  <data name="SystemModeChange" xml:space="preserve">
+    <value>시스템 모드 변경</value>
+  </data>
+  <data name="TaskVersion" xml:space="preserve">
+    <value>작업 버전</value>
+  </data>
+  <data name="TestCountDisplay" xml:space="preserve">
+    <value>테스트 수 표시</value>
+  </data>
+  <data name="TestStart" xml:space="preserve">
+    <value>테스트 시작</value>
+  </data>
+  <data name="Transfer" xml:space="preserve">
+    <value>전송</value>
+  </data>
+  <data name="Up" xml:space="preserve">
+    <value>위로</value>
+  </data>
+  <data name="UserSW" xml:space="preserve">
+    <value>사용자의 소프트웨어</value>
+  </data>
+  <data name="Utility" xml:space="preserve">
+    <value>Utility</value>
+  </data>
+  <data name="ZDrive" xml:space="preserve">
+    <value>부터 Z-드라이브</value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>계속</value>
+  </data>
+  <data name="CST" xml:space="preserve">
+    <value>중부 표준시</value>
+  </data>
+  <data name="ContactCheck" xml:space="preserve">
+    <value>연락처 확인</value>
+  </data>
+  <data name="Interrupt" xml:space="preserve">
+    <value>인터럽트</value>
+  </data>
+  <data name="LogScreen" xml:space="preserve">
+    <value>로그 화면</value>
+  </data>
+  <data name="LotProcess" xml:space="preserve">
+    <value>많은 프로세스</value>
+  </data>
+  <data name="LotRunMenu" xml:space="preserve">
+    <value>많은 실행된 메뉴</value>
+  </data>
+  <data name="LotStatistics" xml:space="preserve">
+    <value>많은 통계</value>
+  </data>
+  <data name="WaferInspection" xml:space="preserve">
+    <value>웨이퍼 검사</value>
+  </data>
+  <data name="LoaderStatus" xml:space="preserve">
+    <value>로더 상태</value>
+  </data>
+  <data name="StageStatus" xml:space="preserve">
+    <value>스테이지 상태</value>
+  </data>
+  <data name="UIModeChange" xml:space="preserve">
+    <value>UI 모드 변경</value>
+  </data>
+  <data name="GPIB" xml:space="preserve">
+    <value>GPIB</value>
+  </data>
+  <data name="LotOP" xml:space="preserve">
+    <value>LotOP</value>
+  </data>
+  <data name="Stage" xml:space="preserve">
+    <value>스테이지</value>
+  </data>
+  <data name="MenualMode" xml:space="preserve">
+    <value>Menual 모드</value>
+  </data>
+  <data name="PutProbeCard" xml:space="preserve">
+    <value>프로브 카드</value>
+  </data>
+  <data name="Reverse" xml:space="preserve">
+    <value>거꾸로</value>
+  </data>
+  <data name="HighLight1" xml:space="preserve">
+    <value>높은 빛 1</value>
+  </data>
+  <data name="HighLight2" xml:space="preserve">
+    <value>높은 빛 2</value>
+  </data>
+  <data name="LowLight1" xml:space="preserve">
+    <value>낮은 조명 1</value>
+  </data>
+  <data name="LowLight2" xml:space="preserve">
+    <value>낮은 조명 2</value>
+  </data>
+  <data name="HighCam" xml:space="preserve">
+    <value>높은 카메라</value>
+  </data>
+  <data name="LowCam" xml:space="preserve">
+    <value>낮은 카메라</value>
+  </data>
+  <data name="Loader" xml:space="preserve">
+    <value>로더</value>
+  </data>
+  <data name="ARM1_NoWafer1" xml:space="preserve">
+    <value>..\Resources\ARM1_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM1_W1" xml:space="preserve">
+    <value>..\Resources\ARM1_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM2_NoWafer1" xml:space="preserve">
+    <value>..\Resources\ARM2_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM2_W1" xml:space="preserve">
+    <value>..\Resources\ARM2_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowDown1" xml:space="preserve">
+    <value>..\Resources\ArrowDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowDownW1" xml:space="preserve">
+    <value>..\Resources\ArrowDownW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeft1" xml:space="preserve">
+    <value>..\Resources\ArrowLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeftG1" xml:space="preserve">
+    <value>..\Resources\ArrowLeftG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeftW1" xml:space="preserve">
+    <value>..\Resources\ArrowLeftW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRight1" xml:space="preserve">
+    <value>..\Resources\ArrowRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRightG1" xml:space="preserve">
+    <value>..\Resources\ArrowRightG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRightW1" xml:space="preserve">
+    <value>..\Resources\ArrowRightW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowUp1" xml:space="preserve">
+    <value>..\Resources\ArrowUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowUpW1" xml:space="preserve">
+    <value>..\Resources\ArrowUpW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Chuck_NoWafer1" xml:space="preserve">
+    <value>..\Resources\Chuck_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Chuck_W1" xml:space="preserve">
+    <value>..\Resources\Chuck_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Clockwise1" xml:space="preserve">
+    <value>..\Resources\Clockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordLeftDown1" xml:space="preserve">
+    <value>..\Resources\CoordLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordLeftUp1" xml:space="preserve">
+    <value>..\Resources\CoordLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordRightDown1" xml:space="preserve">
+    <value>..\Resources\CoordRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordRightUp1" xml:space="preserve">
+    <value>..\Resources\CoordRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CounterClockwise1" xml:space="preserve">
+    <value>..\Resources\CounterClockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ExtendHeight1" xml:space="preserve">
+    <value>..\Resources\ExtendHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ExtendWidth1" xml:space="preserve">
+    <value>..\Resources\ExtendWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FixedTray_NoWafer1" xml:space="preserve">
+    <value>..\Resources\FixedTray_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FixedTray_W1" xml:space="preserve">
+    <value>..\Resources\FixedTray_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Image1" xml:space="preserve">
+    <value>..\Resources\Image1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogDown1" xml:space="preserve">
+    <value>..\Resources\JogDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogLeft1" xml:space="preserve">
+    <value>..\Resources\JogLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogLeftDown1" xml:space="preserve">
+    <value>..\Resources\JogLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogLeftUp1" xml:space="preserve">
+    <value>..\Resources\JogLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogRight1" xml:space="preserve">
+    <value>..\Resources\JogRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogRightDown1" xml:space="preserve">
+    <value>..\Resources\JogRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogRightUp1" xml:space="preserve">
+    <value>..\Resources\JogRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogUp1" xml:space="preserve">
+    <value>..\Resources\JogUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Minus1" xml:space="preserve">
+    <value>..\Resources\Minus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Plus1" xml:space="preserve">
+    <value>..\Resources\Plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PreAligner_NoWafer1" xml:space="preserve">
+    <value>..\Resources\PreAligner_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PreAligner_W1" xml:space="preserve">
+    <value>..\Resources\PreAligner_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReduceHeight1" xml:space="preserve">
+    <value>..\Resources\ReduceHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReduceWidth1" xml:space="preserve">
+    <value>..\Resources\ReduceWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq11" xml:space="preserve">
+    <value>..\Resources\Seq1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq21" xml:space="preserve">
+    <value>..\Resources\Seq2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq31" xml:space="preserve">
+    <value>..\Resources\Seq3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq41" xml:space="preserve">
+    <value>..\Resources\Seq4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq51" xml:space="preserve">
+    <value>..\Resources\Seq5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq61" xml:space="preserve">
+    <value>..\Resources\Seq6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq71" xml:space="preserve">
+    <value>..\Resources\Seq7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq81" xml:space="preserve">
+    <value>..\Resources\Seq8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Camera" xml:space="preserve">
+    <value>카메라</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>밝게</value>
+  </data>
+  <data name="MapControl" xml:space="preserve">
+    <value>지도 컨트롤</value>
+  </data>
+  <data name="MotionControl" xml:space="preserve">
+    <value>모션 컨트롤</value>
+  </data>
+  <data name="bars" xml:space="preserve">
+    <value>..\Resources\bars.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GPIBStatus" xml:space="preserve">
+    <value>GPIB 상태</value>
+  </data>
+  <data name="NetWorkStatus" xml:space="preserve">
+    <value>네트워크 상태</value>
+  </data>
+  <data name="AlarmSetup" xml:space="preserve">
+    <value>알람 설정</value>
+  </data>
+  <data name="BasicSetup" xml:space="preserve">
+    <value>기본 설정</value>
+  </data>
+  <data name="BINSetup" xml:space="preserve">
+    <value>빈 설정</value>
+  </data>
+  <data name="ContactSetup" xml:space="preserve">
+    <value>연락처 설정</value>
+  </data>
+  <data name="GPIBSetup" xml:space="preserve">
+    <value>GPIB 설치</value>
+  </data>
+  <data name="NCSetup" xml:space="preserve">
+    <value>설치를 청소 하는 바늘</value>
+  </data>
+  <data name="OCRSetup" xml:space="preserve">
+    <value>OCR 설정</value>
+  </data>
+  <data name="PinAlignSetup" xml:space="preserve">
+    <value>핀 맞춤 설정</value>
+  </data>
+  <data name="PinAlignToleranceSetup" xml:space="preserve">
+    <value>핀 맞춤 공차 설정</value>
+  </data>
+  <data name="PMISetup" xml:space="preserve">
+    <value>PMI 설치</value>
+  </data>
+  <data name="PTPASetup" xml:space="preserve">
+    <value>PTPA 설치</value>
+  </data>
+  <data name="RetestSetup" xml:space="preserve">
+    <value>설치 프로그램을 다시 테스트</value>
+  </data>
+  <data name="SequenceSetup" xml:space="preserve">
+    <value>시퀀스 설정</value>
+  </data>
+  <data name="SystemInit" xml:space="preserve">
+    <value>시스템 초기화</value>
+  </data>
+  <data name="TemperatureSetup" xml:space="preserve">
+    <value>온도 설정</value>
+  </data>
+  <data name="WaferAlignRun" xml:space="preserve">
+    <value>웨이퍼 정렬 실행</value>
+  </data>
+  <data name="WaferAlignSetup" xml:space="preserve">
+    <value>웨이퍼 정렬 설정</value>
+  </data>
+  <data name="SoakSetup" xml:space="preserve">
+    <value>설치를 담가</value>
+  </data>
+  <data name="BasicWaferAlign" xml:space="preserve">
+    <value>기본 웨이퍼 정렬</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>적용</value>
+  </data>
+  <data name="SetupStart" xml:space="preserve">
+    <value>설치 시작</value>
+  </data>
+  <data name="CustomWaferAlign" xml:space="preserve">
+    <value>사용자 지정 정렬 모드</value>
+  </data>
+  <data name="SelectableMode" xml:space="preserve">
+    <value>모드 선택 가능</value>
+  </data>
+  <data name="AlignMode" xml:space="preserve">
+    <value>정렬 모드</value>
+  </data>
+  <data name="Chiller" xml:space="preserve">
+    <value>냉각기</value>
+  </data>
+  <data name="Cur" xml:space="preserve">
+    <value>현재</value>
+  </data>
+  <data name="GEM" xml:space="preserve">
+    <value>보석</value>
+  </data>
+  <data name="SONET" xml:space="preserve">
+    <value>Sonet</value>
+  </data>
+  <data name="BinStat" xml:space="preserve">
+    <value>Bin</value>
+  </data>
+  <data name="Stat" xml:space="preserve">
+    <value>통계</value>
+  </data>
+  <data name="Inspection" xml:space="preserve">
+    <value>검사</value>
+  </data>
+  <data name="OCRapp" xml:space="preserve">
+    <value>OCR</value>
+  </data>
+  <data name="NC" xml:space="preserve">
+    <value>NC</value>
+  </data>
+  <data name="Coaxial" xml:space="preserve">
+    <value>동축</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>해제</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>설정</value>
+  </data>
+  <data name="WaferIntervalConfiguration" xml:space="preserve">
+    <value>웨이퍼 간격 구성</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>뒤로</value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value>구성</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>다음</value>
+  </data>
+  <data name="Add_Delete" xml:space="preserve">
+    <value>  
+ &amp; 
+삭제 추가</value>
+  </data>
+  <data name="RegisterEdge" xml:space="preserve">
+    <value>
+지 등록</value>
+  </data>
+  <data name="RegisterPattern1" xml:space="preserve">
+    <value>
+패턴 1을 등록</value>
+  </data>
+  <data name="RegisterPattern2" xml:space="preserve">
+    <value>
+패턴 2 등록</value>
+  </data>
+  <data name="SetCoordinate" xml:space="preserve">
+    <value>       
+좌표 설정</value>
+  </data>
+  <data name="EMPTY" xml:space="preserve">
+    <value>비우기</value>
+  </data>
+  <data name="MARK" xml:space="preserve">
+    <value>마크</value>
+  </data>
+  <data name="SKIP" xml:space="preserve">
+    <value>건너뛰기</value>
+  </data>
+  <data name="TEST" xml:space="preserve">
+    <value>테스트</value>
+  </data>
+  <data name="LOT" xml:space="preserve">
+    <value>많은</value>
+  </data>
+  <data name="ProbeMark" xml:space="preserve">
+    <value>프로브 마크</value>
+  </data>
+  <data name="NextDut" xml:space="preserve">
+    <value>다음 Dut</value>
+  </data>
+  <data name="NextPad" xml:space="preserve">
+    <value>다음 패드</value>
+  </data>
+  <data name="PrevDut" xml:space="preserve">
+    <value>이전 Dut</value>
+  </data>
+  <data name="PrevPad" xml:space="preserve">
+    <value>이전 패드</value>
+  </data>
+  <data name="Coordinate" xml:space="preserve">
+    <value>코디네이트</value>
+  </data>
+  <data name="X" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="Y" xml:space="preserve">
+    <value>Y</value>
+  </data>
+  <data name="Z" xml:space="preserve">
+    <value>Z</value>
+  </data>
+  <data name="Inspect" xml:space="preserve">
+    <value>검사</value>
+  </data>
+  <data name="LightDown" xml:space="preserve">
+    <value>빛-</value>
+  </data>
+  <data name="LightUp" xml:space="preserve">
+    <value>라이트 +</value>
+  </data>
+  <data name="LotEnd" xml:space="preserve">
+    <value>많은 끝</value>
+  </data>
+</root>

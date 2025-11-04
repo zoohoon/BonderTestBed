@@ -1,0 +1,548 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:UcCircularShapedJog="clr-namespace:UcCircularShapedJog;assembly=UcCircularShapedJog"
+             xmlns:UcPnPPrevNextJog="clr-namespace:UcPnPPrevNextJog;assembly=UcPnPPrevNextJog"
+             xmlns:UcPnPButtonJog ="clr-namespace:UcPnPButtonJog;assembly=UcPnPButtonJog"
+             xmlns:dutviewer="clr-namespace:DutViewer;assembly=DutViewer"
+             xmlns:dutviewervm="clr-namespace:DutViewer.ViewModel;assembly=DutViewer"
+             xmlns:lj="clr-namespace:LightJog;assembly=LightJog"
+             xmlns:ucdutviewer="clr-namespace:ucDutViewer;assembly=ucDutViewer"
+             xmlns:MapView="clr-namespace:MapView;assembly=MapView"
+             xmlns:prober="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             xmlns:hjc="clr-namespace:HexagonJogControl;assembly=HexagonJogControl"
+             xmlns:ValueConvert="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:needle="clr-namespace:NeedleCleanViewer;assembly=NeedleCleanViewer"
+             xmlns:local="clr-namespace:ProberViewModel"
+             xmlns:nav ="clr-namespace:NavPanelControl;assembly=NavPanelControl"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:UcSideViewer="clr-namespace:UcSideViewer;assembly=UcSideViewer" 
+             xmlns:templateservice="clr-namespace:DataTemplateService;assembly=DataTemplateService"
+             x:Class="ProberViewModel.UcPnpControl"
+             xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" 
+             mc:Ignorable="d" 
+             d:DesignHeight="892" d:DesignWidth="1280" 
+             Background="Transparent" x:Name="PNPSetupControl" Unloaded="PNPSetupControl_Unloaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/Thumb.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate x:Key="HeaderTemplate" x:Shared="False">
+                <DockPanel x:Name="dpHeader"
+                   VerticalAlignment="Center"
+                   LastChildFill="True">
+                    <Button x:Name="PART_BackButton"
+                    Command="{Binding InternalCloseCommand, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}"
+                    CommandParameter="{Binding CloseCommandParameter, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}"
+                    Width="34"
+                    Height="34"
+                    Margin="2 4 2 2"
+                    VerticalAlignment="Bottom"
+                    Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
+                    Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}"
+                    FontFamily="Segoe UI Symbol"
+                    FontSize="16"
+                    DockPanel.Dock="Left"
+                    IsCancel="{Binding CloseButtonIsCancel, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:Flyout}}}"
+                    Visibility="{Binding CloseButtonVisibility, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:Flyout}}}">
+                        <ContentControl Style="{DynamicResource PathIconContentControlStyle}"
+                                Content="M19,34V42H43.75L33.75,52H44.25L58.25,38L44.25,24H33.75L43.75,34H19Z"
+                                Width="20"
+                                Height="20" />
+                    </Button>
+                    <TextBlock x:Name="PART_BackHeaderText"
+                       Margin="15 0 0 0"
+                       VerticalAlignment="Center"
+                       Text="{Binding}"
+                       Visibility="{Binding TitleVisibility, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:Flyout}}}" />
+                </DockPanel>
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding Position, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}" Value="Left">
+                        <Setter TargetName="PART_BackHeaderText" Property="Margin" Value="0 0 15 0" />
+                        <Setter TargetName="PART_BackHeaderText" Property="TextAlignment" Value="Right" />
+                        <Setter TargetName="PART_BackButton" Property="DockPanel.Dock" Value="Right" />
+                        <Setter TargetName="PART_BackButton" Property="LayoutTransform">
+                            <Setter.Value>
+                                <ScaleTransform ScaleX="-1" />
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Position, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}" Value="Top">
+                        <Setter TargetName="PART_BackButton" Property="LayoutTransform">
+                            <Setter.Value>
+                                <RotateTransform Angle="-90" />
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Position, RelativeSource={RelativeSource AncestorType={x:Type Controls:Flyout}}}" Value="Bottom">
+                        <Setter TargetName="PART_BackButton" Property="LayoutTransform">
+                            <Setter.Value>
+                                <RotateTransform Angle="90" />
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+            <!-- Displayport Template -->
+            <DataTemplate x:Key="DisplayViewTemplate" DataType="{x:Type prober:IDisplayPort}" >
+                <!--<UcDisplayPort:DisplayPort x:Name="DisPlay"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"/>-->
+                <ContentControl x:Name="DisPlay" Content="{Binding ''}"/>
+            </DataTemplate>
+            <!-- MapView Template -->
+            <DataTemplate x:Key="MapViewTemplate" DataType="{x:Type prober:IWaferObject}" >
+                <MapView:ucWaferMapviewer Grid.RowSpan="2" Margin="4" 
+                    Lockable="True"
+                    WaferObject="{Binding }" 
+                    UnderDutDices="{Binding DataContext.Probing.ProbingProcessStatus.UnderDutDevs,
+                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                    Mode=FindAncestor}}"      
+                    CursorXIndex="{Binding DataContext.StageSupervisor.WaferObject.CurrentMXIndex,
+                    Mode=TwoWay, 
+                    RelativeSource={RelativeSource AncestorType={x:Type UserControl},
+                    Mode=FindAncestor}}" 
+                    CursorYIndex="{Binding DataContext.StageSupervisor.WaferObject.CurrentMYIndex,
+                    Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl},
+                    Mode=FindAncestor}}"
+                    CoordinateManager="{Binding DataContext.CoordManager, 
+                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                    Mode=FindAncestor}}"
+                    EnalbeClickToMove="{Binding DataContext.WaferObject.MapViewStageSyncEnable, 
+                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                    Mode=FindAncestor}}"
+                    RenderMode="{Binding DataContext.WaferObject.MapViewControlMode, 
+                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                    Mode=FindAncestor}}"
+                    StageSyncEnalbe="{Binding DataContext.WaferObject.MapViewStageSyncEnable, 
+                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                    Mode=FindAncestor}}"
+                    StepLabel="{Binding DataContext.WaferObject.MapViewStepLabel, 
+                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                    Mode=FindAncestor}}"
+                    LoaderCommunicationManager="{Binding DataContext.LoaderCommManager, 
+                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                    Mode=FindAncestor}}"
+                    CurCamera="{Binding DataContext.CurCam, Mode=OneWay, 
+                    RelativeSource={RelativeSource AncestorType={x:Type UserControl},
+                    Mode=FindAncestor}}" 
+                    />
+            </DataTemplate>
+            <!--DutView Template-->
+            <DataTemplate x:Key="DutViewerTemplate" DataType="{x:Type prober:IProbeCard}" >
+                <ucdutviewer:ucDUTviewer DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                    Mode=FindAncestor}}"/>
+            </DataTemplate>
+            <!-- DutView Template -->
+            <DataTemplate x:Key="DutViewTemplate" DataType="{x:Type dutviewervm:DutViewerViewModel}" >
+                <dutviewer:UcDutViewer />
+            </DataTemplate>
+            <!-- RecipeEditor Template -->
+            <DataTemplate x:Key="RecipeEditTemplate" DataType="{x:Type local:VmRecipeEditorMainPage}">
+                <local:UcRecipeEditorMainPage/>
+            </DataTemplate>
+            <DataTemplate x:Key="PatternViewTemplate" DataType="{x:Type local:VMPatternViewer}">
+                <local:PatternViewerControl DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                    Mode=FindAncestor}}"/>
+            </DataTemplate>
+            <!-- NCView Template -->
+            <DataTemplate x:Key="NeedleCleanViewTemplate" DataType="{x:Type needle:NeedleCleanViewModel}">
+                <needle:NeedleCleanView/>
+            </DataTemplate>
+           
+            <!-- Flyout Template -->
+            <ControlTemplate x:Key="FlyoutTemplate" TargetType="{x:Type Controls:Flyout}">
+                <Grid x:Name="PART_Root" Background="{TemplateBinding Background}">
+                    <Grid.RenderTransform>
+                        <TranslateTransform />
+                    </Grid.RenderTransform>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup>
+                            <VisualState x:Name="Default" />
+                            <VisualState x:Name="Hide">
+                                <Storyboard x:Name="HideStoryboard">
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                        Storyboard.TargetName="PART_Root"
+                                                        Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                                        <SplineDoubleKeyFrame x:Name="hideFrame"
+                                                    KeySpline="0.25,1,0.05,1"
+                                                    KeyTime="00:00:00.750"
+                                                    Value="0" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                        Storyboard.TargetName="PART_Root"
+                                                        Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)">
+                                        <SplineDoubleKeyFrame x:Name="hideFrameY"
+                                                    KeySpline="0.25,1,0.05,1"
+                                                    KeyTime="00:00:00.750"
+                                                    Value="0" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                        Storyboard.TargetName="PART_Root"
+                                                        Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <SplineDoubleKeyFrame x:Name="fadeOutFrame"
+                                                    KeySpline="0.25,1,0.05,1"
+                                                    KeyTime="00:00:00.750"
+                                                    Value="0" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="Show">
+                                <Storyboard x:Name="ShowStoryboard">
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                        Storyboard.TargetName="PART_Root"
+                                                        Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                                        <SplineDoubleKeyFrame x:Name="showFrame"
+                                                    KeySpline="0.25,1,0.05,1"
+                                                    KeyTime="00:00:00.750"
+                                                    Value="0" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                        Storyboard.TargetName="PART_Root"
+                                                        Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)">
+                                        <SplineDoubleKeyFrame x:Name="showFrameY"
+                                                    KeySpline="0.25,1,0.05,1"
+                                                    KeyTime="00:00:00.750"
+                                                    Value="0" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                        Storyboard.TargetName="PART_Root"
+                                                        Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <SplineDoubleKeyFrame KeySpline="0.25,1,0.05,1"
+                                                    KeyTime="00:00:00.750"
+                                                    Value="1" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="HideDirect">
+                                <Storyboard>
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                        Storyboard.TargetName="PART_Root"
+                                                        Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                                        <SplineDoubleKeyFrame KeyTime="0" Value="0" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                        Storyboard.TargetName="PART_Root"
+                                                        Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)">
+                                        <SplineDoubleKeyFrame KeyTime="0" Value="0" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                        Storyboard.TargetName="PART_Root"
+                                                        Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <SplineDoubleKeyFrame KeyTime="0" Value="0" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="ShowDirect">
+                                <Storyboard>
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                        Storyboard.TargetName="PART_Root"
+                                                        Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                                        <SplineDoubleKeyFrame KeyTime="0" Value="0" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                        Storyboard.TargetName="PART_Root"
+                                                        Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)">
+                                        <SplineDoubleKeyFrame KeyTime="0" Value="0" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                        Storyboard.TargetName="PART_Root"
+                                                        Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <SplineDoubleKeyFrame KeyTime="0" Value="1" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    <AdornerDecorator>
+                        <DockPanel FocusVisualStyle="{x:Null}" Focusable="False">
+                            <Controls:MetroThumbContentControl x:Name="PART_Header"
+                                                    DockPanel.Dock="Top"
+                                                    Padding="{TemplateBinding Controls:ControlsHelper.HeaderMargin}"
+                                                    FontSize="{TemplateBinding Controls:ControlsHelper.HeaderFontSize}"
+                                                    FontWeight="{TemplateBinding Controls:ControlsHelper.HeaderFontWeight}"
+                                                    FontStretch="{TemplateBinding Controls:ControlsHelper.HeaderFontStretch}"
+                                                    Content="{TemplateBinding Header}"
+                                                    ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                                    ContentCharacterCasing="{Binding (Controls:ControlsHelper.ContentCharacterCasing), RelativeSource={RelativeSource TemplatedParent}}"
+                                                    RecognizesAccessKey="True"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            <ContentPresenter x:Name="PART_Content" DockPanel.Dock="Bottom" />
+                        </DockPanel>
+                    </AdornerDecorator>
+                </Grid>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="Position" Value="Top">
+                        <Setter TargetName="PART_Content" Property="DockPanel.Dock" Value="Right" />
+                        <Setter TargetName="PART_Header" Property="DockPanel.Dock" Value="Left" />
+                    </Trigger>
+                    <Trigger Property="Position" Value="Bottom">
+                        <Setter TargetName="PART_Content" Property="DockPanel.Dock" Value="Right" />
+                        <Setter TargetName="PART_Header" Property="DockPanel.Dock" Value="Left" />
+                    </Trigger>
+                    <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                            <Condition Property="CloseButtonVisibility" Value="Collapsed" />
+                            <Condition Property="TitleVisibility" Value="Collapsed" />
+                        </MultiTrigger.Conditions>
+                        <Setter TargetName="PART_Header" Property="Visibility" Value="Collapsed" />
+                    </MultiTrigger>
+                    <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                            <Condition Property="CloseButtonVisibility" Value="Hidden" />
+                            <Condition Property="TitleVisibility" Value="Hidden" />
+                        </MultiTrigger.Conditions>
+                        <Setter TargetName="PART_Header" Property="Visibility" Value="Collapsed" />
+                    </MultiTrigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+
+            <templateservice:TemplateSelector x:Key="ViewTargetTemplateSelector" 
+                                    MapViewDataTemplate="{StaticResource MapViewTemplate}"
+                                    DutViewDataTemplate="{StaticResource DutViewTemplate}"
+                                    DisplayViewDataTemplate="{StaticResource DisplayViewTemplate}"
+                                    RecipeEditDataTemplate="{StaticResource RecipeEditTemplate}"
+                                    NeedleCleanDataTemplate="{StaticResource NeedleCleanViewTemplate}"
+                                    DutViewerDataTemplate="{StaticResource DutViewerTemplate}"
+                                    PatternViewDataTemplate="{StaticResource PatternViewTemplate}"/>
+
+            <ValueConvert:SetupStateImageConvert x:Key="SetupImageConverter"/>
+            <ValueConvert:TreeviewItemVisibleConverter x:Key="TreeItemVisibleConverter"/>
+            <ValueConvert:IsSetupTypeConverter x:Key="IsSetupTypeToBoolConv"/>
+
+            <Style x:Key="StatusGroupExpander" TargetType="{x:Type Expander}">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Expander}">
+                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="3" SnapsToDevicePixels="true">
+                                <DockPanel>
+                                    <ToggleButton x:Name="HeaderSite" ContentTemplate="{TemplateBinding HeaderTemplate}" ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" Content="{TemplateBinding Header}" DockPanel.Dock="Top" Foreground="{TemplateBinding Foreground}" FontWeight="{TemplateBinding FontWeight}" FocusVisualStyle="{StaticResource ExpanderHeaderFocusVisual}" FontStyle="{TemplateBinding FontStyle}" FontStretch="{TemplateBinding FontStretch}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Margin="1" MinWidth="0" MinHeight="0" Padding="{TemplateBinding Padding}" Style="{StaticResource ExpanderDownHeaderStyle}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                    <ContentPresenter x:Name="ExpandSite" DockPanel.Dock="Bottom" Focusable="false" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" Visibility="Collapsed" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                </DockPanel>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsExpanded" Value="true">
+                                    <Setter Property="Visibility" TargetName="ExpandSite" Value="Visible"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="flyoutsytle" TargetType="{x:Type Controls:Flyout}">
+                <Setter Property="Foreground" Value="{DynamicResource FlyoutForegroundBrush}" />
+                <Setter Property="Background" Value="{DynamicResource FlyoutBackgroundBrush}" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="Controls:ControlsHelper.HeaderFontSize" Value="{DynamicResource FlyoutHeaderFontSize}" />
+                <Setter Property="Controls:ControlsHelper.HeaderMargin" Value="10" />
+                <Setter Property="HeaderTemplate" Value="{StaticResource HeaderTemplate}" />
+                <Setter Property="KeyboardNavigation.ControlTabNavigation" Value="Cycle" />
+                <Setter Property="KeyboardNavigation.DirectionalNavigation" Value="Cycle" />
+                <Setter Property="KeyboardNavigation.TabNavigation" Value="Cycle" />
+                <Setter Property="Template" Value="{StaticResource FlyoutTemplate}" />
+                <Setter Property="VerticalAlignment" Value="Stretch" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="Visibility" Value="Hidden" />
+                <Style.Triggers>
+                    <Trigger Property="Position" Value="Right">
+                        <Setter Property="Controls:ControlsHelper.HeaderMargin" Value="10 25 10 10" />
+                    </Trigger>
+                    <Trigger Property="Position" Value="Left">
+                        <Setter Property="Controls:ControlsHelper.HeaderMargin" Value="10 25 10 10" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="648*"/>
+            <ColumnDefinition Width="258*"/>
+            <ColumnDefinition Width="374*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="258*"/>
+            <RowDefinition Height="376*"/>
+            <RowDefinition Height="258*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Main View -->
+        <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="2" 
+                BorderThickness="1" BorderBrush="#FF343434" Margin="4" >
+            <Grid Margin="4" Width="890" Height="890" >
+                <ContentControl Width="890" Height="890" 
+                                Content="{Binding MainViewTarget}"
+                                ContentTemplateSelector="{StaticResource ViewTargetTemplateSelector}"/>
+                <!-- Main View image -->
+                <Image Width="250" Height="250" Margin="16" 
+                       HorizontalAlignment="Left" VerticalAlignment="Bottom" 
+                       Source="{Binding MainViewImageSource}" IsHitTestVisible="False"/>
+            </Grid>
+        </Border>
+
+        <!-- Mini View -->
+        <!--<Grid Grid.Row="0" Grid.Column="1" Opacity="1" Margin="4" Visibility="{Binding MiniViewTargetVisibility}">-->
+        <Grid Grid.ColumnSpan="2" Grid.RowSpan="3"  Width="258" Height="258" Opacity="1" Margin="4" Visibility="{Binding MiniViewTargetVisibility}"
+                  VerticalAlignment="{Binding MiniViewVerticalAlignment}" HorizontalAlignment="{Binding MiniViewHorizontalAlignment}">
+            <ContentControl Content="{Binding MiniViewTarget}"  
+                            ContentTemplateSelector="{StaticResource ViewTargetTemplateSelector}" Opacity="0.7"/>
+            <!-- Mini View Button -->
+            <Grid Grid.Column="1" HorizontalAlignment="Right" Opacity="0.3" Margin="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Button Grid.Row="0" Width="48" Height="48" Background="Black" Foreground="White" 
+                        Command="{Binding ViewSwapCommand}"
+                        Visibility="{Binding MiniViewSwapVisibility}">
+                    <materialDesign:PackIcon Kind="ArrowExpand" Height="42" Width="42"/>
+                </Button>
+                
+                <Button Grid.Row="0" Width="48" Height="48" Background="Black" Foreground="White" 
+                        Command="{Binding PatternCloseCommand}"
+                        Visibility="{Binding PatternVisibility}">
+                    <materialDesign:PackIcon Kind="Close" Height="42" Width="42"/>
+                </Button>
+                <!--<RepeatButton Grid.Row="2" Width="48" Height="48" Background="Black" Foreground="White" 
+                          Visibility="{Binding MiniViewZoomVisibility}"
+                          Command="{Binding PlusCommand}" >
+                    <materialDesign:PackIcon Kind="MagnifyPlus" Height="42" Width="42"/>
+                </RepeatButton>
+                <RepeatButton Grid.Row="3" Width="48" Height="48" Background="Black" Foreground="White" 
+                          Visibility="{Binding MiniViewZoomVisibility}"
+                          Command="{Binding MinusCommand}" >
+                    <materialDesign:PackIcon Kind="MagnifyMinus" Height="42" Width="42" />
+                </RepeatButton>-->
+            </Grid>
+        </Grid>
+        <!-- Side View -->
+        <!--<Grid Grid.Row="1" Grid.Column="1" Margin="8 4" Height="468" Visibility="{Binding SideViewTargetVisibility}">-->
+        <Grid Grid.RowSpan="3" Grid.ColumnSpan="2" Visibility="{Binding SideViewTargetVisibility}" 
+              VerticalAlignment="{Binding SideViewVerticalAlignment}" HorizontalAlignment="{Binding SideViewHorizontalAlignment}">
+
+            <UcSideViewer:UcSideViewer Margin="{Binding SideViewMargin}" Width="{Binding SideViewWidth}" Height="{Binding SideViewHeight}"/>
+
+            <Button Grid.Row="0" Background="Black" Width="48" Height="48" Margin="4" Opacity="0.3"
+                    HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White"
+                    Command="{Binding ChangeSideViewVisibleCommand}"
+                    Visibility="{Binding SideViewSwitchVisibility}">
+                <materialDesign:PackIcon Kind="Rotate3d" Height="42" Width="42"/>
+            </Button>
+            
+        </Grid>
+
+        <!-- Light Jog -->
+        <Grid Grid.Row="2" Grid.Column="1" Margin="4" Visibility="{Binding LightJogVisibility}" >
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="200"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="58"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Light Jog -->
+            <Viewbox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="4" VerticalAlignment="Bottom">
+                <lj:UcLightJog Width="250" Height="100" Opacity="0.9"
+                               DataContext="{Binding PnpManager.PnpLightJog}"/>
+            </Viewbox>
+        </Grid>
+
+        <!-- Right Side -->
+        <Grid Grid.Column="2" Grid.RowSpan="3">
+            <Grid>
+                <Grid.Resources>
+                    <Style x:Key="TreeViewItemStyle1" TargetType="{x:Type TreeViewItem}">
+                        <Setter Property="IsExpanded" Value="True"/>
+                        <Setter Property="IsSelected" Value="{Binding IsSeleted, Mode=TwoWay}"/>
+                        <Setter Property="Margin" Value="0 5 0 0 "/>
+                        <Style.Triggers>
+                            <Trigger Property="DataContext" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                            </Trigger>
+                            <DataTrigger Binding="{Binding Converter={StaticResource IsSetupTypeToBoolConv}, RelativeSource={RelativeSource Self}}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="300*"/>
+                    <!--Treeview-->
+                    <RowDefinition Height="360*"/>
+                    <!--MiddleJog & Button-->
+                    <RowDefinition Height="360*"/>
+                    <!--MotionJog-->
+                </Grid.RowDefinitions>
+
+                <!-- Navi Control -->
+                <Border Grid.Row="0" Visibility="{Binding NaviVisibility}">
+                    <nav:NaviControl Margin="1.5,0,0,0" Width="360"
+                        PnpManager="{Binding PnpManager}"
+                        Datas="{Binding PnpManager.PnpSteps}"
+                        SelectedItem="{Binding PnpManager.SeletedStep, Mode=TwoWay}" 
+                        GUID ="734F1145-C26B-AE62-0495-25F36C71FF82"/>
+                </Border>
+
+                <!-- PNP Button -->
+                <Grid Grid.Row="1" Margin="0 4" Visibility="{Binding PNPBtnVisibility}">
+                    <Grid.RowDefinitions>
+                        <!--CrossJogTitle-->
+                        <RowDefinition Height="340*"/>
+                        <!--CrossJog-->
+                        <RowDefinition Height="150*"/>
+                        <!--Buttons-->
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Viewbox>
+                            <UcPnPPrevNextJog:PnPPrevNext MinWidth="380" MinHeight="250"/>
+                        </Viewbox>
+                    </Grid>
+                    <Grid Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 -4">
+                        <Viewbox >
+                            <UcCircularShapedJog:CircularJog/>
+                        </Viewbox>
+                    </Grid>
+                    <Grid Grid.Row="1" HorizontalAlignment="Center">
+                        <Viewbox Width="360" Margin="0 8 0 0">
+                            <UcPnPButtonJog:PnPButton/>
+                        </Viewbox>
+                    </Grid>
+                </Grid>
+
+                <!-- Motion Jog -->
+                <Viewbox Grid.Row="2" Grid.Column="1">
+                    <hjc:UcHexagonJog DataContext="{Binding PnpManager.PnpMotionJog}" 
+                                      AssignedCamera="{Binding DataContext.CurCam, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                                      IsEnabled="{Binding DataContext.MotionJogEnabled, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                                      Visibility="{Binding DataContext.MotionJogVisibility, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                                      JogType="{Binding DataContext.JogType, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                                      GUID = "968F1EDF-CA30-FDF3-7861-D481E0CAC0D6"
+                                      />
+                </Viewbox>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

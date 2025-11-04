@@ -1,0 +1,256 @@
+﻿<UserControl x:Class="ProberViewModel.PMIManualResultView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:MapView="clr-namespace:MapView;assembly=MapView"
+             xmlns:prober="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             xmlns:needle="clr-namespace:NeedleCleanViewer;assembly=NeedleCleanViewer"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:ProberViewModel"
+             xmlns:lj="clr-namespace:LightJog;assembly=LightJog"
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             mc:Ignorable="d" 
+             d:DesignHeight="890" d:DesignWidth="1280">
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+
+            <DataTemplate x:Key="MapViewTemplate" DataType="{x:Type prober:IWaferObject}" >
+                <MapView:MapViewControl 
+                    MinHeight="200" MinWidth="200" Opacity="1" 
+                    WaferObject="{Binding}"
+                    Grid.RowSpan="2" Margin="4" 
+                    UnderDutDices="{Binding DataContext.Prober.Probing.ProbingProcessStatus.UnderDutDevs,
+                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                    Mode=FindAncestor}}"      
+                    CursorXIndex="{Binding DataContext.StageSupervisor.WaferObject.CurrentMXIndex,
+                    Mode=TwoWay, 
+                    RelativeSource={RelativeSource AncestorType={x:Type UserControl},
+                    Mode=FindAncestor}}" 
+                    CursorYIndex="{Binding DataContext.StageSupervisor.WaferObject.CurrentMYIndex,
+                    Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type UserControl},
+                    Mode=FindAncestor}}"
+                    CurCamera="{Binding DataContext.CurCam, Mode=OneWay, 
+                    RelativeSource={RelativeSource AncestorType={x:Type UserControl},
+                    Mode=FindAncestor}}" 
+                    ZoomLevel="{Binding ZoomLevel, Mode=TwoWay}"
+                    CoordinateManager="{Binding DataContext.CoordManager, 
+                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                    Mode=FindAncestor}}"
+                    EnalbeClickToMove="{Binding DataContext.WaferObject.MapViewStageSyncEnable, 
+                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                    Mode=FindAncestor}}"
+                    RenderMode="{Binding DataContext.WaferObject.MapViewControlMode, 
+                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                    Mode=FindAncestor}}"
+                    StageSyncEnalbe="{Binding DataContext.WaferObject.MapViewStageSyncEnable, 
+                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                    Mode=FindAncestor}}"
+                    StepLabel="{Binding DataContext.WaferObject.MapViewStepLabel, 
+                    RelativeSource={RelativeSource AncestorType={x:Type UserControl}, 
+                    Mode=FindAncestor}}" />
+            </DataTemplate>
+            <!-- Displayport Template -->
+            <DataTemplate x:Key="DisplayViewTemplate" DataType="{x:Type prober:IDisplayPort}" >
+                <!--<UcDisplayPort:DisplayPort x:Name="DisPlay"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"/>-->
+                <ContentControl x:Name="DisPlay" Content="{Binding ''}"/>
+            </DataTemplate>
+            <!-- RecipeEditor Template -->
+            <DataTemplate x:Key="RecipeEditTemplate" DataType="{x:Type local:VmRecipeEditorMainPage}">
+                <local:UcRecipeEditorMainPage/>
+            </DataTemplate>
+            <!-- NCView Template -->
+            <DataTemplate x:Key="NeedleCleanViewTemplate" DataType="{x:Type needle:NeedleCleanViewModel}">
+                <needle:NeedleCleanView/>
+            </DataTemplate>
+
+            <local:TemplateSelector x:Key="ViewTargetTemplateSelector" 
+                                    MapViewDataTemplate="{StaticResource MapViewTemplate}"
+                                    DisplayViewDataTemplate="{StaticResource DisplayViewTemplate}"
+                                    RecipeEditDataTemplate="{StaticResource RecipeEditTemplate}"
+                                    NeedleCleanDataTemplate="{StaticResource NeedleCleanViewTemplate}"/>
+
+            <vc:BoolToVisibleOrHiddenConverter x:Key="BtoVVisibleOrHidden" />
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SettingControlStyle;component/SettingViewStyleDictionaly.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="906*"/>
+            <ColumnDefinition Width="374*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="648*"/>
+                <ColumnDefinition Width="258*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="258*"/>
+                <RowDefinition Height="468*"/>
+                <RowDefinition Height="166*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Main View -->
+            <Border Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" Grid.ColumnSpan="2" 
+                BorderThickness="1" BorderBrush="#FF343434" Margin="4">
+                <Grid Margin="4" Width="890" Height="890">
+                    <ContentControl Width="890" Height="890" 
+                                Content="{Binding MainViewTarget}"
+                                ContentTemplateSelector="{StaticResource ViewTargetTemplateSelector}"/>
+                    <!-- Main View image --><!--
+                    <Image Width="250" Height="250" Margin="16" 
+                       HorizontalAlignment="Left" VerticalAlignment="Bottom" 
+                       Source="{Binding MainViewImageSource}" />-->
+                </Grid>
+            </Border>
+
+            <!-- Mini View -->
+            <Grid Grid.Row="0" Grid.Column="1" Opacity="1" Margin="4" Visibility="{Binding MiniViewTargetVisibility, Converter={StaticResource BtoVVisibleOrHidden}}">
+                <ContentControl Content="{Binding MiniViewTarget}" 
+                            ContentTemplateSelector="{StaticResource ViewTargetTemplateSelector}" Opacity="0.7"/>
+
+                <!-- Mini View Button -->
+                <Grid Grid.Column="1" HorizontalAlignment="Right" Opacity="0.3" Margin="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Button Grid.Row="0" Width="48" Height="48" Background="Black" Foreground="White" 
+                        Command="{Binding ViewSwapCommand}"
+                        Visibility="{Binding MiniViewSwapVisibility, Converter={StaticResource BtoVVisibleOrHidden}}">
+                        <materialDesign:PackIcon Kind="ArrowExpand" Height="42" Width="42"/>
+                    </Button>
+                    <RepeatButton Grid.Row="2" Width="48" Height="48" Background="Black" Foreground="White" 
+                          Visibility="{Binding MiniViewZoomVisibility, Converter={StaticResource BtoVVisibleOrHidden}}"
+                          Command="{Binding PlusCommand}" >
+                        <materialDesign:PackIcon Kind="MagnifyPlus" Height="42" Width="42"/>
+                    </RepeatButton>
+                    <RepeatButton Grid.Row="3" Width="48" Height="48" Background="Black" Foreground="White" 
+                          Visibility="{Binding MiniViewZoomVisibility, Converter={StaticResource BtoVVisibleOrHidden}}"
+                          Command="{Binding MinusCommand}" >
+                        <materialDesign:PackIcon Kind="MagnifyMinus" Height="42" Width="42" />
+                    </RepeatButton>
+                </Grid>
+            </Grid>
+
+            <!-- Side View -->
+            <Grid Grid.Row="1" Grid.Column="1" Margin="8 4" Height="468" Visibility="{Binding SideViewTargetVisibility, Converter={StaticResource BtoVVisibleOrHidden}}">
+                <Viewbox Grid.Row="1" VerticalAlignment="Top" MaxHeight="460" Opacity="0.7"
+                         Margin="0 54">
+                    <!--<UcSideViewer:UcSideViewer/>-->
+                    <StackPanel>
+                        <Expander Header="Fail Codes"
+                                  Foreground="White">
+                            <StackPanel Margin="8">
+                                <TextBlock Text="0: PASS"/>
+                                <TextBlock Text="1: Too close to edge"/>
+                                <TextBlock Text="2: No probe mark"/>
+                                <TextBlock Text="3: Mark area too small"/>
+                                <TextBlock Text="4: Mark area too big"/>
+                                <TextBlock Text="5: Mark size too small"/>
+                                <TextBlock Text="6: Mark size too big"/>
+                                <TextBlock Text="7: Too many probe mark"/>
+                            </StackPanel>
+                        </Expander>
+                        <Expander Header="PMI Result Summary"
+                                  Foreground="White">
+                            <StackPanel Margin="8">
+                                <TextBlock 
+                                    Text="{Binding PMIResultSummary.AvgMarkPosX,
+                                    StringFormat=1. Avg Mark Pos X : {0} ㎛}"/>
+                                <TextBlock 
+                                    Text="{Binding PMIResultSummary.AvgMarkPosY,
+                                    StringFormat=2. Avg Mark Pos Y : {0} ㎛}"/>
+                                <TextBlock 
+                                    Text="{Binding PMIResultSummary.AvgMarkSizeX,
+                                    StringFormat=3. Avg Mark Size X : {0} ㎛}"/>
+                                <TextBlock 
+                                    Text="{Binding PMIResultSummary.AvgMarkSizeY,
+                                    StringFormat=4. Avg Mark Size Y : {0} ㎛}"/>
+                                <TextBlock 
+                                    Text="{Binding PMIResultSummary.AvgMarkArea,
+                                    StringFormat=5. Avg Mark Area : {0} ㎛^2}"/>
+                                <TextBlock 
+                                    Text="{Binding PMIResultSummary.MarkMinArea,
+                                    StringFormat=6. Min Mark Area : {0} ㎛^2}"/>
+                                <TextBlock 
+                                    Text="{Binding PMIResultSummary.MarkMaxArea,
+                                    StringFormat=7. Max Mark Area : {0} ㎛^2}"/>
+                            </StackPanel>
+                        </Expander>
+                    </StackPanel>
+                </Viewbox>
+
+                <Button Grid.Row="0" Background="Black" Width="48" Height="48" Margin="4" Opacity="0.3"
+                    HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="White"
+                    Command="{Binding ChangeSideViewVisibleCommand}"
+                    Visibility="{Binding SideViewSwitchVisibility, Converter={StaticResource BtoVVisibleOrHidden}}">
+                    <materialDesign:PackIcon Kind="Rotate3d" Height="42" Width="42"/>
+                </Button>
+            </Grid>
+
+            <!-- Light Jog -->
+            <Grid Grid.Row="2" Grid.Column="1" Margin="4" Visibility="{Binding LightJogVisibility, Converter={StaticResource BtoVVisibleOrHidden}}" >
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="200"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="58"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Set Zero Button -->
+                <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Content="Set Zero" 
+                    Background="Black" Foreground="Lightgray" FontSize="24" Margin="4" 
+                    Command="{Binding SetZeroCommand}" 
+                    IsEnabled="{Binding LightJogEnable}"/>
+
+                <!-- Light Jog -->
+                <Viewbox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="4">
+                    <lj:UcLightJog Width="250" Height="100" Opacity="0.9" 
+                               IsEnabled="{Binding LightJogEnable}"
+                                   DataContext="{Binding LightJogVM}"/>
+                </Viewbox>
+            </Grid>
+
+            <!-- MainView Zoom --><!--
+            <Grid Grid.Row="2" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Opacity="0.3" Margin="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <RepeatButton Grid.Row="0" Width="48" Height="48" 
+                          Background="Black" Foreground="White" Margin="4 4 4 0"
+                          HorizontalAlignment="Right" VerticalAlignment="Bottom"                           
+                          Visibility="{Binding MainViewZoomVisibility, Converter={StaticResource BtoVVisibleOrHidden}}" 
+                          Command="{Binding PlusCommand}">
+                    <materialDesign:PackIcon Kind="MagnifyPlus" Height="42" Width="42"/>
+                </RepeatButton>
+                <RepeatButton Grid.Row="1" Width="48" Height="48" 
+                          Background="Black" Foreground="White" Margin="4 4 4 10"
+                          HorizontalAlignment="Right" VerticalAlignment="Bottom"                           
+                          Visibility="{Binding MainViewZoomVisibility, Converter={StaticResource BtoVVisibleOrHidden}}" 
+                          Command="{Binding MinusCommand}">
+                    <materialDesign:PackIcon Kind="MagnifyMinus" Height="42" Width="42"/>
+                </RepeatButton>
+            </Grid>-->
+
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <local:PMIDutInfoControl/>
+        </Grid>
+
+    </Grid>
+</UserControl>

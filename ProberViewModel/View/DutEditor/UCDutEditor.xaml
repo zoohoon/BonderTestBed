@@ -1,0 +1,359 @@
+﻿<UserControl x:Class="UCDutEditor.UCDutEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:dutedit="clr-namespace:ucDutViewer;assembly=ucDutViewer"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UCDutEditor"
+             xmlns:enum="clr-namespace:ProberInterfaces.Enum;assembly=ProberInterfaces"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d"              
+      d:DesignHeight="940" d:DesignWidth="1280" Background="Transparent">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="DContentLabel" TargetType="{x:Type Label}" BasedOn="{StaticResource {x:Type Label}}">
+                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="4,2,4,2"/>
+                <Setter Property="Foreground" Value="#d9d9d9"/>
+                <Setter Property="FontFamily" Value="맑은 고딕"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2.8*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Dut Map Base -->
+        <Grid Grid.Column="0" >
+            <dutedit:ucDUTviewer DataContext="{Binding }"/>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition Height="0.2*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button AutomationProperties.AutomationId="btnImportCSVFile"
+                                Grid.Column="0" Margin="5"
+                                Content="Import CSV File" Width="Auto"  Height="Auto" MaxHeight="46" FontWeight="Bold" Style="{DynamicResource ControlButtonStyle}"
+                                Command="{Binding CmdImportCardData}" Visibility="Visible">
+                        </Button>
+
+                        <Button AutomationProperties.AutomationId="btnExportCSVFile"
+                                Grid.Column="1" Margin="5"
+                                Content="Export CSV File" Width="Auto" Height="Auto" MaxHeight="46" FontWeight="Bold" Style="{DynamicResource ControlButtonStyle}"
+                                Command="{Binding CmdExportCardData}" Visibility="Visible">
+                        </Button>
+                    </Grid>
+                    
+                </Grid>
+
+                <Grid Grid.Row="1">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="6.5*"/>
+                        <ColumnDefinition Width="3.5*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Label Grid.Column="0" Content="DUT Count"
+                               HorizontalContentAlignment="Center"
+                               Style="{DynamicResource TitleBorderLabel}"/>
+
+
+                    <Label Grid.Column="1"
+                           HorizontalContentAlignment="Center" 
+                           Style="{DynamicResource TitleBorderLabel}">
+                        <Label.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding StageSupervisor.ProbeCardInfo.ProbeCardDevObject.DutList.Count}"/>
+                            </StackPanel>
+                        </Label.Content>
+                    </Label>
+
+                </Grid>
+
+                <Grid Grid.Row="2">
+
+                    <Grid>
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <!--<ColumnDefinition/>-->
+                        </Grid.ColumnDefinitions>
+
+                        <Button AutomationProperties.AutomationId="btnZoomIn"
+                                Grid.Column="0" Content="Zoom In (+)"  MaxHeight="46"  Height="Auto" Width="Auto" MaxWidth="170"
+                                FontWeight="Bold"  Style="{DynamicResource ControlButtonStyle}" Command="{Binding ZoomInCommand}"/>
+                        <Button AutomationProperties.AutomationId="btnZoomOut"
+                                Grid.Column="1" Content="Zoom Out (-)"  MaxHeight="46"  Height="Auto" Width="Auto" MaxWidth="170"
+                                FontWeight="Bold"  Style="{DynamicResource ControlButtonStyle}" Command="{Binding ZoomOutCommand}"/>
+                        <!--<Button Grid.Column="2" Content="TEST CMD"  MaxHeight="46"  Height="Auto" Width="Auto" MaxWidth="170"
+                                FontWeight="Bold"  Style="{DynamicResource ControlButtonStyle}" Command="{Binding MakeDutMapInformationCommand}"/>-->
+                    </Grid>
+
+                </Grid>
+
+                <Grid Grid.Row="3">
+
+                    <Button AutomationProperties.AutomationId="btnClearDutMap"
+                            Content="Clear DUT Map" Height="Auto" MaxHeight="46" FontWeight="Bold" Margin="7,0,7,0"
+                            Command="{Binding InitializePalletCommand}"
+                            Style="{DynamicResource ControlButtonStyle}"
+                            Width="Auto">
+                    </Button>
+                    
+                </Grid>
+                
+                <Grid Grid.Row="4">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button AutomationProperties.AutomationId="btnAdd"
+                            Grid.Row="0" Grid.Column="0" Content="Add" MaxHeight="46"  Height="Auto" Width="Auto" MaxWidth="170" 
+                            FontWeight="Bold"  Style="{DynamicResource ControlButtonStyle}" Command="{Binding DutAddCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnDelete"
+                            Grid.Row="0" Grid.Column="1" Content="Delete"  MaxHeight="46"  Height="Auto" Width="Auto" MaxWidth="170"
+                            FontWeight="Bold" Style="{DynamicResource ControlButtonStyle}" Command="{Binding DutDeleteCommand}"/>
+
+                </Grid>
+
+                <!--<StackPanel Grid.Row="0" Margin="8" VerticalAlignment="Center" IsEnabled="True">
+                    
+                    <Grid ShowGridLines="True">
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                    <Button Grid.Column="0"
+                            Content="Import CSV File" Width="Auto"  Height="Auto" MinHeight="46" FontWeight="Bold" Style="{DynamicResource ControlButtonStyle}"
+                            Command="{Binding CmdImportCardData}" Visibility="Visible"
+                            Margin="4,8,4,8"></Button>
+                        
+                    <Button Grid.Column="1"
+                            Content="Export CSV File" Width="Auto" MinHeight="46" FontWeight="Bold" Style="{DynamicResource ControlButtonStyle}"
+                            Command="{Binding CmdExportCardData}" Visibility="Visible"
+                            Margin="4,8,4,8"></Button>
+                    </Grid>
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6.5*"/>
+                            <ColumnDefinition Width="3.5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        --><!--<Label Grid.Column="0" Grid.Row="0"  
+                        Content="Multi Location" Foreground="#d9d9d9" 
+                        BorderBrush="#474343" BorderThickness="0.8" 
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Stretch" 
+                        HorizontalContentAlignment="Center" FontSize="18" 
+                        Margin="4"/>
+                        <Label Grid.Column="0" Grid.Row="1"  Content="DUT Count" Foreground="#d9d9d9" BorderBrush="#474343" BorderThickness="0.8" VerticalAlignment="Center" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="18" Margin="4"/>-->
+                        <!--<Label Grid.Column="0" Grid.Row="0" Content="Multi Location" Margin="0,4,0,4" 
+                               HorizontalContentAlignment="Center"
+                               Style="{DynamicResource TitleBorderLabel}"/>--><!--
+                        <Label Grid.Column="0" Grid.Row="1" Content="DUT Count" Margin="0,4,0,4" 
+                               HorizontalContentAlignment="Center"
+                               Style="{DynamicResource TitleBorderLabel}"/>
+
+
+                        --><!--<TextBox  Grid.Column="1" Grid.Row="0" Foreground="Black" FontSize="18" Margin="4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="2" Style="{DynamicResource InputTextBox}"/>
+                        <TextBox  Grid.Column="1" Grid.Row="1" Foreground="Black" FontSize="18" Margin="4" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="2" Style="{DynamicResource InputTextBox}"/>-->
+                        <!--<TextBox Grid.Column="1" Grid.Row="0" Margin="0,4,0,4" Text="2"
+                                 HorizontalContentAlignment="Center"
+                                 Style="{DynamicResource InputTextBox}"/>-->
+                        <!--<Label Grid.Column="1" Grid.Row="1" Margin="0,4,0,4" 
+                                 HorizontalContentAlignment="Center"
+                                 Style="{DynamicResource TitleBorderLabel}" />--><!--
+
+                        <Label Grid.Column="1" Grid.Row="1" Margin="0,4,0,4" HorizontalContentAlignment="Center" Style="{DynamicResource TitleBorderLabel}">
+                            <Label.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding StageSupervisor.ProbeCardInfo.ProbeCardDevObject.DutList.Count}"/>
+                                </StackPanel>
+                            </Label.Content>
+                        </Label>
+
+                    </Grid>
+                </StackPanel>
+
+                --><!--<Border Grid.Row="1" Margin="8" BorderBrush="#474343" BorderThickness="0.8">
+                    <Grid Margin="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="1.6*"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0" 
+                                Command="{Binding Path=PrevDutCommand}"
+                                Style="{DynamicResource ImageIConBtnStyle}">
+                            <Image Source="pack://application:,,,/ImageResourcePack;component/Images/chevron-left.png"/>
+                        </Button>
+
+                        <Label Grid.Column="1" Style="{DynamicResource DContentLabel}" Content="3-24"/>
+
+                        <Button Grid.Column="2" 
+                                Command="{Binding Path=NextDutCommand}"
+                                Style="{DynamicResource ImageIConBtnStyle}">
+                            <Image Source="pack://application:,,,/ImageResourcePack;component/Images/chevron-right.png"/>
+                        </Button>
+
+                    </Grid>
+                </Border>--><!--
+
+                <Button Grid.Row="1" Content="Clear DUT Map" Height="46" FontWeight="Bold" 
+                        Command="{Binding InitializePalletCommand}"
+                        Style="{DynamicResource ControlButtonStyle}"
+                        Width="Auto"></Button>-->
+            </Grid>
+
+
+            <Grid Grid.Row="1">
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="2.5*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="1" Margin='12,0,12,12'>
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <RepeatButton AutomationProperties.AutomationId="rbtnLeftUp"
+                                  Grid.Column="0" Grid.Row="0" Margin="6" 
+                                  Command="{Binding Path=DutEditerMoveCommand}"
+                                  CommandParameter="{x:Static enum:EnumArrowDirection.LEFTUP}"
+                                  Style="{DynamicResource ControlRepeatButtonStyle}">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/JogLeftUpG.png"/>
+                    </RepeatButton>
+
+                    <RepeatButton AutomationProperties.AutomationId="rbtnUp"
+                                  Grid.Column="1" Grid.Row="0" Margin="6" 
+                                  Command="{Binding Path=DutEditerMoveCommand}"
+                                  CommandParameter="{x:Static enum:EnumArrowDirection.UP}"
+                                  Style="{DynamicResource ControlRepeatButtonStyle}">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/JogUpG.png"/>
+                    </RepeatButton>
+
+                    <RepeatButton AutomationProperties.AutomationId="rbtnRightUp"
+                                  Grid.Column="2" Grid.Row="0" Margin="6" 
+                                  Command="{Binding Path=DutEditerMoveCommand}"
+                                  CommandParameter="{x:Static enum:EnumArrowDirection.RIGHTUP}"
+                                  Style="{DynamicResource ControlRepeatButtonStyle}">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/JogRightUpG.png"/>
+                    </RepeatButton>
+
+                    <RepeatButton AutomationProperties.AutomationId="rbtnLeft"
+                                  Grid.Column="0" Grid.Row="1" Margin="6" 
+                                  Command="{Binding Path=DutEditerMoveCommand}"
+                                  CommandParameter="{x:Static enum:EnumArrowDirection.LEFT}"
+                                  Style="{DynamicResource ControlRepeatButtonStyle}">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/JogLeftG.png"/>
+                    </RepeatButton>
+
+                    <RepeatButton AutomationProperties.AutomationId="rbtnRight"
+                                  Grid.Column="2" Grid.Row="1" Margin="6" 
+                                  Command="{Binding Path=DutEditerMoveCommand}"
+                                  CommandParameter="{x:Static enum:EnumArrowDirection.RIGHT}"
+                                  Style="{DynamicResource ControlRepeatButtonStyle}">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/JogRightG.png"/>
+                    </RepeatButton>
+
+                    <RepeatButton AutomationProperties.AutomationId="rbtnLeftDown"
+                                  Grid.Column="0" Grid.Row="2" Margin="6" 
+                                  Command="{Binding Path=DutEditerMoveCommand}"
+                                  CommandParameter="{x:Static enum:EnumArrowDirection.LEFTDOWN}"
+                                  Style="{DynamicResource ControlRepeatButtonStyle}">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/JogLeftDownG.png"/>
+                    </RepeatButton>
+
+                    <RepeatButton AutomationProperties.AutomationId="rbtnDown"
+                                  Grid.Column="1" Grid.Row="2" Margin="6" 
+                                  Command="{Binding Path=DutEditerMoveCommand}"
+                                  CommandParameter="{x:Static enum:EnumArrowDirection.DOWN}"
+                                  Style="{DynamicResource ControlRepeatButtonStyle}">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/JogDownG.png"/>
+                    </RepeatButton>
+
+                    <RepeatButton AutomationProperties.AutomationId="rbtnRightDown"
+                                  Grid.Column="2" Grid.Row="2" Margin="6" 
+                                  Command="{Binding Path=DutEditerMoveCommand}"
+                                  CommandParameter="{x:Static enum:EnumArrowDirection.RIGHTDOWN}"
+                                  Style="{DynamicResource ControlRepeatButtonStyle}">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/JogRightDownG.png"/>
+                    </RepeatButton>
+
+                    <Grid Grid.Column="1" Grid.Row="1">
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="2.2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Viewbox>
+                            <CheckBox AutomationProperties.AutomationId="cbAutoSelect"
+                                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                      IsChecked="{Binding AddCheckBoxIsChecked}" BorderBrush="White" BorderThickness="2"/>
+                        </Viewbox>
+
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <Label  Foreground="#d9d9d9" Content="Auto&#xA;Select" 
+                                    FontSize="15" Padding="0" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+            
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,231 @@
+﻿<UserControl x:Class="ProberViewModel.View.MultiManualContact.ParamSettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProberViewModel"
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"             
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <UserControl.Resources>
+       
+        <!--<local:BoolReverseConverter x:Key="BoolReverseConvert" />-->
+        <!--<vc:BoolToVisibleOrHiddenConverter x:Key="BoolToVisibleOrHiddenConvert" />-->
+
+        <!--<Storyboard x:Key="ShowGroupBoxNoMargin">
+            <ThicknessAnimation Storyboard.TargetProperty="Margin" To="0" DecelerationRatio=".8" Duration="0:0:0.3"/>
+        </Storyboard>
+        <Storyboard x:Key="ShowGroupBox">
+            <ThicknessAnimation Storyboard.TargetProperty="Margin" To="8" DecelerationRatio=".8" Duration="0:0:0.3"/>
+        </Storyboard>
+        <Storyboard x:Key="HideGroupBox">
+            <ThicknessAnimation Storyboard.TargetProperty="Margin" To="120" DecelerationRatio=".8" Duration="0:0:0.3"/>
+        </Storyboard>-->
+
+    </UserControl.Resources>
+    <Grid Visibility="Visible">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" BorderBrush="#474343" BorderThickness="0.8" >
+                <DockPanel>
+                    <Border DockPanel.Dock="Top" Margin="0,0,0,0" Background="#3C454F">
+                        <Label Padding="0" FontWeight="DemiBold" Content="Contact Origin"
+                                   Foreground="WhiteSmoke" FontSize="12" 
+                                   VerticalAlignment="Center" />
+                    </Border>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="80*"/>
+                            <RowDefinition Height="80*"/>
+                            <RowDefinition Height="80*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="65*"/>
+                            <ColumnDefinition Width="161*"/>
+                            <ColumnDefinition Width="161"/>
+                            <ColumnDefinition Width="161*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <RadioButton AutomationProperties.AutomationId="FirstContactrdo"
+                                            Grid.Row="0" Grid.Column="0"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            IsHitTestVisible="False"
+                                            IsEnabled="{Binding ProbingModule.ProbingModuleSysParamRef.OverDriveStartPosition.Value,
+                                               Converter={StaticResource IsProbingStartPosFirstContactConverter}}"
+                                            IsChecked="{Binding ProbingModule.ProbingModuleSysParamRef.OverDriveStartPosition.Value,
+                                               Converter={StaticResource IsProbingStartPosFirstContactConverter}}"
+                                            VerticalContentAlignment="Center"
+                                            />
+
+                        <Label  Grid.Row="0" Grid.Column="1"
+                                            FontSize="9"
+                                            Margin="0" Padding="0 0 8 0"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            IsEnabled="{Binding ProbingModule.ProbingModuleSysParamRef.OverDriveStartPosition.Value,
+                                                Converter={StaticResource IsProbingStartPosFirstContactConverter}}"
+                                            Content="First&#x0a;Contact :"/>
+
+                        <TextBox        AutomationProperties.AutomationId="FirstContacttxt"
+                                            Grid.Row="0" Grid.Column="2"
+                                            Margin="8"
+                                            IsEnabled="False"
+                                            FontSize="16" Foreground="White"
+                                            VerticalAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Center"
+                                            Text="{Binding  ProbingModule.FirstContactHeight}"/>
+
+                        <Button AutomationProperties.AutomationId="FirstContactSetbtn"
+                                            Grid.Row="0" Grid.Column="3" FontSize="16" Margin="2"                                                        
+                                            Command="{Binding FirstContactSetCommand}"
+                                            Style="{DynamicResource ControlButtonStyle}"
+                                            CommandParameter="{Binding Index}"
+                                            Content="Set"/>
+
+                        <RadioButton    AutomationProperties.AutomationId="AllContactrdo"
+                                            Grid.Row="1" Grid.Column="0"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            IsHitTestVisible="False"
+                                            IsEnabled="{Binding ProbingModule.ProbingModuleSysParamRef.OverDriveStartPosition.Value,
+                                                Converter={StaticResource IsProbingStartPosAllContactConverter}}"
+                                            IsChecked="{Binding ProbingModule.ProbingModuleSysParamRef.OverDriveStartPosition.Value,
+                                               Converter={StaticResource IsProbingStartPosAllContactConverter}}"
+                                            VerticalContentAlignment="Center"
+                                            />
+
+                        <Label          Grid.Row="1" Grid.Column="1"
+                                            FontSize="9"
+                                            Margin="0" Padding="0 0 8 0"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            IsEnabled="{Binding ProbingModule.ProbingModuleSysParamRef.OverDriveStartPosition.Value,
+                                                Converter={StaticResource IsProbingStartPosAllContactConverter}}"
+                                            Content="All&#x0a;Contact :"/>
+
+                        <TextBox        AutomationProperties.AutomationId="AllContacttxt"
+                                            Grid.Row="1" Grid.Column="2"
+                                            Margin="8"
+                                            IsEnabled="False"
+                                            FontSize="16" Foreground="White"
+                                            VerticalAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Center"
+                                            Text="{Binding  ProbingModule.AllContactHeight}"
+                                            />
+
+                        <Button AutomationProperties.AutomationId="AllContactSetbtn"
+                                            Grid.Row="1" Grid.Column="3"
+                                            Margin="2"
+                                            FontSize="16"
+                                            Style="{DynamicResource ControlButtonStyle}"
+                                            Command="{Binding AllContactSetCommand}"
+                                            IsEnabled="{Binding ProbingModule.ProbingModuleSysParamRef.OverDriveStartPosition.Value,
+                                                Converter={StaticResource IsProbingStartPosAllContactConverter}}"
+                                            Content="Set"
+                                            CommandParameter="{Binding Index}"
+                                            />
+
+                        <Button Grid.Row="2" Grid.Column="3" AutomationProperties.AutomationId="RestContactStartPositionbtn"
+                                                                Content="Reset"
+                                                                Margin="2"
+                                                                Style="{DynamicResource ControlButtonStyle}"
+                                                                Command="{Binding Path=DataContext.ResetContactStartPositionCommand}"
+                                                                CommandParameter="{Binding Index}"/>
+                    </Grid>
+                </DockPanel>
+            </Border>
+            <Border Grid.Row="1" BorderBrush="#474343" BorderThickness="0.8">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40*"/>
+                        <RowDefinition Height="80*"/>
+                        <RowDefinition Height="80*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border  DockPanel.Dock="Top" Margin="0,0,0,0" Background="#3C454F" Grid.ColumnSpan="2">
+                        <Label Padding="0" FontWeight="DemiBold" Content="Overdrive / Z Clearance" 
+                                   Foreground="WhiteSmoke" FontSize="10" 
+                                   VerticalAlignment="Center" />
+                    </Border>
+                    <StackPanel Grid.Row="1">
+                        <StackPanel Orientation="Horizontal"  Grid.Column="0" >
+                            <Label Content="Overdrive : " Foreground="White"
+                                           HorizontalContentAlignment="Center" FontSize="12"
+                                           />
+                            <TextBox AutomationProperties.AutomationId="txtOverDrive"
+                                         Text="{Binding ProbingDevCopyParam.OverDrive.Value}" MinWidth="130" 
+                                         HorizontalContentAlignment="Center" Foreground="White"
+                                         FontSize="12">
+                                <!--<i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                        <i:InvokeCommandAction Command="{Binding OverDriveTextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>-->
+                            </TextBox>
+                            <TextBlock 
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        FontSize="12"
+                                        Text=" ㎛"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Button AutomationProperties.AutomationId="OverdriveSetbtn" Grid.Row="1"
+                                            Grid.Column="1" FontSize="16" Margin="2"                                                        
+                                            Command="{Binding OverdriveSetCommand}"
+                                            Style="{DynamicResource ControlButtonStyle}"
+                                            CommandParameter="{Binding Index}"
+                                            Content="Set"/>
+                    <StackPanel Grid.Row="2">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Z Clearance : " Foreground="White"
+                                           HorizontalContentAlignment="Center" FontSize="12"
+                                           />
+                            <TextBox AutomationProperties.AutomationId="txtZClearance"
+                                         Text="{Binding ProbingDevCopyParam.ZClearence.Value}" MinWidth="130"
+                                         HorizontalContentAlignment="Center" Foreground="White"
+                                         FontSize="12">
+                                <!--<i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                        <i:InvokeCommandAction Command="{Binding Path=DataContext.TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>-->
+                            </TextBox>
+                            <TextBlock
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        FontSize="12"
+                                        Text=" ㎛"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <Button AutomationProperties.AutomationId="ZClearanceSetbtn" Grid.Row="2"
+                                            Grid.Column="1" FontSize="16" Margin="2"                                                        
+                                            Command="{Binding ZClearanceSetCommand}"
+                                            Style="{DynamicResource ControlButtonStyle}"
+                                            CommandParameter="{Binding Index}"
+                                            Content="Set"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

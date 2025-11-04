@@ -1,0 +1,249 @@
+﻿<UserControl x:Class="ProberViewModel.View.EnvMonitoring.EnvMonitoringView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProberViewModel.View.EnvMonitoring"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"                     
+             mc:Ignorable="d" x:Name="ucWindow"             
+             d:DesignHeight="1010" d:DesignWidth="1850">
+    <UserControl.Resources>
+        <local:MultiBindingParamConverter x:Key="MultiBindingParamConv"/>
+    </UserControl.Resources>
+        
+    <Grid>
+        <TabControl Background="Black" Width="1875">
+            <TabItem Header="Smoke Sensor" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="0.1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.15*"/>
+                        <ColumnDefinition Width="0.15*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Row="0" BorderThickness="2" BorderBrush="DimGray" Grid.ColumnSpan="3"  >
+                        <ListView  ItemsSource="{Binding SensorModules}"
+                                       ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                        ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="5" >
+                            <ListView.Resources>
+                                <Style TargetType="{x:Type GridViewColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="FontSize" Value="20"/>
+                                    <Setter Property="IsHitTestVisible" Value="False"/>
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                </Style>
+                            </ListView.Resources>
+
+                            <ListView.ItemContainerStyle >
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                    <Setter Property="FontSize" Value="20"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="False">
+                                            <Setter Property="Foreground" Value="White" />
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Foreground" Value="White" />
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="DimGray" />
+                                        </Trigger>
+                                        <DataTrigger Binding="{Binding SensorEnable}" Value="False">
+                                            <Setter Property="Foreground" Value="Gray" />
+                                            <Setter Property="Background" Value="DimGray" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.View >
+                                <GridView>
+                                    <!-- Enable -->
+                                    <GridViewColumn Header="Enable" Width="150">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ToggleButton IsChecked="{Binding SensorEnable}" x:Name="tbEnable" Style="{StaticResource MaterialDesignSwitchToggleButton}">
+                                                    <!--<CheckBox.LayoutTransform>
+                                                        <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
+                                                    </CheckBox.LayoutTransform>-->
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="PreviewMouseDown" >
+                                                            <i:InvokeCommandAction Command="{Binding DataContext.SensorEnableChangedCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
+                                                                <i:InvokeCommandAction.CommandParameter>
+                                                                    <MultiBinding Converter="{StaticResource MultiBindingParamConv}">
+                                                                        <!--<Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type CheckBox}}"/>-->
+                                                                        <Binding Path="SensorIndex"/>
+                                                                        <Binding ElementName="tbEnable" Path="IsChecked"/>
+                                                                    </MultiBinding>
+                                                                </i:InvokeCommandAction.CommandParameter>
+                                                            </i:InvokeCommandAction>
+                                                            <!--CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>-->
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </ToggleButton>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <!-- ID -->
+                                    <GridViewColumn Header="ID"  Width="150">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding SensorIndex}" IsEnabled="{Binding SensorEnable}" FontSize="20"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <!-- Alias -->
+                                    <GridViewColumn Width="250">
+                                        <GridViewColumn.Header>
+                                            <TextBlock Text="Alias"/>
+                                        </GridViewColumn.Header>
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid Margin="5,5,5,5">
+                                                    <TextBox x:Name="tbName" Text="{Binding SensorAlias}" Foreground="White"                                                                
+                                                                 IsEnabled="{Binding SensorEnable}">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                <i:InvokeCommandAction Command="{Binding DataContext.SensorAliasTextBoxClickCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
+                                                                    <i:InvokeCommandAction.CommandParameter>
+                                                                        <MultiBinding Converter="{StaticResource MultiBindingParamConv}">
+                                                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                                            <Binding Path="SensorIndex"/>
+                                                                        </MultiBinding>
+                                                                    </i:InvokeCommandAction.CommandParameter>
+                                                                </i:InvokeCommandAction>
+                                                                <!--CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>-->
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </TextBox>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <!-- Status -->
+                                    <GridViewColumn Header="Status" Width="300">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding SensorStatus}" IsEnabled="{Binding SensorEnable}" FontSize="20"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <!-- Humidity -->
+                                    <GridViewColumn Header="Humidity(%)" Width="200" >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding SensorInfo.CurHumi.Value}" ContentStringFormat="{}{0:0.##}" IsEnabled="{Binding SensorEnable}" FontSize="20"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <!-- Temperature -->
+                                    <GridViewColumn Header="Temperature(℃)" Width="200" >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding SensorInfo.CurTemp.Value}" ContentStringFormat="{}{0:0.##}" IsEnabled="{Binding SensorEnable}" FontSize="20"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <!-- Warning Temperature -->
+                                    <GridViewColumn Width="200">
+                                        <GridViewColumn.Header>
+                                            <TextBlock Text="Warning temp(℃)"/>
+                                        </GridViewColumn.Header>
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <TextBox x:Name="tbName" Text="{Binding SensorInfo.WarningTemp.Value, StringFormat={}{0:0.##}}" Foreground="White"                                                                 
+                                                                 IsEnabled="{Binding SensorEnable}">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                <i:InvokeCommandAction Command="{Binding DataContext.WarningTempTextBoxClickCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
+                                                                    <i:InvokeCommandAction.CommandParameter>
+                                                                        <MultiBinding Converter="{StaticResource MultiBindingParamConv}">
+                                                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                                            <Binding Path="SensorIndex"/>
+                                                                        </MultiBinding>
+                                                                    </i:InvokeCommandAction.CommandParameter>
+                                                                </i:InvokeCommandAction>
+                                                                <!--CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>-->
+
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </TextBox>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <!-- Alarm Temperature -->
+                                    <GridViewColumn Width="200">
+                                        <GridViewColumn.Header>
+                                            <TextBlock Text="Alarm temp(℃)"/>
+                                        </GridViewColumn.Header>
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <TextBox x:Name="tbName"  Text="{Binding SensorInfo.AlarmTemp.Value, StringFormat={}{0:0.##}}"  Foreground="White"                                                                                                                 
+                                                                 IsEnabled="{Binding SensorEnable}">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                <i:InvokeCommandAction Command="{Binding DataContext.AlarmTempTextBoxClickCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
+                                                                    <!--CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>-->
+                                                                    <i:InvokeCommandAction.CommandParameter>
+                                                                        <MultiBinding Converter="{StaticResource MultiBindingParamConv}">
+                                                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                                            <Binding Path="SensorIndex"/>
+                                                                        </MultiBinding>
+                                                                    </i:InvokeCommandAction.CommandParameter>
+                                                                </i:InvokeCommandAction>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </TextBox>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <!-- Temperature Deviation -->
+                                    <GridViewColumn Width="200">
+                                        <GridViewColumn.Header>
+                                            <TextBlock Text="Deviation(℃)"/>
+                                        </GridViewColumn.Header>
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <TextBox x:Name="tbName"  Text="{Binding SensorInfo.TempDeviation.Value, StringFormat={}{0:0.##}}" Foreground="White"                                                                                                                  
+                                                                 IsEnabled="{Binding SensorEnable}">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                <i:InvokeCommandAction Command="{Binding DataContext.TempDeviationTextBoxClickCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
+                                                                    <!--CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>-->
+                                                                    <i:InvokeCommandAction.CommandParameter>
+                                                                        <MultiBinding Converter="{StaticResource MultiBindingParamConv}">
+                                                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                                            <Binding Path="SensorIndex"/>
+                                                                        </MultiBinding>
+                                                                    </i:InvokeCommandAction.CommandParameter>
+                                                                </i:InvokeCommandAction>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </TextBox>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Border>
+                    <Button Content="Reconnect" FontSize="25" Grid.Row="1" Grid.Column="1" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Right" Width="200" Height="120" Command="{Binding ReconnectCommand}"/>
+                    <Button Content="Reset Alarm" FontSize="25" Grid.Row="1" Grid.Column="2" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Right" Width="200" Height="120" Command="{Binding AllAlarmResetCommand}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

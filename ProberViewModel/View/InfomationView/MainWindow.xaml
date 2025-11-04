@@ -1,0 +1,675 @@
+<Window x:Class="ProberViewModel.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProberViewModel"
+        mc:Ignorable="d"
+        Title="Module Information" Height="660" Width="900" Background="DimGray">
+    <Window.Resources>
+        <ResourceDictionary>
+            <local:ListViewConverter x:Key="ListViewConverter"/>
+            <local:ImageConverter x:Key="ImageConverter"/>
+            <local:TransferObjectLabelConverter x:Key="TransferObjectLabelConverter"/>
+            <local:PWAngleHiddenConverter x:Key="PWAngleHiddenConv"/>
+            <local:PWAngleVisibilityConverter x:Key="PWAngleVisibilityConv"/>
+            <local:PWCurrentAngleConverter x:Key="PWCurrentAngleConv"/>
+            <local:DeviceTypeToNameConverter x:Key="DeviceTypeToNameConv"/>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="0.2*"/>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.2*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin='4' >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border  Margin="4" Grid.RowSpan="1"/>
+            <Image HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Width="196" Height="228" Grid.Row="0"
+                               Source="{Binding TransferObj ,Converter={StaticResource ImageConverter}}">
+            </Image>
+        </Grid>
+
+        <Grid Grid.Row="1" >
+            <Label   HorizontalAlignment="Center" VerticalAlignment="Top" BorderThickness="1" FontSize="20"  Foreground="White" Content="{Binding TransferObj.Name}"></Label>
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="0" >
+            <Grid  Name="VacuumBtnGrid" >
+                <Button HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="IndianRed" Name="VacOffBtn" Click="VacOffBtn_Click" FontSize="20" >Manual Remove</Button>
+            </Grid >
+        </Grid>
+
+        <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="3">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" Name="WaferColum"/>
+                <ColumnDefinition Width="1*" Name="CardColum"/>
+                <ColumnDefinition Width="1*" Name="PolishWaferColum"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid  x:Name="WaferInfoGrid"  Grid.Column="0" >
+
+                <DockPanel Margin="2">
+                    <Border CornerRadius="1" BorderBrush="White" Background="Gray" BorderThickness="1" DockPanel.Dock="Top">
+                        <StackPanel Orientation="Vertical">
+
+                            <Border BorderBrush="White" BorderThickness="1">
+                                <Label Margin="2" FontSize="17"   
+                                    HorizontalContentAlignment="Center"  
+                                    VerticalContentAlignment="Center" 
+                                    BorderBrush="Transparent"   
+                                    BorderThickness="1"  
+                                    VerticalAlignment="Stretch" 
+                                    HorizontalAlignment="Stretch" 
+                                    Foreground="White">Wafer Information</Label>
+                            </Border>
+
+                            <Border BorderBrush="White" BorderThickness="1">
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Device Name :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock Text="{Binding WaferObj, Converter={StaticResource DeviceTypeToNameConv}}">
+                                            </TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border BorderBrush="White" BorderThickness="1">
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12" VerticalAlignment="Center" Foreground="White">OCR ID :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White">
+                                            <TextBlock   Text="{Binding WaferObj.OCR.Value}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <Border BorderBrush="White" BorderThickness="1">
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12" VerticalAlignment="Center" Foreground="White">OCR State :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White">
+                                            <TextBlock   Text="{Binding WaferObj.OCRReadState}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <Border BorderBrush="White" BorderThickness="1">
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Wafer Type :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock Text="{Binding WaferObj.WaferType.Value}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+                                </StackPanel>
+
+                            </Border>
+
+                            <Border Visibility="{Binding WaferObj.WaferType.Value, Converter={StaticResource PWAngleHiddenConv}}" BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12" VerticalAlignment="Center" Foreground="White">Wafer State :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock Text="{Binding WaferObj.WaferState}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border Visibility="{Binding WaferObj.WaferType.Value, Converter={StaticResource PWAngleHiddenConv}}" BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Loading Angle :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock Text="{Binding WaferObj.ChuckNotchAngle.Value}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border Visibility="{Binding WaferObj.WaferType.Value, Converter={StaticResource PWAngleHiddenConv}}" BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Unloading Angle :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock   Text="{Binding WaferObj.SlotNotchAngle.Value}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Origin Location :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock   Text="{Binding OriginModule}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Foup :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock Text="{Binding FoupID}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MaxWidth="100"/>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" MaxWidth="110"/>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Wafer Size :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock Text="{Binding WaferObj.Size.Value}"></TextBlock>
+                                        </Label>
+                                        <Label Grid.Column="2" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Notch Type :</Label>
+                                        <Label Grid.Column="3" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock Text="{Binding WaferObj.NotchType}"></TextBlock>
+                                        </Label>
+                                    </Grid>
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border Visibility="{Binding WaferObj.WaferType.Value, Converter={StaticResource PWAngleVisibilityConv}}" BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Polish Wafer Size :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock Text="{Binding WaferObj.PolishWaferInfo.Size.Value}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border Visibility="{Binding WaferObj.WaferType.Value, Converter={StaticResource PWAngleVisibilityConv}}" BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Thickness :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock   Text="{Binding WaferObj.PolishWaferInfo.Thickness.Value}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border Visibility="{Binding WaferObj.WaferType.Value, Converter={StaticResource PWAngleVisibilityConv}}" BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Margin :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock   Text="{Binding WaferObj.PolishWaferInfo.Margin.Value}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border Visibility="{Binding WaferObj.WaferType.Value, Converter={StaticResource PWAngleVisibilityConv}}" BorderBrush="White" BorderThickness="1">
+
+                                <Grid Margin="10,5,0,5">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="50"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Grid.Column="0" FontSize="12" Foreground="White" Margin="0,0,0,0" VerticalAlignment="Center">Current Angle :</Label>
+                                    <TextBlock  Grid.Column="1" FontSize="12" Foreground="White" VerticalAlignment="Center" Margin="-10,0,0,0"
+                                                Text="{Binding WaferObj.PolishWaferInfo.CurrentAngle.Value, Converter={StaticResource PWCurrentAngleConv}}"></TextBlock>
+
+                                    <Label Grid.Column="2" FontSize="12"  Foreground="White" Margin="-35,0,0,0" VerticalAlignment="Center">Notch Angle :</Label>
+                                    <TextBlock   Grid.Column="3" FontSize="12" Foreground="White" VerticalAlignment="Center" Margin="-10,0,0,0"
+                                                 Text="{Binding WaferObj.PolishWaferInfo.NotchAngle.Value}"></TextBlock>
+
+                                    <Label Grid.Column="4" FontSize="12"  Foreground="White" Margin="-35,0,0,0" VerticalAlignment="Center">Rotate Angle :</Label>
+                                    <TextBlock  Grid.Column="5" FontSize="12" Foreground="White" VerticalAlignment="Center" Margin="-10,0,0,0"  
+                                                Text="{Binding WaferObj.PolishWaferInfo.RotateAngle.Value}"></TextBlock>
+
+                                </Grid>
+
+                            </Border>
+
+                            <Border Visibility="{Binding WaferObj.WaferType.Value, Converter={StaticResource PWAngleVisibilityConv}}" BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">TouchCount :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock   Text="{Binding WaferObj.PolishWaferInfo.TouchCount.Value}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+                                </StackPanel>
+                            </Border>
+
+                        </StackPanel>
+
+                    </Border>
+
+                </DockPanel>
+
+            </Grid>
+
+            <Grid x:Name="CardInfoGrid" Grid.Column="1" >
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.8*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="9" Margin="2" BorderThickness="1" BorderBrush="White"></Border>
+
+                <Label Grid.Row="0" Grid.Column="0"   Grid.ColumnSpan="2"  FontSize="17"  Margin="2"  HorizontalContentAlignment="Center"  VerticalContentAlignment="Center" BorderBrush="White"  BorderThickness="1"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Foreground="White">Card Information</Label>
+                <Label Grid.Row="1" Grid.Column="0"   Margin="5" HorizontalAlignment="Right"  FontSize="12"  VerticalAlignment="Center" Foreground="White">Card ID :</Label>
+                <Label Grid.Row="1" Grid.Column="1"   Margin="5" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" Content="{Binding CardObj.ProbeCardID.Value}"></Label>
+                <Label Grid.Row="2" Grid.Column="0"   Margin="5" HorizontalAlignment="Right"  FontSize="12"  VerticalAlignment="Center" Foreground="White">Origin Location :</Label>
+                <Label Grid.Row="2" Grid.Column="1"   Margin="5" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" Content="{Binding CardObj.OriginHolder}"></Label>
+
+            </Grid>
+
+            <Grid  x:Name="PolishWaferInfoGrid"  Grid.Column="2" >
+                <DockPanel Margin="2">
+                    <Border CornerRadius="1" BorderBrush="White" Background="Gray" BorderThickness="1" DockPanel.Dock="Top">
+                        <StackPanel Orientation="Vertical">
+
+                            <Border BorderBrush="White" BorderThickness="1">
+                                <Label Margin="2" FontSize="17"   
+                                    HorizontalContentAlignment="Center"  
+                                    VerticalContentAlignment="Center" 
+                                    BorderBrush="Transparent"   
+                                    BorderThickness="1"  
+                                    VerticalAlignment="Stretch" 
+                                    HorizontalAlignment="Stretch" 
+                                    Foreground="White">Polish Wafer Information</Label>
+                            </Border>
+
+                            <Border BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Polish Wafer Type:</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock   Text="{Binding WaferObj.PolishWaferInfo.DefineName.Value}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+                                </StackPanel>
+                            </Border>
+                            
+                            <Border BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Origin Location :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock   Text="{Binding OriginModule}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border Visibility="{Binding WaferObj.WaferType.Value, Converter={StaticResource PWAngleVisibilityConv}}" BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Size :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock Text="{Binding WaferObj.PolishWaferInfo.Size.Value}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border Visibility="{Binding WaferObj.WaferType.Value, Converter={StaticResource PWAngleVisibilityConv}}" BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Thickness :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock   Text="{Binding WaferObj.PolishWaferInfo.Thickness.Value}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border Visibility="{Binding WaferObj.WaferType.Value, Converter={StaticResource PWAngleVisibilityConv}}" BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Current Angle :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock   Text="{Binding WaferObj.PolishWaferInfo.CurrentAngle.Value, Converter={StaticResource PWCurrentAngleConv}}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border Visibility="{Binding WaferObj.WaferType.Value, Converter={StaticResource PWAngleVisibilityConv}}" BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Notch Angle :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock   Text="{Binding WaferObj.PolishWaferInfo.NotchAngle.Value}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border Visibility="{Binding WaferObj.WaferType.Value, Converter={StaticResource PWAngleVisibilityConv}}" BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Rotate Angle :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock   Text="{Binding WaferObj.PolishWaferInfo.RotateAngle.Value}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border Visibility="{Binding WaferObj.WaferType.Value, Converter={StaticResource PWAngleVisibilityConv}}" BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Margin :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock   Text="{Binding WaferObj.PolishWaferInfo.Margin.Value}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border Visibility="{Binding WaferObj.WaferType.Value, Converter={StaticResource PWAngleVisibilityConv}}" BorderBrush="White" BorderThickness="1">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Grid Margin="0,-3,0,-3">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" MinWidth="150"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="0" HorizontalAlignment="Left" FontSize="12"  VerticalAlignment="Center" Foreground="White">Priorty :</Label>
+                                        <Label Grid.Column="1" HorizontalAlignment="Left"  FontSize="12" VerticalAlignment="Center" Foreground="White" >
+                                            <TextBlock   Text="{Binding WaferObj.PolishWaferInfo.Priorty.Value}"></TextBlock>
+                                        </Label>
+
+                                    </Grid>
+
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </DockPanel>
+            </Grid>
+            <!--<Grid x:Name="MissingInfoGrid" Grid.Column="0" Grid.ColumnSpan="2" >
+
+
+
+                <Label Grid.Row="0" Grid.Column="0"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center"  FontSize="25" VerticalAlignment="Center" Foreground="White" Content="{Binding MissingStr}"></Label>
+
+            </Grid>-->
+        </Grid>
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" >
+            <Grid  Name="MissingBtnGrid"  >
+                <StackPanel Orientation="Horizontal"  >
+                    <Button Name="ExistBtn" Click="ExistBtn_Click" Background="YellowGreen" FontSize="20" Width="130">EXIST</Button>
+                    <Button Name="NotExistBtn" Click="NotExistBtn_Click" Background="IndianRed" FontSize="20" Width="130">NOT_EXIST</Button>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+            <Button Name="OkBtn" Click="OkBtn_Click" FontSize="30">OK</Button>
+        </Grid>
+
+    </Grid>
+</Window>

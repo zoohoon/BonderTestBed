@@ -1,0 +1,644 @@
+﻿<UserControl x:Class="ProberViewModel.ManualContactControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:prober="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             xmlns:MapUC="clr-namespace:MapView;assembly=MapView"
+             xmlns:conv="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:pnpcontrol="clr-namespace:PnPControl;assembly=PnPControl"
+             xmlns:local="clr-namespace:ProberViewModel"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"  
+             xmlns:UcPnPPrevNextJog="clr-namespace:UcPnPPrevNextJog;assembly=UcPnPPrevNextJog"
+             xmlns:UcCircularShapedJog="clr-namespace:UcCircularShapedJog;assembly=UcCircularShapedJog"
+             xmlns:cui="clr-namespace:CUI;assembly=CUI"
+             mc:Ignorable="d"
+             IsEnabled="{Binding CanUsingManualContactControl}"
+             d:DesignHeight="892" d:DesignWidth="1580">
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+            <local:ZStateToChuckIconConverter x:Key="zStateToChuckIconConverter"/>
+            <local:ZStateToBtnContentConverter x:Key="zStateToBtnContentConverter"/>
+            <local:IsSetAllContactConverter x:Key="SetContactForConv" />
+            <local:BoolReverseConverter x:Key="BoolReverseConv" />
+            <local:GetObjectNameConverter x:Key="GetobjNameConv" />
+            <local:StateToColorConverter x:Key="StateToColorConv" />
+            <local:IsProbingStartPosAllContactConverter x:Key="IsProbingStartPosAllContactConverter" />
+            <local:IsProbingStartPosFirstContactConverter x:Key="IsProbingStartPosFirstContactConverter" />
+            <local:ZStateToBorderBrushConverter x:Key="ZStateToBorderBrushConv"/>
+            <conv:LotStateToStringConverter x:Key="BtoVConv" />
+            <conv:LotStateToStringConverter2 x:Key="BtoVConv2" />
+            <conv:BoolToVisibleOrHiddenConverter x:Key="BtoVConv3" />
+            <conv:BoolToHiddenOrVisibleConverter x:Key="BtoVConv4" />
+
+            <Storyboard x:Key="ShowGroupBoxNoMargin">
+                <ThicknessAnimation Storyboard.TargetProperty="Margin" To="0" DecelerationRatio=".8" Duration="0:0:0.3"/>
+            </Storyboard>
+            <Storyboard x:Key="ShowGroupBox">
+                <ThicknessAnimation Storyboard.TargetProperty="Margin" To="8" DecelerationRatio=".8" Duration="0:0:0.3"/>
+            </Storyboard>
+            <Storyboard x:Key="HideGroupBox">
+                <ThicknessAnimation Storyboard.TargetProperty="Margin" To="120" DecelerationRatio=".8" Duration="0:0:0.3"/>
+            </Storyboard>
+
+            <DataTemplate x:Key="MapViewTemplate" DataType="{x:Type prober:IWaferObject}" >
+                <MapUC:ucWaferMapviewer MinHeight="200" MinWidth="200" Opacity="1" 
+                                      WaferObject="{Binding }"
+                                      UnderDutDices="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                              AncestorType={x:Type UserControl}},
+                                                  Path=DataContext.ProbingModule.ProbingProcessStatus.UnderDutDevs, Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged}"
+                                      Grid.RowSpan="2" Margin="4" 
+                                      CurrXYIndex="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                              AncestorType={x:Type UserControl}},
+                                                  Path=DataContext.MCM.MXYIndex, Mode=TwoWay,
+                                                    UpdateSourceTrigger=PropertyChanged}" 
+                                      EnalbeClickToMove="True"
+                                      CoordinateManager="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                   AncestorType={x:Type UserControl}}, Path=DataContext.MCM.CoordinateManager, Mode=TwoWay}"
+                                      IsCrossLineVisible="True"
+                                      MapViewEncoderVisiability="True">
+                </MapUC:ucWaferMapviewer>
+            </DataTemplate>
+
+            <pnpcontrol:TemplateSelector x:Key="ViewTargetTemplateSelector" 
+                                    MapViewDataTemplate="{StaticResource MapViewTemplate}"/>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding ControlLoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2.4*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="696*"/>
+            </Grid.RowDefinitions>
+
+            <!--<Grid   Margin="8" HorizontalAlignment="Center"
+                    Width="{Binding ActualHeight, RelativeSource={RelativeSource Mode=Self}}"-->
+            <Grid  Margin="8" HorizontalAlignment="Center">
+                <!--<Grid.RowDefinitions>
+                    <RowDefinition Height="80*"/>
+                    <RowDefinition Height="16*"/>
+                </Grid.RowDefinitions>-->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="70*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8*"/>
+                    <!--<RowDefinition Height="*"/>-->
+                </Grid.RowDefinitions>
+
+                <!--<Grid   Grid.Row="0" Grid.Column="1"
+                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Mode=Self}}" >-->
+                <Grid   Grid.Row="0" Grid.Column="1">
+                    <ContentControl Content="{Binding MCM.ViewTarget}" 
+                                    VerticalAlignment="Stretch" 
+                                    HorizontalAlignment="Stretch"
+                                    ContentTemplateSelector="{StaticResource ViewTargetTemplateSelector}"
+                                    Width="890"/>
+                    <!--<Grid Grid.Row="0" Width="100" Height="150" VerticalAlignment="Bottom" HorizontalAlignment="Right" Opacity="1" Margin="8,20">
+                        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Opacity="0.25" Visibility="{Binding MCM.LotOPModule.ZoomVisiability}" >
+                            <RepeatButton  HorizontalAlignment="Right" VerticalAlignment="Top" Content="+" Background="Black" Foreground="White" Command="{Binding ZoomInCommand}" Width="50" Height="50" FontSize="40" FontWeight="Black" />
+                            <RepeatButton  HorizontalAlignment="Right" VerticalAlignment="Top" Content="-" Background="Black" Foreground="White" Command="{Binding ZoomOutCommand}" Width="50" Height="50" FontSize="40" FontWeight="Black" />
+                        </StackPanel>
+                    </Grid>-->
+                    <Grid Grid.Row="0" Width="160" Height="152" IsHitTestVisible="False"
+                          VerticalAlignment="Bottom" HorizontalAlignment="Left" 
+                          Background="Gray"
+                          Visibility="{Binding IsVisiblePanel,Converter={StaticResource BtoVConv3}}"
+                          Opacity="0.8" Margin="20 0 0 20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label      Grid.Row="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontSize="16"
+                                    Margin="8" Padding="0 0 8 0"
+                                    Content="{Binding MCM.MachinePosition.X}" ContentStringFormat="X : {0:F2}"
+                                    Foreground="White" AutomationProperties.AutomationId="lblMachinePositionX"/>
+
+                        <Label      Grid.Row="1"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontSize="16"
+                                    Margin="8" Padding="0 0 8 0"
+                                    Content="{Binding MCM.MachinePosition.Y}" ContentStringFormat="Y : {0:F2}"
+                                    Foreground="White" AutomationProperties.AutomationId="lblMachinePositionY"/>
+
+                        <Label      Grid.Row="2"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    FontSize="16"
+                                    Margin="8" Padding="0 0 8 0"
+                                    Content="{Binding MCM.MachinePosition.Z}" ContentStringFormat="Z : {0:F2}"
+                                    Foreground="White" AutomationProperties.AutomationId="lblMachinePositionZ"/>
+
+                        <Label      Grid.Row="3"
+                                    HorizontalAlignment="Left"
+                                    FontSize="16"
+                                    Margin="8" Padding="0 0 8 0"
+                                    Content="{Binding MCM.MachinePosition.T}" ContentStringFormat="T : {0:F2}"
+                                    Foreground="White" AutomationProperties.AutomationId="lblMachinePositionT"/>
+                    </Grid>
+                </Grid>
+
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="160*"/>
+                <RowDefinition Height="160*"/>
+                <RowDefinition Height="200*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="8" Visibility="Visible">
+                <!--<Grid.Style>
+                    <Style>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsCheckForContactCheck}" Value="True">
+                                <DataTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <StaticResource ResourceKey="ShowGroupBox"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.EnterActions>
+                                <DataTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <StaticResource ResourceKey="HideGroupBox"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </DataTrigger.ExitActions>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>-->
+                <!--<GroupBox Header="For start contact check"
+                         >-->
+                <!--IsEnabled="{Binding IsCheckForContactCheck}"-->
+                <Border Grid.Row="0" BorderBrush="#474343" BorderThickness="0.8">
+                    <TabControl Background="Black" SelectedIndex="{Binding Tab_Idx, Mode=TwoWay}">
+                        <TabItem Header="Contact Origin" Background="DimGray" BorderThickness="1" BorderBrush="Black" Foreground="White" >
+                            <DockPanel>
+                            <Border DockPanel.Dock="Top" Margin="0,0,0,0" Background="#3C454F">
+                                <Label Padding="0" FontWeight="DemiBold" Content="Contact Origin"
+                                   Foreground="WhiteSmoke" FontSize="12" 
+                                   VerticalAlignment="Center" />
+                            </Border>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="80*"/>
+                                    <RowDefinition Height="80*"/>
+                                    <RowDefinition Height="80*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="65*"/>
+                                    <ColumnDefinition Width="161*"/>
+                                    <ColumnDefinition Width="161"/>
+                                    <ColumnDefinition Width="161*"/>
+                                </Grid.ColumnDefinitions>
+
+                            <RadioButton    AutomationProperties.AutomationId="FirstContactrdo"
+                                            Grid.Row="0" Grid.Column="0"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            IsHitTestVisible="False"
+                                            IsEnabled="{Binding ProbingModule.ProbingModuleSysParamRef.OverDriveStartPosition.Value,
+                                               Converter={StaticResource IsProbingStartPosFirstContactConverter}}"
+                                            IsChecked="{Binding ProbingModule.ProbingModuleSysParamRef.OverDriveStartPosition.Value,
+                                               Converter={StaticResource IsProbingStartPosFirstContactConverter}}"
+                                            VerticalContentAlignment="Center"
+                                            />
+
+                                <Label          Grid.Row="0" Grid.Column="1"
+                                            FontSize="16"
+                                            Margin="0" Padding="0 0 8 0"
+                                            HorizontalContentAlignment="Right"
+                                            VerticalContentAlignment="Center"
+                                            IsEnabled="{Binding ProbingModule.ProbingModuleSysParamRef.OverDriveStartPosition.Value,
+                                                Converter={StaticResource IsProbingStartPosFirstContactConverter}}"
+                                            Content="First &#x0a;Contact :"/>
+
+                            <TextBox        AutomationProperties.AutomationId="FirstContacttxt"
+                                            Grid.Row="0" Grid.Column="2"
+                                            Margin="8"
+                                            IsEnabled="False"
+                                            FontSize="16" Foreground="White"
+                                            VerticalAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Center"
+                                            Text="{Binding  ProbingModule.FirstContactHeight}"
+                                            />
+
+                            <Button         AutomationProperties.AutomationId="FirstContactSetbtn"
+                                            Grid.Row="0" Grid.Column="3"
+                                            FontSize="16"
+                                            Margin="8"
+                                            Command="{Binding FirstContactSetCommand}"
+                                            Style="{DynamicResource ControlButtonStyle}"
+                                            Content="Set"/>
+
+
+
+                            <RadioButton    AutomationProperties.AutomationId="AllContactrdo"
+                                            Grid.Row="1" Grid.Column="0"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            IsHitTestVisible="False"
+                                            IsEnabled="{Binding ProbingModule.ProbingModuleSysParamRef.OverDriveStartPosition.Value,
+                                                Converter={StaticResource IsProbingStartPosAllContactConverter}}"
+                                            IsChecked="{Binding ProbingModule.ProbingModuleSysParamRef.OverDriveStartPosition.Value,
+                                               Converter={StaticResource IsProbingStartPosAllContactConverter}}"
+                                            VerticalContentAlignment="Center"
+                                            />
+
+                                <Label          Grid.Row="1" Grid.Column="1"
+                                            FontSize="16"
+                                            Margin="0" Padding="0 0 8 0"
+                                            HorizontalContentAlignment="Right"
+                                            VerticalContentAlignment="Center"
+                                            IsEnabled="{Binding ProbingModule.ProbingModuleSysParamRef.OverDriveStartPosition.Value,
+                                                Converter={StaticResource IsProbingStartPosAllContactConverter}}"
+                                            Content="All&#x0a;Contact :"/>
+
+                            <TextBox        AutomationProperties.AutomationId="AllContacttxt"
+                                            Grid.Row="1" Grid.Column="2"
+                                            Margin="8"
+                                            IsEnabled="False"
+                                            FontSize="16" Foreground="White"
+                                            VerticalAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Center"
+                                            Text="{Binding  ProbingModule.AllContactHeight}"
+                                            />
+
+                            <Button         AutomationProperties.AutomationId="AllContactSetbtn"
+                                            Grid.Row="1" Grid.Column="3"
+                                            Margin="8"
+                                            FontSize="16"
+                                            Style="{DynamicResource ControlButtonStyle}"
+                                            Command="{Binding AllContactSetCommand}"
+                                            IsEnabled="{Binding ProbingModule.ProbingModuleSysParamRef.OverDriveStartPosition.Value,
+                                                Converter={StaticResource IsProbingStartPosAllContactConverter}}"
+                                            Content="Set"
+                                                />
+
+                                <Button Grid.Row="2" Grid.Column="3" AutomationProperties.AutomationId="RestContactStartPositionbtn"
+                                Content="Reset"
+                                Margin="8"
+                                Style="{DynamicResource ControlButtonStyle}"
+                                Command="{Binding ResetContactStartPositionCommand}"/>
+                            </Grid>
+                            <!--</GroupBox>-->
+                        </DockPanel>
+                        </TabItem>
+                        <TabItem Header="CPC Setting" Background="DimGray" BorderThickness="1" BorderBrush="Black" Foreground="White" Visibility="{Binding MCM.CPC_Visibility}">
+                            <DockPanel>
+                                <Border DockPanel.Dock="Top" Margin="0,0,0,0" Background="#3C454F">
+                                    <Label Padding="0" FontWeight="DemiBold" Content="CPC"
+                                   Foreground="WhiteSmoke" FontSize="12" 
+                                   VerticalAlignment="Center" />
+                                </Border>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="80*"/>
+                                        <RowDefinition Height="80*"/>
+                                        <RowDefinition Height="80*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="65*"/>
+                                        <ColumnDefinition Width="161"/>
+                                        <ColumnDefinition Width="161*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                
+
+                                    <Label          Grid.Row="0" Grid.Column="0"
+                                            FontSize="16"
+                                            Margin="0" Padding="0 0 8 0"
+                                            HorizontalContentAlignment="Right"
+                                            VerticalContentAlignment="Center"
+                                            IsEnabled="True"
+                                            Content="Z0 :"/>
+
+                                    <TextBox  Grid.Row="0"  Grid.Column="1" Margin="0"
+                                            Focusable="False"
+                                            FontSize="20" Foreground="White"
+                                            VerticalAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Center"
+                                            IsEnabled="False"
+                                            Text="{Binding MCM.CPC_Z0}"
+                                         />
+
+
+
+                                    <Label          Grid.Row="1" Grid.Column="0"
+                                            FontSize="16"
+                                            Margin="0" Padding="0 0 8 0"
+                                            HorizontalContentAlignment="Right"
+                                            VerticalContentAlignment="Center"
+                                            IsEnabled="true"
+                                            Content="Z1 :"/>
+
+                                    <TextBox  Grid.Row="1"  Grid.Column="1" Margin="0"
+                                            Focusable="False"
+                                            FontSize="20" Foreground="White"
+                                            VerticalAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Center"
+                                            Text="{Binding MCM.CPC_Z1}"
+                                            >
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseUp">
+                                                <i:InvokeCommandAction Command="{Binding CPC_Z1_ClickCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+
+
+
+                                    <Label          Grid.Row="2" Grid.Column="0"
+                                            FontSize="16"
+                                            Margin="0" Padding="0 0 8 0"
+                                            HorizontalContentAlignment="Right"
+                                            VerticalContentAlignment="Center"
+                                            IsEnabled="{Binding ProbingModule.ProbingModuleSysParamRef.OverDriveStartPosition.Value,
+                                                Converter={StaticResource IsProbingStartPosFirstContactConverter}, Mode=TwoWay}"
+                                            Content="Z2 :"/>
+
+                                    <TextBox  Grid.Row="2"  Grid.Column="1" Margin="0"
+                                            Focusable="False"
+                                            FontSize="20" Foreground="White"
+                                            VerticalAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Center"
+                                            IsEnabled="true"
+                                            Text="{Binding MCM.CPC_Z2}"
+                                            >
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseUp">
+                                                <i:InvokeCommandAction Command="{Binding CPC_Z2_ClickCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+
+
+
+
+
+                                </Grid>
+                                <!--</GroupBox>-->
+                            </DockPanel>
+                        </TabItem>
+                    </TabControl>
+                </Border>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="320*"/>
+                    <ColumnDefinition Width="160*"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Row="0" BorderBrush="#474343" BorderThickness="0.8">
+                    <DockPanel>
+
+
+                        <Border DockPanel.Dock="Top"
+                            Margin="0,0,0,0" Background="#3C454F">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Padding="0" FontWeight="DemiBold" Content="Z Up Utility"
+                                   Foreground="WhiteSmoke" FontSize="12" 
+                                   VerticalAlignment="Center" />
+                                <Label Padding="0" Grid.Column="1" FontWeight="DemiBold" Content="{Binding ZFM.ForceValue}" ContentStringFormat="P. Force: {0:0.00}Kg"
+                                   Foreground="WhiteSmoke" FontSize="12" 
+                                   VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" Margin="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0"
+                                      Grid.ColumnSpan="2"
+                                      Margin="0">
+
+                                    <Border BorderThickness="3" BorderBrush="{Binding MCM.IsZUpState, Converter={StaticResource ZStateToBorderBrushConv}}">
+                                        <Viewbox Width="200">
+                                            <Image Margin="8,8,8,2" Source="{Binding MCM.IsZUpState, Converter={StaticResource zStateToChuckIconConverter}}"/>
+                                        </Viewbox>
+                                    </Border>
+
+                                </Grid>
+                            </Grid>
+                            <Grid    Grid.Row="1" Margin="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox    AutomationProperties.AutomationId="Overdrivetxt"
+                                            Grid.Column="0" Margin="0"
+                                            Focusable="False"
+                                            FontSize="20" Foreground="White"
+                                            VerticalAlignment="Center"
+                                            VerticalContentAlignment="Center"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Center"
+                                            IsEnabled="{Binding MCM.IsZUpState, Converter={StaticResource BoolReverseConv}}"
+                                            Text="{Binding MCM.OverDrive}"
+                                            >
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseUp">
+                                            <i:InvokeCommandAction Command="{Binding OverDriveTBClickCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                            </Grid>
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="16*"/>
+                                    <ColumnDefinition Width="8*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button AutomationProperties.AutomationId="ChangeZUpStatebtn"
+                                        Grid.Column="0" FontSize="24"
+                                        Margin="8"
+                                        Command="{Binding ChangeZUpStateCommand}"                                        
+                                        Content="Drive Z"/>
+                                <Button AutomationProperties.AutomationId="SetOverDrivebtn"
+                                        Grid.Column="1"
+                                        Margin="0 8 0 8"                                        
+                                        Content="    Set&#x0a;OverDrive"
+                                        Style="{DynamicResource ControlButtonStyle}"
+                                        FontSize="16"
+                                        Command="{Binding SetOverDriveCommand}">
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </DockPanel>
+                </Border>
+                <Grid  Grid.Column="1"
+                       Visibility="{Binding MCM.IsZUpState, Converter={StaticResource BtoVConv3}}"
+                       Margin="0">
+                    <Grid.Style>
+                        <Style>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding MCM.IsZUpState}" Value="True">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <StaticResource ResourceKey="ShowGroupBoxNoMargin"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                    <DataTrigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <StaticResource ResourceKey="HideGroupBox"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.ExitActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+
+                    <!--<Border Grid.Row="0" BorderBrush="#474343" BorderThickness="0.8" Visibility="Hidden">
+
+                        <DockPanel>
+                            <Border DockPanel.Dock="Top"
+                            Margin="0,0,0,0" Background="#3C454F">
+                                <Label Padding="0" FontWeight="DemiBold" Content="Precision Control"
+                                   Foreground="WhiteSmoke" FontSize="12" 
+                                   VerticalAlignment="Center" />
+                            </Border>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Button AutomationProperties.AutomationId="ZIntervalPlusbtn"
+                                        Grid.Row="0" FontSize="24"
+                                        Margin="8"
+                                        Command="{Binding MoveToWannaZIntervalPlusCommand}"
+                                        Style="{DynamicResource DarkActionBtnSytle}"
+                                        Foreground="White"
+                                        Content="UP"/>
+                                <TextBox Grid.Row="1" Margin="8"
+                                        Focusable="False"
+                                        FontSize="20" Foreground="White"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        Text="{Binding WantToMoveZInterval}"
+                                        >
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseUp">
+                                            <i:InvokeCommandAction Command="{Binding WantToMoveZIntervalTBClickCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                                <Button AutomationProperties.AutomationId="ZIntervalMinusbtn"
+                                        Grid.Row="2" FontSize="24"
+                                        Margin="8"
+                                        Command="{Binding MoveToWannaZIntervalMinusCommand}"
+                                        Style="{DynamicResource DarkActionBtnSytle}"
+                                        Foreground="White"
+                                        Content="DOWN"/>
+                            </Grid>
+                        </DockPanel>
+                    </Border>-->
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="2" Margin="8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="16*"/>
+                    <RowDefinition Height="8*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Viewbox>
+                        <UcPnPPrevNextJog:PnPPrevNext MinWidth="400" MinHeight="220" 
+                                                      Visibility="{Binding MCM.IsZUpState, Converter={StaticResource BtoVConv4}}"/>
+                    </Viewbox>
+                </Grid>
+
+                <Grid Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 0 0 -4">
+                    <Viewbox >
+                        <UcCircularShapedJog:CircularJog Visibility="{Binding MCM.IsZUpState, Converter={StaticResource BtoVConv4}}"/>
+                    </Viewbox>
+                </Grid>
+
+
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Margin="8">
+                        <StackPanel Orientation="Horizontal" Visibility="Hidden">
+                            <CheckBox AutomationProperties.AutomationId="MoveFirstDutchk"
+                                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                      Content="Move First Dut" Foreground="WhiteSmoke"
+                                      Visibility="Hidden"
+                                      FontSize="12" IsChecked="{Binding MCM.AlawaysMoveToTeachDie}">
+                                <CheckBox.LayoutTransform>
+                                    <ScaleTransform ScaleX="2" ScaleY="2" />
+                                </CheckBox.LayoutTransform>
+                            </CheckBox>
+                        </StackPanel>
+                    </Grid>
+                    <cui:Button AutomationProperties.AutomationId="GoToInspectionViewbtn"
+                                GUID="07e8063c-c82e-4205-a48a-a50ebc75d283"
+                                Visibility="{Binding MCM.IsZUpState, Converter={StaticResource BtoVConv4}}"
+                                Grid.Row="2"
+                                FontSize="24"
+                                Command="{Binding GoToInspectionViewCommand}"
+                                CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                Style="{DynamicResource NormalTypeCUIButtonStyle}"
+                                Content="Inspection"/>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

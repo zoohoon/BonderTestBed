@@ -1,0 +1,196 @@
+﻿<Window x:Class="SorterSystem.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SorterSystem"
+        xmlns:tmpl="clr-namespace:DataTemplateService;assembly=DataTemplateService"
+        xmlns:prob="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:uc="clr-namespace:SorterSystem.UC"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="1040" Width="1900"
+        WindowState="Maximized">
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style x:Key="textWhite">
+                <Setter Property="TextBlock.Foreground" Value="White"/>
+                <Setter Property="TextBlock.MinWidth" Value="60"/>
+                <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+            </Style>
+            <Style x:Key="textBlack">
+                <Setter Property="TextBlock.Foreground" Value="Black"/>
+                <Setter Property="TextBlock.MinWidth" Value="60"/>
+                <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+            </Style>
+            <Style x:Key="tabItem">
+                <Setter Property="TabItem.FontSize" Value="16"/>
+                <Setter Property="TabItem.Padding" Value="10,5,10,5"/>
+            </Style>
+            <Style x:Key="camButton">
+                <Setter Property="Button.MinHeight" Value="30"/>
+                <Setter Property="Button.Width" Value="70"/>
+                <Setter Property="Button.Margin" Value="0,5,0,0"/>
+            </Style>
+
+            <DataTemplate x:Key="DisplayViewTemplate" DataType="{x:Type prob:IDisplayPort}" >
+                <ContentControl Name="DisPlay" Content="{Binding}">
+                </ContentControl>
+            </DataTemplate>
+            <tmpl:TemplateSelector x:Key="ViewTargetTemplateSelector" 
+                                    DisplayViewDataTemplate="{StaticResource DisplayViewTemplate}"/>
+            <local:DoubleToString x:Key="dblToStr"/>
+            <local:SelectorBrush x:Key="selBrush"/>
+            <local:IntToStringConverter x:Key="intToStr"/>
+        </ResourceDictionary>
+    </Window.Resources>
+    <DockPanel LastChildFill="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10">
+        <Grid DockPanel.Dock="Left">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical">
+                <Button Name="Cmd01" Style="{StaticResource camButton}" Command="{Binding SelWHCamCommand}" Background="{Binding CurrCam, Converter={StaticResource selBrush}, ConverterParameter=WHCam}" Margin="0,0,0,0">WHCam</Button>
+                <Button Name="Cmd02" Style="{StaticResource camButton}" Command="{Binding SelWLCamCommand}" Background="{Binding CurrCam, Converter={StaticResource selBrush}, ConverterParameter=WLCam}" >WLCam</Button>
+                <Button Name="Cmd03" Style="{StaticResource camButton}" Command="{Binding SelPHCamCommand}" Background="{Binding CurrCam, Converter={StaticResource selBrush}, ConverterParameter=PHCam}" >PHCam</Button>
+                <Button Name="Cmd04" Style="{StaticResource camButton}" Command="{Binding SelPLCamCommand}" Background="{Binding CurrCam, Converter={StaticResource selBrush}, ConverterParameter=PLCam}" >PLCam</Button>
+                <Button Name="Cmd05" Style="{StaticResource camButton}" Command="{Binding MarkerLightCommand}" Background="{Binding MarkerLightBackground}">MK ON</Button>
+                <Button Name="Cmd06" Style="{StaticResource camButton}" Command="{Binding MarkerFocusCommand}">MK FOCUS</Button>
+                <Button Name="Cmd07" Style="{StaticResource camButton}" Command="{Binding FocusCommand}">FOCUSING</Button>
+                <TextBlock TextAlignment="Center" Margin="0,5,0,0">COAXIAL</TextBlock>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <Button Width="20" Command="{Binding CoaxialLightMinus}">-</Button>
+                    <TextBox Width="30" TextAlignment="Center" Text="{Binding CoaxialLight}"/>
+                    <Button Width="20" Command="{Binding CoaxialLightPlus}">+</Button>
+                </StackPanel>
+                <TextBlock TextAlignment="Center" Margin="0,5,0,0">OBLIQUE</TextBlock>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <Button Width="20" Command="{Binding ObliqueLightMinus}">-</Button>
+                    <TextBox Width="30" TextAlignment="Center" Text="{Binding ObliqueLight}"/>
+                    <Button Width="20" Command="{Binding ObliqueLightPlus}">+</Button>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="0,0,5,0">
+                <UserControl Name="CameraViewer" Width="960" Height="960" Content="{Binding DisplayPort}" BorderBrush="Black" BorderThickness="1">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding ClickToMoveLButtonDownCommand}"
+                                       CommandParameter="{Binding EnableToMove}">
+                            </i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </UserControl>
+            </StackPanel>
+        </Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <TabControl TabStripPlacement="Top" Margin="0">
+                    <TabItem Name="Tab01" Header="Axis" Style="{StaticResource tabItem}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="380"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" Grid.Column="0">
+                                <uc:ucMotionJog />
+                            </Grid>
+                            <Grid Grid.Row="1" Grid.Column="0" VerticalAlignment="Top">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" Height="40">
+                                        <Button Width="100" Margin="0,0,0,0" Command="{Binding BtnGoMarkerActionCommand}">WH Marker</Button>
+                                        <Button Width="100" Margin="5,0,0,0" Command="{Binding BtnSetMarkerActionCommand}">Set Marker</Button>
+                                        <Button Width="100" Margin="5,0,0,0" Command="{Binding BtnGoPickerActionCommand}">PL Picker</Button>
+                                        <Button Width="100" Margin="5,0,0,0" Command="{Binding BtnSetPickerActionCommand}">Set Picker</Button>
+                                        <Button Width="100" Margin="5,0,0,0" Command="{Binding BtnGoDieActionCommand}">Go to Die</Button>
+                                        <Button Width="100" Margin="5,0,0,0" Command="{Binding BtnSetDieActionCommand}">Set Die</Button>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Height="40" Margin="0,10,0,0">
+                                        <Button Width="100" Margin="0,0,0,0" Command="{Binding BtnGoDiePickActionCommand}">Go DiePick</Button>
+                                        <Button Width="100" Margin="5,0,0,0" Command="{Binding BtnPickDieActionCommand}">Pick Die</Button>
+                                        <Button Width="100" Margin="5,0,0,0" Command="{Binding BtnPlaceDieActionCommand}">Place Die</Button>
+                                        <TextBlock Width="100" Margin="5,0,0,0" VerticalAlignment="Center">Pick Height</TextBlock>
+                                        <TextBox Width="100" Margin="5,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Text="{Binding PickupHeight, Converter={StaticResource dblToStr}, ConverterParameter=F1}"/>
+                                        <CheckBox Margin="5,0,0,0" VerticalContentAlignment="Center" IsChecked="{Binding ChucktopAirControl}">척탑 진공 동작</CheckBox>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Height="40" Margin="0,10,0,0">
+                                        <TextBlock VerticalAlignment="Center" Margin="5,0,5,0" >Pick/Place Offset</TextBlock>
+                                        <TextBlock VerticalAlignment="Center" Margin="5,0,5,0" >X: </TextBlock>
+                                        <TextBox Width="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Text="{Binding PickupOffsetX, Converter={StaticResource dblToStr}, ConverterParameter=F1}"/>
+                                        <TextBlock VerticalAlignment="Center" Margin="5,0,5,0" >Y:</TextBlock>
+                                        <TextBox Width="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Text="{Binding PickupOffsetY, Converter={StaticResource dblToStr}, ConverterParameter=F1}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Height="40" Margin="0,10,0,0" VerticalAlignment="Top">
+                                        <Button Name="AngleP1" Width="120" Margin="0,0,0,0" Command="{Binding BtnAngleP1Command}">Set Angle P1</Button>
+                                        <Button Name="AngleP2" Width="120" Margin="5,0,0,0" Command="{Binding BtnAngleP2Command}">Set Angle P2</Button>
+                                        <TextBox Name="AngleValue" Width="120" VerticalContentAlignment="Center" IsReadOnly="True" TextAlignment="Right" Margin="5,0,0,0" Style="{StaticResource textBlack}" Text="{Binding AngleP1P2, Converter={StaticResource dblToStr}, ConverterParameter=F2}"></TextBox>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Name="Tab02" Header="Vision" Style="{StaticResource tabItem}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="800"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" Grid.Column="0">
+                                <uc:ucVisionOpenCV DataContext="{Binding VisionViewModel}" />
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Name="Tab03" Header="Sequence" Style="{StaticResource tabItem}">
+                        <Grid>
+                            <uc:ucSequence DataContext="{Binding SequenceViewModel}" />
+                        </Grid>
+                    </TabItem>
+                    <TabItem Name="Tab04" Header="Tab04" Style="{StaticResource tabItem}">
+                        <StackPanel Background="#8FF">
+                            <TextBlock Style="{StaticResource textWhite}" TextBlock.Foreground="#000">Tab05</TextBlock>
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem Name="Tab05" Header="Tab05" Style="{StaticResource tabItem}">
+                        <StackPanel Background="#08F">
+                            <TextBlock Style="{StaticResource textWhite}">Tab05</TextBlock>
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem Name="Tab06" Header="Tab06" Style="{StaticResource tabItem}">
+                        <StackPanel Background="#00F">
+                            <TextBlock Style="{StaticResource textWhite}">Tab06</TextBlock>
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem Name="Tab07" Header="Tab07" Style="{StaticResource tabItem}">
+                        <StackPanel Background="#80F">
+                            <TextBlock Style="{StaticResource textWhite}">Tab07</TextBlock>
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem Name="Tab08" Header="Tab08" Style="{StaticResource tabItem}">
+                        <StackPanel Background="#F0F">
+                            <TextBlock Style="{StaticResource textWhite}">Tab08</TextBlock>
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem Name="Tab09" Header="I/O" Style="{StaticResource tabItem}">
+                        <Grid>
+                            <uc:ucIOControl DataContext="{Binding IOControlViewModel}" />
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button Name="Cmd06_Load" Width="80" Margin="0,10,0,0" Command="{Binding BtnLoadCommand}" Background="{Binding BtnSetLoad}">Load</Button>
+                <Button Name="Cmd07_Save" Width="80" Margin="5,10,0,0" Command="{Binding BtnSaveCommand}">Save</Button>
+                <Button Name="Cmd08_Reset" Width="80" Margin="5,10,0,0" Command="{Binding BtnSetCommand}">Set</Button>
+
+                <Button Name="Cmd09_Run"   Width="80" Margin="25,10,0,0" Command="{Binding BtnRunActionCommand}">Run</Button>
+                <TextBox Width="60" Margin="5,10,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding RunCount, Converter={StaticResource intToStr}}"/>
+                <Button Name="Cmd10_Stop"  Width="80" Margin="5,10,0,0"  Background="{Binding RunCount, Converter={StaticResource selBrush}, ConverterParameter=INT}" Command="{Binding BtnStopActionCommand}">Stop</Button>
+                <Button Name="Cmd11_Reset" Width="80" Margin="5,10,0,0" Command="{Binding BtnResetActionCommand}">Reset</Button>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</Window>

@@ -1,0 +1,526 @@
+﻿<UserControl x:Class="ProberViewModel.View.UtilityOption.GPUtilityOptionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProberViewModel.View.UtilityOption"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:pi="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             mc:Ignorable="d" 
+             d:DesignHeight="1080" d:DesignWidth="1280">
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="enumValues"
+                MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="pi:CassetteLockModeEnum"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="E84PresenceTypeEnumValues"
+                MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="pi:E84PresenceTypeEnum"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <local:CassetteLockEnableConverter x:Key="CassetteLockEnableConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!-- Cassette Lock -->
+        <GroupBox Margin="4" BorderBrush="MintCream" >
+            <GroupBox.Header>
+                <TextBlock Text="Cassette" FontWeight="Bold" Foreground="WhiteSmoke" FontSize="18" HorizontalAlignment="Center"/>
+            </GroupBox.Header>
+            <Grid Margin="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="0.7*"/>
+                </Grid.RowDefinitions>
+                
+                <GroupBox Grid.Row="0">
+                    <GroupBox.Header>
+                        <TextBlock Text="Cassette Type" FontWeight="Bold" Foreground="Yellow" FontSize="16" HorizontalAlignment="Left"/>
+                    </GroupBox.Header>
+                    <Grid Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0" Content="Foup Num : " Padding="0" Margin="0" VerticalContentAlignment="Center" FontWeight="DemiBold"/>
+                       
+                        <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" FontSize="11" Margin="0,2,0,4" Padding="0" Foreground="LightGray"
+                               Content="The cassette types listed include only those that are supported and operational on the equipment."/>
+
+                        <ComboBox Grid.Column="1" Background="WhiteSmoke"
+                                  SelectedItem="{Binding SelectedCassetteTypeFoupNum}"
+                                  ItemsSource="{Binding CassetteTypeFoupIndexs, Mode=TwoWay}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" FontSize="16" FontWeight="Bold"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding SelectedCassetteTypeFoupNumCommand}" 
+                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ComboBox}}}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+                        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding LoaderMaster.DynamicMode}" Value="{x:Static pi:DynamicModeEnum.DYNAMIC}">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                            <Label Grid.Row="1" Grid.Column="0" Content="Cassette Type : " Padding="0" Margin="0" VerticalContentAlignment="Center" FontWeight="DemiBold"/>
+                            <ComboBox Grid.Row="1" Grid.Column="1" Background="WhiteSmoke"
+                                  SelectedItem="{Binding SelectedCassetteTypeEnum}"
+                                  ItemsSource="{Binding CassetteTypeEnums, Mode=TwoWay}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" FontSize="16" FontWeight="Bold" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding ValidateSelectedCassetteCommand}" 
+                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ComboBox}}}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </ComboBox>
+                        </Grid>
+                    </Grid>
+                </GroupBox>
+                <!-- lock option -->
+                <GroupBox Grid.Row="1">
+                    <GroupBox.Header>
+                        <TextBlock Text="Lock" FontWeight="Bold" Foreground="Yellow" FontSize="16" HorizontalAlignment="Left"/>
+                    </GroupBox.Header>
+                    <Grid>
+                        <!-- lock option -->
+                        <StackPanel>
+                            <!-- CassetteAutoLock -->
+                            <Grid Margin="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Label Content="Cassette AutoLock : " Padding="0" Margin="0" FontWeight="DemiBold"
+                                               VerticalContentAlignment="Center"/>
+
+                                <ToggleButton AutomationProperties.AutomationId="tglCassetteAutoLock"
+                                      Grid.Column="1" Margin="0" Padding="0"
+                                      IsEnabled="{Binding E84CassetteLockParam.AutoSetCassetteLockEnable ,Converter={StaticResource CassetteLockEnableConverter}}"
+                                      Style="{StaticResource ON_OFF_ToggleBtn}"
+                                      IsChecked="{Binding IsCassetteAutoLockEnable}">
+                                </ToggleButton>
+
+                                <Label Grid.Row="1" Grid.ColumnSpan="2" Margin="0,2,0,4" Padding="0" Foreground="LightGray"
+                                   Content="When the cassette is placed, it is locked when a presence sensor is detected." FontSize="11"/>
+                            </Grid>
+
+                            <Border BorderBrush="WhiteSmoke" BorderThickness="1" Height="1" VerticalAlignment="Bottom"/>
+                            <!-- CassetteAutoLockLeftOHT -->
+                            <Grid Margin="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Label Content="Cassette AutoLock Left OHT : " Padding="0" Margin="0" FontWeight="DemiBold"
+                                               VerticalContentAlignment="Center"/>
+                                <ToggleButton AutomationProperties.AutomationId="tglCassetteLeftOHT"
+                                      Grid.Column="1" Margin="0" Padding="0"
+                                      IsEnabled="{Binding E84CassetteLockParam.AutoSetCassetteLockEnable ,Converter={StaticResource CassetteLockEnableConverter}}"
+                                      Style="{StaticResource ON_OFF_ToggleBtn}"
+                                      IsChecked="{Binding IsCassetteAutoLockLeftOHTEnable}">
+                                </ToggleButton>
+
+                                <Label Grid.Row="1" Grid.ColumnSpan="2" Margin="0,2,0,4" Padding="0" Foreground="LightGray"
+                                   Content="After OHT leaves, lock. (Set when using E84)." FontSize="11"/>
+                            </Grid>
+
+                            <Border BorderBrush="WhiteSmoke" BorderThickness="1" Height="1" VerticalAlignment="Bottom"/>
+                            <!-- Presence Type -->
+                            <Grid Margin="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition  Width="2*" />
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Presence Type : " Padding="0" Margin="0" FontWeight="DemiBold"
+                                               VerticalContentAlignment="Center"/>
+                                <ComboBox AutomationProperties.AutomationId="cbPresenceType" Grid.Row="0" Grid.Column="1" Background="WhiteSmoke"
+                                  SelectedItem="{Binding SelectedE84PresenceType, Mode=TwoWay}" FontSize="16" Padding="2"
+                                  ItemsSource="{Binding Source={StaticResource E84PresenceTypeEnumValues}}"/>
+                            </Grid>
+
+                            <Border BorderBrush="WhiteSmoke" BorderThickness="1" Height="1" VerticalAlignment="Bottom"/>
+                            <!-- TimeoutOnPresenceAfterOnExistSensorMs -->
+                            <Grid Margin="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="TimeoutOnPresenceAfterOnExistSensorMs : " Padding="0" Margin="0" FontWeight="DemiBold"
+                                               VerticalContentAlignment="Center"/>
+                                <TextBox AutomationProperties.AutomationId="txtTimeoutonPresenceAfterOnExistSensorMs"
+                                 Grid.Column="1" Style="{x:Null}" Text="{Binding TimeoutOnPresenceAfterOnExistSensorMs, Mode=TwoWay}" FontSize="16" Padding="2"/>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Grid.Row="2">
+                    <GroupBox.Header>
+                        <TextBlock Text="E84" FontWeight="Bold" Foreground="Yellow" FontSize="16" HorizontalAlignment="Left"/>
+                    </GroupBox.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <!-- AutoSetCassetteLockEnable-->
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Label  Content="Enable : " Padding="0" Margin="0" VerticalContentAlignment="Center" FontWeight="DemiBold"/>
+                            <ToggleButton AutomationProperties.AutomationId="tglE84Enable"
+                                          Grid.Column="1" Margin="0" Padding="0"
+                                          Style="{StaticResource ON_OFF_ToggleBtn}"
+                                          IsChecked="{Binding E84CassetteLockParam.AutoSetCassetteLockEnable}">
+                            </ToggleButton>
+
+                            <RadioButton AutomationProperties.AutomationId="rdoE84ALL"
+                                         Grid.Column="2" Content="ALL" GroupName="PortSettingGroup" IsChecked="{Binding PortFullLockMode, Mode=TwoWay}"
+                                         Foreground="WhiteSmoke" BorderBrush="MediumPurple" BorderThickness="0.1" Style="{x:Null}"
+                                         VerticalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18"/>
+                            <RadioButton AutomationProperties.AutomationId="rdoE84EACH"
+                                         Grid.Column="3" Content="EACH" GroupName="PortSettingGroup" IsChecked="{Binding PortEachLockMode, Mode=TwoWay}"
+                                         Foreground="WhiteSmoke" BorderBrush="MediumPurple" BorderThickness="0.1" Style="{x:Null}"
+                                         VerticalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18"/>
+                            <Label Grid.Row="1" Grid.ColumnSpan="2" Margin="0,2,0,4" Padding="0" Foreground="LightGray"
+                                   Content="Whether to use the auto setting function for CassetteLock according to E84 mode" FontSize="11"/>
+                        </Grid>
+
+                        <Border BorderBrush="WhiteSmoke" BorderThickness="1" Height="1" VerticalAlignment="Bottom"/>
+
+                        <!-- CassetteLockE84ManualMode-->
+                        <!-- CassetteLockE84AutoMode-->
+
+                        <!-- Auto-->
+                        <Grid Grid.Row="1" IsEnabled="{Binding PortFullLockMode}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Row="0" Content="Manual : " Padding="0" Margin="0" VerticalContentAlignment="Center" FontWeight="DemiBold"/>
+                            <Label Grid.Row="1" Content="Auto : " Padding="0" Margin="0" VerticalContentAlignment="Center" FontWeight="DemiBold"/>
+
+                            <ComboBox AutomationProperties.AutomationId="cbE84ALLManual"
+                                      Grid.Row="0" Grid.Column="1" Background="WhiteSmoke"
+                                      SelectedItem="{Binding CassetteFullLockE84ManualMode, Mode=TwoWay}"
+                                      ItemsSource="{Binding Source={StaticResource enumValues}}"/>
+                            <ComboBox AutomationProperties.AutomationId="cbE84ALLAuto"
+                                      Grid.Column="1" Grid.Row="1" Background="WhiteSmoke"
+                                      SelectedItem="{Binding CassetteFullLockE84AutoMode, Mode=TwoWay}"
+                                       ItemsSource="{Binding Source={StaticResource enumValues}}"/>
+
+                        </Grid>
+
+
+                        <!-- Manual-->
+                        <Grid Grid.Row="2" IsEnabled="{Binding PortEachLockMode}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Row="0" Content="Foup Num : " Padding="0" Margin="0" VerticalContentAlignment="Center" FontWeight="DemiBold"/>
+                            <Label Grid.Row="1" Content="Manual : " Padding="0" Margin="0" VerticalContentAlignment="Center" FontWeight="DemiBold"/>
+                            <Label Grid.Row="2" Content="Auto : " Padding="0" Margin="0" VerticalContentAlignment="Center" FontWeight="DemiBold"/>
+
+                            <ComboBox AutomationProperties.AutomationId="cbE84EACHFoupNum"
+                                      Grid.Column="1" Background="WhiteSmoke"
+                                      SelectedItem="{Binding SelectedFoupNum, Mode=TwoWay}"
+                                      ItemsSource="{Binding FoupIndexs}"/>
+                            <ComboBox AutomationProperties.AutomationId="cbE84EACHManual"
+                                      Grid.Row="1" Grid.Column="1" Background="WhiteSmoke"
+                                      SelectedItem="{Binding SelectedPortLockParam.CassetteLockE84ManualMode, Mode=TwoWay}"
+                                      ItemsSource="{Binding Source={StaticResource enumValues}}"/>
+                            <ComboBox AutomationProperties.AutomationId="cbE84EACHAuto"
+                                      Grid.Column="1" Grid.Row="2" Background="WhiteSmoke"
+                                      SelectedItem="{Binding SelectedPortLockParam.CassetteLockE84AutoMode, Mode=TwoWay}"
+                                      ItemsSource="{Binding Source={StaticResource enumValues}}"/>
+
+                            <Label Grid.Column="2" Grid.Row="0" Grid.RowSpan="3" BorderBrush="WhiteSmoke"
+                                   BorderThickness="0.5" FontSize="11" VerticalContentAlignment="Center"
+                                   Content="NORMAL = No auto lock &#10; ATTACH = CassetteAutoLock &#10;LEFTOHT = CassetteAutoLock Left OHT">
+
+                            </Label>
+                        </Grid>
+
+                        <Grid Grid.Row="4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Label Margin="0,4,0,4" Padding="0" 
+                               VerticalContentAlignment="Top" Foreground="Red" FontWeight="Bold"
+                               Content="If you do not use the E84 function, do not set this property.." FontSize="13"/>
+
+                        </Grid>
+
+                        <Button AutomationProperties.AutomationId="btnE84Save"
+                                Grid.Row="4" Style="{x:Null}" Width="200" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                                Margin="4"  Height="28"
+                                Content="SAVE" FontSize="16" Command="{Binding SaveCommand}" />
+
+                    </Grid>
+                </GroupBox>
+                <GroupBox Grid.Row="3">
+                    <GroupBox.Header>
+                        <TextBlock Text="Cover Option" FontWeight="Bold" Foreground="Yellow" FontSize="16" HorizontalAlignment="Left"/>
+                    </GroupBox.Header>
+                    <!--IsAlwaysCloseFoupCover -->
+                    <Grid Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2.4*"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Always Close Foup Cover: " Padding="0" Margin="0" FontWeight="DemiBold" VerticalContentAlignment="Center"/>
+                        <ToggleButton Grid.Column="1" Margin="0" Padding="0"
+                                                                Style="{StaticResource ON_OFF_ToggleBtn}"
+                                                                IsChecked="{Binding IsAlwaysCloseFoupCover}"/>
+                        <Label Grid.Row="1" Grid.ColumnSpan="2" Margin="0,2,0,4" Padding="0" Foreground="LightGray"
+                               Content="This is an option to always keep the FOUP cover closed for use." FontSize="11"/>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Margin="4" BorderBrush="MintCream" Grid.Column="1">
+            <GroupBox.Header>
+                <TextBlock Text="LOT_GEM" FontWeight="Bold" Foreground="WhiteSmoke" FontSize="18" HorizontalAlignment="Center"/>
+            </GroupBox.Header>
+            <Grid Margin="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel>
+                    <!-- IsCassetteAutoUnloadAfterLot -->
+                    <Grid Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2.4*"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Cassette AutoUnload After Lot : " Padding="0" Margin="0" FontWeight="DemiBold"
+                                               VerticalContentAlignment="Center"/>
+
+                        <ToggleButton AutomationProperties.AutomationId="tglCassetteAutoUnloadAfterLot"
+                                      Grid.Column="1" Margin="0" Padding="0"
+                                      Style="{StaticResource ON_OFF_ToggleBtn}"
+                                      IsChecked="{Binding IsCassetteAutoUnloadAfterLotEnable}">
+                        </ToggleButton>
+
+                        <Label Grid.Row="1" Grid.ColumnSpan="2" Margin="0,2,0,4" Padding="0" Foreground="LightGray"
+                                   Content="When the Cassette Lot was over whether to automatically Unload set for." FontSize="11"/>
+                    </Grid>
+
+                    <!-- IsCancelCarrierEventNotRuning -->
+                    <Grid Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2.4*"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Send LotCancel Event Not Running : " Padding="0" Margin="0" FontWeight="DemiBold"
+                                               VerticalContentAlignment="Center"/>
+
+                        <ToggleButton AutomationProperties.AutomationId="tglSendLotCancelEventNotRunning"
+                                      Grid.Column="1" Margin="0" Padding="0"
+                                      Style="{StaticResource ON_OFF_ToggleBtn}"
+                                      IsChecked="{Binding IsCancelCarrierEventNotRuning}">
+                        </ToggleButton>
+
+                    </Grid>
+
+                    <!-- IsCassetteAutoUnloadAfterLot -->
+                    <Grid Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2.4*"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Cassette Placed: " Padding="0" Margin="0" FontWeight="DemiBold"
+                                               VerticalContentAlignment="Center"/>
+
+                        <ToggleButton Grid.Column="1" Margin="0" Padding="0"
+                                                                Style="{StaticResource ON_OFF_ToggleBtn}"
+                                                                IsChecked="{Binding IsCassetteDetectEventAfterRFID}">
+                        </ToggleButton>
+
+                    </Grid>
+                </StackPanel>
+
+                <Button AutomationProperties.AutomationId="btnLotGEMSave"
+                        Grid.Row="1" Style="{x:Null}" Width="200" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                        Margin="4"  Height="28"
+                        Content="SAVE" FontSize="16" Command="{Binding SaveCommand}" />
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Margin="4" BorderBrush="MintCream" Grid.Column="2">
+            <GroupBox.Header>
+                <TextBlock Text="LOT" FontWeight="Bold" Foreground="WhiteSmoke" FontSize="18" HorizontalAlignment="Center"/>
+            </GroupBox.Header>
+            <Grid Margin="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel>
+                    <Grid Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Execution TimeOut Error (min) : " Padding="0" Margin="0" FontWeight="DemiBold"
+                                               VerticalContentAlignment="Center"/>
+                        <TextBox Grid.Column="1" Style="{x:Null}" Text="{Binding LoaderMaster.LotSysParam.ExecutionTimeoutError.Value, Mode=TwoWay}" FontSize="16" Padding="2">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding LOTParamTextBoxClickCommand}"
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </Grid>
+                    <Label Grid.Row="1" Grid.ColumnSpan="2" Margin="0,2,0,4" Padding="0" Foreground="LightGray"
+                                   Content="Represents an error occurring during various operations, including communication failure, host unresponsiveness, and tester non-response." FontSize="11"/>
+
+                    <Grid Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Lot Pause TimeOut (sec) : " Padding="0" Margin="0" FontWeight="DemiBold"
+                                               VerticalContentAlignment="Center"/>
+                        <TextBox AutomationProperties.AutomationId="txtLotPauseTimeoutAlarmSec"
+                                 Grid.Column="1" Style="{x:Null}" Text="{Binding LoaderMaster.LotSysParam.LotPauseTimeoutAlarm.Value, Mode=TwoWay}" FontSize="16" Padding="2">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding LOTParamTextBoxClickCommand}"
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </Grid>
+
+                    <Label Grid.Row="1" Grid.ColumnSpan="2" Margin="0,2,0,4" Padding="0" Foreground="LightGray"
+                                   Content="If change the value, it will be applied and saved." FontSize="11"/>
+
+                    <!-- IsLoaderLotEndBuzzerON -->
+                    <Grid Margin="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2.4*"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Lot End Buzzer ON: " Padding="0" Margin="0" FontWeight="DemiBold" VerticalContentAlignment="Center"/>
+
+                        <ToggleButton Grid.Column="1" Margin="0" Padding="0"
+                                                                Style="{StaticResource ON_OFF_ToggleBtn}"
+                                                                IsChecked="{Binding IsLoaderLotEndBuzzerON}">
+                        </ToggleButton>
+
+                        <Label Grid.Row="1" Grid.ColumnSpan="2" Margin="0,2,0,4" Padding="0" Foreground="LightGray"
+                                   Content="After LOT, the loader buzzer sounds with the notification message window." FontSize="11"/>
+
+                    </Grid>
+                </StackPanel>
+
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+</UserControl>

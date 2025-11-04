@@ -1,0 +1,365 @@
+﻿<UserControl x:Class="ComponentVerificationDialog.ComponentVerificationDialogUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ComponentVerificationDialog"
+             xmlns:prober="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             xmlns:logger="clr-namespace:LogModule;assembly=LogModule"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             mc:Ignorable="d" 
+             d:DesignHeight="1000" d:DesignWidth="1600" x:Name="ucCompVerifyDiag">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <vc:BinaryImageConverter x:Key="imgConverter" />
+            <vc:BoolToVisibleOrCollapsedConverter x:Key="visibleOrCollapsConv" />
+            <DataTemplate x:Key="DisplayViewTemplate" DataType="{x:Type prober:IDisplayPort}">
+                <ContentControl Name="DisPlay" Content="{Binding}">
+                </ContentControl>
+            </DataTemplate>
+
+            <Style x:Key="CommandListboxStyle" TargetType="ListBoxItem">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Border Name="Border" Padding="5 7 0 7">
+                                <ContentPresenter/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="true">
+                                    <Setter TargetName="Border" Property="Background" Value="#FF404040"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter TargetName="Border" Property="Background" Value="Gray"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            </Style>
+            
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="670"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="620"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="340"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Camera View" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="10, 10, 10, 0"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="Command List" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="10, 10, 10, 0"/>
+            <TextBlock Grid.Row="0" Grid.Column="3" Text="Scenario" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="10, 10, 10, 0"/>
+            <TextBlock Grid.Row="0" Grid.Column="4" Text="Parameter" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="10, 10, 10, 0"/>
+            
+            <Border Grid.Row="1"  Grid.Column="0" BorderBrush="DarkGray" BorderThickness="1" Margin="10,10,10,10">
+                <Viewbox Margin="2">
+                    <ContentControl Name="DisplayPortCC" Content="{Binding DisplayPort}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="480" Height="480"/>
+                </Viewbox>
+            </Border>
+
+            <Border Grid.Row="1" Grid.Column="1" BorderBrush="DarkGray" BorderThickness="1" Margin="10, 10, 10, 10">
+                <ListBox ItemsSource="{Binding Model.CommandList}" SelectedItem="{Binding Model.SelectedCommand}" ItemContainerStyle="{StaticResource CommandListboxStyle}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CommandName}" TextWrapping="WrapWithOverflow"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+
+            <StackPanel Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">
+                <Button Content="Add" Height="40" Width="30" Margin="10, 10" Command="{Binding AddButtonCommand}" IsEnabled="{Binding Model.IsEnableScenarioEdit}"/>
+                <Button Content="Del" Height="40" Width="30" Margin="10, 10" Command="{Binding DelButtonCommand}" IsEnabled="{Binding Model.IsEnableScenarioEdit}"/>
+            </StackPanel>
+
+            <Border Grid.Row="1" Grid.Column="3" BorderBrush="DarkGray" BorderThickness="1" Margin="10, 10, 10, 10" IsEnabled="{Binding Model.IsEnableScenarioEdit}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="60"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <ListBox x:Name="uiScenarioList" Grid.ColumnSpan="2" ItemsSource="{Binding Model.ScenarioList}" SelectedItem="{Binding Model.SelectedScenario}" SelectedIndex="{Binding Model.SelectedScenarioIndex}" ItemContainerStyle="{StaticResource CommandListboxStyle}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox Grid.Column="0" IsChecked="{Binding Checked}"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding CommandName}" Foreground="{Binding CommandTextColor}" TextWrapping="WrapWithOverflow" Margin="5, 0, 0, 0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Button Grid.Row="1" Grid.Column="0" Height="40" FontSize="20" FontWeight="Bold" Content="▲" Command="{Binding ScenarioUpCommand}" Margin="10,0,10,0" VerticalAlignment="Bottom"/>
+                    <Button Grid.Row="1" Grid.Column="1" Height="40" FontSize="20" FontWeight="Bold" Content="▼" Command="{Binding ScenarioDownCommand}" Margin="10,0,10,0" VerticalAlignment="Bottom"/>
+                    <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Height="40" FontSize="20" FontWeight="Bold" Content="Clear" Command="{Binding ScenarioClearCommand}" Margin="10, 10, 10, 10"/>
+                </Grid>
+            </Border>
+
+            <Border Grid.Row="1" Grid.Column="4" BorderBrush="DarkGray" BorderThickness="1" Margin="10, 10, 10, 10">
+                <ListBox ItemsSource="{Binding Model.SelectedScenario.ParameterList}" HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="170"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding ParameterName}" TextWrapping="WrapWithOverflow" VerticalAlignment="Center"/>
+                                <ComboBox Grid.Column="1" ItemsSource="{Binding SelectItems}" SelectedIndex="{Binding SelectedIndex}" Visibility="{Binding VisibilityComboBox}" IsEnabled="{Binding DataContext.Model.IsEnableScenarioEdit, ElementName=ucCompVerifyDiag}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SelectionChanged">
+                                            <i:InvokeCommandAction Command="{Binding Path=DataContext.ParamItemSellectionChangedCommand, ElementName=ucCompVerifyDiag}">
+                                                <i:InvokeCommandAction.CommandParameter>
+                                                    <Binding Path="ParameterName"/>
+                                                </i:InvokeCommandAction.CommandParameter>
+                                            </i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </ComboBox>
+                                <TextBox Grid.Column="1" Text="{Binding InputValue}" Visibility="{Binding VisibilityTextBox}" IsEnabled="{Binding DataContext.Model.IsEnableScenarioEdit, ElementName=ucCompVerifyDiag}"/>
+                                <TextBlock Grid.Column="2" Margin="10,0,0,0" Text="{Binding UnitText}" VerticalAlignment="Bottom"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+
+            <Grid Grid.Row="1" Grid.Column="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <RadioButton Grid.Row="0" Grid.Column="0" Foreground="White" FontSize="20" Content="Count :" Margin="10, 10, 10, 10" Tag="1" IsChecked="{Binding Model.CheckedCount}" IsEnabled="{Binding Model.IsEnableScenarioEdit}"/>
+                    <RadioButton Grid.Row="1" Grid.Column="0" Foreground="White" FontSize="20" Content="Repeat" Margin="10, 10, 10, 10" Tag="2" IsChecked="{Binding Model.CheckedRepeat}" IsEnabled="{Binding Model.IsEnableScenarioEdit}"/>
+
+                    <TextBox Grid.Row="0" Grid.Column="1" Foreground="White" Height="30" VerticalContentAlignment="Top" FontSize="20" Text="{Binding Model.RunCount}" Margin="10, 10, 10, 10" IsEnabled="{Binding Model.IsEnableScenarioEdit}"/>
+
+                    <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Height="50" FontSize="30" FontWeight="Bold" Content="Run" Command="{Binding ScenarioRunCommand}" Margin="10, 10, 10, 10" IsEnabled="{Binding Model.IsEnableScenarioEdit}"/>
+                    <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Height="50" FontSize="30" FontWeight="Bold" Content="Stop" Command="{Binding ScenarioStopCommand}" Margin="10, 10, 10, 10" IsEnabled="{Binding Model.IsEnableStopBtn}"/>
+                    <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Height="50" FontSize="30" FontWeight="Bold" Content="Export" Command="{Binding ScenarioExportCommand}" Margin="10, 10, 10, 10" IsEnabled="{Binding Model.IsEnableScenarioEdit}"/>
+                    <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Height="50" FontSize="30" FontWeight="Bold" Content="Import" Command="{Binding ScenarioImportCommand}" Margin="10, 10, 10, 10" IsEnabled="{Binding Model.IsEnableScenarioEdit}"/>
+                    <!--<Button Height="50" FontSize="25" FontWeight="Bold">Save</Button>
+                    <Button Height="50" FontSize="25" FontWeight="Bold">Save As</Button>
+                    <Button Height="50" FontSize="25" FontWeight="Bold">Load</Button>
+                    <Button Height="50" FontSize="25" FontWeight="Bold">New</Button>
+                    <Button Height="50" FontSize="25" FontWeight="Bold">Machine Init</Button>-->
+                </Grid>
+            </Grid>
+        </Grid>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" BorderBrush="DarkGray" BorderThickness="1" Margin="10, 10, 10, 10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Foreground="White" FontSize="18" FontWeight="Bold" Margin="10, 0" Text="Axis"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Foreground="White" FontSize="18" FontWeight="Bold" Margin="10, 0" Text="Position"/>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Foreground="White" FontSize="18" FontWeight="Bold" Margin="10, 0" Text="NegLimit"/>
+                    <TextBlock Grid.Row="0" Grid.Column="3" Foreground="White" FontSize="18" FontWeight="Bold" Margin="10, 0" Text="PosLimit"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Model.XAxis.Label.Value}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Model.YAxis.Label.Value}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{Binding Model.ZAxis.Label.Value}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{Binding Model.CAxis.Label.Value}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="{Binding Model.TriAxis.Label.Value}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="{Binding Model.PzAxis.Label.Value}" Foreground="White" Margin="10, 0"/>
+
+                    <!--TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Model.XAxis.Status.RawPosition.Actual,StringFormat={}{0:0.0}}" Foreground="White" Margin="10, 0"/-->
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Model.CX1.Status.RawPosition.Actual,StringFormat={}{0:0.0}}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Model.YAxis.Status.RawPosition.Actual,StringFormat={}{0:0.0}}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Model.ZAxis.Status.RawPosition.Actual,StringFormat={}{0:0.0}}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Model.CAxis.Status.RawPosition.Actual,StringFormat={}{0:0.0}}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Model.TriAxis.Status.RawPosition.Actual,StringFormat={}{0:0.0}}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Model.PzAxis.Status.RawPosition.Actual,StringFormat={}{0:0.0}}" Foreground="White" Margin="10, 0"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Model.XAxis.Param.NegSWLimit,StringFormat={}{0:0}}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Model.YAxis.Param.NegSWLimit,StringFormat={}{0:0}}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Model.ZAxis.Param.NegSWLimit,StringFormat={}{0:0}}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding Model.CAxis.Param.NegSWLimit,StringFormat={}{0:0}}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="5" Grid.Column="2" Text="{Binding Model.TriAxis.Param.NegSWLimit,StringFormat={}{0:0}}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="6" Grid.Column="2" Text="{Binding Model.PzAxis.Param.NegSWLimit,StringFormat={}{0:0}}" Foreground="White" Margin="10, 0"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Model.XAxis.Param.PosSWLimit,StringFormat={}{0:0}}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding Model.YAxis.Param.PosSWLimit,StringFormat={}{0:0}}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding Model.ZAxis.Param.PosSWLimit,StringFormat={}{0:0}}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="4" Grid.Column="3" Text="{Binding Model.CAxis.Param.PosSWLimit,StringFormat={}{0:0}}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="5" Grid.Column="3" Text="{Binding Model.TriAxis.Param.PosSWLimit,StringFormat={}{0:0}}" Foreground="White" Margin="10, 0"/>
+                    <TextBlock Grid.Row="6" Grid.Column="3" Text="{Binding Model.PzAxis.Param.PosSWLimit,StringFormat={}{0:0}}" Foreground="White" Margin="10, 0"/>
+                    
+                </Grid>
+            </Border>
+            <Border Grid.Column="1" BorderBrush="DarkGray" BorderThickness="1" Margin="10, 10, 10, 10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Foreground="White" FontSize="18" FontWeight="Bold" Margin="10, 0" Text="Light Value"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Foreground="White" FontSize="18" FontWeight="Bold" Margin="10, 0" Text="Cam Bridge"/>
+                    
+                    <ListBox Grid.Row="1" Grid.Column="0">
+                        <ListBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="120" Foreground="White" FontSize="14" VerticalAlignment="Center" Text="WaferHighCam"/>
+                                <ListBox ItemsSource="{Binding Model.WaferHighCamLightInfo}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Height="14" Width="50" Text="{Binding LightType}" TextWrapping="WrapWithOverflow"/>
+                                                <TextBlock Height="14" Text=" : "/>
+                                                <TextBlock Height="14" Text="{Binding LightChannel.CurLightValue}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </StackPanel>
+                        </ListBoxItem>
+                        <ListBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="120" Foreground="White" FontSize="14" VerticalAlignment="Center" Text="WaferLowCam"/>
+                                <ListBox ItemsSource="{Binding Model.WaferLowCamLightInfo}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Height="14" Width="50" Text="{Binding LightType}" TextWrapping="WrapWithOverflow"/>
+                                                <TextBlock Height="14" Text=" : "/>
+                                                <TextBlock Height="14" Text="{Binding LightChannel.CurLightValue}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </StackPanel>
+                        </ListBoxItem>
+                        <ListBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="120" Foreground="White" FontSize="14" VerticalAlignment="Center" Text="PinHighCam"/>
+                                <ListBox ItemsSource="{Binding Model.PinHighCamLightInfo}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Height="14" Width="50" Text="{Binding LightType}" TextWrapping="WrapWithOverflow"/>
+                                                <TextBlock Height="14" Text=" : "/>
+                                                <TextBlock Height="14" Text="{Binding LightChannel.CurLightValue}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </StackPanel>
+                        </ListBoxItem>
+                        <ListBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Width="120" Foreground="White" FontSize="14" VerticalAlignment="Center" Text="PinLowCam"/>
+                                <ListBox ItemsSource="{Binding Model.PinLowCamLightInfo}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Height="14" Width="50" Text="{Binding LightType}" TextWrapping="WrapWithOverflow"/>
+                                                <TextBlock Height="14" Text=" : "/>
+                                                <TextBlock Height="14" Text="{Binding LightChannel.CurLightValue}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </StackPanel>
+                        </ListBoxItem>
+                    </ListBox>
+
+                    <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
+                        <TextBlock Foreground="White" Text="Extended : " Margin="10, 10"/>
+                        <TextBlock Foreground="White" Text="{Binding Model.IsWaferBridgeExtended.Value}" Margin="0, 10"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10, 10, 10, 0">
+                    <TextBlock Text="Log Filter : " Foreground="White" FontSize="15" FontWeight="Bold" Margin="0, 5"/>
+                    <TextBox Background="White" Width="210" Height="30" VerticalAlignment="Top" Text="{Binding Model.LogFilterString}"/>
+                    <Button Content="Apply" Width="70" FontSize="15" FontWeight="Bold" Height="30" VerticalAlignment="Top" Margin="10, 0, 0, 0" Command="{Binding ApplyFilterCommand}"/>
+                    <Button Content="Log Export" Width="100" FontSize="15" FontWeight="Bold" Height="30" VerticalAlignment="Top" Margin="10, 0, 0, 0" Command="{Binding LogExportCommand}"/>
+                    <Button Content="Log Clear" Width="90" FontSize="15" FontWeight="Bold" Height="30" VerticalAlignment="Top" Margin="10, 0, 0, 0" Command="{Binding LogClearCommand}"/>
+                    <TextBlock Text="Max Count : " Foreground="White" FontSize="15" FontWeight="Bold" Margin="10, 5, 0, 0"/>
+                    <TextBox Background="White" Width="80" Height="30" VerticalAlignment="Top" Text="{Binding Model.ResultLogMaxCount}"/>
+                </StackPanel>
+                <Border Grid.Row="1" BorderBrush="DarkGray" BorderThickness="1" Margin="10, 10, 10, 10">
+                    <ListBox x:Name="LogListBox" Grid.Row="1" ItemsSource="{Binding Model.ResultLogList}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Mode=OneWay}" Foreground="White"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

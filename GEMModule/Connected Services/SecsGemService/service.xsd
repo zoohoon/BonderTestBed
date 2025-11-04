@@ -1,0 +1,1921 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/WcfSecs_XGemService" />
+  <xs:element name="GEMSetPPFmtChanged">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMode" type="xs:long" />
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sMdln" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sSoftRev" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psCCode" nillable="true" type="q1:ArrayOfstring" />
+        <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnParamCount" nillable="true" type="q2:ArrayOflong" />
+        <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psParamNames" nillable="true" type="q3:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetPPFmtChangedResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMSetPPFmtChangedResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqPPLoadInquire">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nLength" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqPPLoadInquireResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMReqPPLoadInquireResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPLoadInquire">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPLoadInquireResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMRspPPLoadInquireResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqPPSend">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="pbBody" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqPPSendResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMReqPPSendResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPSend">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPSendResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMRspPPSendResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqPP">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqPPResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMReqPPResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPP">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="pbBody" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMRspPPResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPDelete">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psPpids" nillable="true" type="q4:ArrayOfstring" />
+        <xs:element minOccurs="0" name="nResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPDeleteResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMRspPPDeleteResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q5="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psPpids" nillable="true" type="q5:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPListResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMRspPPListResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqPPFmtSend">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sMdln" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sSoftRev" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q6="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psCCode" nillable="true" type="q6:ArrayOfstring" />
+        <xs:element xmlns:q7="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnParamCount" nillable="true" type="q7:ArrayOflong" />
+        <xs:element xmlns:q8="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psParamNames" nillable="true" type="q8:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqPPFmtSendResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMReqPPFmtSendResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqPPFmtSend2">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sMdln" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sSoftRev" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q9="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psCCode" nillable="true" type="q9:ArrayOfstring" />
+        <xs:element xmlns:q10="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnParamCount" nillable="true" type="q10:ArrayOflong" />
+        <xs:element xmlns:q11="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psParamNames" nillable="true" type="q11:ArrayOfstring" />
+        <xs:element xmlns:q12="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psParamValues" nillable="true" type="q12:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqPPFmtSend2Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMReqPPFmtSend2Result" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPFmtSend">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPFmtSendResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMRspPPFmtSendResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqPPFmt">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqPPFmtResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMReqPPFmtResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPFmt">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sMdln" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sSoftRev" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q13="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psCCode" nillable="true" type="q13:ArrayOfstring" />
+        <xs:element xmlns:q14="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnParamCount" nillable="true" type="q14:ArrayOflong" />
+        <xs:element xmlns:q15="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psParamNames" nillable="true" type="q15:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPFmtResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMRspPPFmtResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPFmt2">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sMdln" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sSoftRev" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q16="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psCCode" nillable="true" type="q16:ArrayOfstring" />
+        <xs:element xmlns:q17="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnParamCount" nillable="true" type="q17:ArrayOflong" />
+        <xs:element xmlns:q18="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psParamNames" nillable="true" type="q18:ArrayOfstring" />
+        <xs:element xmlns:q19="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psParamValues" nillable="true" type="q19:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPFmt2Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMRspPPFmt2Result" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqPPFmtVerification">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q20="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnAck" nillable="true" type="q20:ArrayOflong" />
+        <xs:element xmlns:q21="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psSeqNumber" nillable="true" type="q21:ArrayOfstring" />
+        <xs:element xmlns:q22="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psError" nillable="true" type="q22:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqPPFmtVerificationResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMReqPPFmtVerificationResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetTerminalMessage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nTid" type="xs:long" />
+        <xs:element minOccurs="0" name="sMsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetTerminalMessageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMSetTerminalMessageResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetVariable">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q23="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnVid" nillable="true" type="q23:ArrayOflong" />
+        <xs:element xmlns:q24="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psValue" nillable="true" type="q24:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetVariableResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMSetVariableResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMGetVariable">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q25="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnVid" nillable="true" type="q25:ArrayOflong" />
+        <xs:element xmlns:q26="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psValue" nillable="true" type="q26:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMGetVariableResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMGetVariableResult" type="xs:long" />
+        <xs:element xmlns:q27="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnVid" nillable="true" type="q27:ArrayOflong" />
+        <xs:element xmlns:q28="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psValue" nillable="true" type="q28:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetVariables">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="nVid" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetVariablesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMSetVariablesResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetVarName">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q29="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psVidName" nillable="true" type="q29:ArrayOfstring" />
+        <xs:element xmlns:q30="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psValue" nillable="true" type="q30:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetVarNameResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMSetVarNameResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMGetVarName">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q31="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psVidName" nillable="true" type="q31:ArrayOfstring" />
+        <xs:element xmlns:q32="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psValue" nillable="true" type="q32:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMGetVarNameResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMGetVarNameResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetEvent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nEventID" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetEventResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMSetEventResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetSpecificMessage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="sMsgName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetSpecificMessageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMSetSpecificMessageResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMGetSpecificMessage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nSObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="pnRObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="sMsgName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMGetSpecificMessageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMGetSpecificMessageResult" type="xs:long" />
+        <xs:element minOccurs="0" name="pnRObjectID" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllStringItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="psValue" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllStringItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetAllStringItemResult" type="xs:long" />
+        <xs:element minOccurs="0" name="psValue" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetAllStringItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="sValue" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetAllStringItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetAllStringItemResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqPPSendEx">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sRecipePath" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqPPSendExResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMReqPPSendExResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPSendEx">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sRecipePath" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPSendExResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMRspPPSendExResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqPPEx">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sRecipePath" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqPPExResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMReqPPExResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPEx">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sRecipePath" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspPPExResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMRspPPExResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetVariableEx">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="nVid" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetVariableExResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMSetVariableExResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqLoopback">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q33="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnAbs" nillable="true" type="q33:ArrayOflong" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqLoopbackResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMReqLoopbackResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetEventEnable">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q34="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnCEIDs" nillable="true" type="q34:ArrayOflong" />
+        <xs:element minOccurs="0" name="nEnable" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetEventEnableResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMSetEventEnableResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetAlarmEnable">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q35="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnALIDs" nillable="true" type="q35:ArrayOflong" />
+        <xs:element minOccurs="0" name="nEnable" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetAlarmEnableResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMSetAlarmEnableResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMGetEventEnable">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q36="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnCEIDs" nillable="true" type="q36:ArrayOflong" />
+        <xs:element xmlns:q37="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnEnable" nillable="true" type="q37:ArrayOflong" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMGetEventEnableResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMGetEventEnableResult" type="xs:long" />
+        <xs:element xmlns:q38="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnEnable" nillable="true" type="q38:ArrayOflong" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMGetAlarmEnable">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q39="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnALIDs" nillable="true" type="q39:ArrayOflong" />
+        <xs:element xmlns:q40="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnEnable" nillable="true" type="q40:ArrayOflong" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMGetAlarmEnableResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMGetAlarmEnableResult" type="xs:long" />
+        <xs:element xmlns:q41="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnEnable" nillable="true" type="q41:ArrayOflong" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMGetAlarmInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q42="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnALIDs" nillable="true" type="q42:ArrayOflong" />
+        <xs:element xmlns:q43="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnALCDs" nillable="true" type="q43:ArrayOflong" />
+        <xs:element xmlns:q44="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psALTXs" nillable="true" type="q44:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMGetAlarmInfoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMGetAlarmInfoResult" type="xs:long" />
+        <xs:element xmlns:q45="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnALCDs" nillable="true" type="q45:ArrayOflong" />
+        <xs:element xmlns:q46="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psALTXs" nillable="true" type="q46:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMGetSVInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q47="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnSVIDs" nillable="true" type="q47:ArrayOflong" />
+        <xs:element xmlns:q48="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psMins" nillable="true" type="q48:ArrayOfstring" />
+        <xs:element xmlns:q49="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psMaxs" nillable="true" type="q49:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMGetSVInfoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMGetSVInfoResult" type="xs:long" />
+        <xs:element xmlns:q50="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psMins" nillable="true" type="q50:ArrayOfstring" />
+        <xs:element xmlns:q51="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psMaxs" nillable="true" type="q51:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMGetECVInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q52="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnECIDs" nillable="true" type="q52:ArrayOflong" />
+        <xs:element xmlns:q53="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psNames" nillable="true" type="q53:ArrayOfstring" />
+        <xs:element xmlns:q54="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psDefs" nillable="true" type="q54:ArrayOfstring" />
+        <xs:element xmlns:q55="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psMins" nillable="true" type="q55:ArrayOfstring" />
+        <xs:element xmlns:q56="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psMaxs" nillable="true" type="q56:ArrayOfstring" />
+        <xs:element xmlns:q57="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psUnits" nillable="true" type="q57:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMGetECVInfoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMGetECVInfoResult" type="xs:long" />
+        <xs:element xmlns:q58="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psNames" nillable="true" type="q58:ArrayOfstring" />
+        <xs:element xmlns:q59="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psDefs" nillable="true" type="q59:ArrayOfstring" />
+        <xs:element xmlns:q60="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psMins" nillable="true" type="q60:ArrayOfstring" />
+        <xs:element xmlns:q61="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psMaxs" nillable="true" type="q61:ArrayOfstring" />
+        <xs:element xmlns:q62="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psUnits" nillable="true" type="q62:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspOffline">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="nAck" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspOfflineResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMRspOfflineResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspOnline">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="nAck" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspOnlineResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMRspOnlineResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqHostOffline">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqHostOfflineResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMReqHostOfflineResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqStartPolling">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nScanTime" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqStartPollingResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMReqStartPollingResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqStopPolling">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sName" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqStopPollingResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMReqStopPollingResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMEnableLog">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="bEnabled" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMEnableLogResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMEnableLogResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetLogOption">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sDriectory" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sPrefix" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sExtension" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nKeepDay" type="xs:long" />
+        <xs:element minOccurs="0" name="bMakeDailyLog" type="xs:long" />
+        <xs:element minOccurs="0" name="bMakeSubDirectory" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetLogOptionResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMSetLogOptionResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Init_SECSGEM">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Config" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Init_SECSGEMResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Init_SECSGEMResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Close_SECSGEM">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Close_SECSGEMResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Close_SECSGEMResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Start">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StartResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="StartResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Stop">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="StopResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="StopResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ServerConnect">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ServerConnectResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MakeObject">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="pnObjectID" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="MakeObjectResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="MakeObjectResult" type="xs:long" />
+        <xs:element minOccurs="0" name="pnObjectID" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetListItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="nItemCount" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetListItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetListItemResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetBinaryItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="nValue" type="xs:unsignedByte" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetBinaryItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetBinaryItemResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetBoolItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="nValue" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetBoolItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetBoolItemResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetBoolItems">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q63="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q63:ArrayOfboolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetBoolItemsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetBoolItemsResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetUint1Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="nValue" type="xs:unsignedByte" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetUint1ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetUint1ItemResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetUint1Items">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="pnValue" nillable="true" type="xs:base64Binary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetUint1ItemsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetUint1ItemsResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetUint2Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="nValue" type="xs:unsignedShort" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetUint2ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetUint2ItemResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetUint2Items">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q64="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q64:ArrayOfunsignedShort" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetUint2ItemsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetUint2ItemsResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetUint4Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="nValue" type="xs:unsignedInt" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetUint4ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetUint4ItemResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetUint4Items">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q65="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q65:ArrayOfunsignedInt" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetUint4ItemsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetUint4ItemsResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetUint8Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="nValue" type="xs:unsignedInt" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetUint8ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetUint8ItemResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetUint8Items">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q66="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q66:ArrayOfunsignedInt" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetUint8ItemsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetUint8ItemsResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetInt1Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="nValue" type="xs:byte" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetInt1ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetInt1ItemResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetInt1Items">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q67="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q67:ArrayOfbyte" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetInt1ItemsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetInt1ItemsResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetInt2Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="nValue" type="xs:short" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetInt2ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetInt2ItemResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetInt2Items">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q68="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q68:ArrayOfshort" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetInt2ItemsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetInt2ItemsResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetInt4Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="nValue" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetInt4ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetInt4ItemResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetInt4Items">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q69="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q69:ArrayOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetInt4ItemsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetInt4ItemsResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetInt8Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="nValue" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetInt8ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetInt8ItemResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetInt8Items">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q70="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q70:ArrayOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetInt8ItemsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetInt8ItemsResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetFloat4Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="nValue" type="xs:float" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetFloat4ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetFloat4ItemResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetFloat4Items">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q71="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q71:ArrayOffloat" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetFloat4ItemsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetFloat4ItemsResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetFloat8Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="nValue" type="xs:double" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetFloat8ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetFloat8ItemResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetFloat8Items">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q72="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q72:ArrayOfdouble" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetFloat8ItemsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetFloat8ItemsResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetStringItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="pszValue" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SetStringItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SetStringItemResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetListItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="pnItemCount" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetListItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetListItemResult" type="xs:long" />
+        <xs:element minOccurs="0" name="pnItemCount" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBinaryItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="pnValue" nillable="true" type="xs:base64Binary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBinaryItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetBinaryItemResult" type="xs:long" />
+        <xs:element minOccurs="0" name="pnValue" nillable="true" type="xs:base64Binary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBoolItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q73="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q73:ArrayOfboolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBoolItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetBoolItemResult" type="xs:long" />
+        <xs:element xmlns:q74="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q74:ArrayOfboolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUint1Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="pnValue" nillable="true" type="xs:base64Binary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUint1ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetUint1ItemResult" type="xs:long" />
+        <xs:element minOccurs="0" name="pnValue" nillable="true" type="xs:base64Binary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUint2Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q75="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q75:ArrayOfunsignedShort" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUint2ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetUint2ItemResult" type="xs:long" />
+        <xs:element xmlns:q76="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q76:ArrayOfunsignedShort" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUint4Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q77="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q77:ArrayOfunsignedInt" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUint4ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetUint4ItemResult" type="xs:long" />
+        <xs:element xmlns:q78="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q78:ArrayOfunsignedInt" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUint8Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q79="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q79:ArrayOfunsignedInt" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetUint8ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetUint8ItemResult" type="xs:long" />
+        <xs:element xmlns:q80="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q80:ArrayOfunsignedInt" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInt1Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q81="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q81:ArrayOfbyte" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInt1ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetInt1ItemResult" type="xs:long" />
+        <xs:element xmlns:q82="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q82:ArrayOfbyte" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInt2Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q83="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q83:ArrayOfshort" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInt2ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetInt2ItemResult" type="xs:long" />
+        <xs:element xmlns:q84="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q84:ArrayOfshort" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInt4Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q85="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q85:ArrayOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInt4ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetInt4ItemResult" type="xs:long" />
+        <xs:element xmlns:q86="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q86:ArrayOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInt8Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q87="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q87:ArrayOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetInt8ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetInt8ItemResult" type="xs:long" />
+        <xs:element xmlns:q88="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q88:ArrayOfint" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFloat4Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q89="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q89:ArrayOffloat" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFloat4ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetFloat4ItemResult" type="xs:long" />
+        <xs:element xmlns:q90="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q90:ArrayOffloat" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFloat8Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element xmlns:q91="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q91:ArrayOfdouble" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetFloat8ItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetFloat8ItemResult" type="xs:long" />
+        <xs:element xmlns:q92="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnValue" nillable="true" type="q92:ArrayOfdouble" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetStringItem">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="psValue" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetStringItemResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetStringItemResult" type="xs:long" />
+        <xs:element minOccurs="0" name="psValue" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CloseObject">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CloseObjectResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="CloseObjectResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendSECSMessage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="nStream" type="xs:long" />
+        <xs:element minOccurs="0" name="nFunction" type="xs:long" />
+        <xs:element minOccurs="0" name="nSysbyte" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendSECSMessageResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="SendSECSMessageResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqOffline">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqOfflineResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMReqOfflineResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqLocal">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqLocalResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMReqLocalResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqRemote">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqRemoteResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMReqRemoteResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetEstablish">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="bState" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetEstablishResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMSetEstablishResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetParam">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sParamName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sParamValue" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetParamResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMSetParamResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMGetParam">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sParamName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="psParamValue" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMGetParamResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMGetParamResult" type="xs:long" />
+        <xs:element minOccurs="0" name="psParamValue" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMEQInitialized">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nInitType" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMEQInitializedResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMEQInitializedResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqGetDateTime">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqGetDateTimeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMReqGetDateTimeResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspGetDateTime">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="sSystemTime" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspGetDateTimeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMRspGetDateTimeResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspDateTime">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="nResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspDateTimeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMRspDateTimeResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetAlarm">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nID" type="xs:long" />
+        <xs:element minOccurs="0" name="nState" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetAlarmResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMSetAlarmResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspRemoteCommand">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="sCmd" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nHCAck" type="xs:long" />
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q93="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnResult" nillable="true" type="q93:ArrayOflong" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspRemoteCommandResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMRspRemoteCommandResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspRemoteCommand2">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="sCmd" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nHCAck" type="xs:long" />
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q94="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psCpName" nillable="true" type="q94:ArrayOfstring" />
+        <xs:element xmlns:q95="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnCpAck" nillable="true" type="q95:ArrayOflong" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspRemoteCommand2Response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMRspRemoteCommand2Result" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspChangeECV">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="nResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMRspChangeECVResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMRspChangeECVResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetECVChanged">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q96="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnEcIds" nillable="true" type="q96:ArrayOflong" />
+        <xs:element xmlns:q97="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psEcVals" nillable="true" type="q97:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetECVChangedResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMSetECVChangedResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqAllECInfo">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMReqAllECInfoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMReqAllECInfoResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetPPChanged">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMode" type="xs:long" />
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nLength" type="xs:long" />
+        <xs:element minOccurs="0" name="pbBody" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GEMSetPPChangedResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GEMSetPPChangedResult" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CallBack_ConnectSuccess">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CallBack_ConnectSuccessResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="CallBack_ConnectSuccessResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Are_You_There">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Are_You_ThereResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Are_You_ThereResult" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CallBack_Close">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnSECSMessageReceive">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nObjectID" type="xs:long" />
+        <xs:element minOccurs="0" name="nStream" type="xs:long" />
+        <xs:element minOccurs="0" name="nFunction" type="xs:long" />
+        <xs:element minOccurs="0" name="nSysbyte" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnCarrierActMsgRecive">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q98="http://schemas.datacontract.org/2004/07/WcfSecs_XGemService" minOccurs="0" name="msgData" nillable="true" type="q98:CarrierActReqData" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnGEMControlStateChange">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q99="http://schemas.datacontract.org/2004/07/WcfSecs_XGemService" minOccurs="0" name="ControlState" type="q99:SecsControlStateEnum" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnGEMStateEvent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q100="http://schemas.datacontract.org/2004/07/WcfSecs_XGemService" minOccurs="0" name="GemState" type="q100:SecsGemStateEnum" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnGEMCommStateChange">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q101="http://schemas.datacontract.org/2004/07/WcfSecs_XGemService" minOccurs="0" name="CommState" type="q101:SecsCommStateEnum" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnGEMRspGetDateTime">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sSystemTime" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnGEMTerminalMultiMessage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nTid" type="xs:long" />
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q102="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psMsg" nillable="true" type="q102:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnGEMTerminalMessage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nTid" type="xs:long" />
+        <xs:element minOccurs="0" name="sMsg" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnGEMReqDateTime">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="sSystemTime" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnGEMReqRemoteCommand">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element xmlns:q103="http://schemas.datacontract.org/2004/07/WcfSecs_XGemService" minOccurs="0" name="Rcmd" type="q103:EnumRemoteCommand" />
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q104="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psNames" nillable="true" type="q104:ArrayOfstring" />
+        <xs:element xmlns:q105="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psVals" nillable="true" type="q105:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnGEMReqPPList">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnGEMECVChanged">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q106="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnEcids" nillable="true" type="q106:ArrayOflong" />
+        <xs:element xmlns:q107="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psVals" nillable="true" type="q107:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnGEMReqChangeECV">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q108="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="pnEcids" nillable="true" type="q108:ArrayOflong" />
+        <xs:element xmlns:q109="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psVals" nillable="true" type="q109:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnGEMErrorEvent">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="sErrorName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="nErrorCode" type="xs:long" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnGEMReqPPDelete">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="nCount" type="xs:long" />
+        <xs:element xmlns:q110="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psPpid" nillable="true" type="q110:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnGEMRspAllECInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="lCount" type="xs:long" />
+        <xs:element xmlns:q111="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="plVid" nillable="true" type="q111:ArrayOflong" />
+        <xs:element xmlns:q112="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psName" nillable="true" type="q112:ArrayOfstring" />
+        <xs:element xmlns:q113="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psValue" nillable="true" type="q113:ArrayOfstring" />
+        <xs:element xmlns:q114="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psDefault" nillable="true" type="q114:ArrayOfstring" />
+        <xs:element xmlns:q115="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psMin" nillable="true" type="q115:ArrayOfstring" />
+        <xs:element xmlns:q116="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psMax" nillable="true" type="q116:ArrayOfstring" />
+        <xs:element xmlns:q117="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="psUnit" nillable="true" type="q117:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnGEMReqPPSendEx">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sRecipePath" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="OnGEMReqPPEx">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="nMsgId" type="xs:long" />
+        <xs:element minOccurs="0" name="sPpid" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="sRecipePath" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

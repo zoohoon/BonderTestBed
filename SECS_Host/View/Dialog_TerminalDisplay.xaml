@@ -1,0 +1,33 @@
+﻿<Window x:Class="SECS_Host.View.Dialog_TerminalDisplay"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SECS_Host.View"
+        mc:Ignorable="d"
+        Title="Dialog_TerminalDisplay" Height="600" Width="600"  Closing="Window_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80*"/>
+            <RowDefinition Height="8*"/>
+        </Grid.RowDefinitions>
+
+        <TextBox    Grid.Row="0"    Margin="8"
+                    AcceptsTab="True"
+                    AcceptsReturn="True"
+                    TextWrapping="Wrap"
+                    VerticalScrollBarVisibility="Visible"
+                    Text="{Binding Path=TerminalSendTxt}"/>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="2"     Margin="8"
+                    Content="Send"
+                    Command="{Binding Path=SendTerminalDisplayCommand}"/>
+        </Grid>
+    </Grid>
+</Window>

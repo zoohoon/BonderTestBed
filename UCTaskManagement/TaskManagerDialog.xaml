@@ -1,0 +1,89 @@
+﻿<Window x:Class="UCTaskManagement.TaskManagerDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:moduleStateView="clr-namespace:ModuleStateView;assembly=ModuleStateView" 
+        mc:Ignorable="d" 
+             Width="1280" Height="1024" Background="DimGray" ResizeMode="NoResize"  >
+    <!--<i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <cmd:EventToCommand Command="{Binding WindowClosing}"
+            PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+        --><!--<i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding WindowClosing}" CommandParameter="{Binding}"  />
+        </i:EventTrigger>--><!--
+    </i:Interaction.Triggers>-->
+    <Border>
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition Width="0.1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <moduleStateView:ModuleStateViewControl Service="{Binding SequenceEngineManager.Services}" 
+                                                        IsLotModule="{Binding IsLotModule}" 
+                                                        IsLoaderModule="{Binding IsLoaderModule}"
+                                                        IsIModule="{Binding IsIModule}"
+                                                        ZoomLevel="{Binding ZoomLevel, Mode=TwoWay}"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition />
+
+                </Grid.RowDefinitions >
+                <GroupBox Grid.Row="1" Header="Module" Foreground="White" Background="DimGray">
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox IsChecked="{Binding IsLotModule, Mode=TwoWay}" Foreground="White">LOT Module</CheckBox>
+                        <CheckBox IsChecked="{Binding IsLoaderModule, Mode=TwoWay}" Foreground="White">Loader Module</CheckBox>
+                        <CheckBox IsChecked="{Binding IsIModule, Mode=TwoWay}" Foreground="White">IModule</CheckBox>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Grid.Row="0" Header="State" Foreground="White" Background="DimGray">
+                    <StackPanel Orientation="Vertical" Margin="0">
+                        <Label Background="DimGray" Margin="0" Foreground="White">UNDEFINED</Label>
+                        <Label Background="Tomato" Margin="0" Foreground="White">INIT</Label>
+                        <Label Background="Orange" Margin="0" Foreground="White">IDLE</Label>
+                        <Label Background="DodgerBlue" Margin="0" Foreground="White">PENDING</Label>
+                        <Label Background="LimeGreen" Margin="0" Foreground="White">RUNNING</Label>
+                        <Label Background="RosyBrown"  Margin="0" Foreground="White">SUSPENDED</Label>
+                        <Label Background="MediumOrchid" Margin="0" Foreground="White">ABORT</Label>
+                        <Label Background="DarkRed" Margin="0" Foreground="White">PAUSED</Label>
+                        <Label Background="Green" Margin="0" Foreground="White">DONE</Label>
+                        <Label Background="Red" Margin="0" Foreground="White">ERROR</Label>
+
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Grid.Row="2" Header="Zoom Level" Foreground="White" Background="DimGray">
+                    <StackPanel Orientation="Vertical">
+                        <Button Command="{Binding Path=cmdZoomLevel1}">60 Sec</Button>
+                        <Button Command="{Binding Path=cmdZoomLevel2}">5 Min</Button>
+                        <Button Command="{Binding Path=cmdZoomLevel3}">10 Min</Button>
+                        <Button Command="{Binding Path=cmdZoomLevel4}">30 Min</Button>
+                        <Button Command="{Binding Path=cmdZoomLevel5}">1 Hour</Button>
+                        <Button Command="{Binding Path=cmdZoomLevel6}">4 Hour</Button>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Grid.Row="3" Header="Init" Foreground="White" Background="DimGray">
+                    <StackPanel Orientation="Vertical">
+                        <Button Command="{Binding SystemInitCommand}">System Init</Button>
+                        <Button Command="{Binding LoaderInitCommand}">Loader Init</Button>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Grid.Row="4" Header="LOT" Foreground="White" Background="DimGray">
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox IsChecked="{Binding ContinueLotFlag}" Foreground="White">Continue Lot</CheckBox>
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

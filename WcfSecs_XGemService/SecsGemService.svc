@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="WcfSecs_XGemService.SecsGemService" CodeBehind="SecsGemService.svc.cs" %>

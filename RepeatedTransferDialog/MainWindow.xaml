@@ -1,0 +1,106 @@
+﻿<Window x:Class="RepeatedTransferDialog.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RepeatedTransferDialog"
+        xmlns:rtenum="clr-namespace:ProberInterfaces.Enum;assembly=ProberInterfaces"
+        mc:Ignorable="d"
+        Title="LOADER Repeated Transfer" Height="650" Width="480" Background="DarkGray" ResizeMode="NoResize">
+    <Window.Resources>
+        <ResourceDictionary>
+            <local:RpeatedModeConverter x:Key="RpeatedModeConvert"/>
+            <local:AbortBtnConverter x:Key="AbortBtnConvert"/>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="1.5*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Row="0" Grid.Column="0"  BorderBrush="Gray" BorderThickness="2">
+                <Label Grid.Row="0" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">Mode</Label>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="1"  BorderBrush="Gray" BorderThickness="2">
+                <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
+                    <RadioButton GroupName="cellmode" Content="Only one cell" Margin="30 0 0 0" IsEnabled="{Binding ControlEnable}" IsChecked="{Binding RpeatedTransferMode, Mode=TwoWay, Converter={StaticResource RpeatedModeConvert}, ConverterParameter={x:Static rtenum:EnumRepeatedTransferMode.OneCellMode}}"></RadioButton>
+                    <RadioButton GroupName="cellmode" Content="Multiple cells" Margin="30 0 0 0" IsEnabled="{Binding ControlEnable}" IsChecked="{Binding RpeatedTransferMode, Mode=TwoWay, Converter={StaticResource RpeatedModeConvert}, ConverterParameter={x:Static rtenum:EnumRepeatedTransferMode.MultipleCellMode}}"></RadioButton>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="1" Grid.Column="0"  BorderBrush="Gray" BorderThickness="2">
+                <Label Grid.Row="1" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">Card ID</Label>
+            </Border>
+            <Border Grid.Row="1" Grid.Column="1"  BorderBrush="Gray" BorderThickness="2">
+                <TextBox Grid.Row="1" Grid.Column="1" Foreground="black" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150" Text="{Binding CardID}" IsEnabled="{Binding ControlEnable}" FontSize="20" TextAlignment="Center"  Margin="30 0 0 0"></TextBox>
+            </Border>
+            <Border Grid.Row="2" Grid.Column="0"  BorderBrush="Gray" BorderThickness="2">
+                <Label Grid.Row="2" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">PinAlign Interval</Label>
+            </Border>
+            <Border Grid.Row="2" Grid.Column="1"  BorderBrush="Gray" BorderThickness="2">
+                <TextBox Grid.Row="2" Grid.Column="1" Foreground="black" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150" Text="{Binding PinAlignInterval}" IsEnabled="{Binding ControlEnable}" FontSize="20" TextAlignment="Center" Margin="30 0 0 0"></TextBox>
+            </Border>
+            <Border Grid.Row="3" Grid.Column="0"  BorderBrush="Gray" BorderThickness="2">
+                <Label Grid.Row="3" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">Repeat Count</Label>
+            </Border>
+            <Border Grid.Row="3" Grid.Column="1"  BorderBrush="Gray" BorderThickness="2">
+                <TextBox Grid.Row="3" Grid.Column="1" Foreground="black" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150" Text="{Binding RepeatCount}" IsEnabled="{Binding ControlEnable}" FontSize="20" TextAlignment="Center" Margin="30 0 0 0"></TextBox>
+            </Border>
+            <Border Grid.Row="4" Grid.Column="0"  BorderBrush="Gray" BorderThickness="2">
+                <Label Grid.Row="4" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">Repeat Delay(ms)</Label>
+            </Border>
+            <Border Grid.Row="4" Grid.Column="1"  BorderBrush="Gray" BorderThickness="2">
+                <TextBox Grid.Row="4" Grid.Column="1" Foreground="black" HorizontalAlignment="Left" VerticalAlignment="Center" Width="150" Text="{Binding RepeatDelayTime}" IsEnabled="{Binding ControlEnable}" FontSize="20" TextAlignment="Center" Margin="30 0 0 0"></TextBox>
+            </Border>
+            <Border Grid.Row="5" Grid.Column="0"  BorderBrush="Gray" BorderThickness="2">
+                <Label Grid.Row="5" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">Skip Card Dock</Label>
+            </Border>
+            <Border Grid.Row="5" Grid.Column="1"  BorderBrush="Gray" BorderThickness="2">
+                <CheckBox Grid.Row="5" Grid.Column="1" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding SkipDocking}" IsEnabled="{Binding ControlEnable}"></CheckBox>
+            </Border>
+            <Border Grid.Row="6" Grid.Column="0"  BorderBrush="Gray" BorderThickness="2">
+                <Label Grid.Row="6" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">Currrent Count</Label>
+            </Border>
+            <Border Grid.Row="6" Grid.Column="1"  BorderBrush="Gray" BorderThickness="2">
+                <TextBlock Grid.Row="6" Grid.Column="1" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" FontSize="20" Text="{Binding CurrentCount}" TextAlignment="Center"></TextBlock>
+            </Border>
+            <Border Grid.Row="7" Grid.Column="0"  BorderBrush="Gray" BorderThickness="2">
+                <Label Grid.Row="6" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">Elapsed Time (Lasted)</Label>
+            </Border>
+            <Border Grid.Row="7" Grid.Column="1"  BorderBrush="Gray" BorderThickness="2">
+                <TextBlock Grid.Row="6" Grid.Column="1" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" FontSize="20" Text="{Binding RTElapsedTimeLasted, StringFormat={}{0:hh}:{0:mm}:{0:ss}}" TextAlignment="Center"></TextBlock>
+            </Border>
+            <Border Grid.Row="8" Grid.Column="0"  BorderBrush="Gray" BorderThickness="2">
+                <Label Grid.Row="6" Grid.Column="0" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18">Elapsed Time (Total)</Label>
+            </Border>
+            <Border Grid.Row="8" Grid.Column="1"  BorderBrush="Gray" BorderThickness="2">
+                <TextBlock Grid.Row="6" Grid.Column="1" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center" Width="150" FontSize="20" Text="{Binding RTElapsedTimeTotal, StringFormat={}{0:hh}:{0:mm}:{0:ss}}" TextAlignment="Center"></TextBlock>
+            </Border>
+            <Border Grid.Row="9" Grid.Column="0"  BorderBrush="DimGray" BorderThickness="2" Background="DimGray">
+                <Button Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="1" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center" Width="140" Height="50" FontSize="20" IsEnabled="{Binding ControlEnable}" Command="{Binding RepeatTransferCommand}">Transfer</Button>
+            </Border>
+            <Border Grid.Row="9" Grid.Column="1"  BorderBrush="DimGray" BorderThickness="2" Background="DimGray">
+                <Button Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" Foreground="black" HorizontalAlignment="Center" VerticalAlignment="Center" Width="140" Height="50" FontSize="20" IsEnabled="{Binding ControlEnable, Converter={StaticResource AbortBtnConvert}}" Command="{Binding RepeatAbortCommand}">Abort</Button>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
