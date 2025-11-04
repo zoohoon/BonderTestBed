@@ -129,6 +129,8 @@ using UcTouchSensorView;
 using UcWaferRecipeSettingView;
 using VisionTestView;
 using VisionTestViewModel;
+using BVisionTestView;
+using BVisionTestViewModel;
 using WaferHandlingControl;
 using WaferHandlingRecoveryControl;
 using WaferHandlingRecoveryViewModel;
@@ -349,6 +351,9 @@ namespace ViewModelModuleParameter
 
             // VisionTest
             _ConnectionInfos.Add(MakeViewConnectInfo(GetGuid(typeof(UcVisionTest)), GetGuid(typeof(VisionTestViewModelBase))));
+
+            // 20251028 LJH
+            _ConnectionInfos.Add(MakeViewConnectInfo(GetGuid(typeof(BUcVisionTest)), GetGuid(typeof(BVisionTestViewModelBase))));
 
             // ManualContact
             _ConnectionInfos.Add(MakeViewConnectInfo(GetGuid(typeof(ManualContactControl)), GetGuid(typeof(ManualContactControlVM))));

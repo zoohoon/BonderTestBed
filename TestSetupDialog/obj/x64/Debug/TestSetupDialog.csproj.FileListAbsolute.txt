@@ -50,7 +50,3 @@ D:\NPOS\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.CoreCompileInp
 D:\NPOS\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.CopyComplete
 D:\NPOS\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.dll
 D:\NPOS\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.pdb
-D:\NPOS\bin\x64\Debug\dll\x86\OpenCvSharpExtern.dll
-D:\NPOS\bin\x64\Debug\dll\x86\opencv_videoio_ffmpeg4100.dll
-D:\NPOS\bin\x64\Debug\dll\x64\OpenCvSharpExtern.dll
-D:\NPOS\bin\x64\Debug\dll\x64\opencv_videoio_ffmpeg4100_64.dll

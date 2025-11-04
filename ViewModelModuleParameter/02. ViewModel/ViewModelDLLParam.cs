@@ -72,6 +72,7 @@ using TemperatureCalViewModelProject;
 using TestHeadDockScreenVM;
 using TestSetupDialog;
 using VisionTestViewModel;
+using BVisionTestViewModel;
 using WaferHandlingViewModel;
 using WaferMapMakerViewModel;
 using WaferRecipeSettingVM;
@@ -207,6 +208,8 @@ namespace ViewModelModuleParameter
             info.Add(MakeViewModelInfo(dllname, nameof(VmMonitoringMainPage), 1000, true));
             // VisionTest
             info.Add(MakeViewModelInfo(dllname, nameof(VisionTestViewModelBase), 1000, true));
+            // 20251028 LJH
+            info.Add(MakeViewModelInfo(dllname, nameof(BVisionTestViewModelBase), 1000, true));
             // ManualContact
             info.Add(MakeViewModelInfo(dllname, nameof(ManualContactControlVM), 1000, true));
             // Inspection
@@ -438,6 +441,8 @@ namespace ViewModelModuleParameter
             try
             {
                 info.Add(MakeViewModelInfo("ProberViewModel.dll", "VisionTestViewModelBase", 1000, true));
+                // 20251104 Nick Camera UI 추가
+                info.Add(MakeViewModelInfo("ProberViewModel.dll", "BVisionTestViewModelBase", 1000, true));
 
                 info.Add(MakeViewModelInfo("ProberViewModel.dll", "CardChangeScreenViewModel", 1000, true));
                 info.Add(MakeViewModelInfo("ProberViewModel.dll", "TestHeadDockScreenViewModel", 1000, true));

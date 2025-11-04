@@ -69,6 +69,9 @@
     <Reference Include="CsvHelper, Version=12.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
       <HintPath>..\packages\CsvHelper.12.2.2\lib\net47\CsvHelper.dll</HintPath>
     </Reference>
+    <Reference Include="EGrabber.NETFramework">
+      <HintPath>Data\EGrabber.NETFramework.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net47\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -162,12 +165,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\AxisObjectVM.cs" />
+    <Compile Include="Data\CoaxlinkEx.cs" />
     <Compile Include="Data\StageCamera.cs" />
     <Compile Include="Data\VmComboBoxItem.cs" />
     <Compile Include="Data\VmGPComboBoxItem.cs" />
     <Compile Include="ViewModel\AccuracyCheckSetupViewModel.cs" />
     <Compile Include="ViewModel\AccuracyCheckSubSettingViewModel.cs" />
     <Compile Include="ViewModel\ActiveStageInformationUCViewModel.cs" />
+    <Compile Include="ViewModel\BVisionTestViewModelBase.cs" />
     <Compile Include="ViewModel\LogCollectViewModel.cs" />
     <Compile Include="ViewModel\GP_LoaderFoupRecoveryControlViewModel.cs" />
     <Compile Include="ViewModel\UcCardChangeSettingViewModel.cs" />
@@ -361,6 +366,9 @@
     </Compile>
     <Compile Include="View\BinAnalyzeView.xaml.cs">
       <DependentUpon>BinAnalyzeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BonderVisionTestControllerPage\BUcVisionTest.xaml.cs">
+      <DependentUpon>BUcVisionTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CardChangeOP\LoaderGPCardChangeOPView_6X2.xaml.cs">
       <DependentUpon>LoaderGPCardChangeOPView_6X2.xaml</DependentUpon>
@@ -1725,6 +1733,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\BinAnalyzeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BonderVisionTestControllerPage\BUcVisionTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
