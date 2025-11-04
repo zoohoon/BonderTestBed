@@ -1,0 +1,11 @@
+D:\SW\NPOS\NPOS\bin\x64\Debug\UcTestResultDialog.dll
+D:\SW\NPOS\NPOS\bin\x64\Debug\UcTestResultDialog.pdb
+D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\Debug\UcTestResultDialog.csproj.AssemblyReference.cache
+D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\Debug\TestResultDialogView.g.cs
+D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\Debug\UcTestResultDialog_MarkupCompile.cache
+D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\Debug\UcTestResultDialog_MarkupCompile.lref
+D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\Debug\TestResultDialogView.baml
+D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\Debug\UcTestResultDialog.g.resources
+D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\Debug\UcTestResultDialog.csproj.CoreCompileInputs.cache
+D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\Debug\UcTestResultDialog.dll
+D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\Debug\UcTestResultDialog.pdb

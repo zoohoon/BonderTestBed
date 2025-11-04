@@ -1,0 +1,65 @@
+C:\Repos\NPOS\bin\x64\Debug\UcTestResultDialog.dll
+C:\Repos\NPOS\bin\x64\Debug\UcTestResultDialog.pdb
+C:\Repos\NPOS\TestResultDialogViewProject\obj\x64\Debug\TestResultDialogView.g.cs
+C:\Repos\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog_MarkupCompile.cache
+C:\Repos\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog_MarkupCompile.lref
+C:\Repos\NPOS\TestResultDialogViewProject\obj\x64\Debug\TestResultDialogView.baml
+C:\Repos\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.g.resources
+C:\Repos\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.csproj.CoreCompileInputs.cache
+C:\Repos\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.dll
+C:\Repos\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.pdb
+D:\NPos\bin\x64\Debug\UcTestResultDialog.dll
+D:\NPos\bin\x64\Debug\UcTestResultDialog.pdb
+D:\NPos\TestResultDialogViewProject\obj\x64\Debug\TestResultDialogView.g.cs
+D:\NPos\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog_MarkupCompile.cache
+D:\NPos\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog_MarkupCompile.lref
+D:\NPos\TestResultDialogViewProject\obj\x64\Debug\TestResultDialogView.baml
+D:\NPos\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.g.resources
+D:\NPos\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.csproj.CoreCompileInputs.cache
+D:\NPos\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.dll
+D:\NPos\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.pdb
+D:\NPOS - backup\bin\x64\Debug\UcTestResultDialog.dll
+D:\NPOS - backup\bin\x64\Debug\UcTestResultDialog.pdb
+D:\NPOS - backup\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.csproj.AssemblyReference.cache
+D:\NPOS - backup\TestResultDialogViewProject\obj\x64\Debug\TestResultDialogView.g.cs
+D:\NPOS - backup\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog_MarkupCompile.cache
+D:\NPOS - backup\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog_MarkupCompile.lref
+D:\NPOS - backup\TestResultDialogViewProject\obj\x64\Debug\TestResultDialogView.baml
+D:\NPOS - backup\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.g.resources
+D:\NPOS - backup\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.csproj.CoreCompileInputs.cache
+D:\NPOS - backup\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.dll
+D:\NPOS - backup\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.pdb
+D:\NPOS_backup\bin\x64\Debug\UcTestResultDialog.dll
+D:\NPOS_backup\bin\x64\Debug\UcTestResultDialog.pdb
+D:\NPOS_backup\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.csproj.AssemblyReference.cache
+D:\NPOS_backup\TestResultDialogViewProject\obj\x64\Debug\TestResultDialogView.g.cs
+D:\NPOS_backup\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog_MarkupCompile.cache
+D:\NPOS_backup\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog_MarkupCompile.lref
+D:\NPOS_backup\TestResultDialogViewProject\obj\x64\Debug\TestResultDialogView.baml
+D:\NPOS_backup\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.g.resources
+D:\NPOS_backup\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.csproj.CoreCompileInputs.cache
+D:\NPOS_backup\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.dll
+D:\NPOS_backup\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.pdb
+D:\SW\NPOS\NPOS\bin\x64\Debug\UcTestResultDialog.dll
+D:\SW\NPOS\NPOS\bin\x64\Debug\UcTestResultDialog.pdb
+D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.csproj.AssemblyReference.cache
+D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\TestResultDialogView.g.cs
+D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog_MarkupCompile.cache
+D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog_MarkupCompile.lref
+D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\TestResultDialogView.baml
+D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.g.resources
+D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.csproj.CoreCompileInputs.cache
+D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.dll
+D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.pdb
+D:\NPOS\NPOS\bin\x64\Debug\UcTestResultDialog.dll
+D:\NPOS\NPOS\bin\x64\Debug\UcTestResultDialog.pdb
+D:\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.csproj.AssemblyReference.cache
+D:\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\TestResultDialogView.g.cs
+D:\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog_MarkupCompile.cache
+D:\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog_MarkupCompile.lref
+D:\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\TestResultDialogView.baml
+D:\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.g.resources
+D:\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.csproj.CoreCompileInputs.cache
+D:\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.dll
+D:\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.pdb
+D:\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.csproj.AssemblyReference.cache

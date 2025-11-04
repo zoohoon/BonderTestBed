@@ -1,0 +1,48 @@
+C:\Repos\NPOS\bin\x64\Debug\TestResultDialogVM.dll.config
+C:\Repos\NPOS\bin\x64\Debug\TestResultDialogVM.dll
+C:\Repos\NPOS\bin\x64\Debug\TestResultDialogVM.pdb
+C:\Repos\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.AssemblyReference.cache
+C:\Repos\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.CoreCompileInputs.cache
+C:\Repos\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.CopyComplete
+C:\Repos\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.dll
+C:\Repos\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.pdb
+D:\NPos\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.AssemblyReference.cache
+D:\NPos\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.CoreCompileInputs.cache
+D:\NPos\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.dll
+D:\NPos\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.pdb
+D:\NPos\bin\x64\Debug\TestResultDialogVM.dll.config
+D:\NPos\bin\x64\Debug\TestResultDialogVM.dll
+D:\NPos\bin\x64\Debug\TestResultDialogVM.pdb
+D:\NPos\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.CopyComplete
+D:\NPOS - backup\bin\x64\Debug\TestResultDialogVM.dll.config
+D:\NPOS - backup\bin\x64\Debug\TestResultDialogVM.dll
+D:\NPOS - backup\bin\x64\Debug\TestResultDialogVM.pdb
+D:\NPOS - backup\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.AssemblyReference.cache
+D:\NPOS - backup\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.CoreCompileInputs.cache
+D:\NPOS - backup\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.CopyComplete
+D:\NPOS - backup\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.dll
+D:\NPOS - backup\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.pdb
+D:\NPOS_backup\bin\x64\Debug\TestResultDialogVM.dll.config
+D:\NPOS_backup\bin\x64\Debug\TestResultDialogVM.dll
+D:\NPOS_backup\bin\x64\Debug\TestResultDialogVM.pdb
+D:\NPOS_backup\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.AssemblyReference.cache
+D:\NPOS_backup\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.CoreCompileInputs.cache
+D:\NPOS_backup\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.CopyComplete
+D:\NPOS_backup\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.dll
+D:\NPOS_backup\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.pdb
+D:\SW\NPOS\NPOS\bin\x64\Debug\TestResultDialogVM.dll.config
+D:\SW\NPOS\NPOS\bin\x64\Debug\TestResultDialogVM.dll
+D:\SW\NPOS\NPOS\bin\x64\Debug\TestResultDialogVM.pdb
+D:\SW\NPOS\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.AssemblyReference.cache
+D:\SW\NPOS\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.CoreCompileInputs.cache
+D:\SW\NPOS\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.CopyComplete
+D:\SW\NPOS\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.dll
+D:\SW\NPOS\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.pdb
+D:\NPOS\NPOS\bin\x64\Debug\TestResultDialogVM.dll.config
+D:\NPOS\NPOS\bin\x64\Debug\TestResultDialogVM.dll
+D:\NPOS\NPOS\bin\x64\Debug\TestResultDialogVM.pdb
+D:\NPOS\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.AssemblyReference.cache
+D:\NPOS\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.CoreCompileInputs.cache
+D:\NPOS\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.CopyComplete
+D:\NPOS\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.dll
+D:\NPOS\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.pdb

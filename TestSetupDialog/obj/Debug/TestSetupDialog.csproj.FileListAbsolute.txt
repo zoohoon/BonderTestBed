@@ -1,0 +1,12 @@
+D:\SW\NPOS\NPOS\bin\x64\Debug\TestSetupDialog.dll.config
+D:\SW\NPOS\NPOS\bin\x64\Debug\TestSetupDialog.dll
+D:\SW\NPOS\NPOS\bin\x64\Debug\TestSetupDialog.pdb
+D:\SW\NPOS\NPOS\TestSetupDialog\obj\Debug\TestSetupDialog.csproj.AssemblyReference.cache
+D:\SW\NPOS\NPOS\TestSetupDialog\obj\Debug\TestSetupDialog.csproj.CoreCompileInputs.cache
+D:\SW\NPOS\NPOS\TestSetupDialog\obj\Debug\TestSetupDialog.csproj.CopyComplete
+D:\SW\NPOS\NPOS\TestSetupDialog\obj\Debug\TestSetupDialog.dll
+D:\SW\NPOS\NPOS\TestSetupDialog\obj\Debug\TestSetupDialog.pdb
+D:\SW\NPOS\NPOS\bin\x64\Debug\dll\x86\OpenCvSharpExtern.dll
+D:\SW\NPOS\NPOS\bin\x64\Debug\dll\x86\opencv_videoio_ffmpeg4100.dll
+D:\SW\NPOS\NPOS\bin\x64\Debug\dll\x64\OpenCvSharpExtern.dll
+D:\SW\NPOS\NPOS\bin\x64\Debug\dll\x64\opencv_videoio_ffmpeg4100_64.dll

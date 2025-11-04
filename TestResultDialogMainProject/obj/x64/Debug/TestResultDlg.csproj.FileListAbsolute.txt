@@ -1,0 +1,78 @@
+C:\Repos\NPOS\bin\x64\Debug\TestResultDlg.dll.config
+C:\Repos\NPOS\bin\x64\Debug\TestResultDlg.dll
+C:\Repos\NPOS\bin\x64\Debug\TestResultDlg.pdb
+C:\Repos\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.AssemblyReference.cache
+C:\Repos\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDialog.g.cs
+C:\Repos\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg_MarkupCompile.cache
+C:\Repos\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg_MarkupCompile.lref
+C:\Repos\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDialog.baml
+C:\Repos\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.g.resources
+C:\Repos\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.CoreCompileInputs.cache
+C:\Repos\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.CopyComplete
+C:\Repos\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.dll
+C:\Repos\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.pdb
+D:\NPos\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.AssemblyReference.cache
+D:\NPos\TestResultDialogMainProject\obj\x64\Debug\TestResultDialog.g.cs
+D:\NPos\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg_MarkupCompile.cache
+D:\NPos\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg_MarkupCompile.lref
+D:\NPos\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.dll
+D:\NPos\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.pdb
+D:\NPos\bin\x64\Debug\TestResultDlg.dll.config
+D:\NPos\bin\x64\Debug\TestResultDlg.dll
+D:\NPos\bin\x64\Debug\TestResultDlg.pdb
+D:\NPos\TestResultDialogMainProject\obj\x64\Debug\TestResultDialog.baml
+D:\NPos\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.g.resources
+D:\NPos\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.CoreCompileInputs.cache
+D:\NPos\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.CopyComplete
+D:\NPOS - backup\bin\x64\Debug\TestResultDlg.dll.config
+D:\NPOS - backup\bin\x64\Debug\TestResultDlg.dll
+D:\NPOS - backup\bin\x64\Debug\TestResultDlg.pdb
+D:\NPOS - backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.AssemblyReference.cache
+D:\NPOS - backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDialog.g.cs
+D:\NPOS - backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg_MarkupCompile.cache
+D:\NPOS - backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg_MarkupCompile.lref
+D:\NPOS - backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDialog.baml
+D:\NPOS - backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.g.resources
+D:\NPOS - backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.CoreCompileInputs.cache
+D:\NPOS - backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.CopyComplete
+D:\NPOS - backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.dll
+D:\NPOS - backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.pdb
+D:\NPOS_backup\bin\x64\Debug\TestResultDlg.dll.config
+D:\NPOS_backup\bin\x64\Debug\TestResultDlg.dll
+D:\NPOS_backup\bin\x64\Debug\TestResultDlg.pdb
+D:\NPOS_backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.AssemblyReference.cache
+D:\NPOS_backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDialog.g.cs
+D:\NPOS_backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg_MarkupCompile.cache
+D:\NPOS_backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg_MarkupCompile.lref
+D:\NPOS_backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDialog.baml
+D:\NPOS_backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.g.resources
+D:\NPOS_backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.CoreCompileInputs.cache
+D:\NPOS_backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.CopyComplete
+D:\NPOS_backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.dll
+D:\NPOS_backup\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.pdb
+D:\SW\NPOS\NPOS\bin\x64\Debug\TestResultDlg.dll.config
+D:\SW\NPOS\NPOS\bin\x64\Debug\TestResultDlg.dll
+D:\SW\NPOS\NPOS\bin\x64\Debug\TestResultDlg.pdb
+D:\SW\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.AssemblyReference.cache
+D:\SW\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDialog.g.cs
+D:\SW\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg_MarkupCompile.cache
+D:\SW\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg_MarkupCompile.lref
+D:\SW\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDialog.baml
+D:\SW\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.g.resources
+D:\SW\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.CoreCompileInputs.cache
+D:\SW\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.CopyComplete
+D:\SW\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.dll
+D:\SW\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.pdb
+D:\NPOS\NPOS\bin\x64\Debug\TestResultDlg.dll.config
+D:\NPOS\NPOS\bin\x64\Debug\TestResultDlg.dll
+D:\NPOS\NPOS\bin\x64\Debug\TestResultDlg.pdb
+D:\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.AssemblyReference.cache
+D:\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDialog.g.cs
+D:\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg_MarkupCompile.cache
+D:\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg_MarkupCompile.lref
+D:\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDialog.baml
+D:\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.g.resources
+D:\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.CoreCompileInputs.cache
+D:\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.CopyComplete
+D:\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.dll
+D:\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.pdb

@@ -1,0 +1,56 @@
+D:\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.AssemblyReference.cache
+D:\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.CoreCompileInputs.cache
+D:\NPOS\bin\x64\Debug\TestSetupDialog.dll.config
+D:\NPOS\bin\x64\Debug\TestSetupDialog.dll
+D:\NPOS\bin\x64\Debug\TestSetupDialog.pdb
+D:\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.CopyComplete
+D:\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.dll
+D:\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.pdb
+D:\NPOS - backup\bin\x64\Debug\dll\x86\OpenCvSharpExtern.dll
+D:\NPOS - backup\bin\x64\Debug\dll\x86\opencv_videoio_ffmpeg4100.dll
+D:\NPOS - backup\bin\x64\Debug\dll\x64\OpenCvSharpExtern.dll
+D:\NPOS - backup\bin\x64\Debug\dll\x64\opencv_videoio_ffmpeg4100_64.dll
+D:\NPOS - backup\bin\x64\Debug\TestSetupDialog.dll.config
+D:\NPOS - backup\bin\x64\Debug\TestSetupDialog.dll
+D:\NPOS - backup\bin\x64\Debug\TestSetupDialog.pdb
+D:\NPOS - backup\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.AssemblyReference.cache
+D:\NPOS - backup\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.CoreCompileInputs.cache
+D:\NPOS - backup\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.CopyComplete
+D:\NPOS - backup\TestSetupDialog\obj\x64\Debug\TestSetupDialog.dll
+D:\NPOS - backup\TestSetupDialog\obj\x64\Debug\TestSetupDialog.pdb
+D:\NPOS_backup\bin\x64\Debug\dll\x86\OpenCvSharpExtern.dll
+D:\NPOS_backup\bin\x64\Debug\dll\x86\opencv_videoio_ffmpeg4100.dll
+D:\NPOS_backup\bin\x64\Debug\dll\x64\OpenCvSharpExtern.dll
+D:\NPOS_backup\bin\x64\Debug\dll\x64\opencv_videoio_ffmpeg4100_64.dll
+D:\NPOS_backup\bin\x64\Debug\TestSetupDialog.dll.config
+D:\NPOS_backup\bin\x64\Debug\TestSetupDialog.dll
+D:\NPOS_backup\bin\x64\Debug\TestSetupDialog.pdb
+D:\NPOS_backup\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.AssemblyReference.cache
+D:\NPOS_backup\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.CoreCompileInputs.cache
+D:\NPOS_backup\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.CopyComplete
+D:\NPOS_backup\TestSetupDialog\obj\x64\Debug\TestSetupDialog.dll
+D:\NPOS_backup\TestSetupDialog\obj\x64\Debug\TestSetupDialog.pdb
+D:\SW\NPOS\NPOS\bin\x64\Debug\TestSetupDialog.dll.config
+D:\SW\NPOS\NPOS\bin\x64\Debug\TestSetupDialog.dll
+D:\SW\NPOS\NPOS\bin\x64\Debug\TestSetupDialog.pdb
+D:\SW\NPOS\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.AssemblyReference.cache
+D:\SW\NPOS\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.CoreCompileInputs.cache
+D:\SW\NPOS\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.CopyComplete
+D:\SW\NPOS\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.dll
+D:\SW\NPOS\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.pdb
+D:\NPOS\NPOS\bin\x64\Debug\dll\x86\OpenCvSharpExtern.dll
+D:\NPOS\NPOS\bin\x64\Debug\dll\x86\opencv_videoio_ffmpeg4100.dll
+D:\NPOS\NPOS\bin\x64\Debug\dll\x64\OpenCvSharpExtern.dll
+D:\NPOS\NPOS\bin\x64\Debug\dll\x64\opencv_videoio_ffmpeg4100_64.dll
+D:\NPOS\NPOS\bin\x64\Debug\TestSetupDialog.dll.config
+D:\NPOS\NPOS\bin\x64\Debug\TestSetupDialog.dll
+D:\NPOS\NPOS\bin\x64\Debug\TestSetupDialog.pdb
+D:\NPOS\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.AssemblyReference.cache
+D:\NPOS\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.CoreCompileInputs.cache
+D:\NPOS\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.CopyComplete
+D:\NPOS\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.dll
+D:\NPOS\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.pdb
+D:\NPOS\bin\x64\Debug\dll\x86\OpenCvSharpExtern.dll
+D:\NPOS\bin\x64\Debug\dll\x86\opencv_videoio_ffmpeg4100.dll
+D:\NPOS\bin\x64\Debug\dll\x64\OpenCvSharpExtern.dll
+D:\NPOS\bin\x64\Debug\dll\x64\opencv_videoio_ffmpeg4100_64.dll
