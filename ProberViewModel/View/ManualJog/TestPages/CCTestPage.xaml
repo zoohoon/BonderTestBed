@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="ProberViewModel.TestPages.CCTestPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ManualJogView.TestPages"
+             mc:Ignorable="d" 
+             d:DesignHeight="240" d:DesignWidth="720" Background="Transparent">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+        </Grid.Resources>
+
+
+        <Border Background="Black" BorderBrush="LightGray" BorderThickness="1.5" Grid.Column="0" Grid.RowSpan="3">
+            <StackPanel Margin="0 0 0 0" >
+                <Button Content="CCMoveIN"  
+                Background="LightGray" FontSize="14" VerticalContentAlignment="Center"
+                HorizontalContentAlignment="Center" Width="130" Height="50" FontWeight="Bold"
+                Command="{Binding CCMoveINCommand}"
+                IsEnabled="{Binding StageButtonsVisibility}"/>
+
+                <Button Content="CCMoveIDLE"  
+                Background="LightGray" FontSize="15" VerticalContentAlignment="Center"
+                HorizontalContentAlignment="Center" Width="130" Height="50" FontWeight="Bold"
+                Command="{Binding CCMoveIDLECommand}"
+                IsEnabled="{Binding StageButtonsVisibility}"/>
+
+                <Button Content="CCMoveOUT"  
+                Background="LightGray" FontSize="15" VerticalContentAlignment="Center"
+                HorizontalContentAlignment="Center" Width="130" Height="50" FontWeight="Bold"
+                Command="{Binding CCMoveOUTCommand}"
+                IsEnabled="{Binding StageButtonsVisibility}"/>
+            </StackPanel>
+
+        </Border>
+
+    </Grid>
+</UserControl>

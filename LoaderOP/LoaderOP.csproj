@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4CC1C7F3-073F-4D6C-8B37-DA082FA8F91B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LoaderOP</RootNamespace>
+    <AssemblyName>LoaderOP</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="LoaderOPModule.cs" />
+    <Compile Include="LoaderOPState.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LoaderControllerBase\LoaderControllerBase.csproj">
+      <Project>{9EBE6298-FE0A-4E7E-B8DE-E7F26C2B29A9}</Project>
+      <Name>LoaderControllerBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderParameters\LoaderParameters.csproj">
+      <Project>{9368b7a1-3625-42ab-a286-9e94caf1bdd9}</Project>
+      <Name>LoaderParameters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{d3b00cca-3c50-42b1-8dca-dfe47c759b57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroDialogInterfaces\MetroDialogInterfaces.csproj">
+      <Project>{2C3114E3-137B-44ED-A9C2-BA5F2198A672}</Project>
+      <Name>MetroDialogInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{EDBA3295-FF2A-4368-A217-6495941A8BF5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SequenceEngine\SequenceEngineService.csproj">
+      <Project>{752ec230-0bc1-4209-b04e-a2826a2eb738}</Project>
+      <Name>SequenceEngineService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SubstrateObjects\SubstrateObjects.csproj">
+      <Project>{EFB47AA8-B3C8-439C-8A01-D26DB8522710}</Project>
+      <Name>SubstrateObjects</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

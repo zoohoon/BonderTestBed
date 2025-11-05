@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="ProberViewModel.UcJogControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProberViewModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="1080" d:DesignWidth="1920">
+    <Grid Name="JogControl">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="710" />
+            <RowDefinition Height="300" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <!--<StackPanel Grid.Row="0" Grid.Column="0">
+        <local:UCIOPanel Width="600" Height="750" Margin="5"/>
+        </StackPanel>-->
+
+
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical">
+            <local:UcStagePanel Width="Auto" Margin="5"/>
+            <Border BorderThickness="1" BorderBrush="WhiteSmoke"/>
+            <local:UCLoaderPanel Width="Auto" Margin="5"/>
+            <Border BorderThickness="1" BorderBrush="WhiteSmoke"/>
+            <local:UCStageButtons Width="Auto" Margin="5,5,0,0" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" >
+            <local:UCStageButtons2 Width="Auto" Margin="5,5,0,0" />
+        </StackPanel>
+
+        
+    </Grid>
+</UserControl>

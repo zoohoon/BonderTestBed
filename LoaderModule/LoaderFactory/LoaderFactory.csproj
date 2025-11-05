@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8475FCD1-C9D7-455D-B2F0-96380263FD73}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LoaderFactory</RootNamespace>
+    <AssemblyName>LoaderFactory</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <OutputPath>..\bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="LoaderResolver.cs" />
+    <Compile Include="NamespaceDoc.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CardChangeSupervisor\CardChangeSupervisor.csproj">
+      <Project>{6E467CE2-77B8-462F-B392-08F6FD8388A4}</Project>
+      <Name>CardChangeSupervisor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Cognex.Controls\Cognex.Controls.csproj">
+      <Project>{cda466b0-020d-4ff5-8625-d105325a1c66}</Project>
+      <Name>Cognex.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DataProxy\RemoteServiceProxy.csproj">
+      <Project>{72cca8a3-28b4-4e93-a713-0f4c75e87abd}</Project>
+      <Name>RemoteServiceProxy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\E84\E84.csproj">
+      <Project>{DD69D5EE-FBBC-464B-A03B-0F391F177600}</Project>
+      <Name>E84</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\EnvControlModule\EnvControlModule.csproj">
+      <Project>{3F7FC0E2-C81A-443B-BAAD-47B53AD0D46F}</Project>
+      <Name>EnvControlModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FileSystem\FileSystem.csproj">
+      <Project>{B4317916-BAA6-44C7-9ADB-753F00C0929E}</Project>
+      <Name>FileSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FocusingManager\FocusingManager.csproj">
+      <Project>{D3B2C584-4824-4080-870A-7C361D5921F4}</Project>
+      <Name>FocusingManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FoupModules\FoupModules.csproj">
+      <Project>{B59743E0-2FCF-48A5-BB06-C942D38D9365}</Project>
+      <Name>FoupModules</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FoupOP\FoupOP.csproj">
+      <Project>{061C377A-2413-47BC-8F2F-B01F0D5F8C09}</Project>
+      <Name>FoupOP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\FocusingManager\FocusingManager.csproj">
+      <Project>{D3B2C584-4824-4080-870A-7C361D5921F4}</Project>
+      <Name>FocusingManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GEMModule\GEMModule.csproj">
+      <Project>{9F7A512A-39FF-4630-A4C4-E7B5513CB58B}</Project>
+      <Name>GEMModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GPIBModule\GPIBModule.csproj">
+      <Project>{CF3B89A7-AB7B-4CCB-B6A3-10C2CBF92B69}</Project>
+      <Name>GPIBModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GPLoaderRouter\GPLoaderRouter.csproj">
+      <Project>{CDA49D6A-7F4A-41C0-B9D0-E419FCA46291}</Project>
+      <Name>GPLoaderRouter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\InternalModule\InternalModule.csproj">
+      <Project>{6AA7EC93-C39A-4D7E-926C-A51451845D9C}</Project>
+      <Name>InternalModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\IOMappingsObject\IOMappingsObject.csproj">
+      <Project>{01F041B1-9B51-4D23-B610-B43398123492}</Project>
+      <Name>IOMappingsObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LoaderConnectManager\LoaderCommunicationModule.csproj">
+      <Project>{7487A6B1-4918-499A-8732-1CF0579214D4}</Project>
+      <Name>LoaderCommunicationModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LoaderController\LoaderController.csproj">
+      <Project>{160872CD-291E-4109-B7F3-48170DCAD0D7}</Project>
+      <Name>LoaderController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LoaderDoorDialogServiceProvider\LoaderDoorDialogServiceProvider.csproj">
+      <Project>{A72F1D21-919E-4845-A336-C29EA4667380}</Project>
+      <Name>LoaderDoorDialogServiceProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LoaderLogModule\LoaderLogModule.csproj">
+      <Project>{473dec30-231b-4178-88d9-78d4f6d16d36}</Project>
+      <Name>LoaderLogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LoaderLogSpliterModule\LoaderLogSpliterModule.csproj">
+      <Project>{7B44EA21-C43D-493D-B975-DEB6F9C5A44B}</Project>
+      <Name>LoaderLogSpliterModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LoaderMaster\LoaderMaster.csproj">
+      <Project>{0FA296B1-23E4-4AE6-820C-1AE13D193C7B}</Project>
+      <Name>LoaderMaster</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LoaderODTPUpDown\LoaderODTPUpDown.csproj">
+      <Project>{8189a950-3c1e-45dd-a03f-c5ff69f04d5d}</Project>
+      <Name>LoaderODTPUpDown</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LoaderParkingDialogServiceProvider\LoaderParkingDialogServiceProvider.csproj">
+      <Project>{25b0acdb-38d6-44e9-9fd8-3d753c2c7416}</Project>
+      <Name>LoaderParkingDialogServiceProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LoaderPnpManager\LoaderPnpManagerModule.csproj">
+      <Project>{B3D94F69-CE70-44F4-A0D2-514E2C507E81}</Project>
+      <Name>LoaderPnpManagerModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LoaderResultMapUpDown\LoaderResultMapUpDown.csproj">
+      <Project>{17d24b81-96f9-410f-8e17-2961d522cb99}</Project>
+      <Name>LoaderResultMapUpDown</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LoaderServiceBase\LoaderServiceBase.csproj">
+      <Project>{B73C4A86-E81A-42B5-B859-8155A90E74C2}</Project>
+      <Name>LoaderServiceBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LoaderServiceClientModules\LoaderServiceClientModules.csproj">
+      <Project>{89912ff3-c1f3-45e9-95dd-7b060bc68faa}</Project>
+      <Name>LoaderServiceClientModules</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LoaderViewModelModule\LoaderViewModelModule.csproj">
+      <Project>{7558be10-ae4d-4129-ac81-c3ab71e1583f}</Project>
+      <Name>LoaderViewModelModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LogModule\LogModule.csproj">
+      <Project>{D3B00CCA-3C50-42B1-8DCA-DFE47C759B57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MetroDialogInterfaces\MetroDialogInterfaces.csproj">
+      <Project>{2C3114E3-137B-44ED-A9C2-BA5F2198A672}</Project>
+      <Name>MetroDialogInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MetroDialogManager\MetroDialogModule.csproj">
+      <Project>{5C29E10E-AA00-4449-8494-6A12C1576E39}</Project>
+      <Name>MetroDialogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NotifyModule\NotifyModule.csproj">
+      <Project>{4BA1DF29-E2A2-43DB-AE62-C1DF1DA3FC4C}</Project>
+      <Name>NotifyModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ParameterManager\ParameterManager.csproj">
+      <Project>{15AED574-B40E-4343-9CE5-08E112F957AF}</Project>
+      <Name>ParameterManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\PControl\PnPControl.csproj">
+      <Project>{6BE9F617-1527-4711-9A3E-61B3E6C84F3B}</Project>
+      <Name>PnPControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\PHIP\TCPIP.csproj">
+      <Project>{7C25FDE0-A1DF-454B-90E5-CAD432778973}</Project>
+      <Name>TCPIP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\PIVManagerModule\PIVManagerModule.csproj">
+      <Project>{c56073ea-67c5-456d-971c-4e818ee305bf}</Project>
+      <Name>PIVManagerModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ProbeCommand\ProbeCommand.csproj">
+      <Project>{075637D7-AEDB-4AC6-964C-A5702688EF0B}</Project>
+      <Name>ProbeCommand</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ProbeEvent\ProbeEvent.csproj">
+      <Project>{4B7707AD-A4DF-4F58-8FF1-E71BB3B39690}</Project>
+      <Name>ProbeEvent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{edba3295-ff2a-4368-a217-6495941a8bf5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RPAV300APAModule\PAModule.csproj">
+      <Project>{ad537959-7011-41fb-8fce-0dd6fdb1bbf6}</Project>
+      <Name>PAModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SequenceEngineManager\SequenceEngineManager.csproj">
+      <Project>{d250142e-e3ab-42b3-90cd-7dac116554f7}</Project>
+      <Name>SequenceEngineManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SignalTowerModule\SignalTowerModule.csproj">
+      <Project>{B73F76F3-FE03-4E90-AE75-EF9B97D7A610}</Project>
+      <Name>SignalTowerModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SingleInputDialogServiceProvider\SingleInputDialogServiceProvider.csproj">
+      <Project>{997127C2-E026-4809-AA31-0B9760EDF75F}</Project>
+      <Name>SingleInputDialogServiceProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SmokeSensorModule\EnvMonitoring.csproj">
+      <Project>{b5250f83-b9b6-4f1f-9b22-63f153c35e47}</Project>
+      <Name>EnvMonitoring</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TemplateManager\TemplateManager.csproj">
+      <Project>{7EBC3C13-47AD-4098-AFAB-B08FDCD6714F}</Project>
+      <Name>TemplateManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SequenceEngine\SequenceEngineService.csproj">
+      <Project>{752EC230-0BC1-4209-B04E-A2826A2EB738}</Project>
+      <Name>SequenceEngineService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ViewModelModule\ViewModelModule.csproj">
+      <Project>{8FE95141-929E-4A07-B84D-94ACEF65AB79}</Project>
+      <Name>ViewModelModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WaferAlign\WaferAlign.csproj">
+      <Project>{4BE84477-C458-415E-BB98-AE3AA6D94196}</Project>
+      <Name>WaferAlign</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WaferChangeSupervisor\WaferChangeSupervisor.csproj">
+      <Project>{7905319d-8200-4c3f-83f4-9f3a89a8647d}</Project>
+      <Name>WaferChangeSupervisor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WaitCancelDialogServiceProvider\WaitCancelDialogServiceProvider.csproj">
+      <Project>{B3180AF3-803B-40EB-B41F-E617D2A55315}</Project>
+      <Name>WaitCancelDialogServiceProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderBase\LoaderBase.csproj">
+      <Project>{8dbb64b8-644e-475d-8eaf-3b7ecd6f234d}</Project>
+      <Name>LoaderBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderCore\LoaderCore.csproj">
+      <Project>{59dd27b2-5bcc-46d4-8b20-0f853f210a71}</Project>
+      <Name>LoaderCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderParameters\LoaderParameters.csproj">
+      <Project>{9368B7A1-3625-42AB-A286-9E94CAF1BDD9}</Project>
+      <Name>LoaderParameters</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8A0B8AC2-1256-4B27-81D5-102F5D2317C8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EventProcessModule</RootNamespace>
+    <AssemblyName>EventProcessModule</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EventCondition\EventProcessConditionCheckers.cs" />
+    <Compile Include="EventSoaking\PreHeatSokaingProcess.cs" />
+    <Compile Include="GEM\GemEventProcess.cs" />
+    <Compile Include="GPIB\GPIBEventProcess.cs" />
+    <Compile Include="Internal\InternalEventProcess.cs" />
+    <Compile Include="Manual\ManualEventProcess.cs" />
+    <Compile Include="TCPIP\TCPIPEventProcess.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TEST\NickTestEventProcess.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GPIBCommands\GPIBCommands.csproj">
+      <Project>{99E835CB-367F-4927-84E5-9C8978A742A2}</Project>
+      <Name>GPIBCommands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderBase\LoaderBase.csproj">
+      <Project>{8dbb64b8-644e-475d-8eaf-3b7ecd6f234d}</Project>
+      <Name>LoaderBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{d3b00cca-3c50-42b1-8dca-dfe47c759b57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NotifyEventModule\NotifyEventModule.csproj">
+      <Project>{40f3e74a-35b7-417c-9118-ee5db75340a6}</Project>
+      <Name>NotifyEventModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PHIPCommands\TCPIPCommands.csproj">
+      <Project>{D71F3D51-7BFC-4701-B3FB-B30775DC1576}</Project>
+      <Name>TCPIPCommands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{EDBA3295-FF2A-4368-A217-6495941A8BF5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20CF2683-EF4E-4455-B151-310F937B3ADF}</Project>
+      <Name>ProberInterfaces</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\RequestBase\RequestInterface.csproj">
+      <Project>{67DD1A9E-8E04-4C70-96B7-729DC239E562}</Project>
+      <Name>RequestInterface</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

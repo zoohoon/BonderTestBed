@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4D863027-8140-4E04-B93D-73CD6FB59894}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ProbingModule</RootNamespace>
+    <AssemblyName>ProbingModule</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ProbingModule.cs" />
+    <Compile Include="ProbingModuleParam.cs" />
+    <Compile Include="ProbingModuleStates.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BinManagerModule\BinManagerModule.csproj">
+      <Project>{A951AE15-EC39-44B3-ADB0-CAE0C60D15E7}</Project>
+      <Name>BinManagerModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BinParamObject\BinParamObject.csproj">
+      <Project>{ECC9B665-366D-4929-A573-2CF952D2C39B}</Project>
+      <Name>BinParamObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GPIBCommands\GPIBCommands.csproj">
+      <Project>{99E835CB-367F-4927-84E5-9C8978A742A2}</Project>
+      <Name>GPIBCommands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GPIBModule\GPIBModule.csproj">
+      <Project>{cf3b89a7-ab7b-4ccb-b6a3-10c2cbf92b69}</Project>
+      <Name>GPIBModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{d3b00cca-3c50-42b1-8dca-dfe47c759b57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroDialogInterfaces\MetroDialogInterfaces.csproj">
+      <Project>{2C3114E3-137B-44ED-A9C2-BA5F2198A672}</Project>
+      <Name>MetroDialogInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NotifyEventModule\NotifyEventModule.csproj">
+      <Project>{40F3E74A-35B7-417C-9118-EE5DB75340A6}</Project>
+      <Name>NotifyEventModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PinPadMatchModule\PinPadMatchModule.csproj">
+      <Project>{f6964a18-24d3-496d-9f84-b08458da238e}</Project>
+      <Name>PinPadMatchModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{EDBA3295-FF2A-4368-A217-6495941A8BF5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProbingDataPrj\ProbingDataInterface.csproj">
+      <Project>{25FB5042-8A93-4272-A0CD-EE9FED565980}</Project>
+      <Name>ProbingDataInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProbingSequenceManager\ProbingSequenceManager.csproj">
+      <Project>{A7CF6725-4B5A-493C-8C04-EFAAC7C28624}</Project>
+      <Name>ProbingSequenceManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RetestModule\RetestModule.csproj">
+      <Project>{5F7D5C4A-DF2B-4F68-9C99-0CBCD730E9A3}</Project>
+      <Name>RetestModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RetestObject\RetestObject.csproj">
+      <Project>{9F58F001-24C0-4CF3-A1CC-D721102FAD73}</Project>
+      <Name>RetestObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SerializerProject\SerializerUtil.csproj">
+      <Project>{89ED1BE4-FE82-406E-AE2C-6F3DF03FCC90}</Project>
+      <Name>SerializerUtil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SubstrateObjects\SubstrateObjects.csproj">
+      <Project>{EFB47AA8-B3C8-439C-8A01-D26DB8522710}</Project>
+      <Name>SubstrateObjects</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

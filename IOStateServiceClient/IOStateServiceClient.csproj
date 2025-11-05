@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{297BE8F5-8018-4A25-8A2B-E640B9D98868}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>IOStateServiceClient</RootNamespace>
+    <AssemblyName>IOStateServiceClient</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>lan-connect.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da" />
+    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net47\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.2.2.920, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.2.2\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.MahApps, Version=0.1.0.325, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.MahApps.0.1.0\lib\net45\MaterialDesignThemes.MahApps.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.6.0.325, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.6.0\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct2D1.4.2.0\lib\net45\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DXGI.4.2.0\lib\net45\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CommonDLL\DLL\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="ZeroFormatter, Version=1.6.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZeroFormatter.1.6.4\lib\net45\ZeroFormatter.dll</HintPath>
+    </Reference>
+    <Reference Include="ZeroFormatter.Interfaces, Version=1.6.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZeroFormatter.Interfaces.1.6.4\lib\net45\ZeroFormatter.Interfaces.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DialogHost.cs" />
+    <Compile Include="ImageHost.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="LoaderDataGateway.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Resource Include="lan-connect.ico" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CameraModule\CameraModule.csproj">
+      <Project>{2533A124-719E-43C3-983B-1DBAE92C21C5}</Project>
+      <Name>CameraModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CameraParam\VisionParameters.csproj">
+      <Project>{41983b7f-c441-418e-b6e4-531be84b4d3f}</Project>
+      <Name>VisionParameters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DispHostProxy\DispHostProxy.csproj">
+      <Project>{94F6ED58-058F-451C-AC5F-CEC37F701177}</Project>
+      <Name>DispHostProxy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DisplayModule\DisplayModule.csproj">
+      <Project>{52D36F67-9601-42BC-A2B7-748CC6D91931}</Project>
+      <Name>DisplayModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DXControlBase\DXControlBase.csproj">
+      <Project>{a34f896c-885d-4af5-a641-9c3721a1483f}</Project>
+      <Name>DXControlBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IOStateProxy\IOStateProxy.csproj">
+      <Project>{9240ed27-1ef8-4be1-917f-b27287675771}</Project>
+      <Name>IOStateProxy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderBase\LoaderBase.csproj">
+      <Project>{8DBB64B8-644E-475D-8EAF-3B7ECD6F234D}</Project>
+      <Name>LoaderBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{D3B00CCA-3C50-42B1-8DCA-DFE47C759B57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MapViewControl\MapView.csproj">
+      <Project>{c956d307-1c78-4d87-8259-ee2b9294115d}</Project>
+      <Name>MapView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroDialogInterfaces\MetroDialogInterfaces.csproj">
+      <Project>{2C3114E3-137B-44ED-A9C2-BA5F2198A672}</Project>
+      <Name>MetroDialogInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MotionManagerProxy\MotionManagerProxy.csproj">
+      <Project>{ea2c53c0-d52c-4564-8092-c46a282c3c6b}</Project>
+      <Name>MotionManagerProxy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{edba3295-ff2a-4368-a217-6495941a8bf5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RelayCommandBase\RelayCommandBase.csproj">
+      <Project>{348522C5-8377-4D66-96F3-5D7DA3D7762B}</Project>
+      <Name>RelayCommandBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SerializerProject\SerializerUtil.csproj">
+      <Project>{89ED1BE4-FE82-406E-AE2C-6F3DF03FCC90}</Project>
+      <Name>SerializerUtil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServiceInterfaces\ServiceInterfaces.csproj">
+      <Project>{274662DE-F14A-4524-9AAA-5D5E50567DAA}</Project>
+      <Name>ServiceInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServiceProxy\ServiceProxy.csproj">
+      <Project>{ef12fe56-5d8d-44a2-aaeb-7ef8a2eb4231}</Project>
+      <Name>ServiceProxy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SubstrateObjects\SubstrateObjects.csproj">
+      <Project>{efb47aa8-b3c8-439c-8a01-d26db8522710}</Project>
+      <Name>SubstrateObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UcDisplayPort\UcDisplayPort.csproj">
+      <Project>{fba75c26-7e9c-4e69-a6cb-1a6110e76805}</Project>
+      <Name>UcDisplayPort</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UIElementDropBebavior\DragAndDropBehavior.csproj">
+      <Project>{357c8e10-3cc7-4e54-9da8-2a04189d68f9}</Project>
+      <Name>DragAndDropBehavior</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ValueConverters\ValueConverters.csproj">
+      <Project>{90e38e59-8fea-4da7-937f-888390b913c3}</Project>
+      <Name>ValueConverters</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

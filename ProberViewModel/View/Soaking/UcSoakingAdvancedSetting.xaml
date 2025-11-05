@@ -1,0 +1,326 @@
+﻿<dialogs:CustomDialog x:Class="SoakingSettingView.UcSoakingAdvancedSetting"
+     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+     xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+     xmlns:System="clr-namespace:System;assembly=mscorlib"
+     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                      xmlns:iprober ="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+     xmlns:local="clr-namespace:SoakingSettingView"
+     mc:Ignorable="d" 
+     d:DesignHeight="850" d:DesignWidth="900" Height="830" Background="White" >
+
+    <dialogs:CustomDialog.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <Style x:Key="HeaderStyle" TargetType="{x:Type Label}">
+                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                        <Setter Property="Height" Value="30"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="FontSize" Value="20"/>
+                    </Style>
+                    <ObjectDataProvider x:Key="dataFromEnum" MethodName="LightTypeFilterValues" ObjectType="{x:Type local:EnumFilter}">
+                        <ObjectDataProvider.MethodParameters>
+                            <x:Type TypeName="iprober:EnumLightType"/>
+                        </ObjectDataProvider.MethodParameters>
+                    </ObjectDataProvider>
+
+                </ResourceDictionary>
+                <ResourceDictionary>
+                    <local:ValueOffsetConverter x:Key="ValueOffsetConverter"/>
+                    <local:TextLineConverter x:Key="TextLineConverter"/>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </dialogs:CustomDialog.Resources>
+    <Grid>
+        <Grid Background="White" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="0">
+                <Border Height="30"  >
+                    <Label Style="{x:Null}" FontSize="16" FontWeight="Bold" Margin="0" Padding="0">Advanced Setting</Label>
+                </Border>
+                <!--#region Section 1 Config Chuck Away Tolerance Chilling Time & Operation Timing -->
+                <Grid Height="100" Margin="0,0,0,0" >
+                    <Border Height="80" BorderThickness="1.5" BorderBrush="DarkGray" CornerRadius="5" Margin="0,10,0,0" Padding="0,15,0,5">
+                        <Grid Margin="10,0,10,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="25"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Row="0" Grid.Column="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <local:UcSoakingLabelTextBox Grid.Row="0" Grid.Column="0" Tag="X : "  Text="{Binding Setting.ChuckAwayTolForChillingTime_X.Value, Mode=TwoWay}" Range="{local:RangeLimitExtension RangeType=RangeInValue}" RangeMax="{Binding ChuckAwayToleranceLimitX, Mode=OneWay}" TextWidth="50" HorizontalAlignment="Center" EndTag="um" Margin="0" Padding="0" FontSize="12" Foreground="Black"/>
+                                <local:UcSoakingLabelTextBox Grid.Row="0" Grid.Column="1" Tag="Y : "  Text="{Binding Setting.ChuckAwayTolForChillingTime_Y.Value, Mode=TwoWay}" Range="{local:RangeLimitExtension RangeType=RangeInValue}" RangeMax="{Binding ChuckAwayToleranceLimitY, Mode=OneWay}" TextWidth="50" HorizontalAlignment="Center" EndTag="um" Margin="0" Padding="0" FontSize="12" Foreground="Black"/>
+                                <local:UcSoakingLabelTextBox Grid.Row="0" Grid.Column="2" Tag="Z : "  Text="{Binding Setting.ChuckAwayTolForChillingTime_Z.Value, Mode=TwoWay}" Range="{local:RangeLimitExtension RangeType=RangeInValue}" RangeMax="{Binding ChuckAwayToleranceLimitZ, Mode=OneWay}" TextWidth="50" HorizontalAlignment="Center" EndTag="um" Margin="0" Padding="0" FontSize="12" Foreground="Black"/>
+                            </Grid>
+                            <Grid  Grid.Row="2" Grid.Column="0">
+                                <local:UcSoakingLabelTextBox Tag="Under Dut Dies (Percentage of Dut being heated) : " Text="{Binding Setting.UnderDutDiesPercnetage.Value, Mode=TwoWay}" Range="{local:RangeLimitExtension RangeType=RangeInPercentage}" TextWidth="50" EndTag="%" Margin="22,0,30,0" Padding="0" FontSize="12" Foreground="Black"/>
+                            </Grid>
+
+                            <local:UcSoakingLabelTextBox Grid.Row="0" Grid.Column="1" Tag="Chuck Away Elapsed Time (For Soaking operation ): " Width="370" Text="{Binding Setting.OperationForElapsedTimeSec.Value, Mode=TwoWay}" Range="{local:RangeLimitExtension RangeType=RangeInPositive}" TextWidth="50" EndTag="sec" Margin="0" Padding="0" FontSize="12" Foreground="Black"/>
+                            <local:UcSoakingLabelTextBox Grid.Row="2" Grid.Column="1" Tag="Soaking Elapsed Time for PW Loading: " Width="370" Text="{Binding Setting.SoakingElapsedTimeSecForPWLoading.Value, Mode=TwoWay}" IsEnabled="{Binding IsUsePolishWafer}"  Range="{local:RangeLimitExtension RangeType=RangeInPositive}" TextWidth="50" EndTag="sec" Margin="0" Padding="0" FontSize="12" Foreground="Black"/>
+                        </Grid>
+                    </Border>
+                    <Border Background="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 0, 0, 0" CornerRadius="10" Height="30" >
+                        <Label Content="Chuck away tolerance to chilling time &amp; Operation Timing" FontSize="13" VerticalAlignment="Center" Margin="0" Foreground="Black"/>
+                    </Border>
+                </Grid>
+                <!--#endregion-->
+
+                <!--#region About Pin Align-->
+                <Grid Height="70">
+                    <Border Height="50" BorderThickness="1.5" BorderBrush="DarkGray" CornerRadius="5" Margin="0,10,0,0" Padding="0,15,0,5">
+                        <Grid Margin="10,0,10,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="210"/>
+                                <ColumnDefinition Width="6*"/>
+                                <ColumnDefinition Width="270"/>
+                                <ColumnDefinition Width="17*"/>
+                            </Grid.ColumnDefinitions>
+                            <local:UcSoakingLabelTextBox Grid.Column="1" Tag="Pin Align Valid Time : " Width="200" Text="{Binding Setting.PinAlignValidTimeSec.Value, Mode=TwoWay}"  Range="{local:RangeLimitExtension RangeType=RangeInPositive}" TextWidth="50" EndTag="sec" Margin="0" Padding="0" FontSize="12" Foreground="Black"/>
+                            <local:UcSoakingLabelTextBox Grid.Column="3" Tag="Allowable Time for Last Pin Align : " Text="{Binding Setting.AllowableTimeForLastPinAlignSec.Value, Mode=TwoWay}"  Range="{local:RangeLimitExtension RangeType=RangeInPositive}" TextWidth="50" EndTag="sec" Margin="0" Padding="0" FontSize="12" Foreground="Black"/>
+                        </Grid>
+                    </Border>
+                    <Border Background="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 0, 0, 0" CornerRadius="10" Height="30" >
+                        <Label Content="About Pin Align" FontSize="13" VerticalAlignment="Center" Margin="0" Foreground="Black"/>
+                    </Border>
+                </Grid>
+                <!--#endregion-->
+                <!--#region Chuck fousing setting-->
+                <Grid Height="70">
+                    <Border Height="50" BorderThickness="1.5" BorderBrush="DarkGray" CornerRadius="5" Margin="0,10,0,0" Padding="0,15,0,5">
+                        <Grid Margin="10,0,10,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="230"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="230"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+                            <local:UcSoakingLabelTextBox Grid.Column="1" Tag=" Z Tolerance :"   Text="{Binding Setting.ThicknessTolerance.Value, Mode=TwoWay}"  Range="{local:RangeLimitExtension RangeType=RangeInPositive}" TextWidth="50" EndTag="um" Margin="0" Padding="0" FontSize="12" Foreground="Black"/>
+                            <local:UcSoakingLabelTextBox Grid.Column="3" Tag="                Light Value :"   Text="{Binding Setting.LightValue.Value, Mode=TwoWay}"  Range="{local:RangeLimitExtension RangeType=RangeInPositive}" TextWidth="50" EndTag="" Margin="0" Padding="0" FontSize="12" Foreground="Black"/>
+                            <Grid  Grid.Column="5" Margin="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Content="Light Type: "  Margin="0" Padding="0"  VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Foreground="Black"  FontSize="12"  />
+                                <ComboBox  Grid.Column="1" ItemsSource="{Binding Source={StaticResource dataFromEnum}}" 
+                                           Style="{x:Null}" VerticalAlignment="Center"
+                                           SelectedItem="{Binding Setting.LightType.Value, Mode=TwoWay}"/>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                    <Border Background="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 0, 0, 0" CornerRadius="10" Height="30" >
+                        <Label Content="Chuck fousing setting" FontSize="13" VerticalAlignment="Center" Margin="0" Foreground="Black"/>
+                    </Border>
+                </Grid>
+                <!--#endregion-->
+                <!--#region Limitsetting-->
+                <Grid Height="120">
+                    <Border Height="100" BorderThickness="1.5" BorderBrush="DarkGray" CornerRadius="5" Margin="0,10,0,0" Padding="0,15,0,5">
+                        <Grid Margin="10,0,10,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="230"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="230"/>
+                                <ColumnDefinition Width="3*"/>
+                            </Grid.ColumnDefinitions>
+                            <!-- [&#x0a;] Carriage Return-->
+                            <local:UcSoakingLabelTextBox Grid.Column="1"  Grid.Row="0" Tag="Chilling Time :&#x0a;(Min. Value)" Text="{Binding Setting.ChillingTimeMin.Value, Mode=TwoWay}"  Range="{local:RangeLimitExtension RangeType=RangeInPositive}" TextWidth="50" EndTag="sec" Margin="0,0,0,10" Padding="0" FontSize="12" Foreground="Black" />
+                            <local:UcSoakingLabelTextBox Grid.Column="3"  Grid.Row="0" Tag="Soaking Step Time :&#x0a;(Min. Value)" Text="{Binding Setting.SoakingStepTimeMin.Value, Mode=TwoWay}"  Range="{local:RangeLimitExtension RangeType=RangeInPositive}" TextWidth="50" EndTag="sec" Margin="0,0,0,10" Padding="0" FontSize="12" Foreground="Black"/>
+                            <local:UcSoakingLabelTextBox Grid.Column="5"  Grid.Row="0" Tag="OD/Z Clearance :&#x0a;(Max. Value)" Text="{Binding Setting.ODLimit.Value, Mode=TwoWay}" TextWidth="50" EndTag="um" Margin="0,0,0,10" Padding="0" FontSize="12" Foreground="Black"/>
+                            <local:UcSoakingLabelTextBox Grid.Column="1"  Grid.Row="1" Tag="Soaking Time :&#x0a;(Min. Value)" Text="{Binding Setting.ChillingSoakingTimeMin.Value, Mode=TwoWay}"  Range="{local:RangeLimitExtension RangeType=RangeInPositive}" TextWidth="50" EndTag="sec" Margin="0,0,0,10" Padding="0" FontSize="12" Foreground="Black"/>
+                        </Grid>
+                    </Border>
+                    <Border Background="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 0, 0, 0" CornerRadius="10" Height="30" >
+                        <Label Content="Limit " FontSize="13" VerticalAlignment="Center" Margin="0" Foreground="Black"/>
+                    </Border>
+                </Grid>
+                <!--#endregion-->
+                <!--#region Continue setting-->
+                <Grid Height="70">
+                    <Border Height="50" BorderThickness="1.5" BorderBrush="DarkGray" CornerRadius="5" Margin="0,10,0,0" Padding="0,15,0,5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="20*"/>
+
+                            </Grid.ColumnDefinitions>
+                            <Grid  Grid.Column="1" Margin="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Content="Use Last Soaking Status: "  Margin="0" Padding="0"  VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Foreground="Black"  FontSize="12"  />
+
+                                <CheckBox Grid.Column="1" IsChecked="{Binding Setting.UseLastSoakingState.Value, Mode=TwoWay}" Style="{x:Null}"  VerticalAlignment="Center" ></CheckBox>
+
+                            </Grid>
+                        </Grid>
+                    </Border>
+                    <Border Background="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 0, 0, 0" CornerRadius="10" Height="30" >
+                        <Label Content="Continue to last soaking status (When program is restarted) " FontSize="13" VerticalAlignment="Center" Margin="0" Foreground="Black"/>
+                    </Border>
+                </Grid>
+                <!--#endregion-->
+
+                <!--#region Config Chlling Ratio-->
+                <Grid Height="310">
+                    <Border Height="290" BorderThickness="1.5" BorderBrush="DarkGray" CornerRadius="5" Margin="0,10,0,0" Padding="20,15,20,5">
+                        <DataGrid ItemsSource="{Binding Setting.ChillingRatioPolicy}" AutoGenerateColumns="False" CanUserAddRows="False" VerticalScrollBarVisibility="Visible">
+                            <DataGrid.Resources>
+                                <System:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">40</System:Double>
+                                <System:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">40</System:Double>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn   Width="50"  >
+                                    <DataGridTemplateColumn.Header>
+                                        <Label Margin="0" Padding="0" FontSize="12"  HorizontalAlignment="Center">No</Label>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding PolicyIndex.Value, Converter={StaticResource ValueOffsetConverter}, ConverterParameter='1'}" Foreground="Wheat" FontSize="12" Margin="0"
+                                                   Padding="0"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="280" >
+                                    <DataGridTemplateColumn.Header>
+                                        <Border  Width="260">
+                                            <Label Margin="0" Padding="0" FontSize="12"  HorizontalAlignment="Center">Policy</Label>
+                                        </Border>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding RatioPolicyName}" Foreground="Wheat" FontSize="12" Margin="0"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn   Width="260">
+                                    <DataGridTemplateColumn.Header>
+                                        <Border  Width="260">
+                                            <Label Margin="0" Padding="0" FontSize="12"  HorizontalAlignment="Center">Ratio (Chilling Time / Second)</Label>
+                                        </Border>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBox Name="ChillingTableChillingTime_tb" Text="{Binding Ratio.Value , Mode=TwoWay }"
+                                                        FontSize="13" 
+                                                        Height="30"
+                                                        Width="100"
+                                                        Background="Transparent"
+                                                        Foreground="White"
+                                                        BorderBrush="White"
+                                                        BorderThickness="0, 0, 0, 1"
+                                                        HorizontalContentAlignment="Center" 
+                                                        VerticalAlignment="Bottom"
+                                                        Margin="0">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                        <i:InvokeCommandAction Command="{Binding DataContext.OnScreenFloatKeyboard, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}}"
+                                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </TextBox>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+                    <Border Background="White" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10, 0, 0, 0" CornerRadius="10" Height="30" >
+                        <Label Content="Config Chilling Ratio" FontSize="13" VerticalAlignment="Center" Margin="0" Foreground="Black"/>
+                    </Border>
+                </Grid>
+                <!--#endregion-->
+            </StackPanel>
+
+
+            <StackPanel  Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Grid Width="110">
+                    <Button  Width="100" HorizontalAlignment="Right" Margin="0,10,10,10" Command="{Binding IDOK}">Apply</Button>
+                    <Button  Width="100" HorizontalAlignment="Right" Margin="0,10,10,10" Click="Apply_Click"
+                          FontFamily="{DynamicResource  DefaultFont}" 
+                                            FontWeight="SemiBold"
+                                            Background="White"
+                                            BorderThickness="2"
+                                            BorderBrush="Black"
+                         >Apply
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}" >
+                                <Setter Property="Visibility" Value="Hidden"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsValid}" Value="False">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>
+                <Button  Width="100" HorizontalAlignment="Right" Margin="0,10,10,10" Command="{Binding IDCancel}">Close</Button>
+            </StackPanel>
+        </Grid>
+        <Grid x:Name="ApplyAlert" Background="#AEFFFFFF" Visibility="Hidden">
+            <Border BorderThickness="1" BorderBrush ="Black" Width="300" Height="{Binding ValidateResult, Converter={StaticResource TextLineConverter}, ConverterParameter='200' , Mode=OneWay}" Background="LightGray">
+                <Grid   Background="White">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Background="White">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Style="{x:Null}" Content="Warning" FontSize="12"  HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Black"/>
+                        <Button Grid.Column="1" Style="{x:Null}" Click="ApplyClose_Click" Background="White" BorderThickness="0" >X</Button>
+                    </Grid>
+                    <Label Grid.Row="1" Style="{x:Null}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding ValidateResult, Mode=OneWay}" ContentStringFormat="{}{0}"></Label>
+                    <Grid Grid.Row="2" Background="LightGray">
+                        <StackPanel  HorizontalAlignment="Right" Orientation="Horizontal">
+                            <Button  Style="{x:Null}" x:Name="ApplyButton" Width="75" Margin="8" Command="{Binding IDOK}" Click="ApplyClose_Click" >Yes</Button>
+                            <Button Style="{x:Null}" Width="75" Margin="8" Click="ApplyClose_Click">No</Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</dialogs:CustomDialog>

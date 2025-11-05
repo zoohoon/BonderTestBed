@@ -1,0 +1,357 @@
+﻿<UserControl x:Class="NeedleCleanManualPageView.UcNeedleCleanManualPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:needle="clr-namespace:NeedleCleanViewer;assembly=NeedleCleanViewer"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:needleCleanerModuleParameter="clr-namespace:NeedleCleanerModuleParameter;assembly=NeedleCleanerModuleParameter"
+             xmlns:converter="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:NeedleCleanManualPageView"
+             mc:Ignorable="d" 
+             d:DesignHeight="900" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <ObjectDataProvider x:Key ="NC_CleaningType" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="needleCleanerModuleParameter:NC_CleaningType"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
+            <converter:EnumMatchToBooleanConverter x:Key="EnumBooleanConverter"/>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SettingControlStyle;component/SettingViewStyleDictionaly.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+   
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.45*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="544*"/>
+            <RowDefinition Height="453*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Width="680" Height="600" HorizontalAlignment="Center">
+            <needle:NeedleCleanView DataContext="{Binding NeedleCleanVM}" HorizontalAlignment="Center" />
+        </Border>
+
+        <Border Grid.Row="2" Margin="0,0,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="8*"/>
+                </Grid.RowDefinitions>
+                <Border Grid.RowSpan="2" BorderBrush="White" BorderThickness="0.4" Margin="8">
+                    <ContentControl DataContext="{Binding}" Content="{Binding Stage3DModel}"  
+                                    Margin="2"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                </Border>
+                <Button Grid.Row="0" Opacity="0"
+                                Command="{Binding X2ViewChangeCommand}"/>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Opacity="0"
+                                Command="{Binding CWViewChangeCommand}"/>
+                    <Button Grid.Column="1" Opacity="0"
+                                Command="{Binding CenterViewChangeCommand}"/>
+                    <Button Grid.Column="2" Opacity="0"
+                                Command="{Binding CCWViewChangeCommand}"/>
+
+                </Grid>
+            </Grid>
+        </Border>
+
+        <Border Grid.RowSpan="2" Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="0.2*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="0.2*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="0.2*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="0.2*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.01*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.8*"/>
+                    <ColumnDefinition Width="0.7*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="7" Content=" Temporary change overdrive or &#x0a; cleaning count here "
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                           Foreground="LightGray" FontWeight="Bold" FontSize="16"/>
+
+                <GridSplitter Grid.Column="0" Grid.RowSpan="20"
+                            HorizontalAlignment="Center"
+                              VerticalAlignment="Stretch"
+                              Background="White" 
+                              ShowsPreview="True"
+                              Width="2"
+                              />
+                <Label Grid.Row="0" Grid.Column="1"  FontSize="20"
+                            Content="Needle Align"
+                            Foreground="LightGray"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"/>
+                <ToggleButton Grid.Row="1" Grid.Column="1"
+                              IsChecked="{Binding StageSupervisor.NCObject.NCSysParam.ManualNC.EnablePinAlignBeforeNC.Value, Mode=TwoWay}"/>
+                
+                <Label Grid.Row="2" Grid.Column="1" FontSize="20"
+                            Content="Brushing" IsEnabled="False"
+                            Foreground="Gray"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"/>
+                <ToggleButton Grid.Row="3" Grid.Column="1" IsEnabled="False"/>
+
+                <Separator Grid.ColumnSpan="4" Grid.Row="4" Background="White" Margin="4"/>
+                
+                <Grid Grid.Row="5" Grid.RowSpan="2" Grid.ColumnSpan="4" 
+                      IsEnabled="{Binding NeedleCleanDevParam.SheetDevs[0].Enabled.Value}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.8*"/>
+                        <ColumnDefinition Width="0.7*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" FontSize="20"
+                            Content="Clean Pad 1"
+                            Foreground="LightGray"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"/>
+                    <ToggleButton Grid.Row="1" Grid.Column="0"
+                              IsChecked="{Binding StageSupervisor.NCObject.NCSysParam.ManualNC.EnableCleaning.Value[0], Mode=TwoWay}"
+                              />
+                    <Label Grid.Column="1" Grid.Row="0" Content="Overdrive : " 
+                           VerticalAlignment="Center"  
+                           HorizontalAlignment="Center"
+                           Foreground="LightGray" FontSize="16"/>
+                    <Label Grid.Column="1" Grid.Row="1" Content="Contact Count :"
+                           VerticalAlignment="Center"  
+                           HorizontalAlignment="Center"
+                           Foreground="LightGray" FontSize="16"/>
+                    <TextBox Grid.Column="2" Grid.Row="0" Width="150" Margin="5" FontSize="20"                             
+                             Text="{Binding StageSupervisor.NCObject.NCSysParam.ManualNC.Overdrive.Value[0]}"
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                    <TextBox Grid.Column="2" Grid.Row="1" Width="150" Margin="5" FontSize="20"
+                             Text="{Binding StageSupervisor.NCObject.NCSysParam.ManualNC.ContactCount.Value[0]}" 
+                             IsEnabled="{Binding NeedleCleanDevParam.SheetDevs[0].CleaningType.Value,
+                                                Converter={StaticResource EnumBooleanConverter},
+                                                ConverterParameter={x:Static needleCleanerModuleParameter:NC_CleaningType.SINGLEDIR}}"
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                </Grid>
+                                
+                <Separator Grid.ColumnSpan="4" Grid.Row="7" Background="White" Margin="4"/>
+
+                <Grid Grid.Row="8" Grid.RowSpan="2" Grid.ColumnSpan="4" 
+                      IsEnabled="{Binding NeedleCleanDevParam.SheetDevs[1].Enabled.Value}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.8*"/>
+                        <ColumnDefinition Width="0.7*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" FontSize="20"
+                            Content="Clean Pad 2"
+                            Foreground="LightGray"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"/>
+                    <ToggleButton Grid.Row="1" Grid.Column="0"
+                              IsChecked="{Binding StageSupervisor.NCObject.NCSysParam.ManualNC.EnableCleaning.Value[1], Mode=TwoWay}"
+                              />
+                    <Label Grid.Column="1" Grid.Row="0" Content="Overdrive : " 
+                           VerticalAlignment="Center"                           
+                           HorizontalAlignment="Center"
+                           Foreground="LightGray" FontSize="16"/>
+                    <Label Grid.Column="1" Grid.Row="1" Content="Contact Count :"
+                           VerticalAlignment="Center"  
+                           HorizontalAlignment="Center"
+                           Foreground="LightGray" FontSize="16"/>
+                    <TextBox Grid.Column="2" Grid.Row="0" Width="150" Margin="5" FontSize="20"
+                             Text="{Binding StageSupervisor.NCObject.NCSysParam.ManualNC.Overdrive.Value[1]}"                             
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                    <TextBox Grid.Column="2" Grid.Row="1" Width="150" Margin="5" FontSize="20"
+                             Text="{Binding StageSupervisor.NCObject.NCSysParam.ManualNC.ContactCount.Value[1]}" 
+                             IsEnabled="{Binding NeedleCleanDevParam.SheetDevs[1].CleaningType.Value,
+                                                Converter={StaticResource EnumBooleanConverter},
+                                                ConverterParameter={x:Static needleCleanerModuleParameter:NC_CleaningType.SINGLEDIR}}"
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                </Grid>
+
+                <Separator Grid.ColumnSpan="4" Grid.Row="10" Background="White" Margin="4"/>
+
+                <Grid Grid.Row="11" Grid.RowSpan="2" Grid.ColumnSpan="4" 
+                      IsEnabled="{Binding NeedleCleanDevParam.SheetDevs[1].Enabled.Value}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="0.8*"/>
+                        <ColumnDefinition Width="0.7*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Grid.Row="0"  FontSize="20"
+                            Content="Clean Pad 3"
+                            Foreground="LightGray"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"/>
+                    <ToggleButton Grid.Column="0" Grid.Row="1" 
+                              IsChecked="{Binding StageSupervisor.NCObject.NCSysParam.ManualNC.EnableCleaning.Value[2], Mode=TwoWay}"
+                              />
+                    <Label Grid.Column="1" Grid.Row="0" Content="Overdrive : " 
+                           VerticalAlignment="Center"  
+                           HorizontalAlignment="Center"
+                           Foreground="LightGray" FontSize="16"/>
+                    <Label Grid.Column="1" Grid.Row="1" Content="Contact Count :"
+                           VerticalAlignment="Center"  
+                           HorizontalAlignment="Center"
+                           Foreground="LightGray" FontSize="16"/>
+                    <TextBox Grid.Column="2" Grid.Row="0" Width="150" Margin="5" FontSize="20"
+                             Text="{Binding StageSupervisor.NCObject.NCSysParam.ManualNC.Overdrive.Value[2]}"                             
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                    <TextBox Grid.Column="2" Grid.Row="1" Width="150" Margin="5" FontSize="20"
+                             Text="{Binding StageSupervisor.NCObject.NCSysParam.ManualNC.ContactCount.Value[2]}" 
+                             IsEnabled="{Binding NeedleCleanDevParam.SheetDevs[2].CleaningType.Value,
+                                                Converter={StaticResource EnumBooleanConverter},
+                                                ConverterParameter={x:Static needleCleanerModuleParameter:NC_CleaningType.SINGLEDIR}}"
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                </Grid>
+
+                <Separator Grid.ColumnSpan="4" Grid.Row="13" Background="White" Margin="4"/>
+                
+                <Label Grid.Row="14" Grid.Column="1" FontSize="20"
+                            Content="Brushing" IsEnabled="False"
+                            Foreground="Gray"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"/>
+                <ToggleButton Grid.Row="15" Grid.Column="1" IsEnabled="False"/>
+                
+                <Label Grid.Row="16" Grid.Column="1" FontSize="20"
+                            Content="Needle Align"
+                            Foreground="LightGray"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"/>
+                <ToggleButton Grid.Row="17" Grid.Column="1"
+                              IsChecked="{Binding StageSupervisor.NCObject.NCSysParam.ManualNC.EnablePinAlignAfterNC.Value, Mode=TwoWay}"/>
+
+                <ToggleButton Grid.Column="2" Grid.Row="14" Margin="25,5,0,0"                        
+                              HorizontalAlignment="Left"                              
+                              IsChecked="{Binding StageSupervisor.NCObject.NCSysParam.ManualNC.EnableFocus.Value, Mode=TwoWay}"
+                              />
+                <Label Grid.ColumnSpan="2" Grid.Column="2" Grid.Row="14"
+                           Content="Focusing Process"
+                           FontSize="17" Foreground="LightGray" 
+                           HorizontalAlignment="Right"
+                           />
+
+                <!--<Button Grid.Row="19" Grid.Column="1"
+                        Content="Cleaning" Margin="5"                         
+                        HorizontalAlignment="Center" Width="150"/>
+                <Button Width="150" Grid.ColumnSpan="2"
+                        Grid.Row="19" Grid.Column="2"
+                        Content="Cancel" Margin="5"    
+                        HorizontalAlignment="Right"/>-->
+            </Grid>
+        </Border>
+        
+        <DockPanel Grid.Column="1" Grid.Row="1">
+            <Button Content="Cleaning" Margin="5"                                                                 
+                    VerticalAlignment="Bottom"
+                    Command="{Binding CleaningCommand}"
+                    Style="{DynamicResource DarkActionBtnSytle}"
+                    Foreground="White"
+                    Width="150" Height="50"/>
+            <!--<Button Content="Cancel" Margin="5"     
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Style="{DynamicResource DarkActionBtnSytle}"
+                    Foreground="White"
+                    Width="150" Height="50"/>-->
+        </DockPanel>
+    </Grid>
+</UserControl>

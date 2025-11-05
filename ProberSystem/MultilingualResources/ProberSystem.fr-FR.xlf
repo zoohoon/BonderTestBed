@@ -1,0 +1,2219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en" target-language="fr-FR" original="PROBERSYSTEM/PROPERTIES/RESOURCES.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6810.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="PROBERSYSTEM/PROPERTIES/RESOURCES.RESX" datatype="resx">
+        <trans-unit id="WaferMapGenerate" translate="yes" xml:space="preserve">
+          <source>Wafer Map Generate</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Plaquette carte générer</target>
+        </trans-unit>
+        <trans-unit id="ChangeCoord" translate="yes" xml:space="preserve">
+          <source>Change Coordinate</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Changement de coordonnées</target>
+        </trans-unit>
+        <trans-unit id="MultiSelectionEnable" translate="yes" xml:space="preserve">
+          <source>Multi Selection Enable</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Multi sélection Enable</target>
+        </trans-unit>
+        <trans-unit id="CoordInfo" translate="yes" xml:space="preserve">
+          <source>Coordinate Information</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Informations relatives aux coordonnées</target>
+        </trans-unit>
+        <trans-unit id="Language" translate="yes" xml:space="preserve">
+          <source>en-US</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">fr-FR</target>
+        </trans-unit>
+        <trans-unit id="ManualTeach" translate="yes" xml:space="preserve">
+          <source>Manual Teach</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Manuel d’enseigner</target>
+        </trans-unit>
+        <trans-unit id="WaferEdgeData" translate="yes" xml:space="preserve">
+          <source>Wafer Edge Data</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Données de bord de gaufrette</target>
+        </trans-unit>
+        <trans-unit id="WaferMapStatus" translate="yes" xml:space="preserve">
+          <source>Wafer Map Status</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">État de carte Wafer</target>
+        </trans-unit>
+        <trans-unit id="AddPattern" translate="yes" xml:space="preserve">
+          <source>Add Pattern</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Ajouter motif</target>
+        </trans-unit>
+        <trans-unit id="AlignPatternStatus" translate="yes" xml:space="preserve">
+          <source>Align Pattern Status</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Aligner le statut de modèle</target>
+        </trans-unit>
+        <trans-unit id="AutoSearch" translate="yes" xml:space="preserve">
+          <source>Auto Search</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Recherche automatique</target>
+        </trans-unit>
+        <trans-unit id="DeleteAllPad" translate="yes" xml:space="preserve">
+          <source>Delete All Pad</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Supprimer tous les Pad</target>
+        </trans-unit>
+        <trans-unit id="DeletePad" translate="yes" xml:space="preserve">
+          <source>Delete Pad</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Supprimer le Pad</target>
+        </trans-unit>
+        <trans-unit id="DeleteSelectedPattern" translate="yes" xml:space="preserve">
+          <source>Delete Selected Pattern</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Supprimer le motif sélectionné</target>
+        </trans-unit>
+        <trans-unit id="RegisteredPad" translate="yes" xml:space="preserve">
+          <source>Registered Pad</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Coussin de siège</target>
+        </trans-unit>
+        <trans-unit id="RegisterPad" translate="yes" xml:space="preserve">
+          <source>Register Pad</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Pad de Registre</target>
+        </trans-unit>
+        <trans-unit id="TeachBottomLeft" translate="yes" xml:space="preserve">
+          <source>Teach Bottom Left</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Enseigner en bas à gauche</target>
+        </trans-unit>
+        <trans-unit id="TeachingCross" translate="yes" xml:space="preserve">
+          <source>Teaching Cross</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Enseignement de croix</target>
+        </trans-unit>
+        <trans-unit id="TeachUpperRight" translate="yes" xml:space="preserve">
+          <source>Teach Upper Right</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Enseigner en haut à droite</target>
+        </trans-unit>
+        <trans-unit id="Save" translate="yes" xml:space="preserve">
+          <source>Save Settings</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Enregistrer les paramètres</target>
+        </trans-unit>
+        <trans-unit id="ARM1_NoWafer" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ARM1_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ARM1_W" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ARM1_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ARM2_NoWafer" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ARM2_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ARM2_W" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ARM2_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowDown" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowLeft" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowLeftG" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowLeftG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowLeftW" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowLeftW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowRight" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowRightG" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowRightG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowRightW" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowRightW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowUp" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Chuck_NoWafer" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Chuck_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Chuck_W" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Chuck_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Clockwise" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Clockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="CoordLeftDown" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\CoordLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="CoordLeftUp" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\CoordLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="CoordRightDown" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\CoordRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="CoordRightUp" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\CoordRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="CounterClockwise" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\CounterClockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ExtendHeight" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ExtendHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ExtendWidth" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ExtendWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="FixedTray_NoWafer" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\FixedTray_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="FixedTray_W" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\FixedTray_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Minus" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Minus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Plus" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="PreAligner_NoWafer" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\PreAligner_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="PreAligner_W" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\PreAligner_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ReduceHeight" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ReduceHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ReduceWidth" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ReduceWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="CheckOperationParameter" translate="yes" xml:space="preserve">
+          <source>Check Operation Parameter</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Vérifiez le paramètre d’opération</target>
+        </trans-unit>
+        <trans-unit id="CheckProbeMark" translate="yes" xml:space="preserve">
+          <source>Check Probe Mark</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Coche de la sonde</target>
+        </trans-unit>
+        <trans-unit id="CheckRecipe" translate="yes" xml:space="preserve">
+          <source>Check Recipe</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Vérifier la recette</target>
+        </trans-unit>
+        <trans-unit id="CleanPadChange" translate="yes" xml:space="preserve">
+          <source>Clean Pad Change</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Changement touche Clean</target>
+        </trans-unit>
+        <trans-unit id="CopyRecipe" translate="yes" xml:space="preserve">
+          <source>Copy Recipe</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Copier la recette</target>
+        </trans-unit>
+        <trans-unit id="CreateNewRecipe" translate="yes" xml:space="preserve">
+          <source>Create a New Recipe</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Créer une nouvelle recette</target>
+        </trans-unit>
+        <trans-unit id="DeleteRecipe" translate="yes" xml:space="preserve">
+          <source>Delete Recipe</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Supprimer la recette</target>
+        </trans-unit>
+        <trans-unit id="Diagonostics" translate="yes" xml:space="preserve">
+          <source>Diagnostics</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Diagonostics</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="DownloadRecipe" translate="yes" xml:space="preserve">
+          <source>Download Recipe</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Télécharger la recette</target>
+        </trans-unit>
+        <trans-unit id="Information" translate="yes" xml:space="preserve">
+          <source>Information</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Informations</target>
+        </trans-unit>
+        <trans-unit id="LoadRecipe" translate="yes" xml:space="preserve">
+          <source>Load Recipe</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Recette de charge</target>
+        </trans-unit>
+        <trans-unit id="LogManagement" translate="yes" xml:space="preserve">
+          <source>Log Management</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Gestion des journaux</target>
+        </trans-unit>
+        <trans-unit id="LOTMENU" translate="yes" xml:space="preserve">
+          <source>LOT MENU</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">MENU DE LOT</target>
+        </trans-unit>
+        <trans-unit id="MENU" translate="yes" xml:space="preserve">
+          <source>MENU</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">MENU</target>
+        </trans-unit>
+        <trans-unit id="NeedleCleaning" translate="yes" xml:space="preserve">
+          <source>Needle Cleaning</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Aiguille de nettoyage</target>
+        </trans-unit>
+        <trans-unit id="OPERATION" translate="yes" xml:space="preserve">
+          <source>OPERATION</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">OPÉRATION</target>
+        </trans-unit>
+        <trans-unit id="PolishWaferChange" translate="yes" xml:space="preserve">
+          <source>Polish Wafer Change</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Changement de plaquette polonais</target>
+        </trans-unit>
+        <trans-unit id="ProbeCardChange" translate="yes" xml:space="preserve">
+          <source>Probe Card Change</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Changement de carte de sonde</target>
+        </trans-unit>
+        <trans-unit id="SETUP" translate="yes" xml:space="preserve">
+          <source>SETUP</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">METTRE EN PLACE</target>
+        </trans-unit>
+        <trans-unit id="SetupLotProcess" translate="yes" xml:space="preserve">
+          <source>Setup Lot Process</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Beaucoup de processus d’installation</target>
+        </trans-unit>
+        <trans-unit id="SetupOperationParameter" translate="yes" xml:space="preserve">
+          <source>Setup Operation Parameter</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Paramètre de l’opération d’installation</target>
+        </trans-unit>
+        <trans-unit id="SetupRecipe" translate="yes" xml:space="preserve">
+          <source>Recipe Setup</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Recette de l’installation</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ShutDown" translate="yes" xml:space="preserve">
+          <source>Shut Down</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Arrêter</target>
+        </trans-unit>
+        <trans-unit id="SYSTEM" translate="yes" xml:space="preserve">
+          <source>SYSTEM</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">SYSTÈME</target>
+        </trans-unit>
+        <trans-unit id="UserAccount" translate="yes" xml:space="preserve">
+          <source>User Account</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Compte d'utilisateur</target>
+        </trans-unit>
+        <trans-unit id="WaferLoadUnload" translate="yes" xml:space="preserve">
+          <source>Wafer Load/Unload</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Plaquette de chargement/déchargement</target>
+        </trans-unit>
+        <trans-unit id="Recipe" translate="yes" xml:space="preserve">
+          <source>RECIPE</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">RECETTE</target>
+        </trans-unit>
+        <trans-unit id="Best" translate="yes" xml:space="preserve">
+          <source>Best</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Optimale</target>
+        </trans-unit>
+        <trans-unit id="Chuck" translate="yes" xml:space="preserve">
+          <source>Chuck</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Chuck</target>
+        </trans-unit>
+        <trans-unit id="CST1" translate="yes" xml:space="preserve">
+          <source>Cassete 1</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">CD 1</target>
+        </trans-unit>
+        <trans-unit id="CST2" translate="yes" xml:space="preserve">
+          <source>Cassete 2</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">CD 2</target>
+        </trans-unit>
+        <trans-unit id="CurProcess" translate="yes" xml:space="preserve">
+          <source>Current Process</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Processus en cours</target>
+        </trans-unit>
+        <trans-unit id="CurrentValue" translate="yes" xml:space="preserve">
+          <source>Current</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">En cours</target>
+        </trans-unit>
+        <trans-unit id="CurYield" translate="yes" xml:space="preserve">
+          <source>Yield</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Rendement</target>
+        </trans-unit>
+        <trans-unit id="DeviceName" translate="yes" xml:space="preserve">
+          <source>Device Name</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Nom du périphérique</target>
+        </trans-unit>
+        <trans-unit id="FailDieCnt" translate="yes" xml:space="preserve">
+          <source>Fail Die</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Ne pas mourir</target>
+        </trans-unit>
+        <trans-unit id="Hand1" translate="yes" xml:space="preserve">
+          <source>Hand 1</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Part 1</target>
+        </trans-unit>
+        <trans-unit id="Hand2" translate="yes" xml:space="preserve">
+          <source>Hand 2</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Main 2</target>
+        </trans-unit>
+        <trans-unit id="HoldingTime" translate="yes" xml:space="preserve">
+          <source>Holding Time</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Temps de maintien</target>
+        </trans-unit>
+        <trans-unit id="InspectionTray" translate="yes" xml:space="preserve">
+          <source>Drawer</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Tiroir</target>
+        </trans-unit>
+        <trans-unit id="LotName" translate="yes" xml:space="preserve">
+          <source>Lot Name</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Lot nom</target>
+        </trans-unit>
+        <trans-unit id="LotSetup" translate="yes" xml:space="preserve">
+          <source>Lot Run Setup</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Exécutez l’installation beaucoup</target>
+        </trans-unit>
+        <trans-unit id="OPName" translate="yes" xml:space="preserve">
+          <source>Operator Name</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Nom de l'opérateur</target>
+        </trans-unit>
+        <trans-unit id="OverHeat" translate="yes" xml:space="preserve">
+          <source>Over Heat</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Plus de chaleur</target>
+        </trans-unit>
+        <trans-unit id="PassDieCnt" translate="yes" xml:space="preserve">
+          <source>Pass Die</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Die col</target>
+        </trans-unit>
+        <trans-unit id="Pause" translate="yes" xml:space="preserve">
+          <source>Pause</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Pause</target>
+        </trans-unit>
+        <trans-unit id="RetestYield" translate="yes" xml:space="preserve">
+          <source>Retest Yield</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Rendement de retest</target>
+        </trans-unit>
+        <trans-unit id="RunningTime" translate="yes" xml:space="preserve">
+          <source>Running Time</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Durée d’exécution</target>
+        </trans-unit>
+        <trans-unit id="SettingValue" translate="yes" xml:space="preserve">
+          <source>Setting</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Paramètre</target>
+        </trans-unit>
+        <trans-unit id="Start" translate="yes" xml:space="preserve">
+          <source>START</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">DÉMARRER</target>
+        </trans-unit>
+        <trans-unit id="StartTime" translate="yes" xml:space="preserve">
+          <source>Start Time</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Heure de début</target>
+        </trans-unit>
+        <trans-unit id="StopAfterFirstProbe" translate="yes" xml:space="preserve">
+          <source>Stop After First Probe</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Arrêt après la première sonde</target>
+        </trans-unit>
+        <trans-unit id="StopAfterLoadCST" translate="yes" xml:space="preserve">
+          <source>Stop After Load CST</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Arrêter après charge CST</target>
+        </trans-unit>
+        <trans-unit id="StopAfterOCRProcess" translate="yes" xml:space="preserve">
+          <source>Stop After OCR Process</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Arrêter après le processus d’OCR</target>
+        </trans-unit>
+        <trans-unit id="StopAfterProbe" translate="yes" xml:space="preserve">
+          <source>Stop After Probe</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Arrêt après la sonde</target>
+        </trans-unit>
+        <trans-unit id="StopAfterWaferLoad" translate="yes" xml:space="preserve">
+          <source>Stop After Wafer Load</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Arrêt après la charge de Wafer</target>
+        </trans-unit>
+        <trans-unit id="StopBeforeProbe" translate="yes" xml:space="preserve">
+          <source>Stop Before Probe</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">S’arrêter avant la sonde</target>
+        </trans-unit>
+        <trans-unit id="StopBeforeRetest" translate="yes" xml:space="preserve">
+          <source>Stop Before Retest</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Arrêter avant de refaire le test</target>
+        </trans-unit>
+        <trans-unit id="SubChuck" translate="yes" xml:space="preserve">
+          <source>Sub Chuck</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Void Chuck</target>
+        </trans-unit>
+        <trans-unit id="totalTestDieCnt" translate="yes" xml:space="preserve">
+          <source>Total Test Die</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Nombre total de tests Die</target>
+        </trans-unit>
+        <trans-unit id="Tray1" translate="yes" xml:space="preserve">
+          <source>Tray 1</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Bac 1</target>
+        </trans-unit>
+        <trans-unit id="Tray2" translate="yes" xml:space="preserve">
+          <source>Tray 2</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Bac 2</target>
+        </trans-unit>
+        <trans-unit id="Tray3" translate="yes" xml:space="preserve">
+          <source>Tray 3</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Bac 3</target>
+        </trans-unit>
+        <trans-unit id="Tray4" translate="yes" xml:space="preserve">
+          <source>Tray 4</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Bac 4</target>
+        </trans-unit>
+        <trans-unit id="Tray5" translate="yes" xml:space="preserve">
+          <source>Tray 5</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Bac 5</target>
+        </trans-unit>
+        <trans-unit id="Worst" translate="yes" xml:space="preserve">
+          <source>Worst</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Pire</target>
+        </trans-unit>
+        <trans-unit id="ChangeSequence" translate="yes" xml:space="preserve">
+          <source>Change Sequence</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Changer de séquence</target>
+        </trans-unit>
+        <trans-unit id="ArrowDownW" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowDownW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowUpW" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowUpW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="AutoSelect" translate="yes" xml:space="preserve">
+          <source>Auto Select</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Sélection automatique</target>
+        </trans-unit>
+        <trans-unit id="AutoThreshold" translate="yes" xml:space="preserve">
+          <source>Auto Threshold</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Seuil de déclenchement automatique</target>
+        </trans-unit>
+        <trans-unit id="Base" translate="yes" xml:space="preserve">
+          <source>Base</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Socle</target>
+        </trans-unit>
+        <trans-unit id="BeginNeedleSetup" translate="yes" xml:space="preserve">
+          <source>Begin Needle Setup</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">BEGIN aiguille Setup</target>
+        </trans-unit>
+        <trans-unit id="Blob" translate="yes" xml:space="preserve">
+          <source>Blob</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Objet blob</target>
+        </trans-unit>
+        <trans-unit id="Cantilever" translate="yes" xml:space="preserve">
+          <source>Cantilever</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Cantilever</target>
+        </trans-unit>
+        <trans-unit id="ChangeCardType" translate="yes" xml:space="preserve">
+          <source>Change Card Type</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Modifier le Type de carte</target>
+        </trans-unit>
+        <trans-unit id="Circle" translate="yes" xml:space="preserve">
+          <source>Circle</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Cercle</target>
+        </trans-unit>
+        <trans-unit id="DeleteAllPin" translate="yes" xml:space="preserve">
+          <source>Delete All Pin</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Supprimer toutes les broches</target>
+        </trans-unit>
+        <trans-unit id="DeletePin" translate="yes" xml:space="preserve">
+          <source>Delete Pin</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Supprimer le code Pin</target>
+        </trans-unit>
+        <trans-unit id="DiscardAll" translate="yes" xml:space="preserve">
+          <source>Discard All</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Jetez tous</target>
+        </trans-unit>
+        <trans-unit id="DiscardPin" translate="yes" xml:space="preserve">
+          <source>Discard Pin</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Jeter le Pin</target>
+        </trans-unit>
+        <trans-unit id="Edge" translate="yes" xml:space="preserve">
+          <source>Edge</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Côté</target>
+        </trans-unit>
+        <trans-unit id="EnablePinGroup" translate="yes" xml:space="preserve">
+          <source>Enable Pin Group</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Groupe de Pin Enable</target>
+        </trans-unit>
+        <trans-unit id="Finish" translate="yes" xml:space="preserve">
+          <source>Finish</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Terminer</target>
+        </trans-unit>
+        <trans-unit id="FormFactor" translate="yes" xml:space="preserve">
+          <source>FormFactor</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Carte</target>
+        </trans-unit>
+        <trans-unit id="GoNextStep" translate="yes" xml:space="preserve">
+          <source>Go Next Step</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Aller prochaine étape</target>
+        </trans-unit>
+        <trans-unit id="GoPrevStep" translate="yes" xml:space="preserve">
+          <source>Go Previous Step</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Aller étape précédente</target>
+        </trans-unit>
+        <trans-unit id="HighAlignKey" translate="yes" xml:space="preserve">
+          <source>High Align Key</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Aligner haut clé</target>
+        </trans-unit>
+        <trans-unit id="InitFromPadData" translate="yes" xml:space="preserve">
+          <source>Init From Pad Data</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Initialisation des données Pad</target>
+        </trans-unit>
+        <trans-unit id="Manual" translate="yes" xml:space="preserve">
+          <source>Manual</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Manuel</target>
+        </trans-unit>
+        <trans-unit id="PinNumber" translate="yes" xml:space="preserve">
+          <source>Pin No.</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Broche n°</target>
+        </trans-unit>
+        <trans-unit id="PinRegistrationStatus" translate="yes" xml:space="preserve">
+          <source>Pin Registration Status</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">État d’enregistrement de broche</target>
+        </trans-unit>
+        <trans-unit id="PinSelection" translate="yes" xml:space="preserve">
+          <source>Pin Selection</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Sélection de broches</target>
+        </trans-unit>
+        <trans-unit id="Rectangle" translate="yes" xml:space="preserve">
+          <source>Rectangle</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Rectangle</target>
+        </trans-unit>
+        <trans-unit id="RegisteredDut" translate="yes" xml:space="preserve">
+          <source>Registered Dut</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Dut inscrit</target>
+        </trans-unit>
+        <trans-unit id="RegisteredPin" translate="yes" xml:space="preserve">
+          <source>Registered Pin</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Broche inscrit</target>
+        </trans-unit>
+        <trans-unit id="RegisteredPosition" translate="yes" xml:space="preserve">
+          <source>Registered Position</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Position recommandée</target>
+        </trans-unit>
+        <trans-unit id="RegisterFirst" translate="yes" xml:space="preserve">
+          <source>Register First</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Vous inscrire d’abord</target>
+        </trans-unit>
+        <trans-unit id="RegisterPin" translate="yes" xml:space="preserve">
+          <source>Register Pin</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Enregistrer le code Pin</target>
+        </trans-unit>
+        <trans-unit id="RegisterSecond" translate="yes" xml:space="preserve">
+          <source>Register Second</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">S’inscrire en deuxième</target>
+        </trans-unit>
+        <trans-unit id="ROI" translate="yes" xml:space="preserve">
+          <source>ROI</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ROI</target>
+        </trans-unit>
+        <trans-unit id="SelectPin" translate="yes" xml:space="preserve">
+          <source>Select Pin</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Sélectionnez Pin</target>
+        </trans-unit>
+        <trans-unit id="SetLimitation" translate="yes" xml:space="preserve">
+          <source>Set Limitation</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Set de Limitation</target>
+        </trans-unit>
+        <trans-unit id="SetPinDataFromPad" translate="yes" xml:space="preserve">
+          <source>Set Pin Data From Pad</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Données de mettre broche de Pad</target>
+        </trans-unit>
+        <trans-unit id="SetReferenceDut" translate="yes" xml:space="preserve">
+          <source>SetReferenceDut</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">SetReferenceDut</target>
+        </trans-unit>
+        <trans-unit id="Size" translate="yes" xml:space="preserve">
+          <source>Size</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Taille</target>
+        </trans-unit>
+        <trans-unit id="Step" translate="yes" xml:space="preserve">
+          <source>Step</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Étape</target>
+        </trans-unit>
+        <trans-unit id="TeachNeedleBase" translate="yes" xml:space="preserve">
+          <source>Teach Needle Base</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Enseigner la Base de l’aiguille</target>
+        </trans-unit>
+        <trans-unit id="TeachNeedleTip" translate="yes" xml:space="preserve">
+          <source>Teach Needle Tip</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Enseigner la pointe aiguille</target>
+        </trans-unit>
+        <trans-unit id="Tip" translate="yes" xml:space="preserve">
+          <source>Tip</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Astuce</target>
+        </trans-unit>
+        <trans-unit id="TipRegistration" translate="yes" xml:space="preserve">
+          <source>Tip Registration</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Enregistrement de pointe</target>
+        </trans-unit>
+        <trans-unit id="UpdateForAllPin" translate="yes" xml:space="preserve">
+          <source>Update For All Pin</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Mise à jour pour toutes les broches</target>
+        </trans-unit>
+        <trans-unit id="UpdatePinPosition" translate="yes" xml:space="preserve">
+          <source>Update Pin Position</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Mise à jour de la Position de la broche</target>
+        </trans-unit>
+        <trans-unit id="Updating" translate="yes" xml:space="preserve">
+          <source>Updating</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Mise à jour</target>
+        </trans-unit>
+        <trans-unit id="Vertical" translate="yes" xml:space="preserve">
+          <source>Vertical</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Verticale</target>
+        </trans-unit>
+        <trans-unit id="BinSummary" translate="yes" xml:space="preserve">
+          <source>Bin Summary</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bin Résumé</target>
+        </trans-unit>
+        <trans-unit id="CardPosition" translate="yes" xml:space="preserve">
+          <source>Card Position</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Position de la carte</target>
+        </trans-unit>
+        <trans-unit id="Category" translate="yes" xml:space="preserve">
+          <source>Category</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Catégorie</target>
+        </trans-unit>
+        <trans-unit id="Close" translate="yes" xml:space="preserve">
+          <source>Close</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Fermer</target>
+        </trans-unit>
+        <trans-unit id="DutSummary" translate="yes" xml:space="preserve">
+          <source>Dut Summary</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Résumé de dut</target>
+        </trans-unit>
+        <trans-unit id="EachPinPosition" translate="yes" xml:space="preserve">
+          <source>Each Pin Position</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Chaque Position de la broche</target>
+        </trans-unit>
+        <trans-unit id="LotSummary" translate="yes" xml:space="preserve">
+          <source>Lot Summary</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Lot Résumé</target>
+        </trans-unit>
+        <trans-unit id="MinMaxZ" translate="yes" xml:space="preserve">
+          <source>Min/Max Z</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Min/Max Z</target>
+        </trans-unit>
+        <trans-unit id="OperationLog" translate="yes" xml:space="preserve">
+          <source>Operation Log</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Journal de l’opération</target>
+        </trans-unit>
+        <trans-unit id="PinAlignmentTolerence" translate="yes" xml:space="preserve">
+          <source>Pin Alignment Tolerence</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Tolérance d’alignement goupille</target>
+        </trans-unit>
+        <trans-unit id="PinCount" translate="yes" xml:space="preserve">
+          <source>Pin Count</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Nombre de broches</target>
+        </trans-unit>
+        <trans-unit id="PinPositionTolerance" translate="yes" xml:space="preserve">
+          <source>Pin Position Tolerance</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Tolérance de Position broche</target>
+        </trans-unit>
+        <trans-unit id="PMISummary" translate="yes" xml:space="preserve">
+          <source>PMI Summary</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Résumé de la PMI</target>
+        </trans-unit>
+        <trans-unit id="SamplePinAlignment" translate="yes" xml:space="preserve">
+          <source>Sample Pin Alignment</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Alignement de Pin échantillon</target>
+        </trans-unit>
+        <trans-unit id="Tolerance" translate="yes" xml:space="preserve">
+          <source>Tolerance</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Tolérance</target>
+        </trans-unit>
+        <trans-unit id="AllContact" translate="yes" xml:space="preserve">
+          <source>All Contact</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Tout Contact</target>
+        </trans-unit>
+        <trans-unit id="ApplyShift" translate="yes" xml:space="preserve">
+          <source>Apply Shift</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Appliquer la Maj</target>
+        </trans-unit>
+        <trans-unit id="BumpView" translate="yes" xml:space="preserve">
+          <source>Bump View</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Vue de la bosse</target>
+        </trans-unit>
+        <trans-unit id="ColorView" translate="yes" xml:space="preserve">
+          <source>Color View</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Vue de couleur</target>
+        </trans-unit>
+        <trans-unit id="FinishLot" translate="yes" xml:space="preserve">
+          <source>Finish Lot</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Beaucoup de finition</target>
+        </trans-unit>
+        <trans-unit id="FirstContact" translate="yes" xml:space="preserve">
+          <source>First Contact</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Premier Contact</target>
+        </trans-unit>
+        <trans-unit id="MarkShiftX" translate="yes" xml:space="preserve">
+          <source>Mark Shift X</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Maj du Mark X</target>
+        </trans-unit>
+        <trans-unit id="MarkShiftY" translate="yes" xml:space="preserve">
+          <source>Mark Shift Y</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Changement de marque Y</target>
+        </trans-unit>
+        <trans-unit id="MarkShiftZ" translate="yes" xml:space="preserve">
+          <source>Mark Shift Z</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Changement de marque Z</target>
+        </trans-unit>
+        <trans-unit id="Overdrive" translate="yes" xml:space="preserve">
+          <source>Overdrive</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Overdrive</target>
+        </trans-unit>
+        <trans-unit id="PMIMenu" translate="yes" xml:space="preserve">
+          <source>PMI Menu</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Menu PMI</target>
+        </trans-unit>
+        <trans-unit id="ResetMarkShift" translate="yes" xml:space="preserve">
+          <source>Reset Mark Shift</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Réinitialiser la marque Shift</target>
+        </trans-unit>
+        <trans-unit id="RestartLot" translate="yes" xml:space="preserve">
+          <source>Restart Lot</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Redémarrez le Lot</target>
+        </trans-unit>
+        <trans-unit id="SkipCurrentWafer" translate="yes" xml:space="preserve">
+          <source>Skip Current Wafer</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Courant de Skip Wafer</target>
+        </trans-unit>
+        <trans-unit id="TogglePCInspection" translate="yes" xml:space="preserve">
+          <source>Toggle Probe Card Menu</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Activer/désactiver sonde carte Menu</target>
+        </trans-unit>
+        <trans-unit id="UnloadAllWafers" translate="yes" xml:space="preserve">
+          <source>Unload All Wafers</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Décharger toutes les plaquettes</target>
+        </trans-unit>
+        <trans-unit id="Zup" translate="yes" xml:space="preserve">
+          <source>Z Up</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Z vers le haut</target>
+        </trans-unit>
+        <trans-unit id="AddDut" translate="yes" xml:space="preserve">
+          <source>Add a DUT</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Ajouter un DUT</target>
+        </trans-unit>
+        <trans-unit id="AutoUpdate" translate="yes" xml:space="preserve">
+          <source>Auto Update</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Mettre à jour automatiquement</target>
+        </trans-unit>
+        <trans-unit id="Change" translate="yes" xml:space="preserve">
+          <source>Change</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Modifier</target>
+        </trans-unit>
+        <trans-unit id="DeleteDut" translate="yes" xml:space="preserve">
+          <source>Delete a Dut</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Supprimer un Dut</target>
+        </trans-unit>
+        <trans-unit id="DieSizeX" translate="yes" xml:space="preserve">
+          <source>Die Size X</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Die taille X</target>
+        </trans-unit>
+        <trans-unit id="DieSizeY" translate="yes" xml:space="preserve">
+          <source>Die Size Y</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Die taille Y</target>
+        </trans-unit>
+        <trans-unit id="Dut" translate="yes" xml:space="preserve">
+          <source>DUT</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">DUT</target>
+        </trans-unit>
+        <trans-unit id="DutCountNum" translate="yes" xml:space="preserve">
+          <source>Dut Count</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Comte de dut</target>
+        </trans-unit>
+        <trans-unit id="ImportCardData" translate="yes" xml:space="preserve">
+          <source>ImportCardData</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">ImportCardData</target>
+        </trans-unit>
+        <trans-unit id="InitializePallet" translate="yes" xml:space="preserve">
+          <source>Initialize Pallet</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Initialiser la palette</target>
+        </trans-unit>
+        <trans-unit id="LoadingAngle" translate="yes" xml:space="preserve">
+          <source>Loading Angle</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Angle de chargement</target>
+        </trans-unit>
+        <trans-unit id="MultiLocation" translate="yes" xml:space="preserve">
+          <source>Multi Location</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Multi position</target>
+        </trans-unit>
+        <trans-unit id="Squareness" translate="yes" xml:space="preserve">
+          <source>Squareness</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Équerrage</target>
+        </trans-unit>
+        <trans-unit id="ToggleState" translate="yes" xml:space="preserve">
+          <source>Toggle Status</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Statut de la bascule</target>
+        </trans-unit>
+        <trans-unit id="WaferCenter" translate="yes" xml:space="preserve">
+          <source>Wafer Center</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Plaquette Centre</target>
+        </trans-unit>
+        <trans-unit id="ZoomIn" translate="yes" xml:space="preserve">
+          <source>Zoom In</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Agrandir</target>
+        </trans-unit>
+        <trans-unit id="ZoomOut" translate="yes" xml:space="preserve">
+          <source>Zoom Out</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Réduire</target>
+        </trans-unit>
+        <trans-unit id="Add" translate="yes" xml:space="preserve">
+          <source>Add</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ajouter</target>
+        </trans-unit>
+        <trans-unit id="Delete" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Supprimer</target>
+        </trans-unit>
+        <trans-unit id="DoPTPA" translate="yes" xml:space="preserve">
+          <source>Pin to Pad Alignment</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Pin Pad alignement</target>
+        </trans-unit>
+        <trans-unit id="SetPTPATolerance" translate="yes" xml:space="preserve">
+          <source>Set PTPA Tolerance</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Tolérance PTPA Set</target>
+        </trans-unit>
+        <trans-unit id="CardChange" translate="yes" xml:space="preserve">
+          <source>Card Change</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Changement de carte</target>
+        </trans-unit>
+        <trans-unit id="Diagnostic" translate="yes" xml:space="preserve">
+          <source>Diagnostic</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Diagnostic</target>
+        </trans-unit>
+        <trans-unit id="HigherPriority" translate="yes" xml:space="preserve">
+          <source>Higher Priority</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Priorité plus élevée</target>
+        </trans-unit>
+        <trans-unit id="Inking" translate="yes" xml:space="preserve">
+          <source>Inking</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Entrée manuscrite</target>
+        </trans-unit>
+        <trans-unit id="LowerPriority" translate="yes" xml:space="preserve">
+          <source>Lower Priority</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Priorité basse</target>
+        </trans-unit>
+        <trans-unit id="ManualOp" translate="yes" xml:space="preserve">
+          <source>Manual Operation</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Opération manuelle</target>
+        </trans-unit>
+        <trans-unit id="MarkAlign" translate="yes" xml:space="preserve">
+          <source>Mark Alignment</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Alignement de la marque</target>
+        </trans-unit>
+        <trans-unit id="NeedleBrush" translate="yes" xml:space="preserve">
+          <source>Needle Brush</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Brosse à aiguilles</target>
+        </trans-unit>
+        <trans-unit id="PinAlign" translate="yes" xml:space="preserve">
+          <source>Pin Alignment</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Alignement de l’axe</target>
+        </trans-unit>
+        <trans-unit id="PMI" translate="yes" xml:space="preserve">
+          <source>PMI</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">PMI</target>
+        </trans-unit>
+        <trans-unit id="PolishWafer" translate="yes" xml:space="preserve">
+          <source>Polish Wafer</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Plaquette polonais</target>
+        </trans-unit>
+        <trans-unit id="Probing" translate="yes" xml:space="preserve">
+          <source>Probing</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sondage</target>
+        </trans-unit>
+        <trans-unit id="Remote" translate="yes" xml:space="preserve">
+          <source>Remote</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Distant</target>
+        </trans-unit>
+        <trans-unit id="Soaking" translate="yes" xml:space="preserve">
+          <source>Soaking</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Trempage</target>
+        </trans-unit>
+        <trans-unit id="WaferAlign" translate="yes" xml:space="preserve">
+          <source>Wafer Alignment</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Alignement de Wafer</target>
+        </trans-unit>
+        <trans-unit id="WaferHandling" translate="yes" xml:space="preserve">
+          <source>Wafer Handling</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Manipulation de Wafer</target>
+        </trans-unit>
+        <trans-unit id="Waiting" translate="yes" xml:space="preserve">
+          <source>Waiting</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">En attente</target>
+        </trans-unit>
+        <trans-unit id="TaskManagement" translate="yes" xml:space="preserve">
+          <source>Task Management</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Gestion des tâches</target>
+        </trans-unit>
+        <trans-unit id="Home" translate="yes" xml:space="preserve">
+          <source>Home</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Accueil</target>
+        </trans-unit>
+        <trans-unit id="JogDown" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\JogDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="JogLeft" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\JogLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="JogLeftDown" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\JogLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="JogLeftUp" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\JogLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="JogRight" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\JogRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="JogRightDown" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\JogRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="JogRightUp" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\JogRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="JogUp" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\JogUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="AutoFocus" translate="yes" xml:space="preserve">
+          <source>Auto Focus</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Mise au point automatique</target>
+        </trans-unit>
+        <trans-unit id="High" translate="yes" xml:space="preserve">
+          <source>High</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Haute</target>
+        </trans-unit>
+        <trans-unit id="Index" translate="yes" xml:space="preserve">
+          <source>Index</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Index</target>
+        </trans-unit>
+        <trans-unit id="Low" translate="yes" xml:space="preserve">
+          <source>Low</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Basse</target>
+        </trans-unit>
+        <trans-unit id="Scan" translate="yes" xml:space="preserve">
+          <source>Scan</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Numériser</target>
+        </trans-unit>
+        <trans-unit id="SetZero" translate="yes" xml:space="preserve">
+          <source>Set Zero</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">La valeur zéro</target>
+        </trans-unit>
+        <trans-unit id="ShiftMode" translate="yes" xml:space="preserve">
+          <source>Shift Mode</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Mode de changement</target>
+        </trans-unit>
+        <trans-unit id="ZAxis" translate="yes" xml:space="preserve">
+          <source>Z Axis</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Axe Z</target>
+        </trans-unit>
+        <trans-unit id="AutoSeq" translate="yes" xml:space="preserve">
+          <source>Auto Seq</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Auto Seq</target>
+        </trans-unit>
+        <trans-unit id="DeleteAllSeq" translate="yes" xml:space="preserve">
+          <source>DeleteAll.Seq</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">DeleteAll.Seq</target>
+        </trans-unit>
+        <trans-unit id="DeleteSeq" translate="yes" xml:space="preserve">
+          <source>Delete.Seq</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Delete.Seq</target>
+        </trans-unit>
+        <trans-unit id="DUTLocation" translate="yes" xml:space="preserve">
+          <source>DUTLocation</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">DUTLocation</target>
+        </trans-unit>
+        <trans-unit id="IndexX" translate="yes" xml:space="preserve">
+          <source>IndexX</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">IndexX</target>
+        </trans-unit>
+        <trans-unit id="IndexY" translate="yes" xml:space="preserve">
+          <source>IndexY</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">IndexY</target>
+        </trans-unit>
+        <trans-unit id="InsertSeq" translate="yes" xml:space="preserve">
+          <source>Insert.Seq</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Insert.Seq</target>
+        </trans-unit>
+        <trans-unit id="NextEvent" translate="yes" xml:space="preserve">
+          <source>NextEvent</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">NextEvent</target>
+        </trans-unit>
+        <trans-unit id="NotchDirection" translate="yes" xml:space="preserve">
+          <source>NotchDirection</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">NotchDirection</target>
+        </trans-unit>
+        <trans-unit id="Seq1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Seq1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Seq2" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Seq2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Seq3" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Seq3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Seq4" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Seq4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Seq5" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Seq5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Seq6" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Seq6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Seq7" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Seq7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Seq8" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Seq8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Set" translate="yes" xml:space="preserve">
+          <source>Set</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ensemble</target>
+        </trans-unit>
+        <trans-unit id="TotalSeq" translate="yes" xml:space="preserve">
+          <source>Total Seq :</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Seq total :</target>
+        </trans-unit>
+        <trans-unit id="WaferSize" translate="yes" xml:space="preserve">
+          <source>Wafer Size</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Taille de la plaquette</target>
+        </trans-unit>
+        <trans-unit id="Thickness" translate="yes" xml:space="preserve">
+          <source>Thickness</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Thickness</target>
+        </trans-unit>
+        <trans-unit id="WaferType" translate="yes" xml:space="preserve">
+          <source>Wafer Type</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Type de plaquette</target>
+        </trans-unit>
+        <trans-unit id="ExportFileAs" translate="yes" xml:space="preserve">
+          <source>ExportFileAs</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">ExportFileAs</target>
+        </trans-unit>
+        <trans-unit id="PreviousEvent" translate="yes" xml:space="preserve">
+          <source>Prev Event</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Événement PREV</target>
+        </trans-unit>
+        <trans-unit id="SysInit" translate="yes" xml:space="preserve">
+          <source>System Init</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Système Init</target>
+        </trans-unit>
+        <trans-unit id="DONE" translate="yes" xml:space="preserve">
+          <source>DONE</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">TERMINÉ</target>
+        </trans-unit>
+        <trans-unit id="ERROR" translate="yes" xml:space="preserve">
+          <source>ERROR</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ERR.</target>
+        </trans-unit>
+        <trans-unit id="IDLE" translate="yes" xml:space="preserve">
+          <source>IDLE</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">IDLE</target>
+        </trans-unit>
+        <trans-unit id="INIT" translate="yes" xml:space="preserve">
+          <source>INIT</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">INIT</target>
+        </trans-unit>
+        <trans-unit id="RUNNING" translate="yes" xml:space="preserve">
+          <source>RUNNING</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">EN COURS D’EXÉCUTION</target>
+        </trans-unit>
+        <trans-unit id="SUSPENDED" translate="yes" xml:space="preserve">
+          <source>SUSPENDED</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">EN SUSPENS</target>
+        </trans-unit>
+        <trans-unit id="UNDEFINED" translate="yes" xml:space="preserve">
+          <source>UNDEFINED</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">UNDEFINED</target>
+        </trans-unit>
+        <trans-unit id="ChangeProbeCard" translate="yes" xml:space="preserve">
+          <source>Change Probe Card</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Changement sonde carte</target>
+        </trans-unit>
+        <trans-unit id="Retry" translate="yes" xml:space="preserve">
+          <source>Retry</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Nouvelle tentative</target>
+        </trans-unit>
+        <trans-unit id="DisableYAxis" translate="yes" xml:space="preserve">
+          <source>Disable Y Axis</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Désactiver l’axe Y</target>
+        </trans-unit>
+        <trans-unit id="EnableYAxis" translate="yes" xml:space="preserve">
+          <source>Enable Y Axis</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Activez l’axe Y</target>
+        </trans-unit>
+        <trans-unit id="DrawPad" translate="yes" xml:space="preserve">
+          <source>Draw Pad</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Pad de tirage au sort</target>
+        </trans-unit>
+        <trans-unit id="Abort" translate="yes" xml:space="preserve">
+          <source>Abort</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Annuler</target>
+        </trans-unit>
+        <trans-unit id="CSTNum" translate="yes" xml:space="preserve">
+          <source>Cassette Number</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Nombre de cassette</target>
+        </trans-unit>
+        <trans-unit id="SlotNum" translate="yes" xml:space="preserve">
+          <source>Slot Number</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Numéro d’emplacement</target>
+        </trans-unit>
+        <trans-unit id="WaferID" translate="yes" xml:space="preserve">
+          <source>Wafer ID</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Wafer ID</target>
+        </trans-unit>
+        <trans-unit id="AlignmentImage" translate="yes" xml:space="preserve">
+          <source>Alignment Image</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Image d’alignement</target>
+        </trans-unit>
+        <trans-unit id="AlignmentOperation" translate="yes" xml:space="preserve">
+          <source>Alignment Operation</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Opération d’alignement</target>
+        </trans-unit>
+        <trans-unit id="Arm1" translate="yes" xml:space="preserve">
+          <source>Arm 1</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bras 1</target>
+        </trans-unit>
+        <trans-unit id="Arm2" translate="yes" xml:space="preserve">
+          <source>Arm 2</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Bras 2</target>
+        </trans-unit>
+        <trans-unit id="Auto" translate="yes" xml:space="preserve">
+          <source>Auto</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Automatique</target>
+        </trans-unit>
+        <trans-unit id="BasicMap" translate="yes" xml:space="preserve">
+          <source>Basic Map</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Carte simple</target>
+        </trans-unit>
+        <trans-unit id="Cancel" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Annuler</target>
+        </trans-unit>
+        <trans-unit id="CardRelativeZHeight" translate="yes" xml:space="preserve">
+          <source>Card Relative Z Height</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Carte Z Relative hauteur</target>
+        </trans-unit>
+        <trans-unit id="Cassette" translate="yes" xml:space="preserve">
+          <source>Cassette</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Cassette</target>
+        </trans-unit>
+        <trans-unit id="Clearance" translate="yes" xml:space="preserve">
+          <source>Clearance</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Débattement</target>
+        </trans-unit>
+        <trans-unit id="CurrentZPosition" translate="yes" xml:space="preserve">
+          <source>Current Z Position</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Position actuelle de Z</target>
+        </trans-unit>
+        <trans-unit id="DataIn" translate="yes" xml:space="preserve">
+          <source>Data In</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Données entrantes</target>
+        </trans-unit>
+        <trans-unit id="Degree" translate="yes" xml:space="preserve">
+          <source>deg</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">deg</target>
+        </trans-unit>
+        <trans-unit id="DeviceParameterChange" translate="yes" xml:space="preserve">
+          <source>Device Parameter Change</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Modifier le paramètre périphérique</target>
+        </trans-unit>
+        <trans-unit id="DeviceSetInformation" translate="yes" xml:space="preserve">
+          <source>Device set information</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Dispositif de définie des informations</target>
+        </trans-unit>
+        <trans-unit id="Down" translate="yes" xml:space="preserve">
+          <source>Down</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Descendre</target>
+        </trans-unit>
+        <trans-unit id="ExistenceOfData" translate="yes" xml:space="preserve">
+          <source>Existence Of Data</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Existence de données</target>
+        </trans-unit>
+        <trans-unit id="FixedTray1" translate="yes" xml:space="preserve">
+          <source>Fixed Tray 1</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Plateau fixe 1</target>
+        </trans-unit>
+        <trans-unit id="FixedTray2" translate="yes" xml:space="preserve">
+          <source>Fixed Tray 2</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Plateau fixe 2</target>
+        </trans-unit>
+        <trans-unit id="FixedTray3" translate="yes" xml:space="preserve">
+          <source>Fixed Tray 3</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Plateau fixe 3</target>
+        </trans-unit>
+        <trans-unit id="FixedTray4" translate="yes" xml:space="preserve">
+          <source>Fixed Tray 4</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Plateau fixe 4</target>
+        </trans-unit>
+        <trans-unit id="FixedTray5" translate="yes" xml:space="preserve">
+          <source>Fixed Tray 5</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Plateau fixe 5</target>
+        </trans-unit>
+        <trans-unit id="FlatDir" translate="yes" xml:space="preserve">
+          <source>Flat Dir</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Plat Dir</target>
+        </trans-unit>
+        <trans-unit id="HeightOfChuck" translate="yes" xml:space="preserve">
+          <source>Height Of Chuck</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Hauteur de Chuck</target>
+        </trans-unit>
+        <trans-unit id="ImageDisplayChange" translate="yes" xml:space="preserve">
+          <source>Image Display Change</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Changement d’affichage image</target>
+        </trans-unit>
+        <trans-unit id="IndexSizeX" translate="yes" xml:space="preserve">
+          <source>IndexSize X</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">IndexSize X</target>
+        </trans-unit>
+        <trans-unit id="IndexSizeY" translate="yes" xml:space="preserve">
+          <source>Index Size Y</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Indice taille Y</target>
+        </trans-unit>
+        <trans-unit id="KeySW" translate="yes" xml:space="preserve">
+          <source>3KEY SW</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">3KEY SW</target>
+        </trans-unit>
+        <trans-unit id="LoaderSW" translate="yes" xml:space="preserve">
+          <source>Loader SW</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Chargeur SW</target>
+        </trans-unit>
+        <trans-unit id="LoadingPosition" translate="yes" xml:space="preserve">
+          <source>Loading Position</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Position de chargement</target>
+        </trans-unit>
+        <trans-unit id="LotSetInformation" translate="yes" xml:space="preserve">
+          <source>Lot Set Information</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Informations sur le jeu beaucoup</target>
+        </trans-unit>
+        <trans-unit id="LotSettings" translate="yes" xml:space="preserve">
+          <source>Lot Settings</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Beaucoup de paramètres</target>
+        </trans-unit>
+        <trans-unit id="MaintAndAdjust" translate="yes" xml:space="preserve">
+          <source>Maint And Adjust</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Maint et ajuster</target>
+        </trans-unit>
+        <trans-unit id="MatchAndConfirm" translate="yes" xml:space="preserve">
+          <source>Match And Confirm</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Match et confirmer</target>
+        </trans-unit>
+        <trans-unit id="MethodOfExternalControl" translate="yes" xml:space="preserve">
+          <source>Method Of External Control</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Méthode de contrôle externe</target>
+        </trans-unit>
+        <trans-unit id="NowTemp" translate="yes" xml:space="preserve">
+          <source>Current Temp</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Température actuelle</target>
+        </trans-unit>
+        <trans-unit id="Offline" translate="yes" xml:space="preserve">
+          <source>Offline</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Hors connexion</target>
+        </trans-unit>
+        <trans-unit id="Online" translate="yes" xml:space="preserve">
+          <source>Online</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">En ligne</target>
+        </trans-unit>
+        <trans-unit id="OperationSetting" translate="yes" xml:space="preserve">
+          <source>Operation Setting</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Paramètre de fonctionnement</target>
+        </trans-unit>
+        <trans-unit id="OverDriveChange" translate="yes" xml:space="preserve">
+          <source>Overdrive Change</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Changement de Overdrive</target>
+        </trans-unit>
+        <trans-unit id="PadPosition" translate="yes" xml:space="preserve">
+          <source>Pad Position</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Position de la touche</target>
+        </trans-unit>
+        <trans-unit id="PreAligner" translate="yes" xml:space="preserve">
+          <source>PreAlign</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">PreAlign</target>
+        </trans-unit>
+        <trans-unit id="ProberModeSettings" translate="yes" xml:space="preserve">
+          <source>Prober Mode Settings</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Paramètres du Mode prober</target>
+        </trans-unit>
+        <trans-unit id="ProbingOverDrive" translate="yes" xml:space="preserve">
+          <source>Probing Overdrive</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Overdrive de palpage</target>
+        </trans-unit>
+        <trans-unit id="Resume" translate="yes" xml:space="preserve">
+          <source>Resume</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Reprendre</target>
+        </trans-unit>
+        <trans-unit id="SamplingDie" translate="yes" xml:space="preserve">
+          <source>Sampling Die</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Die d’échantillonnage</target>
+        </trans-unit>
+        <trans-unit id="SetTemp" translate="yes" xml:space="preserve">
+          <source>Setting Temp</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Définition de Temp</target>
+        </trans-unit>
+        <trans-unit id="SlotInformation" translate="yes" xml:space="preserve">
+          <source>Slot Information</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Informations de fente</target>
+        </trans-unit>
+        <trans-unit id="SystemModeChange" translate="yes" xml:space="preserve">
+          <source>System Mode Change</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Changement de Mode de système</target>
+        </trans-unit>
+        <trans-unit id="TaskVersion" translate="yes" xml:space="preserve">
+          <source>Task Version</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Version de la tâche</target>
+        </trans-unit>
+        <trans-unit id="TestCountDisplay" translate="yes" xml:space="preserve">
+          <source>Test Count Display</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Affichage du nombre de test</target>
+        </trans-unit>
+        <trans-unit id="TestStart" translate="yes" xml:space="preserve">
+          <source>Test Start</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Début de l’essai</target>
+        </trans-unit>
+        <trans-unit id="Transfer" translate="yes" xml:space="preserve">
+          <source>Transfer</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Transfert</target>
+        </trans-unit>
+        <trans-unit id="Up" translate="yes" xml:space="preserve">
+          <source>Up</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Haut</target>
+        </trans-unit>
+        <trans-unit id="UserSW" translate="yes" xml:space="preserve">
+          <source>User's SW</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">SW de l’utilisateur</target>
+        </trans-unit>
+        <trans-unit id="Utility" translate="yes" xml:space="preserve">
+          <source>Utility</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Utilitaire</target>
+        </trans-unit>
+        <trans-unit id="ZDrive" translate="yes" xml:space="preserve">
+          <source>Z-Drive</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Z-Drive</target>
+        </trans-unit>
+        <trans-unit id="Count" translate="yes" xml:space="preserve">
+          <source>CONT</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">CONT</target>
+        </trans-unit>
+        <trans-unit id="CST" translate="yes" xml:space="preserve">
+          <source>CST</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">CST</target>
+        </trans-unit>
+        <trans-unit id="ContactCheck" translate="yes" xml:space="preserve">
+          <source>Contact Check</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Contact Check</target>
+        </trans-unit>
+        <trans-unit id="Interrupt" translate="yes" xml:space="preserve">
+          <source>Interrupt</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Interruption</target>
+        </trans-unit>
+        <trans-unit id="LogScreen" translate="yes" xml:space="preserve">
+          <source>Log Screen</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Écran Journal</target>
+        </trans-unit>
+        <trans-unit id="LotProcess" translate="yes" xml:space="preserve">
+          <source>Lot Process</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Beaucoup de processus</target>
+        </trans-unit>
+        <trans-unit id="LotRunMenu" translate="yes" xml:space="preserve">
+          <source>Lot Run Menu</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Menu exécution beaucoup</target>
+        </trans-unit>
+        <trans-unit id="LotStatistics" translate="yes" xml:space="preserve">
+          <source>Lot Statistics</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Beaucoup de statistiques</target>
+        </trans-unit>
+        <trans-unit id="WaferInspection" translate="yes" xml:space="preserve">
+          <source>Wafer Inspection</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Inspection de Wafer</target>
+        </trans-unit>
+        <trans-unit id="LoaderStatus" translate="yes" xml:space="preserve">
+          <source>Loader Status</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Statut de chargeur</target>
+        </trans-unit>
+        <trans-unit id="StageStatus" translate="yes" xml:space="preserve">
+          <source>Stage Status</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">État de l'étape</target>
+        </trans-unit>
+        <trans-unit id="UIModeChange" translate="yes" xml:space="preserve">
+          <source>UI Mode Change</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Changement de Mode d’interface utilisateur</target>
+        </trans-unit>
+        <trans-unit id="GPIB" translate="yes" xml:space="preserve">
+          <source>GPIB</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">GPIB</target>
+        </trans-unit>
+        <trans-unit id="LotOP" translate="yes" xml:space="preserve">
+          <source>LotOP</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">LotOP</target>
+        </trans-unit>
+        <trans-unit id="Stage" translate="yes" xml:space="preserve">
+          <source>Stage</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Étape</target>
+        </trans-unit>
+        <trans-unit id="MenualMode" translate="yes" xml:space="preserve">
+          <source>Menual Mode</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Menual Mode</target>
+        </trans-unit>
+        <trans-unit id="PutProbeCard" translate="yes" xml:space="preserve">
+          <source>Put Probe Card</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Mettre carte sonde</target>
+        </trans-unit>
+        <trans-unit id="Reverse" translate="yes" xml:space="preserve">
+          <source>Reverse</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Inversée</target>
+        </trans-unit>
+        <trans-unit id="HighLight1" translate="yes" xml:space="preserve">
+          <source>High Light 1</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Haute lumière 1</target>
+        </trans-unit>
+        <trans-unit id="HighLight2" translate="yes" xml:space="preserve">
+          <source>High Light 2</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Forte luminosité 2</target>
+        </trans-unit>
+        <trans-unit id="LowLight1" translate="yes" xml:space="preserve">
+          <source>Low Light 1</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Basse lumière 1</target>
+        </trans-unit>
+        <trans-unit id="LowLight2" translate="yes" xml:space="preserve">
+          <source>Low Light 2</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Lumière faible 2</target>
+        </trans-unit>
+        <trans-unit id="HighCam" translate="yes" xml:space="preserve">
+          <source>High Camera</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Caméra haute</target>
+        </trans-unit>
+        <trans-unit id="LowCam" translate="yes" xml:space="preserve">
+          <source>Low Camera</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Caméra faible</target>
+        </trans-unit>
+        <trans-unit id="Loader" translate="yes" xml:space="preserve">
+          <source>Loader</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Chargeur</target>
+        </trans-unit>
+        <trans-unit id="ARM1_NoWafer1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ARM1_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ARM1_W1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ARM1_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ARM2_NoWafer1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ARM2_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ARM2_W1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ARM2_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowDown1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowDownW1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowDownW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowLeft1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowLeftG1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowLeftG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowLeftW1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowLeftW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowRight1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowRightG1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowRightG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowRightW1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowRightW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowUp1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ArrowUpW1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ArrowUpW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Chuck_NoWafer1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Chuck_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Chuck_W1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Chuck_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Clockwise1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Clockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="CoordLeftDown1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\CoordLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="CoordLeftUp1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\CoordLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="CoordRightDown1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\CoordRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="CoordRightUp1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\CoordRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="CounterClockwise1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\CounterClockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ExtendHeight1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ExtendHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ExtendWidth1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ExtendWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="FixedTray_NoWafer1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\FixedTray_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="FixedTray_W1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\FixedTray_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Image1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Image1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="JogDown1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\JogDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="JogLeft1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\JogLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="JogLeftDown1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\JogLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="JogLeftUp1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\JogLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="JogRight1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\JogRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="JogRightDown1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\JogRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="JogRightUp1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\JogRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="JogUp1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\JogUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Minus1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Minus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Plus1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="PreAligner_NoWafer1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\PreAligner_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="PreAligner_W1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\PreAligner_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ReduceHeight1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ReduceHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ReduceWidth1" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\ReduceWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Seq11" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Seq1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Seq21" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Seq2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Seq31" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Seq3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Seq41" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Seq4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Seq51" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Seq5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Seq61" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Seq6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Seq71" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Seq7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Seq81" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\Seq8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Camera" translate="yes" xml:space="preserve">
+          <source>Camera</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Appareil photo</target>
+        </trans-unit>
+        <trans-unit id="Light" translate="yes" xml:space="preserve">
+          <source>Light</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Clair</target>
+        </trans-unit>
+        <trans-unit id="MapControl" translate="yes" xml:space="preserve">
+          <source>Map Control</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Contrôle de carte</target>
+        </trans-unit>
+        <trans-unit id="MotionControl" translate="yes" xml:space="preserve">
+          <source>Motion Control</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Motion Control</target>
+        </trans-unit>
+        <trans-unit id="bars" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">..\Resources\bars.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="GPIBStatus" translate="yes" xml:space="preserve">
+          <source>GPIB Status</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Statut GPIB</target>
+        </trans-unit>
+        <trans-unit id="NetWorkStatus" translate="yes" xml:space="preserve">
+          <source>Network Status</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">État du réseau</target>
+        </trans-unit>
+        <trans-unit id="AlarmSetup" translate="yes" xml:space="preserve">
+          <source>Alarm Setup</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Réglage des alarmes</target>
+        </trans-unit>
+        <trans-unit id="AlignMode" translate="yes" xml:space="preserve">
+          <source>Alignment Mode</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Mode d’alignement</target>
+        </trans-unit>
+        <trans-unit id="Apply" translate="yes" xml:space="preserve">
+          <source>Apply</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Appliquer</target>
+        </trans-unit>
+        <trans-unit id="BasicSetup" translate="yes" xml:space="preserve">
+          <source>Basic Setup</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Configuration de base</target>
+        </trans-unit>
+        <trans-unit id="BasicWaferAlign" translate="yes" xml:space="preserve">
+          <source>Basic Wafer Alignment</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Alignement de base Wafer</target>
+        </trans-unit>
+        <trans-unit id="BINSetup" translate="yes" xml:space="preserve">
+          <source>BIN Setup</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">BIN le programme d’installation</target>
+        </trans-unit>
+        <trans-unit id="ContactSetup" translate="yes" xml:space="preserve">
+          <source>Contact Setup</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Contacter le programme d’installation</target>
+        </trans-unit>
+        <trans-unit id="CustomWaferAlign" translate="yes" xml:space="preserve">
+          <source>Custom Alignment Mode</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Mode d’alignement personnalisé</target>
+        </trans-unit>
+        <trans-unit id="GPIBSetup" translate="yes" xml:space="preserve">
+          <source>GPIB Setup</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Installation GPIB</target>
+        </trans-unit>
+        <trans-unit id="NCSetup" translate="yes" xml:space="preserve">
+          <source>Needle Cleaning Setup</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Aiguille de nettoyage installation</target>
+        </trans-unit>
+        <trans-unit id="OCRSetup" translate="yes" xml:space="preserve">
+          <source>OCR Setup</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Paramètres OCR</target>
+        </trans-unit>
+        <trans-unit id="PinAlignSetup" translate="yes" xml:space="preserve">
+          <source>Pin Alignment Setup</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Goupille alignement Setup</target>
+        </trans-unit>
+        <trans-unit id="PinAlignToleranceSetup" translate="yes" xml:space="preserve">
+          <source>Pin Alignment Tolerance Setup</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Programme d’installation de la tolérance alignement de broche</target>
+        </trans-unit>
+        <trans-unit id="PMISetup" translate="yes" xml:space="preserve">
+          <source>PMI Setup</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Installation PMI</target>
+        </trans-unit>
+        <trans-unit id="PTPASetup" translate="yes" xml:space="preserve">
+          <source>PTPA Setup</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">PTPA Setup</target>
+        </trans-unit>
+        <trans-unit id="RetestSetup" translate="yes" xml:space="preserve">
+          <source>Retest Setup</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Testez à nouveau le programme d’installation</target>
+        </trans-unit>
+        <trans-unit id="SelectableMode" translate="yes" xml:space="preserve">
+          <source>Selectable Mode</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Mode sélectionnable</target>
+        </trans-unit>
+        <trans-unit id="SequenceSetup" translate="yes" xml:space="preserve">
+          <source>Sequence Setup</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Séquence d’installation</target>
+        </trans-unit>
+        <trans-unit id="SetupStart" translate="yes" xml:space="preserve">
+          <source>Setup Start</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Démarrer le programme d’installation</target>
+        </trans-unit>
+        <trans-unit id="SoakSetup" translate="yes" xml:space="preserve">
+          <source>Soak Setup</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Faire tremper le programme d’installation</target>
+        </trans-unit>
+        <trans-unit id="SystemInit" translate="yes" xml:space="preserve">
+          <source>System Init</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Système Init</target>
+        </trans-unit>
+        <trans-unit id="TemperatureSetup" translate="yes" xml:space="preserve">
+          <source>Temperature Setup</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Réglage de la température</target>
+        </trans-unit>
+        <trans-unit id="WaferAlignRun" translate="yes" xml:space="preserve">
+          <source>Wafer Alignment Run</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Wafer alignement Run</target>
+        </trans-unit>
+        <trans-unit id="WaferAlignSetup" translate="yes" xml:space="preserve">
+          <source>Wafer Alignment Setup</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Installation de l’alignement de Wafer</target>
+        </trans-unit>
+        <trans-unit id="BinStat" translate="yes" xml:space="preserve">
+          <source>Bin</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Bin</target>
+        </trans-unit>
+        <trans-unit id="Chiller" translate="yes" xml:space="preserve">
+          <source>Chiller</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Condenseur</target>
+        </trans-unit>
+        <trans-unit id="Cur" translate="yes" xml:space="preserve">
+          <source>Cur</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Cur</target>
+        </trans-unit>
+        <trans-unit id="GEM" translate="yes" xml:space="preserve">
+          <source>GEM</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">GEM</target>
+        </trans-unit>
+        <trans-unit id="Inspection" translate="yes" xml:space="preserve">
+          <source>Inspection</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Inspection</target>
+        </trans-unit>
+        <trans-unit id="NC" translate="yes" xml:space="preserve">
+          <source>NC</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">NE</target>
+        </trans-unit>
+        <trans-unit id="OCRapp" translate="yes" xml:space="preserve">
+          <source>OCR</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">OCR</target>
+        </trans-unit>
+        <trans-unit id="SONET" translate="yes" xml:space="preserve">
+          <source>SONET</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sonet</target>
+        </trans-unit>
+        <trans-unit id="Stat" translate="yes" xml:space="preserve">
+          <source>Statistics</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Statistiques</target>
+        </trans-unit>
+        <trans-unit id="Coaxial" translate="yes" xml:space="preserve">
+          <source>Coaxial</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Coaxial</target>
+        </trans-unit>
+        <trans-unit id="Off" translate="yes" xml:space="preserve">
+          <source>Off</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Désactivé</target>
+        </trans-unit>
+        <trans-unit id="On" translate="yes" xml:space="preserve">
+          <source>On</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Activé</target>
+        </trans-unit>
+        <trans-unit id="WaferIntervalConfiguration" translate="yes" xml:space="preserve">
+          <source>Wafer Interval Configuration</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Configuration d’intervalle Wafer</target>
+        </trans-unit>
+        <trans-unit id="Back" translate="yes" xml:space="preserve">
+          <source>Back</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Précédent</target>
+        </trans-unit>
+        <trans-unit id="Configuration" translate="yes" xml:space="preserve">
+          <source>Configuration</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">configuration</target>
+        </trans-unit>
+        <trans-unit id="Next" translate="yes" xml:space="preserve">
+          <source>Next</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Suivant</target>
+        </trans-unit>
+        <trans-unit id="Add_Delete" translate="yes" xml:space="preserve">
+          <source>Add &amp; Delete</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">  Ajout suppression de
+ &amp; 
+</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="RegisterEdge" translate="yes" xml:space="preserve">
+          <source>Register
+  Edge</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Registre de bord
+</target>
+        </trans-unit>
+        <trans-unit id="RegisterPattern1" translate="yes" xml:space="preserve">
+          <source>Register Pattern 1</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">S’inscrire 
+modèle 1</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="RegisterPattern2" translate="yes" xml:space="preserve">
+          <source>Register Pattern 2</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">S’inscrire 
+modèle 2</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="SetCoordinate" translate="yes" xml:space="preserve">
+          <source>Set Coordinate</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">       La valeur de coordonnée
+</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="EMPTY" translate="yes" xml:space="preserve">
+          <source>EMPTY</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">EMPTY</target>
+        </trans-unit>
+        <trans-unit id="MARK" translate="yes" xml:space="preserve">
+          <source>MARK</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">LAURENT</target>
+        </trans-unit>
+        <trans-unit id="SKIP" translate="yes" xml:space="preserve">
+          <source>SKIP</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">SKIP</target>
+        </trans-unit>
+        <trans-unit id="TEST" translate="yes" xml:space="preserve">
+          <source>TEST</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">TEST</target>
+        </trans-unit>
+        <trans-unit id="ProbeMark" translate="yes" xml:space="preserve">
+          <source>Probe Mark</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Marque de la sonde</target>
+        </trans-unit>
+        <trans-unit id="NextDut" translate="yes" xml:space="preserve">
+          <source>Next Dut</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Prochaine Dut</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="NextPad" translate="yes" xml:space="preserve">
+          <source>Next Pad</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Prochaine Pad</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="PrevDut" translate="yes" xml:space="preserve">
+          <source>Prev Dut</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">PREV Dut</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="PrevPad" translate="yes" xml:space="preserve">
+          <source>Prev Pad</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">PREV Pad</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="LOT" translate="yes" xml:space="preserve">
+          <source>LOT</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">LOT</target>
+        </trans-unit>
+        <trans-unit id="Coordinate" translate="yes" xml:space="preserve">
+          <source>Coordinate</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Coordonner</target>
+        </trans-unit>
+        <trans-unit id="X" translate="yes" xml:space="preserve">
+          <source>X</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Q</target>
+        </trans-unit>
+        <trans-unit id="Y" translate="yes" xml:space="preserve">
+          <source>Y</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Y</target>
+        </trans-unit>
+        <trans-unit id="Z" translate="yes" xml:space="preserve">
+          <source>Z</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Z</target>
+        </trans-unit>
+        <trans-unit id="Inspect" translate="yes" xml:space="preserve">
+          <source>Inspect</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Inspecter</target>
+        </trans-unit>
+        <trans-unit id="LightDown" translate="yes" xml:space="preserve">
+          <source>Light -</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Lumière-</target>
+        </trans-unit>
+        <trans-unit id="LightUp" translate="yes" xml:space="preserve">
+          <source>Light +</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Lumière +</target>
+        </trans-unit>
+        <trans-unit id="LotEnd" translate="yes" xml:space="preserve">
+          <source>Lot End</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Fin de lot</target>
+        </trans-unit>
+        <trans-unit id="EndLotMessage" translate="yes" xml:space="preserve">
+          <source>Lot Would be paused If you click the OK Button.</source>
+          <target state="new">Lot Would be paused If you click the OK Button.</target>
+        </trans-unit>
+        <trans-unit id="ChangeLanguageCheckMessage" translate="yes" xml:space="preserve">
+          <source>Please run the program again.</source>
+          <target state="new">Please run the program again.</target>
+        </trans-unit>
+        <trans-unit id="Disable" translate="yes" xml:space="preserve">
+          <source>Disable</source>
+          <target state="new">Disable</target>
+        </trans-unit>
+        <trans-unit id="Enable" translate="yes" xml:space="preserve">
+          <source>Enable</source>
+          <target state="new">Enable</target>
+        </trans-unit>
+        <trans-unit id="SetAllContact" translate="yes" xml:space="preserve">
+          <source>Set All Contact</source>
+          <target state="new">Set All Contact</target>
+        </trans-unit>
+        <trans-unit id="SetFirstContact" translate="yes" xml:space="preserve">
+          <source>Set First Contact</source>
+          <target state="new">Set First Contact</target>
+        </trans-unit>
+        <trans-unit id="SetOverdrive" translate="yes" xml:space="preserve">
+          <source>Set Overdrive</source>
+          <target state="new">Set Overdrive</target>
+        </trans-unit>
+        <trans-unit id="Bin" translate="yes" xml:space="preserve">
+          <source>Bin</source>
+          <target state="new">Bin</target>
+        </trans-unit>
+        <trans-unit id="Dash" translate="yes" xml:space="preserve">
+          <source>--</source>
+          <target state="new">--</target>
+        </trans-unit>
+        <trans-unit id="Slot" translate="yes" xml:space="preserve">
+          <source>Slot</source>
+          <target state="new">Slot</target>
+        </trans-unit>
+        <trans-unit id="RegisterPattern" translate="yes" xml:space="preserve">
+          <source>Register Pattern</source>
+          <target state="new">Register Pattern</target>
+        </trans-unit>
+        <trans-unit id="BottomLeft" translate="yes" xml:space="preserve">
+          <source>Bottom Left</source>
+          <target state="new">Bottom Left</target>
+        </trans-unit>
+        <trans-unit id="TopRight" translate="yes" xml:space="preserve">
+          <source>Top Right</source>
+          <target state="new">Top Right</target>
+        </trans-unit>
+        <trans-unit id="VisionMapping" translate="yes" xml:space="preserve">
+          <source>Vision Mapping</source>
+          <target state="new">Vision Mapping</target>
+        </trans-unit>
+        <trans-unit id="GEMSetting" translate="yes" xml:space="preserve">
+          <source>GEM Setting</source>
+          <target state="new">GEM Setting</target>
+        </trans-unit>
+        <trans-unit id="TiltJog" translate="yes" xml:space="preserve">
+          <source>TiltJog</source>
+          <target state="new">TiltJog</target>
+        </trans-unit>
+        <trans-unit id="TesterHeadUnlock" translate="yes" xml:space="preserve">
+          <source>Tester Head Unlock</source>
+          <target state="new">Tester Head Unlock</target>
+        </trans-unit>
+        <trans-unit id="maintenance" translate="yes" xml:space="preserve">
+          <source>MAINTENANCE</source>
+          <target state="new">MAINTENANCE</target>
+        </trans-unit>
+        <trans-unit id="IOControl" translate="yes" xml:space="preserve">
+          <source>IO Control</source>
+          <target state="new">IO Control</target>
+        </trans-unit>
+        <trans-unit id="ContinueProbing" translate="yes" xml:space="preserve">
+          <source>Continue Probing</source>
+          <target state="new">Continue Probing</target>
+        </trans-unit>
+        <trans-unit id="MultiPassProbing" translate="yes" xml:space="preserve">
+          <source>Multi-Pass Probing (CP2)</source>
+          <target state="new">Multi-Pass Probing (CP2)</target>
+        </trans-unit>
+        <trans-unit id="NormalProbing" translate="yes" xml:space="preserve">
+          <source>Normal Probing (CP1)</source>
+          <target state="new">Normal Probing (CP1)</target>
+        </trans-unit>
+        <trans-unit id="PassDieProbing" translate="yes" xml:space="preserve">
+          <source>Pass Die Probing (CP2)</source>
+          <target state="new">Pass Die Probing (CP2)</target>
+        </trans-unit>
+        <trans-unit id="CPcount" translate="yes" xml:space="preserve">
+          <source>CP count</source>
+          <target state="new">CP count</target>
+        </trans-unit>
+        <trans-unit id="MapDownloadforCP1" translate="yes" xml:space="preserve">
+          <source>Map Download for CP1</source>
+          <target state="new">Map Download for CP1</target>
+        </trans-unit>
+        <trans-unit id="RetestCount" translate="yes" xml:space="preserve">
+          <source>Retest Count</source>
+          <target state="new">Retest Count</target>
+        </trans-unit>
+        <trans-unit id="ChillerSetting" translate="yes" xml:space="preserve">
+          <source>Chiller Setting</source>
+          <target state="new">Chiller Setting</target>
+        </trans-unit>
+        <trans-unit id="LotInfo" translate="yes" xml:space="preserve">
+          <source>Lot Info</source>
+          <target state="new">Lot Info</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

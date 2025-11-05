@@ -1,0 +1,756 @@
+﻿<UserControl x:Class="ProberViewModel.View.Chiller.GpChillerStageSetupView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:aniScroll="clr-namespace:UcAnimationScrollViewer;assembly=UcAnimationScrollViewer"
+             xmlns:local="clr-namespace:ProberViewModel.View.Chiller"
+             mc:Ignorable="d" x:Name="ucWindow"
+             MaxHeight="1080" MaxWidth="1920" Background="#FF1C1C1F">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <local:CommConnectedStringConverter x:Key="CommconnectedStringConverter"/>
+            <local:ValveColorConverter x:Key="ValveColorConverter"/>
+            <local:VirtualKeyBoardTextBoxConverter x:Key="VirtualKeyBoardTextBoxConverter"/>
+            <local:StageVirtualKeyBoardTextBoxConverter x:Key="StageVirtualKeyBoardTextBoxConverter"/>
+            <vc:CellObjectForeGroundConverter x:Key="CellObjectForeGroundConv"/>
+
+            <Style x:Key="UpButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid Opacity="0.5">
+                                <Border Name="UpButtonBorderStyle" Background="#333333">
+                                    <Border.BitmapEffect>
+                                        <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                    Color="LightGray" 
+                                    ShadowDepth="10"
+                                    Softness="0.5"
+                                    />
+                                    </Border.BitmapEffect>
+                                </Border>
+                                <Viewbox Margin="8">
+                                    <Path Data="M1,21H23L12,2" Fill="White" Name="TryAngleIcon"/>
+                                </Viewbox>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsDefaulted" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="UpButtonBorderStyle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true"/>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Fill" TargetName="TryAngleIcon" Value="{StaticResource Button.Pressed.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="UpButtonBorderStyle" Value="{StaticResource Button.Disabled.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="UpButtonBorderStyle" Value="{StaticResource Button.Disabled.Border}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="DwButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid Opacity="0.5">
+                                <Border Name="DwButtonBorderStyle" Background="#333333">
+                                    <Border.BitmapEffect>
+                                        <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                    Color="LightGray" 
+                                    ShadowDepth="10"
+                                    Softness="0.5"/>
+                                    </Border.BitmapEffect>
+                                </Border>
+                                <Viewbox Margin="8">
+                                    <Path Data="M1,2H23L12,21"
+                                          Fill="White" Name="TryAngleIcon"
+                                          />
+                                </Viewbox>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsDefaulted" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="DwButtonBorderStyle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true"/>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Fill" TargetName="TryAngleIcon" Value="{StaticResource Button.Pressed.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="DwButtonBorderStyle" Value="{StaticResource Button.Disabled.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="DwButtonBorderStyle" Value="{StaticResource Button.Disabled.Border}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <!-- Chiller-->
+        <Grid Grid.Row="0" Margin="4">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+            <Label Background="LightGray" Margin="2" Content="{Binding SelectedChillerIndex}" Foreground="Black" ContentStringFormat="Chiller #{0}" 
+                                       HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontSize="28" FontWeight="ExtraBold"/>
+
+            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                <TextBox Text="{Binding SelectedChiller.StageSetSV}" FontSize="24" IsEnabled="{Binding UnLockStageSvBtn}" MinWidth="100"
+                         HorizontalContentAlignment="Right" Background="WhiteSmoke" Margin="8" Height="40" Foreground="Black">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown" >
+                            <i:InvokeCommandAction Command="{Binding Path=DataContext.ChillerSVTextBoxClickCommand, ElementName=ucWindow}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+
+                <Button AutomationProperties.AutomationId="btnStageSVSet"
+                                            Grid.Column="1" Content="Set " Width="130" Height="40" IsEnabled="{Binding UnLockStageSvBtn}"
+                                            Command="{Binding Path=DataContext.StageSVChangeCommand, ElementName=ucWindow}"
+                                            CommandParameter="{Binding SelectedChillerIndex}"
+                                            FontSize="24" FontWeight="DemiBold" />
+
+                <Button AutomationProperties.AutomationId="btnSAVE"
+                    HorizontalAlignment="Right" VerticalContentAlignment="Center" Width="140" Content="SAVE" 
+                    Style="{DynamicResource ControlButtonStyle}" Height="40" Margin="4"
+                    Command="{Binding SaveChillerParamCommand}"/>
+
+            </StackPanel>-->
+
+            <Button AutomationProperties.AutomationId="btnSAVE"
+                    HorizontalAlignment="Right" VerticalContentAlignment="Center" Width="140" Content="SAVE" 
+                    Style="{DynamicResource ControlButtonStyle}" Height="40" Margin="4"
+                    Command="{Binding SaveChillerParamCommand}"/>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <!-- Row 1-->
+                <Border Grid.Row="0" Grid.Column="0" Margin="2" BorderBrush="WhiteSmoke" BorderThickness="1">
+                    <Label Content="NAME" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="1" Margin="2" BorderBrush="WhiteSmoke" BorderThickness="1">
+                    <Label Content="Description" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="2" Margin="2" BorderBrush="WhiteSmoke" BorderThickness="1">
+                    <Label Content="Min/Max" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="3" Margin="2" BorderBrush="WhiteSmoke" BorderThickness="1">
+                    <Label Content="Value" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <!-- ChillerHotLimitTemp -->
+                <Border Grid.Row="1" Grid.Column="0" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label Content="{Binding SelectedChiller.ChillerParam.ChillerHotLimitTemp.ElementName}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="1" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label Content="{Binding SelectedChiller.ChillerParam.ChillerHotLimitTemp.Description}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="2" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0">
+                        <Label.Content>
+                            <MultiBinding StringFormat="{}{0}/ {1}">
+                                <Binding Path="LowerLimit" />
+                                <Binding Path="UpperLimit" />
+                            </MultiBinding>
+                        </Label.Content>
+                    </Label>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="3" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <TextBox AutomationProperties.AutomationId="txtChillerHotLimitTemp"
+                             Grid.Column="1" Text="{Binding SelectedChiller.ChillerParam.ChillerHotLimitTemp.Value}"  Margin="2" FontSize="20" HorizontalContentAlignment="Right" Background="WhiteSmoke">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                    <i:InvokeCommandAction.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                            <Binding Path ="SelectedChiller.ChillerParam.ChillerHotLimitTemp"/>
+                                        </MultiBinding>
+                                    </i:InvokeCommandAction.CommandParameter>
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                </Border>
+                <!-- CoolantInTemp -->
+                <Border Grid.Row="2" Grid.Column="0" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label Content="{Binding SelectedChiller.ChillerParam.CoolantInTemp.ElementName}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="1" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label Content="{Binding SelectedChiller.ChillerParam.CoolantInTemp.Description}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="2" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0">
+                        <Label.Content>
+                            <MultiBinding StringFormat="{}{0}/ {1}">
+                                <Binding Path="LowerLimit" />
+                                <Binding Path="UpperLimit" />
+                            </MultiBinding>
+                        </Label.Content>
+                    </Label>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="3" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <TextBox AutomationProperties.AutomationId="txtCoolantInTemp"
+                             Grid.Column="1" Text="{Binding SelectedChiller.ChillerParam.CoolantInTemp.Value}"  Margin="2" FontSize="20" HorizontalContentAlignment="Right" Background="WhiteSmoke">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                    <i:InvokeCommandAction.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                            <Binding Path ="SelectedChiller.ChillerParam.CoolantInTemp"/>
+                                        </MultiBinding>
+                                    </i:InvokeCommandAction.CommandParameter>
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                </Border>
+                <!-- ChillerOffset -->
+                <!--<Border Grid.Row="3" Grid.Column="0" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label Content="{Binding SelectedChiller.ChillerParam.ChillerOffset.ElementName}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="1" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label Content="{Binding SelectedChiller.ChillerParam.ChillerOffset.Description}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="2" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0">
+                        <Label.Content>
+                            <MultiBinding StringFormat="{}{0}/ {1}">
+                                <Binding Path="LowerLimit" />
+                                <Binding Path="UpperLimit" />
+                            </MultiBinding>
+                        </Label.Content>
+                    </Label>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="3" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <TextBox AutomationProperties.AutomationId="txtChillerOffset"
+                             Grid.Column="1" Text="{Binding SelectedChiller.ChillerParam.ChillerOffset.Value}"  Margin="2" FontSize="20" HorizontalContentAlignment="Right" Background="WhiteSmoke">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                    <i:InvokeCommandAction.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                            <Binding Path ="SetupChiller.ChillerHotLimitTemp"/>
+                                        </MultiBinding>
+                                    </i:InvokeCommandAction.CommandParameter>
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                </Border>-->
+                <!-- Tolerance -->
+                <Border Grid.Row="3" Grid.Column="0" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label Content="{Binding SelectedChiller.ChillerParam.Tolerance.ElementName}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="1" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label Content="{Binding SelectedChiller.ChillerParam.Tolerance.Description}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="2" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0">
+                        <Label.Content>
+                            <MultiBinding StringFormat="{}{0}/ {1}">
+                                <Binding Path="LowerLimit" />
+                                <Binding Path="UpperLimit" />
+                            </MultiBinding>
+                        </Label.Content>
+                    </Label>
+                </Border>
+                <Border Grid.Row="3" Grid.Column="3" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <TextBox AutomationProperties.AutomationId="txtTolerance"
+                             Grid.Column="1" Text="{Binding SelectedChiller.ChillerParam.Tolerance.Value}"  Margin="2" FontSize="20" HorizontalContentAlignment="Right" Background="WhiteSmoke">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                    <i:InvokeCommandAction.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                            <Binding Path ="SelectedChiller.ChillerParam.Tolerance"/>
+                                        </MultiBinding>
+                                    </i:InvokeCommandAction.CommandParameter>
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                </Border>
+                <!-- ActivatableHighTemp -->
+                <Border Grid.Row="4" Grid.Column="0" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label Content="{Binding SelectedChiller.ChillerParam.ActivatableHighTemp.ElementName}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="1" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label Content="{Binding SelectedChiller.ChillerParam.ActivatableHighTemp.Description}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="2" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0">
+                        <Label.Content>
+                            <MultiBinding StringFormat="{}{0}/ {1}">
+                                <Binding Path="LowerLimit" />
+                                <Binding Path="UpperLimit" />
+                            </MultiBinding>
+                        </Label.Content>
+                    </Label>
+                </Border>
+                <Border Grid.Row="4" Grid.Column="3" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <TextBox AutomationProperties.AutomationId="txtActivatableHighTemp"
+                             Grid.Column="1" Text="{Binding SelectedChiller.ChillerParam.ActivatableHighTemp.Value}"  Margin="2" FontSize="20" HorizontalContentAlignment="Right" Background="WhiteSmoke">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                    <i:InvokeCommandAction.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                            <Binding Path ="SelectedChiller.ChillerParam.ActivatableHighTemp"/>
+                                        </MultiBinding>
+                                    </i:InvokeCommandAction.CommandParameter>
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                </Border>
+                <!-- InRangeWindowTemp -->
+                <Border Grid.Row="5" Grid.Column="0" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label Content="{Binding SelectedChiller.ChillerParam.InRangeWindowTemp.ElementName}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="1" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label Content="{Binding SelectedChiller.ChillerParam.InRangeWindowTemp.Description}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="2" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0">
+                        <Label.Content>
+                            <MultiBinding StringFormat="{}{0}/ {1}">
+                                <Binding Path="LowerLimit" />
+                                <Binding Path="UpperLimit" />
+                            </MultiBinding>
+                        </Label.Content>
+                    </Label>
+                </Border>
+                <Border Grid.Row="5" Grid.Column="3" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <TextBox AutomationProperties.AutomationId="txtInRangeWindowTemp"
+                             Grid.Column="1" Text="{Binding SelectedChiller.ChillerParam.InRangeWindowTemp.Value}"  Margin="2" FontSize="20" HorizontalContentAlignment="Right" Background="WhiteSmoke">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                    <i:InvokeCommandAction.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                            <Binding Path ="SelectedChiller.ChillerParam.InRangeWindowTemp"/>
+                                        </MultiBinding>
+                                    </i:InvokeCommandAction.CommandParameter>
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                </Border>
+                <!-- AmbientTemp -->
+                <Border Grid.Row="6" Grid.Column="0" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label Content="{Binding SelectedChiller.ChillerParam.AmbientTemp.ElementName}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="1" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label Content="{Binding SelectedChiller.ChillerParam.AmbientTemp.Description}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="2" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0">
+                        <Label.Content>
+                            <MultiBinding StringFormat="{}{0}/ {1}">
+                                <Binding Path="LowerLimit" />
+                                <Binding Path="UpperLimit" />
+                            </MultiBinding>
+                        </Label.Content>
+                    </Label>
+                </Border>
+                <Border Grid.Row="6" Grid.Column="3" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <TextBox AutomationProperties.AutomationId="txtAmbientTemp"
+                             Grid.Column="1" Text="{Binding SelectedChiller.ChillerParam.AmbientTemp.Value}"  Margin="2" FontSize="20" HorizontalContentAlignment="Right" Background="WhiteSmoke">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                    <i:InvokeCommandAction.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                            <Binding Path ="SelectedChiller.ChillerParam.AmbientTemp"/>
+                                        </MultiBinding>
+                                    </i:InvokeCommandAction.CommandParameter>
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                </Border>
+                <!-- IsEnableUsePurge -->
+                <Border Grid.Row="7" Grid.Column="0" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label Content="{Binding SelectedChiller.ChillerParam.IsEnableUsePurge.ElementName}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="7" Grid.Column="1" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label Content="{Binding SelectedChiller.ChillerParam.IsEnableUsePurge.Description}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0"/>
+                </Border>
+                <Border Grid.Row="7" Grid.Column="2" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0">
+                        <Label.Content>
+                            <MultiBinding StringFormat="{}{0}/ {1}">
+                                <Binding Path="LowerLimit" />
+                                <Binding Path="UpperLimit" />
+                            </MultiBinding>
+                        </Label.Content>
+                    </Label>
+                </Border>
+                <Border Grid.Row="7" Grid.Column="3" Margin="2" BorderBrush="DimGray" BorderThickness="1">
+                    <ToggleButton AutomationProperties.AutomationId="tglIsEnableUsePurge"
+                                  Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}" 
+                                                  IsChecked="{Binding SelectedChiller.ChillerParam.IsEnableUsePurge.Value}">
+                        <!--<i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <i:InvokeCommandAction Command="{Binding DataContext.InValveOnCommand, ElementName=ucWindow}"  
+                                                   CommandParameter="{Binding ElementName=StageIndexLB, Path=Content}"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="Unchecked">
+                                <i:InvokeCommandAction Command="{Binding DataContext.InValveOffCommand, ElementName=ucWindow}"  
+                                                   CommandParameter="{Binding ElementName=StageIndexLB, Path=Content}"/>
+                            </i:EventTrigger>-->
+                        <!--</i:Interaction.Triggers>-->
+                    </ToggleButton>
+                </Border>
+            </Grid>
+            <!--<DataGrid Grid.Row="1" ItemsSource="{Binding SetupChiller}">
+                <DataGridTextColumn Header="Param" Binding="{Binding Path=ElementName}" Width="100" />
+                <DataGridTextColumn Header="Description" Binding="{Binding Path=Description}" />
+                <DataGridTextColumn Header="Min/Max" Binding="{Binding Path=Publisher}"/>
+                <DataGridTemplateColumn  Header="Value" >
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock  Margin="3,1" Text="{Binding Value}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid>-->
+        </Grid>
+        
+        <!-- Stage -->
+        <Grid Grid.Row="1" Margin="4" Grid.RowSpan="2">
+            <ListView  x:Name="CellListView" ItemsSource="{Binding SetupStages}" Background="#FF2C2C2F" 
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"  SelectedItem="{Binding SelectedObj}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                        <!--<Setter Property="IsEnabled" Value="{Binding IsEnableTransfer, Mode=TwoWay}"/>-->
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="4" Rows="1"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition  Height="3*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Border BorderBrush="DimGray" BorderThickness="1">
+                              
+                                    <Grid Grid.Column="0" IsEnabled="{Binding IsConnected}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition Height="8*"/>
+                                        </Grid.RowDefinitions>
+                                        <Label x:Name="StageIndexLB" Background="LightSkyBlue" Margin="0" Content="{Binding Index}" ContentStringFormat="Stage #{0}"
+                                       Foreground="Black" FontWeight="DemiBold" VerticalContentAlignment="Center" FontSize="20"/>
+                                        <materialDesign:PackIcon Kind="LanConnect" MinWidth="40"   HorizontalAlignment="Right" Height="24"
+                                                                     VerticalAlignment="Stretch" 
+                                                                     Foreground="{Binding IsConnected, Converter={StaticResource CellObjectForeGroundConv}}"/>
+                                        <!-- Valve State -->
+                                        <Grid Grid.Row="1">
+                                            <materialDesign:PackIcon Grid.Row="1" Kind="SettingsInputComposite" MinWidth="40" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                                              Width="200" Height="200" Opacity="0.4"
+                                              Foreground="{Binding InOutValvestate, Converter={StaticResource ValveColorConverter}}" Margin="0,0,0,20"/>
+                                        </Grid>
+
+                                        <!-- Info-->
+                                        <Grid Grid.Row="1" x:Name="grid_StageInfo">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition/>
+                                                <RowDefinition Height="4*"/>
+                                            </Grid.RowDefinitions>
+                                            <!-- Stage Info -->
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+                                                <!-- SV -->
+                                                <Border Grid.Row="0" Grid.Column="0" BorderBrush="WhiteSmoke" BorderThickness="1" Margin="2">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition Width="2*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Label Content="SV" FontSize="16" Margin="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                                                        <Label Grid.Column="1" Content="{Binding SV}"  Margin="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" ContentStringFormat="{}{0:0.0}"/>
+                                                    </Grid>
+                                                </Border>
+                                                <!-- PV -->
+                                                <Border Grid.Row="0" Grid.Column="1" BorderBrush="WhiteSmoke" BorderThickness="1" Margin="2">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition Width="2*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Label Content="PV" FontSize="16" Margin="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                                                    <Label Grid.Column="1" Content="{Binding PV}" ContentStringFormat="{}{0:0.00}"  Margin="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>
+                                                    </Grid>
+                                                </Border>
+                                                <!-- DP -->
+                                                <Border Grid.Row="1" Grid.Column="0" BorderBrush="WhiteSmoke" BorderThickness="1" Margin="2">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition Width="2*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Label Content="DP" FontSize="16" Margin="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                                                        <Label Grid.Column="1" Content="{Binding DewPoint}"  Margin="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" ContentStringFormat="{}{0:0.0}"/>
+                                                    </Grid>
+                                                </Border>
+                                                <!--  -->
+                                                <Border Grid.Row="1" Grid.Column="1" BorderBrush="WhiteSmoke" BorderThickness="1" Margin="2">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition Width="0.6*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <!--<Label Content="Leak Valve" FontSize="16" Margin="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>-->
+                                                        <!--<Label Grid.Column="1"  Content="{Binding CommState, Converter={StaticResource CommconnectedStringConverter}}" 
+                                                                Foreground="{Binding HeaterState, Converter={StaticResource CellObjectForeGroundConv}}"
+                                                               Margin="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"/>-->
+                                                    </Grid>
+                                                </Border>
+                                            </Grid>
+                                            <!-- Stage Setup -->
+                                            <Grid Grid.Row='1'>
+                                                <StackPanel>
+                                                    <!-- Dew Point Tolerance-->
+                                                    <Border BorderBrush="WhiteSmoke" BorderThickness="1" Margin="2" >
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Content="Dew Point Tolerance" Margin="0" VerticalContentAlignment="Center" FontSize='18' FontWeight="DemiBold"/>
+                                                            <TextBox Grid.Column="1" Text="{Binding DewPointTolerance, StringFormat={}{0} ℃}"  Margin="2" FontSize="22" HorizontalContentAlignment="Right" Background="WhiteSmoke" Foreground="Black">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.StageTextBoxClickCommand, ElementName=ucWindow}">
+                                                                            <i:InvokeCommandAction.CommandParameter>
+                                                                                <MultiBinding Converter="{StaticResource StageVirtualKeyBoardTextBoxConverter}">
+                                                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                                                    <Binding Path ="Index"/>
+                                                                                </MultiBinding>
+                                                                            </i:InvokeCommandAction.CommandParameter>
+                                                                        </i:InvokeCommandAction>
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
+                                                        </Grid>
+                                                    </Border>
+                                                <!-- Dew Point TimeOut -->
+                                                <Border BorderBrush="WhiteSmoke" BorderThickness="1" Margin="2">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Label Content="DewPoint TimeOut" Margin="0" VerticalContentAlignment="Center" FontSize='18' FontWeight="DemiBold"/>
+                                                        <TextBox Grid.Column="1" Text="{Binding DewPointTimeOut, StringFormat={}{0}(sec)}"  Margin="2" FontSize="22" HorizontalContentAlignment="Right" Background="WhiteSmoke" Foreground="Black">
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                    <i:InvokeCommandAction Command="{Binding DataContext.StageTextBoxClickCommand, ElementName=ucWindow}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource StageVirtualKeyBoardTextBoxConverter}">
+                                                                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                                                <Binding Path ="Index"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </TextBox>
+                                                    </Grid>
+                                                </Border>
+                                                <!-- Dry Air Activatble Temp -->
+                                                    <Border BorderBrush="WhiteSmoke" BorderThickness="1" Margin="2">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Content="DryAir ActivateTemp" Margin="0" VerticalContentAlignment="Center" FontSize='18' FontWeight="DemiBold"/>
+                                                        <TextBox Grid.Column="1" Text="{Binding DryAirActivatableHighTemp, StringFormat={}{0} ℃}"  Margin="2" FontSize="22" HorizontalContentAlignment="Right" Background="WhiteSmoke" Foreground="Black">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.StageTextBoxClickCommand, ElementName=ucWindow}">
+                                                                            <i:InvokeCommandAction.CommandParameter>
+                                                                                <MultiBinding Converter="{StaticResource StageVirtualKeyBoardTextBoxConverter}">
+                                                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                                                    <Binding Path ="Index"/>
+                                                                                </MultiBinding>
+                                                                            </i:InvokeCommandAction.CommandParameter>
+                                                                        </i:InvokeCommandAction>
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
+                                                        </Grid>
+                                                    </Border>
+                                                    <!-- Coolant In Valve -->
+                                                    <Border BorderBrush="WhiteSmoke" BorderThickness="1" Margin="2">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Content="In Valve" Margin="0" VerticalContentAlignment="Center" FontSize='18' FontWeight="DemiBold"/>
+                                                        <ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}" 
+                                                  IsChecked="{Binding ValveStates.CoolantValveState}">
+                                                        </ToggleButton>
+                                                        <Canvas Grid.Column="1" Background="Transparent" Visibility="Visible"/>
+                                                    </Grid>
+                                                    </Border>
+                                                    <!-- Coolant Out Valve -->
+                                                    <Border BorderBrush="WhiteSmoke" BorderThickness="1" Margin="2">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Content="Out Valve" Margin="0" VerticalContentAlignment="Center" FontSize='18' FontWeight="DemiBold"/>
+                                                        <ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}" 
+                                                  IsChecked="{Binding ValveStates.CoolantValveState}">
+                                                        </ToggleButton>
+                                                        <Canvas Grid.Column="1" Background="Transparent" Visibility="Visible"/>
+                                                    </Grid>
+                                                    </Border>
+                                                    <!-- Dry Air Valve -->
+                                                    <Border BorderBrush="WhiteSmoke" BorderThickness="1" Margin="2">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Content="DryAir Valve" Margin="0" VerticalContentAlignment="Center" FontSize='18' FontWeight="DemiBold"/>
+                                                        <ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}" 
+                                                  IsChecked="{Binding ValveStates.DryAirValveState}">
+                                                        </ToggleButton>
+                                                        <Canvas Grid.Column="1" Background="Transparent" Visibility="Visible"/>
+                                                    </Grid>
+                                                    </Border>
+                                                    <!-- Drain Air Valve -->
+                                                    <Border BorderBrush="WhiteSmoke" BorderThickness="1" Margin="2">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Content="Drain Valve" Margin="0" VerticalContentAlignment="Center" FontSize='18' FontWeight="DemiBold"/>
+                                                        <ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}" 
+                                                  IsChecked="{Binding ValveStates.DrainValveState}">
+                                                        </ToggleButton>
+                                                        <Canvas Grid.Column="1" Background="Transparent" Visibility="Visible"/>
+                                                    </Grid>
+                                                    </Border>
+                                                    <!-- Purge Air Valve -->
+                                                    <Border BorderBrush="WhiteSmoke" BorderThickness="1" Margin="2">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Content="Purge Valve" Margin="0" VerticalContentAlignment="Center" FontSize='18' FontWeight="DemiBold"/>
+                                                        <ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}" 
+                                                  IsChecked="{Binding ValveStates.PurgeValveState}" Background="WhiteSmoke">
+                                                        </ToggleButton>
+                                                        <Canvas Grid.Column="1" Background="Transparent" Visibility="Visible"/>
+                                                    </Grid>
+                                                    </Border>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+
+                            </Border>
+
+                            <!--<Border Grid.Row="1" BorderBrush="WhiteSmoke" BorderThickness="0.6" Margin="0,0,0,4">
+                                <Grid >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button Grid.Column="0"
+                                            Margin="12"
+                                            Opacity="0.5" Height="40"
+                                            Style="{StaticResource UpButtonStyle}"
+                                            Command="{Binding StageListUpBtnClickCommand, ElementName=ucWindow}"
+                                            CommandParameter="{Binding ElementName=svCategoryView}"/>
+
+                                    <Button Grid.Column="2"
+                                            Margin="12"
+                                            Opacity="0.5"  Height="40"
+                                            Style="{StaticResource DwButtonStyle}"
+                                            Command="{Binding StageListDownBtnClickCommand, ElementName=ucWindow}"
+                                            CommandParameter="{Binding ElementName=svCategoryView}"/>
+                                </Grid>
+                            </Border>-->
+                        </Grid>
+
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="43578c22-2004-4650-bf50-e08fed77c05f" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.pipe://localhost/secsgempipe/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="b54e77e5-b281-4cd9-b61c-769b267fa734" SourceId="1" SourceUrl="net.pipe://localhost/secsgempipe/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="14175c9a-62d7-4a35-8d80-af9d6313d181" SourceId="1" SourceUrl="net.pipe://localhost/secsgempipe/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="8b065f47-f48b-4ef4-87a6-e961beb2b30b" SourceId="1" SourceUrl="net.pipe://localhost/secsgempipe/mex" />
+    <MetadataFile FileName="Arrays.xsd" MetadataType="Schema" ID="36cdbd40-607b-46fb-9390-cb0426183432" SourceId="1" SourceUrl="net.pipe://localhost/secsgempipe/mex" />
+    <MetadataFile FileName="WcfSecs_XGemService.xsd" MetadataType="Schema" ID="5049f6f3-21fd-4d1b-ac04-83663b489f81" SourceId="1" SourceUrl="net.pipe://localhost/secsgempipe/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

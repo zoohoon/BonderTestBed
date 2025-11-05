@@ -1,0 +1,1226 @@
+﻿<UserControl x:Class="ProberViewModel.LogIntegratedView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:local="clr-namespace:ProberViewModel"
+             xmlns:logserv="clr-namespace:LogService;assembly=LogService"
+             xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="1024" d:DesignWidth="1280">
+
+    <UserControl.Resources>
+
+        <SolidColorBrush x:Key="OutsideFontColor" Color="#FF000000" />
+        <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#A5FFFFFF"/>
+        <SolidColorBrush x:Key="DisabledBorderBrush" Color="#66FFFFFF"/>
+        <SolidColorBrush x:Key="FocusBrush" Color="#FFE99862"/>
+        <SolidColorBrush x:Key="ControlBorderBrush" Color="#FFB1703C"/>
+        <SolidColorBrush x:Key="GlyphBrush" Color="#FF527DB5"/>
+        <SolidColorBrush x:Key="AlternateBackgroundBrush" Color="#FFBFDBFF"/>
+        <SolidColorBrush x:Key="ControlContentBrush" Color="#FFE0EAF6"/>
+        <SolidColorBrush x:Key="NormalHighlightBrush" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#888" />
+        <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#FFF" />
+
+        <LinearGradientBrush x:Key="NormalBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFFFFFFF" Offset="0" />
+            <GradientStop Color="#FF8AAEDA" Offset="0.521" />
+            <GradientStop Color="#FFC6D6EC" Offset="0.194" />
+            <GradientStop Color="#FFB4C9E5" Offset="0.811" />
+            <GradientStop Color="#FFB7C8E0" Offset="0.507" />
+            <GradientStop Color="#FFD1DEF0" Offset="1" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="NormalBorderBrush" EndPoint="0.5,0" StartPoint="0.5,1">
+            <GradientStop Color="#FF84B2D4" />
+            <GradientStop Color="#FFADC7DE" Offset="1" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="MouseOverBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFFFFFFF" Offset="0" />
+            <GradientStop Color="#FFFEF3B5" Offset="0.318" />
+            <GradientStop Color="#FFFFEB70" Offset="0.488" />
+            <GradientStop Color="#FFFFD02E" Offset="0.502" />
+            <GradientStop Color="#FFFFD932" Offset="0.834" />
+            <GradientStop Color="#FFFFF48B" Offset="1" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="MouseOverBorderBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFEEE8CF" Offset="0" />
+            <GradientStop Color="#FFC4AF8C" Offset="0.536" />
+            <GradientStop Color="#FFDCD1BF" Offset="1" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="MouseOverHighlightBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFFFFFFB" Offset="0" />
+            <GradientStop Color="#FFFEF3B5" Offset="1" />
+        </LinearGradientBrush>
+
+        <!--<LinearGradientBrush x:Key="SelectedBrush" StartPoint="0.5,0" EndPoint="0.1,1">
+            <GradientStop Color="#FEC163" Offset="0" />
+            <GradientStop Color="#DE4313" Offset="1" />
+        </LinearGradientBrush>-->
+
+        <LinearGradientBrush x:Key="SelectedBrush" EndPoint="0.5,1" StartPoint="0,0">
+            <GradientStop Color="#FEC163" Offset="0"/>
+            <GradientStop Color="#DE4313" Offset="1"/>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="PressedBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFC3BCAE" Offset="0" />
+            <GradientStop Color="#FFFDCE9D" Offset="0.046" />
+            <GradientStop Color="#FFFFA35B" Offset="0.452" />
+            <GradientStop Color="#FFFF8A2C" Offset="0.461" />
+            <GradientStop Color="#FFFF9F30" Offset="0.724" />
+            <GradientStop Color="#FFFFC472" Offset="1" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="PressedBorderBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF8E8165" Offset="0" />
+            <GradientStop Color="#FFC3BCAE" Offset="1" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="PressedHighlightBrush" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFFFFFFF" Offset="0.665" />
+            <GradientStop Color="#FFC3BCAE" Offset="0" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="ControlBackgroundBrush" EndPoint="1.204,0.5" StartPoint="0.056,0.5">
+            <GradientStop Color="#FFFFFFFF" Offset="0" />
+            <GradientStop Color="#FFD4D7DB" Offset="1" />
+        </LinearGradientBrush>
+
+        <Color x:Key="BlackColor">#FF000000</Color>
+        <Color x:Key="WhiteColor">#FFFFFFFF</Color>
+
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border Name="DwButtonBorderStyle" Background="#333333">
+                                <Border.BitmapEffect>
+                                    <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                                        Color="LightGray" 
+                                                        ShadowDepth="5"
+                                                        Softness="0"/>
+                                </Border.BitmapEffect>
+                            </Border>
+                            <Grid>
+                                <Label Content="{TemplateBinding Content}" HorizontalAlignment="Center"
+                                                       Foreground="White" FontSize="16"
+                                   Margin="0"
+                                                  VerticalAlignment="Center"/>
+                            </Grid>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="DwButtonBorderStyle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true"/>
+                            <Trigger Property="IsPressed" Value="true">
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="DwButtonBorderStyle" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="DwButtonBorderStyle" Value="{StaticResource Button.Disabled.Border}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="alternatingListViewItemStyle" TargetType="{x:Type ListViewItem}">
+            <Style.Triggers>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="DimGray"></Setter>
+                </Trigger>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="2">
+                    <Setter Property="Background" Value="LightGray"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!--<Style TargetType="{x:Type Dialogs:BaseMetroDialog}"
+            x:Key="FullCustomDialogStyle"
+            BasedOn="{StaticResource {x:Type Dialogs:BaseMetroDialog}}">-->
+
+        <vc:LogLevelToHeaderIconImageConverter x:Key="LogLevelToHeaderIconImageConv"/>
+
+        <Style TargetType="{x:Type Controls:MetroTabItem}" x:Key="IconMetroItem" >
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid>
+                            <Border Name="Border" 
+                                    Margin="0,0,0,0" 
+                                    Background="Transparent"
+                                    BorderBrush="Transparent" 
+                                    BorderThickness="0" 
+                                    CornerRadius="0">
+                                <ContentPresenter x:Name="ContentSite" 
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center"
+                                                  ContentSource="Header" 
+                                                  RecognizesAccessKey="True">
+                                    <ContentPresenter.LayoutTransform>
+                                        <RotateTransform Angle="0" />
+                                    </ContentPresenter.LayoutTransform>
+                                </ContentPresenter>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Panel.ZIndex" Value="100" />
+                                <Setter TargetName="Border" Property="Background" Value="#6A6565" />
+                                <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter Property="Panel.ZIndex" Value="100" />
+                                <Setter TargetName="Border" Property="Background" Value="#FF333333" />
+                                <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="DarkRed" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="Black" />
+                                <Setter Property="Foreground" Value="DarkGray" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+
+                        <StackPanel Width="{Binding ActualWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabItem}}}"
+                                    Height="{Binding ActualHeight, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabItem}}}"
+                                    Orientation="Horizontal">
+
+                            <Image Width="40" Height="40" HorizontalAlignment="Center" Margin="10,0,0,0"
+                                   RenderOptions.BitmapScalingMode="HighQuality" 
+                                   Source="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabItem}}, Path=DataContext.Level, Converter={StaticResource LogLevelToHeaderIconImageConv}}" />
+
+                            <Label VerticalAlignment="Center" Margin="10,0,0,0"
+                                   FontSize="18"
+                                   FontFamily="Arial"
+                                   Foreground="White"
+                                   Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabItem}}, Path=DataContext.Name}">
+                            </Label>
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Controls:MetroTabItem}" x:Key="NoIconMetroItem" >
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid>
+                            <Border Name="Border" 
+                                    Margin="-5,0,0,0" 
+                                    Background="Transparent"
+                                    BorderBrush="Transparent" 
+                                    BorderThickness="0" 
+                                    CornerRadius="0">
+                                <ContentPresenter x:Name="ContentSite" 
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Left"
+                                                  ContentSource="Header" 
+                                                  RecognizesAccessKey="True">
+                                    <ContentPresenter.LayoutTransform>
+                                        <RotateTransform Angle="0" />
+                                    </ContentPresenter.LayoutTransform>
+                                </ContentPresenter>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Panel.ZIndex" Value="100" />
+                                <Setter TargetName="Border" Property="Background" Value="#303030" />
+                                <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter Property="Panel.ZIndex" Value="100" />
+                                <Setter TargetName="Border" Property="Background" Value="#FF333333" />
+                                <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="DarkRed" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="Black" />
+                                <Setter Property="Foreground" Value="DarkGray" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Label VerticalAlignment="Center" Margin="10,0,0,0"
+                                   FontSize="18"
+                                   FontFamily="Arial"
+                                   Foreground="White"
+                                   Content="{TemplateBinding Content}"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
+        <!-- SrollViewer ScrollBar Repeat Buttons (at each end) -->
+        <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+
+                        <Grid>
+                            <Rectangle x:Name="BtnBackground" Opacity="1" RadiusX="9" RadiusY="9"
+                                   Fill="{TemplateBinding Background}" StrokeThickness="0.35">
+                                <Rectangle.Stroke>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="#FF777777" Offset="0" />
+                                        <GradientStop Color="#FF777777" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Rectangle.Stroke>
+                            </Rectangle>
+                            <Rectangle x:Name="BtnShine" Margin="2,2,2,0" VerticalAlignment="Top" RadiusX="8" RadiusY="8" Opacity="1" Stroke="Transparent" Height="20">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="#FF9fa3ac" Offset="0"/>
+                                        <GradientStop Color="Transparent" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <!--<Viewbox x:Name="vb_lockimg" Width="20" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" >
+                                <Canvas Width="24" Height="24">
+                                    <Canvas.Effect>
+                                        <DropShadowEffect Color="Green" Direction="90" Opacity="1" BlurRadius="2" ShadowDepth ="3"></DropShadowEffect>
+                                    </Canvas.Effect>
+                                    <Path Data="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" 
+                                             Fill="#FEBE38">
+                                    </Path>
+                                </Canvas>
+                            </Viewbox>-->
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+
+                        <!--<Border
+                            Name="Border"
+                            Margin="1"
+                            CornerRadius="10"
+                            Background="{StaticResource PressedBrush}"
+                            BorderBrush="{StaticResource NormalBorderBrush}"
+                            BorderThickness="1">
+                            <Path Stretch="Uniform" Width="20" Height="15"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Fill="{StaticResource GlyphBrush}"
+                                Data="{Binding Path=Content,
+                                RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Border>-->
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF77778a"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Fill" TargetName="BtnBackground">
+                                    <Setter.Value>
+                                        <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                            <GradientStop Color="White" Offset="0"/>
+                                            <GradientStop Color="White" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <!--<Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Fill" TargetName="BtnBackground" Value="#FF222222"/>
+                                <Setter Property="Visibility" TargetName="vb_lockimg" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="True">
+                                <Setter Property="Visibility" TargetName="vb_lockimg" Value="Hidden"/>
+                            </Trigger>-->
+
+                            <!--<Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="Border" Property="Background"
+                                Value="{StaticResource PressedBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground"
+                                Value="{StaticResource DisabledForegroundBrush}"/>
+                            </Trigger>-->
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- SrollViewer ScrollBar Repeat Buttons (The part in the middle, 
+             not the thumb the long area between the buttons ) -->
+        <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Border Background="Gray" Opacity="0.1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ScrollViewer ScrollBar Thumb, that part that can be dragged
+            up/down or left/right Buttons -->
+        <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Thumb}">
+                        <Border
+                            CornerRadius="1"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <ControlTemplate x:Key="VerticalScrollBar"
+            TargetType="{x:Type ScrollBar}">
+            <Grid >
+
+                <Grid.RowDefinitions>
+                    <RowDefinition MaxHeight="65"/>
+                    <RowDefinition Height="0.00001*"/>
+                    <RowDefinition MaxHeight="65"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.RowSpan="3"
+                        CornerRadius="2"
+                        Background="Transparent" />
+
+                <RepeatButton Grid.Row="0" Background="#6A6565"
+                                  Style="{StaticResource ScrollBarLineButton}"
+                                  Command="ScrollBar.LineUpCommand">
+                    <Path Data="M 0 4 L 8 4 L 4 0 Z" Fill="White" Stretch="Uniform" Width="50" Height="20"/>
+                </RepeatButton>
+
+                <Track Name="PART_Track"
+                       Grid.Row="1"
+                       IsDirectionReversed="true">
+
+                    <!--<Track.Resources>
+                        -->
+                    <!-- Set the Thumb's minimum height to 50.
+                        The Thumb's minimum height is half the value of VerticalScrollBarButtonHeightKey. -->
+                    <!--
+                        <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">1000</sys:Double>
+                    </Track.Resources>-->
+
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource ScrollBarPageButton}"
+                                      Command="ScrollBar.PageUpCommand" />
+                    </Track.DecreaseRepeatButton>
+
+                    <!--Background="{StaticResource StandardBorderBrush}"
+                    BorderBrush="{StaticResource OrangePressedBrush}" />-->
+
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource ScrollBarThumb}"
+                               Thumb.DragDelta="Thumb_OnDragDelta"
+                               Margin="1,0,1,0"
+                               Background="#6A6565"
+                               BorderBrush="Transparent" />
+                    </Track.Thumb>
+
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource ScrollBarPageButton}"
+                                      Command="ScrollBar.PageDownCommand" />
+                    </Track.IncreaseRepeatButton>
+
+                </Track>
+
+                <RepeatButton Grid.Row="3" Background="#6A6565"
+                              Style="{StaticResource ScrollBarLineButton}"
+                              Command="ScrollBar.LineDownCommand">
+                    <Path Data="M 0 0 L 4 4 L 8 0 Z" Fill="White" Stretch="Uniform" Width="50" Height="20"/>
+                </RepeatButton>
+            </Grid>
+        </ControlTemplate>
+
+        <!-- Style for overall  ScrollBar -->
+        <Style x:Key="{x:Type ScrollBar}" TargetType="{x:Type ScrollBar}" BasedOn="{StaticResource {x:Type ScrollBar}}">
+
+            <Style.Resources>
+                <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">65</sys:Double>
+            </Style.Resources>
+
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+
+            <Style.Triggers>
+
+                <!--<Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="Width" Value="Auto"/>
+                    <Setter Property="Height" Value="18" />
+                    <Setter Property="Template"
+                        Value="{StaticResource HorizontalScrollBar}" />
+                </Trigger>-->
+
+                <Trigger Property="Orientation" Value="Vertical">
+                    <Setter Property="Width" Value="18"/>
+                    <Setter Property="Height" Value="Auto" />
+                    <Setter Property="Template"
+                            Value="{StaticResource VerticalScrollBar}" />
+                </Trigger>
+
+            </Style.Triggers>
+        </Style>
+
+        <!-- Style for overall  ScrollViewer -->
+        <Style x:Key="FavsScrollViewer" TargetType="{x:Type ScrollViewer}">
+            <!--<Setter Property="OverridesDefaultStyle" Value="False"/>-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <ScrollContentPresenter Grid.Column="0"/>
+
+                            <ScrollBar Name="PART_VerticalScrollBar" 
+                                       HorizontalAlignment="Right"
+                                       Value="{TemplateBinding VerticalOffset}"
+                                       Maximum="{TemplateBinding ScrollableHeight}"
+                                       ViewportSize="{TemplateBinding ViewportHeight}"
+                                       Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+
+                            <ScrollBar Name="PART_HorizontalScrollBar"
+                                       Orientation="Horizontal"
+                                       Grid.Row="1"
+                                       Grid.Column="1"
+                                       Value="{TemplateBinding HorizontalOffset}"
+                                       Maximum="{TemplateBinding ScrollableWidth}"
+                                       ViewportSize="{TemplateBinding ViewportWidth}"
+                                       Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <vc:LogLevelToVisibilityForMessageConverter x:Key="LogTypeToVisibilityForMessageConv"/>
+
+        <vc:LogTypeToImageConverter x:Key="LogTypeToImageConv"/>
+        <vc:LogTagToStringConverter x:Key="LogTagToStringConv"/>
+
+        <vc:LogLevelToVisibilityConverter x:Key="LogLevelToVisibilityForConvProlog" Correctlevel1="PROLOG"/>
+        <vc:LogLevelToVisibilityConverter x:Key="LogLevelToVisibilityForConvEvent" Correctlevel1="EVENT"/>
+        <vc:LogLevelToVisibilityConverter x:Key="LogLevelToVisibilityForConvDebug" Correctlevel1="DEBUG"/>
+        <vc:LogLevelToVisibilityConverter x:Key="LogLevelToVisibilityForConvFilteredDebug" Correctlevel1="FILTEREDDEBUG"/>
+        <vc:LogLevelToVisibilityConverter x:Key="LogLevelToVisibilityForConvDebugAndFilteredDebug" Correctlevel1="DEBUG" Correctlevel2 ="FILTEREDDEBUG"/>
+
+    </UserControl.Resources>
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="9.5*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Column="0" BorderThickness="1" BorderBrush="White">
+
+            <Grid>
+
+                <Controls:MetroAnimatedTabControl TabStripMargin="4"
+                            SelectedIndex="{Binding TabControlSelectedIndex}" 
+                            SelectionChanged="Tabctrl_SelectionChanged" 
+                            TabStripPlacement="Top" 
+                            x:Name="Tabctrl">
+
+                    <!--<i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged" >
+                            <i:InvokeCommandAction 
+                                CommandName="searchTabHasChanged" Command="{Binding TabControlSelectionChangedCommand}"
+                                CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=CommandName}">
+                            </i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>-->
+
+                    <!--<TabControl.Resources>
+                        <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource {x:Type TabItem}}">
+                            <Setter Property="Controls:ControlsHelper.HeaderFontSize" Value="24" />
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Background" Value="DarkGray"/>
+                            <Setter Property="BorderBrush" Value="White"/>
+                            <Setter Property="BorderThickness" Value="1"/>
+                        </Style>
+
+                    </TabControl.Resources>-->
+
+                    <!--SelectedItem="{Binding SelectedItem}"-->
+
+                    <!--ItemsSource="{Binding LogViewModel.LogHistories.ProLogHistories}"-->
+
+                    <Controls:MetroTabItem x:Name="PrologTabItem"
+                                           Width="200" 
+                                           Height="50" 
+                                           DataContext="{Binding LogViewModel.PrologHeader}"
+                                           Style="{StaticResource IconMetroItem}">
+
+                        <!--<ScrollViewer x:Name="PrologDataGridScroll" Background="Black" Margin="5,5,5,5"
+                                      CanContentScroll="True"
+                                      VerticalScrollBarVisibility="Visible" 
+                                      HorizontalScrollBarVisibility="Hidden" 
+                                      Style="{StaticResource FavsScrollViewer}">-->
+
+
+                            <DataGrid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.LogLevel, Converter={StaticResource LogLevelToVisibilityForConvProlog}}"
+                            local:DataGridTextSearch.SearchValue="{Binding ElementName=SearchTextBoxForDebug, Path=Text, UpdateSourceTrigger=PropertyChanged}"
+                            SelectionMode="Single"
+                                  SelectedItem="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SelectedItem}"
+                              ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.LogViewModel.PrologCollection}"
+                              ScrollViewer.CanContentScroll="True"
+                              VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                              VirtualizingPanel.VirtualizationMode="Standard"
+                              VirtualizingPanel.IsVirtualizing="True"
+                              HeadersVisibility="Column"
+                              CanUserResizeRows="False"
+                              CanUserResizeColumns="False"
+                              CanUserSortColumns="True" 
+                              CanUserAddRows="False" 
+                              CanUserReorderColumns="True"
+                              AutoGenerateColumns="False"
+                              materialDesign:DataGridAssist.ColumnHeaderPadding="5"
+                              Margin="5"
+                              Background="Black"
+                              VerticalScrollBarVisibility="Visible"
+                              HorizontalScrollBarVisibility="Hidden"
+
+                              x:Name="ProLogDataGrid"
+                              >
+
+                                <!--<DataGrid.Resources>
+                                <Style TargetType="Scrollbar">
+                                    <Setter Property="Style" Value="{StaticResource FavsScrollViewer}" />
+                                </Style>
+                            </DataGrid.Resources>-->
+
+                                <!--<DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow" BasedOn="{StaticResource DataGridRowKey}"/>
+                            </DataGrid.RowStyle>-->
+
+                                <!--<i:Interaction.Behaviors>
+                                <local:IgnoreMouseWheelBehavior />
+                                <local:DataGridSelectedItemsBlendBehavior SelectedItems="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SelectedItems}"/>
+                            </i:Interaction.Behaviors>-->
+
+
+                                <!--<i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding DataGridSelectionChangedCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>-->
+
+                                <DataGrid.Columns>
+
+                                    <!--Width="SizeToCells"-->
+
+                                    <DataGridTemplateColumn IsReadOnly="True" MinWidth="50" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <!--<Image Width="18" Height="18" Margin="1"
+                                                       Source="pack://application:,,,/ImageResourcePack;component/Images/Fault_Image01.png"/>-->
+                                                <Image HorizontalAlignment="Stretch"
+                                                   Width="20"
+                                                   Height="20"
+                                                   Margin="1" 
+                                                   RenderOptions.BitmapScalingMode="HighQuality"
+                                                   Source="{Binding Properties[LogType], Converter={StaticResource LogTypeToImageConv}}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                <materialDesign:MaterialDataGridTextColumn Width="150" Binding="{Binding Properties[LogType]}" Header="Level" IsReadOnly="True">
+
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+
+                                    </materialDesign:MaterialDataGridTextColumn>
+
+                                <materialDesign:MaterialDataGridTextColumn Width="175" Binding="{Binding TimeStamp}" Header="Date and Time" IsReadOnly="True">
+
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+
+                                    </materialDesign:MaterialDataGridTextColumn>
+
+                                <materialDesign:MaterialDataGridTextColumn Width="150" Binding="{Binding Properties[LogCode]}" Header="Code" IsReadOnly="True">
+
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                                <Setter Property="Margin" Value="5"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+
+                                    </materialDesign:MaterialDataGridTextColumn>
+
+                                    <materialDesign:MaterialDataGridTextColumn Width="1*" Binding="{Binding Message}" Header="General" IsReadOnly="True">
+
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                                <Setter Property="Margin" Value="5"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+
+                                    </materialDesign:MaterialDataGridTextColumn>
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        <!--</ScrollViewer>-->
+                    </Controls:MetroTabItem>
+
+                    <Controls:MetroTabItem x:Name="EventlogTabItem"  
+                                           Width="200" 
+                                           Height="50" 
+                                           DataContext="{Binding LogViewModel.EventlogHeader}"
+                                           Style="{StaticResource IconMetroItem}">
+
+                        <!--ItemsSource="{Binding LogViewModel.LogHistories.EventLogHistories}"-->
+
+                            <DataGrid 
+                            local:DataGridTextSearch.SearchValue="{Binding ElementName=SearchTextBoxForDebug, Path=Text, UpdateSourceTrigger=PropertyChanged}"
+                            Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.LogLevel, Converter={StaticResource LogLevelToVisibilityForConvEvent}}"
+                            Grid.Row="0" 
+                            SelectedItem="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SelectedItem}"
+                            SelectionMode="Single"
+                              ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.LogViewModel.EventlogCollection}"
+                              ScrollViewer.CanContentScroll="True"
+                              VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                              VirtualizingPanel.VirtualizationMode="Recycling"
+                              VirtualizingPanel.IsVirtualizing="True"
+                              HeadersVisibility="Column"
+                              CanUserResizeRows="False"
+                              CanUserResizeColumns="False"
+                              CanUserSortColumns="True" 
+                              CanUserAddRows="False" 
+                              CanUserReorderColumns="True"
+                              AutoGenerateColumns="False"
+                              materialDesign:DataGridAssist.ColumnHeaderPadding="5"
+                              Margin="5,5,5,5"
+                              VerticalScrollBarVisibility="Visible"
+                                HorizontalScrollBarVisibility="Hidden"
+                              Background="Black"
+                              x:Name="EventLogDataGrid"
+                              >
+
+                                <!--<DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow" BasedOn="{StaticResource DataGridRowKey}"/>
+                            </DataGrid.RowStyle>-->
+
+                                <!--<i:Interaction.Behaviors>
+                                <local:IgnoreMouseWheelBehavior />
+                                <local:DataGridSelectedItemsBlendBehavior SelectedItems="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.SelectedItems}"/>
+                            </i:Interaction.Behaviors>-->
+
+                                <!--<i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding DataGridSelectionChangedCommand}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>-->
+
+                                <!--<DataGrid.Resources>
+                                <Style TargetType="DataGridRow" BasedOn="{StaticResource DataGridRowKey}">
+                                    <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                                </Style>
+                            </DataGrid.Resources>-->
+
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="" IsReadOnly="True" MinWidth="50" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image HorizontalAlignment="Stretch"
+                                                   Width="20"
+                                                   Height="20"
+                                                   Margin="1" 
+                                                   RenderOptions.BitmapScalingMode="HighQuality"
+                                                   Source="{Binding Properties[LogType], Converter={StaticResource LogTypeToImageConv}}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                <materialDesign:MaterialDataGridTextColumn Width="150" Binding="{Binding Properties[LogType]}" Header="Level" IsReadOnly="True">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </materialDesign:MaterialDataGridTextColumn>
+
+                                <materialDesign:MaterialDataGridTextColumn Width="160" Binding="{Binding TimeStamp}" Header="Date and Time" IsReadOnly="True">
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+                                    </materialDesign:MaterialDataGridTextColumn>
+
+                                    <materialDesign:MaterialDataGridTextColumn Width="1*" Binding="{Binding Message}" Header="General" IsReadOnly="True">
+
+                                        <DataGridTextColumn.ElementStyle>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                                <Setter Property="Margin" Value="5"/>
+                                            </Style>
+                                        </DataGridTextColumn.ElementStyle>
+
+                                    </materialDesign:MaterialDataGridTextColumn>
+
+                                </DataGrid.Columns>
+                            </DataGrid>
+                    </Controls:MetroTabItem>
+
+                    <!--<Controls:MetroTabItem x:Name="DebuglogTabItem" 
+                                           Width="200" 
+                                           Height="50" 
+                                           DataContext="{Binding LogViewModel.DebuglogHeader}"
+                                           Style="{StaticResource IconMetroItem}">
+
+                        <Grid>
+                            <Border BorderThickness="1" BorderBrush="White">
+                                <ScrollViewer x:Name="DebugListViewScroll" Background="Black" Margin="5,5,5,5"
+                                          CanContentScroll="True"
+                                          VerticalScrollBarVisibility="Visible" 
+                                          HorizontalScrollBarVisibility="Hidden" 
+                                          Style="{StaticResource FavsScrollViewer}"
+                                          Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.LogLevel, Converter={StaticResource LogLevelToVisibilityForConvDebug}}">
+
+                                    <i:Interaction.Behaviors>
+                                        <local:IgnoreMouseWheelBehavior />
+                                    </i:Interaction.Behaviors>
+
+                                    --><!--ItemsSource="{Binding LogViewModel.LogHistories.DebugLogHistories}"--><!--
+
+                                    <ListView Grid.Column="0" Background="Black" 
+                                      ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.LogViewModel.LogHistories.DebugLogHistories}"
+                                      SelectionChanged="DebugListView_SelectionChanged"
+                                      x:Name="DebugListView"
+                                      VirtualizingPanel.IsVirtualizing="True"
+                                      VirtualizingPanel.VirtualizationMode="Recycling"
+                                      VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                      VirtualizingPanel.IsContainerVirtualizable="True"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Hidden" 
+                                      ScrollViewer.VerticalScrollBarVisibility="Hidden">
+
+                                        <ListView.ItemContainerStyle>
+                                            <Style TargetType="ListViewItem" BasedOn="{StaticResource alternatingListViewItemStyle}">
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+                                            </Style>
+                                        </ListView.ItemContainerStyle>
+
+                                        <ListView.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical" />
+                                            </ItemsPanelTemplate>
+                                        </ListView.ItemsPanel>
+
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock TextWrapping="Wrap" FontSize="16" Height="24">
+                                                    <TextBlock.Text>
+                                                        <MultiBinding StringFormat="{}{0:yyyy/MM/dd hh:mm tt} | {1}">
+                                                            <Binding Path="Time"/>
+                                                            <Binding Path="Message"/>
+                                                        </MultiBinding>
+                                                    </TextBlock.Text>
+                                                </TextBlock>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </ScrollViewer>
+                            </Border>
+
+                            <ScrollViewer x:Name="FilteredDebugListViewScroll" Background="Black" Margin="5,5,5,5"
+                                          CanContentScroll="True"
+                                          VerticalScrollBarVisibility="Visible" 
+                                          HorizontalScrollBarVisibility="Hidden" 
+                                          Style="{StaticResource FavsScrollViewer}"
+                                          Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.LogLevel, Converter={StaticResource LogLevelToVisibilityForConvFilteredDebug}}">
+
+                                <i:Interaction.Behaviors>
+                                    <local:IgnoreMouseWheelBehavior />
+                                </i:Interaction.Behaviors>
+
+                                <ListView Grid.Column="0" ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.LogViewModel.LogHistories.FilteredLogHistories}"
+                                      SelectionChanged="FilteredDebugListView_SelectionChanged"
+                                      x:Name="FilteredDebugListView"
+                                      VirtualizingPanel.IsVirtualizing="True"
+                                      VirtualizingPanel.VirtualizationMode="Recycling"
+                                      VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                      VirtualizingPanel.IsContainerVirtualizable="True"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Hidden" 
+                                      ScrollViewer.VerticalScrollBarVisibility="Hidden">
+
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem" BasedOn="{StaticResource alternatingListViewItemStyle}">
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+
+                                    --><!--<ListView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical" />
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>--><!--
+
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock TextWrapping="Wrap" FontSize="16" Height="24">
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{}{0:yyyy/MM/dd hh:mm tt} | {1}">
+                                                        <Binding Path="Time"/>
+                                                        <Binding Path="Message"/>
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </ScrollViewer>
+
+                        </Grid>
+
+                    </Controls:MetroTabItem>-->
+                </Controls:MetroAnimatedTabControl>
+
+                <materialDesign:PackIcon Kind="AccountSearch" 
+                                         Margin="0,20,465,0" 
+                                         Grid.Column="0"
+                                             Foreground="WhiteSmoke"
+                                             VerticalAlignment="Top"
+                                             HorizontalAlignment="Right"
+                                             Visibility="{Binding LogLevel, Converter={StaticResource LogLevelToVisibilityForConvDebugAndFilteredDebug}}"
+                                             Height="32" 
+                                             Width="32"/>
+
+                <TextBox materialDesign:HintAssist.Hint="Search" 
+                             x:Name="SearchTextBoxForDebug"
+                             Visibility="{Binding LogLevel, Converter={StaticResource LogLevelToVisibilityForConvDebugAndFilteredDebug}}"
+                             VerticalAlignment="Top"
+                             HorizontalAlignment="Right"
+                             Text="{Binding Path=SearchKeyword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             materialDesign:HintAssist.IsFloating="True" Foreground="White"
+                             Width="256" Height="50" Margin="0,0,200,0">
+                </TextBox>
+
+                <!--<TextBox materialDesign:HintAssist.Hint="Search" 
+                             x:Name="SearchTextBoxForProlog"
+                             Visibility="{Binding LogLevel, Converter={StaticResource LogLevelToVisibilityForConvProlog}}"
+                             VerticalAlignment="Top"
+                             HorizontalAlignment="Right"
+                             Text=""
+                             materialDesign:HintAssist.IsFloating="True" Foreground="White"
+                             Width="256" Height="50" Margin="0,0,100,0">
+                </TextBox>-->
+
+                <!--<TextBox materialDesign:HintAssist.Hint="Search" 
+                             x:Name="SearchTextBoxForEvent"
+                             Visibility="{Binding LogLevel, Converter={StaticResource LogLevelToVisibilityForConvEvent}}"
+                             VerticalAlignment="Top"
+                             HorizontalAlignment="Right"
+                             Text=""
+                             materialDesign:HintAssist.IsFloating="True" Foreground="White"
+                             Width="256" Height="50" Margin="0,0,100,0">
+                </TextBox>-->
+
+                    <!--<Button Style="{StaticResource ImageIConBtnStyle}" Width="48" Height="48"
+                        Command="{Binding UpdateLogCommand}"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Right" Margin="0,6,80,0">
+                        <Viewbox>
+                            <Canvas Width="24" Height="24">
+                                <Path Data="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z" Fill="White" />
+                            </Canvas>
+                        </Viewbox>
+                    </Button>-->
+
+                <Button Style="{StaticResource ImageIConBtnStyle}" 
+                        Width="48" 
+                        Height="48" 
+                        VerticalAlignment="Top" 
+                        HorizontalAlignment="Right" Margin="0,6,13,0" 
+                        Command="{Binding DrawerCloseCommand}">
+                    <Viewbox>
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M4.08,11.92L12,4L19.92,11.92L18.5,13.33L13,7.83V22H11V7.83L5.5,13.33L4.08,11.92M12,4H22V2H2V4H12Z" Fill="White"/>
+                        </Canvas>
+                    </Viewbox>
+                </Button>
+
+            </Grid>
+        </Border>
+
+        <!--<Border Grid.Column="1" BorderThickness="1" BorderBrush="White">
+
+            <Grid Margin="2,0,-2,0">
+
+                --><!--<Button Width="48" Height="48" VerticalAlignment="Center" Click="Button_Click"
+                        Tag="EventLogDataGrid"
+                        Visibility="{Binding LogLevel, Converter={StaticResource LogLevelToVisibilityForConvEvent}}">
+                    <Viewbox>
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M9,9H15V15H9M7,17H17V7H7M15,5H17V3H15M15,21H17V19H15M19,17H21V15H19M19,9H21V7H19M19,21A2,2 0 0,0 21,19H19M19,13H21V11H19M11,21H13V19H11M9,3H7V5H9M3,17H5V15H3M5,21V19H3A2,2 0 0,0 5,21M19,3V5H21A2,2 0 0,0 19,3M13,3H11V5H13M3,9H5V7H3M7,21H9V19H7M3,13H5V11H3M3,5H5V3A2,2 0 0,0 3,5Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>-->
+
+                <!--<Button Width="48" Height="48" VerticalAlignment="Center" Command="{Binding LogViewModel.LogTestCommand}">
+                    <Viewbox>
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M9,9H15V15H9M7,17H17V7H7M15,5H17V3H15M15,21H17V19H15M19,17H21V15H19M19,9H21V7H19M19,21A2,2 0 0,0 21,19H19M19,13H21V11H19M11,21H13V19H11M9,3H7V5H9M3,17H5V15H3M5,21V19H3A2,2 0 0,0 5,21M19,3V5H21A2,2 0 0,0 19,3M13,3H11V5H13M3,9H5V7H3M7,21H9V19H7M3,13H5V11H3M3,5H5V3A2,2 0 0,0 3,5Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>-->
+
+                <!--<Button Width="48" Height="48" VerticalAlignment="Center" Click="Button_Click"
+                        Tag="ProLogDataGrid"
+                        Visibility="{Binding LogLevel, Converter={StaticResource LogLevelToVisibilityForConvProlog}}">
+                    <Viewbox Width="48" Height="48">
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M9,9H15V15H9M7,17H17V7H7M15,5H17V3H15M15,21H17V19H15M19,17H21V15H19M19,9H21V7H19M19,21A2,2 0 0,0 21,19H19M19,13H21V11H19M11,21H13V19H11M9,3H7V5H9M3,17H5V15H3M5,21V19H3A2,2 0 0,0 5,21M19,3V5H21A2,2 0 0,0 19,3M13,3H11V5H13M3,9H5V7H3M7,21H9V19H7M3,13H5V11H3M3,5H5V3A2,2 0 0,0 3,5Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>-->
+
+                <!-- For Prolog-->
+                <!--<RepeatButton  Width="48" Height="48" Margin="0, -150, 0, 0" VerticalAlignment="Center"
+                                         Visibility="{Binding LogLevel, Converter={StaticResource LogLevelToVisibilityForConvProlog}}"
+                                Click="OnScrollUp"
+                                Tag="ProLogDataGrid">
+                    <Viewbox>
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M7,15L12,10L17,15H7Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </RepeatButton>-->
+
+                <!--<RepeatButton Width="48" Height="48" Margin="0, 150, 0, 0" VerticalAlignment="Center"
+                                        Visibility="{Binding LogLevel, Converter={StaticResource LogLevelToVisibilityForConvProlog}}"
+                                Click="OnScrollDown"
+                                Tag="ProLogDataGrid">
+                    <Viewbox>
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M7,10L12,15L17,10H7Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </RepeatButton>-->
+                <!---->
+                
+                <!-- For Eventlog-->
+                <!--<RepeatButton  Width="48" Height="48" Margin="0, -150, 0, 0" VerticalAlignment="Center"
+                                         Visibility="{Binding LogLevel, Converter={StaticResource LogLevelToVisibilityForConvEvent}}"
+                                Click="OnScrollUp"
+                                Tag="EventLogDataGrid">
+                    <Viewbox>
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M7,15L12,10L17,15H7Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </RepeatButton>-->
+
+                <!--<RepeatButton Width="48" Height="48" Margin="0, 150, 0, 0" VerticalAlignment="Center"
+                                        Visibility="{Binding LogLevel, Converter={StaticResource LogLevelToVisibilityForConvEvent}}"
+                                Click="OnScrollDown"
+                                Tag="EventLogDataGrid">
+                    <Viewbox>
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M7,10L12,15L17,10H7Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </RepeatButton>-->
+                <!---->
+                                
+                <!-- For Debug -->
+                <!--<RepeatButton Width="48" Height="48" Margin="0, -150, 0, 0" VerticalAlignment="Center"
+                                         Visibility="{Binding LogLevel, Converter={StaticResource LogLevelToVisibilityForConvDebug}}"
+                                    Click="OnScrollUp_Debug"
+                                    Tag="DebugListView">
+                    <Viewbox>
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M7,15L12,10L17,15H7Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </RepeatButton>-->
+
+                <!--<RepeatButton Width="48" Height="48" Margin="0, 150, 0, 0" VerticalAlignment="Center"
+                                        Visibility="{Binding LogLevel, Converter={StaticResource LogLevelToVisibilityForConvDebug}}"
+                                    Click="OnScrollDown_Debug"
+                                    Tag="DebugListView">
+                    <Viewbox>
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M7,10L12,15L17,10H7Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </RepeatButton>-->
+                <!---->
+                                
+                <!-- For FilteredDebug -->
+
+                <!--<RepeatButton  Width="48" Height="48" Margin="0, -150, 0, 0" VerticalAlignment="Center"
+                                         Visibility="{Binding LogLevel, Converter={StaticResource LogLevelToVisibilityForConvFilteredDebug}}"
+                                    Click="OnScrollUp_FilteredDebug"
+                                    Tag="FilteredDebugListView">
+                    <Viewbox>
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M7,15L12,10L17,15H7Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </RepeatButton>-->
+
+                <!--<RepeatButton Width="48" Height="48" Margin="0, 150, 0, 0" VerticalAlignment="Center"
+                                        Visibility="{Binding LogLevel, Converter={StaticResource LogLevelToVisibilityForConvFilteredDebug}}"
+                                    Click="OnScrollDown_FilteredDebug"
+                                    Tag="FilteredDebugListView">
+                    <Viewbox>
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M7,10L12,15L17,10H7Z" Fill="Black" />
+                        </Canvas>
+                    </Viewbox>
+                </RepeatButton>-->
+
+                <!---->
+                                
+                <!--<Button Style="{StaticResource ImageIConBtnStyle}" Margin="8" Width="40" Height="40" VerticalAlignment="Top" Command="{Binding DrawerCloseCommand}">
+                    <Viewbox>
+                        <Canvas Width="24" Height="24">
+                            <Path Data="M4.08,11.92L12,4L19.92,11.92L18.5,13.33L13,7.83V22H11V7.83L5.5,13.33L4.08,11.92M12,4H22V2H2V4H12Z" Fill="White"/>
+                        </Canvas>
+                    </Viewbox>
+                </Button>-->
+
+                <!--<Button Width="48" Height="48" VerticalAlignment="Bottom" Margin="0,0,0,100" Content="Test" FontWeight="Bold" Command="{Binding LogTestCommand}">
+                </Button>--><!--
+
+            </Grid>
+        </Border>-->
+
+        <Border Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" BorderThickness="1" BorderBrush="White">
+
+            <Grid>
+
+                <Controls:MetroAnimatedTabControl TabStripMargin="4" TabStripPlacement="Top">
+                    <Controls:MetroTabItem Width="200" 
+                                           Height="50" 
+                                           Header="Description"
+                                           Controls:ControlsHelper.HeaderFontSize="50"
+                                           Controls:ControlsHelper.HeaderMargin="0,0,0,0"
+                                           Foreground="White"
+                                           Style="{StaticResource NoIconMetroItem}">
+
+                        <TextBlock Margin="10,10,0,0" 
+                                   Text="{Binding SelectedItem.Description}" 
+                                   TextWrapping="Wrap"
+                                   Foreground="White"
+                                   VerticalAlignment="Top" 
+                                   HorizontalAlignment="Left"  
+                                   FontSize="20" />
+
+                    </Controls:MetroTabItem>
+
+                    <!--<Controls:MetroTabItem Width="200" 
+                                           Height="50" 
+                                           Header="ETC"
+                                           Style="{StaticResource NoIconMetroItem}">
+
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Code : " Foreground="White" FontSize="14" FontFamily="Arial" ></Label>
+                                    <TextBox VerticalAlignment="Center" Foreground="White" Width="Auto" IsReadOnly="True" Text="{Binding SelectedItem.Code}"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Tag : " Foreground="White" FontSize="14" FontFamily="Arial" ></Label>
+                                    <TextBox VerticalAlignment="Center" Foreground="White" Width="Auto" IsReadOnly="True" 
+                                             Text="{Binding SelectedItem.Tag, Converter={StaticResource LogTagToStringConv}}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+
+                    </Controls:MetroTabItem>-->
+
+                </Controls:MetroAnimatedTabControl>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

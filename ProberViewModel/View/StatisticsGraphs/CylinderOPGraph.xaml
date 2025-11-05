@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="ProberViewModel.CylinderOPGraph"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProberViewModel"
+             xmlns:s="http://schemas.abtsoftware.co.uk/scichart"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="2,2,2,2">
+            <s:SciChartSurface x:Name="ExtandChart"
+                           Padding="0"
+                           BorderThickness="0"
+                           VerticalAlignment="Stretch"
+                           HorizontalAlignment="Stretch"
+                           RenderableSeries="{s:SeriesBinding ExtandChartRenderableSeries}">
+
+                <s:SciChartSurface.RenderSurface>
+                    <s:HighSpeedRenderSurface>
+                    </s:HighSpeedRenderSurface>
+                </s:SciChartSurface.RenderSurface>
+
+                <s:SciChartSurface.Resources>
+                    <Style x:Key="FastLineDataSeriesStyle" TargetType="s:FastLineRenderableSeries">
+                    </Style>
+                </s:SciChartSurface.Resources>
+                
+                <s:SciChartSurface.XAxis>
+                    <s:NumericAxis DrawMajorBands="True"
+                               GrowBy="0.1, 0.1"
+                               ScientificNotation="None"
+                               AutoRange="Always"
+                               TextFormatting="#.############" />
+                </s:SciChartSurface.XAxis>
+
+                <s:SciChartSurface.YAxis>
+                    <s:NumericAxis GrowBy="0.1, 0.1" DrawMajorBands="True"  VisibleRange="0, 15"/>
+                </s:SciChartSurface.YAxis>
+
+                <s:SciChartSurface.Annotations>
+                    <s:HorizontalLineAnnotation Stroke="Aqua" ShowLabel="False" Y1="{Binding ExtandThreshold}" Opacity="0.7" HorizontalAlignment="Stretch">
+                    </s:HorizontalLineAnnotation>
+                </s:SciChartSurface.Annotations>
+
+                <!--<s:SciChartSurface.Annotations>
+                    <s:HorizontalLineAnnotation HorizontalAlignment="Stretch"
+                                            FontSize="13"
+                                            IsEditable="True"
+                                            LabelPlacement="Axis"
+                                            LabelTextFormatting="0.00"
+                                            ShowLabel="True"
+                                            Stroke="DarkGreen"
+                                            StrokeThickness="2"
+                                            Y1="{Binding ExtandThreshold,
+                                                         Mode=TwoWay}" />
+                </s:SciChartSurface.Annotations>-->
+
+                <s:SciChartSurface.ChartModifier>
+                    <s:ModifierGroup>
+                        <s:CursorModifier ShowAxisLabels="False" ShowTooltip="True" UseInterpolation="True"/>
+                        <s:XAxisDragModifier />
+                        <s:YAxisDragModifier/>
+                        <s:ZoomExtentsModifier ExecuteOn="MouseDoubleClick"/>
+                    </s:ModifierGroup>
+                </s:SciChartSurface.ChartModifier>
+
+            </s:SciChartSurface>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="2,2,2,2">
+            <s:SciChartSurface x:Name="RetractChart"
+                           Padding="0"
+                           BorderThickness="0"
+                           VerticalAlignment="Stretch"
+                           HorizontalAlignment="Stretch"
+                           RenderableSeries="{s:SeriesBinding RetractChartRenderableSeries}">
+                
+                <s:SciChartSurface.RenderSurface>
+                    <s:HighSpeedRenderSurface>
+                    </s:HighSpeedRenderSurface>
+                </s:SciChartSurface.RenderSurface>
+
+                <s:SciChartSurface.Resources>
+                    <Style x:Key="FastLineDataSeriesStyle" TargetType="s:FastLineRenderableSeries">
+                    </Style>
+                </s:SciChartSurface.Resources>
+                
+                <s:SciChartSurface.XAxis>
+                    <s:NumericAxis DrawMajorBands="True"
+                               GrowBy="0.1, 0.1"
+                               ScientificNotation="None"
+                               AutoRange="Always"
+                               TextFormatting="#.############" />
+                </s:SciChartSurface.XAxis>
+
+                <s:SciChartSurface.YAxis>
+                    <s:NumericAxis GrowBy="0.1, 0.1" DrawMajorBands="True"  VisibleRange="0, 15"/>
+                </s:SciChartSurface.YAxis>
+
+                <s:SciChartSurface.Annotations>
+                    <s:HorizontalLineAnnotation Stroke="Aqua" ShowLabel="False" Y1="{Binding RetractThreshold, Mode=TwoWay}" Opacity="0.7" HorizontalAlignment="Stretch">
+                    </s:HorizontalLineAnnotation>
+                </s:SciChartSurface.Annotations>
+                
+                <!--<s:SciChartSurface.Annotations>
+                    <s:HorizontalLineAnnotation HorizontalAlignment="Stretch"
+                                            FontSize="13"
+                                            IsEditable="False"
+                                            LabelPlacement="Axis"
+                                            LabelTextFormatting="0.00"
+                                            ShowLabel="True"
+                                            Stroke="DarkGreen"
+                                            StrokeThickness="2"
+                                            Y1="{Binding RetractThreshold,
+                                                         Mode=TwoWay}" />
+                </s:SciChartSurface.Annotations>-->
+                
+                <s:SciChartSurface.ChartModifier>
+                    <s:ModifierGroup>
+                        <s:CursorModifier ShowAxisLabels="False" ShowTooltip="True" UseInterpolation="True"/>
+                        <s:XAxisDragModifier />
+                        <s:YAxisDragModifier/>
+                        <s:ZoomExtentsModifier ExecuteOn="MouseDoubleClick"/>
+                    </s:ModifierGroup>
+                </s:SciChartSurface.ChartModifier>
+
+            </s:SciChartSurface>
+        </Grid>
+
+    </Grid>
+</UserControl>

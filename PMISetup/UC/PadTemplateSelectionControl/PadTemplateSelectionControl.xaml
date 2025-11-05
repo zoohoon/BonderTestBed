@@ -1,0 +1,262 @@
+﻿<dialogs:CustomDialog x:Class="PMISetup.UC.PadTemplateSelectionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:local="clr-namespace:PMISetup.UC"
+             xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:conv="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             x:Name="TemplateCustomDig"
+             mc:Ignorable="d" Height="880" Width="1200"
+             Background="#FF232222">
+
+    <dialogs:CustomDialog.Resources>
+        <conv:BooleanToIntConverter             x:Key="BooleanToIsCheckedConverter"/>
+        <conv:EnumBooleanConverter              x:Key="EnumBooleanConverter"/>
+        <conv:MulitCommandParameterConverter    x:Key="MulitCommandParameterConverter"/>
+        <conv:PMIEdgeOffsetModeToVisibilityConvert    x:Key="PMIEdgeOffsetModeToVisibilityConv"/>
+        <conv:PMICornerRadiusModeToVisibilityConvert x:Key="PMICornerRadiusModeToVisibilityConv"/>
+    </dialogs:CustomDialog.Resources>
+
+    <Grid Margin="-280 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <System:Double x:Key="DialogTitleFontSize">26</System:Double>
+                <System:Double x:Key="DialogMessageFontSize">15</System:Double>
+                <Style x:Key="TitleLabel" TargetType="Label">
+                    <Setter Property="Margin" Value="0 8 0 0"/>
+                    <Setter Property="Background" Value="DodgerBlue" />
+                    <Setter Property="FontSize" Value="30" />
+                    <Setter Property="Foreground" Value="#FFE8E8E8"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+                <Style x:Key="ContentLabel" TargetType="Label">
+                    <Setter Property="FontSize" Value="24" />
+                    <Setter Property="Foreground" Value="FloralWhite"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+                <Style x:Key="ListLabel" TargetType="Label">
+                    <Setter Property="Margin" Value="0 8 0 0"/>
+                    <Setter Property="FontSize" Value="30" />
+                    <Setter Property="Background" Value="LightSlateGray"/>
+                    <Setter Property="Foreground" Value="FloralWhite"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="Padding" Value="30 0"/>
+                </Style>
+                <Style x:Key="ContentTextBox" TargetType="TextBox">
+                    <Setter Property="Margin" Value="16 8 4 0"/>
+                    <Setter Property="FontSize" Value="24" />
+                    <Setter Property="Background" Value="DarkGray" />
+                    <Setter Property="TextAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+                <Style x:Key="ContentTextBlock" TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="18" />
+                    <Setter Property="Foreground" Value="FloralWhite"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="TextWrapping" Value="Wrap"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+                <Style x:Key="DefaultRadioButton" TargetType="RadioButton">
+                    <Setter Property="Margin" Value="16 8 4 0"/>
+                    <Setter Property="FontSize" Value="24"/>
+                    <Setter Property="Foreground" Value="#FFE8E8E8"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                </Style>
+                <Style x:Key="DefaultButton" TargetType="Button">
+                    <Setter Property="Margin" Value="10"/>
+                    <Setter Property="FontSize" Value="35" />
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+                <Style x:Key="DefaultTileStyle" TargetType="mah:Tile">
+                    <Setter Property="Width" Value="180"/>
+                    <Setter Property="Height" Value="180"/>
+                    <Setter Property="TitleFontSize" Value="18"/>
+                    <Setter Property="Margin" Value="8"/>
+                    <Setter Property="Background" Value="LightSlateGray"/>
+                </Style>
+            </ResourceDictionary>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.8*" MinHeight="20" />
+            <RowDefinition Height="5.3*" />
+            <RowDefinition Height="3.7*" />
+            <RowDefinition Height="1*" MinHeight="40"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.ColumnSpan="4" Style="{StaticResource TitleLabel}" Content ="Pad Template Preset Selection" Width="1130"/>
+
+        <ListBox x:Name="ShapeList" Grid.Row="1" Grid.ColumnSpan="4" Margin="8" Width="1130" ItemsSource="{Binding TemplatePacklist}"
+                 BorderBrush="LightGray" BorderThickness="1" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="5"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+
+                    <mah:Tile Style="{StaticResource DefaultTileStyle}" Controls:ControlsHelper.MouseOverBorderBrush="GhostWhite" 
+                              Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type dialogs:CustomDialog}}, Path=DataContext.SelectTemplateShapeCommand}"
+                              CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=DataContext}">
+                        <StackPanel>
+                            <Image Source="{Binding ImageSource}" Stretch="Uniform" Width="80" Height="80"/>
+                            <!--<Label Style="{StaticResource ContentLabel}" Content="{Binding TemplateName}"/>-->
+                            <TextBlock Style="{StaticResource ContentTextBlock}" Text="{Binding TemplateName}"/>
+                        </StackPanel>
+                    </mah:Tile>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+        </ListBox>
+
+        <Border BorderBrush="LightGray" BorderThickness="1" Grid.Row="2" Grid.ColumnSpan="4" Width="1130" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="24" >
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="Template Name" Style="{StaticResource ListLabel}" />
+
+                    <TextBox Grid.Column="1" Grid.ColumnSpan="3" Style="{StaticResource ContentTextBox}" Text="{Binding TemplateName}"
+                         mah:TextBoxHelper.Watermark="Input Template Name" mah:TextBoxHelper.ClearTextButton="True">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown">
+                                <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                    <i:InvokeCommandAction.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource MulitCommandParameterConverter}">
+                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                            <Binding Path="DataContext.TemplateName" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                        </MultiBinding>
+                                    </i:InvokeCommandAction.CommandParameter>
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                    
+                </Grid>
+
+                <Grid Grid.Row="1">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="Color" Style="{StaticResource ListLabel}" />
+
+                    <RadioButton Grid.Column="1" Content="WHITE" Style="{StaticResource DefaultRadioButton}"
+                             IsChecked="{Binding PadColor, Mode=OneWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=WHITE}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <i:InvokeCommandAction Command="{Binding RadioButtonClickCommand}" CommandParameter="WHITE"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </RadioButton>
+
+                    <RadioButton Grid.Column="2" Content="BLACK" Style="{StaticResource DefaultRadioButton}"
+                             IsChecked="{Binding PadColor, Mode=OneWay, Converter={StaticResource EnumBooleanConverter}, ConverterParameter=BLACK}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <i:InvokeCommandAction Command="{Binding RadioButtonClickCommand}" CommandParameter="BLACK"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </RadioButton>
+                    
+                </Grid>
+
+                <Grid Grid.Row="2" Visibility="{Binding DummyTemplate.EdgeOffsetMode.Value, Converter={StaticResource PMIEdgeOffsetModeToVisibilityConv}}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="Offset Value" Style="{StaticResource ListLabel}" />
+
+                    <mah:NumericUpDown Grid.Column="1" 
+                                       Margin="16 8 4 0"
+                                       Minimum="0" Maximum="0.5" Interval="0.01" 
+                                       InterceptArrowKeys="True"
+                                       InterceptMouseWheel="True"
+                                       FontSize="24"
+                                       UpDownButtonsWidth="50"         
+                                       TextAlignment="Center"
+                                       Background="darkGray"
+                                       Value="{Binding OffsetValue}"/>
+                    
+                    <Label Grid.Column="2" Grid.ColumnSpan="2" Content="Corner removal size of octagon and half-octagon shape (%)" Style="{StaticResource ContentLabel}" 
+                           FontSize="16"/>
+                </Grid>
+
+                <Grid Grid.Row="3" Visibility="{Binding DummyTemplate.CornerRadiusMode.Value, Converter={StaticResource PMICornerRadiusModeToVisibilityConv}}">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="Radius Value" Style="{StaticResource ListLabel}" />
+
+                    <mah:NumericUpDown Grid.Column="1" 
+                                       Margin="16 8 4 0"
+                                       Minimum="0" Maximum="0.5" Interval="0.01" 
+                                       InterceptArrowKeys="True"
+                                       InterceptMouseWheel="True"
+                                       FontSize="24"
+                                       UpDownButtonsWidth="50"         
+                                       TextAlignment="Center"
+                                       Background="darkGray"
+                                       Value="{Binding CornerRadiusValue}"/>
+                    
+                    <Label Grid.Column="2" Grid.ColumnSpan="2" Content="Adjustment size for rounded corner radius (%)" Style="{StaticResource ContentLabel}" 
+                           FontSize="16"/>
+                </Grid>
+                
+
+            </Grid>
+        </Border>
+
+        <Button Style="{StaticResource DefaultButton}" Content="SELECT/EXIT"
+                        Command="{Binding CmdExitSelectTemplateShapeClick}"
+                        Grid.Row="3" Grid.Column="3" />
+    </Grid>
+</dialogs:CustomDialog>

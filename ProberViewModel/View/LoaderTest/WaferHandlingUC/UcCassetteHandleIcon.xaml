@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="LoaderTestMainPageView.WaferHandlingUC.UcCassetteHandleIcon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LoaderTestMainPageView.WaferHandlingUC"
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="100">
+    <UserControl.Resources>
+        <vc:CassetteModuleInfoToCassetteIconConverter x:Key="CassetteModuleInfoToCassetteIconConverter"/>
+        <BooleanToVisibilityConverter x:Key="boolVisibleConverter"/>
+        <Style TargetType="{x:Type Border}">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Opacity" Value="1" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </UserControl.Resources>
+    <Grid Width="100" Height="80" HorizontalAlignment="Stretch">
+
+        <Border x:Name="icon" CornerRadius="8" 
+                BorderThickness="3"
+                Margin="2"
+                Background="#333333"
+                MouseDown="icon_MouseDown"
+                MouseUp="icon_MouseUp"
+                MouseLeave="icon_MouseLeave"
+                HorizontalAlignment="Stretch">
+            <Border.BitmapEffect>
+                <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                    Color="LightGray" 
+                                    ShadowDepth="5"
+                                    Softness="0"/>
+            </Border.BitmapEffect>
+            <Viewbox Height="60">
+                <StackPanel>
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="{Binding Converter={StaticResource CassetteModuleInfoToCassetteIconConverter}}" Margin="0,0,5,0"/>
+                        <TextBlock x:Name="slotNumTextBlock" Grid.Column="1" FontSize="20" FontWeight="Bold" Foreground="Yellow" TextAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                    <TextBlock  Text="{Binding ID.Label}" TextAlignment="Center" FontSize="16" Foreground="White" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Viewbox>
+        </Border>
+    </Grid>
+</UserControl>

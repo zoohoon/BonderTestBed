@@ -1,0 +1,475 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:prvm="clr-namespace:ProberViewModel"
+             xmlns:logserv="clr-namespace:LogService;assembly=LogService"
+             xmlns:inter="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:conv="clr-namespace:ValueConverters;assembly=ValueConverters" 
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:materialDesignConverters="clr-namespace:MaterialDesignThemes.Wpf.Converters;assembly=MaterialDesignThemes.Wpf"
+             xmlns:cui="clr-namespace:CUI;assembly=CUI"
+             xmlns:lm="clr-namespace:LogModule;assembly=LogModule"
+             xmlns:local="clr-namespace:MainTopBarView"
+             x:Class="MainTopBarView.MainTopBarControl" x:Name="maintopbarcontrol"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="1960" Background="Transparent"
+             MaxWidth="1960" MaxHeight="960">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ListBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.RadioButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <materialDesignConverters:BooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter" TrueValue="Collapsed" FalseValue="Visible" />
+
+            <conv:TemperatureUnitConverter x:Key="TempUnitConvc"/>
+
+            <conv:StateToColorConverter x:Key="BtoVConv" />
+            <conv:LotStateToStringConverter3 x:Key="BtoVConv2"/>
+            <conv:IntToStringPlusConverter x:Key="IntToStringPlusConv" />
+            <conv:IntToVisibilityConverter x:Key="IntToVisibilityConv" />
+            <conv:EventBadgeBackGroundBrushConverter x:Key="EventBadgeBackGroundBrushConv"/>
+            <conv:EventBadgeForeGroundBrushConverter x:Key="EventBadgeForeGroundBrushConv"/>
+            <conv:ListCountIsZeroConverter x:Key="ListCountIsZeroConverter"/>
+            <conv:LampTypeToBrushConverter x:Key="LampTypeToBrushConverter"/>
+            <conv:SysStateTypeToBrushConverter x:Key="SysStateTypeToBrushConverter"/>
+            <!--<conv:MainMenuStateConverter x:Key="MainMenuStateConverter"/>-->
+
+            <conv:HomeBtnEnabledConverter x:Key="HomeBtnEnabledConv"/>
+            <conv:MainMenuEnabledConverter x:Key="MainMenuEnabledConv"/>
+            <conv:ImageSourceConverter x:Key="ImageSourceConv"/>
+
+            <conv:ProberStatusToStringConverter x:Key="ProberStatusToStringConv"/>
+
+            <ControlTemplate x:Key="ExampleButton" TargetType="{x:Type Button}">
+                <Grid>
+                    <Border Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="Transparent" BorderThickness="1" x:Name="Border" Margin="0">
+                        <ContentPresenter />
+                    </Border>
+                    <Viewbox Margin="8">
+                        <Path Name="SearchIcon" Data="M21,19V20H3V19L5,17V11C5,7.9 7.03,5.17 10,4.29C10,4.19 10,4.1 10,4A2,2 0 0,1 12,2A2,2 0 0,1 14,4C14,4.1 14,4.19 14,4.29C16.97,5.17 19,7.9 19,11V17L21,19M14,21A2,2 0 0,1 12,23A2,2 0 0,1 10,21" 
+                              Fill="White"
+                              Stretch="Fill"/>
+                    </Viewbox>
+                </Grid>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter TargetName="Border" Property="Background" Value="Transparent" />
+                    </Trigger>
+                </ControlTemplate.Triggers>
+            </ControlTemplate>
+
+            <Style x:Key="ImageBtn" 
+                   TargetType="Button"
+                   >
+                <Setter Property="OverridesDefaultStyle" Value="True" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Name="border" 
+                                    BorderThickness="0" BorderBrush="Black" 
+                                    Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.8" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+
+    <!--<UserControl.IsEnabled>
+        <MultiBinding Converter="{StaticResource MainMenuStateConverter}">
+            <Binding Path="LotOPModule.ModuleState.State"/>
+            <Binding Path="LoaderController.ModuleState.State"/>
+        </MultiBinding>
+    </UserControl.IsEnabled>-->
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="496*"/>
+            <ColumnDefinition Width="684*"/>
+            <ColumnDefinition Width="97*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.ColumnSpan="3" Margin="8,4,4,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="96*"/>
+                    <ColumnDefinition Width="100*"/>
+                    <ColumnDefinition Width="120*"/>
+                    <ColumnDefinition Width="100*"/>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="420*"/>
+                    <ColumnDefinition Width="240*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <!-- Stage Status -->
+                <Border Grid.RowSpan="2" BorderBrush="#FFd6d9f4" BorderThickness="0.5" CornerRadius="2" Margin="1">
+                    <Grid>
+                        <inter:Interaction.Triggers>
+                            <inter:EventTrigger EventName="PreviewMouseLeftButtonDown">
+                                <inter:InvokeCommandAction Command="{Binding MainWindowHideCommand}"/>
+                            </inter:EventTrigger>
+                        </inter:Interaction.Triggers>
+                        <Ellipse Fill="Gray" Height="84" Width="84" Stroke="{Binding Systemstatus.CurrState, Converter={StaticResource SysStateTypeToBrushConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <!--<Ellipse x:Name="StatusIndicator" Fill="{Binding LotOPModule.CurrentModuleState, Converter={StaticResource BtoVConv}}" Height="80" Width="80" Stroke="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+                        <!--<Ellipse x:Name="StatusIndicator" 
+                                 Fill="{Binding LampManager.OnLampType, Converter={StaticResource LampTypeToBrushConverter}}" 
+                                 Height="80" Width="80" Stroke="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+                        <Ellipse x:Name="StatusIndicator" 
+                                 Height="80" Width="80" Stroke="Black" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Ellipse.Fill>
+                                <MultiBinding Converter="{StaticResource LampTypeToBrushConverter}">
+                                    <Binding Path="LampManager.OnLampType"></Binding>
+                                    <Binding Path="LotOPModule.ModuleState.State"></Binding>
+                                </MultiBinding>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <Ellipse Height="80" Width="80" Stroke="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Ellipse.Fill>
+                                <RadialGradientBrush GradientOrigin="0.2,0.2" Center="0.2,0.2" RadiusX="0.8" RadiusY="0.8">
+                                    <GradientStop Color="#ffffff" Offset="0" />
+                                    <GradientStop Color="Transparent" Offset="1" />
+                                </RadialGradientBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <Label Style="{x:Null}" VerticalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0">
+                            <Grid>
+                                <!--<TextBlock Grid.Row="1" Text="{Binding LotOPModule.CurrentModuleState, Converter={StaticResource BtoVConv2}}" FontSize="16"/>-->
+                                <TextBlock Grid.Row="1" FontSize="16" HorizontalAlignment="Center">
+                                    <TextBlock.Text>
+                                        <MultiBinding Converter="{StaticResource ProberStatusToStringConv}">
+                                            <Binding Path="LotOPModule.ModuleState.State"/>
+                                            <Binding Path="LoaderController.ModuleState.State"/>
+                                            <Binding Path="MonitoringManager.IsSystemError"/>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </Grid>
+                        </Label>
+                    </Grid>
+                </Border>
+
+                <Grid Grid.Column="1" Grid.RowSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0" BorderBrush="#FFd6d9f4" BorderThickness="0.5" CornerRadius="2" Margin="1">
+                        <Button Command="{Binding SendWindowsKeyEventCommand}">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <ContentPresenter />
+                                </ControlTemplate>
+                            </Button.Template>
+                            <Label Content="{Binding SwVersion}" HorizontalContentAlignment="Center"
+                               FontSize="15" Foreground="White"
+                               VerticalContentAlignment="Center" FontWeight="Bold">
+                                <Label.Style>
+                                    <Style BasedOn="{x:Null}"/>
+                                </Label.Style>
+                            </Label>
+                        </Button>
+                    </Border>
+
+                    <Border Grid.Row="1" BorderBrush="#FFd6d9f4" BorderThickness="0.5" CornerRadius="2" Margin="1"
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                            >
+                        <!--</Grid>
+                        </Label>-->
+                        <!--<Label HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Grid>-->
+                        <TextBlock x:Name="lblCurTime" TextWrapping="Wrap" TextAlignment="Center"
+                                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                                           FontSize="10" Foreground="White" FontWeight="Bold"
+                                           Text="{Binding DateTimeStr, StringFormat='{}{0:yyyy/MM/dd HH:mm:ss}'}">
+                            <TextBlock.Style>
+                                <Style BasedOn="{x:Null}"/>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Border>
+                </Grid>
+
+                <!-- 250911 LJH 온도 안보이게 -->
+                <!-- Temperature Status -->
+                <!--<Border Grid.Row="0" Grid.Column="2" BorderBrush="#FFd6d9f4" BorderThickness="0.5" CornerRadius="2" Margin="1">
+                    <Label Grid.Column="0" Padding="2" Margin="1" Style="{x:Null}" Foreground="LightGray" VerticalContentAlignment="Center" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="4" Text="{x:Static resources:Resources.Set}" FontSize="24"/>
+                            <TextBlock Margin="4" Text="Set" FontSize="24"/>
+                            <TextBlock Margin="4" Text="{Binding TempController.TempInfo.SetTemp.Value, StringFormat=Set {0:0.0#}℃}" FontSize="24"/>
+                            <TextBlock Margin="0,4" Text="℃" FontSize="24"/>
+                        </StackPanel>
+                    </Label>
+                </Border>
+
+                <Border Grid.Row="1" Grid.Column="2" BorderBrush="#FFd6d9f4" BorderThickness="0.5" CornerRadius="2" Margin="1">
+
+                    <Label Grid.Column="1" Padding="2" Margin="1" Style="{x:Null}" Foreground="LightGray" VerticalContentAlignment="Center" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Margin="4" Text="{x:Static resources:Resources.Cur}" FontSize="24"/>
+                            <TextBlock Margin="4" Text="{Binding TempController.TempInfo.CurTemp.Value, StringFormat=Cur \{0:0.0\}℃}" FontSize="24"/>
+                        </StackPanel>
+                    </Label>
+                </Border>-->
+
+                <!-- Connection Status -->
+
+                <!-- 250911 LJH GPIB, SONET, Chiller, GEM 안보이게 -->
+                <!--<Grid Grid.Row="0" Grid.Column="3" Grid.RowSpan="2">
+                    <prvm:PopupPanel DataContext="{Binding PopupPanelBase}"/>
+                </Grid>-->
+
+                <!--<Grid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
+                    <popuppanel:PopupPanel DataContext="{Binding PopupPanelBase}"></popuppanel:PopupPanel>
+                </Grid>-->
+
+                <Border Grid.Row="0" Grid.Column="4" Grid.RowSpan="2" BorderBrush="#FFd6d9f4" BorderThickness="0.5" CornerRadius="2" Margin="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Controls:Badged Grid.Row="0" Badge="{Binding ViewModelManager.LogViewModel.EventLogUserNotNotifiedCount, Converter={StaticResource IntToStringPlusConv}}" 
+                         HorizontalAlignment="Center" 
+                         VerticalAlignment="Center"
+                         BadgeBackground="{Binding ViewModelManager.LogViewModel.EventLogUserNotNotifiedCount, Converter={StaticResource EventBadgeBackGroundBrushConv}}"
+                         BadgeForeground="{Binding ViewModelManager.LogViewModel.EventLogUserNotNotifiedCount, Converter={StaticResource EventBadgeForeGroundBrushConv}}"
+                         BadgePlacementMode="TopRight"
+                         Margin="0,0,0,0"
+                         Padding="0,0,0,0">
+
+                            <cui:Button AutomationProperties.AutomationId="BellDrawerOpenBtn" 
+                                    Command="{Binding UsedBellDrawerOpenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
+                                    GUID="5e80ff23-fbc8-4a56-9c31-a5d060397802"
+                                    Margin="0" Lockable="False"
+                                    Template="{StaticResource ExampleButton}" 
+                                    Width="40" Height="40"
+                                    IsEnabled="True" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                            </cui:Button>
+                        </Controls:Badged>
+                        <cui:Button 
+                                Style="{StaticResource ImageBtn}"
+                                GUID="AB59B19D-F4B7-46EE-8986-2D77239B9D24"
+                                Grid.Row="1" 
+                                Command="{Binding StageLockUnLockCommand}"
+                                Margin="8">
+                            <Button.Background>
+                                <ImageBrush ImageSource="{Binding StageSupervisor.LockMode, Converter={StaticResource ImageSourceConv}}" Stretch="Uniform"/>
+                            </Button.Background>
+                        </cui:Button>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="5" 
+                        Grid.RowSpan="2" 
+                        BorderBrush="#FFd6d9f4" 
+                        BorderThickness="0.5" 
+                        CornerRadius="2" Margin="1" 
+                        MouseDown="SimpleLogView_MouseDown">
+
+                    <Grid>
+
+
+                        <!--Collection="{Binding ViewModelManager.LogViewModel.ProLogHistories}"-->
+
+                        <logserv:LogSimpleListViewer x:Name="SimpleLogView"
+                                                     VerticalAlignment="Top" 
+                                                     Margin="0,3,0,0" 
+                                                     Collection="{Binding ViewModelManager.LogViewModel.PrologCollection}"/>
+
+                        <!--<logserv:LogSimpleListViewer x:Name="SimpleLogView"
+                                                     VerticalAlignment="Top" 
+                                                     Margin="0,3,0,0" 
+                                                     Collection="{Binding Source={x:Static lm:LoggerManager.ProLogBuffer}}"/>-->
+
+                        <cui:Button AutomationProperties.AutomationId="DrawerOpenBtn"
+                                    Opacity="0" 
+                                    IsEnabled="True" 
+                                    Command="{Binding DrawerOpenCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"  
+                                    Lockable="False"
+                                    GUID="5e80ff23-fbc8-4a56-9c31-a5d060397803"
+                                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <materialDesign:PackIcon Kind="ArrowDown" />
+                        </cui:Button>
+
+                        <!--<Button Opacity="0" Visibility="Visible" Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}" CommandParameter="{x:Static Dock.Top}"
+                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <materialDesign:PackIcon Kind="ArrowDown" />
+                        </Button>-->
+
+
+
+                        <!--<logserv:LogSimpleListViewer x:Name="SimpleLogView" 
+                                                     VerticalAlignment="Top" 
+                                                     Margin="8,4" 
+                                                     Collection="{Binding Source={x:Static lm:LoggerManager.LogViewModel.ProLogHistories}, Mode=OneWay}"/>-->
+
+                        <!--Text="{Binding Source={x:Static sys:Environment.MachineName}}"-->
+
+                        <!--<ToggleButton Width="40" Height="40"
+                                      VerticalAlignment="Top" 
+                                      HorizontalAlignment="Right"
+                                      Style="{StaticResource MaterialDesignActionToggleButton}"
+                                      Foreground="Black"
+                                      IsChecked="{Binding ViewModelManager.HelpQuestionEnable}">
+                            <ToggleButton.Content>
+                                <materialDesign:PackIcon Kind="HelpCircle" Foreground="White" Width="40" Height="40"/>
+                            </ToggleButton.Content>
+                            <materialDesign:ToggleButtonAssist.OnContent>
+                                <materialDesign:PackIcon Kind="HelpCircle" Foreground="Yellow" Width="40" Height="40"/>
+                            </materialDesign:ToggleButtonAssist.OnContent>
+                        </ToggleButton>-->
+                    </Grid>
+
+                </Border>
+
+                <!--IsEnabled="{Binding ViewModelManager.PreMainScreenViewList.Count, Converter={StaticResource ListCountIsZeroConverter}}"-->
+
+                <Grid Grid.Column="6" Grid.RowSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" BorderBrush="#FFd6d9f4" BorderThickness="0.5" CornerRadius="2" Margin="1">
+                        <cui:Button AutomationProperties.AutomationId="HomeBtn"
+                                    Command="{Binding MainMenu.GoHomeScreen}" 
+                                    Width="80" Height="80" Margin="2" Padding="0"
+                                    GUID="3776199a-0c2c-49c1-8f6c-5c2a5a9fa873"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                    Lockable="True">
+                            <Button.IsEnabled>
+                                <MultiBinding Converter="{StaticResource HomeBtnEnabledConv}">
+                                    <Binding Path="LotOPModule.ModuleState.State"/>
+                                    <Binding Path="LoaderController.ModuleState.State"/>
+                                    <Binding Path="ViewModelManager.PreMainScreenViewList.Count"/>
+                                    <Binding Path="ViewModelManager.HasLockHandle"/>
+                                </MultiBinding>
+                            </Button.IsEnabled>
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="10"/>
+                                </Grid.RowDefinitions>
+
+                                <materialDesign:PackIcon Grid.Row="1"
+                                                         Height="40" Width="40" 
+                                                         VerticalAlignment="Stretch" 
+                                                         HorizontalAlignment="Stretch"
+                                                         VerticalContentAlignment="Stretch"
+                                                         HorizontalContentAlignment="Stretch"
+                                                         Kind="Home">
+
+                                    <!--<materialDesign:PackIcon.Style>
+                                            <Style TargetType="{x:Type materialDesign:PackIcon}" 
+                                                   BasedOn="{StaticResource {x:Type materialDesign:PackIconExtension}}">
+                                                <Setter Property="Kind" Value="Home"/>
+                                            </Style>
+                                        </materialDesign:PackIcon.Style>-->
+
+                                </materialDesign:PackIcon>
+
+                                <Label Grid.Row="2"
+                                        Content="LOT" BorderThickness="0"
+                                        HorizontalContentAlignment="Center" FontWeight="Bold"
+                                           Margin="0"
+                                           Padding="0" Foreground="Black"/>
+
+                            </Grid>
+                        </cui:Button>
+                    </Border>
+
+                    <Border Grid.Column="1" BorderBrush="#FFd6d9f4" BorderThickness="0.5" CornerRadius="2" Margin="1">
+                        <cui:Button AutomationProperties.AutomationId="PrevBtn"
+                                    Command="{Binding MainMenu.GoPrevScreen}" Height="80" Margin="2" Padding="0"
+                                    GUID="5e80ff23-fbc8-4a56-9c31-a5d060397807"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                    Lockable="True">
+                            <Button.IsEnabled>
+                                <MultiBinding Converter="{StaticResource HomeBtnEnabledConv}">
+                                    <Binding Path="LotOPModule.ModuleState.State"/>
+                                    <Binding Path="LoaderController.ModuleState.State"/>
+                                    <Binding Path="ViewModelManager.PreMainScreenViewList.Count"/>
+                                    <Binding Path="ViewModelManager.HasLockHandle"/>
+                                </MultiBinding>
+                            </Button.IsEnabled>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="10"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="10"/>
+                                </Grid.RowDefinitions>
+                                <materialDesign:PackIcon  Grid.Row="1"
+                                                          Height="40" Width="40" 
+                                                          VerticalAlignment="Stretch" 
+                                                          HorizontalAlignment="Stretch"
+                                                          Kind="UndoVariant">
+                                    <materialDesign:PackIcon.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform  Angle="180" CenterX="20" CenterY="20" />
+                                            <ScaleTransform  ScaleX="-1" CenterX="20" CenterY="20"/>
+                                        </TransformGroup>
+                                    </materialDesign:PackIcon.RenderTransform>
+                                    <!--<materialDesign:PackIcon.Style>
+                                            <Style TargetType="{x:Type materialDesign:PackIcon}" BasedOn="{StaticResource {x:Type materialDesign:PackIconExtension}}">
+                                                <Setter Property="Kind" Value="UndoVariant"/>
+                                            </Style>
+                                        </materialDesign:PackIcon.Style>-->
+                                </materialDesign:PackIcon>
+                                <Label Content="Back" Grid.Row="2" BorderThickness="0" HorizontalContentAlignment="Center"
+                                           FontWeight="Bold" Padding="0" Foreground="Black"
+                                           Margin="0"/>
+                            </Grid>
+                        </cui:Button>
+                    </Border>
+
+                    <prvm:MainMenu Grid.Column="2" VerticalAlignment="Center" Grid.RowSpan="2"
+                               DataContext="{Binding MainMenu}" HorizontalAlignment="Center">
+                        
+                        <prvm:MainMenu.IsEnabled>
+                            <MultiBinding Converter="{StaticResource MainMenuEnabledConv}">
+                                <Binding Path="LotOPModule.ModuleState.State"/>
+                                <Binding Path="LoaderController.ModuleState.State"/>
+                                <Binding Path="MonitoringManager.IsSystemError"/>
+                                <Binding Path="ViewModelManager.HasLockHandle"/>
+                            </MultiBinding>
+                        </prvm:MainMenu.IsEnabled>
+                    </prvm:MainMenu>
+
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

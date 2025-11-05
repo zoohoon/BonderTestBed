@@ -1,0 +1,362 @@
+﻿<UserControl x:Class="ChuckPlanarityView.ChuckPlanarityView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ChuckPlanarityView"
+             xmlns:prober="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             xmlns:pnpcontrol="clr-namespace:PnPControl;assembly=PnPControl"
+             xmlns:display="clr-namespace:UcDisplayPort;assembly=UcDisplayPort"
+             xmlns:enum="clr-namespace:ProberInterfaces.Enum;assembly=ProberInterfaces"
+             xmlns:hjc="clr-namespace:HexagonJogControl;assembly=HexagonJogControl"
+             xmlns:lj="clr-namespace:LightJog;assembly=LightJog"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:pi="clr-namespace:ProberInterfaces.ControlClass.ViewModel;assembly=ProberInterfaces"
+             mc:Ignorable="d" 
+             d:DesignHeight="892" d:DesignWidth="1280">
+    <UserControl.Resources>
+        <!--<local:ChuckPosConverter x:Key="ChuckPosConv"/>-->
+        <local:SpechCheckConverter x:Key="SpechCheckConv"/>
+        <local:CurrentChuckPosConverter x:Key="CurrentChuckPosConv"/>
+        <local:StringLengthToMarginConverter x:Key="StringLengthToMarginConv"/>
+        <local:DiffStringToBrushConverter x:Key="DiffStringToBrushConv"/>
+        <local:FailPtStringToBrushConver x:Key="FailPtStringToBrushConv"/>
+        <local:BorderThincknessConver x:Key="BorderThincknessConv"/>
+        <DataTemplate x:Key="DisplayViewTemplate" DataType="{x:Type prober:IDisplayPort}" >
+            <ContentControl Name="DisPlay" Content="{Binding }">
+            </ContentControl>
+        </DataTemplate>
+
+        <pnpcontrol:TemplateSelector x:Key="ViewTargetTemplateSelector" 
+                                    DisplayViewDataTemplate="{StaticResource DisplayViewTemplate}"/>
+
+        <!--<DataTemplate x:Key="MapViewTemplate" DataType="{x:Type prober:IWaferObject}" >
+            <MapUC:ucWaferMapviewer MinHeight="200" MinWidth="200" Opacity="1" 
+                                              WaferObject="{Binding }" Grid.RowSpan="2" Margin="4" 
+                                              CursorXIndex="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, 
+                                                        Path=DataContext.CurCam.CamSystemMI.XIndex, Mode=TwoWay}" 
+                                              CursorYIndex="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, 
+                                                        Path=DataContext.CurCam.CamSystemMI.YIndex, Mode=TwoWay}"
+                                              CurCamera="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.CurCam}" 
+                                              
+                                              CoordinateManager="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, 
+                                                        Path=DataContext.CoordManager}"/>
+            -->
+        <!--ZoomLevel="{Binding ZoomLevel, Mode=TwoWay}"-->
+        <!--
+        </DataTemplate>-->
+
+        <ControlTemplate x:Key="ButtonControlTemplate" TargetType="{x:Type Button}">
+            <Grid>
+                <!--<Ellipse x:Name="theEllipse" 
+                         Fill="{Binding color}" 
+                         Stroke="Black" 
+                         Height="32" />-->
+                <Ellipse x:Name="theEllipse"
+                         Stroke="{Binding color}" 
+                         Fill="{Binding Fillcolor}" 
+                         Width="{Binding EllipseWidth}"
+                         Height="{Binding EllipseHeight}"/>
+
+                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Grid>
+            <!--<ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Fill" Value="Yellow" TargetName="theEllipse"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Fill" Value="Gray" TargetName="theEllipse"/>
+                </Trigger>
+            </ControlTemplate.Triggers>-->
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="ButtonControlRectangleTemplate" TargetType="{x:Type Button}">
+            <Grid>
+                <Rectangle x:Name="theRectangle"
+                         Stroke="{Binding color}" 
+                         Fill="{Binding Fillcolor}" 
+                         Width="{Binding Width}"
+                         Height="{Binding Height}" 
+                         RadiusX="5" RadiusY="5"/>
+                <!--<TextBox Text="{Binding TbText}" IsReadOnly="True" IsEnabled="False" FontWeight="Bold" FontSize="14" 
+                         Margin="{Binding TbText, Converter={StaticResource StringLengthToMarginConv}}"
+                         Foreground="{Binding ForegroundColor}" Background="{Binding BackgroundColor}">
+                </TextBox>-->
+            </Grid>
+            <ControlTemplate.Triggers>
+                <!--<Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Fill" Value="Yellow" TargetName="theRectangle"/>
+                </Trigger>-->
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Fill" Value="Gray" TargetName="theRectangle"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <SolidColorBrush x:Key="DisabledForegroundBrush" Color="Red" />
+        <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="White" />
+
+        <Style x:Key="CustomTextBox" TargetType="TextBox">
+            
+            <!--<Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Black"/>-->
+            
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <!--<Border Name="Bd" BorderThickness="{TemplateBinding BorderThickness}" 
+                                             BorderBrush="{TemplateBinding BorderBrush}" 
+                                             Background="{TemplateBinding Background}" 
+                                             SnapsToDevicePixels="true">
+                            <ScrollViewer Name="PART_ContentHost" Background="{TemplateBinding Background}" 
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>-->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <!--<Setter Value="{StaticResource DisabledBackgroundBrush}" Property="Background" />
+                                <Setter Value="{StaticResource DisabledForegroundBrush}" Property="Foreground" />-->
+                                <!--<Setter TargetName="PART_ContentHost" Property="Background" Value="Blue"/>-->
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+    </UserControl.Resources>
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="892"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0" Width="892"  Height="892">
+
+            <Grid Grid.Row="0">
+                <ContentControl Width="890" Height="890" 
+                                Content="{Binding MainViewTarget}"
+                                ContentTemplateSelector="{StaticResource ViewTargetTemplateSelector}"/>
+            </Grid>
+
+            <Viewbox Grid.Row="1" Height="100" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,10" >
+                <lj:UcLightJog  Width="250" Height="100" Opacity="0.9" 
+                                            IsEnabled="True" 
+                                            DataContext="{Binding PnpManager.PnpLightJog}"/>
+            </Viewbox>
+
+        </Grid>
+
+        <Grid Grid.Column="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3.669*"/>
+                <RowDefinition Height="1.341*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="3.0*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                
+                <Border BorderThickness="2" BorderBrush="White">
+                    <ItemsControl x:Name="ic" ItemsSource="{Binding Items}"
+                              >
+                        <ItemsControl.Resources>
+                            <DataTemplate DataType="{x:Type pi:CircleVM}">
+                                <Ellipse Stroke="{Binding color}" 
+                                         Fill="{Binding Fillcolor}" 
+                                         Width="{Binding EllipseWidth}"
+                                         Height="{Binding EllipseHeight}"/>
+                                <!--<Button Width="{Binding EllipseWidth}"
+                                        Height="{Binding EllipseHeight}"
+                                        Template="{DynamicResource ButtonControlTemplate}"/>-->
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type pi:RectangleVM}">
+                                <Button AutomationProperties.AutomationId="btnPos"
+                                        Width="{Binding Width}"
+                                        Height="{Binding Height}"
+                                        Template="{DynamicResource ButtonControlRectangleTemplate}"
+                                        Command="{Binding command}"
+                                        CommandParameter="{Binding commandparam}" Margin="0"
+                                        />
+                            </DataTemplate>
+                            
+                            <DataTemplate DataType="{x:Type pi:TextBoxVM}">
+                                <Border BorderThickness="{Binding IsSelected, Converter={StaticResource BorderThincknessConv}}" BorderBrush="Orange" CornerRadius="3" Margin="-14.5 0 0 0">
+                                <TextBox 
+                                         Text="{Binding TbText}" IsReadOnly="True" IsEnabled="False" FontWeight="Bold" FontSize="13" IsHitTestVisible="False" HorizontalContentAlignment="Center" Width="25"
+                                         Foreground="{Binding TbText, Converter={StaticResource DiffStringToBrushConv}}"
+                                         Background="{Binding TbText, Converter={StaticResource FailPtStringToBrushConv}}">
+                                    <!--<TextBox.Style>
+                                        <Style TargetType="TextBox">
+                                            <Style.Triggers>
+                                                <Trigger Property ="IsEnabled" Value="False">
+                                                    <Setter Property= "FontWeight" Value="Bold"/>
+                                                </Trigger>
+                                                --><!--<DataTrigger Binding="{Binding Path=TestColorMode2, RelativeSource={RelativeSource AncestorType={x:Type local:Window1}}}" Value="0">
+                                                    <Setter Property="Foreground" Value="Red" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Path=TestColorMode2, RelativeSource={RelativeSource AncestorType={x:Type local:Window1}}}" Value="1">
+                                                    <Setter Property="Foreground" Value="Blue" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Path=TestColorMode2, RelativeSource={RelativeSource AncestorType={x:Type local:Window1}}}" Value="2">
+                                                    <Setter Property="Foreground" Value="Green" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Path=TestColorMode2, RelativeSource={RelativeSource AncestorType={x:Type local:Window1}}}" Value="3">
+                                                    <Setter Property="Foreground" Value="Black" />
+                                                </DataTrigger>--><!--
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBox.Style>-->
+                                    
+                                </TextBox>
+                                </Border>
+                            </DataTemplate>
+                            
+                            <DataTemplate DataType="{x:Type pi:LineVM}">
+                                <!--<Ellipse Stroke="White" Fill="Transparent" Width="{Binding EllipseWidth}" Height="{Binding EllipseHeight}"/>-->
+                                <Line X1="{Binding X1}" Y1="{Binding Y1}" X2="{Binding X2}" Y2="{Binding Y2}" 
+                                      Stroke="{Binding color}" Fill="{Binding Fillcolor}"/>
+                            </DataTemplate>
+                           
+                            
+                        </ItemsControl.Resources>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas x:Name="ChuckPlanarityCanvas"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ContentPresenter">
+                                <Setter Property="Canvas.Top" Value="{Binding Top}"/>
+                                <Setter Property="Canvas.Left" Value="{Binding Left}"/>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                    </ItemsControl>
+                </Border>
+            </Grid>
+            <Grid Grid.Row="1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" MinHeight="50"/>
+                    <RowDefinition Height="*" MinHeight="50"/>
+                    <RowDefinition Height="*" MinHeight="50"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="0">
+                        <Label Content="Min :"></Label>
+                        <TextBox AutomationProperties.AutomationId="txtMin"
+                                 IsReadOnly="True" VerticalAlignment="Center" Width="80" Text="{Binding MinHeight, StringFormat={}{0:F0}}"  
+                                 Foreground="White"></TextBox>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                        <Label Content="Max :"></Label>
+                        <TextBox AutomationProperties.AutomationId="txtMax"
+                                 IsReadOnly="True" VerticalAlignment="Center" Width="80" Text="{Binding MaxHeight, StringFormat={}{0:F0}}" Foreground="White"></TextBox>
+                    </StackPanel>
+
+                </Grid>
+
+                <Grid Grid.Row="1">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="0">
+                        <Label Content="Diff :"></Label>
+                        <TextBox AutomationProperties.AutomationId="txtDiff"
+                                 IsReadOnly="True" Foreground="White" VerticalAlignment="Center" Width="80" Text="{Binding DiffHeight, StringFormat={} {0:#.#}}">
+                            <!--<TextBlock.Foreground>
+                                <MultiBinding Converter="{StaticResource SpechCheckConv}">
+                                    <Binding Path="DiffHeight"/>
+                                    <Binding Path="SpecHeight"/>
+                                </MultiBinding>
+                            </TextBlock.Foreground>-->
+                        </TextBox>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                        <Label Content="Margin :"></Label>
+                        <!--<TextBox IsReadOnly="False" VerticalAlignment="Center" Width="80" Text="{Binding SpecHeight, StringFormat={} +/- {0:#.#}}" Foreground="White">-->
+                        <TextBox AutomationProperties.AutomationId="txtMargin"
+                                 IsReadOnly="False" VerticalAlignment="Center" Width="80" Text="{Binding ChuckEndPointMargin}" Foreground="White">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding DecimalBoxClickCommand}" 
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </StackPanel>
+
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Column="0">
+                        <Label Content="Focusing Range :" FontSize="15"></Label>
+                        <TextBox AutomationProperties.AutomationId="txtMargin"
+                                 IsReadOnly="False" VerticalAlignment="Center" Width="100" Text="{Binding FocusingRange}" Foreground="White" Margin="0 -10 0 0">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding FocusingRangeClickCommand}" 
+                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                        <Label Content="(50 ~ 1000)" FontSize="14"></Label>
+                    </StackPanel>
+
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="2">
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                    <Button AutomationProperties.AutomationId="btnMeasureAllPosition"
+                            Width="110" Height="70" FontSize="14" Content="Measure &#10;all position" FontWeight="Bold" Command="{Binding MeasureAllPositionCommand}">
+                    </Button>
+
+                    <!--<Button AutomationProperties.AutomationId="btnCapture"
+                            Width="100" Height="70" FontSize="12" Content="Capture" Command="{Binding CaptureCommand}">
+                    </Button>-->
+
+                    <Button AutomationProperties.AutomationId="btnMeasureCurPosition"
+                            Width="110" Height="70" FontSize="14" Content="Measure &#10;current position" FontWeight="Bold" Command="{Binding MeasureOnePositionCommand}">
+                    </Button>
+                    
+                    <Button AutomationProperties.AutomationId="btnAdjustPlanarity"
+                            Width="110" Height="70" FontSize="14" Content="Adjust Planarity" FontWeight="Bold" Command="{Binding SetAdjustPlanartyCommand}">
+                    </Button>
+                    <!--<Button Width="150" Height="70" FontSize="12" Content="Measure current position" Command="{Binding MeasureOnePositionCommand}" Margin="30,0,0,0">
+                    </Button>-->
+
+                </StackPanel>
+            </Grid> 
+
+
+            <Grid Grid.Row="3">
+
+                <Viewbox Grid.Row="2" Grid.Column="1" Height="300" VerticalAlignment="Top">
+                    <hjc:UcHexagonJog   DataContext="{Binding PnpManager.PnpMotionJog}" 
+                                      AssignedCamera="{Binding DataContext.CurCam, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"/>
+                </Viewbox>
+            </Grid>
+
+        </Grid>
+
+    </Grid>
+</UserControl>

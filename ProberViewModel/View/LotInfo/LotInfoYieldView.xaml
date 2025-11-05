@@ -1,0 +1,213 @@
+﻿<UserControl x:Class="LotInfoYieldControl.LotInfoYieldView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:conv="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:local="clr-namespace:LotInfoYieldControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <conv:LotInfoStartTimeConverter x:Key="StartConv" />
+        <conv:LotInfoEndTimeConverter x:Key="EndConv" />
+        <conv:LotInfoYieldConverter x:Key="YieldConv" />
+        <Style x:Key="Body_Content_DataGrid_Centering" TargetType="{x:Type DataGridCell}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Border BorderBrush="Gray" BorderThickness="1" Height="31">
+                            <Grid Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="Body_Content_DataGridColumnHeader_Centering" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                        <Border BorderBrush="Gray" BorderThickness="1">
+                            <Grid Background="DarkGray">
+                                <TextBlock TextWrapping="Wrap" Text="{Binding}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+
+        <!--<Style x:Key="WrappedColumnHeaderStyle2" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Border BorderBrush="Gray" BorderThickness="1">
+                            <Grid Background="DarkGray">
+                                <TextBlock TextWrapping="Wrap" Text="{Binding}" Foreground="Black"></TextBlock>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            
+        </Style>
+        
+        <Style x:Key="WrappedColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                        <Border BorderBrush="Gray" BorderThickness="1">
+                            <Grid Background="DarkGray">
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                -->
+        <!--<TextBlock TextWrapping="Wrap" Text="{Binding Header, RelativeSource={RelativeSource TemplatedParent}}"></TextBlock>-->
+        <!--
+                                <TextBlock TextWrapping="Wrap" Text="{Binding}"></TextBlock>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>-->
+
+
+    </UserControl.Resources>
+
+    <Grid>
+
+        <!--materialDesign:DataGridAssist.CellPadding="20 0 0 0"-->
+
+        <StackPanel>
+
+            <DataGrid ItemsSource="{Binding LotOPModule.LotInfo.WaferSummarys}" 
+                    ScrollViewer.CanContentScroll="False"
+                    VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                    VirtualizingPanel.VirtualizationMode="Recycling"
+                    VirtualizingPanel.IsVirtualizing="True"
+                      CanUserResizeRows="False"
+                      CanUserResizeColumns="False"
+                      CanUserSortColumns="False" 
+                      CanUserAddRows="False" 
+                      CanUserReorderColumns="False"
+                      AutoGenerateColumns="False"
+                      materialDesign:DataGridAssist.ColumnHeaderPadding="5"
+                      Margin="5,5,5,5"
+                      VerticalScrollBarVisibility="Hidden"
+                      Background="Black"
+                      CellStyle="{StaticResource Body_Content_DataGrid_Centering}"
+                      ColumnHeaderStyle="{StaticResource Body_Content_DataGridColumnHeader_Centering}"
+                      Name="MyDataGrid">
+
+                <DataGrid.Columns>
+
+                    <materialDesign:MaterialDataGridTextColumn Width="30" Binding="{Binding SlotNumber}" Header="Slot" IsReadOnly="True"/>
+                    <materialDesign:MaterialDataGridTextColumn Width="1*" Binding="{Binding WaferID}" Header="Wafer ID" IsReadOnly="True"/>
+                    <materialDesign:MaterialDataGridTextColumn Width="60"  Header="Yield(%)" IsReadOnly="True">
+                        <materialDesign:MaterialDataGridTextColumn.Binding>
+                            <MultiBinding Converter="{StaticResource YieldConv}">
+                                <Binding Path="Yield"/>
+                                <Binding Path="WaferState"/>
+                            </MultiBinding>
+                        </materialDesign:MaterialDataGridTextColumn.Binding>
+                    </materialDesign:MaterialDataGridTextColumn>
+
+                    <materialDesign:MaterialDataGridTextColumn Width="60" 
+                                                               Header="Retest Yield(%)"
+                                                               IsReadOnly="True"
+                                                               >
+                        <materialDesign:MaterialDataGridTextColumn.Binding>
+                            <MultiBinding Converter="{StaticResource YieldConv}">
+                                <Binding Path="RetestYield"/>
+                                <Binding Path="WaferState"/>
+                            </MultiBinding>
+                        </materialDesign:MaterialDataGridTextColumn.Binding>
+                    </materialDesign:MaterialDataGridTextColumn>
+           
+
+
+                    <materialDesign:MaterialDataGridTextColumn Width="1*" Header="Start Time" IsReadOnly="True">
+                        <materialDesign:MaterialDataGridTextColumn.Binding>
+                            <MultiBinding Converter="{StaticResource StartConv}">
+                                <Binding Path="ProbingStartTime"/>
+                                <Binding Path="WaferState"/>
+                            </MultiBinding>
+                        </materialDesign:MaterialDataGridTextColumn.Binding>
+                    </materialDesign:MaterialDataGridTextColumn>
+                    <materialDesign:MaterialDataGridTextColumn Width="1*"  Header="End Time" IsReadOnly="True">
+                        <materialDesign:MaterialDataGridTextColumn.Binding>
+                            <MultiBinding Converter="{StaticResource EndConv}">
+                                <Binding Path="ProbingEndTime"/>
+                                <Binding Path="WaferState"/>
+                            </MultiBinding>
+                        </materialDesign:MaterialDataGridTextColumn.Binding>
+                    </materialDesign:MaterialDataGridTextColumn>
+
+                </DataGrid.Columns>
+
+            </DataGrid>
+
+            <Grid Margin="5,5,5,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="1">
+                    <Grid Background="DarkGray">
+                        <TextBlock Foreground="Black" FontWeight="Bold" Text="LOT" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1">
+                    <Grid Background="DarkGray">
+                        <TextBlock Foreground="Black" Text="{Binding LotOPModule.LotInfo.LotName.Value}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="2" BorderBrush="Gray" BorderThickness="1">
+                    <Grid Background="DarkGray">
+                        <TextBlock Foreground="Black" Text="{Binding LotOPModule.LotInfo.AccumulateInfo.TotalYield}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="3" BorderBrush="Gray" BorderThickness="1">
+                    <Grid Background="DarkGray">
+                        <TextBlock Foreground="Black" Text="{Binding LotOPModule.LotInfo.AccumulateInfo.TotalRetestYield}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="4" BorderBrush="Gray" BorderThickness="1">
+                    <Grid Background="DarkGray">
+                        <TextBlock Foreground="Black" Text="{Binding LotOPModule.LotInfo.LotStartTime}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="5" BorderBrush="Gray" BorderThickness="1">
+                    <Grid Background="DarkGray">
+                        <TextBlock Foreground="Black" Text="{Binding LotOPModule.LotInfo.LotEndTime}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Border>
+
+            </Grid>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

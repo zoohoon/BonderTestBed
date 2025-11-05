@@ -1,0 +1,1506 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="WaferMapGenerate" xml:space="preserve">
+    <value>Plaquette carte générer</value>
+  </data>
+  <data name="ChangeCoord" xml:space="preserve">
+    <value>Changement de coordonnées</value>
+  </data>
+  <data name="MultiSelectionEnable" xml:space="preserve">
+    <value>Multi sélection Enable</value>
+  </data>
+  <data name="CoordInfo" xml:space="preserve">
+    <value>Informations relatives aux coordonnées</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>fr-FR</value>
+  </data>
+  <data name="ManualTeach" xml:space="preserve">
+    <value>Manuel d’enseigner</value>
+  </data>
+  <data name="WaferEdgeData" xml:space="preserve">
+    <value>Données de bord de gaufrette</value>
+  </data>
+  <data name="WaferMapStatus" xml:space="preserve">
+    <value>État de carte Wafer</value>
+  </data>
+  <data name="AddPattern" xml:space="preserve">
+    <value>Ajouter motif</value>
+  </data>
+  <data name="AlignPatternStatus" xml:space="preserve">
+    <value>Aligner le statut de modèle</value>
+  </data>
+  <data name="AutoSearch" xml:space="preserve">
+    <value>Recherche automatique</value>
+  </data>
+  <data name="DeleteAllPad" xml:space="preserve">
+    <value>Supprimer tous les Pad</value>
+  </data>
+  <data name="DeletePad" xml:space="preserve">
+    <value>Supprimer le Pad</value>
+  </data>
+  <data name="DeleteSelectedPattern" xml:space="preserve">
+    <value>Supprimer le motif sélectionné</value>
+  </data>
+  <data name="RegisteredPad" xml:space="preserve">
+    <value>Coussin de siège</value>
+  </data>
+  <data name="RegisterPad" xml:space="preserve">
+    <value>Pad de Registre</value>
+  </data>
+  <data name="TeachBottomLeft" xml:space="preserve">
+    <value>Enseigner en bas à gauche</value>
+  </data>
+  <data name="TeachingCross" xml:space="preserve">
+    <value>Enseignement de croix</value>
+  </data>
+  <data name="TeachUpperRight" xml:space="preserve">
+    <value>Enseigner en haut à droite</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Enregistrer les paramètres</value>
+  </data>
+  <data name="ARM1_NoWafer" xml:space="preserve">
+    <value>..\Resources\ARM1_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM1_W" xml:space="preserve">
+    <value>..\Resources\ARM1_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM2_NoWafer" xml:space="preserve">
+    <value>..\Resources\ARM2_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM2_W" xml:space="preserve">
+    <value>..\Resources\ARM2_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowDown" xml:space="preserve">
+    <value>..\Resources\ArrowDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeft" xml:space="preserve">
+    <value>..\Resources\ArrowLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeftG" xml:space="preserve">
+    <value>..\Resources\ArrowLeftG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeftW" xml:space="preserve">
+    <value>..\Resources\ArrowLeftW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRight" xml:space="preserve">
+    <value>..\Resources\ArrowRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRightG" xml:space="preserve">
+    <value>..\Resources\ArrowRightG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRightW" xml:space="preserve">
+    <value>..\Resources\ArrowRightW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowUp" xml:space="preserve">
+    <value>..\Resources\ArrowUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Chuck_NoWafer" xml:space="preserve">
+    <value>..\Resources\Chuck_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Chuck_W" xml:space="preserve">
+    <value>..\Resources\Chuck_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Clockwise" xml:space="preserve">
+    <value>..\Resources\Clockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordLeftDown" xml:space="preserve">
+    <value>..\Resources\CoordLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordLeftUp" xml:space="preserve">
+    <value>..\Resources\CoordLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordRightDown" xml:space="preserve">
+    <value>..\Resources\CoordRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordRightUp" xml:space="preserve">
+    <value>..\Resources\CoordRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CounterClockwise" xml:space="preserve">
+    <value>..\Resources\CounterClockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ExtendHeight" xml:space="preserve">
+    <value>..\Resources\ExtendHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ExtendWidth" xml:space="preserve">
+    <value>..\Resources\ExtendWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FixedTray_NoWafer" xml:space="preserve">
+    <value>..\Resources\FixedTray_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FixedTray_W" xml:space="preserve">
+    <value>..\Resources\FixedTray_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Minus" xml:space="preserve">
+    <value>..\Resources\Minus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Plus" xml:space="preserve">
+    <value>..\Resources\Plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PreAligner_NoWafer" xml:space="preserve">
+    <value>..\Resources\PreAligner_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PreAligner_W" xml:space="preserve">
+    <value>..\Resources\PreAligner_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReduceHeight" xml:space="preserve">
+    <value>..\Resources\ReduceHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReduceWidth" xml:space="preserve">
+    <value>..\Resources\ReduceWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CheckOperationParameter" xml:space="preserve">
+    <value>Vérifiez le paramètre d’opération</value>
+  </data>
+  <data name="CheckProbeMark" xml:space="preserve">
+    <value>Coche de la sonde</value>
+  </data>
+  <data name="CheckRecipe" xml:space="preserve">
+    <value>Vérifier la recette</value>
+  </data>
+  <data name="CleanPadChange" xml:space="preserve">
+    <value>Changement touche Clean</value>
+  </data>
+  <data name="CopyRecipe" xml:space="preserve">
+    <value>Copier la recette</value>
+  </data>
+  <data name="CreateNewRecipe" xml:space="preserve">
+    <value>Créer une nouvelle recette</value>
+  </data>
+  <data name="DeleteRecipe" xml:space="preserve">
+    <value>Supprimer la recette</value>
+  </data>
+  <data name="Diagonostics" xml:space="preserve">
+    <value>Diagonostics</value>
+  </data>
+  <data name="DownloadRecipe" xml:space="preserve">
+    <value>Télécharger la recette</value>
+  </data>
+  <data name="Information" xml:space="preserve">
+    <value>Informations</value>
+  </data>
+  <data name="LoadRecipe" xml:space="preserve">
+    <value>Recette de charge</value>
+  </data>
+  <data name="LogManagement" xml:space="preserve">
+    <value>Gestion des journaux</value>
+  </data>
+  <data name="LOTMENU" xml:space="preserve">
+    <value>MENU DE LOT</value>
+  </data>
+  <data name="MENU" xml:space="preserve">
+    <value>MENU</value>
+  </data>
+  <data name="NeedleCleaning" xml:space="preserve">
+    <value>Aiguille de nettoyage</value>
+  </data>
+  <data name="OPERATION" xml:space="preserve">
+    <value>OPÉRATION</value>
+  </data>
+  <data name="PolishWaferChange" xml:space="preserve">
+    <value>Changement de plaquette polonais</value>
+  </data>
+  <data name="ProbeCardChange" xml:space="preserve">
+    <value>Changement de carte de sonde</value>
+  </data>
+  <data name="SETUP" xml:space="preserve">
+    <value>METTRE EN PLACE</value>
+  </data>
+  <data name="SetupLotProcess" xml:space="preserve">
+    <value>Beaucoup de processus d’installation</value>
+  </data>
+  <data name="SetupOperationParameter" xml:space="preserve">
+    <value>Paramètre de l’opération d’installation</value>
+  </data>
+  <data name="SetupRecipe" xml:space="preserve">
+    <value>Recette de l’installation</value>
+  </data>
+  <data name="ShutDown" xml:space="preserve">
+    <value>Arrêter</value>
+  </data>
+  <data name="SYSTEM" xml:space="preserve">
+    <value>SYSTÈME</value>
+  </data>
+  <data name="UserAccount" xml:space="preserve">
+    <value>Compte d'utilisateur</value>
+  </data>
+  <data name="WaferLoadUnload" xml:space="preserve">
+    <value>Plaquette de chargement/déchargement</value>
+  </data>
+  <data name="Recipe" xml:space="preserve">
+    <value>RECETTE</value>
+  </data>
+  <data name="Best" xml:space="preserve">
+    <value>Optimale</value>
+  </data>
+  <data name="Chuck" xml:space="preserve">
+    <value>Chuck</value>
+  </data>
+  <data name="CST1" xml:space="preserve">
+    <value>CD 1</value>
+  </data>
+  <data name="CST2" xml:space="preserve">
+    <value>CD 2</value>
+  </data>
+  <data name="CurProcess" xml:space="preserve">
+    <value>Processus en cours</value>
+  </data>
+  <data name="CurrentValue" xml:space="preserve">
+    <value>En cours</value>
+  </data>
+  <data name="CurYield" xml:space="preserve">
+    <value>Rendement</value>
+  </data>
+  <data name="DeviceName" xml:space="preserve">
+    <value>Nom du périphérique</value>
+  </data>
+  <data name="FailDieCnt" xml:space="preserve">
+    <value>Ne pas mourir</value>
+  </data>
+  <data name="Hand1" xml:space="preserve">
+    <value>Part 1</value>
+  </data>
+  <data name="Hand2" xml:space="preserve">
+    <value>Main 2</value>
+  </data>
+  <data name="HoldingTime" xml:space="preserve">
+    <value>Temps de maintien</value>
+  </data>
+  <data name="InspectionTray" xml:space="preserve">
+    <value>Tiroir</value>
+  </data>
+  <data name="LotName" xml:space="preserve">
+    <value>Lot nom</value>
+  </data>
+  <data name="LotSetup" xml:space="preserve">
+    <value>Exécutez l’installation beaucoup</value>
+  </data>
+  <data name="OPName" xml:space="preserve">
+    <value>Nom de l'opérateur</value>
+  </data>
+  <data name="OverHeat" xml:space="preserve">
+    <value>Plus de chaleur</value>
+  </data>
+  <data name="PassDieCnt" xml:space="preserve">
+    <value>Die col</value>
+  </data>
+  <data name="Pause" xml:space="preserve">
+    <value>Pause</value>
+  </data>
+  <data name="RetestYield" xml:space="preserve">
+    <value>Rendement de retest</value>
+  </data>
+  <data name="RunningTime" xml:space="preserve">
+    <value>Durée d’exécution</value>
+  </data>
+  <data name="SettingValue" xml:space="preserve">
+    <value>Paramètre</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>DÉMARRER</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Heure de début</value>
+  </data>
+  <data name="StopAfterFirstProbe" xml:space="preserve">
+    <value>Arrêt après la première sonde</value>
+  </data>
+  <data name="StopAfterLoadCST" xml:space="preserve">
+    <value>Arrêter après charge CST</value>
+  </data>
+  <data name="StopAfterOCRProcess" xml:space="preserve">
+    <value>Arrêter après le processus d’OCR</value>
+  </data>
+  <data name="StopAfterProbe" xml:space="preserve">
+    <value>Arrêt après la sonde</value>
+  </data>
+  <data name="StopAfterWaferLoad" xml:space="preserve">
+    <value>Arrêt après la charge de Wafer</value>
+  </data>
+  <data name="StopBeforeProbe" xml:space="preserve">
+    <value>S’arrêter avant la sonde</value>
+  </data>
+  <data name="StopBeforeRetest" xml:space="preserve">
+    <value>Arrêter avant de refaire le test</value>
+  </data>
+  <data name="SubChuck" xml:space="preserve">
+    <value>Void Chuck</value>
+  </data>
+  <data name="totalTestDieCnt" xml:space="preserve">
+    <value>Nombre total de tests Die</value>
+  </data>
+  <data name="Tray1" xml:space="preserve">
+    <value>Bac 1</value>
+  </data>
+  <data name="Tray2" xml:space="preserve">
+    <value>Bac 2</value>
+  </data>
+  <data name="Tray3" xml:space="preserve">
+    <value>Bac 3</value>
+  </data>
+  <data name="Tray4" xml:space="preserve">
+    <value>Bac 4</value>
+  </data>
+  <data name="Tray5" xml:space="preserve">
+    <value>Bac 5</value>
+  </data>
+  <data name="Worst" xml:space="preserve">
+    <value>Pire</value>
+  </data>
+  <data name="ChangeSequence" xml:space="preserve">
+    <value>Changer de séquence</value>
+  </data>
+  <data name="ArrowDownW" xml:space="preserve">
+    <value>..\Resources\ArrowDownW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowUpW" xml:space="preserve">
+    <value>..\Resources\ArrowUpW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AutoSelect" xml:space="preserve">
+    <value>Sélection automatique</value>
+  </data>
+  <data name="AutoThreshold" xml:space="preserve">
+    <value>Seuil de déclenchement automatique</value>
+  </data>
+  <data name="Base" xml:space="preserve">
+    <value>Socle</value>
+  </data>
+  <data name="BeginNeedleSetup" xml:space="preserve">
+    <value>BEGIN aiguille Setup</value>
+  </data>
+  <data name="Blob" xml:space="preserve">
+    <value>Objet blob</value>
+  </data>
+  <data name="Cantilever" xml:space="preserve">
+    <value>Cantilever</value>
+  </data>
+  <data name="ChangeCardType" xml:space="preserve">
+    <value>Modifier le Type de carte</value>
+  </data>
+  <data name="Circle" xml:space="preserve">
+    <value>Cercle</value>
+  </data>
+  <data name="DeleteAllPin" xml:space="preserve">
+    <value>Supprimer toutes les broches</value>
+  </data>
+  <data name="DeletePin" xml:space="preserve">
+    <value>Supprimer le code Pin</value>
+  </data>
+  <data name="DiscardAll" xml:space="preserve">
+    <value>Jetez tous</value>
+  </data>
+  <data name="DiscardPin" xml:space="preserve">
+    <value>Jeter le Pin</value>
+  </data>
+  <data name="Edge" xml:space="preserve">
+    <value>Côté</value>
+  </data>
+  <data name="EnablePinGroup" xml:space="preserve">
+    <value>Groupe de Pin Enable</value>
+  </data>
+  <data name="Finish" xml:space="preserve">
+    <value>Terminer</value>
+  </data>
+  <data name="FormFactor" xml:space="preserve">
+    <value>Carte</value>
+  </data>
+  <data name="GoNextStep" xml:space="preserve">
+    <value>Aller prochaine étape</value>
+  </data>
+  <data name="GoPrevStep" xml:space="preserve">
+    <value>Aller étape précédente</value>
+  </data>
+  <data name="HighAlignKey" xml:space="preserve">
+    <value>Aligner haut clé</value>
+  </data>
+  <data name="InitFromPadData" xml:space="preserve">
+    <value>Initialisation des données Pad</value>
+  </data>
+  <data name="Manual" xml:space="preserve">
+    <value>Manuel</value>
+  </data>
+  <data name="PinNumber" xml:space="preserve">
+    <value>Broche n°</value>
+  </data>
+  <data name="PinRegistrationStatus" xml:space="preserve">
+    <value>État d’enregistrement de broche</value>
+  </data>
+  <data name="PinSelection" xml:space="preserve">
+    <value>Sélection de broches</value>
+  </data>
+  <data name="Rectangle" xml:space="preserve">
+    <value>Rectangle</value>
+  </data>
+  <data name="RegisteredDut" xml:space="preserve">
+    <value>Dut inscrit</value>
+  </data>
+  <data name="RegisteredPin" xml:space="preserve">
+    <value>Broche inscrit</value>
+  </data>
+  <data name="RegisteredPosition" xml:space="preserve">
+    <value>Position recommandée</value>
+  </data>
+  <data name="RegisterFirst" xml:space="preserve">
+    <value>Vous inscrire d’abord</value>
+  </data>
+  <data name="RegisterPin" xml:space="preserve">
+    <value>Enregistrer le code Pin</value>
+  </data>
+  <data name="RegisterSecond" xml:space="preserve">
+    <value>S’inscrire en deuxième</value>
+  </data>
+  <data name="ROI" xml:space="preserve">
+    <value>ROI</value>
+  </data>
+  <data name="SelectPin" xml:space="preserve">
+    <value>Sélectionnez Pin</value>
+  </data>
+  <data name="SetLimitation" xml:space="preserve">
+    <value>Set de Limitation</value>
+  </data>
+  <data name="SetPinDataFromPad" xml:space="preserve">
+    <value>Données de mettre broche de Pad</value>
+  </data>
+  <data name="SetReferenceDut" xml:space="preserve">
+    <value>SetReferenceDut</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Taille</value>
+  </data>
+  <data name="Step" xml:space="preserve">
+    <value>Étape</value>
+  </data>
+  <data name="TeachNeedleBase" xml:space="preserve">
+    <value>Enseigner la Base de l’aiguille</value>
+  </data>
+  <data name="TeachNeedleTip" xml:space="preserve">
+    <value>Enseigner la pointe aiguille</value>
+  </data>
+  <data name="Tip" xml:space="preserve">
+    <value>Astuce</value>
+  </data>
+  <data name="TipRegistration" xml:space="preserve">
+    <value>Enregistrement de pointe</value>
+  </data>
+  <data name="UpdateForAllPin" xml:space="preserve">
+    <value>Mise à jour pour toutes les broches</value>
+  </data>
+  <data name="UpdatePinPosition" xml:space="preserve">
+    <value>Mise à jour de la Position de la broche</value>
+  </data>
+  <data name="Updating" xml:space="preserve">
+    <value>Mise à jour</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Verticale</value>
+  </data>
+  <data name="BinSummary" xml:space="preserve">
+    <value>Bin Résumé</value>
+  </data>
+  <data name="CardPosition" xml:space="preserve">
+    <value>Position de la carte</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Catégorie</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Fermer</value>
+  </data>
+  <data name="DutSummary" xml:space="preserve">
+    <value>Résumé de dut</value>
+  </data>
+  <data name="EachPinPosition" xml:space="preserve">
+    <value>Chaque Position de la broche</value>
+  </data>
+  <data name="LotSummary" xml:space="preserve">
+    <value>Lot Résumé</value>
+  </data>
+  <data name="MinMaxZ" xml:space="preserve">
+    <value>Min/Max Z</value>
+  </data>
+  <data name="OperationLog" xml:space="preserve">
+    <value>Journal de l’opération</value>
+  </data>
+  <data name="PinAlignmentTolerence" xml:space="preserve">
+    <value>Tolérance d’alignement goupille</value>
+  </data>
+  <data name="PinCount" xml:space="preserve">
+    <value>Nombre de broches</value>
+  </data>
+  <data name="PinPositionTolerance" xml:space="preserve">
+    <value>Tolérance de Position broche</value>
+  </data>
+  <data name="PMISummary" xml:space="preserve">
+    <value>Résumé de la PMI</value>
+  </data>
+  <data name="SamplePinAlignment" xml:space="preserve">
+    <value>Alignement de Pin échantillon</value>
+  </data>
+  <data name="Tolerance" xml:space="preserve">
+    <value>Tolérance</value>
+  </data>
+  <data name="AllContact" xml:space="preserve">
+    <value>Tout Contact</value>
+  </data>
+  <data name="ApplyShift" xml:space="preserve">
+    <value>Appliquer la Maj</value>
+  </data>
+  <data name="BumpView" xml:space="preserve">
+    <value>Vue de la bosse</value>
+  </data>
+  <data name="ColorView" xml:space="preserve">
+    <value>Vue de couleur</value>
+  </data>
+  <data name="FinishLot" xml:space="preserve">
+    <value>Beaucoup de finition</value>
+  </data>
+  <data name="FirstContact" xml:space="preserve">
+    <value>Premier Contact</value>
+  </data>
+  <data name="MarkShiftX" xml:space="preserve">
+    <value>Maj du Mark X</value>
+  </data>
+  <data name="MarkShiftY" xml:space="preserve">
+    <value>Changement de marque Y</value>
+  </data>
+  <data name="MarkShiftZ" xml:space="preserve">
+    <value>Changement de marque Z</value>
+  </data>
+  <data name="Overdrive" xml:space="preserve">
+    <value>Overdrive</value>
+  </data>
+  <data name="PMIMenu" xml:space="preserve">
+    <value>Menu PMI</value>
+  </data>
+  <data name="ResetMarkShift" xml:space="preserve">
+    <value>Réinitialiser la marque Shift</value>
+  </data>
+  <data name="RestartLot" xml:space="preserve">
+    <value>Redémarrez le Lot</value>
+  </data>
+  <data name="SkipCurrentWafer" xml:space="preserve">
+    <value>Courant de Skip Wafer</value>
+  </data>
+  <data name="TogglePCInspection" xml:space="preserve">
+    <value>Activer/désactiver sonde carte Menu</value>
+  </data>
+  <data name="UnloadAllWafers" xml:space="preserve">
+    <value>Décharger toutes les plaquettes</value>
+  </data>
+  <data name="Zup" xml:space="preserve">
+    <value>Z vers le haut</value>
+  </data>
+  <data name="AddDut" xml:space="preserve">
+    <value>Ajouter un DUT</value>
+  </data>
+  <data name="AutoUpdate" xml:space="preserve">
+    <value>Mettre à jour automatiquement</value>
+  </data>
+  <data name="Change" xml:space="preserve">
+    <value>Modifier</value>
+  </data>
+  <data name="DeleteDut" xml:space="preserve">
+    <value>Supprimer un Dut</value>
+  </data>
+  <data name="DieSizeX" xml:space="preserve">
+    <value>Die taille X</value>
+  </data>
+  <data name="DieSizeY" xml:space="preserve">
+    <value>Die taille Y</value>
+  </data>
+  <data name="Dut" xml:space="preserve">
+    <value>DUT</value>
+  </data>
+  <data name="DutCountNum" xml:space="preserve">
+    <value>Comte de dut</value>
+  </data>
+  <data name="ImportCardData" xml:space="preserve">
+    <value>ImportCardData</value>
+  </data>
+  <data name="InitializePallet" xml:space="preserve">
+    <value>Initialiser la palette</value>
+  </data>
+  <data name="LoadingAngle" xml:space="preserve">
+    <value>Angle de chargement</value>
+  </data>
+  <data name="MultiLocation" xml:space="preserve">
+    <value>Multi position</value>
+  </data>
+  <data name="Squareness" xml:space="preserve">
+    <value>Équerrage</value>
+  </data>
+  <data name="ToggleState" xml:space="preserve">
+    <value>Statut de la bascule</value>
+  </data>
+  <data name="WaferCenter" xml:space="preserve">
+    <value>Plaquette Centre</value>
+  </data>
+  <data name="ZoomIn" xml:space="preserve">
+    <value>Agrandir</value>
+  </data>
+  <data name="ZoomOut" xml:space="preserve">
+    <value>Réduire</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Ajouter</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="DoPTPA" xml:space="preserve">
+    <value>Pin Pad alignement</value>
+  </data>
+  <data name="SetPTPATolerance" xml:space="preserve">
+    <value>Tolérance PTPA Set</value>
+  </data>
+  <data name="CardChange" xml:space="preserve">
+    <value>Changement de carte</value>
+  </data>
+  <data name="Diagnostic" xml:space="preserve">
+    <value>Diagnostic</value>
+  </data>
+  <data name="HigherPriority" xml:space="preserve">
+    <value>Priorité plus élevée</value>
+  </data>
+  <data name="Inking" xml:space="preserve">
+    <value>Entrée manuscrite</value>
+  </data>
+  <data name="LowerPriority" xml:space="preserve">
+    <value>Priorité basse</value>
+  </data>
+  <data name="ManualOp" xml:space="preserve">
+    <value>Opération manuelle</value>
+  </data>
+  <data name="MarkAlign" xml:space="preserve">
+    <value>Alignement de la marque</value>
+  </data>
+  <data name="NeedleBrush" xml:space="preserve">
+    <value>Brosse à aiguilles</value>
+  </data>
+  <data name="PinAlign" xml:space="preserve">
+    <value>Alignement de l’axe</value>
+  </data>
+  <data name="PMI" xml:space="preserve">
+    <value>PMI</value>
+  </data>
+  <data name="PolishWafer" xml:space="preserve">
+    <value>Plaquette polonais</value>
+  </data>
+  <data name="Probing" xml:space="preserve">
+    <value>Sondage</value>
+  </data>
+  <data name="Remote" xml:space="preserve">
+    <value>Distant</value>
+  </data>
+  <data name="Soaking" xml:space="preserve">
+    <value>Trempage</value>
+  </data>
+  <data name="WaferAlign" xml:space="preserve">
+    <value>Alignement de Wafer</value>
+  </data>
+  <data name="WaferHandling" xml:space="preserve">
+    <value>Manipulation de Wafer</value>
+  </data>
+  <data name="Waiting" xml:space="preserve">
+    <value>En attente</value>
+  </data>
+  <data name="TaskManagement" xml:space="preserve">
+    <value>Gestion des tâches</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Accueil</value>
+  </data>
+  <data name="JogDown" xml:space="preserve">
+    <value>..\Resources\JogDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogLeft" xml:space="preserve">
+    <value>..\Resources\JogLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogLeftDown" xml:space="preserve">
+    <value>..\Resources\JogLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogLeftUp" xml:space="preserve">
+    <value>..\Resources\JogLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogRight" xml:space="preserve">
+    <value>..\Resources\JogRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogRightDown" xml:space="preserve">
+    <value>..\Resources\JogRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogRightUp" xml:space="preserve">
+    <value>..\Resources\JogRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogUp" xml:space="preserve">
+    <value>..\Resources\JogUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="AutoFocus" xml:space="preserve">
+    <value>Mise au point automatique</value>
+  </data>
+  <data name="High" xml:space="preserve">
+    <value>Haute</value>
+  </data>
+  <data name="Index" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="Low" xml:space="preserve">
+    <value>Basse</value>
+  </data>
+  <data name="Scan" xml:space="preserve">
+    <value>Numériser</value>
+  </data>
+  <data name="SetZero" xml:space="preserve">
+    <value>La valeur zéro</value>
+  </data>
+  <data name="ShiftMode" xml:space="preserve">
+    <value>Mode de changement</value>
+  </data>
+  <data name="ZAxis" xml:space="preserve">
+    <value>Axe Z</value>
+  </data>
+  <data name="AutoSeq" xml:space="preserve">
+    <value>Auto Seq</value>
+  </data>
+  <data name="DeleteAllSeq" xml:space="preserve">
+    <value>DeleteAll.Seq</value>
+  </data>
+  <data name="DeleteSeq" xml:space="preserve">
+    <value>Delete.Seq</value>
+  </data>
+  <data name="DUTLocation" xml:space="preserve">
+    <value>DUTLocation</value>
+  </data>
+  <data name="IndexX" xml:space="preserve">
+    <value>IndexX</value>
+  </data>
+  <data name="IndexY" xml:space="preserve">
+    <value>IndexY</value>
+  </data>
+  <data name="InsertSeq" xml:space="preserve">
+    <value>Insert.Seq</value>
+  </data>
+  <data name="NextEvent" xml:space="preserve">
+    <value>NextEvent</value>
+  </data>
+  <data name="NotchDirection" xml:space="preserve">
+    <value>NotchDirection</value>
+  </data>
+  <data name="Seq1" xml:space="preserve">
+    <value>..\Resources\Seq1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq2" xml:space="preserve">
+    <value>..\Resources\Seq2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq3" xml:space="preserve">
+    <value>..\Resources\Seq3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq4" xml:space="preserve">
+    <value>..\Resources\Seq4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq5" xml:space="preserve">
+    <value>..\Resources\Seq5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq6" xml:space="preserve">
+    <value>..\Resources\Seq6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq7" xml:space="preserve">
+    <value>..\Resources\Seq7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq8" xml:space="preserve">
+    <value>..\Resources\Seq8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Set" xml:space="preserve">
+    <value>Ensemble</value>
+  </data>
+  <data name="TotalSeq" xml:space="preserve">
+    <value>Seq total :</value>
+  </data>
+  <data name="WaferSize" xml:space="preserve">
+    <value>Taille de la plaquette</value>
+  </data>
+  <data name="Thickness" xml:space="preserve">
+    <value>Thickness</value>
+  </data>
+  <data name="WaferType" xml:space="preserve">
+    <value>Type de plaquette</value>
+  </data>
+  <data name="ExportFileAs" xml:space="preserve">
+    <value>ExportFileAs</value>
+  </data>
+  <data name="PreviousEvent" xml:space="preserve">
+    <value>Événement PREV</value>
+  </data>
+  <data name="SysInit" xml:space="preserve">
+    <value>Système Init</value>
+  </data>
+  <data name="DONE" xml:space="preserve">
+    <value>TERMINÉ</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>ERR.</value>
+  </data>
+  <data name="IDLE" xml:space="preserve">
+    <value>IDLE</value>
+  </data>
+  <data name="INIT" xml:space="preserve">
+    <value>INIT</value>
+  </data>
+  <data name="RUNNING" xml:space="preserve">
+    <value>EN COURS D’EXÉCUTION</value>
+  </data>
+  <data name="SUSPENDED" xml:space="preserve">
+    <value>EN SUSPENS</value>
+  </data>
+  <data name="UNDEFINED" xml:space="preserve">
+    <value>UNDEFINED</value>
+  </data>
+  <data name="ChangeProbeCard" xml:space="preserve">
+    <value>Changement sonde carte</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Nouvelle tentative</value>
+  </data>
+  <data name="DisableYAxis" xml:space="preserve">
+    <value>Désactiver l’axe Y</value>
+  </data>
+  <data name="EnableYAxis" xml:space="preserve">
+    <value>Activez l’axe Y</value>
+  </data>
+  <data name="DrawPad" xml:space="preserve">
+    <value>Pad de tirage au sort</value>
+  </data>
+  <data name="Abort" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="CSTNum" xml:space="preserve">
+    <value>Nombre de cassette</value>
+  </data>
+  <data name="SlotNum" xml:space="preserve">
+    <value>Numéro d’emplacement</value>
+  </data>
+  <data name="WaferID" xml:space="preserve">
+    <value>Wafer ID</value>
+  </data>
+  <data name="AlignmentImage" xml:space="preserve">
+    <value>Image d’alignement</value>
+  </data>
+  <data name="AlignmentOperation" xml:space="preserve">
+    <value>Opération d’alignement</value>
+  </data>
+  <data name="Arm1" xml:space="preserve">
+    <value>Bras 1</value>
+  </data>
+  <data name="Arm2" xml:space="preserve">
+    <value>Bras 2</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Automatique</value>
+  </data>
+  <data name="BasicMap" xml:space="preserve">
+    <value>Carte simple</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="CardRelativeZHeight" xml:space="preserve">
+    <value>Carte Z Relative hauteur</value>
+  </data>
+  <data name="Cassette" xml:space="preserve">
+    <value>Cassette</value>
+  </data>
+  <data name="Clearance" xml:space="preserve">
+    <value>Débattement</value>
+  </data>
+  <data name="CurrentZPosition" xml:space="preserve">
+    <value>Position actuelle de Z</value>
+  </data>
+  <data name="DataIn" xml:space="preserve">
+    <value>Données entrantes</value>
+  </data>
+  <data name="Degree" xml:space="preserve">
+    <value>deg</value>
+  </data>
+  <data name="DeviceParameterChange" xml:space="preserve">
+    <value>Modifier le paramètre périphérique</value>
+  </data>
+  <data name="DeviceSetInformation" xml:space="preserve">
+    <value>Dispositif de définie des informations</value>
+  </data>
+  <data name="Down" xml:space="preserve">
+    <value>Descendre</value>
+  </data>
+  <data name="ExistenceOfData" xml:space="preserve">
+    <value>Existence de données</value>
+  </data>
+  <data name="FixedTray1" xml:space="preserve">
+    <value>Plateau fixe 1</value>
+  </data>
+  <data name="FixedTray2" xml:space="preserve">
+    <value>Plateau fixe 2</value>
+  </data>
+  <data name="FixedTray3" xml:space="preserve">
+    <value>Plateau fixe 3</value>
+  </data>
+  <data name="FixedTray4" xml:space="preserve">
+    <value>Plateau fixe 4</value>
+  </data>
+  <data name="FixedTray5" xml:space="preserve">
+    <value>Plateau fixe 5</value>
+  </data>
+  <data name="FlatDir" xml:space="preserve">
+    <value>Plat Dir</value>
+  </data>
+  <data name="HeightOfChuck" xml:space="preserve">
+    <value>Hauteur de Chuck</value>
+  </data>
+  <data name="ImageDisplayChange" xml:space="preserve">
+    <value>Changement d’affichage image</value>
+  </data>
+  <data name="IndexSizeX" xml:space="preserve">
+    <value>IndexSize X</value>
+  </data>
+  <data name="IndexSizeY" xml:space="preserve">
+    <value>Indice taille Y</value>
+  </data>
+  <data name="KeySW" xml:space="preserve">
+    <value>3KEY SW</value>
+  </data>
+  <data name="LoaderSW" xml:space="preserve">
+    <value>Chargeur SW</value>
+  </data>
+  <data name="LoadingPosition" xml:space="preserve">
+    <value>Position de chargement</value>
+  </data>
+  <data name="LotSetInformation" xml:space="preserve">
+    <value>Informations sur le jeu beaucoup</value>
+  </data>
+  <data name="LotSettings" xml:space="preserve">
+    <value>Beaucoup de paramètres</value>
+  </data>
+  <data name="MaintAndAdjust" xml:space="preserve">
+    <value>Maint et ajuster</value>
+  </data>
+  <data name="MatchAndConfirm" xml:space="preserve">
+    <value>Match et confirmer</value>
+  </data>
+  <data name="MethodOfExternalControl" xml:space="preserve">
+    <value>Méthode de contrôle externe</value>
+  </data>
+  <data name="NowTemp" xml:space="preserve">
+    <value>Température actuelle</value>
+  </data>
+  <data name="Offline" xml:space="preserve">
+    <value>Hors connexion</value>
+  </data>
+  <data name="Online" xml:space="preserve">
+    <value>En ligne</value>
+  </data>
+  <data name="OperationSetting" xml:space="preserve">
+    <value>Paramètre de fonctionnement</value>
+  </data>
+  <data name="OverDriveChange" xml:space="preserve">
+    <value>Changement de Overdrive</value>
+  </data>
+  <data name="PadPosition" xml:space="preserve">
+    <value>Position de la touche</value>
+  </data>
+  <data name="PreAligner" xml:space="preserve">
+    <value>PreAlign</value>
+  </data>
+  <data name="ProberModeSettings" xml:space="preserve">
+    <value>Paramètres du Mode prober</value>
+  </data>
+  <data name="ProbingOverDrive" xml:space="preserve">
+    <value>Overdrive de palpage</value>
+  </data>
+  <data name="Resume" xml:space="preserve">
+    <value>Reprendre</value>
+  </data>
+  <data name="SamplingDie" xml:space="preserve">
+    <value>Die d’échantillonnage</value>
+  </data>
+  <data name="SetTemp" xml:space="preserve">
+    <value>Définition de Temp</value>
+  </data>
+  <data name="SlotInformation" xml:space="preserve">
+    <value>Informations de fente</value>
+  </data>
+  <data name="SystemModeChange" xml:space="preserve">
+    <value>Changement de Mode de système</value>
+  </data>
+  <data name="TaskVersion" xml:space="preserve">
+    <value>Version de la tâche</value>
+  </data>
+  <data name="TestCountDisplay" xml:space="preserve">
+    <value>Affichage du nombre de test</value>
+  </data>
+  <data name="TestStart" xml:space="preserve">
+    <value>Début de l’essai</value>
+  </data>
+  <data name="Transfer" xml:space="preserve">
+    <value>Transfert</value>
+  </data>
+  <data name="Up" xml:space="preserve">
+    <value>Haut</value>
+  </data>
+  <data name="UserSW" xml:space="preserve">
+    <value>SW de l’utilisateur</value>
+  </data>
+  <data name="Utility" xml:space="preserve">
+    <value>Utilitaire</value>
+  </data>
+  <data name="ZDrive" xml:space="preserve">
+    <value>Z-Drive</value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>CONT</value>
+  </data>
+  <data name="CST" xml:space="preserve">
+    <value>CST</value>
+  </data>
+  <data name="ContactCheck" xml:space="preserve">
+    <value>Contact Check</value>
+  </data>
+  <data name="Interrupt" xml:space="preserve">
+    <value>Interruption</value>
+  </data>
+  <data name="LogScreen" xml:space="preserve">
+    <value>Écran Journal</value>
+  </data>
+  <data name="LotProcess" xml:space="preserve">
+    <value>Beaucoup de processus</value>
+  </data>
+  <data name="LotRunMenu" xml:space="preserve">
+    <value>Menu exécution beaucoup</value>
+  </data>
+  <data name="LotStatistics" xml:space="preserve">
+    <value>Beaucoup de statistiques</value>
+  </data>
+  <data name="WaferInspection" xml:space="preserve">
+    <value>Inspection de Wafer</value>
+  </data>
+  <data name="LoaderStatus" xml:space="preserve">
+    <value>Statut de chargeur</value>
+  </data>
+  <data name="StageStatus" xml:space="preserve">
+    <value>État de l'étape</value>
+  </data>
+  <data name="UIModeChange" xml:space="preserve">
+    <value>Changement de Mode d’interface utilisateur</value>
+  </data>
+  <data name="GPIB" xml:space="preserve">
+    <value>GPIB</value>
+  </data>
+  <data name="LotOP" xml:space="preserve">
+    <value>LotOP</value>
+  </data>
+  <data name="Stage" xml:space="preserve">
+    <value>Étape</value>
+  </data>
+  <data name="MenualMode" xml:space="preserve">
+    <value>Menual Mode</value>
+  </data>
+  <data name="PutProbeCard" xml:space="preserve">
+    <value>Mettre carte sonde</value>
+  </data>
+  <data name="Reverse" xml:space="preserve">
+    <value>Inversée</value>
+  </data>
+  <data name="HighLight1" xml:space="preserve">
+    <value>Haute lumière 1</value>
+  </data>
+  <data name="HighLight2" xml:space="preserve">
+    <value>Forte luminosité 2</value>
+  </data>
+  <data name="LowLight1" xml:space="preserve">
+    <value>Basse lumière 1</value>
+  </data>
+  <data name="LowLight2" xml:space="preserve">
+    <value>Lumière faible 2</value>
+  </data>
+  <data name="HighCam" xml:space="preserve">
+    <value>Caméra haute</value>
+  </data>
+  <data name="LowCam" xml:space="preserve">
+    <value>Caméra faible</value>
+  </data>
+  <data name="Loader" xml:space="preserve">
+    <value>Chargeur</value>
+  </data>
+  <data name="ARM1_NoWafer1" xml:space="preserve">
+    <value>..\Resources\ARM1_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM1_W1" xml:space="preserve">
+    <value>..\Resources\ARM1_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM2_NoWafer1" xml:space="preserve">
+    <value>..\Resources\ARM2_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ARM2_W1" xml:space="preserve">
+    <value>..\Resources\ARM2_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowDown1" xml:space="preserve">
+    <value>..\Resources\ArrowDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowDownW1" xml:space="preserve">
+    <value>..\Resources\ArrowDownW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeft1" xml:space="preserve">
+    <value>..\Resources\ArrowLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeftG1" xml:space="preserve">
+    <value>..\Resources\ArrowLeftG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowLeftW1" xml:space="preserve">
+    <value>..\Resources\ArrowLeftW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRight1" xml:space="preserve">
+    <value>..\Resources\ArrowRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRightG1" xml:space="preserve">
+    <value>..\Resources\ArrowRightG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowRightW1" xml:space="preserve">
+    <value>..\Resources\ArrowRightW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowUp1" xml:space="preserve">
+    <value>..\Resources\ArrowUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ArrowUpW1" xml:space="preserve">
+    <value>..\Resources\ArrowUpW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Chuck_NoWafer1" xml:space="preserve">
+    <value>..\Resources\Chuck_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Chuck_W1" xml:space="preserve">
+    <value>..\Resources\Chuck_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Clockwise1" xml:space="preserve">
+    <value>..\Resources\Clockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordLeftDown1" xml:space="preserve">
+    <value>..\Resources\CoordLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordLeftUp1" xml:space="preserve">
+    <value>..\Resources\CoordLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordRightDown1" xml:space="preserve">
+    <value>..\Resources\CoordRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CoordRightUp1" xml:space="preserve">
+    <value>..\Resources\CoordRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CounterClockwise1" xml:space="preserve">
+    <value>..\Resources\CounterClockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ExtendHeight1" xml:space="preserve">
+    <value>..\Resources\ExtendHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ExtendWidth1" xml:space="preserve">
+    <value>..\Resources\ExtendWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FixedTray_NoWafer1" xml:space="preserve">
+    <value>..\Resources\FixedTray_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="FixedTray_W1" xml:space="preserve">
+    <value>..\Resources\FixedTray_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Image1" xml:space="preserve">
+    <value>..\Resources\Image1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogDown1" xml:space="preserve">
+    <value>..\Resources\JogDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogLeft1" xml:space="preserve">
+    <value>..\Resources\JogLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogLeftDown1" xml:space="preserve">
+    <value>..\Resources\JogLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogLeftUp1" xml:space="preserve">
+    <value>..\Resources\JogLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogRight1" xml:space="preserve">
+    <value>..\Resources\JogRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogRightDown1" xml:space="preserve">
+    <value>..\Resources\JogRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogRightUp1" xml:space="preserve">
+    <value>..\Resources\JogRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="JogUp1" xml:space="preserve">
+    <value>..\Resources\JogUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Minus1" xml:space="preserve">
+    <value>..\Resources\Minus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Plus1" xml:space="preserve">
+    <value>..\Resources\Plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PreAligner_NoWafer1" xml:space="preserve">
+    <value>..\Resources\PreAligner_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PreAligner_W1" xml:space="preserve">
+    <value>..\Resources\PreAligner_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReduceHeight1" xml:space="preserve">
+    <value>..\Resources\ReduceHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ReduceWidth1" xml:space="preserve">
+    <value>..\Resources\ReduceWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq11" xml:space="preserve">
+    <value>..\Resources\Seq1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq21" xml:space="preserve">
+    <value>..\Resources\Seq2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq31" xml:space="preserve">
+    <value>..\Resources\Seq3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq41" xml:space="preserve">
+    <value>..\Resources\Seq4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq51" xml:space="preserve">
+    <value>..\Resources\Seq5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq61" xml:space="preserve">
+    <value>..\Resources\Seq6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq71" xml:space="preserve">
+    <value>..\Resources\Seq7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Seq81" xml:space="preserve">
+    <value>..\Resources\Seq8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Camera" xml:space="preserve">
+    <value>Appareil photo</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Clair</value>
+  </data>
+  <data name="MapControl" xml:space="preserve">
+    <value>Contrôle de carte</value>
+  </data>
+  <data name="MotionControl" xml:space="preserve">
+    <value>Motion Control</value>
+  </data>
+  <data name="bars" xml:space="preserve">
+    <value>..\Resources\bars.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GPIBStatus" xml:space="preserve">
+    <value>Statut GPIB</value>
+  </data>
+  <data name="NetWorkStatus" xml:space="preserve">
+    <value>État du réseau</value>
+  </data>
+  <data name="AlarmSetup" xml:space="preserve">
+    <value>Réglage des alarmes</value>
+  </data>
+  <data name="AlignMode" xml:space="preserve">
+    <value>Mode d’alignement</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Appliquer</value>
+  </data>
+  <data name="BasicSetup" xml:space="preserve">
+    <value>Configuration de base</value>
+  </data>
+  <data name="BasicWaferAlign" xml:space="preserve">
+    <value>Alignement de base Wafer</value>
+  </data>
+  <data name="BINSetup" xml:space="preserve">
+    <value>BIN le programme d’installation</value>
+  </data>
+  <data name="ContactSetup" xml:space="preserve">
+    <value>Contacter le programme d’installation</value>
+  </data>
+  <data name="CustomWaferAlign" xml:space="preserve">
+    <value>Mode d’alignement personnalisé</value>
+  </data>
+  <data name="GPIBSetup" xml:space="preserve">
+    <value>Installation GPIB</value>
+  </data>
+  <data name="NCSetup" xml:space="preserve">
+    <value>Aiguille de nettoyage installation</value>
+  </data>
+  <data name="OCRSetup" xml:space="preserve">
+    <value>Paramètres OCR</value>
+  </data>
+  <data name="PinAlignSetup" xml:space="preserve">
+    <value>Goupille alignement Setup</value>
+  </data>
+  <data name="PinAlignToleranceSetup" xml:space="preserve">
+    <value>Programme d’installation de la tolérance alignement de broche</value>
+  </data>
+  <data name="PMISetup" xml:space="preserve">
+    <value>Installation PMI</value>
+  </data>
+  <data name="PTPASetup" xml:space="preserve">
+    <value>PTPA Setup</value>
+  </data>
+  <data name="RetestSetup" xml:space="preserve">
+    <value>Testez à nouveau le programme d’installation</value>
+  </data>
+  <data name="SelectableMode" xml:space="preserve">
+    <value>Mode sélectionnable</value>
+  </data>
+  <data name="SequenceSetup" xml:space="preserve">
+    <value>Séquence d’installation</value>
+  </data>
+  <data name="SetupStart" xml:space="preserve">
+    <value>Démarrer le programme d’installation</value>
+  </data>
+  <data name="SoakSetup" xml:space="preserve">
+    <value>Faire tremper le programme d’installation</value>
+  </data>
+  <data name="SystemInit" xml:space="preserve">
+    <value>Système Init</value>
+  </data>
+  <data name="TemperatureSetup" xml:space="preserve">
+    <value>Réglage de la température</value>
+  </data>
+  <data name="WaferAlignRun" xml:space="preserve">
+    <value>Wafer alignement Run</value>
+  </data>
+  <data name="WaferAlignSetup" xml:space="preserve">
+    <value>Installation de l’alignement de Wafer</value>
+  </data>
+  <data name="BinStat" xml:space="preserve">
+    <value>Bin</value>
+  </data>
+  <data name="Chiller" xml:space="preserve">
+    <value>Condenseur</value>
+  </data>
+  <data name="Cur" xml:space="preserve">
+    <value>Cur</value>
+  </data>
+  <data name="GEM" xml:space="preserve">
+    <value>GEM</value>
+  </data>
+  <data name="Inspection" xml:space="preserve">
+    <value>Inspection</value>
+  </data>
+  <data name="NC" xml:space="preserve">
+    <value>NE</value>
+  </data>
+  <data name="OCRapp" xml:space="preserve">
+    <value>OCR</value>
+  </data>
+  <data name="SONET" xml:space="preserve">
+    <value>Sonet</value>
+  </data>
+  <data name="Stat" xml:space="preserve">
+    <value>Statistiques</value>
+  </data>
+  <data name="Coaxial" xml:space="preserve">
+    <value>Coaxial</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>Désactivé</value>
+  </data>
+  <data name="On" xml:space="preserve">
+    <value>Activé</value>
+  </data>
+  <data name="WaferIntervalConfiguration" xml:space="preserve">
+    <value>Configuration d’intervalle Wafer</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Précédent</value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value>configuration</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Suivant</value>
+  </data>
+  <data name="Add_Delete" xml:space="preserve">
+    <value>  Ajout suppression de
+ &amp; 
+</value>
+  </data>
+  <data name="RegisterEdge" xml:space="preserve">
+    <value>Registre de bord
+</value>
+  </data>
+  <data name="RegisterPattern1" xml:space="preserve">
+    <value>S’inscrire 
+modèle 1</value>
+  </data>
+  <data name="RegisterPattern2" xml:space="preserve">
+    <value>S’inscrire 
+modèle 2</value>
+  </data>
+  <data name="SetCoordinate" xml:space="preserve">
+    <value>       La valeur de coordonnée
+</value>
+  </data>
+  <data name="EMPTY" xml:space="preserve">
+    <value>EMPTY</value>
+  </data>
+  <data name="MARK" xml:space="preserve">
+    <value>LAURENT</value>
+  </data>
+  <data name="SKIP" xml:space="preserve">
+    <value>SKIP</value>
+  </data>
+  <data name="TEST" xml:space="preserve">
+    <value>TEST</value>
+  </data>
+  <data name="ProbeMark" xml:space="preserve">
+    <value>Marque de la sonde</value>
+  </data>
+  <data name="NextDut" xml:space="preserve">
+    <value>Prochaine Dut</value>
+  </data>
+  <data name="NextPad" xml:space="preserve">
+    <value>Prochaine Pad</value>
+  </data>
+  <data name="PrevDut" xml:space="preserve">
+    <value>PREV Dut</value>
+  </data>
+  <data name="PrevPad" xml:space="preserve">
+    <value>PREV Pad</value>
+  </data>
+  <data name="LOT" xml:space="preserve">
+    <value>LOT</value>
+  </data>
+  <data name="Coordinate" xml:space="preserve">
+    <value>Coordonner</value>
+  </data>
+  <data name="X" xml:space="preserve">
+    <value>Q</value>
+  </data>
+  <data name="Y" xml:space="preserve">
+    <value>Y</value>
+  </data>
+  <data name="Z" xml:space="preserve">
+    <value>Z</value>
+  </data>
+  <data name="Inspect" xml:space="preserve">
+    <value>Inspecter</value>
+  </data>
+  <data name="LightDown" xml:space="preserve">
+    <value>Lumière-</value>
+  </data>
+  <data name="LightUp" xml:space="preserve">
+    <value>Lumière +</value>
+  </data>
+  <data name="LotEnd" xml:space="preserve">
+    <value>Fin de lot</value>
+  </data>
+</root>

@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="ManualJogView.TestPages.ForMarkAlignTest"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ManualJogView.TestPages"
+             mc:Ignorable="d" 
+             d:DesignHeight="240" d:DesignWidth="720" Background="Transparent">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="JogButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="FontSize" Value="19"></Setter>
+                <Setter Property="FontFamily" Value="NanumGothic"></Setter>
+                <Setter Property="Margin" Value="8,8,8,8"></Setter>
+                <Setter Property="MinHeight" Value="36"></Setter>
+                <Setter Property="MinWidth" Value="48"></Setter>
+                <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+                <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="80"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="180"/>
+        </Grid.ColumnDefinitions>
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+        </Grid.Resources>
+
+        <Border Background="Black" BorderBrush="LightGray" BorderThickness="1.5" Grid.Column="0" Grid.RowSpan="3">
+            <StackPanel Margin="0 0 0 0" >
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="WCMoveCount: " Foreground="Red" FontSize="10" Margin="0,0,0,0"/>
+                    <TextBox Text="{Binding WaferCamMoveCount}" Width="45" Foreground="LightGreen" Margin="0,0,0,0"/>
+                </StackPanel>
+                <Button Content="WCMove" Command="{Binding WaferCamCountMoveCommand}"/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="MarkMoveCount: " Foreground="Red" FontSize="10" Margin="0,0,0,0"/>
+                    <TextBox Text="{Binding MarkMoveCount}" Width="36" Foreground="LightGreen" Margin="0,0,0,0"/>
+                </StackPanel>
+                <Button Content="MarkMove" Command="{Binding MarkAlignCountMoveCommand}"/>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="DiffMarkPosX: " Foreground="Red" FontSize="10" Margin="0,0,0,0"/>
+                    <Label Content="{Binding DifMarkPosX}" Foreground="Green" FontSize="15" Margin="0,0,0,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="DiffMarkPosY: " Foreground="Red" FontSize="10" Margin="0,0,0,0"/>
+                    <Label Content="{Binding DifMarkPosY}" Foreground="Green" FontSize="15" Margin="0,0,0,0"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

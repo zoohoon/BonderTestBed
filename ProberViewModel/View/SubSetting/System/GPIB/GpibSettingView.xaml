@@ -1,0 +1,420 @@
+<UserControl x:Class="UcGpibSettingView.GpibSettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:proberinterfaces="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             xmlns:pie="clr-namespace:ProberInterfaces.Enum;assembly=ProberInterfaces"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:local="clr-namespace:UcGpibSettingView"
+             xmlns:cui="clr-namespace:CUI;assembly=CUI"
+             mc:Ignorable="d" 
+             d:DesignHeight="2000" d:DesignWidth="768">
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <ObjectDataProvider x:Key ="GpibEableEnum" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="proberinterfaces:EnumGpibEnable"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            
+            <ObjectDataProvider x:Key ="GpibComTypeEnum" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="proberinterfaces:EnumGpibCommType"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            
+            <ObjectDataProvider x:Key ="GpibProbingModeEnum" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="proberinterfaces:EnumGpibProbingMode"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key ="GpibBinResultType" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="pie:BinType"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <ObjectDataProvider x:Key ="BooleanType" MethodName="GetValues"
+                            ObjectType="{x:Type System:Boolean}">
+                <ObjectDataProvider.MethodParameters>
+                    <System:Boolean>True</System:Boolean>
+                    <System:Boolean>False</System:Boolean>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SettingControlStyle;component/SettingViewStyleDictionaly.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel Margin="4">
+            <Label  Content="GPIB"
+                Foreground="White"
+                FontWeight="Bold"
+                FontSize="56"
+                />
+            <Separator Margin="4" Background="White"/>
+
+            <StackPanel>
+                <Border Margin="4,0,0,0" Background="#3C454F">
+                    <Label Padding="0" FontWeight="DemiBold" Content="Communication" Foreground="WhiteSmoke" FontSize="16" VerticalAlignment="Center" />
+                </Border>
+
+                <Label Content="GPIB ReInitialize"
+                   Foreground="White"
+                   FontSize="16"
+                   />
+                <Grid>
+                    <cui:Button Content="ReInitialize"
+                                Height="52" Width="200"
+                                GUID = "C48A1BEE-FCA7-4151-A3F8-24B5854B3143"
+                                Style="{DynamicResource NormalTypeCUIButtonStyle}" 
+                                Command="{Binding ReInitializeCommand}"
+                                Margin="0 0 0 16"
+                            />
+                </Grid>
+            </StackPanel>
+
+            <StackPanel>
+
+                <Border Margin="4,0,0,0" Background="#3C454F">
+                    <Label Padding="0" FontWeight="DemiBold" Content="Communication" Foreground="WhiteSmoke" FontSize="16" VerticalAlignment="Center" />
+                </Border>
+
+                <Label Content="GPIB Enable"
+                   Foreground="White"
+                   FontSize="16"
+                   />
+
+                <Grid>
+                    <ComboBox AutomationProperties.AutomationId="cmbGPIBEnable"
+                              ItemsSource="{Binding Source={StaticResource GpibEableEnum}}"
+                              SelectedItem="{Binding GPIBEnable}">
+                        <ComboBox.FocusVisualStyle>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="BorderBrush" Value="White"></Setter>
+                            </Style>
+                        </ComboBox.FocusVisualStyle>
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem">
+                                <Setter Property="BorderBrush" Value="White"></Setter>
+                                <Setter Property="BorderThickness" Value="0.55"/>
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+
+                        <!--<i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>-->
+                        
+                    </ComboBox>
+                </Grid>
+                
+                <Label Content="GPIB Communication Type"
+                   Foreground="White"
+                   FontSize="16"/>
+                <Grid>
+                    <ComboBox AutomationProperties.AutomationId="cmbGPIBCommunicationType"
+                              ItemsSource="{Binding Source={StaticResource GpibComTypeEnum}}"
+                              SelectedItem="{Binding Path=GPIB.GPIBSysParam_IParam.EnumGpibComType.Value}">
+                        <ComboBox.FocusVisualStyle>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="BorderBrush" Value="White"></Setter>
+                            </Style>
+                        </ComboBox.FocusVisualStyle>
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem">
+                                <Setter Property="BorderBrush" Value="White"></Setter>
+                                <Setter Property="BorderThickness" Value="0.55"/>
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        
+                    </ComboBox>
+                </Grid>
+
+                <Label Content="GPIB Probing Mode"
+                   Foreground="White"
+                   FontSize="16"
+                   />
+                <Grid>
+                    <ComboBox AutomationProperties.AutomationId="cmbGPIBProbingMode"
+                              ItemsSource="{Binding Source={StaticResource GpibProbingModeEnum}}"
+                              SelectedItem="{Binding Path=GPIB.GPIBSysParam_IParam.EnumGpibProbingMode.Value}">
+                        <ComboBox.FocusVisualStyle>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="BorderBrush" Value="White"></Setter>
+                            </Style>
+                        </ComboBox.FocusVisualStyle>
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem">
+                                <Setter Property="BorderBrush" Value="White"></Setter>
+                                <Setter Property="BorderThickness" Value="0.55"/>
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" 
+                                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        
+                    </ComboBox>
+                </Grid>
+
+                <Label Content="Board Index"
+                   Foreground="White"
+                   FontSize="16"/>
+
+                <TextBox AutomationProperties.AutomationId="txtBoardIndex"
+                         Text="{Binding GPIB.GPIBSysParam_IParam.BoardIndex.Value}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown" >
+                            <i:InvokeCommandAction Command="{Binding DataContext.DecimalTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+
+                <Label Content="BIN Result Type"
+                   Foreground="White"
+                   FontSize="16"/>
+
+                <ComboBox AutomationProperties.AutomationId="cmbBINResultType"
+                          ItemsSource="{Binding Source={StaticResource GpibBinResultType}}"
+                          SelectedItem="{Binding Path=GPIB.GPIBSysParam_IParam.EnumBinType.Value}">
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Height="32"/>
+
+            <StackPanel>
+                <Border Margin="4,0,0,0" Background="#3C454F">
+                    <Label Padding="0" FontWeight="DemiBold" Content="Option" Foreground="WhiteSmoke" FontSize="16" VerticalAlignment="Center" />
+                </Border>
+                
+                <Label  Content="ExistPrefixInRetVal"
+                    Foreground="White"
+                    FontSize="16"/>
+
+                <ComboBox AutomationProperties.AutomationId="cmbExistPrefixInRetVal"
+                          SelectedItem="{Binding Path=GPIB.GPIBSysParam_IParam.ExistPrefixInRetVal.Value}">
+                    <ComboBox.Items>
+                        <System:Boolean>True</System:Boolean>
+                        <System:Boolean>False</System:Boolean>
+                    </ComboBox.Items>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    
+                </ComboBox>
+
+                <Label Content="UseAutoLocationNum"
+                   Foreground="White"
+                   FontSize="16"/>
+
+                <ComboBox AutomationProperties.AutomationId="cmbUseAutoLocationNum"
+                          SelectedItem="{Binding Path=GPIB.GPIBSysParam_IParam.UseAutoLocationNum.Value}">
+                    <ComboBox.Items>
+                        <System:Boolean>True</System:Boolean>
+                        <System:Boolean>False</System:Boolean>
+                    </ComboBox.Items>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    
+                </ComboBox>
+
+                <Label Content="SpecialGCMDMultiDutMode"
+                       Foreground="White"
+                       FontSize="16"/>
+                <ComboBox AutomationProperties.AutomationId="cmbSpecialGCMDMultiDutMode"
+                          SelectedItem="{Binding Path=GPIB.GPIBSysParam_IParam.SpecialGCMDMultiDutMode.Value}">
+                    <ComboBox.Items>
+                        <System:Boolean>True</System:Boolean>
+                        <System:Boolean>False</System:Boolean>
+                    </ComboBox.Items>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+
+                <Label Content="TelGCMDForcedOver8MultiDutMode"
+                   Foreground="White"
+                   FontSize="16"/>
+
+                <ComboBox AutomationProperties.AutomationId="cmbTelGCMDForcedOver8MultiDutMode"
+                          SelectedItem="{Binding Path=GPIB.GPIBSysParam_IParam.TelGCMDForcedOver8MultiDutMode.Value}">
+                    <ComboBox.Items>
+                        <System:Boolean>True</System:Boolean>
+                        <System:Boolean>False</System:Boolean>
+                    </ComboBox.Items>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    
+                </ComboBox>
+
+                <Label Content="TelGCMDMultiTestYesNoFM"
+                   Foreground="White"
+                   FontSize="16"/>
+                
+                <ComboBox AutomationProperties.AutomationId="cmbTelGCMDForcedOver8MultiDutMode" 
+                          SelectedItem="{Binding Path=GPIB.GPIBSysParam_IParam.TelGCMDMultiTestYesNoFM.Value}">
+                    <ComboBox.Items>
+                        <System:Boolean>True</System:Boolean>
+                        <System:Boolean>False</System:Boolean>
+                    </ComboBox.Items>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"
+                                                                       CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ComboBox}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    
+                </ComboBox>
+
+                <Label Content="TelSendSlotNumberForSmallNCommand"
+                   Foreground="White"
+                   FontSize="16"/>
+
+                <TextBox AutomationProperties.AutomationId="txtTelSendSlotNumberForSmallNCommand"
+                         Text="{Binding Path=GPIB.GPIBSysParam_IParam.TelSendSlotNumberForSmallNCommand.Value}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown" >
+                            <i:InvokeCommandAction Command="{Binding DataContext.DecimalTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+
+                <Label Content="EdgeCorrection"
+                   Foreground="White"
+                   FontSize="16"/>
+
+                <TextBox AutomationProperties.AutomationId="txtEdgeCorrection"
+                         Text="{Binding Path=GPIB.GPIBSysParam_IParam.EdgeCorrection.Value}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown" >
+                            <i:InvokeCommandAction Command="{Binding DataContext.DecimalTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+
+                <Label Content="ConsecutiveFailMode"
+                   Foreground="White"
+                   FontSize="16"/>
+
+                <TextBox AutomationProperties.AutomationId="txtConsecutiveFailMode"
+                         Text="{Binding Path=GPIB.GPIBSysParam_IParam.ConsecutiveFailMode.Value}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown" >
+                            <i:InvokeCommandAction Command="{Binding DataContext.DecimalTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+
+                <Label Content="ConsecutiveFailSkipLine"
+                   Foreground="White"
+                   FontSize="16"/>
+
+                <TextBox AutomationProperties.AutomationId="txtConsecutiveFailSkipLine"
+                         Text="{Binding Path=GPIB.GPIBSysParam_IParam.ConsecutiveFailSkipLine.Value}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown" >
+                            <i:InvokeCommandAction Command="{Binding DataContext.DecimalTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+
+                <Label Content="MultiTestLocFor2Chan"
+                   Foreground="White"
+                   FontSize="16"/>
+
+                <TextBox AutomationProperties.AutomationId="txtMultiTestLocFor2Chan"
+                         Text="{Binding Path=GPIB.GPIBSysParam_IParam.MultiTestLocFor2Chan.Value}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown" >
+                            <i:InvokeCommandAction Command="{Binding DataContext.DecimalTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+
+                <Label Content="TelMultiTestYesNo"
+                   Foreground="White"
+                   FontSize="16"/>
+                
+                <TextBox AutomationProperties.AutomationId="txtTelMultiTestYesNo"
+                         Text="{Binding Path=GPIB.GPIBSysParam_IParam.TelMultiTestYesNo.Value}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown" >
+                            <i:InvokeCommandAction Command="{Binding DataContext.StringTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+
+                <Label Content="AddSignForLargeA"
+                   Foreground="White"
+                   FontSize="16"/>
+
+                <TextBox AutomationProperties.AutomationId="txtAddSignForLargeA"
+                         Text="{Binding Path=GPIB.GPIBSysParam_IParam.AddSignForLargeA.Value}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown" >
+                            <i:InvokeCommandAction Command="{Binding DataContext.DecimalTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+                
+                <StackPanel Height="32"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

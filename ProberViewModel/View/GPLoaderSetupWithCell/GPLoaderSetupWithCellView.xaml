@@ -1,0 +1,167 @@
+﻿<UserControl x:Class="ProberViewModel.View.GPLoaderSetupWithCell.GPLoaderSetupWithCellView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProberViewModel.View.GPLoaderSetupWithCell"
+             xmlns:conv="clr-namespace:ValueConverters;assembly=ValueConverters" 
+             xmlns:view="clr-namespace:ProberViewModel.View" 
+             mc:Ignorable="d" MaxHeight="1080" MaxWidth="1920" 
+             d:DesignHeight="1080" d:DesignWidth="1920">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" Background="Black">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.7*"/>
+
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="10" Grid.ColumnSpan="5" BorderThickness="5" BorderBrush="LightGray"></Border>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.6*"/>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="5,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Card Exist :" Foreground="White" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Padding="1"/>
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding CardExist}" Foreground="CadetBlue" FontSize="20"  TextAlignment="Center" VerticalAlignment="Center" Padding="1" AutomationProperties.AutomationId="txtCardExist"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Three Leg :" Foreground="White" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Padding="1"/>
+                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding ThreeLeg}" Foreground="CadetBlue" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Padding="1" AutomationProperties.AutomationId="txtThreeLeg"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Pod Module :" Foreground="White" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Padding="1"/>
+                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding CardPodPosition}" Foreground="CadetBlue" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Padding="1" AutomationProperties.AutomationId="txtCardPodPosition"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="3" Text="Chuck :" Foreground="White" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Padding="1"/>
+                    <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding WaferOnChuck}" Foreground="CadetBlue" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Padding="1" AutomationProperties.AutomationId="txtWaferOnChuck"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="4" Text="LoaderDoor State :" Foreground="White" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Padding="1"/>
+                    <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding DoorResult}" Foreground="CadetBlue" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Padding="1" AutomationProperties.AutomationId="txtDoorResult"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="5" Text="Edge Align result :" Foreground="White" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Padding="1"/>
+                    <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding EdgeAlignResult}" Foreground="CadetBlue" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Padding="1" AutomationProperties.AutomationId="txtEdgeAlignResult"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="6" Text="WaferCenter Offset X :" Foreground="White" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Padding="1"/>
+                    <TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding WaferCenterOffset.X.Value}" Foreground="CadetBlue" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Padding="1" AutomationProperties.AutomationId="txtWaferCenterOffsetX"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="7" Text="WaferCenter Offset Y :" Foreground="White" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                    <TextBlock Grid.Column="1" Grid.Row="7" Text="{Binding WaferCenterOffset.Y.Value}" Foreground="CadetBlue" FontSize="20" TextAlignment="Center" VerticalAlignment="Center" Padding="1" AutomationProperties.AutomationId="txtWaferCenterOffsetY"/>
+
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="10" Grid.ColumnSpan="5" BorderThickness="5" BorderBrush="LightGray"></Border>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="X Pos" Foreground="White" FontSize="16" TextAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="Y Pos" Foreground="White" FontSize="16" TextAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                    <TextBlock Grid.Column="2" Grid.Row="0" Text="Z Pos" Foreground="White" FontSize="16" TextAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                    <TextBlock Grid.Column="3" Grid.Row="0" Text="T Pos" Foreground="White" FontSize="16" TextAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="{Binding XAxis.Status.Position.Actual,StringFormat={}{0:#0}}" Foreground="PaleVioletRed" FontSize="16" TextAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3" AutomationProperties.AutomationId="txtActualPositionX"/>
+                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding YAxis.Status.Position.Actual,StringFormat={}{0:#0}}" Foreground="PaleVioletRed" FontSize="16" TextAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3" AutomationProperties.AutomationId="txtActualPositionY"/>
+                    <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding ZAxis.Status.Position.Actual,StringFormat={}{0:#0}}" Foreground="PaleVioletRed" FontSize="16" TextAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3" AutomationProperties.AutomationId="txtActualPositionZ"/>
+                    <TextBlock Grid.Column="3" Grid.Row="1" Text="{Binding TAxis.Status.Position.Actual,StringFormat={}{0:#0}}" Foreground="PaleVioletRed" FontSize="16" TextAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3" AutomationProperties.AutomationId="txtActualPositionT"/>
+
+                    <Button  Grid.Column="0" Grid.Row="2" FontSize="15" Width="150" Content="Pos Move" Command="{Binding MovePosXCommand}" AutomationProperties.AutomationId="btnMovePosX"/>
+                    <Button  Grid.Column="1" Grid.Row="2" FontSize="15" Width="150" Content="Pos Move" Command="{Binding MovePosyCommand}" AutomationProperties.AutomationId="btnMovePosY"/>
+                    <Button  Grid.Column="2" Grid.Row="2" FontSize="15" Width="150" Content="Pos Move" Command="{Binding MovePosZCommand}" AutomationProperties.AutomationId="btnMovePosZ"/>
+                    <Button  Grid.Column="3" Grid.Row="2" FontSize="15" Width="150" Content="Pos Move" Command="{Binding MovePosThetaCommand}" AutomationProperties.AutomationId="btnMovePosTheta"/>
+
+                    <TextBox AutomationProperties.AutomationId="txtXPosInput"
+                             Grid.Column="0" Grid.Row="3" Text="{Binding InputXValue}" Foreground="Black" Background="White" FontSize="24"  TextAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                    <TextBox AutomationProperties.AutomationId="txtYPosInput"
+                             Grid.Column="1" Grid.Row="3" Text="{Binding InputYValue}" Foreground="Black" Background="White" FontSize="24"  TextAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                    <TextBox AutomationProperties.AutomationId="txtZPosInput"
+                             Grid.Column="2" Grid.Row="3" Text="{Binding InputZValue}" Foreground="Black" Background="White" FontSize="24"  TextAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+                    <TextBox AutomationProperties.AutomationId="txtTPosInput"
+                             Grid.Column="3" Grid.Row="3" Text="{Binding InputThetaValue}" Foreground="Black" Background="White" FontSize="24"  TextAlignment="Center" VerticalAlignment="Center" Margin="3,3,3,3"/>
+
+                    <Button  Grid.Column="0" Grid.Row="4" FontSize="15" Width="150" Content="Neg Move" Command="{Binding MoveNegXCommand}" AutomationProperties.AutomationId="btnMoveNegX"/>
+                    <Button  Grid.Column="1" Grid.Row="4" FontSize="15" Width="150" Content="Neg Move" Command="{Binding MoveNegYCommand}" AutomationProperties.AutomationId="btnMoveNegY"/>
+                    <Button  Grid.Column="2" Grid.Row="4" FontSize="15" Width="150" Content="Neg Move" Command="{Binding MoveNegZCommand}" AutomationProperties.AutomationId="btnMoveNegZ"/>
+                    <Button  Grid.Column="3" Grid.Row="4" FontSize="15" Width="150" Content="Neg Move" Command="{Binding MoveNegThetaCommand}" AutomationProperties.AutomationId="btnMoveNegTheta"/>
+                </Grid>
+                <Grid Grid.Row="3" Width="400" Height="400">
+                    <ContentControl Content="{Binding DisplayPort}"/>
+                </Grid>
+
+            </Grid>
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.3*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="0.3*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="15" Grid.ColumnSpan="2" BorderThickness="5" BorderBrush="LightGray"></Border>
+                <Button Grid.Column="0" Grid.Row="1" Content=" Move To Loading " FontSize="20" Padding="0" Background="YellowGreen" Foreground="White" FontWeight="Bold"  HorizontalContentAlignment="Left" Command="{Binding MoveToLoaderCommand}" Margin="8" AutomationProperties.AutomationId="btnMoveToLoader"/>
+                <Button Grid.Column="1" Grid.Row="1" Content=" Move To Center " FontSize="20" Padding="0" Background="YellowGreen" Foreground="White" FontWeight="Bold"  HorizontalContentAlignment="Left" Command="{Binding MoveToCenterCommand}" Margin="8" AutomationProperties.AutomationId="btnMoveToCenter"/>
+                <Button Grid.Column="1" Grid.Row="2" Content=" Move To Back" FontSize="20" Padding="0"  Background="YellowGreen" Foreground="White" FontWeight="Bold"  HorizontalContentAlignment="Left" Command="{Binding MoveToBackCommand}" Margin="8" AutomationProperties.AutomationId="btnMoveToBack"/>
+                <Button Grid.Column="0" Grid.Row="2" Content=" Move To Front &#10;( Loader Direction )" FontSize="20" Padding="0"  Background="YellowGreen" Foreground="White" FontWeight="Bold"  HorizontalContentAlignment="Left" Command="{Binding MoveToFrontCommand}" Margin="8" AutomationProperties.AutomationId="btnMoveToFront"/>
+                <Button Grid.Column="0" Grid.Row="3" Content=" Move To Z Cleared " FontSize="20" Padding="0" Background="YellowGreen" Foreground="White" FontWeight="Bold"  HorizontalContentAlignment="Left"  Command="{Binding MoveToZClearedCommand}" Margin="8" AutomationProperties.AutomationId="btnMoveToZCleared"/>
+                <Button Grid.Column="1" Grid.Row="3" Content=" Edge Align " FontSize="20" Padding="0" Background="YellowGreen" Foreground="White" FontWeight="Bold"  HorizontalContentAlignment="Left"  Command="{Binding EdgeAlignCommand}" Margin="8" AutomationProperties.AutomationId="btnEdgeAlign"/>
+
+                <Button Grid.Column="0" Grid.Row="5" Content=" ThreeLeg UP" FontSize="20" Background="Orange" Foreground="White" FontWeight="Bold" Command="{Binding ThreeLegUpCommand}" Margin="8" AutomationProperties.AutomationId="btnThreeLegUp"/>
+                <Button Grid.Column="1" Grid.Row="5" Content=" ThreeLeg DOWN" FontSize="20" Background="Orange" Foreground="White" FontWeight="Bold" Command="{Binding ThreeLegDownCommand}" Margin="8" AutomationProperties.AutomationId="btnThreeLegDown"/>
+                <Button Grid.Column="0" Grid.Row="6" Content=" CardPod UP" FontSize="20" Background="Orange" Foreground="White" FontWeight="Bold" Command="{Binding RaisePodCommand}" Margin="8" AutomationProperties.AutomationId="btnRaisePod"/>
+                <Button Grid.Column="1" Grid.Row="6" Content=" CardPod DOWN" FontSize="20" Background="Orange" Foreground="White" FontWeight="Bold" Command="{Binding DropPodCommand}" Margin="8" AutomationProperties.AutomationId="btnDropPod"/>
+                <Button Grid.Column="0" Grid.Row="7" Content=" CardPod Vac ON" FontSize="20" Background="Orange" Foreground="White" FontWeight="Bold" Command="{Binding PCardPodVacuumOnCommand}" Margin="8" AutomationProperties.AutomationId="btnPCardPodVacuumOn"/>
+                <Button Grid.Column="1" Grid.Row="7" Content=" CardPod Vac OFF" FontSize="20" Background="Orange" Foreground="White" FontWeight="Bold" Command="{Binding PCardPodVacuumOffCommand}" Margin="8" AutomationProperties.AutomationId="btnPCardPodVacuumOff"/>
+                <Button Grid.Column="0" Grid.Row="8" Content=" Chuck Vac ON" FontSize="20" Background="Orange" Foreground="White" FontWeight="Bold" Command="{Binding ChuckVacOnCommand}" Margin="8" AutomationProperties.AutomationId="btnChuckVacOn"/>
+                <Button Grid.Column="1" Grid.Row="8" Content=" Chuck Vac OFF" FontSize="20" Background="Orange" Foreground="White" FontWeight="Bold" Command="{Binding ChuckVacOffCommand}" Margin="8" AutomationProperties.AutomationId="btnChuckVacOff"/>
+                <Button Grid.Column="0" Grid.Row="9" Content=" LoaderDoor OPEN" FontSize="20" Background="Orange" Foreground="White" FontWeight="Bold" Command="{Binding DoorOpenCommand}" Margin="8" AutomationProperties.AutomationId="btnDoorOpen"/>
+                <Button Grid.Column="1" Grid.Row="9" Content=" LoaderDoor CLOSE" FontSize="20" Background="Orange" Foreground="White" FontWeight="Bold" Command="{Binding DoorCloseCommand}" Margin="8" AutomationProperties.AutomationId="btnDoorClose"/>
+                <Button Grid.Column="0" Grid.Row="10" Content=" CardDoor OPEN" FontSize="20" Background="Orange" Foreground="White" FontWeight="Bold" Command="{Binding CardDoorOpenCommand}" Margin="8" AutomationProperties.AutomationId="btnCardDoorOpen"/>
+                <Button Grid.Column="1" Grid.Row="10" Content=" CardDoor CLOSE" FontSize="20" Background="Orange" Foreground="White" FontWeight="Bold" Command="{Binding CardDoorCloseCommand}" Margin="8" AutomationProperties.AutomationId="btnCardDoorClose"/>
+
+                <!--<Button Grid.Column="1" Grid.Row="4" Content=" Edge Align" FontSize="16" Background="LightYellow" Command="{Binding EdgeAlignCommand}" Margin="2,2,2,2"/>-->
+            </Grid>
+
+        </Grid>
+        
+        <view:ScreenLock DataContext="{Binding SelectedStage}"/>
+
+    </Grid>
+</UserControl>

@@ -1,0 +1,599 @@
+﻿<Window x:Class="EmulGemView.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EmulGemView"
+        xmlns:aniScroll="clr-namespace:UcAnimationScrollViewer;assembly=UcAnimationScrollViewer"
+        mc:Ignorable="d"        
+        Title="Emulation Gem Operation" Height="960" Width="1200" Background="LightSlateGray" Loaded="Window_Loaded">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SettingControlStyle;component/SettingViewStyleDictionaly.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="UpButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="{DynamicResource Button.Static.Background}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource Button.Static.Border}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid Opacity="0.5">
+                                <Border Name="UpButtonBorderStyle" Background="#333333">
+                                    <Border.BitmapEffect>
+                                        <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                    Color="LightGray" 
+                                    ShadowDepth="10"
+                                    Softness="0.5"
+                                    />
+                                    </Border.BitmapEffect>
+                                </Border>
+                                <Viewbox Margin="8">
+                                    <Path Data="M1,21H23L12,2" Fill="White" Name="TryAngleIcon"/>
+                                </Viewbox>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsDefaulted" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="UpButtonBorderStyle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true"/>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Fill" TargetName="TryAngleIcon" Value="{DynamicResource Button.Pressed.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="UpButtonBorderStyle" Value="{DynamicResource Button.Disabled.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="UpButtonBorderStyle" Value="{DynamicResource Button.Disabled.Border}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="DwButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="{DynamicResource Button.Static.Background}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource Button.Static.Border}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid Opacity="0.5">
+                                <Border Name="DwButtonBorderStyle" Background="#333333">
+                                    <Border.BitmapEffect>
+                                        <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                    Color="LightGray" 
+                                    ShadowDepth="10"
+                                    Softness="0.5"/>
+                                    </Border.BitmapEffect>
+                                </Border>
+                                <Viewbox Margin="8">
+                                    <Path Data="M1,2H23L12,21"
+                                          Fill="White" Name="TryAngleIcon"
+                                          />
+                                </Viewbox>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsDefaulted" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="DwButtonBorderStyle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true"/>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Fill" TargetName="TryAngleIcon" Value="{DynamicResource Button.Pressed.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="DwButtonBorderStyle" Value="{DynamicResource Button.Disabled.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="DwButtonBorderStyle" Value="{DynamicResource Button.Disabled.Border}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.4*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.5*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top">
+                <CheckBox x:Name="CB_CST1" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
+                <Label Content="LOT1 ID:" FontSize="20" MouseDoubleClick="LOT1_MouseDoubleClick"></Label>
+                <TextBox AutomationProperties.AutomationId="LOT1IDtxt"
+                         x:Name="tb_LOT1ID" Width="100" FontSize="20" Margin="-10 0 0 0"></TextBox>
+
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,0">
+                <Label Content=" PMI :" FontSize="15" Padding="4"   ></Label >
+                <TextBox x:Name="tb_PMI1COUNT" Width="30" FontSize="20" Padding="0">0</TextBox>
+                <StackPanel Orientation="Vertical">
+                    <RadioButton x:Name="rb_nonePMI1" GroupName="PMI1" IsChecked="True" Padding="0" VerticalContentAlignment="Center">None</RadioButton>
+                    <RadioButton x:Name="rb_everyPMI1" GroupName="PMI1" Padding="0" VerticalContentAlignment="Center">Every</RadioButton>
+                    <RadioButton x:Name="rb_totalPMI1" GroupName="PMI1" Padding="0" VerticalContentAlignment="Center">Total</RadioButton>
+                 </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top">
+                <CheckBox x:Name="CB_CST2" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
+                <Label Content="LOT2 ID :" FontSize="20" MouseDoubleClick="LOT2_MouseDoubleClick"></Label>
+                <TextBox AutomationProperties.AutomationId="LOT2IDtxt" x:Name="tb_LOT2ID" Width="100" FontSize="20" Margin="-10 0 0 0"></TextBox>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,0" >
+                <Label Content=" PMI :" FontSize="15" Padding="4"   ></Label >
+                <TextBox x:Name="tb_PMI2COUNT" Width="30" FontSize="20">0</TextBox>
+                <StackPanel Orientation="Vertical">
+                    <RadioButton x:Name="rb_nonePMI2" GroupName="PMI2" IsChecked="True" Padding="0" VerticalContentAlignment="Center">None</RadioButton>
+                    <RadioButton x:Name="rb_everyPMI2" GroupName="PMI2" Padding="0" VerticalContentAlignment="Center">Every</RadioButton>
+                    <RadioButton x:Name="rb_totalPMI2" GroupName="PMI2" Padding="0" VerticalContentAlignment="Center">Total</RadioButton>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top">
+                <CheckBox x:Name="CB_CST3" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
+                <Label Content="LOT3 ID :" FontSize="20" MouseDoubleClick="LOT3_MouseDoubleClick"></Label>
+                <TextBox AutomationProperties.AutomationId="LOT3IDtxt" x:Name="tb_LOT3ID" Width="100" FontSize="20" Margin="-10 0 0 0"></TextBox>
+                </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,0" >
+                <Label Content="PMI :" FontSize="15" Padding="4" ></Label>
+                    <TextBox x:Name="tb_PMI3COUNT" Width="30" FontSize="20">0</TextBox>
+                <StackPanel Orientation="Vertical">
+                    <RadioButton x:Name="rb_nonePMI3" GroupName="PMI3" IsChecked="True" Padding="0" VerticalContentAlignment="Center">None</RadioButton>
+                    <RadioButton x:Name="rb_everyPMI3" GroupName="PMI3" Padding="0" VerticalContentAlignment="Center">Every</RadioButton>
+                    <RadioButton x:Name="rb_totalPMI3" GroupName="PMI3" Padding="0" VerticalContentAlignment="Center">Total</RadioButton>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="3" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top">
+                <CheckBox x:Name="CB_CST4" HorizontalAlignment="Center" VerticalAlignment="Center"></CheckBox>
+                <Label Content="LOT4 ID :" FontSize="20" MouseDoubleClick="LOT4_MouseDoubleClick"></Label>
+                <TextBox AutomationProperties.AutomationId="LOT3IDtxt" x:Name="tb_LOT4ID" Width="100" FontSize="20" Margin="-10 0 0 0"></TextBox>
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,0" >
+                <Label Content="PMI :" FontSize="15" Padding="4" ></Label>
+                <TextBox x:Name="tb_PMI4COUNT" Width="30" FontSize="20">0</TextBox>
+                <StackPanel Orientation="Vertical">
+                    <RadioButton x:Name="rb_nonePMI4" GroupName="PMI4" IsChecked="True" Padding="0" VerticalContentAlignment="Center">None</RadioButton>
+                    <RadioButton x:Name="rb_everyPMI4" GroupName="PMI4" Padding="0" VerticalContentAlignment="Center">Every</RadioButton>
+                    <RadioButton x:Name="rb_totalPMI4" GroupName="PMI4" Padding="0" VerticalContentAlignment="Center">Total</RadioButton>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2">
+            <Border BorderThickness="1"></Border>
+            <ItemsControl ItemsSource="{Binding Cells}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="4" Rows="3"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="1" BorderBrush="Black" >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="45"/>
+                                    <RowDefinition Height="200"/>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Row="0" Visibility="{Binding ForcedDoneLabelVisibility}" Background="Orange" Content="DEMO" 
+                                       HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                       FontSize="15" Foreground="Red" Padding="1" Margin="2"/>
+                                <StackPanel Grid.Row="0" Grid.RowSpan="2" Margin="0,0,0,20" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                                    <CheckBox AutomationProperties.AutomationId="Cell1chk" VerticalAlignment="Center" x:Name="CB_Cell1" IsChecked="{Binding IsChecked}"></CheckBox>
+                                    <Label Content="{Binding Name}" VerticalAlignment="Center" FontSize="20"></Label>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="3" Grid.RowSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/> 
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Grid.Column="0" BorderThickness="2" BorderBrush="DarkBlue" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="StageAllchk" VerticalAlignment="Center" x:Name="CB_StageAll" Checked="CB_StageAll_Checked" Unchecked="CB_StageAll_Unchecked"></CheckBox>
+                    <TextBlock Text="Stage All" VerticalAlignment="Center" FontSize="15" Foreground="DarkGreen" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="1" BorderThickness="2" BorderBrush="DarkBlue" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="SlotAllchk" VerticalAlignment="Center" x:Name="CB_SlotAll" Checked="CB_SlotAll_Checked" Unchecked="CB_SlotAll_Unchecked"></CheckBox>
+                    <TextBlock Text="SLOT All" VerticalAlignment="Center" FontSize="15" Foreground="DarkGreen" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="1" Grid.Column="0" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot13chk" VerticalAlignment="Center" x:Name="CB_SLOT13"></CheckBox>
+                    <TextBlock Text="SLOT13" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="2" Grid.Column="0" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot12chk" VerticalAlignment="Center" x:Name="CB_SLOT12"></CheckBox>
+                    <TextBlock Text="SLOT12" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="3" Grid.Column="0" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot11chk" VerticalAlignment="Center" x:Name="CB_SLOT11"></CheckBox>
+                    <TextBlock Text="SLOT11" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="4" Grid.Column="0" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot10chk" VerticalAlignment="Center" x:Name="CB_SLOT10"></CheckBox>
+                    <TextBlock Text="SLOT10" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="5" Grid.Column="0" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot9chk" VerticalAlignment="Center" x:Name="CB_SLOT9"></CheckBox>
+                    <TextBlock Text="SLOT9" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="6" Grid.Column="0" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot8chk" VerticalAlignment="Center" x:Name="CB_SLOT8"></CheckBox>
+                    <TextBlock Text="SLOT8" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="7" Grid.Column="0" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot7chk" VerticalAlignment="Center" x:Name="CB_SLOT7"></CheckBox>
+                    <TextBlock Text="SLOT7" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="8" Grid.Column="0" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot6chk" VerticalAlignment="Center" x:Name="CB_SLOT6"></CheckBox>
+                    <TextBlock Text="SLOT6" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="9" Grid.Column="0" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot5chk" VerticalAlignment="Center" x:Name="CB_SLOT5"></CheckBox>
+                    <TextBlock Text="SLOT5" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="10" Grid.Column="0" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot4chk" VerticalAlignment="Center" x:Name="CB_SLOT4"></CheckBox>
+                    <TextBlock Text="SLOT4" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="11" Grid.Column="0" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot3chk" VerticalAlignment="Center" x:Name="CB_SLOT3"></CheckBox>
+                    <TextBlock Text="SLOT3" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="12" Grid.Column="0" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot2chk" VerticalAlignment="Center" x:Name="CB_SLOT2"></CheckBox>
+                    <TextBlock Text="SLOT2" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="13" Grid.Column="0" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot1chk" VerticalAlignment="Center" x:Name="CB_SLOT1"></CheckBox>
+                    <TextBlock Text="SLOT1" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="1" Grid.Column="1" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot25chk" VerticalAlignment="Center" x:Name="CB_SLOT25"></CheckBox>
+                    <TextBlock Text="SLOT25" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="2" Grid.Column="1" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot24chk" VerticalAlignment="Center" x:Name="CB_SLOT24"></CheckBox>
+                    <TextBlock Text="SLOT24" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="3" Grid.Column="1" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot23chk" VerticalAlignment="Center" x:Name="CB_SLOT23"></CheckBox>
+                    <TextBlock Text="SLOT23" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="4" Grid.Column="1" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot22chk" VerticalAlignment="Center" x:Name="CB_SLOT22"></CheckBox>
+                    <TextBlock Text="SLOT22" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="5" Grid.Column="1" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot21chk" VerticalAlignment="Center" x:Name="CB_SLOT21"></CheckBox>
+                    <TextBlock Text="SLOT21" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="6" Grid.Column="1" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot20chk" VerticalAlignment="Center" x:Name="CB_SLOT20"></CheckBox>
+                    <TextBlock Text="SLOT20" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="7" Grid.Column="1" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot19chk" VerticalAlignment="Center" x:Name="CB_SLOT19"></CheckBox>
+                    <TextBlock Text="SLOT19" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="8" Grid.Column="1" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot18chk" VerticalAlignment="Center" x:Name="CB_SLOT18"></CheckBox>
+                    <TextBlock Text="SLOT18" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="9" Grid.Column="1" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot17chk" VerticalAlignment="Center" x:Name="CB_SLOT17"></CheckBox>
+                    <TextBlock Text="SLOT17" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="10" Grid.Column="1" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot16chk" VerticalAlignment="Center" x:Name="CB_SLOT16"></CheckBox>
+                    <TextBlock Text="SLOT16" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="11" Grid.Column="1" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot15chk" VerticalAlignment="Center" x:Name="CB_SLOT15"></CheckBox>
+                    <TextBlock Text="SLOT15" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="12" Grid.Column="1" BorderThickness="1" BorderBrush="Black" >
+                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <CheckBox AutomationProperties.AutomationId="Slot14chk" VerticalAlignment="Center" x:Name="CB_SLOT14"></CheckBox>
+                    <TextBlock Text="SLOT14" VerticalAlignment="Center" FontSize="15" Foreground="White" ></TextBlock>
+                </StackPanel>
+            </Border>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="0">
+            <UniformGrid   Rows="3" Columns="1"  Margin="0">
+                <Button AutomationProperties.AutomationId="LOT1Startbtn" x:Name="Btn_LOT1Start" FontSize="20"  Click="Btn_LOT1Start_Click" Style="{x:Null}">LOT1 START</Button>
+                <Button AutomationProperties.AutomationId="LOT1Cancelbtn" x:Name="Btn_LOT1Cancel" FontSize="20"  Click="Btn_LOT1Cancel_Click" Style="{x:Null}">LOT1 Cancel</Button>
+                <Button AutomationProperties.AutomationId="LOT1Suspendbtn" x:Name="Btn_LOT1Suspend" FontSize="20"  Click="Btn_LOT1Suspend_Click" Style="{x:Null}">LOT1 Suspend</Button>
+            </UniformGrid>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="1">
+            <UniformGrid    Rows="3" Columns="1"  Margin="0">
+                <Button AutomationProperties.AutomationId="LOT2Startbtn" x:Name="Btn_LOT2Start" FontSize="20" Click="Btn_LOT2Start_Click" Style="{x:Null}">LOT2 START</Button>
+                <Button AutomationProperties.AutomationId="LOT2Cancelbtn" x:Name="Btn_LOT2Cancel" FontSize="20"  Click="Btn_LOT2Cancel_Click" Style="{x:Null}">LOT2 Cancel</Button>
+                <Button AutomationProperties.AutomationId="LOT2Suspendbtn" x:Name="Btn_LOT2Suspend" FontSize="20"  Click="Btn_LOT2Suspend_Click" Style="{x:Null}">LOT2 Suspend</Button>
+            </UniformGrid>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="2">
+            <UniformGrid    Rows="3" Columns="1"  Margin="0">
+                <Button AutomationProperties.AutomationId="LOT3Startbtn" x:Name="Btn_LOT3Start" FontSize="20" Click="Btn_LOT3Start_Click" Style="{x:Null}">LOT3 START</Button>
+                <Button AutomationProperties.AutomationId="LOT3Cancelbtn" x:Name="Btn_LOT3Cancel" FontSize="20"  Click="Btn_LOT3Cancel_Click" Style="{x:Null}">LOT3 Cancel</Button>
+                <Button AutomationProperties.AutomationId="LOT3Suspendbtn" x:Name="Btn_LOT3Suspend" FontSize="20"  Click="Btn_LOT3Suspend_Click" Style="{x:Null}">LOT3 Suspend</Button>
+            </UniformGrid>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="3">
+            <UniformGrid    Rows="3" Columns="1"  Margin="0">
+                <Button AutomationProperties.AutomationId="LOT4Startbtn" x:Name="Btn_LOT4Start" FontSize="20" Click="Btn_LOT4Start_Click" Style="{x:Null}">LOT4 START</Button>
+                <Button AutomationProperties.AutomationId="LOT4Cancelbtn" x:Name="Btn_LOT4Cancel" FontSize="20"  Click="Btn_LOT4Cancel_Click" Style="{x:Null}">LOT4 Cancel</Button>
+                <Button AutomationProperties.AutomationId="LOT4Suspendbtn" x:Name="Btn_LOT4Suspend" FontSize="20"  Click="Btn_LOT4Suspend_Click" Style="{x:Null}">LOT4 Suspend</Button>
+            </UniformGrid>
+        </Grid>
+
+        <!-- Recipe -->
+
+        <Grid Grid.Column="4" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="CID:" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
+                <TextBox Grid.Column="1" x:Name="tb_probecard_id" FontSize="20" HorizontalContentAlignment="Left" Margin="0" Text="PCF5155"></TextBox>
+            </Grid>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Label Content="Recipe(Remote)" FontSize="20" ></Label>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="4" Grid.RowSpan="3">
+            <Grid Grid.Column="0" x:Name="LoaderDeviceListView" Margin="4,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="16*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.7*"/>
+                    <RowDefinition Height="5*"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="4.3*"/>
+                </Grid.RowDefinitions>
+                <Border Grid.RowSpan="3" BorderBrush="WhiteSmoke" BorderThickness="0.6" Margin="0,0,0,4" Grid.ColumnSpan="2"/>
+
+                <Label Margin="4,0,4,4" Content="DEVICE" Foreground="WhiteSmoke" FontSize="26" 
+                   HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                   FontWeight="DemiBold" BorderBrush="WhiteSmoke" BorderThickness="0.6" Grid.ColumnSpan="2"/>
+
+                <aniScroll:AnimationScrollViewer x:Name="svViewer"
+                          Grid.Row="1" Grid.RowSpan="2"
+                          VerticalScrollBarVisibility="Visible" Grid.ColumnSpan="2">
+                    <ListView ItemsSource="{Binding DeviceNames}"
+                         SelectedItem="{Binding SelectedDevice}" Background="#FF2C2C2F"  ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="White" BorderThickness="0.5">
+                                    <Grid Margin="8" Height="32">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Viewbox Grid.Column="0" Margin="0" Width="32">
+                                                <Path
+                                            Stretch="Uniform"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center" 
+                                                Data="M2,10.96C1.5,10.68 1.35,10.07 1.63,9.59L3.13,7C3.24,6.8 3.41,6.66 3.6,
+                                                                    6.58L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.66,
+                                                                    6.72 20.82,6.88 20.91,7.08L22.36,9.6C22.64,10.08 22.47,10.69 22,10.96L21,11.54V16.5C21,
+                                                                    16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,
+                                                                    21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V10.96C2.7,11.13 2.32,11.14 2,10.96M12,
+                                                                    4.15V4.15L12,10.85V10.85L17.96,7.5L12,4.15M5,15.91L11,19.29V12.58L5,9.21V15.91M19,15.91V12.69L14,
+                                                                    15.59C13.67,15.77 13.3,15.76 13,15.6V19.29L19,15.91M13.85,13.36L20.13,9.73L19.55,8.72L13.27,
+                                                                    12.35L13.85,13.36Z"
+                                                Fill="#be8158">
+                                                </Path>
+                                            </Viewbox>
+                                            <Label Grid.Column="1" 
+                                           Margin="0"
+                                           Content="{Binding }" Foreground="White" FontSize="15">
+                                            </Label>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </aniScroll:AnimationScrollViewer>
+
+                <!--<Border Grid.Row="2" BorderBrush="WhiteSmoke" BorderThickness="0.6" Margin="0,0,0,4" Grid.ColumnSpan="2">
+                    <Grid Grid.Row="2" Margin="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0"
+                            Margin="4"
+                            Style="{StaticResource UpButtonStyle}"
+                            Click="CategoryUpBtnClick"/>
+
+                        <Button Grid.Column="1"
+                            Margin="4"
+                             Style="{StaticResource DwButtonStyle}"
+                            Click="CategoryDwBtnClick"/>
+                    </Grid>
+                </Border>-->
+
+                <Grid Grid.Row="3" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <Button x:Name="loadport1_placed" Content="LoadPort1 Placed" Click="Loadport1_placed_Click" Style="{x:Null}" />
+                        <Button x:Name="loadport2_placed"  Content="LoadPort2 Placed" Click="Loadport2_placed_Click" Style="{x:Null}" />
+                        <Button x:Name="loadport3_placed"  Content="LoadPort3 Placed" Click="Loadport3_placed_Click" Style="{x:Null}" />
+                        <Button x:Name="loadport4_placed"  Content="LoadPort4 Placed" Click="Loadport4_placed_Click" Style="{x:Null}" />
+
+                        <ComboBox SelectedItem="{Binding ForcedState}" Margin="0,2,0,2" ItemsSource="{Binding ForceStateArray}" 
+                                  Height="32" Width="124" FontSize="14" AutomationProperties.AutomationId="cmbForcedState"/>
+                        <Button AutomationProperties.AutomationId="forceddonebtn" x:Name="stage_forcedone" Content="Stage Force Done&#xa;(All Module)" Click="Stage_forcedone_Click" Style="{x:Null}"/>
+
+                        <ComboBox SelectedItem="{Binding ModuleType}" Margin="0,2,0,2" ItemsSource="{Binding ModuleTypeArrayArray}" Height="32" Width="124" FontSize="14" AutomationProperties.AutomationId="cmbModueType"/>
+                        <Button AutomationProperties.AutomationId="forceddoneSelectedbtn" Content="Stage Force Done&#xa;(Selected Module)" Click="Stage_forcedoneSelected_Click" Style="{x:Null}"/>
+
+                        <Button x:Name="btn_Set_recipe"  Content="Set Recipe" Click="Btn_Set_recipe_Click" Style="{x:Null}" />
+                        <Button x:Name="btn_download_recipe"  Content="DownLoad Recipe" Click="Btn_download_recipe_Click" Style="{x:Null}" />
+                        <Button x:Name="btn_clear_recipe"  Content="Clear Recipe" Click="btn_clear_recipe_Click" Style="{x:Null}" />
+                        <Button x:Name="btn_reset_checked"  Content="Reset Checked" Click="Btn_reset_checked_Click" Style="{x:Null}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <!--<Label Content="Wait Probing ZUp"/>
+                        <ToggleButton x:Name="ProbingZUPToggle" IsChecked="False" Checked="ToggleButton_Checked" Unchecked="ProbingZUPToggle_Unchecked"/>-->
+                        <Button x:Name="btn_IsExternalLotMode_Emul"  Content="ExternalLotMode(Emul)" Click="Btn_IsExternalLotMode_Emul_Click" Style="{x:Null}" />
+                        <!--<Button x:Name="btn_loadingcheckMode"  Content="LotLoadingCheckMode" Click="Btn_loadingcheckMode_Click" Style="{x:Null}" />
+                        <Button x:Name="btn_loadingcheckfree"  Content="LotLoadingCheckFree" Click="Btn_loadingcheckfree_Click" Style="{x:Null}" />
+                        <Button x:Name="btn_cellLotEnd"  Content="LotEndBtn" Click="btn_cellLotEnd_Click" Style="{x:Null}" />-->
+                        <Button x:Name="btn_ErrorEnd"  Content="ErrorEnd" Click="btn_ErrorEnd_Click" Style="{x:Null}" />
+                        <Button x:Name="btn_StageNotUseDownLoadReciep"  Content="NotUseDownLoadReciep" Click="btn_StageNotUseDownLoadReciep_Click" Style="{x:Null}" />
+                        <Button x:Name="btn_StageUseDownLoadReciep"  Content="UseDownloadRecipe" Click="btn_StageUseDownLoadReciep_Click" Style="{x:Null}" />
+                        <Button x:Name="btn_UseFTP" Content="UseFTP" Click="btn_UseFTP_Click" Style="{x:Null}" />
+                        <Button AutomationProperties.AutomationId="abortDownloadRecipebtn" x:Name="btn_DontUseFTP" Content="DontUseFTP" Click="btn_DontUseFTP_Click" Style="{x:Null}" />
+                        <Button x:Name="btn_abortDownloadRecipe" Content="AbortDwonloadRecipe" Click="btn_abortDownloadRecipe_Click" Style="{x:Null}" />
+                        <Button x:Name="btn_cellend" Content="CELL_END" Click="btn_cellend_Click" Style="{x:Null}" />
+                        <Button x:Name="SetDevice" Content="Set_CST_Device" Click="SetDevice_Click" Style="{x:Null}" />
+
+                        <Button x:Name="loadport1_removed" Content="LoadPort1 Removed" Click="loadport1_removed_Click" Style="{x:Null}" />
+                        <Button x:Name="loadport2_removed"  Content="LoadPort2 Removed" Click="loadport2_removed_Click" Style="{x:Null}" />
+                        <Button x:Name="loadport3_removed"  Content="LoadPort3 Removed" Click="loadport3_removed_Click" Style="{x:Null}" />
+                        <Button x:Name="loadport4_removed"  Content="LoadPort4 Removed" Click="loadport4_removed_Click" Style="{x:Null}" />
+                        <CheckBox x:Name="CB_TCWCheck" HorizontalAlignment="Center" VerticalAlignment="Center">TCW</CheckBox>
+                        <Button x:Name="TC_EndBtn" Content="TCW__End" Click="TC_EndBtn_Click" Style="{x:Null}" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

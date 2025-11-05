@@ -1,0 +1,134 @@
+﻿<UserControl x:Class="SorterSystem.UC.ucMotionJogAxis"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:SorterSystem.UC"
+             xmlns:s="clr-namespace:SorterSystem"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="120">
+    <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="1"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+        <s:DoubleToString x:Key="dblToStr"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <!--<RowDefinition />-->
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Background="LightGray" Width="150" Content="{Binding AxisObject.Label, FallbackValue=None}"/>
+            <Label Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Background="LightGray" Width="150" Content="{Binding AxisObject.Status.State, FallbackValue=Unkown}"/>
+
+            <Label Grid.Column="0" Grid.Row="2">Position</Label>
+            <TextBox Grid.Column="1" Grid.Row="2" IsReadOnly="true" Text="{Binding AxisObject.Status.Position.Command, Converter={StaticResource dblToStr}}" />
+            <Label Grid.Column="0" Grid.Row="3">Actual</Label>
+            <TextBox Grid.Column="1" Grid.Row="3" IsReadOnly="true" Text="{Binding AxisObject.Status.Position.Actual, Converter={StaticResource dblToStr}}" />
+
+            <Label Grid.Column="0" Grid.Row="4">Relative</Label>
+            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding RelMoveStepDist}" />
+
+            <Label Grid.Column="0" Grid.Row="5">Velocity</Label>
+            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding AxisObject.Param.Speed.Value}" />
+
+            <Label Grid.Column="0" Grid.Row="6">Absolute</Label>
+            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding AbsMovePosition}" />
+            <!--<StackPanel Grid.Column="0" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label>POT</Label>
+                <Ellipse Width="15" Height="15" Stroke="#000000" Margin="0,3,0,0">
+                    <Ellipse.Style>
+                        <Style TargetType="{x:Type Ellipse}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding AxisObject.Status.POTSensor}" Value="True">
+                                    <Setter Property="Fill" Value="#00FF00" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding AxisObject.Status.POTSensor}" Value="False">
+                                    <Setter Property="Fill" Value="#C0C0C0" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Ellipse.Style>
+                </Ellipse>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label>LOT</Label>
+                <Ellipse Width="15" Height="15" Stroke="#000000" Margin="0,3,0,0">
+                    <Ellipse.Style>
+                        <Style TargetType="{x:Type Ellipse}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding AxisObject.Status.POTSensor}" Value="True">
+                                    <Setter Property="Fill" Value="#00FF00" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding AxisObject.Status.POTSensor}" Value="False">
+                                    <Setter Property="Fill" Value="#C0C0C0" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Ellipse.Style>
+                </Ellipse>            
+            </StackPanel>-->
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="30" />
+            </Grid.RowDefinitions>
+            <ToggleButton Grid.Column="0" Grid.ColumnSpan="2" FocusVisualStyle="{x:Null}" IsChecked="{Binding AxisObject.Status.AxisEnabled, Mode=OneWay}" Command="{Binding EnableAxisCommand}">
+                <ToggleButton.Style>
+                    <Style TargetType="{x:Type ToggleButton}">
+                        <Setter Property="Content" Value="Disable" />
+                        <Style.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Content" Value="Enable" />
+                                <Setter Property="Background" Value="#00FF00" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToggleButton.Style>
+            </ToggleButton>
+            <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Row="0" Grid.Column="0" Content="+" Command="{Binding PosRelMoveCommand}" IsEnabled="{Binding IsEnablePosButton}"/>
+                <Button Grid.Row="0" Grid.Column="1" Content="Abs" Command="{Binding AbsMoveCommand}" IsEnabled="{Binding IsEnableAbsButton}"/>
+                <Button Grid.Row="0" Grid.Column="2" Content="-" Command="{Binding NegRelMoveCommand}" IsEnabled="{Binding IsEnableNegButton}"/>
+            </Grid>
+            <Button Grid.Row="2" Grid.ColumnSpan="2" Content="HOME" Command="{Binding HomingCommand}" />
+            <Button Grid.Row="3" Grid.ColumnSpan="2" Content="STOP" />
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9368B7A1-3625-42AB-A286-9E94CAF1BDD9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LoaderParameters</RootNamespace>
+    <AssemblyName>LoaderParameters</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>
+    </DocumentationFile>
+    <OutputPath>..\bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AttachedModules\Buffer\BufferDevice.cs" />
+    <Compile Include="AttachedModules\Buffer\BufferModuleDefinition.cs" />
+    <Compile Include="AttachedModules\CardARM\CardARMDefinition.cs" />
+    <Compile Include="AttachedModules\CardARM\CardArmDevice.cs" />
+    <Compile Include="AttachedModules\CardBuffer\CardBufferTrayDefinition.cs" />
+    <Compile Include="AttachedModules\CardBuffer\CardBufferTrayDevice.cs" />
+    <Compile Include="AttachedModules\CardChanger\CCDefinition.cs" />
+    <Compile Include="AttachedModules\CardChanger\CCDevice.cs" />
+    <Compile Include="AttachedModules\Defaultslotsize\DefaultslotsizeDefinition.cs" />
+    <Compile Include="Data\LoaderInfo.cs" />
+    <Compile Include="Data\LoaderMap.cs" />
+    <Compile Include="Data\LoaderMapEditor.cs" />
+    <Compile Include="Data\LoaderTestOption.cs" />
+    <Compile Include="Data\LoaderServiceData.cs" />
+    <Compile Include="Data\ReservationInfo.cs" />
+    <Compile Include="Data\SourceDeviceInfo.cs" />
+    <Compile Include="Data\TransferObjectSet.cs" />
+    <Compile Include="Extension\ArrayExtension.cs" />
+    <Compile Include="Extension\IClonableExtension.cs" />
+    <Compile Include="Extension\ObservableCollectionExtension.cs" />
+    <Compile Include="AttachedModules\ARM\ARMDefinition.cs" />
+    <Compile Include="AttachedModules\ARM\ARMDevice.cs" />
+    <Compile Include="AttachedModules\Cassette\CassetteDefinition.cs" />
+    <Compile Include="AttachedModules\Cassette\CassetteDevice.cs" />
+    <Compile Include="AttachedModules\Chuck\ChuckDefinition.cs" />
+    <Compile Include="AttachedModules\Chuck\ChuckDevice.cs" />
+    <Compile Include="AttachedModules\FixedTray\FixedTrayDefinition.cs" />
+    <Compile Include="AttachedModules\FixedTray\FixedTrayDevice.cs" />
+    <Compile Include="AttachedModules\InspectionTray\InspectionTrayDefinition.cs" />
+    <Compile Include="AttachedModules\InspectionTray\InspectionTrayDevice.cs" />
+    <Compile Include="AttachedModules\OCR\CognexOCRDefinition.cs" />
+    <Compile Include="AttachedModules\OCR\CognexOCRDevice.cs" />
+    <Compile Include="AttachedModules\OCR\OCRDefinitionBase.cs" />
+    <Compile Include="AttachedModules\OCR\SemicsOCRDefinition.cs" />
+    <Compile Include="AttachedModules\OCR\SemicsOCRDevice.cs" />
+    <Compile Include="AttachedModules\PreAlign\PreAlignDefinition.cs" />
+    <Compile Include="AttachedModules\PreAlign\PreAlignDevice.cs" />
+    <Compile Include="AttachedModules\Scan\ScanCameraDefinition.cs" />
+    <Compile Include="AttachedModules\Scan\ScanCameraDevice.cs" />
+    <Compile Include="AttachedModules\Scan\ScanSensorDefinition.cs" />
+    <Compile Include="AttachedModules\Scan\ScanSensorDevice.cs" />
+    <Compile Include="NamespaceDoc.cs" />
+    <Compile Include="Params\LoaderDeviceParameter.cs" />
+    <Compile Include="Params\LoaderSystemParameter.cs" />
+    <Compile Include="Coordinate\LoaderCoordinate.cs" />
+    <Compile Include="UExtension\UExtensionBase.cs" />
+    <Compile Include="UExtension\UExtensionCylinder.cs" />
+    <Compile Include="UExtension\UExtensionMotor.cs" />
+    <Compile Include="UExtension\UExtensionNone.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\LogModule\LogModule.csproj">
+      <Project>{d3b00cca-3c50-42b1-8dca-dfe47c759b57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{edba3295-ff2a-4368-a217-6495941a8bf5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,698 @@
+﻿<UserControl x:Class="UcSamplePinAlignSettingView.SamplePinAlignSettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UcSamplePinAlignSettingView"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type TabItem}">
+                            <Border>
+                                <Grid>
+                                    <Grid>
+                                        <Border x:Name="border" 
+                                            CornerRadius="3,3,0,0"
+                                            Background="#FF303030"/>
+                                    </Grid>
+                                    <ContentPresenter ContentSource="Header"
+                                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                </Grid>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                    <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="LightGray" />
+                                </Trigger>
+                                <Trigger Property="IsSelected"
+                                     Value="True">
+                                    <Setter TargetName="border"
+                                        Property="Background"
+                                        Value="#FF202020" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="LayoutRoot" Background="#ff303030">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="9.5*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Background="Black">
+            <Label Content="Sample Pin Align Setting"
+                Foreground="White"
+                FontWeight="Bold"
+                FontSize="56"
+                />
+            <Separator Margin="4" Background="White"/>
+            <StackPanel Height="32"/>
+        </StackPanel>
+        <TabControl TabStripPlacement="Left" Grid.Row="1" SelectedIndex="{Binding SelectedIndex}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding ChangedItem}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+            <TabItem Header="Wafer Interval" Style="{StaticResource TabItemStyle}" FontSize="20" Foreground ="LightGray">
+                <Grid Background="#ff202020">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="195*"/>
+                        <ColumnDefinition Width="29*"/>
+                        <ColumnDefinition Width="98*"/>
+                        <ColumnDefinition Width="29*"/>
+                        <ColumnDefinition Width="98"/>
+                        <ColumnDefinition Width="49*"/>
+                        <ColumnDefinition Width="88*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.9*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="1" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="1" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Count</TextBlock>
+                    <Button Grid.Row="1" Grid.Column="2" Content="◀" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinAlignmentPinCount}"/>
+                    <Label Content="{Binding DisplayData.SamplePinAlignmentPinCount.Value}" Foreground="White" Grid.Row="1" Grid.Column="3" FontSize="15" Width="60" Height="auto" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinAlignmentPinCount}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="1" Grid.Column="4" Content="▶" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinAlignmentPinCount}"/>
+
+                    <Border Grid.Row="2" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="2" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Tolerance X</TextBlock>
+                    <Button Grid.Row="2" Grid.Column="2" Content="◀"
+                            VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" 
+                            Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceX}"/>
+                    <Label  Content="{Binding DisplayData.SamplePinTolerenceX.Value, Mode=TwoWay}"
+                            Foreground="White" Grid.Row="2"  Grid.Column="3" 
+                            FontSize="15" Width="60" Height="auto" 
+                            VerticalContentAlignment="Center" 
+                            HorizontalContentAlignment="Center"
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinTolerenceX}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="2" Grid.Column="4" Content="▶"
+                            VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" 
+                            Background="#FF202020" Foreground="White"
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceX}"
+                            Width="32" Height="32" />
+
+                    <Border Grid.Row="3" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="3" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Tolerance Y</TextBlock>
+                    <Button Grid.Row="3" Grid.Column="2" Content="◀" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceY}"
+                            />
+                    <Label Content="{Binding DisplayData.SamplePinTolerenceY.Value}" Foreground="White" Grid.Row="3" Grid.Column="3" FontSize="15" Width="60" Height="auto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinTolerenceY}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="3" Grid.Column="4" Content="▶" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceY}"
+                            />
+
+                    <Border Grid.Row="4" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="4" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Tolerance Z</TextBlock>
+                    <Button Grid.Row="4" Grid.Column="2" Content="◀" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceZ}"
+                            />
+                    <Label Content="{Binding DisplayData.SamplePinTolerenceZ.Value}" Foreground="White" Grid.Row="4" Grid.Column="3" FontSize="15" Width="60" Height="auto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinTolerenceZ}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="4" Grid.Column="4" Content="▶" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceZ}"
+                            /> 
+                </Grid>
+            </TabItem>
+            <TabItem Header="Die Interval" Style="{StaticResource TabItemStyle}" FontSize="20" Foreground ="LightGray">
+                <Grid Background="#ff202020">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="195*"/>
+                        <ColumnDefinition Width="29*"/>
+                        <ColumnDefinition Width="98*"/>
+                        <ColumnDefinition Width="29*"/>
+                        <ColumnDefinition Width="98"/>
+                        <ColumnDefinition Width="49*"/>
+                        <ColumnDefinition Width="88*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.9*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="1" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="1" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Count</TextBlock>
+                    <Button Grid.Row="1" Grid.Column="2" Content="◀" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinAlignmentPinCount}"/>
+                    <Label Content="{Binding DisplayData.SamplePinAlignmentPinCount.Value}" Foreground="White" Grid.Row="1" Grid.Column="3" FontSize="15" Width="60" Height="auto" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinAlignmentPinCount}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="1" Grid.Column="4" Content="▶" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinAlignmentPinCount}"/>
+
+                    <Border Grid.Row="2" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="2" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Tolerance X</TextBlock>
+                    <Button Grid.Row="2" Grid.Column="2" Content="◀"
+                            VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" 
+                            Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceX}"/>
+                    <Label  Content="{Binding DisplayData.SamplePinTolerenceX.Value, Mode=TwoWay}"
+                            Foreground="White" Grid.Row="2"  Grid.Column="3" 
+                            FontSize="15" Width="60" Height="auto" 
+                            VerticalContentAlignment="Center" 
+                            HorizontalContentAlignment="Center"
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinTolerenceX}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="2" Grid.Column="4" Content="▶"
+                            VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" 
+                            Background="#FF202020" Foreground="White"
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceX}"
+                            Width="32" Height="32" />
+
+                    <Border Grid.Row="3" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="3" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Tolerance Y</TextBlock>
+                    <Button Grid.Row="3" Grid.Column="2" Content="◀" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceY}"
+                            />
+                    <Label Content="{Binding DisplayData.SamplePinTolerenceY.Value}" Foreground="White" Grid.Row="3" Grid.Column="3" FontSize="15" Width="60" Height="auto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinTolerenceY}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="3" Grid.Column="4" Content="▶" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceY}"
+                            />
+
+                    <Border Grid.Row="4" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="4" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Tolerance Z</TextBlock>
+                    <Button Grid.Row="4" Grid.Column="2" Content="◀" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceZ}"
+                            />
+                    <Label Content="{Binding DisplayData.SamplePinTolerenceZ.Value}" Foreground="White" Grid.Row="4" Grid.Column="3" FontSize="15" Width="60" Height="auto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinTolerenceZ}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="4" Grid.Column="4" Content="▶" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceZ}"
+                            />
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Time Interval" Style="{StaticResource TabItemStyle}" FontSize="20" Foreground ="LightGray">
+                <Grid Background="#ff202020">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="195*"/>
+                        <ColumnDefinition Width="29*"/>
+                        <ColumnDefinition Width="98*"/>
+                        <ColumnDefinition Width="29*"/>
+                        <ColumnDefinition Width="98"/>
+                        <ColumnDefinition Width="49*"/>
+                        <ColumnDefinition Width="88*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.9*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="1" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="1" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Count</TextBlock>
+                    <Button Grid.Row="1" Grid.Column="2" Content="◀" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinAlignmentPinCount}"/>
+                    <Label Content="{Binding DisplayData.SamplePinAlignmentPinCount.Value}" Foreground="White" Grid.Row="1" Grid.Column="3" FontSize="15" Width="60" Height="auto" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinAlignmentPinCount}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="1" Grid.Column="4" Content="▶" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinAlignmentPinCount}"/>
+
+                    <Border Grid.Row="2" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="2" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Tolerance X</TextBlock>
+                    <Button Grid.Row="2" Grid.Column="2" Content="◀"
+                            VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" 
+                            Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceX}"/>
+                    <Label  Content="{Binding DisplayData.SamplePinTolerenceX.Value, Mode=TwoWay}"
+                            Foreground="White" Grid.Row="2"  Grid.Column="3" 
+                            FontSize="15" Width="60" Height="auto" 
+                            VerticalContentAlignment="Center" 
+                            HorizontalContentAlignment="Center"
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinTolerenceX}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="2" Grid.Column="4" Content="▶"
+                            VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" 
+                            Background="#FF202020" Foreground="White"
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceX}"
+                            Width="32" Height="32" />
+
+                    <Border Grid.Row="3" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="3" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Tolerance Y</TextBlock>
+                    <Button Grid.Row="3" Grid.Column="2" Content="◀" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceY}"
+                            />
+                    <Label Content="{Binding DisplayData.SamplePinTolerenceY.Value}" Foreground="White" Grid.Row="3" Grid.Column="3" FontSize="15" Width="60" Height="auto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinTolerenceY}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="3" Grid.Column="4" Content="▶" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceY}"
+                            />
+
+                    <Border Grid.Row="4" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="4" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Tolerance Z</TextBlock>
+                    <Button Grid.Row="4" Grid.Column="2" Content="◀" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceZ}"
+                            />
+                    <Label Content="{Binding DisplayData.SamplePinTolerenceZ.Value}" Foreground="White" Grid.Row="4" Grid.Column="3" FontSize="15" Width="60" Height="auto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinTolerenceZ}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="4" Grid.Column="4" Content="▶" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceZ}"
+                            />
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="For Polish Wafer" Style="{StaticResource TabItemStyle}" FontSize="20" Foreground ="LightGray">
+                <Grid Background="#ff202020">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="195*"/>
+                        <ColumnDefinition Width="29*"/>
+                        <ColumnDefinition Width="98*"/>
+                        <ColumnDefinition Width="29*"/>
+                        <ColumnDefinition Width="98"/>
+                        <ColumnDefinition Width="49*"/>
+                        <ColumnDefinition Width="88*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.9*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="1" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="1" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Count</TextBlock>
+                    <Button Grid.Row="1" Grid.Column="2" Content="◀" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinAlignmentPinCount}"/>
+                    <Label Content="{Binding DisplayData.SamplePinAlignmentPinCount.Value}" Foreground="White" Grid.Row="1" Grid.Column="3" FontSize="15" Width="60" Height="auto" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinAlignmentPinCount}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="1" Grid.Column="4" Content="▶" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinAlignmentPinCount}"/>
+
+                    <Border Grid.Row="2" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="2" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Tolerance X</TextBlock>
+                    <Button Grid.Row="2" Grid.Column="2" Content="◀"
+                            VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" 
+                            Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceX}"/>
+                    <Label  Content="{Binding DisplayData.SamplePinTolerenceX.Value, Mode=TwoWay}"
+                            Foreground="White" Grid.Row="2"  Grid.Column="3" 
+                            FontSize="15" Width="60" Height="auto" 
+                            VerticalContentAlignment="Center" 
+                            HorizontalContentAlignment="Center"
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinTolerenceX}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="2" Grid.Column="4" Content="▶"
+                            VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" 
+                            Background="#FF202020" Foreground="White"
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceX}"
+                            Width="32" Height="32" />
+
+                    <Border Grid.Row="3" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="3" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Tolerance Y</TextBlock>
+                    <Button Grid.Row="3" Grid.Column="2" Content="◀" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceY}"
+                            />
+                    <Label Content="{Binding DisplayData.SamplePinTolerenceY.Value}" Foreground="White" Grid.Row="3" Grid.Column="3" FontSize="15" Width="60" Height="auto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinTolerenceY}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="3" Grid.Column="4" Content="▶" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceY}"
+                            />
+
+                    <Border Grid.Row="4" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="4" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Tolerance Z</TextBlock>
+                    <Button Grid.Row="4" Grid.Column="2" Content="◀" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceZ}"
+                            />
+                    <Label Content="{Binding DisplayData.SamplePinTolerenceZ.Value}" Foreground="White" Grid.Row="4" Grid.Column="3" FontSize="15" Width="60" Height="auto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinTolerenceZ}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="4" Grid.Column="4" Content="▶" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceZ}"
+                            />
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="For Needle Cleaning" Style="{StaticResource TabItemStyle}" FontSize="20" Foreground ="LightGray">
+                <Grid Background="#ff202020">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="195*"/>
+                        <ColumnDefinition Width="29*"/>
+                        <ColumnDefinition Width="98*"/>
+                        <ColumnDefinition Width="29*"/>
+                        <ColumnDefinition Width="98"/>
+                        <ColumnDefinition Width="49*"/>
+                        <ColumnDefinition Width="88*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.9*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="1" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="1" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Count</TextBlock>
+                    <Button Grid.Row="1" Grid.Column="2" Content="◀" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinAlignmentPinCount}"/>
+                    <Label Content="{Binding DisplayData.SamplePinAlignmentPinCount.Value}" Foreground="White" Grid.Row="1" Grid.Column="3" FontSize="15" Width="60" Height="auto" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinAlignmentPinCount}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="1" Grid.Column="4" Content="▶" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinAlignmentPinCount}"/>
+
+                    <Border Grid.Row="2" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="2" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Tolerance X</TextBlock>
+                    <Button Grid.Row="2" Grid.Column="2" Content="◀"
+                            VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" 
+                            Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceX}"/>
+                    <Label  Content="{Binding DisplayData.SamplePinTolerenceX.Value, Mode=TwoWay}"
+                            Foreground="White" Grid.Row="2"  Grid.Column="3" 
+                            FontSize="15" Width="60" Height="auto" 
+                            VerticalContentAlignment="Center" 
+                            HorizontalContentAlignment="Center"
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinTolerenceX}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="2" Grid.Column="4" Content="▶"
+                            VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" 
+                            Background="#FF202020" Foreground="White"
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceX}"
+                            Width="32" Height="32" />
+
+                    <Border Grid.Row="3" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="3" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Tolerance Y</TextBlock>
+                    <Button Grid.Row="3" Grid.Column="2" Content="◀" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceY}"
+                            />
+                    <Label Content="{Binding DisplayData.SamplePinTolerenceY.Value}" Foreground="White" Grid.Row="3" Grid.Column="3" FontSize="15" Width="60" Height="auto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinTolerenceY}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="3" Grid.Column="4" Content="▶" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceY}"
+                            />
+
+                    <Border Grid.Row="4" Grid.Column ="1"  Grid.ColumnSpan="4" BorderBrush="White" BorderThickness="0,0,0,1" ></Border>
+                    <TextBlock Foreground="White" Grid.Row="4" Grid.Column="1" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left">Sample Pin Tolerance Z</TextBlock>
+                    <Button Grid.Row="4" Grid.Column="2" Content="◀" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataDecreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceZ}"
+                            />
+                    <Label Content="{Binding DisplayData.SamplePinTolerenceZ.Value}" Foreground="White" Grid.Row="4" Grid.Column="3" FontSize="15" Width="60" Height="auto" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDown">
+                                <i:InvokeCommandAction Command="{Binding KeyBoardCommand}" CommandParameter="{Binding DisplayData.SamplePinTolerenceZ}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Label>
+                    <Button Grid.Row="4" Grid.Column="4" Content="▶" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" 
+                            FontSize="15" BorderThickness="0" Background="#FF202020" Foreground="White" Width="32" Height="32" 
+                            Command="{Binding DataIncreaseCommand}"                            
+                            CommandParameter="{Binding DisplayData.SamplePinTolerenceZ}"
+                            />
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

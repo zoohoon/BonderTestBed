@@ -1,0 +1,50 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:cui="clr-namespace:CUI;assembly=CUI"
+             xmlns:local="clr-namespace:UcDeviceUpDownSubSettingView"
+             xmlns:recipe="clr-namespace:RecipeEditorControl.RecipeEditorParamEdit;assembly=RecipeEditorControl"
+             x:Class="UcDeviceUpDownSubSettingView.DeviceUpDownSubSettingView"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1280">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SettingControlStyle;component/SettingViewStyleDictionaly.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="12*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Content="Device Up/Down Setup" Foreground="White" FontWeight="Bold" FontSize="24" Height="42"/>
+
+            <cui:Button AutomationProperties.AutomationId="btnUploadDownload"
+                        Grid.Column="2" 
+                        Content="Upload/Download"
+                        FontSize="24" 
+                        Margin="5"
+                        Height="52" Width="200"
+                        GUID="939ed729-f25e-42f1-a228-f0a8a0aa3586" 
+                        Style="{DynamicResource NormalTypeCUIButtonStyle}"
+                        Command="{Binding DeviceUpDownSetupCommand}" 
+                        CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
+        </Grid>
+
+        <StackPanel Grid.Row="2">
+            <Separator Grid.Row="2" Background="White"/>
+        </StackPanel>
+        <recipe:UcRecipeEditorParamEdit Grid.Row="2" DataContext="{Binding RecipeEditorParamEdit}" Margin="0"/>
+    </Grid>
+</UserControl>

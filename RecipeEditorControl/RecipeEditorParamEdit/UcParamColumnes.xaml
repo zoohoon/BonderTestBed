@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="RecipeEditorControl.RecipeEditorParamEdit.UcParamColumnes"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:recipeuc="clr-namespace:RecipeEditorControl.RecipeEditorUC"
+             xmlns:local="clr-namespace:RecipeEditorControl.RecipeEditorParamEdit"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="1280">
+    <Grid Width="950" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="4.5*"/>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <!--<ColumnDefinition Width="1*"/>-->
+        </Grid.ColumnDefinitions>
+        <recipeuc:UcRecipeEditorButton BtnCaption="ID"          Grid.Column="0"
+                                       BtnBackground="#333333" TextFontSize="20"
+                                       ShadowDepth="5.6" BtnStroke ="#333333"/>
+        <recipeuc:UcRecipeEditorButton BtnCaption="Name"        Grid.Column="1"
+                                       BtnBackground="#333333" TextFontSize="20" 
+                                       ShadowDepth="5.6" BtnStroke ="#333333"/>
+        <!--<recipeuc:UcRecipeEditorButton BtnCaption="Description" Grid.Column="2" 
+                                       BtnBackground="#333333" TextFontSize="18" 
+                                       ShadowDepth="5.6" BtnStroke ="#333333"/>-->
+        <recipeuc:UcRecipeEditorButton BtnCaption="Value"     Grid.Column="2"
+                                       BtnBackground="#333333" TextFontSize="20"
+                                       ShadowDepth="5.6" BtnStroke ="#333333"/>
+        <recipeuc:UcRecipeEditorButton BtnCaption="Min/Max"     Grid.Column="3"
+                                       BtnBackground="#333333" TextFontSize="20"
+                                       ShadowDepth="5.6" BtnStroke ="#333333"/>
+        <!--<recipeuc:UcRecipeEditorButton BtnCaption="Current"     Grid.Column="4"
+                                       BtnBackground="#333333" TextFontSize="20"
+                                       ShadowDepth="5.6" BtnStroke ="#333333"/>-->
+    </Grid>
+
+</UserControl>

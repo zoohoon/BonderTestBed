@@ -1,0 +1,150 @@
+﻿<UserControl x:Class="ProberDevelopPackWindow.Tab.GemVidsEditorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ig="clr-namespace:ProberInterfaces.GEM;assembly=ProberInterfaces"
+             xmlns:local="clr-namespace:ProberDevelopPackWindow.Tab"
+             mc:Ignorable="d" 
+             Height="940" Width="1120">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <!--#region =VIDs= -->
+
+        <!-- ECID -->
+        <GroupBox
+                 Grid.Column="0"
+                 Margin="0,0,0,4"
+                 Header="ECID"
+                 Background="#3C454F"
+                 FontWeight="DemiBold" 
+                 Foreground="WhiteSmoke" 
+                 BorderBrush="#3C454F"
+                 FontSize="12"
+                 >
+            <Grid>
+                <DataGrid  BorderBrush="DimGray" BorderThickness="0.5"
+                                      ItemsSource="{Binding ECIDs}" AutoGenerateColumns="False" CanUserResizeColumns="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ElementID" Width="180" Binding="{Binding ElementID}" Foreground="Black"/>
+                        <DataGridTextColumn Header="ECID" Width="180" Binding="{Binding VID}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </Grid>
+        </GroupBox>
+
+        <!-- DVID -->
+        <GroupBox
+                 Grid.Column="1"
+                 Margin="0,0,0,4"
+                 Header="DVID"
+                 Background="#3C454F"
+                 FontWeight="DemiBold" 
+                 Foreground="WhiteSmoke" 
+                 BorderBrush="#3C454F"
+                 FontSize="12"
+                 >
+            <Grid>
+                <DataGrid  BorderBrush="DimGray" BorderThickness="0.5"
+                                      ItemsSource="{Binding DVIDs}" AutoGenerateColumns="False" CanUserResizeColumns="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ElementID" Width="180" Binding="{Binding ElementID}"/>
+                        <DataGridTextColumn Header="DVID" Width="180" Binding="{Binding VID}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </Grid>
+        </GroupBox>
+
+        <!-- SVID -->
+        <GroupBox
+                 Grid.Column="2"
+                 Margin="0,0,0,4"
+                 Header="SVID"
+                 Background="#3C454F"
+                 FontWeight="DemiBold" 
+                 Foreground="WhiteSmoke" 
+                 BorderBrush="#3C454F"
+                 FontSize="12"
+                 >
+            <Grid>
+                <DataGrid BorderBrush="DimGray" BorderThickness="0.5"
+                          ItemsSource="{Binding SVIDs}" AutoGenerateColumns="False" CanUserResizeColumns="True"
+                          SelectedItem="{Binding SelectedSvid}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ElementID" Width="180" Binding="{Binding ElementID}"/>
+                        <DataGridTextColumn Header="SVID" Width="180" Binding="{Binding VID}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </Grid>
+        </GroupBox>
+        
+        <!--#endregion-->
+
+        <!--#region =Add & Delete= -->
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Margin="4" Content="ADD" FontSize="16" 
+                    Command="{Binding AddVidCommand}" CommandParameter="{x:Static ig:EnumVidType.ECID}"/>
+            <Button Grid.Column="1" Margin="4" Content="DEL" FontSize="16"
+                    Command="{Binding DeleteVidCommand}" CommandParameter="{x:Static ig:EnumVidType.ECID}"/>
+            <Button Grid.Column="2" Margin="4" Content="Clear" FontSize="16"
+                    Command="{Binding ClearVidCommand}" CommandParameter="{x:Static ig:EnumVidType.ECID}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Margin="4" Content="ADD" FontSize="16" 
+                    Command="{Binding AddVidCommand}" CommandParameter="{x:Static ig:EnumVidType.DVID}"/>
+            <Button Grid.Column="1" Margin="4" Content="DEL" FontSize="16"
+                    Command="{Binding DeleteVidCommand}" CommandParameter="{x:Static ig:EnumVidType.DVID}"/>
+            <Button Grid.Column="2" Margin="4" Content="Clear" FontSize="16"
+                    Command="{Binding ClearVidCommand}" CommandParameter="{x:Static ig:EnumVidType.DVID}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Margin="4" Content="ADD" FontSize="16" 
+                    Command="{Binding AddVidCommand}" CommandParameter="{x:Static ig:EnumVidType.SVID}"/>
+            <Button Grid.Column="1" Margin="4" Content="DEL" FontSize="16"
+                    Command="{Binding DeleteVidCommand}" CommandParameter="{x:Static ig:EnumVidType.SVID}"/>
+            <Button Grid.Column="2" Margin="4" Content="Clear" FontSize="16"
+                    Command="{Binding ClearVidCommand}" CommandParameter="{x:Static ig:EnumVidType.SVID}"/>
+        </Grid>
+        <!--#endregion-->
+
+        <Grid Grid.Row="2" Grid.Column="2">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Width="100" Height="48" Content="LOAD" FontSize="18" Margin="4"
+                        Command="{Binding LoadParameterCommand}"/>
+                <Button Width="100" Height="48" Content="SAVE" FontSize="18"
+                        Command="{Binding SaveParameterCommand}"/>
+            </StackPanel>
+        </Grid>
+        
+    </Grid>
+</UserControl>

@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="WizardEditorView.EditorUserControls.WizardUtilityEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WizardEditorView.EditorUserControls"
+             mc:Ignorable="d" 
+            d:DesignHeight="892" d:DesignWidth="1280">
+    <Grid>
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.8*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="0.8*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Background="#2d2d2d" Grid.ColumnSpan="2">
+            <Label Content="WIZARD UTILITY EDITOR" Foreground="WhiteSmoke" FontSize="50" FontWeight="ExtraBold"
+               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Grid>
+
+
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <DataGrid Grid.Column="0">
+                
+            </DataGrid>
+
+            <Grid Grid.Column="1">
+                
+            </Grid>
+          
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="1" Margin="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="3" FontSize="64" Margin="4"
+                        Command="{Binding BackWizardScreenCommand}">
+                <Button.Content>
+                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/WizardBack.png" 
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                </Button.Content>
+            </Button>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,559 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AcceptableRangeOfAllToOverdrive" xml:space="preserve">
+    <value>Acceptable range of all contact to overdrive :</value>
+  </data>
+  <data name="AcceptableRangeOfFirstToAllContact" xml:space="preserve">
+    <value>Acceptable range of first contact to all contact :</value>
+  </data>
+  <data name="AcceptableRangeOfFirstToOverdrive" xml:space="preserve">
+    <value>Acceptable range of first contact to overdrive :</value>
+  </data>
+  <data name="AccountCreate" xml:space="preserve">
+    <value>ACCOUNT CREATE</value>
+  </data>
+  <data name="AccountSetting" xml:space="preserve">
+    <value>ACCOUNT SETTING</value>
+  </data>
+  <data name="ALIGN" xml:space="preserve">
+    <value>ALIGN</value>
+  </data>
+  <data name="alignment" xml:space="preserve">
+    <value>Alignment</value>
+  </data>
+  <data name="AllContact" xml:space="preserve">
+    <value>All Contact</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Arm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Arm.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="BT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Buffer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Buffer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Cardbuffer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Cardbuffer.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CardChange" xml:space="preserve">
+    <value>Change Probe Card</value>
+  </data>
+  <data name="CardHand" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CardHand.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CardTray" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CardTray.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CassettePort" xml:space="preserve">
+    <value>Cassette Port</value>
+  </data>
+  <data name="Cell" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Cell.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ChangeDevice" xml:space="preserve">
+    <value>Change Device</value>
+  </data>
+  <data name="ChangeProbeCard" xml:space="preserve">
+    <value>Change ProbeCard</value>
+  </data>
+  <data name="ChuckDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\view\manualcontact\images\chuckdown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ChuckUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\view\manualcontact\images\chuckup.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="CleanPadCleaning" xml:space="preserve">
+    <value>Cleanpad Cleaning</value>
+  </data>
+  <data name="CleanSheetChange" xml:space="preserve">
+    <value>Change Clean Pad</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Computer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Computer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ContactCheck" xml:space="preserve">
+    <value>Manual Probe</value>
+  </data>
+  <data name="ContinueProbing" xml:space="preserve">
+    <value>Continue Probing</value>
+  </data>
+  <data name="ContinuousLot" xml:space="preserve">
+    <value>Continue Lot</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateNewDevice" xml:space="preserve">
+    <value>Create New Device</value>
+  </data>
+  <data name="CurrentAllContactHeight" xml:space="preserve">
+    <value>Current All Contact Height :</value>
+  </data>
+  <data name="CurrentFirstContactHeight" xml:space="preserve">
+    <value>Current First Contact Height :</value>
+  </data>
+  <data name="CurYield" xml:space="preserve">
+    <value>Yield</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteAllSeqMessage" xml:space="preserve">
+    <value>You can not recover after deleting all sequences. Are you sure you want to delete?</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Device" xml:space="preserve">
+    <value>Device</value>
+  </data>
+  <data name="DeviceChange" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="DeviceInformation" xml:space="preserve">
+    <value>Device Information</value>
+  </data>
+  <data name="DeviceName" xml:space="preserve">
+    <value>Device Name</value>
+  </data>
+  <data name="DeviceSetting" xml:space="preserve">
+    <value>Device Setting</value>
+  </data>
+  <data name="Diagnosis" xml:space="preserve">
+    <value>Diagnosis</value>
+  </data>
+  <data name="DisableYAxis" xml:space="preserve">
+    <value>Disable Y Axis</value>
+  </data>
+  <data name="DistanceToAllFromFirstContact" xml:space="preserve">
+    <value>Distance between First And All Contact :</value>
+  </data>
+  <data name="Docking" xml:space="preserve">
+    <value>TH Docking</value>
+  </data>
+  <data name="EnableYAxis" xml:space="preserve">
+    <value>Enable Y Axis</value>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>End</value>
+  </data>
+  <data name="ErrorMessageTitle" xml:space="preserve">
+    <value>Error Message</value>
+  </data>
+  <data name="FirstContact" xml:space="preserve">
+    <value>First Contact</value>
+  </data>
+  <data name="FOUP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FOUP.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GoToDownLoadPage" xml:space="preserve">
+    <value>Go to download page</value>
+  </data>
+  <data name="Initialization" xml:space="preserve">
+    <value>Initialization</value>
+  </data>
+  <data name="Loader" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Loader.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LoaderInitialization" xml:space="preserve">
+    <value>Loader Initialization</value>
+  </data>
+  <data name="Load_CST" xml:space="preserve">
+    <value>Load CST</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="LOT" xml:space="preserve">
+    <value>SnapShot</value>
+  </data>
+  <data name="LotEnd" xml:space="preserve">
+    <value>Lot End</value>
+  </data>
+  <data name="LOTMENU" xml:space="preserve">
+    <value>LOT MENU</value>
+  </data>
+  <data name="LotStatistics" xml:space="preserve">
+    <value>Lot Statistics</value>
+  </data>
+  <data name="LOT_START" xml:space="preserve">
+    <value>LOT START</value>
+  </data>
+  <data name="LOT_START_DESCRIPTION" xml:space="preserve">
+    <value>LOT start description</value>
+  </data>
+  <data name="MachineInitialization" xml:space="preserve">
+    <value>Machine Initialization</value>
+  </data>
+  <data name="MakeSequenceFailMessage" xml:space="preserve">
+    <value>Failed to create sequence. Please check the setting environment.</value>
+  </data>
+  <data name="management_Copy_Remove" xml:space="preserve">
+    <value>Management (Copy / Remove)</value>
+  </data>
+  <data name="ManualAlign" xml:space="preserve">
+    <value>Manual Align</value>
+  </data>
+  <data name="ManualMode" xml:space="preserve">
+    <value>Manaul Mode</value>
+  </data>
+  <data name="ManualProbe" xml:space="preserve">
+    <value>Manual Probe</value>
+  </data>
+  <data name="ManualRetry" xml:space="preserve">
+    <value>Manual Retry</value>
+  </data>
+  <data name="ManualReverse" xml:space="preserve">
+    <value>Manaul Reverse</value>
+  </data>
+  <data name="MENU" xml:space="preserve">
+    <value>MENU</value>
+  </data>
+  <data name="MotionControl" xml:space="preserve">
+    <value>MOTION CONTROL</value>
+  </data>
+  <data name="MotionJog" xml:space="preserve">
+    <value>Motion Jog</value>
+  </data>
+  <data name="MultiPassProbing" xml:space="preserve">
+    <value>Multi-Pass Probing (CP2)</value>
+  </data>
+  <data name="NCPadChange" xml:space="preserve">
+    <value>NC Pad Change</value>
+  </data>
+  <data name="NeedleCleaning" xml:space="preserve">
+    <value>Needle Cleaning</value>
+  </data>
+  <data name="NormalProbing" xml:space="preserve">
+    <value>Normal Probing (CP1)</value>
+  </data>
+  <data name="NotExistDutErrorMessage" xml:space="preserve">
+    <value>Please set up dut first.</value>
+  </data>
+  <data name="NotExistWaferMessage" xml:space="preserve">
+    <value>Wafer does not exist. Please proceed after wafer loading.</value>
+  </data>
+  <data name="OPERATION" xml:space="preserve">
+    <value>OPERATION</value>
+  </data>
+  <data name="OPName" xml:space="preserve">
+    <value>Operator Name</value>
+  </data>
+  <data name="Overdrive" xml:space="preserve">
+    <value>Overdrive</value>
+  </data>
+  <data name="OverdriveLowLimit" xml:space="preserve">
+    <value>Overdrive Low Limit :</value>
+  </data>
+  <data name="PA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PA.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PassDieProbing" xml:space="preserve">
+    <value>Pass Die Probing (CP2)</value>
+  </data>
+  <data name="PinAlign" xml:space="preserve">
+    <value>Pin Alignment</value>
+  </data>
+  <data name="PMIViewer" xml:space="preserve">
+    <value>PMI Viewer</value>
+  </data>
+  <data name="PolishWaferCleaning" xml:space="preserve">
+    <value>Polish Wafer Cleaning</value>
+  </data>
+  <data name="PolishWaferInformaiton" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ProbeCardChange" xml:space="preserve">
+    <value>Change Probe Card</value>
+  </data>
+  <data name="Quit" xml:space="preserve">
+    <value>Quit</value>
+  </data>
+  <data name="Recipe" xml:space="preserve">
+    <value>RECIPE</value>
+  </data>
+  <data name="ResultMapViewer" xml:space="preserve">
+    <value>Result Map Viewer</value>
+  </data>
+  <data name="Retry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="Reverse" xml:space="preserve">
+    <value>Reverse</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SaveAs" xml:space="preserve">
+    <value>Save As</value>
+  </data>
+  <data name="Scan_CST" xml:space="preserve">
+    <value>Scan CST</value>
+  </data>
+  <data name="selecteicon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\selecteicon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Set" xml:space="preserve">
+    <value>Set</value>
+  </data>
+  <data name="SettingChange" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
+  <data name="SETUP" xml:space="preserve">
+    <value>Setup</value>
+  </data>
+  <data name="SetupRecipe" xml:space="preserve">
+    <value>SETUP RECIPE</value>
+  </data>
+  <data name="ShutDown" xml:space="preserve">
+    <value>SHUTDOWN</value>
+  </data>
+  <data name="SlotNum" xml:space="preserve">
+    <value>Slot Number</value>
+  </data>
+  <data name="SnapShot" xml:space="preserve">
+    <value>Snapshot</value>
+  </data>
+  <data name="Soaking" xml:space="preserve">
+    <value>Soaking</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>START</value>
+  </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Start Time</value>
+  </data>
+  <data name="Statistics" xml:space="preserve">
+    <value>STATISTICS</value>
+  </data>
+  <data name="StopAfterFirstProbe" xml:space="preserve">
+    <value>Stop After First Probe</value>
+  </data>
+  <data name="StopAfterLoadCST" xml:space="preserve">
+    <value>Stop After Load CST</value>
+  </data>
+  <data name="StopAfterLoadCST1" xml:space="preserve">
+    <value>Stop After Load CST</value>
+  </data>
+  <data name="StopAfterOCRProcess" xml:space="preserve">
+    <value>Stop After OCR Process</value>
+  </data>
+  <data name="StopAfterProbe" xml:space="preserve">
+    <value>Stop After Probe</value>
+  </data>
+  <data name="StopAfterWaferLoad" xml:space="preserve">
+    <value>Stop After Wafer Load</value>
+  </data>
+  <data name="StopBeforeProbe" xml:space="preserve">
+    <value>Stop Before Probe</value>
+  </data>
+  <data name="StopBeforeRetest" xml:space="preserve">
+    <value>Stop Before Retest</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>Z Clearance &amp; Overdriver</value>
+  </data>
+  <data name="Str_ContactLimits" xml:space="preserve">
+    <value>Contact Limits</value>
+  </data>
+  <data name="Str_MultipleContactSetting" xml:space="preserve">
+    <value>Multiple Contact</value>
+  </data>
+  <data name="Str_ZClearanceAndOverdrive" xml:space="preserve">
+    <value>Z clearance</value>
+  </data>
+  <data name="Str_ZSoftTouch" xml:space="preserve">
+    <value>Z Soft Touch</value>
+  </data>
+  <data name="SysInit" xml:space="preserve">
+    <value>MACHINE INIT</value>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>SYSTEM</value>
+  </data>
+  <data name="SystemSetting" xml:space="preserve">
+    <value>System Setting</value>
+  </data>
+  <data name="TaskManagement" xml:space="preserve">
+    <value>Task Management</value>
+  </data>
+  <data name="TempErrorMessage" xml:space="preserve">
+    <value>The current temperature and the set temperature are not the same. Please check the temperature.</value>
+  </data>
+  <data name="TempErrorTitle" xml:space="preserve">
+    <value>Temperature Error Message</value>
+  </data>
+  <data name="TesterHeadChange" xml:space="preserve">
+    <value>Operate Tester Head</value>
+  </data>
+  <data name="TesterHeadUnlock" xml:space="preserve">
+    <value>Tester Head Unlock</value>
+  </data>
+  <data name="ThreadLockExplorer" xml:space="preserve">
+    <value>Thread Lock Explorer</value>
+  </data>
+  <data name="TransferWafer" xml:space="preserve">
+    <value>Transfer Wafer</value>
+  </data>
+  <data name="turnoff" xml:space="preserve">
+    <value>Turn Off</value>
+  </data>
+  <data name="Undocking" xml:space="preserve">
+    <value>TH Undocking</value>
+  </data>
+  <data name="Unload_CST" xml:space="preserve">
+    <value>Unload CST</value>
+  </data>
+  <data name="Upload_Download" xml:space="preserve">
+    <value>Upload/Download</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>USER</value>
+  </data>
+  <data name="Utility" xml:space="preserve">
+    <value>UTILITY</value>
+  </data>
+  <data name="WaferAlign" xml:space="preserve">
+    <value>Wafer Alignment</value>
+  </data>
+  <data name="WaferAlignSetupErrorMessage" xml:space="preserve">
+    <value>Please set up waferalign first.</value>
+  </data>
+  <data name="WaferHandling" xml:space="preserve">
+    <value>Wafer Handling</value>
+  </data>
+  <data name="WaferID" xml:space="preserve">
+    <value>Wafer ID</value>
+  </data>
+  <data name="WaferInspection" xml:space="preserve">
+    <value>Wafer Inspection</value>
+  </data>
+  <data name="WarningMessageTitle" xml:space="preserve">
+    <value>Warning Message</value>
+  </data>
+</root>

@@ -1,0 +1,203 @@
+﻿<UserControl x:Class="BinEditorControl.UcRecipeEditorBinEdit"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:BinEditorControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="892" d:DesignWidth="1280" Background="Transparent" Loaded="UserControl_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <local:UcBinItem Grid.Row="0" Grid.Column="0" DataContext="{Binding BinItemVMList[0]}"/>
+            <local:UcBinItem Grid.Row="0" Grid.Column="1" DataContext="{Binding BinItemVMList[1]}"/>
+            <local:UcBinItem Grid.Row="0" Grid.Column="2" DataContext="{Binding BinItemVMList[2]}"/>
+            <local:UcBinItem Grid.Row="0" Grid.Column="3" DataContext="{Binding BinItemVMList[3]}"/>
+            <local:UcBinItem Grid.Row="0" Grid.Column="4" DataContext="{Binding BinItemVMList[4]}"/>
+
+            <local:UcBinItem Grid.Row="1" Grid.Column="0" DataContext="{Binding BinItemVMList[5]}"/>
+            <local:UcBinItem Grid.Row="1" Grid.Column="1" DataContext="{Binding BinItemVMList[6]}"/>
+            <local:UcBinItem Grid.Row="1" Grid.Column="2" DataContext="{Binding BinItemVMList[7]}"/>
+            <local:UcBinItem Grid.Row="1" Grid.Column="3" DataContext="{Binding BinItemVMList[8]}"/>
+            <local:UcBinItem Grid.Row="1" Grid.Column="4" DataContext="{Binding BinItemVMList[9]}"/>
+
+            <local:UcBinItem Grid.Row="2" Grid.Column="0" DataContext="{Binding BinItemVMList[10]}"/>
+            <local:UcBinItem Grid.Row="2" Grid.Column="1" DataContext="{Binding BinItemVMList[11]}"/>
+            <local:UcBinItem Grid.Row="2" Grid.Column="2" DataContext="{Binding BinItemVMList[12]}"/>
+            <local:UcBinItem Grid.Row="2" Grid.Column="3" DataContext="{Binding BinItemVMList[13]}"/>
+            <local:UcBinItem Grid.Row="2" Grid.Column="4" DataContext="{Binding BinItemVMList[14]}"/>
+
+            <local:UcBinItem Grid.Row="3" Grid.Column="0" DataContext="{Binding BinItemVMList[15]}"/>
+            <local:UcBinItem Grid.Row="3" Grid.Column="1" DataContext="{Binding BinItemVMList[16]}"/>
+            <local:UcBinItem Grid.Row="3" Grid.Column="2" DataContext="{Binding BinItemVMList[17]}"/>
+            <local:UcBinItem Grid.Row="3" Grid.Column="3" DataContext="{Binding BinItemVMList[18]}"/>
+            <local:UcBinItem Grid.Row="3" Grid.Column="4" DataContext="{Binding BinItemVMList[19]}"/>
+
+            <local:UcBinItem Grid.Row="4" Grid.Column="0" DataContext="{Binding BinItemVMList[20]}"/>
+            <local:UcBinItem Grid.Row="4" Grid.Column="1" DataContext="{Binding BinItemVMList[21]}"/>
+            <local:UcBinItem Grid.Row="4" Grid.Column="2" DataContext="{Binding BinItemVMList[22]}"/>
+            <local:UcBinItem Grid.Row="4" Grid.Column="3" DataContext="{Binding BinItemVMList[23]}"/>
+            <local:UcBinItem Grid.Row="4" Grid.Column="4" DataContext="{Binding BinItemVMList[24]}"/>
+
+            <local:UcBinItem Grid.Row="5" Grid.Column="0" DataContext="{Binding BinItemVMList[25]}"/>
+            <local:UcBinItem Grid.Row="5" Grid.Column="1" DataContext="{Binding BinItemVMList[26]}"/>
+            <local:UcBinItem Grid.Row="5" Grid.Column="2" DataContext="{Binding BinItemVMList[27]}"/>
+            <local:UcBinItem Grid.Row="5" Grid.Column="3" DataContext="{Binding BinItemVMList[28]}"/>
+            <local:UcBinItem Grid.Row="5" Grid.Column="4" DataContext="{Binding BinItemVMList[29]}"/>
+
+            <local:UcBinItem Grid.Row="6" Grid.Column="0" DataContext="{Binding BinItemVMList[30]}"/>
+            <local:UcBinItem Grid.Row="6" Grid.Column="1" DataContext="{Binding BinItemVMList[31]}"/>
+            <local:UcBinItem Grid.Row="6" Grid.Column="2" DataContext="{Binding BinItemVMList[32]}"/>
+            <local:UcBinItem Grid.Row="6" Grid.Column="3" DataContext="{Binding BinItemVMList[33]}"/>
+            <local:UcBinItem Grid.Row="6" Grid.Column="4" DataContext="{Binding BinItemVMList[34]}"/>
+
+            <local:UcBinItem Grid.Row="7" Grid.Column="0" DataContext="{Binding BinItemVMList[35]}"/>
+            <local:UcBinItem Grid.Row="7" Grid.Column="1" DataContext="{Binding BinItemVMList[36]}"/>
+            <local:UcBinItem Grid.Row="7" Grid.Column="2" DataContext="{Binding BinItemVMList[37]}"/>
+            <local:UcBinItem Grid.Row="7" Grid.Column="3" DataContext="{Binding BinItemVMList[38]}"/>
+            <local:UcBinItem Grid.Row="7" Grid.Column="4" DataContext="{Binding BinItemVMList[39]}"/>
+
+            <local:UcBinItem Grid.Row="8" Grid.Column="0" DataContext="{Binding BinItemVMList[40]}"/>
+            <local:UcBinItem Grid.Row="8" Grid.Column="1" DataContext="{Binding BinItemVMList[41]}"/>
+            <local:UcBinItem Grid.Row="8" Grid.Column="2" DataContext="{Binding BinItemVMList[42]}"/>
+            <local:UcBinItem Grid.Row="8" Grid.Column="3" DataContext="{Binding BinItemVMList[43]}"/>
+            <local:UcBinItem Grid.Row="8" Grid.Column="4" DataContext="{Binding BinItemVMList[44]}"/>
+
+            <local:UcBinItem Grid.Row="9" Grid.Column="0" DataContext="{Binding BinItemVMList[45]}"/>
+            <local:UcBinItem Grid.Row="9" Grid.Column="1" DataContext="{Binding BinItemVMList[46]}"/>
+            <local:UcBinItem Grid.Row="9" Grid.Column="2" DataContext="{Binding BinItemVMList[47]}"/>
+            <local:UcBinItem Grid.Row="9" Grid.Column="3" DataContext="{Binding BinItemVMList[48]}"/>
+            <local:UcBinItem Grid.Row="9" Grid.Column="4" DataContext="{Binding BinItemVMList[49]}"/>
+        </Grid>
+
+        <!--Search Row-->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="0.6*"/>
+                <ColumnDefinition Width="0.6*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" BorderBrush="White" BorderThickness="3" CornerRadius="5" Margin="45,0,45,0">
+                <Menu x:Name="searchOptionMenu" ItemsSource="{Binding SearchOptionItemList}" Background="Black" FlowDirection="LeftToRight" >
+                    <Menu.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </ItemsPanelTemplate>
+                    </Menu.ItemsPanel>
+
+                    <!--//==> Command를 SearchOption 안에다 넣는 방법, Menu는 Selected Item이 없는 듯 하다.-->
+                    <Menu.ItemContainerStyle>
+                        <Style TargetType="{x:Type MenuItem}">
+                            <Setter Property="Command" Value="{Binding MenuCommand}"/>
+                            <Setter Property="CommandParameter" Value="{Binding}"/>
+                        </Style>
+                    </Menu.ItemContainerStyle>
+
+                    <Menu.ItemTemplate>
+                        <HierarchicalDataTemplate DataType="{x:Type local:SearchOption}" ItemsSource="{Binding Path=SearchOptionItemList}">
+                            <Border Background="Gray" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="100" BorderBrush="LightGray" BorderThickness="3">
+                                <TextBlock Text="{Binding HeadTitle}" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </HierarchicalDataTemplate>
+                    </Menu.ItemTemplate>
+                </Menu>
+            </Border>
+
+            <Grid Grid.Column="2" Grid.Row="0" Margin="0,2,0,-2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="0.6*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Text="{Binding BinNumBoxText}" Grid.Column="0" x:Name="searchTextBox" Margin="8" Background="LightGray" FontSize="24" TextAlignment="Center" Focusable="False">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown" >
+                            <i:InvokeCommandAction Command="{Binding BinNumBoxClickCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+                <local:UcBinItem Grid.Column="1" DataContext="{Binding TemplateBinItem}"/>
+            </Grid>
+            <Button Grid.Column="4" Grid.Row="0" Content="Restore" Command="{Binding }"/>
+
+
+            <Grid Grid.Column="2" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition Width="0.3*"/>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition Width="0.6*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Command="{Binding BigPrevPageCommand}">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                            <TextBlock Text="&lt;&lt;" FontSize="36" FontWeight="Bold"/>
+                            <TextBlock Text="(x10)" FontSize="12" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Button Grid.Column="1" Command="{Binding PrevPageCommand}" FontSize="36" FontWeight="Bold">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                            <TextBlock Text="&lt;" FontSize="36" FontWeight="Bold"/>
+                            <TextBlock Text="(x1)" FontSize="12" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding CurPageIndex}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
+                    <TextBlock Text="/" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
+                    <TextBlock Text="{Binding TotalPageCount}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
+                </StackPanel>
+                <Button Grid.Column="3" Command="{Binding NextPageCommand}" FontSize="36" FontWeight="Bold">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                            <TextBlock Text="&gt;" FontSize="36" FontWeight="Bold"/>
+                            <TextBlock Text="(x1)" FontSize="12" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Button Grid.Column="4" Command="{Binding BigNextPageCommand}" FontSize="36" FontWeight="Bold">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                            <TextBlock Text="&gt;&gt;" FontSize="36" FontWeight="Bold"/>
+                            <TextBlock Text="(x10)" FontSize="12" FontWeight="Bold"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
+
+</UserControl>

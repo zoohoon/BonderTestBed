@@ -1,0 +1,768 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{20CF2683-EF4E-4455-B151-310F937B3ADF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ProberInterfaces</RootNamespace>
+    <AssemblyName>ProberInterfaces</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="ElmoMotionControlComponents.GMAS.MMCLibDotNET">
+      <HintPath>..\Elmo\ElmoMotionControlComponents.GMAS.MMCLibDotNET.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="protobuf-net, Version=3.0.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <HintPath>..\packages\protobuf-net.3.0.73\lib\net461\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <HintPath>..\packages\protobuf-net.Core.3.0.73\lib\net461\protobuf-net.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Charting">
+      <HintPath>..\SciChart\SciChart.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Core">
+      <HintPath>..\SciChart\SciChart.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Data">
+      <HintPath>..\SciChart\SciChart.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=1.2.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.7.1\lib\net461\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="XGEMWrapper64, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\GEM_Dll\XGEMWrapper64.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AirBlow\IAirBlowModule.cs" />
+    <Compile Include="AirCooling\IAirCoolingModule.cs" />
+    <Compile Include="AlignEX\AlginModuleStateEnum.cs" />
+    <Compile Include="AlignEX\AlginParamBase.cs" />
+    <Compile Include="AlignEX\IAlignAcqStep.cs" />
+    <Compile Include="AlignEX\IAlignModule.cs" />
+    <Compile Include="AlignEX\IAlignProcessAcq.cs" />
+    <Compile Include="Align\AlignSetupStateBase.cs" />
+    <Compile Include="Align\AlignStates.cs" />
+    <Compile Include="Align\AlignCalcStates.cs" />
+    <Compile Include="Align\AlignProcessStateBase.cs" />
+    <Compile Include="Align\IAlignProcess.cs" />
+    <Compile Include="Align\IAlignSetup.cs" />
+    <Compile Include="BinData\BinAnalysisDataArray.cs" />
+    <Compile Include="BinData\IBinDeviceParam.cs" />
+    <Compile Include="Bonder\IBonderModule.cs" />
+    <Compile Include="Bonder\IBonderSupervisor.cs" />
+    <Compile Include="CardChange\IGPCardAligner.cs" />
+    <Compile Include="CassetteIDReader\CassetteIDReaderParameters.cs" />
+    <Compile Include="CassetteIDReader\ICassetteIDReaderModule.cs" />
+    <Compile Include="Chiller\IChilerService.cs" />
+    <Compile Include="Chiller\IChillerServiceProxy.cs" />
+    <Compile Include="Command\IGemCommand.cs" />
+    <Compile Include="Command\Internal\IBonderCommand.cs" />
+    <Compile Include="Command\Internal\IFDAlignCommand.cs" />
+    <Compile Include="Command\Internal\IWaferChangeCommands.cs" />
+    <Compile Include="Communication\BarcodeReader\BarcodeReaderParameter.cs" />
+    <Compile Include="Communication\BarcodeReader\IBarcodeReaderModule.cs" />
+    <Compile Include="Communication\CommunicationParameterBase.cs" />
+    <Compile Include="Communication\E84\CardAGV\ICardAGVParameter.cs" />
+    <Compile Include="Communication\E84\IE84ModuleParameter.cs" />
+    <Compile Include="Communication\GEM\IRemoteActBehavior.cs" />
+    <Compile Include="Command\Internal\ITCPIPCommands.cs" />
+    <Compile Include="Command\Internal\IProbeCommandParameters.cs" />
+    <Compile Include="Communication\GEM\VID\PIVInfo.cs" />
+    <Compile Include="Communication\ICommModule.cs" />
+    <Compile Include="Communication\RFID\IRFIDAdapter.cs" />
+    <Compile Include="Communication\Scenario\Common.cs" />
+    <Compile Include="Communication\TCPIP\TCPIPEventParam.cs" />
+    <Compile Include="Communication\TCPIP\ITCPIP.cs" />
+    <Compile Include="Communication\Tester\ITesterComSysParam.cs" />
+    <Compile Include="Communication\E84\E84Enums.cs" />
+    <Compile Include="Communication\E84\E84SignalClasses.cs" />
+    <Compile Include="Communication\E84\IE84CommModule.cs" />
+    <Compile Include="Communication\E84\IE84StandardSubRoutine.cs" />
+    <Compile Include="Communication\E84\SubParam\E84ErrorParameter.cs" />
+    <Compile Include="Communication\E84\SubParam\E84ModuleParameter.cs" />
+    <Compile Include="Communication\E84\SubParam\E84PinSignalParameter.cs" />
+    <Compile Include="Communication\ICommunicationFunc.cs" />
+    <Compile Include="Communication\WCF\ServiceCreateHelper.cs" />
+    <Compile Include="ControlClass\ViewModel\Foup\IGPFoupRecoveryControlVM.cs" />
+    <Compile Include="ControlClass\ViewModel\ILoaderHandlingViewModel.cs" />
+    <Compile Include="ControlClass\ViewModel\ManualSoaking\IManualSoakingViewModel.cs" />
+    <Compile Include="ControlClass\ViewModel\ILoaderGPCardChangeOPViewModel.cs" />
+    <Compile Include="ControlClass\ViewModel\Mark\IMarkSettingVM.cs" />
+    <Compile Include="ControlClass\ViewModel\PMI\IPMIViewerVM.cs" />
+    <Compile Include="ControlClass\ViewModel\ViewModelManager\SettingViewParam.cs" />
+    <Compile Include="ControlClass\ViewModel\ViewModelManager\ViewConnectInfo.cs" />
+    <Compile Include="Cooler\Chiller\IChillerModule.cs" />
+    <Compile Include="Cooler\DryAir\DryAirNetIOMappings.cs" />
+    <Compile Include="Cooler\DryAir\IDryAirProcessor.cs" />
+    <Compile Include="Data\IStageMoveLockParameter.cs" />
+    <Compile Include="Data\IStageMoveLockStatus.cs" />
+    <Compile Include="Data\ModuleID.cs" />
+    <Compile Include="Data\OCRDeviceBase.cs" />
+    <Compile Include="Data\OCRDevObject.cs" />
+    <Compile Include="Data\TransferObject.cs" />
+    <Compile Include="Device\IDeviceModule.cs" />
+    <Compile Include="DialogControl\ILoaderDoorDisplayDialogService.cs" />
+    <Compile Include="DialogControl\ISignalTowerDisplayDialogService.cs" />
+    <Compile Include="E84\E84CassetteLockParam.cs" />
+    <Compile Include="E84\E84Info.cs" />
+    <Compile Include="Enum\BinEnum.cs" />
+    <Compile Include="Enum\EnumAttributes.cs" />
+    <Compile Include="Enum\EnumRepeatedTransferMode.cs" />
+    <Compile Include="Enum\EnumSaveImageFormat.cs" />
+    <Compile Include="Enum\EnumSelectType.cs" />
+    <Compile Include="Enum\PMIImageCropEnum.cs" />
+    <Compile Include="EnvControl\Control\IFFUManager.cs" />
+    <Compile Include="EnvControl\Control\IChillerManager.cs" />
+    <Compile Include="EnvControl\Control\IDewPointControlModule.cs" />
+    <Compile Include="EnvControl\Control\IDryAirControlModule.cs" />
+    <Compile Include="EnvControl\Control\IValveControlModule.cs" />
+    <Compile Include="EnvControl\Enum\FFUEnum.cs" />
+    <Compile Include="EnvControl\Enum\ChillerEnum.cs" />
+    <Compile Include="EnvControl\Enum\SensorStatusEnum.cs" />
+    <Compile Include="EnvControl\IEnvControlManager.cs" />
+    <Compile Include="EnvControl\IEnvModule.cs" />
+    <Compile Include="EnvControl\Parameter\FFUSysParameter.cs" />
+    <Compile Include="EnvControl\Parameter\ChillerSysParameter.cs" />
+    <Compile Include="Command\Internal\IGPLotCommands.cs" />
+    <Compile Include="Command\Internal\IPolishWaferCommands.cs" />
+    <Compile Include="Command\Internal\IStageCommands.cs" />
+    <Compile Include="Communication\GEM\CEID\GEMCEIDDictionaryParam.cs" />
+    <Compile Include="Communication\GEM\GemDataClass\Data.cs" />
+    <Compile Include="Communication\GEM\GemDataClass\GemVid.cs" />
+    <Compile Include="Communication\GEM\GemDataClass\GemVidInfo.cs" />
+    <Compile Include="Communication\GEM\VID\GEMEnum.cs" />
+    <Compile Include="Communication\GEM\VID\ILoaderPIV.cs" />
+    <Compile Include="Communication\GEM\VID\IStagePIV.cs" />
+    <Compile Include="Communication\WCF\DisplayPortPassData.cs" />
+    <Compile Include="Communication\WCF\IClientFactory.cs" />
+    <Compile Include="Communication\WCF\IStageCommunicationManager.cs" />
+    <Compile Include="ControlClass\ViewModel\ChuckPlanarity\IChuckPlanarityVM.cs" />
+    <Compile Include="ControlClass\ViewModel\DeviceChange\IDeviceChangeVM.cs" />
+    <Compile Include="ControlClass\ViewModel\DutEditor\IDutEditorVM.cs" />
+    <Compile Include="ControlClass\ViewModel\DutView\IDutViewControlVM.cs" />
+    <Compile Include="ControlClass\ViewModel\LOT\Preheat\ISoakingRecipeSettingVM.cs" />
+    <Compile Include="ControlClass\ViewModel\ManualContact\ManualContactControlVMBase.cs" />
+    <Compile Include="ControlClass\ViewModel\ManualContact\IManualContactControlVM.cs" />
+    <Compile Include="ControlClass\ViewModel\Polish Wafer\IPolishWaferMakeSourceVM.cs" />
+    <Compile Include="ControlClass\ViewModel\Polish Wafer\IPolishWaferRecipeSettingVM.cs" />
+    <Compile Include="ControlClass\ViewModel\Wafer\Map\IWaferMapMakerVM.cs" />
+    <Compile Include="ControlClass\ViewModel\Wafer\Sequence\ISequenceMakerVM.cs" />
+    <Compile Include="CUI\ICUIToolTip.cs" />
+    <Compile Include="DataConverter\IDataConverter.cs" />
+    <Compile Include="Enum\EnumArrowDirection.cs" />
+    <Compile Include="DeviceInfo.cs" />
+    <Compile Include="Enum\EnumCardSkipType.cs" />
+    <Compile Include="Enum\EnumCommonUI.cs" />
+    <Compile Include="Enum\EnumDewPointType.cs" />
+    <Compile Include="Enum\EnumUI.cs" />
+    <Compile Include="Enum\PMIRemoteTriggerEnum.cs" />
+    <Compile Include="EnvControl\Parameter\DewPointSysParameter.cs" />
+    <Compile Include="EnvControl\Parameter\DryAirSysParameter.cs" />
+    <Compile Include="EnvControl\Parameter\ValveSysParameter.cs" />
+    <Compile Include="Event\ITCPIPEvent.cs" />
+    <Compile Include="FDAlign\FDAlignStates.cs" />
+    <Compile Include="FDAlign\IFDWaferAligner.cs" />
+    <Compile Include="Loader\IGPTransferManager.cs" />
+    <Compile Include="Loader\ILoaderDataGateway.cs" />
+    <Compile Include="Loader\IStageObject.cs" />
+    <Compile Include="Loader\MenuControl\ILoaderMainMenuVM.cs" />
+    <Compile Include="Loader\RemoteDataDescription\ChuckPlanarityDataDescription.cs" />
+    <Compile Include="Loader\RemoteDataDescription\DutEditorDataDescription.cs" />
+    <Compile Include="Loader\RemoteDataDescription\DeviceChangeDataDescription.cs" />
+    <Compile Include="Loader\RemoteDataDescription\MarkShiftValues.cs" />
+    <Compile Include="Loader\RemoteDataDescription\SoakingRecipeContactDataDescription.cs" />
+    <Compile Include="Loader\StageLotData.cs" />
+    <Compile Include="Lot\LotInformations.cs" />
+    <Compile Include="Monitoring\IMonitoringBehavior.cs" />
+    <Compile Include="Notify\INotifyManager.cs" />
+    <Compile Include="Notify\NoticeCodeParam.cs" />
+    <Compile Include="Notify\NotifyCodeEnum.cs" />
+    <Compile Include="ODTP\IODTPManager.cs" />
+    <Compile Include="ODTP\ODTPFormat\ODTPData.cs" />
+    <Compile Include="Param\AlternateSysParameter.cs" />
+    <Compile Include="Param\LoaderProbeCardListParameter.cs" />
+    <Compile Include="Param\ParamDevParameter.cs" />
+    <Compile Include="Param\PinBaseFiducialMarkParameter.cs" />
+    <Compile Include="Param\ProberCardListParameter.cs" />
+    <Compile Include="Param\StageMoveLockParameter.cs" />
+    <Compile Include="PIV\IPIVManager.cs" />
+    <Compile Include="PMI\IPMITemplateMiniViewModel.cs" />
+    <Compile Include="PolishWafer\PolishWaferRecipeSettingModel.cs" />
+    <Compile Include="PolishWafer\PolishWaferSetup.cs" />
+    <Compile Include="Proxies\Behaviors\ReferencePreservingBehavior.cs" />
+    <Compile Include="Proxies\Helpers\ConfigurationHelper.cs" />
+    <Compile Include="Proxies\IDataGatewayProxy.cs" />
+    <Compile Include="Proxies\ILotOPModuleProxy.cs" />
+    <Compile Include="Proxies\IFileManagerProxy.cs" />
+    <Compile Include="Proxies\IMultiExecuterLoaderProxy.cs" />
+    <Compile Include="Proxies\IPinAlignerProxy.cs" />
+    <Compile Include="Proxies\IPolishWaferModuleProxy.cs" />
+    <Compile Include="Proxies\IPMIModuleProxy.cs" />
+    <Compile Include="Proxies\IProberProxy.cs" />
+    <Compile Include="Proxies\IRetestModuleProxy.cs" />
+    <Compile Include="Proxies\ISoakingModuleProxy.cs" />
+    <Compile Include="Proxies\IStageMoveProxy.cs" />
+    <Compile Include="Proxies\IWaferAlignerProxy.cs" />
+    <Compile Include="Proxies\Proxies.cs" />
+    <Compile Include="Proxies\ProxyManager.cs" />
+    <Compile Include="RecipeEditor.cs" />
+    <Compile Include="ResultMap\Attributes\MapConverterAttribute.cs" />
+    <Compile Include="ResultMap\BaseMapFormat\Header\BasicData.cs" />
+    <Compile Include="ResultMap\BaseMapFormat\Header\CassetteData.cs" />
+    <Compile Include="ResultMap\BaseMapFormat\Header\Extensions\MapHeaderExtension.cs" />
+    <Compile Include="ResultMap\BaseMapFormat\Header\Extensions\STIF\E142MapHeaderExtension.cs" />
+    <Compile Include="ResultMap\BaseMapFormat\Header\Extensions\STIF\STIFMapHeaderExtension.cs" />
+    <Compile Include="ResultMap\BaseMapFormat\Header\LotData.cs" />
+    <Compile Include="ResultMap\BaseMapFormat\Header\MapConfigData.cs" />
+    <Compile Include="ResultMap\BaseMapFormat\Header\MapHeaderObject.cs" />
+    <Compile Include="ResultMap\BaseMapFormat\Header\TestResultData.cs" />
+    <Compile Include="ResultMap\BaseMapFormat\Header\TimeData.cs" />
+    <Compile Include="ResultMap\BaseMapFormat\Header\WaferAlignData.cs" />
+    <Compile Include="ResultMap\BaseMapFormat\Header\WaferData.cs" />
+    <Compile Include="ResultMap\BaseMapFormat\ResultMap\ResultMapData.cs" />
+    <Compile Include="ResultMap\Connector\ConnectMethodBase.cs" />
+    <Compile Include="ResultMap\EnumProberMap.cs" />
+    <Compile Include="ResultMap\FileTransferInfoBase.cs" />
+    <Compile Include="ResultMap\INamer.cs" />
+    <Compile Include="ResultMap\Connector\MapComponentBase.cs" />
+    <Compile Include="ResultMap\MapDataCoverter.cs" />
+    <Compile Include="ResultMap\Namer\Namer.cs" />
+    <Compile Include="ResultMap\Namer\NamingComponetBase.cs" />
+    <Compile Include="ResultMap\ResultMapConverterBase.cs" />
+    <Compile Include="ResultMap\Script\MapScripterBase.cs" />
+    <Compile Include="ResultMap\Script\MapScriptElement.cs" />
+    <Compile Include="ServiceHost\IDialogHost.cs" />
+    <Compile Include="Enum\EnumOCRType.cs" />
+    <Compile Include="GPLoader\IGPLoader.cs" />
+    <Compile Include="Light\ILightJobViewModel.cs" />
+    <Compile Include="Loader\RemoteDataDescription\InspcetionDataDescription.cs" />
+    <Compile Include="Loader\RemoteDataDescription\ManaulContactDataDescription.cs" />
+    <Compile Include="Loader\RemoteDataDescription\PNPDataDescription.cs" />
+    <Compile Include="Loader\IDeviceManager.cs" />
+    <Compile Include="Loader\ILoaderInfo.cs" />
+    <Compile Include="ManualContact\MachinePosition.cs" />
+    <Compile Include="PnpSetup\IPnpAdvanceSetup.cs" />
+    <Compile Include="PreAligner\IPreAligner.cs" />
+    <Compile Include="MultiExecuter\IMultiExecuter.cs" />
+    <Compile Include="NeedleBrush\INeedleBrush.cs" />
+    <Compile Include="NeedleBrush\INeedleBrushDeviceParam.cs" />
+    <Compile Include="ProberSystem\IReleaseResource.cs" />
+    <Compile Include="SignalTower\ISignalTowerController.cs" />
+    <Compile Include="SignalTower\ISignalTowerManager.cs" />
+    <Compile Include="SignalTower\ISignalTowerNotify.cs" />
+    <Compile Include="TouchSensor\ITouchSensorObject.cs" />
+    <Compile Include="PolishWafer\IPolishWaferObject.cs" />
+    <Compile Include="PolishWafer\IPolishWaferSetupViewModel.cs" />
+    <Compile Include="PolishWafer\IPolishWaferSubrutine.cs" />
+    <Compile Include="PolishWafer\PolishWaferCleaning.cs" />
+    <Compile Include="Probing\IForceMeasure.cs" />
+    <Compile Include="Proxies\ICoordinateManagerProxy.cs" />
+    <Compile Include="Proxies\IImageDispHost.cs" />
+    <Compile Include="Proxies\IIOPortProxy.cs" />
+    <Compile Include="Proxies\IMotionAxisProxy.cs" />
+    <Compile Include="Proxies\IMultiExecuterProxy.cs" />
+    <Compile Include="Proxies\IParamManagerProxy.cs" />
+    <Compile Include="Proxies\IStageSupervisorProxy.cs" />
+    <Compile Include="Proxies\ITempControllerProxy.cs" />
+    <Compile Include="Proxies\IRemoteMedumProxy.cs" />
+    <Compile Include="Proxies\IVmGPCCProxy.cs" />
+    <Compile Include="ResultMap\IMapManager.cs" />
+    <Compile Include="Retest\IRetestModule.cs" />
+    <Compile Include="Retest\IRetestDeviceParam.cs" />
+    <Compile Include="ServiceHost\IImageDispHostCallback.cs" />
+    <Compile Include="Soaking\ILastSoakingStateInfo.cs" />
+    <Compile Include="Soaking\ISoakingChillingTimeMng.cs" />
+    <Compile Include="Soaking\IStatusSoakingParam.cs" />
+    <Compile Include="State\ISetUpState.cs" />
+    <Compile Include="State\ISystemstatus.cs" />
+    <Compile Include="SystemMode\LoaderParkingParam.cs" />
+    <Compile Include="SystemMode\SystemManager.cs" />
+    <Compile Include="Loader\ILoaderRemoteMediator.cs" />
+    <Compile Include="SystemMode\SystemModuleCount.cs" />
+    <Compile Include="Temperature\Chiller\ChiilerInfo.cs" />
+    <Compile Include="Temperature\EnvMonitoring\IAfterErrorBehavior.cs" />
+    <Compile Include="Temperature\EnvMonitoring\IEnvMonitoringHub.cs" />
+    <Compile Include="Temperature\EnvMonitoring\IEnvMonitoringManager.cs" />
+    <Compile Include="Temperature\EnvMonitoring\IProtocolModule.cs" />
+    <Compile Include="Temperature\EnvMonitoring\ISensorInfo.cs" />
+    <Compile Include="Temperature\EnvMonitoring\ISensorModule.cs" />
+    <Compile Include="Temperature\FFU\FFUInfo.cs" />
+    <Compile Include="Temperature\FFU\IFFU.cs" />
+    <Compile Include="Temperature\EnvMonitoring\SensorSysParameters.cs" />
+    <Compile Include="Temperature\TemperatureInfo.cs" />
+    <Compile Include="TouchSensor\ITouchSensor.cs" />
+    <Compile Include="Utility\AsyncObservableCollection.cs" />
+    <Compile Include="AutoTilt\IAutoTiltModule.cs" />
+    <Compile Include="Camera\CameraViewPositionType.cs" />
+    <Compile Include="Camera\CamLightParam.cs" />
+    <Compile Include="CardChange\EnumCardChange.cs" />
+    <Compile Include="SequenceRunner\ISequenceBehaviorState.cs" />
+    <Compile Include="SequenceRunner\ISequenceRunnerBehavior.cs" />
+    <Compile Include="CardChange\ICardChangeModule.cs" />
+    <Compile Include="CardChange\ICardChangeState.cs" />
+    <Compile Include="Category\DataSettingTabel.cs" />
+    <Compile Include="Command\Cui\ICUITreeViewCommand.cs" />
+    <Compile Include="Command\Cui\ITestCommand1.cs" />
+    <Compile Include="Command\Internal\INeedleCleanCommand.cs" />
+    <Compile Include="Command\Internal\IGpibCommands.cs" />
+    <Compile Include="Command\Internal\ITempControllerCommands.cs" />
+    <Compile Include="DialogControl\IDisplayPortDialog.cs" />
+    <Compile Include="DialogControl\ITempDisplayDialogService.cs" />
+    <Compile Include="Data\DutWaferIndex.cs" />
+    <Compile Include="Data\Enumeration.cs" />
+    <Compile Include="Command\Cui\ICUIButtonCommand.cs" />
+    <Compile Include="Enum\EnumServiceType.cs" />
+    <Compile Include="Enum\EnumTwincat.cs" />
+    <Compile Include="Focus\IFocusManager.cs" />
+    <Compile Include="Foup\Command\FoupCommands.cs" />
+    <Compile Include="Event\EventProcess\IEventProcess.cs" />
+    <Compile Include="Communication\GPIB\GpibEventParam.cs" />
+    <Compile Include="CUI\ICUIControl.cs" />
+    <Compile Include="Cylinder\ICylinderManager.cs" />
+    <Compile Include="Cylinder\ICylinderType.cs" />
+    <Compile Include="Device\IDeviceUpDownManager.cs" />
+    <Compile Include="ControlClass\ViewModel\IFilterPanelViewModel.cs" />
+    <Compile Include="ControlClass\IFoupSubUserControl.cs" />
+    <Compile Include="Communication\GPIB\IBinParameter.cs" />
+    <Compile Include="Param\IHasAbstactClassSerialized.cs" />
+    <Compile Include="DLL\IHasDll.cs" />
+    <Compile Include="ControlClass\ViewModel\IHexagonJogViewModel.cs" />
+    <Compile Include="Inspection\IInspection.cs" />
+    <Compile Include="Lot\ILotInfo.cs" />
+    <Compile Include="Probing\IManualContact.cs" />
+    <Compile Include="Data\IMarkObject.cs" />
+    <Compile Include="ControlClass\IMenuLoakable.cs" />
+    <Compile Include="Base\IModule.cs" />
+    <Compile Include="ControlClass\ViewModel\Inspection\IInspectionControlVM.cs" />
+    <Compile Include="PMI\IPMIModuleDevParam.cs" />
+    <Compile Include="Align\PinAlign\ProbeCardData\IProbeCard.cs" />
+    <Compile Include="Data\IParamCommonClass.cs" />
+    <Compile Include="ControlClass\View\ISciChartView.cs" />
+    <Compile Include="Data\ISettingCategory.cs" />
+    <Compile Include="Statistics\IStatisticsManager.cs" />
+    <Compile Include="Monitoring\IMonitoringManager.cs" />
+    <Compile Include="ControlClass\ViewModel\ViewModelManager\IViewModelManager.cs" />
+    <Compile Include="ControlClass\ViewModel\IWaferSelectSetup.cs" />
+    <Compile Include="Lamp\LampCombination.cs" />
+    <Compile Include="Lamp\ModuleMonitorCombination.cs" />
+    <Compile Include="Lamp\RequestCombination.cs" />
+    <Compile Include="Log\LogDataStructure.cs" />
+    <Compile Include="ControlClass\LightJog\IUseLightJog.cs" />
+    <Compile Include="NeedleClean\INeedleClean.cs" />
+    <Compile Include="Network\IPAddressVer4.cs" />
+    <Compile Include="NodeParameter\InstanceToLabelConverter.cs" />
+    <Compile Include="NodeParameter\TreeViewItemDataTemplateSelector.cs" />
+    <Compile Include="ParamUtil\AvailableValueChecker.cs" />
+    <Compile Include="ParamUtil\EnumParamElementStatus.cs" />
+    <Compile Include="ParamUtil\NumberTypeCheck.cs" />
+    <Compile Include="ParamUtil\ParamElement.cs" />
+    <Compile Include="ParamUtil\ValueCheckEngine.cs" />
+    <Compile Include="Param\ProbingSpeedParam.cs" />
+    <Compile Include="Align\PinAlign\ISinglePinAlign.cs" />
+    <Compile Include="Enum\PathMakerEnum.cs" />
+    <Compile Include="Align\PinAlign\ProbeCardData\DutPinPair.cs" />
+    <Compile Include="Align\PinAlign\ProbeCardData\GroupData.cs" />
+    <Compile Include="PnpSetup\IPnpManager.cs" />
+    <Compile Include="Probing\EnumForProbing.cs" />
+    <Compile Include="Probing\ProbingInfo.cs" />
+    <Compile Include="Reflection\ReflectionUtil.cs" />
+    <Compile Include="Utility\EnumExtensions.cs" />
+    <Compile Include="Utility\LimitedSizeObservableCollection.cs" />
+    <Compile Include="Utility\TypeExtensions.cs" />
+    <Compile Include="ViewModel\IVmGPCardChangeMainPage.cs" />
+    <Compile Include="ViewModel\LockControlInfo.cs" />
+    <Compile Include="Vision\IGrabberSimul.cs" />
+    <Compile Include="Vision\MFParamter.cs" />
+    <Compile Include="Vision\ResourceAccessor.cs" />
+    <Compile Include="Log\SelectableItem.cs" />
+    <Compile Include="SequenceRunner\EnumForSequenceRunner.cs" />
+    <Compile Include="SequenceRunner\ISequenceRunner.cs" />
+    <Compile Include="SequenceRunner\SequenceRunnerState.cs" />
+    <Compile Include="Service\IProberService.cs" />
+    <Compile Include="Service\IService.cs" />
+    <Compile Include="Command\CommandNameGen.cs" />
+    <Compile Include="Command\CommandStates.cs" />
+    <Compile Include="Command\ICommandManger.cs" />
+    <Compile Include="Command\ICommandRecipe.cs" />
+    <Compile Include="Command\Internal\IAirBlowCommands.cs" />
+    <Compile Include="Command\Internal\ICardChangeCommands.cs" />
+    <Compile Include="Command\Internal\IEventSoakingCommand.cs" />
+    <Compile Include="Command\Internal\IFoupCommands.cs" />
+    <Compile Include="Command\Internal\IFoupOPCommands.cs" />
+    <Compile Include="Command\Internal\IGEMCommands.cs" />
+    <Compile Include="Command\Internal\IWaferTransferCommands.cs" />
+    <Compile Include="Command\Internal\ILoaderControllerCommands.cs" />
+    <Compile Include="Command\Internal\ILoaderOPCommands.cs" />
+    <Compile Include="Command\Internal\ILotOPCommands.cs" />
+    <Compile Include="Command\Internal\IPinAlignerCommands.cs" />
+    <Compile Include="Command\Internal\IProbingCommands.cs" />
+    <Compile Include="Command\Internal\IWaferAlignCommnands.cs" />
+    <Compile Include="Command\IProbeCommand.cs" />
+    <Compile Include="Device\StateProperty.cs" />
+    <Compile Include="Enum\EnumCommunicationState.cs" />
+    <Compile Include="Enum\EnumManipulatorType.cs" />
+    <Compile Include="Enum\EnumMessageStyle.cs" />
+    <Compile Include="Communication\E84\IE84.cs" />
+    <Compile Include="Event\INotifyEvent.cs" />
+    <Compile Include="FoupController\IFoupController.cs" />
+    <Compile Include="Foup\Data\FoupModuleInfo.cs" />
+    <Compile Include="Foup\FoupStateEnum.cs" />
+    <Compile Include="Foup\IOMap\FoupIOMapping.cs" />
+    <Compile Include="Foup\Param\FoupParameter.cs" />
+    <Compile Include="Foup\Service\IFoupService.cs" />
+    <Compile Include="Foup\Service\IFoupServiceCallback.cs" />
+    <Compile Include="Enum\DiaglogResultEnum.cs" />
+    <Compile Include="Communication\GEM\EnumGem.cs" />
+    <Compile Include="Communication\ICommunicationable.cs" />
+    <Compile Include="Foup\IFoupOPModule.cs" />
+    <Compile Include="Stage\IHomingMethodsIncludesCapture.cs" />
+    <Compile Include="Lamp\ILampManager.cs" />
+    <Compile Include="Loader\ILoaderOPModule.cs" />
+    <Compile Include="Log\ILoggerManager.cs" />
+    <Compile Include="Update\IModuleUpdater.cs" />
+    <Compile Include="Data\INotify.cs" />
+    <Compile Include="Data\IPhysicalInfo.cs" />
+    <Compile Include="FoupController\IFoupScheduleProvider.cs" />
+    <Compile Include="ControlClass\ViewModel\IPopupPanelBase.cs" />
+    <Compile Include="Align\PinAlign\AlignProcessError.cs" />
+    <Compile Include="Align\PinAlign\ProbeCardData\PatternData.cs" />
+    <Compile Include="Communication\E84\E84Parameters.cs" />
+    <Compile Include="PMI\IPMIModule.cs" />
+    <Compile Include="PnpSetup\StepInfo\ICategoryModule.cs" />
+    <Compile Include="PnpSetup\StepInfo\IModuleInfo.cs" />
+    <Compile Include="Communication\RFID\IRFIDModule.cs" />
+    <Compile Include="Communication\RFID\RFIDParameters.cs" />
+    <Compile Include="PolishWafer\PolishWaferParameter.cs" />
+    <Compile Include="State\IInnerState.cs" />
+    <Compile Include="State\RunStateBase.cs" />
+    <Compile Include="State\SubModuleStateBase.cs" />
+    <Compile Include="State\ModuleSetupState.cs" />
+    <Compile Include="State\WizardCategoryState.cs" />
+    <Compile Include="Utility\SynchronizedObservableCollection.cs" />
+    <Compile Include="Temperature\Chiller\IChiller.cs" />
+    <Compile Include="Temperature\DryAir\IDryAir.cs" />
+    <Compile Include="ControlClass\InputBoxResult.cs" />
+    <Compile Include="ControlClass\IUIElementDropBehavior.cs" />
+    <Compile Include="Temperature\DewPoint\IDewPoint.cs" />
+    <Compile Include="Enum\EnumDrawOverlay.cs" />
+    <Compile Include="Enum\EnumFocusingType.cs" />
+    <Compile Include="Enum\EnumJogDirection.cs" />
+    <Compile Include="Enum\EnumLanguage.cs" />
+    <Compile Include="Enum\EnumMessageDialogResult.cs" />
+    <Compile Include="Event\IGEMEvent.cs" />
+    <Compile Include="Event\IEvent.cs" />
+    <Compile Include="Event\IEventManager.cs" />
+    <Compile Include="Event\IEventRecipe.cs" />
+    <Compile Include="Event\IGPIBEvent.cs" />
+    <Compile Include="Event\IInternalEvent.cs" />
+    <Compile Include="Camera\IDisplayPort.cs" />
+    <Compile Include="Data\IInternal.cs" />
+    <Compile Include="Param\IParameterizable.cs" />
+    <Compile Include="Param\IParamManager.cs" />
+    <Compile Include="Data\ICancellationDelegate.cs" />
+    <Compile Include="DLL\IDllImporter.cs" />
+    <Compile Include="Data\IEvaluationPrivilege.cs" />
+    <Compile Include="Communication\GEM\IGEMModule.cs" />
+    <Compile Include="DLL\IModuleDllInfo.cs" />
+    <Compile Include="Motion\IPMASManager.cs" />
+    <Compile Include="Axis\Axes.cs" />
+    <Compile Include="Axis\AxisObject.cs" />
+    <Compile Include="Camera\CameraMoveBase.cs" />
+    <Compile Include="Param\PinSearchParameter.cs" />
+    <Compile Include="PnpSetup\IPnp.cs" />
+    <Compile Include="PnpSetup\IPnpSetupScreen.cs" />
+    <Compile Include="PnpSetup\IRecovery.cs" />
+    <Compile Include="PnpSetup\ISetup.cs" />
+    <Compile Include="PnpSetup\PnpMultiTuple.cs" />
+    <Compile Include="PnpSetup\StepInfo\CategoryInfo.cs" />
+    <Compile Include="PnpSetup\StepInfo\ModuleDeviceFile.cs" />
+    <Compile Include="PnpSetup\StepInfo\ModuleInfo.cs" />
+    <Compile Include="PnpSetup\StepInfo\CategoryModuleBase.cs" />
+    <Compile Include="Temperature\ITempControllerState.cs" />
+    <Compile Include="Temperature\TemperatureExceptions.cs" />
+    <Compile Include="Template\EnumTemplateEnable.cs" />
+    <Compile Include="Template\File\CategoryInfo.cs" />
+    <Compile Include="Template\File\ModuleInfo.cs" />
+    <Compile Include="Template\File\TemplateFileParam.cs" />
+    <Compile Include="Template\File\TemplateParameter.cs" />
+    <Compile Include="Template\IHasTemplate.cs" />
+    <Compile Include="Template\ITemplateManager.cs" />
+    <Compile Include="Template\ITemplateModule.cs" />
+    <Compile Include="Template\ITemplateParam.cs" />
+    <Compile Include="Template\TemplateParameter.cs" />
+    <Compile Include="TmpFocusing\FocusingDLLInfo.cs" />
+    <Compile Include="ControlClass\View\ViewControls.cs" />
+    <Compile Include="Data\VisionAlgorithmsStruct.cs" />
+    <Compile Include="Vision\ICameraParameter.cs" />
+    <Compile Include="Vision\IVisionDigiParameters.cs" />
+    <Compile Include="Vision\IVisionProcessingParameter.cs" />
+    <Compile Include="Align\WaferAlignEX\Enum\SubModuleEnum.cs" />
+    <Compile Include="Align\WaferAlignEX\IWaferAlignDeviceFile.cs" />
+    <Compile Include="WaferAligner\IWaferEdgeProcModule.cs" />
+    <Compile Include="WaferAligner\IWaferHighProcModule.cs" />
+    <Compile Include="WaferAligner\IWaferLowProcModule.cs" />
+    <Compile Include="WindowsControl\WindowsPoint.cs" />
+    <Compile Include="Wizard\IWizardCategoryForm.cs" />
+    <Compile Include="Wizard\IWizardEditor.cs" />
+    <Compile Include="Wizard\IWizardMainStepTemplateModule.cs" />
+    <Compile Include="Wizard\IWizardManager.cs" />
+    <Compile Include="Wizard\ITemplateModule.cs" />
+    <Compile Include="State\ElementState.cs" />
+    <Compile Include="State\EnableState.cs" />
+    <Compile Include="Temperature\Chiller\IHBChillerBase.cs" />
+    <Compile Include="Data\Account.cs" />
+    <Compile Include="Data\Values.cs" />
+    <Compile Include="Loader\LoaderController\ILoaderController.cs" />
+    <Compile Include="Utility\ObservableDictionary.cs" />
+    <Compile Include="Utility\ReflectionEx.cs" />
+    <Compile Include="Temperature\TempManager\ITempManager.cs" />
+    <Compile Include="Temperature\ITempController.cs" />
+    <Compile Include="Vision\BlobParameter.cs" />
+    <Compile Include="Coordinate\CoordinateConvert.cs" />
+    <Compile Include="DutControl\DutControlBase.cs" />
+    <Compile Include="Enum\EnumAlignProcState.cs" />
+    <Compile Include="Enum\EnumModuleState.cs" />
+    <Compile Include="Enum\EnumNC.cs" />
+    <Compile Include="Coordinate\ICoordinateConvertBase.cs" />
+    <Compile Include="Communication\GPIB\IGPIB.cs" />
+    <Compile Include="Communication\GPIB\IGPIBAction.cs" />
+    <Compile Include="Communication\GPIB\IGPIBCommand.cs" />
+    <Compile Include="Lot\ILotOPModule.cs" />
+    <Compile Include="ControlClass\View\IProberMainScreen.cs" />
+    <Compile Include="Base\IProberStation.cs" />
+    <Compile Include="Probing\IProbing.cs" />
+    <Compile Include="Probing\IProbingSequenceModule.cs" />
+    <Compile Include="SequenceEngine\ISequenceEngineService.cs" />
+    <Compile Include="SequenceEngine\ISequenceEngineManager.cs" />
+    <Compile Include="Soaking\ISokaingModule.cs" />
+    <Compile Include="Communication\GPIB\ITesterComDriver.cs" />
+    <Compile Include="ControlClass\LightJog\LightJogViewModel.cs" />
+    <Compile Include="Base\ModuleStates.cs" />
+    <Compile Include="Param\NeedleCleanParameter.cs" />
+    <Compile Include="Param\PinLowKeyParameter.cs" />
+    <Compile Include="Param\PatternInfomation.cs" />
+    <Compile Include="Param\ProcessDefine.cs" />
+    <Compile Include="Param\RegistePatternParam.cs" />
+    <Compile Include="Align\PinAlign\MapJogControl.cs" />
+    <Compile Include="Align\PinAlign\ProbeCardData\Dut.cs" />
+    <Compile Include="Align\PinAlign\ProbeCardData\PinData.cs" />
+    <Compile Include="Enum\EnumCameraType.cs" />
+    <Compile Include="Enum\EnumLightType.cs" />
+    <Compile Include="Enum\EnumProcessingType.cs" />
+    <Compile Include="Enum\EnumWaferAlignStates.cs" />
+    <Compile Include="Enum\PinAlignStatusType.cs" />
+    <Compile Include="Unused\ErrorDesc.cs" />
+    <Compile Include="Light\IAutoLightAdvisor.cs" />
+    <Compile Include="Enum\EnumMoveDirection.cs" />
+    <Compile Include="Enum\EnumPad.cs" />
+    <Compile Include="Enum\EnumWaferAlign.cs" />
+    <Compile Include="Enum\EnumWaferMap.cs" />
+    <Compile Include="Vision\EmulImageParameter.cs" />
+    <Compile Include="Vision\GrabDevPosition.cs" />
+    <Compile Include="Camera\ICamera.cs" />
+    <Compile Include="Camera\ICameraChannelAdmin.cs" />
+    <Compile Include="Data\IGraphicsContext.cs" />
+    <Compile Include="Data\IntegralImage.cs" />
+    <Compile Include="Stage\IStageCoords.cs" />
+    <Compile Include="Align\MarkAlign\IMarkAligner.cs" />
+    <Compile Include="Param\PadParameters.cs" />
+    <Compile Include="Param\PatternRegisterParameter.cs" />
+    <Compile Include="Param\PinRegRange.cs" />
+    <Compile Include="Param\FocusParameter.cs" />
+    <Compile Include="Camera\ICameraChannelControl.cs" />
+    <Compile Include="Camera\ICameraDescriptor.cs" />
+    <Compile Include="ErrorCompensation\ICompensationModule.cs" />
+    <Compile Include="Coordinate\ICoordinateManager.cs" />
+    <Compile Include="Data\IDeviceObject.cs" />
+    <Compile Include="Data\IDieViewPoint.cs" />
+    <Compile Include="Camera\IDigitizer.cs" />
+    <Compile Include="Camera\IDisplay.cs" />
+    <Compile Include="Data\IDutObject.cs" />
+    <Compile Include="ErrorCompensation\IErrorCompensationManager.cs" />
+    <Compile Include="Base\IFactoryModule.cs" />
+    <Compile Include="File\IFileManager.cs" />
+    <Compile Include="Camera\IFocusing.cs" />
+    <Compile Include="Vision\IGrabber.cs" />
+    <Compile Include="Stage\IHomingMethods.cs" />
+    <Compile Include="IO\IIOBase.cs" />
+    <Compile Include="IO\IIOService.cs" />
+    <Compile Include="IO\IIOManager.cs" />
+    <Compile Include="Light\ILightAdmin.cs" />
+    <Compile Include="Light\ILightDeviceControl.cs" />
+    <Compile Include="Data\ImageBuffer.cs" />
+    <Compile Include="Vision\IMil.cs" />
+    <Compile Include="Motion\IMotionBase.cs" />
+    <Compile Include="Motion\IMotionManager.cs" />
+    <Compile Include="Motion\IMotionProvider.cs" />
+    <Compile Include="Vision\IProcessing.cs" />
+    <Compile Include="Stage\IStageSupervisor.cs" />
+    <Compile Include="Statistics\IStatistics.cs" />
+    <Compile Include="Vision\IVisionManager.cs" />
+    <Compile Include="Data\IWaferObject.cs" />
+    <Compile Include="Align\PinAlign\IPinAligner.cs" />
+    <Compile Include="Align\PinAlign\ProbeCardData\UpdatePinPos.cs" />
+    <Compile Include="PnpSetupPage\ISetupPageViewModel.cs" />
+    <Compile Include="PnpSetup\IPnpSetup.cs" />
+    <Compile Include="PnpSetup\IZoomInOut.cs" />
+    <Compile Include="PolishWafer\ICleaningScheduleModule.cs" />
+    <Compile Include="PolishWafer\IPolishWaferModule.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Param\StageCoords.cs" />
+    <Compile Include="Param\CatCoordinates.cs" />
+    <Compile Include="Vision\IUseGrabEmul.cs" />
+    <Compile Include="Vision\EnumGrabber.cs" />
+    <Compile Include="Vision\IDrawable.cs" />
+    <Compile Include="Vision\IVisionProcessor.cs" />
+    <Compile Include="Vision\PMParameter.cs" />
+    <Compile Include="Vision\PMResultParameter.cs" />
+    <Compile Include="Vision\ProcParamBase.cs" />
+    <Compile Include="Vision\VisionFileInfos.cs" />
+    <Compile Include="Vision\VisionProcessingResultParam.cs" />
+    <Compile Include="Align\WaferAlignEX\ModuleInterface\IAlignModules.cs" />
+    <Compile Include="Align\WaferAlignEX\ThetaAlignMeasurementTable.cs" />
+    <Compile Include="Align\WaferAlignEX\UserControlFucEnum.cs" />
+    <Compile Include="Align\WaferAlignEX\WaferAlignAcqStep.cs" />
+    <Compile Include="Align\WaferAlignEX\WaferAlignProcAcqEnum.cs" />
+    <Compile Include="Align\WaferAlignEX\WaferAlignProcessAcq.cs" />
+    <Compile Include="Align\WaferAlignEX\WAHeightPositionParams.cs" />
+    <Compile Include="Align\WaferAlignEX\WAPatternInfomation.cs" />
+    <Compile Include="Align\WaferAlignEX\WARecoveryParam.cs" />
+    <Compile Include="Align\WaferAlignEX\WASetupFunctions.cs" />
+    <Compile Include="Align\WaferAlign\HeightMapping.cs" />
+    <Compile Include="Pad\IPadRegist.cs" />
+    <Compile Include="Align\WaferAlign\IWaferAlignAcqStep.cs" />
+    <Compile Include="Align\WaferAlign\IWaferAligner.cs" />
+    <Compile Include="Align\WaferAlign\WaferAlignProcessBase.cs" />
+    <Compile Include="Align\WaferAlign\WaferHeightMapping.cs" />
+    <Compile Include="Align\WaferAlign\WaferProcessAcquires.cs" />
+    <Compile Include="WaferTransfer\IWaferTransferModule.cs" />
+    <Compile Include="Wizard\IWizardStep.cs" />
+    <Compile Include="Wizard\IWizardCategory.cs" />
+    <Compile Include="Wizard\IWizardMainStep.cs" />
+    <Compile Include="Wizard\IWizardViewModels.cs" />
+    <Compile Include="Wizard\WizardCategoryForm.cs" />
+    <Compile Include="Axis\ZGroupAxes.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{d3b00cca-3c50-42b1-8dca-dfe47c759b57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroDialogInterfaces\MetroDialogInterfaces.csproj">
+      <Project>{2C3114E3-137B-44ED-A9C2-BA5F2198A672}</Project>
+      <Name>MetroDialogInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{edba3295-ff2a-4368-a217-6495941a8bf5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProbingDataPrj\ProbingDataInterface.csproj">
+      <Project>{25fb5042-8a93-4272-a0cd-ee9fed565980}</Project>
+      <Name>ProbingDataInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RelayCommandBase\RelayCommandBase.csproj">
+      <Project>{348522c5-8377-4d66-96f3-5d7da3d7762b}</Project>
+      <Name>RelayCommandBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RequestBase\RequestInterface.csproj">
+      <Project>{67dd1a9e-8e04-4c70-96b7-729dc239e562}</Project>
+      <Name>RequestInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecsGemServiceInterface\SecsGemServiceInterface.csproj">
+      <Project>{9A4AD3B3-F629-4FE6-A373-CBC0ACB4DEF7}</Project>
+      <Name>SecsGemServiceInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecuritySystem\SecuritySystem.csproj">
+      <Project>{0641D3DA-51CF-4237-B319-6ECFA2FC00A7}</Project>
+      <Name>SecuritySystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SerializerProject\SerializerUtil.csproj">
+      <Project>{89ed1be4-fe82-406e-ae2c-6f3df03fcc90}</Project>
+      <Name>SerializerUtil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDXRender\SharpDXRender.csproj">
+      <Project>{29e2c211-0f8c-47b7-85ae-10f7c66f0738}</Project>
+      <Name>SharpDXRender</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StringUtil\StringUtil.csproj">
+      <Project>{1d4cdc2c-23f3-42aa-b637-53b63b835862}</Project>
+      <Name>StringUtil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SystemExceptions\SystemExceptions.csproj">
+      <Project>{acc1ae05-1091-40c6-b0fe-0035c61b3416}</Project>
+      <Name>SystemExceptions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Communication\GEM\Alaram\" />
+    <Folder Include="FDWaferAligner\" />
+    <Folder Include="ODTP\Connector\" />
+    <Folder Include="ODTP\Namer\" />
+    <Folder Include="ODTP\Script\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

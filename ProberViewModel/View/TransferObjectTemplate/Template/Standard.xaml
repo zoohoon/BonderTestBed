@@ -1,0 +1,91 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:pi="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+                     xmlns:pienum="clr-namespace:ProberInterfaces.Enum;assembly=ProberInterfaces"
+                     xmlns:lp="clr-namespace:LoaderParameters;assembly=LoaderParameters"
+                     xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity">
+
+   
+    <ObjectDataProvider x:Key="getDataFromEnumOCRState" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="pienum:OCRReadStateEnum"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    <ObjectDataProvider x:Key="getDataFromEnumWaferState" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="pi:EnumWaferState"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    <DataTemplate x:Key="Standard">
+
+
+        <Grid>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                 
+                    <GroupBox Header="Wafer State">
+                        <StackPanel Orientation="Horizontal">
+                            <ComboBox  Margin="0,4,0,4" Grid.Column="0" Width="200" Height="50"
+                       Style="{x:Null}"
+                       VerticalContentAlignment="Center"
+                       HorizontalContentAlignment="Center"
+                       Foreground="Black"
+                       FontSize="18"
+                       ItemsSource="{Binding Source={StaticResource getDataFromEnumWaferState}}"
+                       SelectedItem="{Binding WaferState}">
+                                <!--<i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding ChangedTypeCommand}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>-->
+                            </ComboBox>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="OCR State">
+                        <StackPanel Orientation="Vertical">
+                            <ComboBox  Margin="0,4,0,4" Grid.Column="0" Width="200" Height="50"
+                       Style="{x:Null}"
+                       VerticalContentAlignment="Center"
+                       HorizontalContentAlignment="Center"
+                       Foreground="Black"
+                       FontSize="18"
+                       ItemsSource="{Binding Source={StaticResource getDataFromEnumOCRState}}"
+                       SelectedItem="{Binding OCRReadState}">
+                                <!--<i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding ChangedTypeCommand}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>-->
+                            </ComboBox>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="OCR ID:"></Label>
+                                <TextBox VerticalAlignment="Center" Width="100" Text="{Binding OCR.Value}"></TextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Angle">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Loading Angle:"></Label>
+                                <TextBox VerticalAlignment="Center" Width="100" Text="{Binding ChuckNotchAngle.Value}"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Unloading Angle:"></Label>
+                                <TextBox VerticalAlignment="Center" Width="100" Text="{Binding SlotNotchAngle.Value}"></TextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <!--<DataTemplate x:Key="DataTemplate2">
+        <Grid >
+            <Rectangle HorizontalAlignment="Left" Height="30" Width="{Binding SCORE}" StrokeThickness="1" Fill="Red"></Rectangle>
+            <TextBlock Text="{Binding SCORE}"></TextBlock>
+        </Grid>
+    </DataTemplate>-->
+
+</ResourceDictionary>

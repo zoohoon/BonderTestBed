@@ -1,0 +1,172 @@
+﻿<UserControl x:Class="VisionTestView.UcVisionTest"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VisionTestView"
+             xmlns:ljc="clr-namespace:LightJog;assembly=LightJog"
+             xmlns:manualjogview="clr-namespace:ManualJogView;assembly=ManualJogView"
+             xmlns:prober="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             xmlns:formarkpages="clr-namespace:ManualJogView.TestPages;assembly=ManualJogView"
+             mc:Ignorable="d" 
+             d:DesignHeight="940" d:DesignWidth="1280" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="DisplayViewTemplate" DataType="{x:Type prober:IDisplayPort}" >
+                <ContentControl Name="DisPlay" Content="{Binding }">
+                </ContentControl>
+            </DataTemplate>
+            <local:TemplateSelector x:Key="ViewTargetTemplateSelector" 
+                                    DisplayViewDataTemplate="{StaticResource DisplayViewTemplate}"
+                                    />
+        </ResourceDictionary>
+       
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button AutomationProperties.AutomationId="btnFileExplorer" Content="File 탐색기" Grid.Column="0" Command="{Binding LoadCommand}" />
+            <ComboBox AutomationProperties.AutomationId="cmbStageCam"
+                      ItemsSource="{Binding StageCamList}"
+                      Foreground="WhiteSmoke"
+                      DisplayMemberPath="CamType"
+                      SelectedValuePath="CamType"
+                      SelectedValue="{Binding SelectedCam}" Grid.Column="1"/>
+            <Button AutomationProperties.AutomationId="btnStartGrab"
+                    Content="StartGrab" Grid.Column="2" Command="{Binding StartGrabCommand}"/>
+            <Button AutomationProperties.AutomationId="btnSaveGrabImage"
+                    Content="Save Grab Img" Grid.Column="3" Command="{Binding SaveGrabimgCommand}"/>
+            <Button AutomationProperties.AutomationId="btnStopGrab"
+                    Content="Stop Grab" Grid.Column="4" />
+            <Button AutomationProperties.AutomationId="btnSingleGrab"
+                    Content="Single Grab" Grid.Column="5"/>
+        </Grid>
+
+        <Grid Grid.Column="0" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" BorderThickness="1" BorderBrush="DimGray" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <!--<Viewbox Stretch="Uniform" Width="500" Height="500">-->
+                        <!--<displayport:DisplayPort  Grid.Column="0" Name="Display" Width="600" Height="600"
+                                                    GUID="9ACC1870-87E2-4A6E-9F3B-5CF8D55C09D0"
+                                                    DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                                                    StageSupervisor="{Binding DataContext.StageSupervisor,RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"                                        
+                                                    AssignedCamera="{Binding DataContext.Cam, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}" Margin="1" 
+                                                    MoveXValue="{Binding DataContext.StageSupervisor.MoveTargetPosX ,RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                                                    MoveYValue="{Binding DataContext.StageSupervisor.MoveTargetPosY ,RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}"
+                                                    EnalbeClickToMove="True"/>-->
+                        <!--<ContentControl Width="600" Height="600" 
+                                    Content="{Binding MainViewTarget}"
+                                    ContentTemplateSelector="{StaticResource ViewTargetTemplateSelector}"/>-->
+                        <ContentControl Width="600" Height="600"  Content="{Binding DisplayPort}"/>
+                    </Grid>
+                </Border>
+                <ljc:UcLightJog Grid.Row="1" Width="250" Height="100"
+                                VerticalAlignment="Center" HorizontalAlignment="Center"
+                                DataContext="{Binding LightJog}"
+                                Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                             AncestorType={x:Type UserControl}}, Path=DataContext.LightJogVisibility, Mode=TwoWay}"/>
+                <Button AutomationProperties.AutomationId="btnSetCenter"
+                        Content="Set Center"  Grid.Row="1" Grid.Column="0"
+                Background="LightGray" FontSize="12" VerticalContentAlignment="Center"
+                HorizontalContentAlignment="Center" FontWeight="Bold" Height="50" Width="70"
+                Command="{Binding SetCenterCommand}" Margin="350, 0, 0, 0"/>
+            </Grid>
+            
+            <Grid Grid.Column="1">
+                <TabControl Name="Tab1" Background="Transparent">
+                    <TabItem Background="DarkGray" >
+                        <TabItem.Header>
+                            <TextBlock Text="Tab1" FontSize="23"/>
+                        </TabItem.Header>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <manualjogview:UcStagePanel Grid.Row="0" Margin="0,0,0,16"/>
+                            <manualjogview:UCStageButtons Grid.Row="1" Margin="0,0,0,20" />
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <manualjogview:UCStageButtons2 Grid.Column="0"/>
+                                <manualjogview:UCStageButton3 Grid.Column="1"/>
+                                <manualjogview:ChuckCenterOffsetMeasuerment Grid.Column="2"/>
+                                <!--<manualjogview:RadiusMeasuremnt Grid.Column="2"/>-->
+                            </Grid>
+                            
+                        </Grid>
+                    </TabItem>
+                    <TabItem Background="DarkGray">
+                        <TabItem.Header>
+                            <TextBlock Text="Tab2" FontSize="23"/>
+                        </TabItem.Header>
+
+                        <StackPanel Orientation="Horizontal">
+                            <formarkpages:ForMarkAlignTest Width="150"/>
+                            <formarkpages:CCTestPage Width="150"/>
+                        </StackPanel>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Button AutomationProperties.AutomationId="btnStageEMGStop"
+                    Content="StageEMGStop" Grid.Column="0" Height="48" Command="{Binding StageEMGStopCommand}"/>
+            <Button AutomationProperties.AutomationId="btnLoaderEMGStop"
+                    Content="LoaderEMGStop" Grid.Column="1" Height="48" Command="{Binding LoaderEMGStopCommand}"/>
+            <Button AutomationProperties.AutomationId="btnZAxisHoming"
+                    Content="ZAxisHoming" Grid.Column="2" Height="48" Command="{Binding ZAxisHomingCommand}"/>
+            <Button AutomationProperties.AutomationId="btnProcessing"
+                    Content="Processing" Grid.Column="3" Height="48" Command="{Binding ImgProcessing }"/>
+            <Button AutomationProperties.AutomationId="btnTiltingTest"
+                    Content="TiltingTest" Grid.Column="4" Height="48" Command="{Binding TiltingTestCommand}"/>
+            <Button AutomationProperties.AutomationId="btnMarkAlign"
+                    Content="MarkAlign" Grid.Column="5" Height="48" Command="{Binding MarkAlignCommand}"/>
+            <Button 
+                    Content="WaferAlignRepeatTest" Grid.Column="6" Height="48" Command="{Binding WaferTestCommand}"/>
+            <CheckBox IsChecked="{Binding Path=TestRepeat}" Content="Repeat" Foreground="White" Grid.Column="7"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Grid>
+    </Grid>
+</UserControl>

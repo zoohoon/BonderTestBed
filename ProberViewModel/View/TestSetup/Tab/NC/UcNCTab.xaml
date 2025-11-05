@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="TestSetupDialog.Tab.NC.UcNCTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="900" d:DesignWidth="1250" Background="White">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.8*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Right">
+                <Label Content="Hold Cleaning Process" Foreground="Black" FontSize="24"  Margin="0,0,0,0"/>
+                <Label Content="Cleaning Overdrive(Temprpery)" Foreground="Black"  FontSize="24" Margin="8,0,0,0" />
+                <Label Content="Cleaning Overdrive Offset"  Foreground="Black" FontSize="24" Margin="8,0,0,0" />
+                <Label Content="Cleaning Speed" Foreground="Black"  FontSize="24" Margin="8,0,0,0" />
+                <Label Content="Cleaning Accel"  Foreground="Black" FontSize="24" Margin="8,0,0,0" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Vertical">
+                <ToggleButton Style="{DynamicResource ON_OFF_ToggleBtn}" FontSize="24" IsChecked="{Binding NCFlagHoldCleaningUpState, Mode=TwoWay}" Margin="0,0,0,0">
+                </ToggleButton>
+                <TextBox Text="{Binding NCEngrOverdrive}" Style="{DynamicResource InputTextBox}" FontSize="24" Margin="6" Width="160" />
+                <TextBox Text="{Binding NCCleaningOverdriveOffset}"  Style="{DynamicResource InputTextBox}" FontSize="24" Margin="6" Width="160" />
+                <TextBox Text="{Binding NCEngrCleaningSpeed}" Style="{DynamicResource InputTextBox}" FontSize="24" Margin="6" Width="160" />
+                <TextBox Text="{Binding NCEngrCleaningAccel}" Style="{DynamicResource InputTextBox}" FontSize="24" Margin="6" Width="160" />
+            </StackPanel >
+            <Button Grid.Column="2" Width="140" Height="80" Content="APPLY" FontSize="32" VerticalAlignment="Center" HorizontalAlignment="Left"
+                    Command="{Binding ApplyCommand}"/>
+        </Grid>
+    </Grid>
+</UserControl>

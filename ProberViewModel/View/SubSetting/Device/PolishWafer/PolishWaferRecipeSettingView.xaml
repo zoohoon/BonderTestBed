@@ -1,0 +1,750 @@
+﻿<UserControl x:Class="UcPolishWaferRecipeSettingView.PolishWaferRecipeSettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UcPolishWaferRecipeSettingView"
+             xmlns:cui="clr-namespace:CUI;assembly=CUI"
+             xmlns:recipe="clr-namespace:RecipeEditorControl.RecipeEditorParamEdit;assembly=RecipeEditorControl"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:ProbeInterface="clr-namespace:ProberInterfaces.PolishWafer;assembly=ProberInterfaces"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SettingControlStyle;component/SettingViewStyleDictionaly.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:ItemToIndexConverter x:Key="ItemToIndexConverter" /> 
+            <local:ListViewIndexConverter x:Key="ListViewIndexConv"/>
+            <local:TreeViewIndexConverter x:Key="TreeViewIndexConv"/>
+            <local:TreeViewIndexForUIConverter x:Key="TreeViewIndexForUIConv"/>
+            <local:CustomConverter x:Key="CustomConv"/>
+            <local:CustomConverter2 x:Key="CustomConv2"/>
+            <local:CustomConverter3 x:Key="CustomConv3"/>
+            <local:NameAndIndexConverter x:Key="NameAndIndexConv"/>
+            <local:IntervalModeToVisibilityConverter VisibilityMode="WAFER_INTERVAL" x:Key="WaferIntervalModeToVisibilityConv"/>
+            <local:IntervalModeToVisibilityConverter VisibilityMode="TOUCHDOWN_COUNT" x:Key="TouchdowncountModeToVisibilityConv"/>
+            <local:VirtualKeyBoardTextBoxConverter x:Key="VirtualKeyBoardTextBoxConverter"/>
+            <local:EnumExcludeTriggerModeConverter x:Key="EnumExcludeTriggerModeConv"/>
+            
+            <ObjectDataProvider x:Key="getDataFromPWScrubMode" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="ProbeInterface:PWScrubMode"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
+            <ObjectDataProvider x:Key="getDataFromCleaningDirection" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="ProbeInterface:CleaningDirection"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
+            <ObjectDataProvider x:Key="getDataFromPWFocusingPointMode" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="ProbeInterface:PWFocusingPointMode"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
+            <ObjectDataProvider x:Key="getDataFromPWFocusingType" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="ProbeInterface:PWFocusingType"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
+            <ObjectDataProvider x:Key="getDataFromCleaningTriggerMode" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="ProbeInterface:EnumCleaningTriggerMode"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+
+        <StackPanel>
+            <Label Content="Polish Wafer Interval Setup"
+                Foreground="White"
+                FontWeight="Bold"
+                FontSize="56"
+                />
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0">
+
+                    <Button AutomationProperties.AutomationId="btnAddInterval"
+                            Content="Add Interval" Width="100" Height="45" HorizontalAlignment="Left" 
+                            Command="{Binding IntervalAddCommand}">
+                    </Button>
+                </StackPanel>
+
+                <TreeView x:Name="treeview"
+                          Grid.Row="1" 
+                          ItemsSource="{Binding PolishWaferParam.PolishWaferIntervalParameters}" BorderThickness="1" BorderBrush="White" AlternationCount="100">
+                    <i:Interaction.Behaviors>
+                        <local:BindableSelectedItemBehavior SelectedItem="{Binding SelectedIntervalParam, Mode=TwoWay}" />
+                    </i:Interaction.Behaviors>
+                    
+                    <TreeView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Margin="0,0,0,0" Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </TreeView.ItemsPanel>
+
+                    <TreeView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" Margin="10">
+
+                                <TextBlock Foreground="White" FontSize="22" 
+                                    Text="{Binding Path=AlternationIndex, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}}, 
+                                    Converter={StaticResource NameAndIndexConv}, ConverterParameter='Interval'}"/>
+
+                                <Grid Margin="0,4,0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Content="CleaningIntervalMode" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+
+                                    <ComboBox AutomationProperties.AutomationId="cmbCleaningIntervalMode" 
+                                              Margin="0,4,0,4" Grid.Column="1"
+                                              VerticalContentAlignment="Center"
+                                              HorizontalContentAlignment="Center"
+                                              Foreground="Black"
+                                              FontSize="18"
+                                              Style="{x:Null}"
+                                              SelectionChanged="ComboBox_SelectionChanged"
+                                              ItemsSource="{Binding Source={StaticResource getDataFromCleaningTriggerMode}, Converter={StaticResource EnumExcludeTriggerModeConv}}">
+
+                                        <ComboBox.SelectedValue>
+                                            <Binding Path="CleaningTriggerMode.Value" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"/>
+                                        </ComboBox.SelectedValue>
+
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="SelectionChanged">
+                                                <i:InvokeCommandAction Command="{Binding DataContext.ChangedCleaningIntervalModeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        
+                                    </ComboBox>
+                                    
+                                </Grid>
+
+                                <Grid Margin="0,4,0,4" Visibility="{Binding CleaningTriggerMode.Value,Converter={StaticResource WaferIntervalModeToVisibilityConv}}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Grid.Row="0" Content="IntervalCount" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                    <TextBox AutomationProperties.AutomationId="txtIntervalCount"
+                                             HorizontalContentAlignment="Center" Grid.Column="1"
+                                             VerticalAlignment="Center"
+                                             Text="{Binding IntervalCount.Value}"
+                                             Style="{DynamicResource InputTextBox}"
+                                             FontSize="18">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding DataContext.DecimalTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>
+
+                                <Grid Margin="0,4,0,4" Visibility="{Binding CleaningTriggerMode.Value,Converter={StaticResource TouchdowncountModeToVisibilityConv}}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Grid.Row="0" Content="TouchdownCount" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                    <TextBox AutomationProperties.AutomationId="txtTouchdownCount"
+                                             HorizontalContentAlignment="Center" Grid.Column="1"
+                                             VerticalAlignment="Center"
+                                             Text="{Binding TouchdownCount.Value}"
+                                             Style="{DynamicResource InputTextBox}"
+                                             FontSize="18">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding DataContext.DecimalTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>
+                                
+                                <TreeView Height="Auto" Width="Auto" ItemsSource="{Binding CleaningParameters}" Margin="0,10" AlternationCount="100">
+
+                                    <i:Interaction.Behaviors>
+                                        <local:BindableSelectedItemBehavior SelectedItem="{Binding DataContext.SelectedCleaningParam, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Mode=TwoWay}" />
+                                    </i:Interaction.Behaviors>
+
+                                    <TreeView.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+
+                                                <TextBlock Foreground="White" FontSize="18" 
+                                                           Text="{Binding Path=AlternationIndex, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}},
+                                                    Converter={StaticResource NameAndIndexConv}, ConverterParameter='Cleaning'}"/>
+
+                                                <Grid>
+
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <StackPanel>
+                                                        <Grid Grid.Row="0" Margin="0,4,0,4">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Grid.Row="0" Content="Wafer Define Type" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                                            <TextBox AutomationProperties.AutomationId="txtWaferDefineType"
+                                                                     Grid.Column="1" Grid.Row="0" Margin="0,4,0,4" IsReadOnly="True"
+                                                                     x:Name="DefineTypeTextBox"
+                                                                     Text="{Binding WaferDefineType.Value}"
+                                                                     HorizontalContentAlignment="Center"
+                                                                     
+                                                                     Style="{DynamicResource InputTextBox}" FontSize="18">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                        <!--<i:InvokeCommandAction Command="{Binding DataContext.WaferDefineTypeTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                                                                                               CommandParameter="{Binding Text, ElementName=DefineTypeTextBox}"/>-->
+
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.WaferDefineTypeTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+                                                                            <i:InvokeCommandAction.CommandParameter>
+                                                                                <MultiBinding Converter="{StaticResource CustomConv}">
+                                                                                    <Binding ElementName="DefineTypeTextBox" Path="Text"/>
+                                                                                    <Binding Path="AlternationIndex" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}, AncestorLevel=2}"/>
+                                                                                    <Binding Path="AlternationIndex" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}, AncestorLevel=1}"/>
+                                                                                </MultiBinding>
+
+                                                                            </i:InvokeCommandAction.CommandParameter>
+                                                                        </i:InvokeCommandAction>
+                                                                    </i:EventTrigger>
+
+                                                                    <!--CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>-->
+
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
+                                                        </Grid>
+
+                                                        <Grid Margin="0,4,0,4">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Content="CleaningScrubMode" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                                            <ComboBox  AutomationProperties.AutomationId="cmbCleaningScrubMode"
+                                                                       Margin="0,4,0,4" Grid.Column="1"
+                                                                       Style="{x:Null}"
+                                                                       VerticalContentAlignment="Center"
+                                                                       HorizontalContentAlignment="Center"
+                                                                       Foreground="Black"
+                                                                       FontSize="18"
+                                                                       ItemsSource="{Binding Source={StaticResource getDataFromPWScrubMode}}"
+                                                                       SelectedItem="{Binding CleaningScrubMode.Value}">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="SelectionChanged">
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.ChangedCleaningIntervalModeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+
+                                                            </ComboBox>
+                                                        </Grid>
+
+                                                        <Grid Margin="0,4,0,4">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Grid.Row="0" Content="CleaningDirection" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                                            <ComboBox AutomationProperties.AutomationId="cmbCleaningDirection"
+                                                                      Margin="0,4,0,4" Width="100" Grid.Column="1"
+                                                                      Style="{x:Null}"
+                                                                      VerticalContentAlignment="Center"
+                                                                      HorizontalContentAlignment="Center"
+                                                                      Foreground="Black"
+                                                                      FontSize="18"
+                                                                      ItemsSource="{Binding Source={StaticResource getDataFromCleaningDirection}}"
+                                                                      SelectedItem="{Binding CleaningDirection.Value}">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="SelectionChanged">
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.ChangedCleaningIntervalModeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </ComboBox>
+                                                        </Grid>
+
+                                                        <Grid Margin="0,4,0,4">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Grid.Row="0" Content="ContactLength" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                                            <TextBox AutomationProperties.AutomationId="txtContactLength"
+                                                                     HorizontalContentAlignment="Center" Grid.Column="1"
+                                                                     VerticalAlignment="Center"
+                                                                     Text="{Binding ContactLength.Value}"
+                                                                     Style="{DynamicResource InputTextBox}"
+                                                                     FontSize="18">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" >
+                                                                            <i:InvokeCommandAction.CommandParameter>
+                                                                                <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                                                    <Binding Path ="ContactLength"/>
+                                                                                </MultiBinding>
+                                                                            </i:InvokeCommandAction.CommandParameter>
+                                                                        </i:InvokeCommandAction>
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
+                                                        </Grid>
+
+                                                        <Grid Margin="0,4,0,4">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Grid.Row="0" Content="ContactCount" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                                            <TextBox AutomationProperties.AutomationId="txtContactCount"
+                                                                     HorizontalContentAlignment="Center" Grid.Column="1"
+                                                                     VerticalAlignment="Center"
+                                                                     Text="{Binding ContactCount.Value}"
+                                                                     Style="{DynamicResource InputTextBox}"
+                                                                     FontSize="18">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" >
+                                                                            <i:InvokeCommandAction.CommandParameter>
+                                                                                <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                                                    <Binding Path ="ContactCount"/>
+                                                                                </MultiBinding>
+                                                                            </i:InvokeCommandAction.CommandParameter>
+                                                                        </i:InvokeCommandAction>
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
+                                                        </Grid>
+
+                                                        <Grid Margin="0,4,0,4">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Grid.Row="0" Content="ScrubingLength" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                                            <TextBox AutomationProperties.AutomationId="txtScrubingLength"
+                                                                     HorizontalContentAlignment="Center" Grid.Column="1"
+                                                                     VerticalAlignment="Center"
+                                                                     Text="{Binding ScrubingLength.Value}"
+                                                                     Style="{DynamicResource InputTextBox}"
+                                                                     FontSize="18">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" >
+                                                                            <i:InvokeCommandAction.CommandParameter>
+                                                                                <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                                                    <Binding Path ="ScrubingLength"/>
+                                                                                </MultiBinding>
+                                                                            </i:InvokeCommandAction.CommandParameter>
+                                                                        </i:InvokeCommandAction>
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
+                                                        </Grid>
+
+                                                        <Grid Margin="0,4,0,4">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Grid.Row="0" Content="OverdriveValue" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                                            <TextBox AutomationProperties.AutomationId="txtOverdriveValue"
+                                                                     HorizontalContentAlignment="Center" Grid.Column="1"
+                                                                     VerticalAlignment="Center"
+                                                                     Text="{Binding OverdriveValue.Value}"
+                                                                     Style="{DynamicResource InputTextBox}"
+                                                                     FontSize="18">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" >
+                                                                            <i:InvokeCommandAction.CommandParameter>
+                                                                                <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                                                    <Binding Path ="OverdriveValue"/>
+                                                                                </MultiBinding>
+                                                                            </i:InvokeCommandAction.CommandParameter>
+                                                                        </i:InvokeCommandAction>
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
+                                                        </Grid>
+
+                                                        <Grid Margin="0,4,0,4">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Grid.Row="0" Content="Clearance" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                                            <TextBox AutomationProperties.AutomationId="txtClearance"
+                                                                     HorizontalContentAlignment="Center" Grid.Column="1"
+                                                                     VerticalAlignment="Center"
+                                                                     Text="{Binding Clearance.Value}"
+                                                                     Style="{DynamicResource InputTextBox}"
+                                                                     FontSize="18">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" >
+                                                                            <i:InvokeCommandAction.CommandParameter>
+                                                                                <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                                                    <Binding Path ="Clearance"/>
+                                                                                </MultiBinding>
+                                                                            </i:InvokeCommandAction.CommandParameter>
+                                                                        </i:InvokeCommandAction>
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
+                                                        </Grid>
+
+                                                        <!--<Grid Margin="0,4,0,4">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Grid.Row="0" Content="PadShiftOffset" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                                            <TextBox HorizontalContentAlignment="Center" Grid.Column="1"
+                                                             VerticalAlignment="Center"
+                                                             Text="{Binding PadShiftOffset.Value}"
+                                                             Style="{DynamicResource InputTextBox}"
+                                                             FontSize="18">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
+                                                        </Grid>-->
+
+                                                        <!--<Grid Margin="0,4,0,4">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Grid.Row="0" Content="CurrentAngle" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                                            <TextBox HorizontalContentAlignment="Center" Grid.Column="1"
+                                                             VerticalAlignment="Center"
+                                                             Text="{Binding CurrentAngle.Value}"
+                                                             Style="{DynamicResource InputTextBox}"
+                                                             FontSize="18">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
+                                                        </Grid>-->
+
+                                                        <!--<Grid Margin="0,4,0,4">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Grid.Row="0" Content="RotateAngle" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                                            <TextBox HorizontalContentAlignment="Center" Grid.Column="1"
+                                                             VerticalAlignment="Center"
+                                                             Text="{Binding RotateAngle.Value}"
+                                                             Style="{DynamicResource InputTextBox}"
+                                                             FontSize="18">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
+                                                        </Grid>-->
+
+                                                        <Grid Margin="0,4,0,4">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Content="FocusingPointMode" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                                            <ComboBox AutomationProperties.AutomationId="cmbFocusingPointMode"
+                                                                      Margin="0,4,0,4" Grid.Column="1"
+                                                                      Style="{x:Null}"
+                                                                      VerticalContentAlignment="Center"
+                                                                      HorizontalContentAlignment="Center"
+                                                                      Foreground="Black"
+                                                                      FontSize="18"
+                                                                      ItemsSource="{Binding Source={StaticResource getDataFromPWFocusingPointMode}}"
+                                                                      SelectedItem="{Binding FocusingPointMode.Value}">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="SelectionChanged">
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.ChangedCleaningIntervalModeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </ComboBox>
+                                                        </Grid>
+
+                                                        <Grid Margin="0,4,0,4">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Grid.Row="0" Content="Focusing height tolerance" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                                            <TextBox AutomationProperties.AutomationId="txtFocusingHeightTolerance"
+                                                                     HorizontalContentAlignment="Center" Grid.Column="1"
+                                                                     VerticalAlignment="Center"
+                                                                     Text="{Binding FocusingHeightTolerance.Value}"
+                                                                     Style="{DynamicResource InputTextBox}"
+                                                                     FontSize="18">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" >
+                                                                            <i:InvokeCommandAction.CommandParameter>
+                                                                                <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                                                    <Binding Path ="FocusingHeightTolerance"/>
+                                                                                </MultiBinding>
+                                                                            </i:InvokeCommandAction.CommandParameter>
+                                                                        </i:InvokeCommandAction>
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
+                                                        </Grid>
+                                                        <Grid Margin="0,4,0,4">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Grid.Row="0" Content="Focusing Range" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                                            <TextBox HorizontalContentAlignment="Center" Grid.Column="1"
+                                                             VerticalAlignment="Center"
+                                                             Text="{Binding FocusParam.FocusRange.Value}"
+                                                             Style="{DynamicResource InputTextBox}"
+                                                             FontSize="18">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" >
+                                                                            <i:InvokeCommandAction.CommandParameter>
+                                                                                <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                                                    <Binding Path ="FocusParam.FocusRange"/>
+                                                                                </MultiBinding>
+                                                                            </i:InvokeCommandAction.CommandParameter>
+                                                                        </i:InvokeCommandAction>
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
+                                                        </Grid>
+                                                        <Grid Margin="0,4,0,4">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label Grid.Column="0" Grid.Row="0" Content="Focusing Step" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                                            <TextBox HorizontalContentAlignment="Center" Grid.Column="1"
+                                                             VerticalAlignment="Center"
+                                                             Text="{Binding FocusParam.FocusMaxStep.Value}"
+                                                             Style="{DynamicResource InputTextBox}"
+                                                             FontSize="18">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                                        <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" >
+                                                                            <i:InvokeCommandAction.CommandParameter>
+                                                                                <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                                                    <Binding Path ="FocusParam.FocusMaxStep"/>
+                                                                                </MultiBinding>
+                                                                            </i:InvokeCommandAction.CommandParameter>
+                                                                        </i:InvokeCommandAction>
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
+                                                        </Grid>
+
+                                                        <Grid Margin="0,4,0,4">
+                                                            
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <Grid Grid.Column="0">
+                                                                <Label Content="PinAlign before cleaning" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                                            </Grid>
+
+                                                            <Grid Grid.Column="1">
+                                                                <Viewbox Height="45" Width="100" HorizontalAlignment="Right">
+                                                                    <ToggleButton AutomationProperties.AutomationId="tglPinAlignBeforeCleaning"
+                                                                                  Content="" Foreground="White" 
+                                                                                  VerticalAlignment="Center" 
+                                                                                  HorizontalAlignment="Right"
+                                                                                  IsChecked="{Binding PinAlignBeforeCleaning.Value, Mode=TwoWay}"
+                                                                                  Command="{Binding DataContext.PWEnableClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                  CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                                                                </Viewbox>
+                                                            </Grid>
+                                                            
+                                                        </Grid>
+
+                                                        <Grid Margin="0,4,0,4">
+
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <Grid Grid.Column="0">
+                                                                <Label Content="PinAlign after cleaning" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                                            </Grid>
+
+                                                            <Grid Grid.Column="1">
+                                                                <Viewbox Height="45" Width="100" HorizontalAlignment="Right">
+                                                                    <ToggleButton AutomationProperties.AutomationId="tglPinAlignAfterCleaning"
+                                                                                  Content="" Foreground="White"
+                                                                                  VerticalAlignment="Center" 
+                                                                                  HorizontalAlignment="Right"
+                                                                                  IsChecked="{Binding PinAlignAfterCleaning.Value, Mode=TwoWay}"
+                                                                                  Command="{Binding DataContext.PWEnableClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                  CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                                                                </Viewbox>
+                                                            </Grid>
+                                                            
+                                                        </Grid>
+
+                                                        <Grid Margin="0,4,0,4">
+
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="*"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <Grid Grid.Column="0">
+                                                                <Label Content="Edge detection before cleaning" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                                            </Grid>
+
+                                                            <Grid Grid.Column="1">
+                                                                <Viewbox Height="45" Width="100" HorizontalAlignment="Right">
+                                                                    <ToggleButton AutomationProperties.AutomationId="tglEdgeDetectionBeforeCleaning"
+                                                                                  VerticalAlignment="Center" 
+                                                                                  HorizontalAlignment="Right"
+                                                                                  IsChecked="{Binding EdgeDetectionBeforeCleaning.Value, Mode=TwoWay}"
+                                                                                  Command="{Binding DataContext.PWEnableClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                  CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                                                                </Viewbox>
+                                                            </Grid>
+                                                            
+                                                           
+                                                        </Grid>
+                                                        
+                                                        <Grid Margin="0,4,0,4">
+                                                            <!--<Button Content="Delete" Width="100" Height="50" HorizontalAlignment="Right" 
+                                                                Command="{Binding DataContext.CleaningDeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                                                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}}}">
+                                                            </Button>-->
+                                                            <Button AutomationProperties.AutomationId="btnDeleteCleaning"
+                                                                    Content="Delete" Width="100" Height="50" HorizontalAlignment="Right" 
+                                                                    Command="{Binding DataContext.CleaningDeleteCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+                                                                <Button.CommandParameter>
+                                                                    <MultiBinding Converter="{StaticResource CustomConv3}">
+                                                                        <Binding Path="AlternationIndex" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}, AncestorLevel=2}"/>
+                                                                        <Binding Path="AlternationIndex" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}, AncestorLevel=1}"/>
+                                                                    </MultiBinding>
+                                                                </Button.CommandParameter>
+                                                            </Button>
+                                                        </Grid>
+
+                                                    </StackPanel>
+                                                </Grid>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </TreeView.ItemTemplate>
+                                </TreeView>
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                                    <Button AutomationProperties.AutomationId="btnAddCleaning"
+                                            Content="Add Cleaning" Width="100" Height="45" HorizontalAlignment="Right" 
+                                            Command="{Binding DataContext.CleaningAddSyncCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                            CommandParameter="{Binding Path=AlternationIndex, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}}}">
+                                    </Button>
+
+                                    <Button AutomationProperties.AutomationId="btnRemoveInterval"
+                                            Content="Remove Interval" Width="100" Height="45" HorizontalAlignment="Right" 
+                                            Command="{Binding DataContext.IntervalDeleteSyncCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                            CommandParameter="{Binding Path=AlternationIndex, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}}}">
+                                    </Button>
+
+                                </StackPanel>
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+
+            </Grid>
+
+         
+        </StackPanel>
+    </Grid>
+</UserControl>

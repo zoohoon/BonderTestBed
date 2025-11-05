@@ -1,0 +1,2118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en" target-language="zh-TW" original="PROBERSYSTEM/PROPERTIES/RESOURCES.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6810.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="PROBERSYSTEM/PROPERTIES/RESOURCES.RESX" datatype="resx">
+        <trans-unit id="WaferMapGenerate" translate="yes" xml:space="preserve">
+          <source>Wafer Map Generate</source>
+          <target state="translated">晶片地圖生成</target>
+        </trans-unit>
+        <trans-unit id="ChangeCoord" translate="yes" xml:space="preserve">
+          <source>Change Coordinate</source>
+          <target state="translated" state-qualifier="mt-suggestion">改變座標</target>
+        </trans-unit>
+        <trans-unit id="MultiSelectionEnable" translate="yes" xml:space="preserve">
+          <source>Multi Selection Enable</source>
+          <target state="translated">啓用多選擇</target>
+        </trans-unit>
+        <trans-unit id="CoordInfo" translate="yes" xml:space="preserve">
+          <source>Coordinate Information</source>
+          <target state="translated" state-qualifier="mt-suggestion">座標資訊</target>
+        </trans-unit>
+        <trans-unit id="Language" translate="yes" xml:space="preserve">
+          <source>en-US</source>
+          <target state="final" state-qualifier="tm-suggestion">zh-TW</target>
+        </trans-unit>
+        <trans-unit id="ManualTeach" translate="yes" xml:space="preserve">
+          <source>Manual Teach</source>
+          <target state="translated">手冊配置</target>
+        </trans-unit>
+        <trans-unit id="WaferEdgeData" translate="yes" xml:space="preserve">
+          <source>Wafer Edge Data</source>
+          <target state="translated">晶片邊緣數據</target>
+        </trans-unit>
+        <trans-unit id="WaferMapStatus" translate="yes" xml:space="preserve">
+          <source>Wafer Map Status</source>
+          <target state="translated">晶片地圖狀態</target>
+        </trans-unit>
+        <trans-unit id="AddPattern" translate="yes" xml:space="preserve">
+          <source>Add Pattern</source>
+          <target state="translated" state-qualifier="mt-suggestion">添加模式</target>
+        </trans-unit>
+        <trans-unit id="AlignPatternStatus" translate="yes" xml:space="preserve">
+          <source>Align Pattern Status</source>
+          <target state="translated">對準模式狀態</target>
+        </trans-unit>
+        <trans-unit id="AutoSearch" translate="yes" xml:space="preserve">
+          <source>Auto Search</source>
+          <target state="translated" state-qualifier="mt-suggestion">自動搜索</target>
+        </trans-unit>
+        <trans-unit id="DeleteAllPad" translate="yes" xml:space="preserve">
+          <source>Delete All Pad</source>
+          <target state="translated" state-qualifier="mt-suggestion">刪除所有墊</target>
+        </trans-unit>
+        <trans-unit id="DeletePad" translate="yes" xml:space="preserve">
+          <source>Delete Pad</source>
+          <target state="translated">刪除墊</target>
+        </trans-unit>
+        <trans-unit id="DeleteSelectedPattern" translate="yes" xml:space="preserve">
+          <source>Delete Selected Pattern</source>
+          <target state="translated" state-qualifier="mt-suggestion">刪除選定的模式</target>
+        </trans-unit>
+        <trans-unit id="RegisteredPad" translate="yes" xml:space="preserve">
+          <source>Registered Pad</source>
+          <target state="translated" state-qualifier="mt-suggestion">註冊的墊</target>
+        </trans-unit>
+        <trans-unit id="RegisterPad" translate="yes" xml:space="preserve">
+          <source>Register Pad</source>
+          <target state="translated" state-qualifier="mt-suggestion">註冊墊</target>
+        </trans-unit>
+        <trans-unit id="TeachBottomLeft" translate="yes" xml:space="preserve">
+          <source>Teach Bottom Left</source>
+          <target state="translated">設立了底部左</target>
+        </trans-unit>
+        <trans-unit id="TeachingCross" translate="yes" xml:space="preserve">
+          <source>Teaching Cross</source>
+          <target state="translated">設立交叉</target>
+        </trans-unit>
+        <trans-unit id="TeachUpperRight" translate="yes" xml:space="preserve">
+          <source>Teach Upper Right</source>
+          <target state="translated">設立了頂部右</target>
+        </trans-unit>
+        <trans-unit id="Save" translate="yes" xml:space="preserve">
+          <source>Save Settings</source>
+          <target state="translated" state-qualifier="tm-suggestion">儲存設定</target>
+        </trans-unit>
+        <trans-unit id="ARM1_NoWafer" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ARM1_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ARM1_W" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ARM1_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ARM2_NoWafer" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ARM2_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ARM2_W" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ARM2_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowDown" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowLeft" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowLeftG" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowLeftG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowLeftW" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowLeftW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowRight" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowRightG" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowRightG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowRightW" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowRightW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowUp" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Chuck_NoWafer" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Chuck_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Chuck_W" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Chuck_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Clockwise" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Clockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="CoordLeftDown" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\CoordLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="CoordLeftUp" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\CoordLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="CoordRightDown" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\CoordRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="CoordRightUp" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\CoordRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="CounterClockwise" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\CounterClockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ExtendHeight" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ExtendHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ExtendWidth" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ExtendWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="FixedTray_NoWafer" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\FixedTray_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="FixedTray_W" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\FixedTray_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Minus" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Minus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Plus" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="PreAligner_NoWafer" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\PreAligner_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="PreAligner_W" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\PreAligner_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ReduceHeight" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ReduceHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ReduceWidth" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ReduceWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="CheckOperationParameter" translate="yes" xml:space="preserve">
+          <source>Check Operation Parameter</source>
+          <target state="translated">檢查操作參數</target>
+        </trans-unit>
+        <trans-unit id="CheckProbeMark" translate="yes" xml:space="preserve">
+          <source>Check Probe Mark</source>
+          <target state="translated" state-qualifier="mt-suggestion">檢查探針標記</target>
+        </trans-unit>
+        <trans-unit id="CheckRecipe" translate="yes" xml:space="preserve">
+          <source>Check Recipe</source>
+          <target state="translated" state-qualifier="mt-suggestion">檢查食譜</target>
+        </trans-unit>
+        <trans-unit id="CleanPadChange" translate="yes" xml:space="preserve">
+          <source>Clean Pad Change</source>
+          <target state="translated">更換清潔墊</target>
+        </trans-unit>
+        <trans-unit id="CopyRecipe" translate="yes" xml:space="preserve">
+          <source>Copy Recipe</source>
+          <target state="translated" state-qualifier="mt-suggestion">複製食譜</target>
+        </trans-unit>
+        <trans-unit id="CreateNewRecipe" translate="yes" xml:space="preserve">
+          <source>Create a New Recipe</source>
+          <target state="translated">創建新食譜</target>
+        </trans-unit>
+        <trans-unit id="DeleteRecipe" translate="yes" xml:space="preserve">
+          <source>Delete Recipe</source>
+          <target state="translated" state-qualifier="mt-suggestion">刪除食譜</target>
+        </trans-unit>
+        <trans-unit id="Diagonostics" translate="yes" xml:space="preserve">
+          <source>Diagnostics</source>
+          <target state="translated">診斷</target>
+        </trans-unit>
+        <trans-unit id="DownloadRecipe" translate="yes" xml:space="preserve">
+          <source>Download Recipe</source>
+          <target state="translated" state-qualifier="mt-suggestion">下載食譜</target>
+        </trans-unit>
+        <trans-unit id="Information" translate="yes" xml:space="preserve">
+          <source>Information</source>
+          <target state="translated" state-qualifier="tm-suggestion">資訊</target>
+        </trans-unit>
+        <trans-unit id="LoadRecipe" translate="yes" xml:space="preserve">
+          <source>Load Recipe</source>
+          <target state="translated" state-qualifier="mt-suggestion">負載食譜</target>
+        </trans-unit>
+        <trans-unit id="LogManagement" translate="yes" xml:space="preserve">
+          <source>Log Management</source>
+          <target state="translated" state-qualifier="mt-suggestion">日誌管理</target>
+        </trans-unit>
+        <trans-unit id="LOTMENU" translate="yes" xml:space="preserve">
+          <source>LOT MENU</source>
+          <target state="translated">LOT 菜單</target>
+        </trans-unit>
+        <trans-unit id="MENU" translate="yes" xml:space="preserve">
+          <source>MENU</source>
+          <target state="translated">菜單</target>
+        </trans-unit>
+        <trans-unit id="NeedleCleaning" translate="yes" xml:space="preserve">
+          <source>Needle Cleaning</source>
+          <target state="translated" state-qualifier="mt-suggestion">清洗的針</target>
+        </trans-unit>
+        <trans-unit id="OPERATION" translate="yes" xml:space="preserve">
+          <source>OPERATION</source>
+          <target state="translated" state-qualifier="mt-suggestion">操作</target>
+        </trans-unit>
+        <trans-unit id="PolishWaferChange" translate="yes" xml:space="preserve">
+          <source>Polish Wafer Change</source>
+          <target state="translated">Polish晶片交換</target>
+        </trans-unit>
+        <trans-unit id="ProbeCardChange" translate="yes" xml:space="preserve">
+          <source>Probe Card Change</source>
+          <target state="translated" state-qualifier="mt-suggestion">探針卡變化</target>
+        </trans-unit>
+        <trans-unit id="SETUP" translate="yes" xml:space="preserve">
+          <source>SETUP</source>
+          <target state="translated" state-qualifier="mt-suggestion">設置</target>
+        </trans-unit>
+        <trans-unit id="SetupLotProcess" translate="yes" xml:space="preserve">
+          <source>Setup Lot Process</source>
+          <target state="translated">設置 LOT 處理</target>
+        </trans-unit>
+        <trans-unit id="SetupOperationParameter" translate="yes" xml:space="preserve">
+          <source>Setup Operation Parameter</source>
+          <target state="translated">設置操作參數</target>
+        </trans-unit>
+        <trans-unit id="SetupRecipe" translate="yes" xml:space="preserve">
+          <source>Recipe Setup</source>
+          <target state="needs-review-translation">設置食譜</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="ShutDown" translate="yes" xml:space="preserve">
+          <source>Shut Down</source>
+          <target state="translated">關機</target>
+        </trans-unit>
+        <trans-unit id="SYSTEM" translate="yes" xml:space="preserve">
+          <source>SYSTEM</source>
+          <target state="translated" state-qualifier="tm-suggestion">系統</target>
+        </trans-unit>
+        <trans-unit id="UserAccount" translate="yes" xml:space="preserve">
+          <source>User Account</source>
+          <target state="translated" state-qualifier="mt-suggestion">使用者帳戶</target>
+        </trans-unit>
+        <trans-unit id="WaferLoadUnload" translate="yes" xml:space="preserve">
+          <source>Wafer Load/Unload</source>
+          <target state="translated">晶片載入/卸載</target>
+        </trans-unit>
+        <trans-unit id="Recipe" translate="yes" xml:space="preserve">
+          <source>RECIPE</source>
+          <target state="translated" state-qualifier="mt-suggestion">食譜</target>
+        </trans-unit>
+        <trans-unit id="Best" translate="yes" xml:space="preserve">
+          <source>Best</source>
+          <target state="translated">最好</target>
+        </trans-unit>
+        <trans-unit id="Chuck" translate="yes" xml:space="preserve">
+          <source>Chuck</source>
+          <target state="translated" state-qualifier="mt-suggestion">查克</target>
+        </trans-unit>
+        <trans-unit id="CST1" translate="yes" xml:space="preserve">
+          <source>Cassete 1</source>
+          <target state="translated">匣子 1</target>
+        </trans-unit>
+        <trans-unit id="CST2" translate="yes" xml:space="preserve">
+          <source>Cassete 2</source>
+          <target state="translated">匣子 2</target>
+        </trans-unit>
+        <trans-unit id="CurProcess" translate="yes" xml:space="preserve">
+          <source>Current Process</source>
+          <target state="translated" state-qualifier="mt-suggestion">當前進程</target>
+        </trans-unit>
+        <trans-unit id="CurrentValue" translate="yes" xml:space="preserve">
+          <source>Current</source>
+          <target state="translated" state-qualifier="tm-suggestion">目前的</target>
+        </trans-unit>
+        <trans-unit id="CurYield" translate="yes" xml:space="preserve">
+          <source>Yield</source>
+          <target state="translated" state-qualifier="tm-suggestion">殖利率</target>
+        </trans-unit>
+        <trans-unit id="DeviceName" translate="yes" xml:space="preserve">
+          <source>Device Name</source>
+          <target state="translated" state-qualifier="mt-suggestion">設備名稱</target>
+        </trans-unit>
+        <trans-unit id="FailDieCnt" translate="yes" xml:space="preserve">
+          <source>Fail Die</source>
+          <target state="translated">失敗 Die</target>
+        </trans-unit>
+        <trans-unit id="Hand1" translate="yes" xml:space="preserve">
+          <source>Hand 1</source>
+          <target state="translated" state-qualifier="mt-suggestion">手 1</target>
+        </trans-unit>
+        <trans-unit id="Hand2" translate="yes" xml:space="preserve">
+          <source>Hand 2</source>
+          <target state="translated" state-qualifier="mt-suggestion">手 2</target>
+        </trans-unit>
+        <trans-unit id="HoldingTime" translate="yes" xml:space="preserve">
+          <source>Holding Time</source>
+          <target state="translated">保持時間</target>
+        </trans-unit>
+        <trans-unit id="InspectionTray" translate="yes" xml:space="preserve">
+          <source>Drawer</source>
+          <target state="translated" state-qualifier="tm-suggestion">抽屜</target>
+        </trans-unit>
+        <trans-unit id="LotName" translate="yes" xml:space="preserve">
+          <source>Lot Name</source>
+          <target state="translated">LOT 名</target>
+        </trans-unit>
+        <trans-unit id="LotSetup" translate="yes" xml:space="preserve">
+          <source>Lot Run Setup</source>
+          <target state="translated">LOT 運行設置</target>
+        </trans-unit>
+        <trans-unit id="OPName" translate="yes" xml:space="preserve">
+          <source>Operator Name</source>
+          <target state="translated" state-qualifier="mt-suggestion">運算子名稱</target>
+        </trans-unit>
+        <trans-unit id="OverHeat" translate="yes" xml:space="preserve">
+          <source>Over Heat</source>
+          <target state="translated" state-qualifier="mt-suggestion">過熱</target>
+        </trans-unit>
+        <trans-unit id="PassDieCnt" translate="yes" xml:space="preserve">
+          <source>Pass Die</source>
+          <target state="translated">通過 Die</target>
+        </trans-unit>
+        <trans-unit id="Pause" translate="yes" xml:space="preserve">
+          <source>Pause</source>
+          <target state="translated" state-qualifier="tm-suggestion">暫停</target>
+        </trans-unit>
+        <trans-unit id="RetestYield" translate="yes" xml:space="preserve">
+          <source>Retest Yield</source>
+          <target state="translated">複試 殖利率</target>
+        </trans-unit>
+        <trans-unit id="RunningTime" translate="yes" xml:space="preserve">
+          <source>Running Time</source>
+          <target state="translated" state-qualifier="tm-suggestion">執行時間</target>
+        </trans-unit>
+        <trans-unit id="SettingValue" translate="yes" xml:space="preserve">
+          <source>Setting</source>
+          <target state="translated" state-qualifier="tm-suggestion">設定值</target>
+        </trans-unit>
+        <trans-unit id="Start" translate="yes" xml:space="preserve">
+          <source>START</source>
+          <target state="translated" state-qualifier="tm-suggestion">開始</target>
+        </trans-unit>
+        <trans-unit id="StartTime" translate="yes" xml:space="preserve">
+          <source>Start Time</source>
+          <target state="translated" state-qualifier="tm-suggestion">開始時間</target>
+        </trans-unit>
+        <trans-unit id="StopAfterFirstProbe" translate="yes" xml:space="preserve">
+          <source>Stop After First Probe</source>
+          <target state="translated">停止後第一個探</target>
+        </trans-unit>
+        <trans-unit id="StopAfterLoadCST" translate="yes" xml:space="preserve">
+          <source>Stop After Load CST</source>
+          <target state="translated" state-qualifier="mt-suggestion">停止後負荷 CST</target>
+        </trans-unit>
+        <trans-unit id="StopAfterOCRProcess" translate="yes" xml:space="preserve">
+          <source>Stop After OCR Process</source>
+          <target state="translated">OCR 過程後停止</target>
+        </trans-unit>
+        <trans-unit id="StopAfterProbe" translate="yes" xml:space="preserve">
+          <source>Stop After Probe</source>
+          <target state="translated">探頭後停止</target>
+        </trans-unit>
+        <trans-unit id="StopAfterWaferLoad" translate="yes" xml:space="preserve">
+          <source>Stop After Wafer Load</source>
+          <target state="translated">晶片負載後停止</target>
+        </trans-unit>
+        <trans-unit id="StopBeforeProbe" translate="yes" xml:space="preserve">
+          <source>Stop Before Probe</source>
+          <target state="translated">探測前停止</target>
+        </trans-unit>
+        <trans-unit id="StopBeforeRetest" translate="yes" xml:space="preserve">
+          <source>Stop Before Retest</source>
+          <target state="translated">探測前停止</target>
+        </trans-unit>
+        <trans-unit id="SubChuck" translate="yes" xml:space="preserve">
+          <source>Sub Chuck</source>
+          <target state="translated">子查克</target>
+        </trans-unit>
+        <trans-unit id="totalTestDieCnt" translate="yes" xml:space="preserve">
+          <source>Total Test Die</source>
+          <target state="translated">總測試 Die</target>
+        </trans-unit>
+        <trans-unit id="Tray1" translate="yes" xml:space="preserve">
+          <source>Tray 1</source>
+          <target state="translated">盤 1</target>
+        </trans-unit>
+        <trans-unit id="Tray2" translate="yes" xml:space="preserve">
+          <source>Tray 2</source>
+          <target state="translated">盤 2</target>
+        </trans-unit>
+        <trans-unit id="Tray3" translate="yes" xml:space="preserve">
+          <source>Tray 3</source>
+          <target state="translated">盤 3</target>
+        </trans-unit>
+        <trans-unit id="Tray4" translate="yes" xml:space="preserve">
+          <source>Tray 4</source>
+          <target state="translated">盤 4</target>
+        </trans-unit>
+        <trans-unit id="Tray5" translate="yes" xml:space="preserve">
+          <source>Tray 5</source>
+          <target state="translated">盤 5</target>
+        </trans-unit>
+        <trans-unit id="Worst" translate="yes" xml:space="preserve">
+          <source>Worst</source>
+          <target state="translated" state-qualifier="tm-suggestion">最差</target>
+        </trans-unit>
+        <trans-unit id="ChangeSequence" translate="yes" xml:space="preserve">
+          <source>Change Sequence</source>
+          <target state="translated">更改 序列</target>
+        </trans-unit>
+        <trans-unit id="ArrowDownW" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowDownW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowUpW" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowUpW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="AutoSelect" translate="yes" xml:space="preserve">
+          <source>Auto Select</source>
+          <target state="translated" state-qualifier="mt-suggestion">自動選擇</target>
+        </trans-unit>
+        <trans-unit id="AutoThreshold" translate="yes" xml:space="preserve">
+          <source>Auto Threshold</source>
+          <target state="translated" state-qualifier="mt-suggestion">自動閾值</target>
+        </trans-unit>
+        <trans-unit id="Base" translate="yes" xml:space="preserve">
+          <source>Base</source>
+          <target state="translated" state-qualifier="tm-suggestion">基底</target>
+        </trans-unit>
+        <trans-unit id="BeginNeedleSetup" translate="yes" xml:space="preserve">
+          <source>Begin Needle Setup</source>
+          <target state="translated">開始針安設置</target>
+        </trans-unit>
+        <trans-unit id="Blob" translate="yes" xml:space="preserve">
+          <source>Blob</source>
+          <target state="final" state-qualifier="tm-suggestion">Blob</target>
+        </trans-unit>
+        <trans-unit id="Cantilever" translate="yes" xml:space="preserve">
+          <source>Cantilever</source>
+          <target state="translated">Cantilever</target>
+        </trans-unit>
+        <trans-unit id="ChangeCardType" translate="yes" xml:space="preserve">
+          <source>Change Card Type</source>
+          <target state="translated" state-qualifier="mt-suggestion">更改卡類型</target>
+        </trans-unit>
+        <trans-unit id="Circle" translate="yes" xml:space="preserve">
+          <source>Circle</source>
+          <target state="translated" state-qualifier="tm-suggestion">圓形</target>
+        </trans-unit>
+        <trans-unit id="DeleteAllPin" translate="yes" xml:space="preserve">
+          <source>Delete All Pin</source>
+          <target state="translated" state-qualifier="mt-suggestion">刪除所有的針</target>
+        </trans-unit>
+        <trans-unit id="DeletePin" translate="yes" xml:space="preserve">
+          <source>Delete Pin</source>
+          <target state="translated" state-qualifier="mt-suggestion">刪除針</target>
+        </trans-unit>
+        <trans-unit id="DiscardAll" translate="yes" xml:space="preserve">
+          <source>Discard All</source>
+          <target state="translated">丟棄所有</target>
+        </trans-unit>
+        <trans-unit id="DiscardPin" translate="yes" xml:space="preserve">
+          <source>Discard Pin</source>
+          <target state="translated">丟棄針</target>
+        </trans-unit>
+        <trans-unit id="Edge" translate="yes" xml:space="preserve">
+          <source>Edge</source>
+          <target state="translated" state-qualifier="tm-suggestion">邊緣</target>
+        </trans-unit>
+        <trans-unit id="EnablePinGroup" translate="yes" xml:space="preserve">
+          <source>Enable Pin Group</source>
+          <target state="translated">啟用針組</target>
+        </trans-unit>
+        <trans-unit id="Finish" translate="yes" xml:space="preserve">
+          <source>Finish</source>
+          <target state="translated">終</target>
+        </trans-unit>
+        <trans-unit id="FormFactor" translate="yes" xml:space="preserve">
+          <source>FormFactor</source>
+          <target state="translated">FormFactor</target>
+        </trans-unit>
+        <trans-unit id="GoNextStep" translate="yes" xml:space="preserve">
+          <source>Go Next Step</source>
+          <target state="translated">轉到下一步</target>
+        </trans-unit>
+        <trans-unit id="GoPrevStep" translate="yes" xml:space="preserve">
+          <source>Go Previous Step</source>
+          <target state="translated">轉到上一步</target>
+        </trans-unit>
+        <trans-unit id="HighAlignKey" translate="yes" xml:space="preserve">
+          <source>High Align Key</source>
+          <target state="translated">高對準鍵</target>
+        </trans-unit>
+        <trans-unit id="InitFromPadData" translate="yes" xml:space="preserve">
+          <source>Init From Pad Data</source>
+          <target state="translated">從墊資數據初始化</target>
+        </trans-unit>
+        <trans-unit id="Manual" translate="yes" xml:space="preserve">
+          <source>Manual</source>
+          <target state="translated" state-qualifier="tm-suggestion">手動</target>
+        </trans-unit>
+        <trans-unit id="PinNumber" translate="yes" xml:space="preserve">
+          <source>Pin No.</source>
+          <target state="translated" state-qualifier="mt-suggestion">針號</target>
+        </trans-unit>
+        <trans-unit id="PinRegistrationStatus" translate="yes" xml:space="preserve">
+          <source>Pin Registration Status</source>
+          <target state="translated" state-qualifier="mt-suggestion">引腳登記狀態</target>
+        </trans-unit>
+        <trans-unit id="PinSelection" translate="yes" xml:space="preserve">
+          <source>Pin Selection</source>
+          <target state="translated" state-qualifier="mt-suggestion">針的選擇</target>
+        </trans-unit>
+        <trans-unit id="Rectangle" translate="yes" xml:space="preserve">
+          <source>Rectangle</source>
+          <target state="translated" state-qualifier="tm-suggestion">矩形</target>
+        </trans-unit>
+        <trans-unit id="RegisteredDut" translate="yes" xml:space="preserve">
+          <source>Registered Dut</source>
+          <target state="translated" state-qualifier="mt-suggestion">註冊的 Dut</target>
+        </trans-unit>
+        <trans-unit id="RegisteredPin" translate="yes" xml:space="preserve">
+          <source>Registered Pin</source>
+          <target state="translated">註冊的針</target>
+        </trans-unit>
+        <trans-unit id="RegisteredPosition" translate="yes" xml:space="preserve">
+          <source>Registered Position</source>
+          <target state="translated" state-qualifier="mt-suggestion">註冊的位置</target>
+        </trans-unit>
+        <trans-unit id="RegisterFirst" translate="yes" xml:space="preserve">
+          <source>Register First</source>
+          <target state="translated">註冊首先</target>
+        </trans-unit>
+        <trans-unit id="RegisterPin" translate="yes" xml:space="preserve">
+          <source>Register Pin</source>
+          <target state="translated">登記冊針</target>
+        </trans-unit>
+        <trans-unit id="RegisterSecond" translate="yes" xml:space="preserve">
+          <source>Register Second</source>
+          <target state="translated">註冊第二</target>
+        </trans-unit>
+        <trans-unit id="ROI" translate="yes" xml:space="preserve">
+          <source>ROI</source>
+          <target state="translated" state-qualifier="tm-suggestion">ROI</target>
+        </trans-unit>
+        <trans-unit id="SelectPin" translate="yes" xml:space="preserve">
+          <source>Select Pin</source>
+          <target state="translated">選擇針</target>
+        </trans-unit>
+        <trans-unit id="SetLimitation" translate="yes" xml:space="preserve">
+          <source>Set Limitation</source>
+          <target state="translated" state-qualifier="mt-suggestion">設置的限制</target>
+        </trans-unit>
+        <trans-unit id="SetPinDataFromPad" translate="yes" xml:space="preserve">
+          <source>Set Pin Data From Pad</source>
+          <target state="translated">設置的針資料從墊</target>
+        </trans-unit>
+        <trans-unit id="SetReferenceDut" translate="yes" xml:space="preserve">
+          <source>SetReferenceDut</source>
+          <target state="translated">設置參考Dut</target>
+        </trans-unit>
+        <trans-unit id="Size" translate="yes" xml:space="preserve">
+          <source>Size</source>
+          <target state="translated" state-qualifier="tm-suggestion">大小</target>
+        </trans-unit>
+        <trans-unit id="Step" translate="yes" xml:space="preserve">
+          <source>Step</source>
+          <target state="translated">步驟</target>
+        </trans-unit>
+        <trans-unit id="TeachNeedleBase" translate="yes" xml:space="preserve">
+          <source>Teach Needle Base</source>
+          <target state="translated">設置針基地</target>
+        </trans-unit>
+        <trans-unit id="TeachNeedleTip" translate="yes" xml:space="preserve">
+          <source>Teach Needle Tip</source>
+          <target state="translated">設置針顶</target>
+        </trans-unit>
+        <trans-unit id="Tip" translate="yes" xml:space="preserve">
+          <source>Tip</source>
+          <target state="translated">顶部</target>
+        </trans-unit>
+        <trans-unit id="TipRegistration" translate="yes" xml:space="preserve">
+          <source>Tip Registration</source>
+          <target state="translated">註冊顶</target>
+        </trans-unit>
+        <trans-unit id="UpdateForAllPin" translate="yes" xml:space="preserve">
+          <source>Update For All Pin</source>
+          <target state="translated">更新所有針</target>
+        </trans-unit>
+        <trans-unit id="UpdatePinPosition" translate="yes" xml:space="preserve">
+          <source>Update Pin Position</source>
+          <target state="translated">更新針的位置</target>
+        </trans-unit>
+        <trans-unit id="Updating" translate="yes" xml:space="preserve">
+          <source>Updating</source>
+          <target state="translated">更新</target>
+        </trans-unit>
+        <trans-unit id="Vertical" translate="yes" xml:space="preserve">
+          <source>Vertical</source>
+          <target state="translated" state-qualifier="tm-suggestion">垂直</target>
+        </trans-unit>
+        <trans-unit id="BinSummary" translate="yes" xml:space="preserve">
+          <source>Bin Summary</source>
+          <target state="translated" state-qualifier="mt-suggestion">Bin 摘要</target>
+        </trans-unit>
+        <trans-unit id="CardPosition" translate="yes" xml:space="preserve">
+          <source>Card Position</source>
+          <target state="translated" state-qualifier="mt-suggestion">卡位置</target>
+        </trans-unit>
+        <trans-unit id="Category" translate="yes" xml:space="preserve">
+          <source>Category</source>
+          <target state="translated" state-qualifier="tm-suggestion">類別</target>
+        </trans-unit>
+        <trans-unit id="Close" translate="yes" xml:space="preserve">
+          <source>Close</source>
+          <target state="translated">關</target>
+        </trans-unit>
+        <trans-unit id="DutSummary" translate="yes" xml:space="preserve">
+          <source>Dut Summary</source>
+          <target state="translated" state-qualifier="mt-suggestion">Dut 摘要</target>
+        </trans-unit>
+        <trans-unit id="EachPinPosition" translate="yes" xml:space="preserve">
+          <source>Each Pin Position</source>
+          <target state="translated">每個針位置</target>
+        </trans-unit>
+        <trans-unit id="LotSummary" translate="yes" xml:space="preserve">
+          <source>Lot Summary</source>
+          <target state="translated">LOT 摘要</target>
+        </trans-unit>
+        <trans-unit id="MinMaxZ" translate="yes" xml:space="preserve">
+          <source>Min/Max Z</source>
+          <target state="translated" state-qualifier="mt-suggestion">最小/最大 Z</target>
+        </trans-unit>
+        <trans-unit id="OperationLog" translate="yes" xml:space="preserve">
+          <source>Operation Log</source>
+          <target state="translated">行动日誌</target>
+        </trans-unit>
+        <trans-unit id="PinAlignmentTolerence" translate="yes" xml:space="preserve">
+          <source>Pin Alignment Tolerence</source>
+          <target state="translated">針對準容忍</target>
+        </trans-unit>
+        <trans-unit id="PinCount" translate="yes" xml:space="preserve">
+          <source>Pin Count</source>
+          <target state="translated" state-qualifier="mt-suggestion">針腳數</target>
+        </trans-unit>
+        <trans-unit id="PinPositionTolerance" translate="yes" xml:space="preserve">
+          <source>Pin Position Tolerance</source>
+          <target state="translated">針位置度公差</target>
+        </trans-unit>
+        <trans-unit id="PMISummary" translate="yes" xml:space="preserve">
+          <source>PMI Summary</source>
+          <target state="translated">PMI 摘要</target>
+        </trans-unit>
+        <trans-unit id="SamplePinAlignment" translate="yes" xml:space="preserve">
+          <source>Sample Pin Alignment</source>
+          <target state="translated">樣品針對準</target>
+        </trans-unit>
+        <trans-unit id="Tolerance" translate="yes" xml:space="preserve">
+          <source>Tolerance</source>
+          <target state="translated">容忍</target>
+        </trans-unit>
+        <trans-unit id="AllContact" translate="yes" xml:space="preserve">
+          <source>All Contact</source>
+          <target state="translated">所有 聯絡</target>
+        </trans-unit>
+        <trans-unit id="ApplyShift" translate="yes" xml:space="preserve">
+          <source>Apply Shift</source>
+          <target state="translated">應用的移</target>
+        </trans-unit>
+        <trans-unit id="BumpView" translate="yes" xml:space="preserve">
+          <source>Bump View</source>
+          <target state="translated">Bump 視圖</target>
+        </trans-unit>
+        <trans-unit id="ColorView" translate="yes" xml:space="preserve">
+          <source>Color View</source>
+          <target state="translated" state-qualifier="mt-suggestion">彩色視圖</target>
+        </trans-unit>
+        <trans-unit id="FinishLot" translate="yes" xml:space="preserve">
+          <source>Finish Lot</source>
+          <target state="translated">終 LOT</target>
+        </trans-unit>
+        <trans-unit id="FirstContact" translate="yes" xml:space="preserve">
+          <source>First Contact</source>
+          <target state="translated" state-qualifier="mt-suggestion">第一次接觸</target>
+        </trans-unit>
+        <trans-unit id="MarkShiftX" translate="yes" xml:space="preserve">
+          <source>Mark Shift X</source>
+          <target state="translated">馬克转移 X</target>
+        </trans-unit>
+        <trans-unit id="MarkShiftY" translate="yes" xml:space="preserve">
+          <source>Mark Shift Y</source>
+          <target state="translated">馬克转移 Y</target>
+        </trans-unit>
+        <trans-unit id="MarkShiftZ" translate="yes" xml:space="preserve">
+          <source>Mark Shift Z</source>
+          <target state="translated">馬克转移 Z</target>
+        </trans-unit>
+        <trans-unit id="Overdrive" translate="yes" xml:space="preserve">
+          <source>Overdrive</source>
+          <target state="translated" state-qualifier="mt-suggestion">超速檔</target>
+        </trans-unit>
+        <trans-unit id="PMIMenu" translate="yes" xml:space="preserve">
+          <source>PMI Menu</source>
+          <target state="translated">PMI 菜單</target>
+        </trans-unit>
+        <trans-unit id="ResetMarkShift" translate="yes" xml:space="preserve">
+          <source>Reset Mark Shift</source>
+          <target state="translated">複試標記移</target>
+        </trans-unit>
+        <trans-unit id="RestartLot" translate="yes" xml:space="preserve">
+          <source>Restart Lot</source>
+          <target state="translated">重新開始 LOT</target>
+        </trans-unit>
+        <trans-unit id="SkipCurrentWafer" translate="yes" xml:space="preserve">
+          <source>Skip Current Wafer</source>
+          <target state="translated">跳過當前晶片</target>
+        </trans-unit>
+        <trans-unit id="TogglePCInspection" translate="yes" xml:space="preserve">
+          <source>Toggle Probe Card Menu</source>
+          <target state="translated">切換探針卡功菜單</target>
+        </trans-unit>
+        <trans-unit id="UnloadAllWafers" translate="yes" xml:space="preserve">
+          <source>Unload All Wafers</source>
+          <target state="translated" state-qualifier="mt-suggestion">卸載所有晶片</target>
+        </trans-unit>
+        <trans-unit id="Zup" translate="yes" xml:space="preserve">
+          <source>Z Up</source>
+          <target state="translated">Z 向上</target>
+        </trans-unit>
+        <trans-unit id="AddDut" translate="yes" xml:space="preserve">
+          <source>Add a DUT</source>
+          <target state="translated" state-qualifier="mt-suggestion">添加 DUT</target>
+        </trans-unit>
+        <trans-unit id="AutoUpdate" translate="yes" xml:space="preserve">
+          <source>Auto Update</source>
+          <target state="translated" state-qualifier="tm-suggestion">自動更新</target>
+        </trans-unit>
+        <trans-unit id="Change" translate="yes" xml:space="preserve">
+          <source>Change</source>
+          <target state="translated">更改</target>
+        </trans-unit>
+        <trans-unit id="DeleteDut" translate="yes" xml:space="preserve">
+          <source>Delete a Dut</source>
+          <target state="translated" state-qualifier="mt-suggestion">刪除 Dut</target>
+        </trans-unit>
+        <trans-unit id="DieSizeX" translate="yes" xml:space="preserve">
+          <source>Die Size X</source>
+          <target state="translated">Die 尺寸 X</target>
+        </trans-unit>
+        <trans-unit id="DieSizeY" translate="yes" xml:space="preserve">
+          <source>Die Size Y</source>
+          <target state="translated">Die 尺寸 Y</target>
+        </trans-unit>
+        <trans-unit id="Dut" translate="yes" xml:space="preserve">
+          <source>DUT</source>
+          <target state="translated" state-qualifier="mt-suggestion">DUT</target>
+        </trans-unit>
+        <trans-unit id="DutCountNum" translate="yes" xml:space="preserve">
+          <source>Dut Count</source>
+          <target state="translated" state-qualifier="mt-suggestion">Dut 計數</target>
+        </trans-unit>
+        <trans-unit id="ImportCardData" translate="yes" xml:space="preserve">
+          <source>ImportCardData</source>
+          <target state="translated">導入卡數據</target>
+        </trans-unit>
+        <trans-unit id="InitializePallet" translate="yes" xml:space="preserve">
+          <source>Initialize Pallet</source>
+          <target state="translated">初始化棘爪</target>
+        </trans-unit>
+        <trans-unit id="LoadingAngle" translate="yes" xml:space="preserve">
+          <source>Loading Angle</source>
+          <target state="translated" state-qualifier="mt-suggestion">荷載角</target>
+        </trans-unit>
+        <trans-unit id="MultiLocation" translate="yes" xml:space="preserve">
+          <source>Multi Location</source>
+          <target state="translated" state-qualifier="mt-suggestion">多位置</target>
+        </trans-unit>
+        <trans-unit id="Squareness" translate="yes" xml:space="preserve">
+          <source>Squareness</source>
+          <target state="translated" state-qualifier="mt-suggestion">垂直度</target>
+        </trans-unit>
+        <trans-unit id="ToggleState" translate="yes" xml:space="preserve">
+          <source>Toggle Status</source>
+          <target state="translated" state-qualifier="mt-suggestion">切換狀態</target>
+        </trans-unit>
+        <trans-unit id="WaferCenter" translate="yes" xml:space="preserve">
+          <source>Wafer Center</source>
+          <target state="translated">晶片中心</target>
+        </trans-unit>
+        <trans-unit id="ZoomIn" translate="yes" xml:space="preserve">
+          <source>Zoom In</source>
+          <target state="translated">放大</target>
+        </trans-unit>
+        <trans-unit id="ZoomOut" translate="yes" xml:space="preserve">
+          <source>Zoom Out</source>
+          <target state="translated">縮小</target>
+        </trans-unit>
+        <trans-unit id="Add" translate="yes" xml:space="preserve">
+          <source>Add</source>
+          <target state="translated">加</target>
+        </trans-unit>
+        <trans-unit id="Delete" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="translated" state-qualifier="tm-suggestion">刪除</target>
+        </trans-unit>
+        <trans-unit id="DoPTPA" translate="yes" xml:space="preserve">
+          <source>Pin to Pad Alignment</source>
+          <target state="translated">針到焊盤對準</target>
+        </trans-unit>
+        <trans-unit id="SetPTPATolerance" translate="yes" xml:space="preserve">
+          <source>Set PTPA Tolerance</source>
+          <target state="translated" state-qualifier="mt-suggestion">設置的 PTPA 公差</target>
+        </trans-unit>
+        <trans-unit id="CardChange" translate="yes" xml:space="preserve">
+          <source>Card Change</source>
+          <target state="translated">換卡</target>
+        </trans-unit>
+        <trans-unit id="Diagnostic" translate="yes" xml:space="preserve">
+          <source>Diagnostic</source>
+          <target state="translated" state-qualifier="tm-suggestion">診斷</target>
+        </trans-unit>
+        <trans-unit id="HigherPriority" translate="yes" xml:space="preserve">
+          <source>Higher Priority</source>
+          <target state="translated">更高優先級</target>
+        </trans-unit>
+        <trans-unit id="Inking" translate="yes" xml:space="preserve">
+          <source>Inking</source>
+          <target state="translated">墨</target>
+        </trans-unit>
+        <trans-unit id="LowerPriority" translate="yes" xml:space="preserve">
+          <source>Lower Priority</source>
+          <target state="translated">較低優先級</target>
+        </trans-unit>
+        <trans-unit id="ManualOp" translate="yes" xml:space="preserve">
+          <source>Manual Operation</source>
+          <target state="translated" state-qualifier="tm-suggestion">手動操作</target>
+        </trans-unit>
+        <trans-unit id="MarkAlign" translate="yes" xml:space="preserve">
+          <source>Mark Alignment</source>
+          <target state="translated">標記對準</target>
+        </trans-unit>
+        <trans-unit id="NeedleBrush" translate="yes" xml:space="preserve">
+          <source>Needle Brush</source>
+          <target state="translated" state-qualifier="mt-suggestion">針刷</target>
+        </trans-unit>
+        <trans-unit id="PinAlign" translate="yes" xml:space="preserve">
+          <source>Pin Alignment</source>
+          <target state="translated">針對準</target>
+        </trans-unit>
+        <trans-unit id="PMI" translate="yes" xml:space="preserve">
+          <source>PMI</source>
+          <target state="translated">PMI</target>
+        </trans-unit>
+        <trans-unit id="PolishWafer" translate="yes" xml:space="preserve">
+          <source>Polish Wafer</source>
+          <target state="translated">Polish 晶片</target>
+        </trans-unit>
+        <trans-unit id="Probing" translate="yes" xml:space="preserve">
+          <source>Probing</source>
+          <target state="translated">探测</target>
+        </trans-unit>
+        <trans-unit id="Remote" translate="yes" xml:space="preserve">
+          <source>Remote</source>
+          <target state="translated" state-qualifier="tm-suggestion">遠端</target>
+        </trans-unit>
+        <trans-unit id="Soaking" translate="yes" xml:space="preserve">
+          <source>Soaking</source>
+          <target state="translated">Soaking</target>
+        </trans-unit>
+        <trans-unit id="WaferAlign" translate="yes" xml:space="preserve">
+          <source>Wafer Alignment</source>
+          <target state="translated">晶片對準</target>
+        </trans-unit>
+        <trans-unit id="WaferHandling" translate="yes" xml:space="preserve">
+          <source>Wafer Handling</source>
+          <target state="translated">晶片處理</target>
+        </trans-unit>
+        <trans-unit id="Waiting" translate="yes" xml:space="preserve">
+          <source>Waiting</source>
+          <target state="translated">等候</target>
+        </trans-unit>
+        <trans-unit id="JogDown" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\JogDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="JogLeft" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\JogLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="JogLeftDown" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\JogLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="JogLeftUp" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\JogLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="JogRight" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\JogRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="JogRightDown" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\JogRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="JogRightUp" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\JogRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="JogUp" translate="yes" extype="System.Resources.ResXFileRef, System.Windows.Forms" xml:space="preserve">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\JogUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="AutoFocus" translate="yes" xml:space="preserve">
+          <source>Auto Focus</source>
+          <target state="translated" state-qualifier="mt-suggestion">自動對焦</target>
+        </trans-unit>
+        <trans-unit id="High" translate="yes" xml:space="preserve">
+          <source>High</source>
+          <target state="translated" state-qualifier="tm-suggestion">高</target>
+        </trans-unit>
+        <trans-unit id="Index" translate="yes" xml:space="preserve">
+          <source>Index</source>
+          <target state="translated" state-qualifier="tm-suggestion">索引</target>
+        </trans-unit>
+        <trans-unit id="Low" translate="yes" xml:space="preserve">
+          <source>Low</source>
+          <target state="translated" state-qualifier="tm-suggestion">低</target>
+        </trans-unit>
+        <trans-unit id="Scan" translate="yes" xml:space="preserve">
+          <source>Scan</source>
+          <target state="translated" state-qualifier="tm-suggestion">掃描</target>
+        </trans-unit>
+        <trans-unit id="SetZero" translate="yes" xml:space="preserve">
+          <source>Set Zero</source>
+          <target state="translated">設零</target>
+        </trans-unit>
+        <trans-unit id="ShiftMode" translate="yes" xml:space="preserve">
+          <source>Shift Mode</source>
+          <target state="translated">移位模式</target>
+        </trans-unit>
+        <trans-unit id="ZAxis" translate="yes" xml:space="preserve">
+          <source>Z Axis</source>
+          <target state="translated" state-qualifier="mt-suggestion">Z 軸</target>
+        </trans-unit>
+        <trans-unit id="TaskManagement" translate="yes" xml:space="preserve">
+          <source>Task Management</source>
+          <target state="translated" state-qualifier="mt-suggestion">任務管理</target>
+        </trans-unit>
+        <trans-unit id="Home" translate="yes" xml:space="preserve">
+          <source>Home</source>
+          <target state="translated" state-qualifier="tm-suggestion">住家</target>
+        </trans-unit>
+        <trans-unit id="AutoSeq" translate="yes" xml:space="preserve">
+          <source>Auto Seq</source>
+          <target state="translated">自動序列</target>
+        </trans-unit>
+        <trans-unit id="DeleteAllSeq" translate="yes" xml:space="preserve">
+          <source>DeleteAll.Seq</source>
+          <target state="translated">刪除所有序列</target>
+        </trans-unit>
+        <trans-unit id="DeleteSeq" translate="yes" xml:space="preserve">
+          <source>Delete.Seq</source>
+          <target state="translated">刪除序列</target>
+        </trans-unit>
+        <trans-unit id="DUTLocation" translate="yes" xml:space="preserve">
+          <source>DUTLocation</source>
+          <target state="translated">DUT 位置</target>
+        </trans-unit>
+        <trans-unit id="IndexX" translate="yes" xml:space="preserve">
+          <source>IndexX</source>
+          <target state="translated">指數 X</target>
+        </trans-unit>
+        <trans-unit id="IndexY" translate="yes" xml:space="preserve">
+          <source>IndexY</source>
+          <target state="translated">指數 Y</target>
+        </trans-unit>
+        <trans-unit id="InsertSeq" translate="yes" xml:space="preserve">
+          <source>Insert.Seq</source>
+          <target state="translated">插入序列</target>
+        </trans-unit>
+        <trans-unit id="NextEvent" translate="yes" xml:space="preserve">
+          <source>NextEvent</source>
+          <target state="translated">下一個事件</target>
+        </trans-unit>
+        <trans-unit id="NotchDirection" translate="yes" xml:space="preserve">
+          <source>NotchDirection</source>
+          <target state="translated">凹槽方向</target>
+        </trans-unit>
+        <trans-unit id="Seq1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Seq1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Seq2" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Seq2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Seq3" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Seq3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Seq4" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Seq4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Seq5" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Seq5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Seq6" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Seq6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Seq7" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Seq7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Seq8" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Seq8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Set" translate="yes" xml:space="preserve">
+          <source>Set</source>
+          <target state="translated" state-qualifier="tm-suggestion">設定</target>
+        </trans-unit>
+        <trans-unit id="TotalSeq" translate="yes" xml:space="preserve">
+          <source>Total Seq :</source>
+          <target state="translated">總序列：</target>
+        </trans-unit>
+        <trans-unit id="WaferSize" translate="yes" xml:space="preserve">
+          <source>Wafer Size</source>
+          <target state="translated">晶片尺寸</target>
+        </trans-unit>
+        <trans-unit id="Thickness" translate="yes" xml:space="preserve">
+          <source>Thickness</source>
+          <target state="translated">晶片厚度</target>
+        </trans-unit>
+        <trans-unit id="WaferType" translate="yes" xml:space="preserve">
+          <source>Wafer Type</source>
+          <target state="translated">晶片類型</target>
+        </trans-unit>
+        <trans-unit id="ExportFileAs" translate="yes" xml:space="preserve">
+          <source>ExportFileAs</source>
+          <target state="translated">導出文件為</target>
+        </trans-unit>
+        <trans-unit id="PreviousEvent" translate="yes" xml:space="preserve">
+          <source>Prev Event</source>
+          <target state="translated" state-qualifier="mt-suggestion">上一頁事件</target>
+        </trans-unit>
+        <trans-unit id="SysInit" translate="yes" xml:space="preserve">
+          <source>System Init</source>
+          <target state="translated" state-qualifier="mt-suggestion">系統初始化</target>
+        </trans-unit>
+        <trans-unit id="DONE" translate="yes" xml:space="preserve">
+          <source>DONE</source>
+          <target state="translated" state-qualifier="tm-suggestion">完成</target>
+        </trans-unit>
+        <trans-unit id="ERROR" translate="yes" xml:space="preserve">
+          <source>ERROR</source>
+          <target state="translated" state-qualifier="mt-suggestion">錯誤</target>
+        </trans-unit>
+        <trans-unit id="IDLE" translate="yes" xml:space="preserve">
+          <source>IDLE</source>
+          <target state="translated" state-qualifier="mt-suggestion">空閒</target>
+        </trans-unit>
+        <trans-unit id="INIT" translate="yes" xml:space="preserve">
+          <source>INIT</source>
+          <target state="translated" state-qualifier="mt-suggestion">初始化</target>
+        </trans-unit>
+        <trans-unit id="RUNNING" translate="yes" xml:space="preserve">
+          <source>RUNNING</source>
+          <target state="translated" state-qualifier="tm-suggestion">執行中</target>
+        </trans-unit>
+        <trans-unit id="SUSPENDED" translate="yes" xml:space="preserve">
+          <source>SUSPENDED</source>
+          <target state="translated">懸</target>
+        </trans-unit>
+        <trans-unit id="UNDEFINED" translate="yes" xml:space="preserve">
+          <source>UNDEFINED</source>
+          <target state="translated" state-qualifier="mt-suggestion">未定義</target>
+        </trans-unit>
+        <trans-unit id="ChangeProbeCard" translate="yes" xml:space="preserve">
+          <source>Change Probe Card</source>
+          <target state="translated" state-qualifier="mt-suggestion">更改探針卡</target>
+        </trans-unit>
+        <trans-unit id="Retry" translate="yes" xml:space="preserve">
+          <source>Retry</source>
+          <target state="translated" state-qualifier="tm-suggestion">重試</target>
+        </trans-unit>
+        <trans-unit id="DisableYAxis" translate="yes" xml:space="preserve">
+          <source>Disable Y Axis</source>
+          <target state="translated" state-qualifier="mt-suggestion">禁用 Y 軸</target>
+        </trans-unit>
+        <trans-unit id="EnableYAxis" translate="yes" xml:space="preserve">
+          <source>Enable Y Axis</source>
+          <target state="translated" state-qualifier="mt-suggestion">啟用 Y 軸</target>
+        </trans-unit>
+        <trans-unit id="DrawPad" translate="yes" xml:space="preserve">
+          <source>Draw Pad</source>
+          <target state="translated" state-qualifier="mt-suggestion">繪製墊</target>
+        </trans-unit>
+        <trans-unit id="Abort" translate="yes" xml:space="preserve">
+          <source>Abort</source>
+          <target state="translated">退出</target>
+        </trans-unit>
+        <trans-unit id="CSTNum" translate="yes" xml:space="preserve">
+          <source>Cassette Number</source>
+          <target state="translated">匣子編號</target>
+        </trans-unit>
+        <trans-unit id="SlotNum" translate="yes" xml:space="preserve">
+          <source>Slot Number</source>
+          <target state="translated">插槽號碼</target>
+        </trans-unit>
+        <trans-unit id="WaferID" translate="yes" xml:space="preserve">
+          <source>Wafer ID</source>
+          <target state="translated">晶片 ID</target>
+        </trans-unit>
+        <trans-unit id="AlignmentImage" translate="yes" xml:space="preserve">
+          <source>Alignment Image</source>
+          <target state="translated">對準圖像</target>
+        </trans-unit>
+        <trans-unit id="AlignmentOperation" translate="yes" xml:space="preserve">
+          <source>Alignment Operation</source>
+          <target state="translated" state-qualifier="mt-suggestion">對齊方式操作</target>
+        </trans-unit>
+        <trans-unit id="Arm1" translate="yes" xml:space="preserve">
+          <source>Arm 1</source>
+          <target state="translated" state-qualifier="mt-suggestion">手臂 1</target>
+        </trans-unit>
+        <trans-unit id="Arm2" translate="yes" xml:space="preserve">
+          <source>Arm 2</source>
+          <target state="translated" state-qualifier="mt-suggestion">手臂 2</target>
+        </trans-unit>
+        <trans-unit id="Auto" translate="yes" xml:space="preserve">
+          <source>Auto</source>
+          <target state="translated" state-qualifier="tm-suggestion">自動</target>
+        </trans-unit>
+        <trans-unit id="BasicMap" translate="yes" xml:space="preserve">
+          <source>Basic Map</source>
+          <target state="translated" state-qualifier="tm-suggestion">基本地圖</target>
+        </trans-unit>
+        <trans-unit id="Cancel" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated" state-qualifier="tm-suggestion">取消</target>
+        </trans-unit>
+        <trans-unit id="CardRelativeZHeight" translate="yes" xml:space="preserve">
+          <source>Card Relative Z Height</source>
+          <target state="translated" state-qualifier="mt-suggestion">卡相對 Z 高度</target>
+        </trans-unit>
+        <trans-unit id="Cassette" translate="yes" xml:space="preserve">
+          <source>Cassette</source>
+          <target state="translated">匣子</target>
+        </trans-unit>
+        <trans-unit id="Clearance" translate="yes" xml:space="preserve">
+          <source>Clearance</source>
+          <target state="translated">淨空</target>
+        </trans-unit>
+        <trans-unit id="CurrentZPosition" translate="yes" xml:space="preserve">
+          <source>Current Z Position</source>
+          <target state="translated" state-qualifier="mt-suggestion">當前的 Z 位置</target>
+        </trans-unit>
+        <trans-unit id="DataIn" translate="yes" xml:space="preserve">
+          <source>Data In</source>
+          <target state="translated" state-qualifier="tm-suggestion">資料輸入</target>
+        </trans-unit>
+        <trans-unit id="Degree" translate="yes" xml:space="preserve">
+          <source>deg</source>
+          <target state="translated">度</target>
+        </trans-unit>
+        <trans-unit id="DeviceParameterChange" translate="yes" xml:space="preserve">
+          <source>Device Parameter Change</source>
+          <target state="translated">更改設備參數</target>
+        </trans-unit>
+        <trans-unit id="DeviceSetInformation" translate="yes" xml:space="preserve">
+          <source>Device set information</source>
+          <target state="translated" state-qualifier="mt-suggestion">設備設置資訊</target>
+        </trans-unit>
+        <trans-unit id="Down" translate="yes" xml:space="preserve">
+          <source>Down</source>
+          <target state="translated" state-qualifier="tm-suggestion">向下</target>
+        </trans-unit>
+        <trans-unit id="ExistenceOfData" translate="yes" xml:space="preserve">
+          <source>Existence Of Data</source>
+          <target state="translated" state-qualifier="mt-suggestion">存在的資料</target>
+        </trans-unit>
+        <trans-unit id="FixedTray1" translate="yes" xml:space="preserve">
+          <source>Fixed Tray 1</source>
+          <target state="translated">固定托盤 1</target>
+        </trans-unit>
+        <trans-unit id="FixedTray2" translate="yes" xml:space="preserve">
+          <source>Fixed Tray 2</source>
+          <target state="translated">固定托盤 2</target>
+        </trans-unit>
+        <trans-unit id="FixedTray3" translate="yes" xml:space="preserve">
+          <source>Fixed Tray 3</source>
+          <target state="translated">固定托盤 3</target>
+        </trans-unit>
+        <trans-unit id="FixedTray4" translate="yes" xml:space="preserve">
+          <source>Fixed Tray 4</source>
+          <target state="translated">固定托盤 4</target>
+        </trans-unit>
+        <trans-unit id="FixedTray5" translate="yes" xml:space="preserve">
+          <source>Fixed Tray 5</source>
+          <target state="translated">固定托盤 5</target>
+        </trans-unit>
+        <trans-unit id="FlatDir" translate="yes" xml:space="preserve">
+          <source>Flat Dir</source>
+          <target state="translated">平的方向</target>
+        </trans-unit>
+        <trans-unit id="HeightOfChuck" translate="yes" xml:space="preserve">
+          <source>Height Of Chuck</source>
+          <target state="translated" state-qualifier="mt-suggestion">查克的高度</target>
+        </trans-unit>
+        <trans-unit id="ImageDisplayChange" translate="yes" xml:space="preserve">
+          <source>Image Display Change</source>
+          <target state="translated" state-qualifier="mt-suggestion">圖像顯示更改</target>
+        </trans-unit>
+        <trans-unit id="IndexSizeX" translate="yes" xml:space="preserve">
+          <source>IndexSize X</source>
+          <target state="translated">索引尺寸 X</target>
+        </trans-unit>
+        <trans-unit id="IndexSizeY" translate="yes" xml:space="preserve">
+          <source>Index Size Y</source>
+          <target state="translated">索引尺寸 Y</target>
+        </trans-unit>
+        <trans-unit id="KeySW" translate="yes" xml:space="preserve">
+          <source>3KEY SW</source>
+          <target state="translated" state-qualifier="mt-suggestion">3KEY SW</target>
+        </trans-unit>
+        <trans-unit id="LoaderSW" translate="yes" xml:space="preserve">
+          <source>Loader SW</source>
+          <target state="translated" state-qualifier="mt-suggestion">裝載機 SW</target>
+        </trans-unit>
+        <trans-unit id="LoadingPosition" translate="yes" xml:space="preserve">
+          <source>Loading Position</source>
+          <target state="translated" state-qualifier="mt-suggestion">裝載位置</target>
+        </trans-unit>
+        <trans-unit id="LotSetInformation" translate="yes" xml:space="preserve">
+          <source>Lot Set Information</source>
+          <target state="translated">LOT 設置資訊</target>
+        </trans-unit>
+        <trans-unit id="LotSettings" translate="yes" xml:space="preserve">
+          <source>Lot Settings</source>
+          <target state="translated">LOT 設置</target>
+        </trans-unit>
+        <trans-unit id="MaintAndAdjust" translate="yes" xml:space="preserve">
+          <source>Maint And Adjust</source>
+          <target state="translated" state-qualifier="mt-suggestion">維護和調整</target>
+        </trans-unit>
+        <trans-unit id="MatchAndConfirm" translate="yes" xml:space="preserve">
+          <source>Match And Confirm</source>
+          <target state="translated" state-qualifier="mt-suggestion">匹配與確認</target>
+        </trans-unit>
+        <trans-unit id="MethodOfExternalControl" translate="yes" xml:space="preserve">
+          <source>Method Of External Control</source>
+          <target state="translated" state-qualifier="mt-suggestion">外部控制方法</target>
+        </trans-unit>
+        <trans-unit id="NowTemp" translate="yes" xml:space="preserve">
+          <source>Current Temp</source>
+          <target state="translated" state-qualifier="mt-suggestion">當前溫度</target>
+        </trans-unit>
+        <trans-unit id="Offline" translate="yes" xml:space="preserve">
+          <source>Offline</source>
+          <target state="translated" state-qualifier="tm-suggestion">離線</target>
+        </trans-unit>
+        <trans-unit id="Online" translate="yes" xml:space="preserve">
+          <source>Online</source>
+          <target state="translated" state-qualifier="tm-suggestion">線上</target>
+        </trans-unit>
+        <trans-unit id="OperationSetting" translate="yes" xml:space="preserve">
+          <source>Operation Setting</source>
+          <target state="translated" state-qualifier="mt-suggestion">操作設置</target>
+        </trans-unit>
+        <trans-unit id="OverDriveChange" translate="yes" xml:space="preserve">
+          <source>Overdrive Change</source>
+          <target state="translated">改變超速檔</target>
+        </trans-unit>
+        <trans-unit id="PadPosition" translate="yes" xml:space="preserve">
+          <source>Pad Position</source>
+          <target state="translated" state-qualifier="mt-suggestion">墊的位置</target>
+        </trans-unit>
+        <trans-unit id="PreAligner" translate="yes" xml:space="preserve">
+          <source>PreAlign</source>
+          <target state="translated">針對準</target>
+        </trans-unit>
+        <trans-unit id="ProberModeSettings" translate="yes" xml:space="preserve">
+          <source>Prober Mode Settings</source>
+          <target state="translated" state-qualifier="mt-suggestion">探針模式設置</target>
+        </trans-unit>
+        <trans-unit id="ProbingOverDrive" translate="yes" xml:space="preserve">
+          <source>Probing Overdrive</source>
+          <target state="translated">探測超速檔</target>
+        </trans-unit>
+        <trans-unit id="Resume" translate="yes" xml:space="preserve">
+          <source>Resume</source>
+          <target state="translated" state-qualifier="tm-suggestion">恢復</target>
+        </trans-unit>
+        <trans-unit id="SamplingDie" translate="yes" xml:space="preserve">
+          <source>Sampling Die</source>
+          <target state="translated">採樣 Die</target>
+        </trans-unit>
+        <trans-unit id="SetTemp" translate="yes" xml:space="preserve">
+          <source>Setting Temp</source>
+          <target state="translated">設定溫度</target>
+        </trans-unit>
+        <trans-unit id="SlotInformation" translate="yes" xml:space="preserve">
+          <source>Slot Information</source>
+          <target state="translated" state-qualifier="mt-suggestion">插槽資訊</target>
+        </trans-unit>
+        <trans-unit id="SystemModeChange" translate="yes" xml:space="preserve">
+          <source>System Mode Change</source>
+          <target state="translated">更改系統模式</target>
+        </trans-unit>
+        <trans-unit id="TaskVersion" translate="yes" xml:space="preserve">
+          <source>Task Version</source>
+          <target state="translated" state-qualifier="tm-suggestion">工作版本</target>
+        </trans-unit>
+        <trans-unit id="TestCountDisplay" translate="yes" xml:space="preserve">
+          <source>Test Count Display</source>
+          <target state="translated" state-qualifier="mt-suggestion">測試計數顯示</target>
+        </trans-unit>
+        <trans-unit id="TestStart" translate="yes" xml:space="preserve">
+          <source>Test Start</source>
+          <target state="translated">開始測試</target>
+        </trans-unit>
+        <trans-unit id="Transfer" translate="yes" xml:space="preserve">
+          <source>Transfer</source>
+          <target state="translated" state-qualifier="tm-suggestion">轉接</target>
+        </trans-unit>
+        <trans-unit id="Up" translate="yes" xml:space="preserve">
+          <source>Up</source>
+          <target state="translated" state-qualifier="tm-suggestion">向上</target>
+        </trans-unit>
+        <trans-unit id="UserSW" translate="yes" xml:space="preserve">
+          <source>User's SW</source>
+          <target state="translated" state-qualifier="mt-suggestion">使用者的 SW</target>
+        </trans-unit>
+        <trans-unit id="Utility" translate="yes" xml:space="preserve">
+          <source>Utility</source>
+          <target state="translated" state-qualifier="tm-suggestion">公用程式</target>
+        </trans-unit>
+        <trans-unit id="ZDrive" translate="yes" xml:space="preserve">
+          <source>Z-Drive</source>
+          <target state="translated" state-qualifier="mt-suggestion">Z 磁碟機</target>
+        </trans-unit>
+        <trans-unit id="Count" translate="yes" xml:space="preserve">
+          <source>CONT</source>
+          <target state="translated">計數</target>
+        </trans-unit>
+        <trans-unit id="CST" translate="yes" xml:space="preserve">
+          <source>CST</source>
+          <target state="translated">匣子</target>
+        </trans-unit>
+        <trans-unit id="ContactCheck" translate="yes" xml:space="preserve">
+          <source>Contact Check</source>
+          <target state="translated">接觸檢查</target>
+        </trans-unit>
+        <trans-unit id="Interrupt" translate="yes" xml:space="preserve">
+          <source>Interrupt</source>
+          <target state="translated" state-qualifier="tm-suggestion">中斷</target>
+        </trans-unit>
+        <trans-unit id="LogScreen" translate="yes" xml:space="preserve">
+          <source>Log Screen</source>
+          <target state="translated" state-qualifier="mt-suggestion">日誌螢幕</target>
+        </trans-unit>
+        <trans-unit id="LotProcess" translate="yes" xml:space="preserve">
+          <source>Lot Process</source>
+          <target state="translated">LOT 進程</target>
+        </trans-unit>
+        <trans-unit id="LotRunMenu" translate="yes" xml:space="preserve">
+          <source>Lot Run Menu</source>
+          <target state="translated">LOT運行菜單</target>
+        </trans-unit>
+        <trans-unit id="LotStatistics" translate="yes" xml:space="preserve">
+          <source>Lot Statistics</source>
+          <target state="translated">LOT 統計</target>
+        </trans-unit>
+        <trans-unit id="WaferInspection" translate="yes" xml:space="preserve">
+          <source>Wafer Inspection</source>
+          <target state="translated">晶片檢查</target>
+        </trans-unit>
+        <trans-unit id="LoaderStatus" translate="yes" xml:space="preserve">
+          <source>Loader Status</source>
+          <target state="translated">裝載機狀態</target>
+        </trans-unit>
+        <trans-unit id="StageStatus" translate="yes" xml:space="preserve">
+          <source>Stage Status</source>
+          <target state="translated">階段狀態</target>
+        </trans-unit>
+        <trans-unit id="UIModeChange" translate="yes" xml:space="preserve">
+          <source>UI Mode Change</source>
+          <target state="translated" state-qualifier="mt-suggestion">使用者介面模式更改</target>
+        </trans-unit>
+        <trans-unit id="GPIB" translate="yes" xml:space="preserve">
+          <source>GPIB</source>
+          <target state="translated">GPIB</target>
+        </trans-unit>
+        <trans-unit id="LotOP" translate="yes" xml:space="preserve">
+          <source>LotOP</source>
+          <target state="translated">Lot 行動</target>
+        </trans-unit>
+        <trans-unit id="Stage" translate="yes" xml:space="preserve">
+          <source>Stage</source>
+          <target state="translated" state-qualifier="tm-suggestion">階段</target>
+        </trans-unit>
+        <trans-unit id="MenualMode" translate="yes" xml:space="preserve">
+          <source>Menual Mode</source>
+          <target state="translated" state-qualifier="mt-suggestion">手冊的模式</target>
+        </trans-unit>
+        <trans-unit id="PutProbeCard" translate="yes" xml:space="preserve">
+          <source>Put Probe Card</source>
+          <target state="translated" state-qualifier="mt-suggestion">把探針卡</target>
+        </trans-unit>
+        <trans-unit id="Reverse" translate="yes" xml:space="preserve">
+          <source>Reverse</source>
+          <target state="translated" state-qualifier="tm-suggestion">反向</target>
+        </trans-unit>
+        <trans-unit id="HighLight1" translate="yes" xml:space="preserve">
+          <source>High Light 1</source>
+          <target state="translated">高光 1</target>
+        </trans-unit>
+        <trans-unit id="HighLight2" translate="yes" xml:space="preserve">
+          <source>High Light 2</source>
+          <target state="translated">高光 2</target>
+        </trans-unit>
+        <trans-unit id="LowLight1" translate="yes" xml:space="preserve">
+          <source>Low Light 1</source>
+          <target state="translated" state-qualifier="mt-suggestion">低光 1</target>
+        </trans-unit>
+        <trans-unit id="LowLight2" translate="yes" xml:space="preserve">
+          <source>Low Light 2</source>
+          <target state="translated" state-qualifier="mt-suggestion">低光 2</target>
+        </trans-unit>
+        <trans-unit id="HighCam" translate="yes" xml:space="preserve">
+          <source>High Camera</source>
+          <target state="translated" state-qualifier="mt-suggestion">高相機</target>
+        </trans-unit>
+        <trans-unit id="LowCam" translate="yes" xml:space="preserve">
+          <source>Low Camera</source>
+          <target state="translated">低相機</target>
+        </trans-unit>
+        <trans-unit id="Loader" translate="yes" xml:space="preserve">
+          <source>Loader</source>
+          <target state="translated" state-qualifier="mt-suggestion">裝載機</target>
+        </trans-unit>
+        <trans-unit id="ARM1_NoWafer1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ARM1_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ARM1_W1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ARM1_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ARM2_NoWafer1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ARM2_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ARM2_W1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ARM2_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowDown1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowDownW1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowDownW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowLeft1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowLeftG1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowLeftG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowLeftW1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowLeftW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowRight1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowRightG1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowRightG.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowRightW1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowRightW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowUp1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ArrowUpW1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ArrowUpW.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Chuck_NoWafer1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Chuck_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Chuck_W1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Chuck_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Clockwise1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Clockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="CoordLeftDown1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\CoordLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="CoordLeftUp1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\CoordLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="CoordRightDown1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\CoordRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="CoordRightUp1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\CoordRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="CounterClockwise1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\CounterClockwise.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ExtendHeight1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ExtendHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ExtendWidth1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ExtendWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="FixedTray_NoWafer1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\FixedTray_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="FixedTray_W1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\FixedTray_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Image1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Image1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="JogDown1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\JogDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="JogLeft1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\JogLeft.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="JogLeftDown1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\JogLeftDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="JogLeftUp1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\JogLeftUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="JogRight1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\JogRight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="JogRightDown1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\JogRightDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="JogRightUp1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\JogRightUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="JogUp1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\JogUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Minus1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Minus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Plus1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="PreAligner_NoWafer1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\PreAligner_NoWafer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="PreAligner_W1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\PreAligner_W.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ReduceHeight1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ReduceHeight.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="ReduceWidth1" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\ReduceWidth.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Seq11" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Seq1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Seq21" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Seq2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Seq31" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Seq3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Seq41" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Seq4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Seq51" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Seq5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Seq61" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Seq6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Seq71" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Seq7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Seq81" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\Seq8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="Camera" translate="yes" xml:space="preserve">
+          <source>Camera</source>
+          <target state="translated" state-qualifier="tm-suggestion">照相機</target>
+        </trans-unit>
+        <trans-unit id="Light" translate="yes" xml:space="preserve">
+          <source>Light</source>
+          <target state="translated">光</target>
+        </trans-unit>
+        <trans-unit id="MapControl" translate="yes" xml:space="preserve">
+          <source>Map Control</source>
+          <target state="translated">地圖控制</target>
+        </trans-unit>
+        <trans-unit id="MotionControl" translate="yes" xml:space="preserve">
+          <source>Motion Control</source>
+          <target state="translated" state-qualifier="mt-suggestion">運動控制</target>
+        </trans-unit>
+        <trans-unit id="bars" translate="yes" xml:space="preserve" extype="System.Resources.ResXFileRef, System.Windows.Forms">
+          <source>System.Drawing.Bitmap</source>
+          <target state="final" state-qualifier="mt-suggestion">..\Resources\bars.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</target>
+        </trans-unit>
+        <trans-unit id="GPIBStatus" translate="yes" xml:space="preserve">
+          <source>GPIB Status</source>
+          <target state="translated">Gpib 狀態</target>
+        </trans-unit>
+        <trans-unit id="NetWorkStatus" translate="yes" xml:space="preserve">
+          <source>Network Status</source>
+          <target state="translated" state-qualifier="tm-suggestion">網路狀態</target>
+        </trans-unit>
+        <trans-unit id="AlarmSetup" translate="yes" xml:space="preserve">
+          <source>Alarm Setup</source>
+          <target state="translated" state-qualifier="mt-suggestion">報警設置</target>
+        </trans-unit>
+        <trans-unit id="BasicSetup" translate="yes" xml:space="preserve">
+          <source>Basic Setup</source>
+          <target state="translated" state-qualifier="mt-suggestion">基本設置</target>
+        </trans-unit>
+        <trans-unit id="BINSetup" translate="yes" xml:space="preserve">
+          <source>BIN Setup</source>
+          <target state="translated">BIN 設置</target>
+        </trans-unit>
+        <trans-unit id="ContactSetup" translate="yes" xml:space="preserve">
+          <source>Contact Setup</source>
+          <target state="translated" state-qualifier="mt-suggestion">連絡人設置</target>
+        </trans-unit>
+        <trans-unit id="GPIBSetup" translate="yes" xml:space="preserve">
+          <source>GPIB Setup</source>
+          <target state="translated">Gpib 設置</target>
+        </trans-unit>
+        <trans-unit id="NCSetup" translate="yes" xml:space="preserve">
+          <source>Needle Cleaning Setup</source>
+          <target state="translated">針清潔設置</target>
+        </trans-unit>
+        <trans-unit id="OCRSetup" translate="yes" xml:space="preserve">
+          <source>OCR Setup</source>
+          <target state="translated">OCR 設置</target>
+        </trans-unit>
+        <trans-unit id="PinAlignSetup" translate="yes" xml:space="preserve">
+          <source>Pin Alignment Setup</source>
+          <target state="translated">針對準設置</target>
+        </trans-unit>
+        <trans-unit id="PinAlignToleranceSetup" translate="yes" xml:space="preserve">
+          <source>Pin Alignment Tolerance Setup</source>
+          <target state="translated">針對準公差設置</target>
+        </trans-unit>
+        <trans-unit id="PMISetup" translate="yes" xml:space="preserve">
+          <source>PMI Setup</source>
+          <target state="translated">PMI 設置</target>
+        </trans-unit>
+        <trans-unit id="PTPASetup" translate="yes" xml:space="preserve">
+          <source>PTPA Setup</source>
+          <target state="translated">PTPA 設置</target>
+        </trans-unit>
+        <trans-unit id="RetestSetup" translate="yes" xml:space="preserve">
+          <source>Retest Setup</source>
+          <target state="translated">複試設置</target>
+        </trans-unit>
+        <trans-unit id="SequenceSetup" translate="yes" xml:space="preserve">
+          <source>Sequence Setup</source>
+          <target state="translated">序列設置</target>
+        </trans-unit>
+        <trans-unit id="SystemInit" translate="yes" xml:space="preserve">
+          <source>System Init</source>
+          <target state="translated" state-qualifier="mt-suggestion">系統初始化</target>
+        </trans-unit>
+        <trans-unit id="TemperatureSetup" translate="yes" xml:space="preserve">
+          <source>Temperature Setup</source>
+          <target state="translated" state-qualifier="mt-suggestion">溫度設置</target>
+        </trans-unit>
+        <trans-unit id="WaferAlignRun" translate="yes" xml:space="preserve">
+          <source>Wafer Alignment Run</source>
+          <target state="translated">晶片對準執行
+</target>
+        </trans-unit>
+        <trans-unit id="WaferAlignSetup" translate="yes" xml:space="preserve">
+          <source>Wafer Alignment Setup</source>
+          <target state="translated">晶片對準設置</target>
+        </trans-unit>
+        <trans-unit id="SoakSetup" translate="yes" xml:space="preserve">
+          <source>Soak Setup</source>
+          <target state="translated">Soak 設置</target>
+        </trans-unit>
+        <trans-unit id="BasicWaferAlign" translate="yes" xml:space="preserve">
+          <source>Basic Wafer Alignment</source>
+          <target state="translated">基本的晶片對準</target>
+        </trans-unit>
+        <trans-unit id="Apply" translate="yes" xml:space="preserve">
+          <source>Apply</source>
+          <target state="translated" state-qualifier="tm-suggestion">套用</target>
+        </trans-unit>
+        <trans-unit id="SetupStart" translate="yes" xml:space="preserve">
+          <source>Setup Start</source>
+          <target state="translated">啟動設置</target>
+        </trans-unit>
+        <trans-unit id="CustomWaferAlign" translate="yes" xml:space="preserve">
+          <source>Custom Alignment Mode</source>
+          <target state="translated" state-qualifier="mt-suggestion">自訂對齊模式</target>
+        </trans-unit>
+        <trans-unit id="SelectableMode" translate="yes" xml:space="preserve">
+          <source>Selectable Mode</source>
+          <target state="translated" state-qualifier="mt-suggestion">可選模式</target>
+        </trans-unit>
+        <trans-unit id="AlignMode" translate="yes" xml:space="preserve">
+          <source>Alignment Mode</source>
+          <target state="translated">對準模式</target>
+        </trans-unit>
+        <trans-unit id="Chiller" translate="yes" xml:space="preserve">
+          <source>Chiller</source>
+          <target state="translated">冷水機</target>
+        </trans-unit>
+        <trans-unit id="Cur" translate="yes" xml:space="preserve">
+          <source>Cur</source>
+          <target state="translated">現</target>
+        </trans-unit>
+        <trans-unit id="GEM" translate="yes" xml:space="preserve">
+          <source>GEM</source>
+          <target state="translated">GEM</target>
+        </trans-unit>
+        <trans-unit id="SONET" translate="yes" xml:space="preserve">
+          <source>SONET</source>
+          <target state="translated">SONET</target>
+        </trans-unit>
+        <trans-unit id="BinStat" translate="yes" xml:space="preserve">
+          <source>Bin</source>
+          <target state="translated" state-qualifier="tm-suggestion">Bin</target>
+        </trans-unit>
+        <trans-unit id="Stat" translate="yes" xml:space="preserve">
+          <source>Statistics</source>
+          <target state="translated">統計</target>
+        </trans-unit>
+        <trans-unit id="Inspection" translate="yes" xml:space="preserve">
+          <source>Inspection</source>
+          <target state="translated" state-qualifier="tm-suggestion">檢查</target>
+        </trans-unit>
+        <trans-unit id="OCRapp" translate="yes" xml:space="preserve">
+          <source>OCR</source>
+          <target state="translated" state-qualifier="tm-suggestion">OCR</target>
+        </trans-unit>
+        <trans-unit id="NC" translate="yes" xml:space="preserve">
+          <source>NC</source>
+          <target state="translated">針清洗</target>
+        </trans-unit>
+        <trans-unit id="Coaxial" translate="yes" xml:space="preserve">
+          <source>Coaxial</source>
+          <target state="translated">Coaxial</target>
+        </trans-unit>
+        <trans-unit id="Off" translate="yes" xml:space="preserve">
+          <source>Off</source>
+          <target state="translated">關</target>
+        </trans-unit>
+        <trans-unit id="On" translate="yes" xml:space="preserve">
+          <source>On</source>
+          <target state="translated">開</target>
+        </trans-unit>
+        <trans-unit id="WaferIntervalConfiguration" translate="yes" xml:space="preserve">
+          <source>Wafer Interval Configuration</source>
+          <target state="translated">晶片間隔配置</target>
+        </trans-unit>
+        <trans-unit id="Back" translate="yes" xml:space="preserve">
+          <source>Back</source>
+          <target state="translated" state-qualifier="tm-suggestion">上一步</target>
+        </trans-unit>
+        <trans-unit id="Configuration" translate="yes" xml:space="preserve">
+          <source>Configuration</source>
+          <target state="translated">組態</target>
+        </trans-unit>
+        <trans-unit id="Next" translate="yes" xml:space="preserve">
+          <source>Next</source>
+          <target state="translated" state-qualifier="tm-suggestion">下一個</target>
+        </trans-unit>
+        <trans-unit id="Add_Delete" translate="yes" xml:space="preserve">
+          <source>Add &amp; Delete</source>
+          <target state="needs-review-translation">加/刪除</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="RegisterEdge" translate="yes" xml:space="preserve">
+          <source>Register
+  Edge</source>
+          <target state="translated">註冊邊緣</target>
+        </trans-unit>
+        <trans-unit id="RegisterPattern1" translate="yes" xml:space="preserve">
+          <source>Register Pattern 1</source>
+          <target state="needs-review-translation">註冊格局1</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="RegisterPattern2" translate="yes" xml:space="preserve">
+          <source>Register Pattern 2</source>
+          <target state="needs-review-translation">註冊格局2</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="SetCoordinate" translate="yes" xml:space="preserve">
+          <source>Set Coordinate</source>
+          <target state="needs-review-translation">設置座標</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="EMPTY" translate="yes" xml:space="preserve">
+          <source>EMPTY</source>
+          <target state="translated">空</target>
+        </trans-unit>
+        <trans-unit id="MARK" translate="yes" xml:space="preserve">
+          <source>MARK</source>
+          <target state="translated">標記</target>
+        </trans-unit>
+        <trans-unit id="SKIP" translate="yes" xml:space="preserve">
+          <source>SKIP</source>
+          <target state="translated">跳躍</target>
+        </trans-unit>
+        <trans-unit id="TEST" translate="yes" xml:space="preserve">
+          <source>TEST</source>
+          <target state="translated" state-qualifier="tm-suggestion">測試</target>
+        </trans-unit>
+        <trans-unit id="LOT" translate="yes" xml:space="preserve">
+          <source>LOT</source>
+          <target state="translated">LOT</target>
+        </trans-unit>
+        <trans-unit id="ProbeMark" translate="yes" xml:space="preserve">
+          <source>Probe Mark</source>
+          <target state="translated">探針標記</target>
+        </trans-unit>
+        <trans-unit id="NextDut" translate="yes" xml:space="preserve">
+          <source>Next Dut</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">下一個 Dut</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="NextPad" translate="yes" xml:space="preserve">
+          <source>Next Pad</source>
+          <target state="needs-review-translation">下一個 墊資</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="PrevDut" translate="yes" xml:space="preserve">
+          <source>Prev Dut</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">上一頁 Dut</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="PrevPad" translate="yes" xml:space="preserve">
+          <source>Prev Pad</source>
+          <target state="needs-review-translation">上一頁墊資</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Coordinate" translate="yes" xml:space="preserve">
+          <source>Coordinate</source>
+          <target state="translated">坐標</target>
+        </trans-unit>
+        <trans-unit id="X" translate="yes" xml:space="preserve">
+          <source>X</source>
+          <target state="final" state-qualifier="tm-suggestion">X</target>
+        </trans-unit>
+        <trans-unit id="Y" translate="yes" xml:space="preserve">
+          <source>Y</source>
+          <target state="final" state-qualifier="tm-suggestion">Y</target>
+        </trans-unit>
+        <trans-unit id="Z" translate="yes" xml:space="preserve">
+          <source>Z</source>
+          <target state="final" state-qualifier="tm-suggestion">Z</target>
+        </trans-unit>
+        <trans-unit id="Inspect" translate="yes" xml:space="preserve">
+          <source>Inspect</source>
+          <target state="translated" state-qualifier="tm-suggestion">檢查</target>
+        </trans-unit>
+        <trans-unit id="LightDown" translate="yes" xml:space="preserve">
+          <source>Light -</source>
+          <target state="translated">光 -</target>
+        </trans-unit>
+        <trans-unit id="LightUp" translate="yes" xml:space="preserve">
+          <source>Light +</source>
+          <target state="translated" state-qualifier="mt-suggestion">光 +</target>
+        </trans-unit>
+        <trans-unit id="LotEnd" translate="yes" xml:space="preserve">
+          <source>Lot End</source>
+          <target state="translated">LOT 結束</target>
+        </trans-unit>
+        <trans-unit id="EndLotMessage" translate="yes" xml:space="preserve">
+          <source>Lot Would be paused If you click the OK Button.</source>
+          <target state="translated">LOT 將暫停如果您點擊確定按鈕</target>
+        </trans-unit>
+        <trans-unit id="ChangeLanguageCheckMessage" translate="yes" xml:space="preserve">
+          <source>Please run the program again.</source>
+          <target state="translated">請再次運行程序</target>
+        </trans-unit>
+        <trans-unit id="Disable" translate="yes" xml:space="preserve">
+          <source>Disable</source>
+          <target state="translated">禁用</target>
+        </trans-unit>
+        <trans-unit id="Enable" translate="yes" xml:space="preserve">
+          <source>Enable</source>
+          <target state="translated">啟用</target>
+        </trans-unit>
+        <trans-unit id="SetAllContact" translate="yes" xml:space="preserve">
+          <source>Set All Contact</source>
+          <target state="needs-review-translation">設置所有聯繫人</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="SetFirstContact" translate="yes" xml:space="preserve">
+          <source>Set First Contact</source>
+          <target state="needs-review-translation">設置第一聯繫人</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="SetOverdrive" translate="yes" xml:space="preserve">
+          <source>Set Overdrive</source>
+          <target state="needs-review-translation">設置超速檔</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="Bin" translate="yes" xml:space="preserve">
+          <source>Bin</source>
+          <target state="new">Bin</target>
+        </trans-unit>
+        <trans-unit id="Dash" translate="yes" xml:space="preserve">
+          <source>--</source>
+          <target state="new">--</target>
+        </trans-unit>
+        <trans-unit id="Slot" translate="yes" xml:space="preserve">
+          <source>Slot</source>
+          <target state="new">Slot</target>
+        </trans-unit>
+        <trans-unit id="RegisterPattern" translate="yes" xml:space="preserve">
+          <source>Register Pattern</source>
+          <target state="new">Register Pattern</target>
+        </trans-unit>
+        <trans-unit id="BottomLeft" translate="yes" xml:space="preserve">
+          <source>Bottom Left</source>
+          <target state="new">Bottom Left</target>
+        </trans-unit>
+        <trans-unit id="TopRight" translate="yes" xml:space="preserve">
+          <source>Top Right</source>
+          <target state="new">Top Right</target>
+        </trans-unit>
+        <trans-unit id="VisionMapping" translate="yes" xml:space="preserve">
+          <source>Vision Mapping</source>
+          <target state="new">Vision Mapping</target>
+        </trans-unit>
+        <trans-unit id="GEMSetting" translate="yes" xml:space="preserve">
+          <source>GEM Setting</source>
+          <target state="new">GEM Setting</target>
+        </trans-unit>
+        <trans-unit id="TiltJog" translate="yes" xml:space="preserve">
+          <source>TiltJog</source>
+          <target state="new">TiltJog</target>
+        </trans-unit>
+        <trans-unit id="TesterHeadUnlock" translate="yes" xml:space="preserve">
+          <source>Tester Head Unlock</source>
+          <target state="new">Tester Head Unlock</target>
+        </trans-unit>
+        <trans-unit id="maintenance" translate="yes" xml:space="preserve">
+          <source>MAINTENANCE</source>
+          <target state="new">MAINTENANCE</target>
+        </trans-unit>
+        <trans-unit id="IOControl" translate="yes" xml:space="preserve">
+          <source>IO Control</source>
+          <target state="new">IO Control</target>
+        </trans-unit>
+        <trans-unit id="ContinueProbing" translate="yes" xml:space="preserve">
+          <source>Continue Probing</source>
+          <target state="new">Continue Probing</target>
+        </trans-unit>
+        <trans-unit id="MultiPassProbing" translate="yes" xml:space="preserve">
+          <source>Multi-Pass Probing (CP2)</source>
+          <target state="new">Multi-Pass Probing (CP2)</target>
+        </trans-unit>
+        <trans-unit id="NormalProbing" translate="yes" xml:space="preserve">
+          <source>Normal Probing (CP1)</source>
+          <target state="new">Normal Probing (CP1)</target>
+        </trans-unit>
+        <trans-unit id="PassDieProbing" translate="yes" xml:space="preserve">
+          <source>Pass Die Probing (CP2)</source>
+          <target state="new">Pass Die Probing (CP2)</target>
+        </trans-unit>
+        <trans-unit id="CPcount" translate="yes" xml:space="preserve">
+          <source>CP count</source>
+          <target state="new">CP count</target>
+        </trans-unit>
+        <trans-unit id="MapDownloadforCP1" translate="yes" xml:space="preserve">
+          <source>Map Download for CP1</source>
+          <target state="new">Map Download for CP1</target>
+        </trans-unit>
+        <trans-unit id="RetestCount" translate="yes" xml:space="preserve">
+          <source>Retest Count</source>
+          <target state="new">Retest Count</target>
+        </trans-unit>
+        <trans-unit id="ChillerSetting" translate="yes" xml:space="preserve">
+          <source>Chiller Setting</source>
+          <target state="new">Chiller Setting</target>
+        </trans-unit>
+        <trans-unit id="LotInfo" translate="yes" xml:space="preserve">
+          <source>Lot Info</source>
+          <target state="new">Lot Info</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

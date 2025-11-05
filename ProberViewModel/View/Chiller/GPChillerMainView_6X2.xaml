@@ -1,0 +1,457 @@
+﻿<UserControl x:Class="ProberViewModel.View.Chiller.GPChillerMainView_6X2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:local="clr-namespace:ProberViewModel.View.Chiller"
+             mc:Ignorable="d" x:Name="ucWindow"
+             MaxHeight="1080" MaxWidth="1920" Background="#FF1C1C1F">
+    <UserControl.Resources>
+        <local:CommConnectedStringConverter x:Key="CommconnectedStringConverter"/>
+        <vc:CellObjectForeGroundConverter x:Key="CellObjectForeGroundConv"/>
+        <vc:ChillerNumColorConverter x:Key="ChillerNumColorConv"/>
+        <local:VirtualKeyBoardTextBoxConverter x:Key="VirtualKeyBoardTextBoxConverter"/>
+        <local:StageVirtualKeyBoardTextBoxConverter x:Key="StageVirtualKeyBoardTextBoxConverter"/>
+        <local:ChillerActiveIConPathConverter x:Key="ChillerActiveIConPathConverter"/>
+        <local:ChillerActiveContentConverter x:Key="ChillerActiveContentConverter"/>
+        <local:ChillerMatenanceEnableConverter x:Key="ChillerMatenanceEnableConverter"/>
+        <local:StageEndEmergencyEnableForeGroundConverter x:Key="StageEndEmergencyEnableForeGroundConverter"/>
+        <local:EndEmergencyVisiableConverter x:Key="EndEmergencyVisiableConv"/>
+        <local:ActivateVisiableConverter x:Key="ActivateVisiableConv"/>
+        <local:StageCommandBtnForeGroundConverter x:Key="StageCommandBtnForeGroundConv"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- Stage -->
+        <Grid Grid.Column="0" Margin="4">
+            <ListView  x:Name="CellListView" ItemsSource="{Binding Stages}" Background="#FF2C2C2F"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectedItem="{Binding SelectedObj}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                        <!--<Setter Property="IsEnabled" Value="{Binding IsEnableTransfer, Mode=TwoWay}"/>-->
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="6" Rows="2"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <Border BorderBrush="{Binding ChillerNum , Converter={StaticResource ChillerNumColorConv}}" BorderThickness="2" >
+                            <Grid Margin="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="6*"/>
+                                </Grid.RowDefinitions>
+                                <Label x:Name="StageIndexLB" Background="LightSkyBlue" Margin="0" Content="{Binding Index}" ContentStringFormat="Stage #{0}"
+                                       Foreground="Black" FontWeight="DemiBold" VerticalContentAlignment="Center" FontSize="20"/>
+                                <materialDesign:PackIcon Kind="LanConnect" MinWidth="40"   HorizontalAlignment="Right" Height="24"
+                                                                     VerticalAlignment="Stretch" 
+                                                                     Foreground="{Binding IsConnected, Converter={StaticResource CellObjectForeGroundConv}}"/>
+                                <StackPanel Grid.Row="1" Background="Black">
+                                    <!-- Dew Point -->
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="DP " FontSize="14" Margin="0" FontWeight="DemiBold" Foreground="BurlyWood"/>
+                                        <Label Grid.Column="1" Content="{Binding DewPoint}" FontSize="20" Margin="0" HorizontalContentAlignment="Right" Foreground="Orange" ContentStringFormat="{}{0:0.0}"/>
+                                    </Grid>
+                                    <!-- Dew Point Tolerance-->
+                                    <!--<Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Tolerance" FontSize="14" Margin="0" FontWeight="DemiBold" Foreground="BurlyWood"/>
+                                        <Label Grid.Column="1" Content="{Binding DewPointTolerance}" FontSize="20" Margin="2" HorizontalContentAlignment="Right"/>
+                                    </Grid>-->
+                                    <!-- Set Temp -->
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="SV " FontSize="14" Margin="0" FontWeight="DemiBold" Foreground="Yellow"/>
+                                        <Label Grid.Column="1" Content="{Binding SV}" FontSize="20" Margin="2" HorizontalContentAlignment="Right" ContentStringFormat="{}{0:0.0}"/>
+                                    </Grid>
+                                    <!-- Cur Temp -->
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="PV " FontSize="14" Margin="0" FontWeight="DemiBold" Foreground="Green"/>
+                                        <Label Grid.Column="1" Content="{Binding PV}" FontSize="20" Margin="2" HorizontalContentAlignment="Right" ContentStringFormat="{}{0:0.0}"/>
+                                    </Grid>
+                                    <!-- Heater State -->
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Heater " FontSize="14"  Margin="0" FontWeight="DemiBold"/>
+                                        <Label Grid.Column="1" Content="{Binding HeaterState, Converter={StaticResource CommconnectedStringConverter}}" FontSize="20" Margin="2" HorizontalContentAlignment="Right"
+                                               Foreground="{Binding HeaterState, Converter={StaticResource CellObjectForeGroundConv}}"/>
+                                    </Grid>
+                                    <!-- Chiller Index -->
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="0.6*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="ChillerNum " FontSize="14" Margin="0" FontWeight="DemiBold"/>
+                                        <Label Grid.Column="1" Content="{Binding ChillerNum}" FontSize="20" Margin="2" HorizontalContentAlignment="Right"/>
+                                    </Grid>
+                                    <!-- Active Flag-->
+                                    <Grid  IsEnabled="False">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="0.8*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="MV : " FontSize="14" Margin="0" FontWeight="DemiBold"/>
+                                        <Label Grid.Column="1" Content="{Binding MV}" ContentStringFormat=" {0}%" FontSize="20" Margin="2" HorizontalContentAlignment="Right"/>
+                                    </Grid>
+                                    
+                                    <!-- TempControl State-->
+                                    <Grid  IsEnabled="False">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="0.8*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="TempState : " FontSize="10" Margin="0" FontWeight="DemiBold"/>
+                                        <Label Grid.Column="1" Content="{Binding TempControlState}" ContentStringFormat=" {0}" FontSize="12" Margin="0" Padding="0,0,8,2" HorizontalContentAlignment="Right"/>
+                                    </Grid>
+                                    <!--<Grid  IsEnabled="False">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="0.6*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="Manual Active " FontSize="14" Margin="0" FontWeight="DemiBold"/>
+                                        <ToggleButton Style="{DynamicResource ON_OFF_ToggleBtn}" Grid.Column="1" FontSize="20" Margin="2" HorizontalContentAlignment="Right"
+                                                      IsChecked="{Binding ChillerMaintenanceActiveFalg}"/>
+                                    </Grid>-->
+                                    <!-- End Error Btn -->
+                                    <Grid>
+                                        <Button Grid.Row="1" Style="{DynamicResource ImageIConBtnStyle}" Background="DimGray" IsEnabled="{Binding IsEmergencyError}"  Visibility="{Binding IsEmergencyError,Converter={StaticResource EndEmergencyVisiableConv}}"
+                                            Command="{Binding Path=DataContext.StageEndTempEmergencyErrorCommand, ElementName=ucWindow}" 
+                                            CommandParameter="{Binding Index}"  Margin="8,4,4,8">
+                                            <Grid HorizontalAlignment="Stretch" IsHitTestVisible="True">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <materialDesign:PackIcon Kind="ReportProblem" Foreground="Black" MinWidth="28" Height="32" VerticalAlignment="Stretch" Margin="8,0,0,0"/>
+                                                    <Label Content="END EMERGENCY" HorizontalAlignment="Center" VerticalContentAlignment="Center" 
+                                                           FontSize="18"  Background="{Binding IsEmergencyError, Converter={StaticResource StageEndEmergencyEnableForeGroundConverter}}" Margin="0"/>
+                                                    <!--<Label Content="END EMERGENCY" HorizontalAlignment="Center" VerticalContentAlignment="Center" 
+                                                           FontSize="18" Foreground="Purple" Margin="0"/>-->
+                                                </StackPanel>
+                                            </Grid>
+                                        </Button>
+                                        <Button Grid.Row="1" Style="{DynamicResource ImageIConBtnStyle}" Background="DimGray" Visibility="{Binding TemperatureState,Converter={StaticResource ActivateVisiableConv}}"
+                                            Command="{Binding Path=DataContext.StageSetActivatedStateCommand, ElementName=ucWindow}" 
+                                            CommandParameter="{Binding Index}"  Margin="8,4,4,8">
+                                            <Grid HorizontalAlignment="Stretch" IsHitTestVisible="True">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <materialDesign:PackIcon Kind="ReportProblem" Foreground="Black" MinWidth="28" Height="32" VerticalAlignment="Stretch" Margin="8,0,0,0"/>
+                                                    <Label Content="ACTIVATE" HorizontalAlignment="Center" VerticalContentAlignment="Center" 
+                                                           FontSize="18"  Background="{Binding TemperatureState, Converter={StaticResource StageCommandBtnForeGroundConv}}" Margin="0"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </Button>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+        </Grid>
+
+        <!-- Chiller -->
+        <Grid Grid.Column="1" Margin="4" Grid.Row="0" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <ListView  x:Name="ChillerListView" ItemsSource="{Binding EnvControlManager.ChillerManager.Chillers}" Background="#FF2C2C2F" 
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                       SelectedItem="{Binding SelectedChiller}"
+                       >
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                        <!--<Setter Property="IsEnabled" Value="{Binding IsEnableTransfer, Mode=TwoWay}"/>-->
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="3" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate >
+                        <Border BorderBrush="{Binding Index , Converter={StaticResource ChillerNumColorConv}}" BorderThickness="3">
+                            <Grid Grid.Column="0" Margin="2" Background="Black" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0.2*"/>
+                                    <RowDefinition Height="0.6*"/>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="0.2*"/>
+                                    <RowDefinition Height="0.2*"/>
+                                </Grid.RowDefinitions>
+                                <Label Background="LightGray" Margin="2" Content="{Binding ChillerInfo.Index}" Foreground="Black" ContentStringFormat="Chiller #{0}" 
+                                       HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontSize="28" FontWeight="ExtraBold"/>
+                                <Button Width="200" HorizontalAlignment="Left" Opacity="0" Command="{Binding Path=DataContext.ShowChillerConnSetupCommand, ElementName=ucWindow }" CommandParameter="{Binding ChillerInfo.Index}"/>
+                                <Button Width="50" HorizontalAlignment="Right" Command="{Binding Path=DataContext.ChillerConnectCommand, ElementName=ucWindow}" CommandParameter="{Binding ChillerInfo.Index}">
+                                    <materialDesign:PackIcon Kind="LanConnect" MinWidth="40" Height="32"  
+                                                                     VerticalAlignment="Stretch" 
+                                                                     Foreground="{Binding IsConnected, Converter={StaticResource CellObjectForeGroundConv}}"/>
+                                </Button>
+
+                                <!-- Chiller Info -->
+                                <Grid Grid.Row="1">
+                                    <StackPanel Orientation="Vertical">
+                                        <!-- Internal Temp -->
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="Internal" Margin="0" FontSize='18' Foreground="Green" FontWeight="DemiBold"/>
+                                            <Label Grid.Column="1" Content="{Binding ChillerInfo.ChillerInternalTemp}" ContentStringFormat=" {0} ℃" Margin="2" FontSize="20" HorizontalContentAlignment="Right"/>
+                                        </Grid>
+                                        <!-- Process Temp -->
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="Process" Margin="0" FontSize='16' Foreground="Orange" FontWeight="DemiBold"/>
+                                            <!--<Label Grid.Column="1" Content="{Binding ChillerProcessTemp}" ContentStringFormat=" {0} ℃" Margin="2" FontSize="24" HorizontalContentAlignment="Right"/>-->
+                                            <Label Grid.Column="1" Content="---.--" ContentStringFormat=" {0} ℃" Margin="2" FontSize="20" HorizontalContentAlignment="Right"/>
+                                        </Grid>
+                                        <!-- Set Temp -->
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="Setpoint" Margin="0" FontSize='16'  Foreground="Yellow" FontWeight="DemiBold"/>
+                                            <Label Grid.Column="1" Content="{Binding ChillerInfo.SetTemp}" ContentStringFormat=" {0} ℃" Margin="2" FontSize="20" HorizontalContentAlignment="Right"/>
+                                        </Grid>
+                                        <!--<Grid >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBox Grid.Column="0" Text="{Binding ChillerSVSetValue}" FontSize="24" 
+                                                     HorizontalContentAlignment="Right" Background="WhiteSmoke" Margin="8">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                        <i:InvokeCommandAction Command="{Binding Path=DataContext.ChillerSVTextBoxClickCommand, ElementName=ucWindow}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </TextBox>
+                                            <Button Grid.Column="1" Content="Set " HorizontalAlignment="Center" Width="100" Height="40" Command="{Binding Path=DataContext.ChillerSVSetCommand, ElementName=ucWindow}"
+                                                    CommandParameter="{Binding ChillerInfo.Index}"
+                                                    FontSize="24" FontWeight="DemiBold" />
+                                        </Grid>-->
+                                        <!-- Serial Number -->
+                                        <!--<Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="SerialNum" Margin="0" FontSize='16' FontWeight="DemiBold"/>
+                                            <Label Grid.Column="1" Content="{Binding SerialNum}"  Margin="2" FontSize="24" HorizontalContentAlignment="Right"/>
+                                        </Grid>-->
+                                        <!-- Comm State -->
+                                        <!--<Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="CommState" Margin="0" FontSize='16' FontWeight="DemiBold"/>
+                                            <Label Grid.Column="1" Content="{Binding CommState, Converter={StaticResource CommconnectedStringConverter}}"  Margin="2" FontSize="24" HorizontalContentAlignment="Right"
+                                                   Foreground="{Binding HeaterState, Converter={StaticResource CellObjectForeGroundConv}}"/>
+                                        </Grid>-->
+                                        <!-- Chiller State -->
+                                        <!--<Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="ChillerState" Margin="0" FontSize='16' FontWeight="DemiBold"/>
+                                            <Label Grid.Column="1" Content=""  Margin="2" FontSize="24" HorizontalContentAlignment="Right"/>
+                                        </Grid>-->
+                                    </StackPanel>
+                                </Grid>
+                                <!-- Chiller Parameter-->
+                                <Border Grid.Row="2" Height="2" VerticalAlignment="Top" BorderThickness="2" BorderBrush="WhiteSmoke"/>
+                                <Grid Grid.Row="2">
+                                    <StackPanel Orientation="Vertical" Margin="0,8,0,0">
+                                        <!-- Hot Limit Temp -->
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1.5*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="HotLimitTemp" Margin="0"  HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontSize='15' FontWeight="DemiBold"/>
+                                            <Label Grid.Column="1" Content="{Binding ChillerParam.ChillerHotLimitTemp.Value}" ContentStringFormat=" {0} ℃" Margin="2" FontSize="16" HorizontalContentAlignment="Right"/>
+                                        </Grid>
+                                        <!-- CoolantIn Temp -->
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1.5*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="CoolantInTemp" Margin="0"  HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontSize='15' FontWeight="DemiBold"/>
+                                            <Label Grid.Column="1" Content="{Binding ChillerParam.CoolantInTemp.Value}" ContentStringFormat=" {0} ℃" Margin="2" FontSize="16" HorizontalContentAlignment="Right"/>
+                                        </Grid>
+                                        <!-- Chiller Offset -->
+                                        <!--<Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1.5*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="Offset" Margin="0" VerticalContentAlignment="Center" FontSize='15' FontWeight="DemiBold"/>
+                                            <Label Grid.Column="1" Content="{Binding ChillerOffset.Value}" ContentStringFormat=" {0} ℃" Margin="2" FontSize="16" HorizontalContentAlignment="Right"/>
+                                        </Grid>-->
+                                        <!-- Tolerance-->
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1.5*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="Tolerance" Margin="0" VerticalContentAlignment="Center" FontSize='15' FontWeight="DemiBold"/>
+                                            <Label Grid.Column="1" Content="{Binding ChillerParam.Tolerance.Value}" ContentStringFormat=" {0} ℃" Margin="2" FontSize="16" HorizontalContentAlignment="Right"/>
+                                        </Grid>
+                                        <!-- ActivatableHighTemp-->
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1.5*"/>
+                                                <ColumnDefinition Width="0.8*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="ActivatableTemp" Margin="0" VerticalContentAlignment="Center" FontSize='15' FontWeight="DemiBold"/>
+                                            <Label Grid.Column="1" Content="{Binding ChillerParam.ActivatableHighTemp.Value}" ContentStringFormat=" {0} ℃" Margin="2" FontSize="16" HorizontalContentAlignment="Right"/>
+                                        </Grid>
+                                        <!-- InRangeWindowTemp-->
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1.5*"/>
+                                                <ColumnDefinition Width="0.8*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="InRangeTemp" Margin="0" VerticalContentAlignment="Center" FontSize='15' FontWeight="DemiBold"/>
+                                            <Label Grid.Column="1" Content="{Binding ChillerParam.InRangeWindowTemp.Value}" ContentStringFormat=" {0} ℃" Margin="2" FontSize="16" HorizontalContentAlignment="Right"/>
+                                        </Grid>
+                                        <!-- AmbientTemp -->
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1.5*"/>
+                                                <ColumnDefinition Width="0.8*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="AmbientTemp" Margin="0" VerticalContentAlignment="Center" FontSize='15' FontWeight="DemiBold"/>
+                                            <Label Grid.Column="1" Content="{Binding ChillerParam.AmbientTemp.Value}" ContentStringFormat=" {0} ℃" Margin="2" FontSize="16" HorizontalContentAlignment="Right"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </Grid>
+
+                                <Border Grid.Row="3" Height="2" VerticalAlignment="Top" BorderThickness="2" BorderBrush="WhiteSmoke"/>
+                                <Grid Grid.Row="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="1*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox Grid.Column="0" Text="{Binding StageSetSV}" FontSize="24" IsEnabled="{Binding UnLockStageSvBtn}"
+                                                     HorizontalContentAlignment="Right" Background="WhiteSmoke" Margin="8" Height="40" Foreground="Black">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding Path=DataContext.ChillerSVTextBoxClickCommand, ElementName=ucWindow}"
+                                                                               CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                    <Button Grid.Column="1" Content="Set " Width="100" Height="40" IsEnabled="{Binding UnLockStageSvBtn}"
+                                                Command="{Binding Path=DataContext.StageSVChangeCommand, ElementName=ucWindow}"
+                                                CommandParameter="{Binding ChillerInfo.Index}"
+                                                FontSize="24" FontWeight="DemiBold" />
+
+                                    <Button Grid.Column="0" Content="Lock" Width="40" Height="24" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                Command="{Binding Path=DataContext.StageSVChangeLockUnLockCommand, ElementName=ucWindow}"
+                                                CommandParameter="{Binding ChillerInfo.Index}"
+                                                FontSize="16" FontWeight="DemiBold" />
+                                </Grid>
+                                <Grid Grid.Row="4" Margin="6" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="1.4*"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Content="MAINTENANCE" FontSize="12" HorizontalContentAlignment="Left" Margin="-10,0,0,10"/>
+                                        <!--<ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}" IsChecked="{Binding ChillerMaintenanceFlag}"
+                                                      IsEnabled="{Binding ActiveFlag, Converter={StaticResource ChillerMatenanceEnableConverter}}"/>-->
+                                        <ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}" IsChecked="{Binding ChillerMaintenanceFlag}"
+                                                      IsEnabled="False"/>
+                                        <!--IsEnabled="{Binding ActiveFlag, Converter={StaticResource ChillerMatenanceEnableConverter}}"/>-->
+                                    </Grid>
+                                    <Button Grid.Row="1" Style="{DynamicResource ImageIConBtnStyle}" Background="DimGray" IsEnabled="{Binding IsConnected}"
+                                            Command="{Binding Path=DataContext.ChillerActiveOPCommand, ElementName=ucWindow}"
+                                            CommandParameter="{Binding ChillerInfo.Index}">
+                                        <Grid HorizontalAlignment="Stretch" IsHitTestVisible="True">
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon Kind="{Binding ChillerInfo.CoolantActivate, Converter={StaticResource ChillerActiveIConPathConverter}}" MinWidth="40" Height="32"  
+                                                                     VerticalAlignment="Stretch" Margin="8,0,0,0"/>
+                                                <Label Content="{Binding ChillerInfo.CoolantActivate, Converter={StaticResource ChillerActiveContentConverter}}" HorizontalAlignment="Center" VerticalContentAlignment="Center" 
+                                               FontSize="24" Foreground="Purple" Margin="0"/>
+                                                <!--<materialDesign:PackIcon Kind="{Binding ActiveFlag, Converter={StaticResource ChillerActiveIConPathConverter}}" MinWidth="40" Height="32"  
+                                                                     VerticalAlignment="Stretch" Margin="8,0,0,0"/>
+                                                <Label Content="=====" HorizontalAlignment="Center" VerticalContentAlignment="Center" 
+                                               FontSize="24" Foreground="Purple" Margin="0"/>-->
+                                            </StackPanel>
+                                        </Grid>
+                                    </Button>
+
+                                </Grid>
+
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+            <!-- Setup Button -->
+            <Grid Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="16">
+                <StackPanel>
+                    <Label  Content="{Binding SelectedChillerIndex}" HorizontalContentAlignment="Center" FontSize="32" 
+                             ContentStringFormat="Chiller #{0}" Foreground="Orange" FontWeight="DemiBold"/>
+                    <Button Content=" Setup → " Width="200" Height="80" Command="{Binding SetupPageSwitchCommand}"
+                            Style="{DynamicResource ControlButtonStyle}" FontSize="40" FontWeight="ExtraBold" />
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</UserControl>

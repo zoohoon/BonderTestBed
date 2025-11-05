@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="ProberDevelopPackWindow.Tab.ChillerErrorMessageSettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProberDevelopPackWindow.Tab"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             mc:Ignorable="d" Unloaded="UserControl_Unloaded"
+             Height="1010" Width="1140">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="34"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.ColumnSpan="2" Margin="0,2,0,2" Padding="0" Content="[ CHILLER ERROR, WARNING MESSAGE INFO ]" 
+               VerticalContentAlignment="Center" Foreground="Black" FontWeight="DemiBold"/>
+
+        <DataGrid Grid.Row="1" SelectedIndex="{Binding ErrorInfoDataGridSelectedIndex, Mode=TwoWay}" 
+                                      ItemsSource="{Binding ErrorMessageInfos}" AutoGenerateColumns="False" CanUserResizeColumns="True"
+                  BorderBrush="Black" BorderThickness="1"  RowHeaderWidth="0" 
+                  AlternatingRowBackground="LightGray" AlternationCount="2" 
+                  Style="{DynamicResource MahApps.Styles.DataGrid.Azure}" Background="WhiteSmoke">
+            <DataGrid.Resources>
+                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}" >
+                    <Setter Property="Background" Value="White" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="BorderBrush" Value="DimGray"/>
+                    <Setter Property="Width" Value="auto"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="Padding" Value="2"/>
+                    <Setter Property="BorderBrush" Value="DimGray"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="FontWeight" Value="DemiBold"/>
+                </Style>
+                
+                <!--<Style TargetType="DataGridCell">
+                    <Setter Property="FontWeight" Value="Normal"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="Padding" Value="1"/>
+                    <Style.Triggers>
+                        <Trigger Property="DataGridCell.IsSelected" Value="True">
+                            <Setter Property="Background" Value="Gray" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>-->
+
+            </DataGrid.Resources>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="RowEditEnding" >
+                    <i:InvokeCommandAction Command="{Binding RowEditEndingEventCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Error Number" Width="280" Binding="{Binding Number}"  />
+                <DataGridTextColumn Header="Message" Width="630" Binding="{Binding Message}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Column="1" Grid.Row="1" Margin="4">
+            <StackPanel>
+                <Button Content="ADD" Height="40" Style="{DynamicResource ControlButtonStyle}"
+                                    Command="{Binding ErrorInfoAddCommand}"/>
+                <Button Content="DELETE" Height="40" Style="{DynamicResource ControlButtonStyle}"
+                                    Command="{Binding ErrorInfoDeleteCommand}" Margin="0,8,0,0"/>
+            </StackPanel>
+            <StackPanel VerticalAlignment="Bottom">
+                <Button Content="LOAD" Height="40" Style="{DynamicResource ControlButtonStyle}"
+                                    Command="{Binding LoadParameterCommand}"/>
+                <Button Content="SAVE" Height="40" Style="{DynamicResource ControlButtonStyle}"
+                                    Command="{Binding SaveParameterCommand}"  Margin="0,8,0,0"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

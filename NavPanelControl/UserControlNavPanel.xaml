@@ -1,0 +1,226 @@
+﻿<UserControl x:Class="NavPanelControl.NaviControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NavPanelControl"
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
+             xmlns:ValueConvert="clr-namespace:ValueConverters;assembly=ValueConverters"   
+             mc:Ignorable="d"
+             AutomationProperties.AutomationId="UCNaviPanel"
+             Name="ucwindow" Unloaded="Ucwindow_Unloaded">
+    <UserControl.Resources>
+        <s:Boolean x:Key="True">True</s:Boolean>
+        <s:Boolean x:Key="False">False</s:Boolean>
+        <!-- background color of the grid and the listbox -->
+        <SolidColorBrush x:Key="azureItemBackground" Color="#3C454F" />
+        <!-- background color of the selected listbox item -->
+        <SolidColorBrush x:Key="azureItemSelected" Color="#DADCDE" />
+        <!-- default foreground color -->
+        <SolidColorBrush x:Key="azureItemText" Color="#DADCDE" />
+        <!-- foreground color for the extra text displayed under the primary text (eg. PREVIEW) -->
+        <SolidColorBrush x:Key="azureItemHighlightText" Color="#89C402" />
+        <!-- metro color for the title and other highlighting -->
+        <SolidColorBrush x:Key="AccentColorBrush" Color="CornflowerBlue" />
+        <local:NullToVisibilityConverter x:Key="nullToVisConv" />
+        <local:PreButtonVisibilityConverter x:Key="prebtnVisConv"/>
+        <local:IconConverter x:Key="NavIconConverter"/>
+
+        <Style x:Key="DefaultBtn" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" BorderThickness="0" BorderBrush="Black" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.8" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ValueConvert:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" True="Collapsed" False="Visible"/>
+    </UserControl.Resources>
+    
+    <Grid Margin="0,8,4,8" Width="360" Background="{StaticResource azureItemBackground}" >
+        
+        <Grid.Resources>
+            <Style x:Key="azureItemsControlStyle" TargetType="ItemsControl">
+                <Style.Triggers>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="azureListBoxStyle" TargetType="ListBox">
+                <Setter Property="Background" Value="{StaticResource azureItemBackground}"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0,0,0,0" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Stretch" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="{StaticResource azureItemSelected}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="azureItemContainerStyle" TargetType="ListBoxItem">
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Background" Value="{StaticResource azureItemBackground}" />
+
+                <Setter Property="AutomationProperties.AutomationId" Value="{Binding Header, StringFormat={}lbi_{0}}"/>
+
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="{StaticResource azureItemSelected}" />
+                    </Trigger>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="{StaticResource azureItemSelected}" />
+                    </Trigger>
+                </Style.Triggers>
+
+            </Style>
+         
+            <DataTemplate x:Key="azureListItemTemplate" >
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="32" />
+                        <!--<ColumnDefinition Width="Auto" />-->
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--<Image VerticalAlignment="Center" HorizontalAlignment="Center" Width="32"
+                            Visibility="{Binding Parent, Converter={StaticResource nullToVisConv}, ConverterParameter={StaticResource True}}"
+                            Source="{Binding SetupState ,Converter={StaticResource NavIconConverter}, Mode=Default}"/>-->
+
+                    <Image x:Name="img1"  VerticalAlignment="Center" HorizontalAlignment="Center" Width="32"
+                            Visibility="{Binding Parent, Converter={StaticResource nullToVisConv}, ConverterParameter={StaticResource True}}">
+                        <Image.Source>
+                            <MultiBinding Converter="{StaticResource NavIconConverter}">
+                                <Binding Path="SetupState" />
+                                <Binding Path="Categories"  />
+                            </MultiBinding>
+                        </Image.Source>
+                    </Image>
+
+                    <Grid Margin="0" >
+                        <StackPanel Orientation="Horizontal" >
+                            <Image Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="32"
+                            Visibility="{Binding Parent, Converter={StaticResource nullToVisConv}}">
+                                <Image.Source>
+                                    <MultiBinding Converter="{StaticResource NavIconConverter}">
+                                        <Binding Path="SetupState" />
+                                        <Binding Path="Categories"  />
+                                    </MultiBinding>
+                                </Image.Source>
+                            </Image>
+
+                            <!--<Image Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="32"
+                            Visibility="{Binding Parent, Converter={StaticResource nullToVisConv}}"
+                            Source="{Binding {} ,Converter={StaticResource NavIconConverter}, Mode=Default}"/>-->
+
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="11" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18">
+                          <Run Text="{Binding Header}" 
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource azureItemSelected}" />
+                    </TextBlock>
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+
+        <Grid  Name="ItemsGrid" VerticalAlignment="Stretch" Background="#3C454F">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!--<Canvas Margin="0,5,5,0" Background="{StaticResource azureItemBackground}" >-->
+
+             <Canvas  Background="{StaticResource azureItemBackground}" >
+                <ItemsControl Name="NavItemsControl"  Style="{StaticResource azureItemsControlStyle}"
+                              ItemsSource="{Binding Datas, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:NaviControl}}}" 
+                              VirtualizingPanel.VirtualizationMode="Recycling" >
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Background="{StaticResource azureItemBackground}">
+                                <ListBox x:Name="dataslistbox" ItemsSource="{Binding}"
+                                     SelectedItem="{Binding SelectedItem, Mode=OneWay,
+                                    RelativeSource={RelativeSource FindAncestor,
+                                    AncestorType={x:Type local:NaviControl}}}"                                       
+                                     SelectionChanged="ItemListBox_SelectionChanged"
+                                    PreviewMouseDown="ListBox_PreviewMouseDown"
+                                     ItemContainerStyle="{StaticResource azureItemContainerStyle}"
+                                     ItemTemplate="{StaticResource azureListItemTemplate}"  
+                                        Width="{Binding Path=ActualWidth, ElementName=ItemsGrid}"
+                                        Height="{Binding Path=ActualHeight, ElementName=ItemsGrid}"
+                                          ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                         BorderThickness="0"
+                                         HorizontalAlignment="Left" VerticalAlignment="Stretch"
+                                         HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                                    
+                                </ListBox>
+                                <!--Width="{Binding Path=ActualWidth, ElementName=ItemsGrid}"-->
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Canvas>
+
+            <Button AutomationProperties.AutomationId="btnScrollUp"
+                    Grid.Column="1" Click="OnScrollUp"  VerticalAlignment="Top" HorizontalAlignment="Right" Margin="8" Background="Transparent" Width="48" Style="{StaticResource DefaultBtn}">
+                <Image Source="Images/NavPanelUP.png" />
+            </Button>
+            <Button AutomationProperties.AutomationId="btnScrollDown"
+                    Grid.Column="1" Click="OnScrollDown" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="8" Background="Transparent"  Width="48" Style="{StaticResource DefaultBtn}">
+                <Image Source="Images/NavPanelDown.png" />
+            </Button>
+            <!--<Grid  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8" Width="40" Background="{StaticResource azureItemBackground}">-->
+                <!--<StackPanel Orientation="Vertical">-->
+            <Button AutomationProperties.AutomationId="btnPrevTier"
+                    Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="8" Width="40" Style="{StaticResource DefaultBtn}"  
+                    PreviewMouseDown="PrevTierButton_PreviewMouseDown" Height="38">
+                        <Button.Visibility>
+                            <MultiBinding Converter="{StaticResource prebtnVisConv}">
+                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type local:NaviControl}}" Path="SelectedItem" />
+                                <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type local:NaviControl}}" Path="tier" />
+                            </MultiBinding>
+                        </Button.Visibility>
+                        <Image Source="Images/PreStep.png" />
+                    </Button>
+                <!--</StackPanel>-->
+            <!--</Grid>-->
+
+        </Grid>
+        
+        <Viewbox Grid.RowSpan="2" Grid.ColumnSpan="4" Width="40" Height="40" VerticalAlignment="Top" HorizontalAlignment="Center" 
+                     Visibility="{Binding Path = IsEnabled, ElementName=ucwindow, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Canvas Width="24" Height="24">
+                <Canvas.Effect>
+                    <DropShadowEffect Color="Green" Direction="90" Opacity="1" BlurRadius="2" ShadowDepth ="3"></DropShadowEffect>
+                </Canvas.Effect>
+                <Path Data="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" 
+                          Fill="#FEBE38">
+                </Path>
+            </Canvas>
+        </Viewbox>
+
+    </Grid>
+
+</UserControl>

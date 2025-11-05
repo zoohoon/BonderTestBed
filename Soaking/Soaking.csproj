@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6B4FD8F0-16D5-42C4-A9CE-C33001DB0680}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Soaking</RootNamespace>
+    <AssemblyName>Soaking</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="StatusSoakingInfoMng.cs" />
+    <Compile Include="SoakingChillingTimeMng.cs" />
+    <Compile Include="SoakingModule.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SoakingSubState.cs" />
+    <Compile Include="SoakingState.cs" />
+    <Compile Include="StatusSoakingInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EventProcessModule\EventProcessModule.csproj">
+      <Project>{8A0B8AC2-1256-4B27-81D5-102F5D2317C8}</Project>
+      <Name>EventProcessModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InternalCommands\InternalCommands.csproj">
+      <Project>{67AEB851-B974-4E54-8B4E-31D7D2E3E6FA}</Project>
+      <Name>InternalCommands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderController\LoaderController.csproj">
+      <Project>{160872cd-291e-4109-b7f3-48170dcad0d7}</Project>
+      <Name>LoaderController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderServiceBase\LoaderServiceBase.csproj">
+      <Project>{B73C4A86-E81A-42B5-B859-8155A90E74C2}</Project>
+      <Name>LoaderServiceBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{d3b00cca-3c50-42b1-8dca-dfe47c759b57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroDialogInterfaces\MetroDialogInterfaces.csproj">
+      <Project>{2C3114E3-137B-44ED-A9C2-BA5F2198A672}</Project>
+      <Name>MetroDialogInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NotifyEventModule\NotifyEventModule.csproj">
+      <Project>{40F3E74A-35B7-417C-9118-EE5DB75340A6}</Project>
+      <Name>NotifyEventModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PinPadMatchModule\PinPadMatchModule.csproj">
+      <Project>{f6964a18-24d3-496d-9f84-b08458da238e}</Project>
+      <Name>PinPadMatchModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{EDBA3295-FF2A-4368-A217-6495941A8BF5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecuritySystem\SecuritySystem.csproj">
+      <Project>{0641d3da-51cf-4237-b319-6ecfa2fc00a7}</Project>
+      <Name>SecuritySystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SequenceEngine\SequenceEngineService.csproj">
+      <Project>{752ec230-0bc1-4209-b04e-a2826a2eb738}</Project>
+      <Name>SequenceEngineService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SequenceRunnerBehaviors\SequenceRunnerBehaviors.csproj">
+      <Project>{EC7B7E56-37C3-44AB-B48D-45EC42440C09}</Project>
+      <Name>SequenceRunnerBehaviors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SerializerProject\SerializerUtil.csproj">
+      <Project>{89ed1be4-fe82-406e-ae2c-6f3df03fcc90}</Project>
+      <Name>SerializerUtil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SoakingParameters\SoakingParameters.csproj">
+      <Project>{c1fb36bd-25b2-4d28-9eaa-737279f2a2b5}</Project>
+      <Name>SoakingParameters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SubstrateObjects\SubstrateObjects.csproj">
+      <Project>{efb47aa8-b3c8-439c-8a01-d26db8522710}</Project>
+      <Name>SubstrateObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SystemExceptions\SystemExceptions.csproj">
+      <Project>{ACC1AE05-1091-40C6-B0FE-0035C61B3416}</Project>
+      <Name>SystemExceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WA_HighMagParameter_Standard\WA_HighMagParameter_Standard.csproj">
+      <Project>{89CEE01B-94DB-4FEF-8F04-BA31A0D027EE}</Project>
+      <Name>WA_HighMagParameter_Standard</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

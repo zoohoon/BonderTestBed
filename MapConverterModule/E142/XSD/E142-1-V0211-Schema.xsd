@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema id="MapData" 
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    xmlns:sm="urn:semi-org:xsd.E142-1.V0211.SubstrateMap" 
+    targetNamespace="urn:semi-org:xsd.E142-1.V0211.SubstrateMap" 
+    elementFormDefault="qualified">
+
+    <xs:annotation>
+        <xs:appinfo>Schema for SEMI E142 Substrate Mapping</xs:appinfo>
+    </xs:annotation>
+    <!-- Elements -->
+    <xs:element name="MapData" type="sm:MapDataType">
+        <xs:key name="LayoutKey">
+            <xs:selector xpath="sm:Layouts/sm:Layout" />
+            <xs:field xpath="@LayoutId" />
+        </xs:key>
+        <xs:key name="SubstrateKey">
+            <xs:selector xpath="sm:Substrates/sm:Substrate" />
+            <xs:field xpath="@SubstrateType" />
+            <xs:field xpath="@SubstrateId" />
+        </xs:key>
+        <xs:key name="SubstrateMapKey">
+            <xs:selector xpath="sm:SubstrateMaps/sm:SubstrateMap" />
+            <xs:field xpath="@SubstrateType" />
+            <xs:field xpath="@SubstrateId" />
+            <xs:field xpath="@LayoutSpecifier" />
+        </xs:key>
+        <xs:keyref name="ChildLayoutRef" refer="sm:LayoutKey">
+            <xs:selector xpath="sm:Layouts/sm:Layout/sm:ChildLayouts/sm:ChildLayout" />
+            <xs:field xpath="@LayoutId" />
+        </xs:keyref>
+        <xs:keyref name="FromSubstrateMapRef" refer="sm:SubstrateMapKey">
+            <xs:selector xpath="sm:SubstrateMaps/sm:SubstrateMap/sm:Overlay/sm:TransferMap" />
+            <xs:field xpath="@FromSubstrateType" />
+            <xs:field xpath="@FromSubstrateId" />
+            <xs:field xpath="@FromSubstrateLayoutSpecifier" />
+        </xs:keyref>
+    </xs:element>
+    <!-- Complex Types -->
+    <xs:complexType name="MapDataType">
+        <xs:sequence>
+            <xs:element name="Layouts" type="sm:LayoutsType" minOccurs="0" />
+            <xs:element name="Substrates" type="sm:SubstratesType" minOccurs="0" />
+            <xs:element name="SubstrateMaps" type="sm:SubstrateMapsType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="LayoutsType">
+        <xs:sequence>
+            <xs:element name="Layout" type="sm:LayoutType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="LayoutType">
+        <xs:sequence>
+            <xs:element name="Dimension" type="sm:LogicalCoordinatesType" />
+            <xs:element name="LowerLeft" type="sm:PhysicalCoordinatesType" minOccurs="0" />
+            <xs:element name="DeviceSize" type="sm:PhysicalCoordinatesType" minOccurs="0" />
+            <xs:element name="StepSize" type="sm:PhysicalCoordinatesType" minOccurs="0" />
+            <xs:element name="Z" type="sm:ZDimensionsType" minOccurs="0" />
+            <xs:element name="TopImage" type="xs:string" minOccurs="0" />
+            <xs:element name="BottomImage" type="xs:string" minOccurs="0" />
+            <xs:element name="ProductId" type="xs:string" minOccurs="0" />
+            <xs:element name="ChildLayouts" type="sm:ChildLayoutsType" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="LayoutId" type="xs:string" use="required" />
+        <xs:attribute name="DefaultUnits" type="xs:string" use="required" />
+        <xs:attribute name="TopLevel" type="xs:boolean" use="optional" default="false" />
+    </xs:complexType>
+    <xs:complexType name="ChildLayoutsType">
+        <xs:sequence>
+            <xs:element name="ChildLayout" type="sm:ChildLayoutType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ChildLayoutType">
+        <xs:attribute name="LayoutId" type="xs:string" />
+    </xs:complexType>
+    <xs:complexType name="SubstratesType">
+        <xs:sequence>
+            <xs:element name="Substrate" type="sm:SubstrateType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="SubstrateType">
+        <xs:sequence>
+            <xs:element name="LotId" type="sm:LotIdType" minOccurs="0" />
+            <xs:element name="AliasIds" type="sm:AliasIdsType" minOccurs="0" />
+            <xs:element name="CarrierType" type="xs:string" minOccurs="0" />
+            <xs:element name="CarrierId" type="sm:LotIdType" minOccurs="0" />
+            <xs:element name="SlotNumber" type="xs:nonNegativeInteger" minOccurs="0" />
+            <xs:element name="SubstrateNumber" type="xs:nonNegativeInteger" minOccurs="0" />
+            <xs:element name="GoodDevices" type="xs:nonNegativeInteger" minOccurs="0" />
+            <xs:element name="SupplierName" type="xs:string" minOccurs="0" />
+            <xs:element name="Status" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="SubstrateType" type="sm:SubstrateTypeEnum" use="required" />
+        <xs:attribute name="SubstrateId" type="sm:MaterialIdType" use="required" />
+    </xs:complexType>
+    <xs:complexType name="SubstrateMapsType">
+        <xs:sequence>
+            <xs:element name="SubstrateMap" type="sm:SubstrateMapType" maxOccurs="unbounded">
+                <xs:key name="OverlayKey">
+                    <xs:selector xpath="sm:Overlay" />
+                    <xs:field xpath="@MapName" />
+                    <xs:field xpath="@MapVersion" />
+                </xs:key>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="SubstrateMapType">
+        <xs:sequence>
+            <xs:element name="Overlay" type="sm:OverlayType" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="SubstrateType" type="sm:SubstrateTypeEnum" use="required" />
+        <xs:attribute name="SubstrateId" type="sm:MaterialIdType" use="required" />
+        <xs:attribute name="LayoutSpecifier" type="xs:string" use="required" />
+        <xs:attribute name="SubstrateSide" type="sm:SubstrateSideEnum" use="optional" default="TopSide" />
+        <xs:attribute name="Orientation" type="sm:OrientationType" use="optional" default="0" />
+        <xs:attribute name="OriginLocation" type="sm:OriginLocationEnum" use="optional" default="LowerLeft" />
+        <xs:attribute name="AxisDirection" type="sm:AxisDirectionEnum" use="optional" default="UpRight" />
+    </xs:complexType>
+    <xs:complexType name="AliasIdsType">
+        <xs:sequence>
+            <xs:element name="AliasId" type="sm:AliasIdType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AliasIdType">
+        <xs:attribute name="Type" type="xs:string" use="required" />
+        <xs:attribute name="Value" type="sm:MaterialIdType" use="required" />
+    </xs:complexType>
+    <xs:complexType name="OverlayType">
+        <xs:sequence>
+            <xs:element name="ReferenceDevices" type="sm:ReferenceDevicesType" minOccurs="0" />
+            <xs:choice minOccurs="0">
+                <xs:element name="BinCodeMap" type="sm:BinCodeMapType" />
+                <xs:element name="DeviceIdMap" type="sm:DeviceIdMapType" />
+                <xs:element name="TransferMap" type="sm:TransferMapType" maxOccurs="unbounded" />
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="MapName" type="xs:string" use="required" />
+        <xs:attribute name="MapVersion" type="xs:string" use="optional" default="" />
+    </xs:complexType>
+    <xs:complexType name="ReferenceDevicesType">
+        <xs:sequence>
+            <xs:element name="ReferenceDevice" type="sm:ReferenceDeviceType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ReferenceDeviceType">
+        <xs:sequence>
+            <xs:element name="Coordinates" type="sm:LogicalCoordinatesType" />
+            <xs:element name="Position" type="sm:PhysicalCoordinatesType" minOccurs="0" />
+        </xs:sequence>
+        <xs:attribute name="Name" type="xs:string" use="optional" default="" />
+    </xs:complexType>
+    <xs:complexType name="BinCodeMapType">
+        <xs:sequence>
+            <xs:element name="BinDefinitions" type="sm:BinDefinitionsType" minOccurs="0" />
+            <xs:element name="BinCode" type="sm:BinCodeType" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="BinType" type="sm:BinTypeEnum" use="required" />
+        <xs:attribute name="NullBin" type="xs:string" use="required" />
+        <xs:attribute name="MapType" type="sm:MapTypeEnum" use="optional" />
+    </xs:complexType>
+    <xs:complexType name="BinCodeType">
+        <xs:simpleContent>
+            <xs:extension base="sm:BinCodeContentType">
+                <xs:attribute name="X" type="xs:integer" use="optional" />
+                <xs:attribute name="Y" type="xs:integer" use="optional" />
+                <xs:attribute name="Number" type="xs:integer" use="optional" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="BinDefinitionsType">
+        <xs:sequence>
+            <xs:element name="BinDefinition" type="sm:BinDefinitionType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BinDefinitionType">
+        <xs:attribute name="BinCode" type="xs:string" use="required" />
+        <xs:attribute name="BinCount" type="xs:nonNegativeInteger" use="optional" />
+        <xs:attribute name="BinQuality" type="xs:string" use="optional" default="" />
+        <xs:attribute name="BinDescription" type="xs:string" use="optional" default="" />
+        <xs:attribute name="Pick" type="xs:boolean" use="optional" default="false" />
+    </xs:complexType>
+    <xs:complexType name="DeviceIdMapType">
+        <xs:sequence>
+            <xs:element name="Id" type="sm:DeviceIdType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DeviceIdType">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="X" type="xs:integer" />
+                <xs:attribute name="Y" type="xs:integer" />
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="TransferMapType">
+        <xs:sequence>
+            <xs:element name="T" type="sm:TransferType" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="FromSubstrateType" type="sm:SubstrateTypeEnum" use="required" />
+        <xs:attribute name="FromSubstrateId" type="sm:MaterialIdType" use="required" />
+        <xs:attribute name="FromSubstrateLayoutSpecifier" type="xs:string" use="required" />
+    </xs:complexType>
+    <xs:complexType name="TransferType">
+        <xs:attribute name="FX" type="xs:integer" use="required" />
+        <xs:attribute name="FY" type="xs:integer" use="required" />
+        <xs:attribute name="TX" type="xs:integer" use="required" />
+        <xs:attribute name="TY" type="xs:integer" use="required" />
+    </xs:complexType>
+    <xs:complexType name="LogicalCoordinatesType">
+        <xs:attribute name="X" type="xs:integer" use="required" />
+        <xs:attribute name="Y" type="xs:integer" use="required" />
+    </xs:complexType>
+    <xs:complexType name="PhysicalCoordinatesType">
+        <xs:attribute name="X" type="xs:double" use="required" />
+        <xs:attribute name="Y" type="xs:double" use="required" />
+        <xs:attribute name="Units" type="xs:string" use="optional" />
+    </xs:complexType>
+    <xs:complexType name="ZDimensionsType">
+        <xs:attribute name="Order" type="xs:integer" use="optional" default="0" />
+        <xs:attribute name="Height" type="xs:double" use="optional" default="0" />
+        <xs:attribute name="Units" type="xs:string" use="optional" />
+    </xs:complexType>
+    <!-- Simple Types -->
+    <xs:simpleType name="LotIdType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="80" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MaterialIdType">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="32" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="BinCodeContentType">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="OrientationType">
+        <xs:restriction base="xs:integer">
+            <xs:minInclusive value="0" />
+            <xs:maxInclusive value="359" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="BinTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Ascii" />
+            <xs:enumeration value="Decimal" />
+            <xs:enumeration value="HexaDecimal" />
+            <xs:enumeration value="Integer2" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SubstrateSideEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="TopSide" />
+            <xs:enumeration value="BottomSide" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="OriginLocationEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="LowerLeft" />
+            <xs:enumeration value="UpperLeft" />
+            <xs:enumeration value="LowerRight" />
+            <xs:enumeration value="UpperRight" />
+            <xs:enumeration value="Center" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="AxisDirectionEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="UpRight" />
+            <xs:enumeration value="DownRight" />
+            <xs:enumeration value="UpLeft" />
+            <xs:enumeration value="DownLeft" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SubstrateTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Wafer" />
+            <xs:enumeration value="Frame" />
+            <xs:enumeration value="Strip" />
+            <xs:enumeration value="Tray" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MapTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="2DArray" />
+            <xs:enumeration value="Row/Column" />
+            <xs:enumeration value="Array" />
+            <xs:enumeration value="Coordinate" />
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

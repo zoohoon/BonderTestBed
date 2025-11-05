@@ -1,0 +1,229 @@
+﻿<UserControl x:Class="GPCardChangeMainPageView.UcGPCardChangeMainPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:UcDisplayPort="clr-namespace:UcDisplayPort;assembly=UcDisplayPort"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:MahAppsControls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:local="clr-namespace:GPCardChangeMainPageView"
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:view="clr-namespace:ProberViewModel.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="892" d:DesignWidth="1280" Loaded="UserControl_Loaded">
+
+    <UserControl.Resources>
+        <vc:ListBoxIndexConverter x:Key="ListBoxIndexConv"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.5*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <UcDisplayPort:DisplayPort Grid.Column="0" Width="890" Height="890"
+                                   x:Name="displayport" 
+                                   StageSupervisor="{Binding StageSupervisor}"
+                                   AssignedCamera="{Binding AssignedCamera}"
+                                   TargetRectangleWidth="{Binding PatternWidth}" 
+                                   TargetRectangleHeight="{Binding PatternHeight}"                  
+                                   UseUserControlFunc="PTRECT"/>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+
+                <UniformGrid Grid.Row="0" Columns="2">
+                    <Button AutomationProperties.AutomationId="btnCARD"
+                        Content="CARD" Command="{Binding CardSettingCommand}" IsEnabled="{Binding CARDSetupBtnEnable}"/>
+                    <Button AutomationProperties.AutomationId="btnPOGO"
+                        Content="POGO" Command="{Binding PogoSettingCommand}" IsEnabled="{Binding POGOSetupBtnEnable}"/>
+                </UniformGrid>
+
+                <GroupBox Grid.Row="1" Header="Mark" Padding="3">
+                    <ScrollViewer Grid.Row="1">
+                        <ScrollViewer.Resources>
+                            <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">40</sys:Double>
+                            <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">40</sys:Double>
+                        </ScrollViewer.Resources>
+                        <ListBox ItemsSource="{Binding MarkPositionList}" SelectedItem="{Binding SelectedMarkPosition}" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding SelectedMarkPosiongChangedCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Padding" Value="1"/>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+
+                            <ListBox.ItemTemplate>
+                                <ItemContainerTemplate>
+                                    <Border BorderBrush="White" BorderThickness="1">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button AutomationProperties.AutomationId="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Converter={StaticResource ListBoxIndexConv}, StringFormat={}btnRegisterPattern_{0}}"
+                                                Grid.Column="0" Content="+" Command="{Binding RegisterPatternCommand}" IsEnabled="{Binding ButtonEnable}" FontWeight="Bold" FontSize="20" Width="50" Height="40" Margin="5" VerticalAlignment="Center"/>
+                                            <Button AutomationProperties.AutomationId="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Converter={StaticResource ListBoxIndexConv}, StringFormat={}btnPOS_{0}}"
+                                                Grid.Column="0" Content="POS" Command="{Binding RegisterPosCommand}" IsEnabled="{Binding ButtonEnable}" FontWeight="Bold" FontSize="15" Width="50" Height="40" Margin="5" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column ="1" Text="{Binding Description}" VerticalAlignment="Center" Foreground="White" Margin="10 0 0 0" Width="300"/>
+                                        </StackPanel>
+                                    </Border>
+                                </ItemContainerTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </ScrollViewer>
+                </GroupBox>
+
+                <UniformGrid Grid.Row="2" Columns="2">
+                    <GroupBox Header="Z" Padding="3">
+                        <UniformGrid Columns="2">
+                            <UniformGrid Columns="1" Rows="2">
+                                <Button AutomationProperties.AutomationId="btnRaiseZ"
+                                    Command="{Binding RaiseZCommand}">
+                                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-up-bold-outline_Black.png"/>
+                                </Button>
+                                <Button AutomationProperties.AutomationId="btnDropZ"
+                                    Command="{Binding DropZCommand}">
+                                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-down-bold-outline_Black.png"/>
+                                </Button>
+                            </UniformGrid>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <Slider AutomationProperties.AutomationId="sdZOffset"
+                                    Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" TickPlacement="BottomRight" TickFrequency="1" Minimum="1" Maximum="3" Value="{Binding ZTickValue}"/>
+                                <Label Grid.Row="1" Content="{Binding ZDistanceValue}" FontSize="12" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                            </Grid>
+                        </UniformGrid>
+                    </GroupBox>
+                    <GroupBox Header="Light" Padding="3">
+                        <MahAppsControls:MetroAnimatedSingleRowTabControl  Background="Transparent">
+
+                            <MahAppsControls:MetroTabItem AutomationProperties.AutomationId="tiCurrent"
+                                                      Background="DimGray" BorderThickness="1" BorderBrush="Black" Header="Current" MahAppsControls:ControlsHelper.HeaderFontSize="16">
+                                <UniformGrid Columns="2">
+                                    <UniformGrid Columns="1" Rows="2">
+                                        <RepeatButton AutomationProperties.AutomationId="rbtnIncreaseLight"
+                                                  Command="{Binding IncreaseLightIntensityCommand}">
+                                            <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-up-bold-outline_Black.png"/>
+                                        </RepeatButton>
+                                        <RepeatButton AutomationProperties.AutomationId="rbtnDecreaseLight"
+                                                  Command="{Binding DecreaseLightIntensityCommand}">
+                                            <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-down-bold-outline_Black.png"/>
+                                        </RepeatButton>
+                                    </UniformGrid>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="59*"/>
+                                            <RowDefinition Height="6*"/>
+                                            <RowDefinition Height="43*"/>
+                                            <RowDefinition Height="43*"/>
+                                        </Grid.RowDefinitions>
+                                        <Slider AutomationProperties.AutomationId="sdLightType"
+                                            Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" TickPlacement="BottomRight" TickFrequency="1" Minimum="0" Maximum="1" Value="{Binding LightTickValue}"/>
+                                        <Label Grid.Row="2" Content="{Binding SelectedLightType}" FontSize="12" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                                        <Label Grid.Row="3" Content="{Binding LightValue}" FontSize="12" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                                    </Grid>
+                                </UniformGrid>
+                            </MahAppsControls:MetroTabItem>
+
+                            <MahAppsControls:MetroTabItem AutomationProperties.AutomationId="tiModelFinder"
+                            Background="DimGray" BorderThickness="1" FontSize="10" BorderBrush="Black" Header="ModelFinder" MahAppsControls:ControlsHelper.HeaderFontSize="16">
+                                <UniformGrid Rows="2">
+                                    <Button AutomationProperties.AutomationId="btnModelLight"
+                                        Content="Set Model Lights" Command="{Binding SetMFModelLightsCommand}"/>
+                                    <Button AutomationProperties.AutomationId="btnModelChildLight"
+                                        Content="Set Model Child Lights" Command="{Binding SetMFChildLightsCommand}"/>
+
+                                </UniformGrid>
+                            </MahAppsControls:MetroTabItem>
+
+
+                        </MahAppsControls:MetroAnimatedSingleRowTabControl>
+
+                    </GroupBox>
+                </UniformGrid>
+
+                <Grid Grid.Row="3">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <RepeatButton AutomationProperties.AutomationId="rbtnPatternWidthPlus"
+                              Grid.Row="0" Grid.Column="0" FontSize="20" Command="{Binding PatternWidthPlusCommand}">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-split-vertical.png"/>
+                    </RepeatButton>
+
+                    <RepeatButton AutomationProperties.AutomationId="rbtnPatternWidthMinus"
+                              Grid.Row="0" Grid.Column="1" FontSize="20" Command="{Binding PatternWidthMinusCommand}">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-collapse-horizontal.png"/>
+                    </RepeatButton>
+
+                    <!--<Button FontSize="20" Command="{Binding FocusingCommand}">
+                <Image Source="pack://application:,,,/ImageResourcePack;component/Images/Focusing.png"/>
+            </Button>-->
+
+                    <RepeatButton AutomationProperties.AutomationId="rbtnPatternHeightPlus"
+                              Grid.Row="1" Grid.Column="0" FontSize="20" Command="{Binding PatternHeightPlusCommand}">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-split-horizontal.png"/>
+                    </RepeatButton>
+
+                    <RepeatButton AutomationProperties.AutomationId="rbtnPatternHeightMinus"
+                              Grid.Row="1" Grid.Column="1" FontSize="20" Command="{Binding PatternHeightMinusCommand}">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-collapse-vertical.png"/>
+                    </RepeatButton>
+
+                </Grid>
+                <!--<UniformGrid Grid.Row="3" Rows="2" Columns="3">
+                <RepeatButton FontSize="20" Command="{Binding PatternWidthPlusCommand}">
+                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-split-vertical.png"/>
+                </RepeatButton>
+                <RepeatButton FontSize="20" Command="{Binding PatternWidthMinusCommand}">
+                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-collapse-horizontal.png"/>
+                </RepeatButton>
+
+                -->
+                <!--<Button FontSize="20" Command="{Binding FocusingCommand}">
+                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/Focusing.png"/>
+                </Button>-->
+                <!--
+
+                <RepeatButton FontSize="20" Command="{Binding PatternHeightPlusCommand}">
+                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-split-horizontal.png"/>
+                </RepeatButton>
+                <RepeatButton FontSize="20" Command="{Binding PatternHeightMinusCommand}">
+                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-collapse-vertical.png"/>
+                </RepeatButton>
+            </UniformGrid>-->
+
+                <UniformGrid Grid.Row="4" Rows="1" Columns="1">
+                    <!--<Button Background="Red" Content="Wafer Cam &#x0a;Extend" Command="{Binding WaferCamExtendCommand}"/>
+                <Button Background="Red" Content="Wafer Cam &#x0a;Fold" Command="{Binding WaferCamFoldCommand}"/>
+                <Button Background="Orange" Content="Move To Center" Command="{Binding MoveToCenterCommand}"/>
+                <Button Background="Orange" Content="Ready to get card" Command="{Binding ReadyToGetCardCommand}"/>-->
+                    <Button AutomationProperties.AutomationId="btnAlign"
+                        Content="Align" FontSize="60" Command="{Binding AlignCommand}"/>
+                </UniformGrid>
+            </Grid>
+        </Grid>
+        <Grid>
+            <view:ScreenLock DataContext="{Binding SelectedStage}"/>
+        </Grid>
+    </Grid>
+</UserControl>

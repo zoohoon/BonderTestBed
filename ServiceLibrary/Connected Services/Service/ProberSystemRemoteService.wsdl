@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="ProberSystemRemoteService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetTcpBinding_IServerDuplex_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="NetTcpBinding_IClientDuplex_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1" />
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256 />
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict />
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:10237/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:10237/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:10237/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/WCFRemoteService.Data" />
+      <xsd:import schemaLocation="http://localhost:10237/?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IClient_EmptyFunc_InputMessage">
+    <wsdl:part name="parameters" element="tns:EmptyFunc" />
+  </wsdl:message>
+  <wsdl:message name="IClient_EmptyFunc_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EmptyFuncResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServer_GetConnectedClients_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetConnectedClients" />
+  </wsdl:message>
+  <wsdl:message name="IServer_GetConnectedClients_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetConnectedClientsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServer_SendData_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendData" />
+  </wsdl:message>
+  <wsdl:message name="IServer_SendData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServerDuplex_RegisterServerCallback_InputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterServerCallback" />
+  </wsdl:message>
+  <wsdl:message name="IServerDuplex_RegisterServerCallback_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterServerCallbackResponse" />
+  </wsdl:message>
+  <wsdl:message name="IServerDuplex_CheckServerConnect_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:CheckServerConnect" />
+  </wsdl:message>
+  <wsdl:message name="IServerDuplex_OnClientAddEvent_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnClientAddEvent" />
+  </wsdl:message>
+  <wsdl:message name="IClientDuplex_RegisterClientCallback_InputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterClientCallback" />
+  </wsdl:message>
+  <wsdl:message name="IClientDuplex_RegisterClientCallback_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterClientCallbackResponse" />
+  </wsdl:message>
+  <wsdl:message name="IClientDuplex_CheckClientConnect_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:CheckClientConnect" />
+  </wsdl:message>
+  <wsdl:message name="IClientDuplex_OnGetDataEvent_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnGetDataEvent" />
+  </wsdl:message>
+  <wsdl:portType name="IClient">
+    <wsdl:operation name="EmptyFunc">
+      <wsdl:input wsaw:Action="http://tempuri.org/IClient/EmptyFunc" message="tns:IClient_EmptyFunc_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IClient/EmptyFuncResponse" message="tns:IClient_EmptyFunc_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="IServer">
+    <wsdl:operation name="GetConnectedClients">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServer/GetConnectedClients" message="tns:IServer_GetConnectedClients_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServer/GetConnectedClientsResponse" message="tns:IServer_GetConnectedClients_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendData">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServer/SendData" message="tns:IServer_SendData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServer/SendDataResponse" message="tns:IServer_SendData_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType msc:usingSession="true" name="IServerDuplex">
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="RegisterServerCallback">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServerDuplex/RegisterServerCallback" message="tns:IServerDuplex_RegisterServerCallback_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IServerDuplex/RegisterServerCallbackResponse" message="tns:IServerDuplex_RegisterServerCallback_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="CheckServerConnect">
+      <wsdl:output wsaw:Action="http://tempuri.org/IServerDuplex/CheckServerConnect" message="tns:IServerDuplex_CheckServerConnect_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="OnClientAddEvent">
+      <wsdl:output wsaw:Action="http://tempuri.org/IServerDuplex/OnClientAddEvent" message="tns:IServerDuplex_OnClientAddEvent_OutputCallbackMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType msc:usingSession="true" name="IClientDuplex">
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="RegisterClientCallback">
+      <wsdl:input wsaw:Action="http://tempuri.org/IClientDuplex/RegisterClientCallback" message="tns:IClientDuplex_RegisterClientCallback_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IClientDuplex/RegisterClientCallbackResponse" message="tns:IClientDuplex_RegisterClientCallback_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="CheckClientConnect">
+      <wsdl:output wsaw:Action="http://tempuri.org/IClientDuplex/CheckClientConnect" message="tns:IClientDuplex_CheckClientConnect_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="OnGetDataEvent">
+      <wsdl:output wsaw:Action="http://tempuri.org/IClientDuplex/OnGetDataEvent" message="tns:IClientDuplex_OnGetDataEvent_OutputCallbackMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IClient" type="tns:IClient">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="EmptyFunc">
+      <soap:operation soapAction="http://tempuri.org/IClient/EmptyFunc" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BasicHttpBinding_IServer" type="tns:IServer">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetConnectedClients">
+      <soap:operation soapAction="http://tempuri.org/IServer/GetConnectedClients" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendData">
+      <soap:operation soapAction="http://tempuri.org/IServer/SendData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="NetTcpBinding_IServerDuplex" type="tns:IServerDuplex">
+    <wsp:PolicyReference URI="#NetTcpBinding_IServerDuplex_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="RegisterServerCallback">
+      <soap12:operation soapAction="http://tempuri.org/IServerDuplex/RegisterServerCallback" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckServerConnect">
+      <soap12:operation soapAction="http://tempuri.org/IServerDuplex/CheckServerConnect" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnClientAddEvent">
+      <soap12:operation soapAction="http://tempuri.org/IServerDuplex/OnClientAddEvent" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="NetTcpBinding_IClientDuplex" type="tns:IClientDuplex">
+    <wsp:PolicyReference URI="#NetTcpBinding_IClientDuplex_policy" />
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="RegisterClientCallback">
+      <soap12:operation soapAction="http://tempuri.org/IClientDuplex/RegisterClientCallback" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckClientConnect">
+      <soap12:operation soapAction="http://tempuri.org/IClientDuplex/CheckClientConnect" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnGetDataEvent">
+      <soap12:operation soapAction="http://tempuri.org/IClientDuplex/OnGetDataEvent" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ProberSystemRemoteService">
+    <wsdl:port name="BasicHttpBinding_IClient" binding="tns:BasicHttpBinding_IClient">
+      <soap:address location="http://localhost:10237/SimpleService" />
+    </wsdl:port>
+    <wsdl:port name="BasicHttpBinding_IServer" binding="tns:BasicHttpBinding_IServer">
+      <soap:address location="http://localhost:10237/SimpleService" />
+    </wsdl:port>
+    <wsdl:port name="NetTcpBinding_IServerDuplex" binding="tns:NetTcpBinding_IServerDuplex">
+      <soap12:address location="net.tcp://localhost:10238/SimpleService" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:10238/SimpleService</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>JAKE-PC\Semics</Upn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+    <wsdl:port name="NetTcpBinding_IClientDuplex" binding="tns:NetTcpBinding_IClientDuplex">
+      <soap12:address location="net.tcp://localhost:10238/SimpleService" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:10238/SimpleService</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>JAKE-PC\Semics</Upn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

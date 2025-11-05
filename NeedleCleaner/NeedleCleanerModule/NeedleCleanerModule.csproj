@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AD0D2695-B752-43B9-8483-ADDD4F2E4C45}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NeedleCleanerModule</RootNamespace>
+    <AssemblyName>NeedleCleanerModule</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>0</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="NeedleCleanModule.cs" />
+    <Compile Include="NeedleCleanModuleState.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CleanPadSequenceSetupModule\CleanPadSequenceSetupModule.csproj">
+      <Project>{80648CE6-55E7-466E-8FE4-1BF325A15A10}</Project>
+      <Name>CleanPadSequenceSetupModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DllImporter\DllImporter.csproj">
+      <Project>{E343B0AF-1EE5-4E09-9FDC-392E5CDDEDB2}</Project>
+      <Name>DllImporter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\LogModule\LogModule.csproj">
+      <Project>{d3b00cca-3c50-42b1-8dca-dfe47c759b57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NeedleCleanHeightProfilingParamObject\NeedleCleanHeightProfilingParamObject.csproj">
+      <Project>{E1D1BBA6-109D-4B30-AA13-B8C2221D7937}</Project>
+      <Name>NeedleCleanHeightProfilingParamObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NeedleCleanHeightProfiling\NeedleCleanHeightProfilingModule.csproj">
+      <Project>{A765650E-6785-4270-8DAD-9864479DC1DB}</Project>
+      <Name>NeedleCleanHeightProfilingModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NeedleCleanPadModule\NeedleCleanPadModule.csproj">
+      <Project>{33fd9164-42cd-4130-ad8f-e6114e073f43}</Project>
+      <Name>NeedleCleanPadModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NeedleCleanViewer\NeedleCleanViewer.csproj">
+      <Project>{16BF6124-DEA6-4784-BB32-8490B00E378E}</Project>
+      <Name>NeedleCleanViewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NotifyEventModule\NotifyEventModule.csproj">
+      <Project>{40F3E74A-35B7-417C-9118-EE5DB75340A6}</Project>
+      <Name>NotifyEventModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\PControl\PnPControl.csproj">
+      <Project>{6BE9F617-1527-4711-9A3E-61B3E6C84F3B}</Project>
+      <Name>PnPControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{EDBA3295-FF2A-4368-A217-6495941A8BF5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20CF2683-EF4E-4455-B151-310F937B3ADF}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RequestPinAlignAfterCleaning\RequestPinAlignAfterCleaning.csproj">
+      <Project>{a24e635f-03b2-4a9a-9452-ad50ae31c099}</Project>
+      <Name>RequestPinAlignAfterCleaning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RequestPinAlignBeforeCleaning\RequestPinAlignBeforeCleaning.csproj">
+      <Project>{906a4ceb-4d5e-402b-aa9c-5c4e2f38dafe}</Project>
+      <Name>RequestPinAlignBeforeCleaning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SequenceRunnerBehaviors\SequenceRunnerBehaviors.csproj">
+      <Project>{EC7B7E56-37C3-44AB-B48D-45EC42440C09}</Project>
+      <Name>SequenceRunnerBehaviors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SubstrateObjects\SubstrateObjects.csproj">
+      <Project>{EFB47AA8-B3C8-439C-8A01-D26DB8522710}</Project>
+      <Name>SubstrateObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TouchSensorBaseRegisterModule\TouchSensorBaseRegisterModule.csproj">
+      <Project>{9615c426-de97-4f11-86c9-5b1f2ddb5a4d}</Project>
+      <Name>TouchSensorBaseRegisterModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TouchSensorOffsetRegisterModule\TouchSensorOffsetRegisterModule.csproj">
+      <Project>{23987cf3-4923-4d40-b082-364e2ed01907}</Project>
+      <Name>TouchSensorOffsetRegisterModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TouchSensorPadRefRegisterModule\TouchSensorPadRefRegisterModule.csproj">
+      <Project>{66de6389-9ce6-48b7-a0f9-6110b3f4735c}</Project>
+      <Name>TouchSensorPadRefRegisterModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TouchSensorRegisterModule\TouchSensorRegisterModule.csproj">
+      <Project>{a1fe1a56-5c30-46a7-a00b-34c98561e17a}</Project>
+      <Name>TouchSensorRegisterModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NeedleCleanerModuleParameter\NeedleCleanerModuleParameter.csproj">
+      <Project>{B9E47991-D88B-46E5-8A87-CDDDE625FF23}</Project>
+      <Name>NeedleCleanerModuleParameter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NeedleCleanerProcesser\NeedleCleanerProcesser.csproj">
+      <Project>{6E250D8F-F71E-490B-B228-2BB835DC513A}</Project>
+      <Name>NeedleCleanerProcesser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NeedleCleanerScheduler\NeedleCleanerScheduler.csproj">
+      <Project>{B05E03A9-12ED-4444-B3A7-A8C6E04C889A}</Project>
+      <Name>NeedleCleanerScheduler</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

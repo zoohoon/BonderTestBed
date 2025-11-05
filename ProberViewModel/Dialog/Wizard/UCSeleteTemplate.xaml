@@ -1,0 +1,86 @@
+﻿<dialogs:CustomDialog x:Class="SelectTemplateControl.UCSeleteTemplate"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SelectTemplateControl"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"     
+             xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d">
+    <Grid >
+        <Grid.Resources>
+            <ResourceDictionary>
+                <System:Double x:Key="DialogTitleFontSize">26</System:Double>
+                <System:Double x:Key="DialogMessageFontSize">15</System:Double>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="4" Orientation="Horizontal">
+            <Label Content="PATH" Foreground="Black" FontWeight="DemiBold" />
+            <Label Content="{Binding TemplatePath}" Foreground="Gray" FontWeight="Medium"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="4">
+            <ListBox x:Name="tmplateinfocontrol" ItemsSource="{Binding HasTemplateModule.TemplateParam.Param.TemplateInfos}" 
+                     SelectedIndex="{Binding SeletedTemplateIndex, Mode=TwoWay}" MaxHeight="130">
+                
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding TemplateChangedCommand}"
+                                               CommandParameter="{Binding SelectedIndex, ElementName=tmplateinfocontrol}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <!--<Border Margin="8,2,2,8" BorderThickness="2" BorderBrush="Black" MinHeight="50" Width="300" Background="Gray">-->
+                            <TextBlock Padding="4" Text="{Binding Name}" 
+                                       FontSize="24" FontWeight="DemiBold"
+                                       TextWrapping="NoWrap" 
+                                       TextTrimming="CharacterEllipsis"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"/>
+                        <!--</Border>-->
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="4" MaxHeight="150">
+            <Border BorderBrush="Black" BorderThickness="2">
+                
+            </Border>
+            
+        </Grid>
+
+        <Grid Grid.Row="3" Margin="4">
+            <StackPanel Grid.Row="3"
+                    Height="85"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                <Button x:Name="PART_AffirmativeButton"
+                    Height="35"
+                    MinWidth="80"
+                    Margin="0 0 5 0"
+                    Content="OK"
+                    Command="{Binding cmdAffirmativeButtonClick}"
+                    />
+                <Button x:Name="PART_NegativeButton"
+                    Height="35"
+                    MinWidth="80"
+                    Margin="5 0 5 0"
+                    Content="Cancel"
+                  
+                    Command="{Binding cmdNegativeButtonClick}"
+                    />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</dialogs:CustomDialog>

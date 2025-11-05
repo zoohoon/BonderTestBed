@@ -1,0 +1,260 @@
+﻿<UserControl x:Class="LoaderSetupPageView.LoaderSetupPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:template="clr-namespace:LoaderSetupPageView.Templates.TreeViewTemplate"
+             xmlns:manualjogview="clr-namespace:ManualJogView;assembly=ManualJogView"
+             xmlns:displayport="clr-namespace:UcDisplayPort;assembly=UcDisplayPort"
+             xmlns:local="clr-namespace:LoaderSetupPageView"
+             xmlns:prober="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             mc:Ignorable="d" 
+                     d:DesignHeight="940" d:DesignWidth="1280" Background="Transparent">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="DisplayViewTemplate" DataType="{x:Type prober:IDisplayPort}" >
+                <ContentControl Name="DisPlay" Content="{Binding }">
+                </ContentControl>
+            </DataTemplate>
+            <template:ParamToItemSourceConverter x:Key="LoaderSetupToSourceConverter" />
+            <ResourceDictionary.MergedDictionaries>
+                <!-- MahApps -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />-->
+
+                <!-- Material Design -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.indigo.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.deeporange.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Slider.xaml" />
+                <!-- Material Design: MahApps Compatibility -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Flyout.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="9*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" Content="ScanCst" Margin="8" Command="{Binding ScanCstCommand}"/>
+                <ComboBox Grid.Column="1" Margin="8" ItemsSource="{Binding LoaderCamList}"
+                      Foreground="WhiteSmoke"
+                      DisplayMemberPath="CamType"
+                      SelectedValuePath="CamType"
+                      SelectedValue="{Binding SelectedCam}" />
+                <Button Grid.Column="2" Content="StartGrab" Margin="8" Command="{Binding StartGrabCommand}" />
+            </Grid>
+
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">
+                <Border BorderThickness="1" BorderBrush="DimGray">
+                    <!--<Viewbox Stretch="Uniform" Width="500" Height="500">-->
+                    <!--<displayport:DisplayPort  Grid.Column="0" Name="Display" Width="600" Height="600"
+                                          StageSupervisor="{Binding StageSupervisor}"
+                                          AssignedCamera="{Binding Cam}" Margin="1"/>-->
+                    <ContentControl Content="{Binding CameraDisplayPort}"  Width="600" Height="600" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="1"/>
+                </Border>
+            </Grid>
+
+        </Grid>
+
+
+
+
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" >
+                <TabControl Name="LoaderSetupTab" Background="Transparent">
+
+                    <TabItem Grid.Row="0" Background="DarkGray" Margin="0.5">
+                        <TabItem.Header>
+                            <TextBlock Text="Jog" FontSize="23" />
+                        </TabItem.Header>
+
+
+                        <StackPanel Orientation="Vertical">
+                            <manualjogview:UCLoaderPanel />
+                            <Viewbox Stretch="Uniform" Margin="0,4" >
+                                <manualjogview:UCIOPanel />
+                            </Viewbox>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Column="0" 
+                           HorizontalContentAlignment="Center" 
+                           VerticalAlignment="Center">
+                                    <Grid>
+                                        <TextBlock Text="Chuck" Foreground="LightGray"
+                                           TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"
+                                           TextAlignment="Center" FontSize="12" FontWeight="Bold"/>
+                                    </Grid>
+                                </Label>
+                                <ToggleButton VerticalAlignment="Center" Margin="4"  Grid.Column="1">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Checked">
+                                            <i:InvokeCommandAction Command="{Binding ChuckVacOnCommand}"/>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="Unchecked">
+                                            <i:InvokeCommandAction Command="{Binding ChuckVacOffCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </ToggleButton>
+
+                                <Label Grid.Column="0" Grid.Row="1"
+                           HorizontalContentAlignment="Center" 
+                           VerticalAlignment="Center">
+                                    <Grid>
+                                        <TextBlock Text="Tri" Foreground="LightGray"
+                                           TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"
+                                           TextAlignment="Center" FontSize="12" FontWeight="Bold"/>
+                                    </Grid>
+                                </Label>
+                                <ToggleButton VerticalAlignment="Center" Margin="4" Grid.Row="1" Grid.Column="1">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Checked">
+                                            <i:InvokeCommandAction Command="{Binding TriUPCommand}"/>
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="Unchecked">
+                                            <i:InvokeCommandAction Command="{Binding TriDNCommand}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </ToggleButton>
+
+                                <Button Content="ClearState" Grid.Column="2" Margin="4" Width="200"  HorizontalAlignment="Right" Height="32"
+                                        Command="{Binding ClearLoaderStateCommand}"/>
+                            </Grid>
+                        </StackPanel>
+
+                    </TabItem>
+
+
+
+                    <TabItem Grid.Row="0" Background="DarkGray" Margin="0.5" >
+
+                        <TabItem.Header>
+                            <TextBlock Text="SystemParam" FontSize="23" />
+
+                        </TabItem.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="9*"/>
+                            </Grid.RowDefinitions>
+
+                            <Button Content="NewSysParam" Grid.Row="0" Grid.Column="0" Width="200" Height="80" Command="{Binding NewSysParamCommand}"/>
+                            <Button Content="LoadSysParam" Grid.Row="0" Grid.Column="1" Width="200" Height="80" Command="{Binding LoadSysFileCommand}"/>
+                            <Button Content="SaveSysParam" Grid.Row="0" Grid.Column="2" Width="200" Height="80" Command="{Binding SaveSysParamCommand}"/>
+                            <GroupBox Grid.RowSpan="3" Grid.Row="1" Grid.ColumnSpan="3">
+                                <!--<TreeView ItemsSource="{Binding LoaderSystemParam, Converter={StaticResource LoaderSetupToSourceConverter}}"/>-->
+                            </GroupBox>
+                        </Grid>
+
+                    </TabItem>
+
+                    <TabItem Grid.Row="0" Background="DarkGray" Margin="0.5" >
+
+                        <TabItem.Header>
+                            <TextBlock Text="DeviceParam" FontSize="23" />
+
+                        </TabItem.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="145*"/>
+                                <ColumnDefinition Width="66*"/>
+                                <ColumnDefinition Width="212*"/>
+                                <ColumnDefinition Width="211*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="9*"/>
+                            </Grid.RowDefinitions>
+
+                            <Button Content="NewDevParam" Grid.Row="0" Grid.Column="0" Width="200" Height="80" Command="{Binding NewDevParamCommand}" Grid.ColumnSpan="2" Margin="6,5,5,5"/>
+                            <Button Content="LoadDevParam" Grid.Row="0" Grid.Column="2" Width="200" Height="80" Command="{Binding LoadDevFileCommand}" Margin="6,5"/>
+                            <Button Content="SaveDevParam" Grid.Row="0" Grid.Column="3" Width="200" Height="80" Command="{Binding SaveDevParamCommand}" Margin="5,5,6,5"/>
+                            <GroupBox Grid.Row="1" Grid.ColumnSpan="4">
+                                <!--<TreeView ItemsSource="{Binding LoaderDeviceParam, Converter={StaticResource LoaderSetupToSourceConverter}}"/>-->
+                            </GroupBox>
+                        </Grid>
+
+                    </TabItem>
+
+                    <TabItem Grid.Row="0" Background="DarkGray" Margin="0.5">
+
+                        <TabItem.Header>
+                            <TextBlock Text="ClickPosition" FontSize="23" />
+                        </TabItem.Header>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <local:OneClickPosPage DataContext="{Binding}"/>
+                            <WrapPanel Grid.Row="1">
+                                <Button Command="{Binding EdgeProcCommand}" Height="48" Margin="4" Padding="8" >Edge Find with PACL 8</Button>
+                                <Button Command="{Binding NotchFindProcCommand}" Height="48" Margin="4" Padding="8" >6" NotchFind Processing</Button>
+                            </WrapPanel> 
+                        </Grid>
+                        
+                    </TabItem>
+
+
+
+                </TabControl>
+            </Grid>
+
+
+        </Grid>
+
+
+    </Grid>
+</UserControl>

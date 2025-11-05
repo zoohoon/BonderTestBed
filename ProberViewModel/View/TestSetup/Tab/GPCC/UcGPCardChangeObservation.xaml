@@ -1,0 +1,138 @@
+﻿<UserControl x:Class="TestSetupDialog.Tab.GPCC.UcGPCardChangeObservation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:UcDisplayPort="clr-namespace:UcDisplayPort;assembly=UcDisplayPort"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:TestSetupDialog.Tab.GPCC"
+             mc:Ignorable="d" 
+             d:DesignHeight="892" d:DesignWidth="1280" Background="#FF1C1C1F" Loaded="UserControl_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2.5*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Viewbox Grid.Column="0">
+            <UcDisplayPort:DisplayPort Width="890" Height="890"
+                                    x:Name="displayport" 
+                                    StageSupervisor="{Binding StageSupervisor}"
+                                    AssignedCamera="{Binding AssignedCamera}"
+                                    TargetRectangleWidth="{Binding PatternWidth}"
+                                    TargetRectangleHeight="{Binding PatternHeight}"
+                                    UseUserControlFunc="PTRECT"/>
+        </Viewbox>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <UniformGrid Grid.Row="0" Columns="2">
+                <Button Content="Set CardChange" Margin="1" Command="{Binding SetCardChangeStateCommand}"/>
+                <Button Content="UnSet CardChange" Margin="1" Command="{Binding UnSetCardChangeStateCommand}"/>
+            </UniformGrid>
+
+            <GroupBox Grid.Row="1" Header="Mark" Padding="3">
+                <ScrollViewer Grid.Row="1">
+                    <ScrollViewer.Resources>
+                        <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">40</sys:Double>
+                        <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarButtonHeightKey}">40</sys:Double>
+                    </ScrollViewer.Resources>
+                    <ListBox ItemsSource="{Binding MarkPositionList}" SelectedItem="{Binding SelectedMarkPosition}" >
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Padding" Value="1"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+
+                        <ListBox.ItemTemplate>
+                            <ItemContainerTemplate>
+                                <Border BorderBrush="White" BorderThickness="1">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Grid.Column="0" Content="+" Command="{Binding RegisterPatternCommand}" IsEnabled="{Binding ButtonEnable}" FontWeight="Bold" FontSize="20" Width="50" Height="40" Margin="5" VerticalAlignment="Center"/>
+                                        <Button Grid.Column="0" Content="POS" Command="{Binding RegisterPosCommand}" IsEnabled="{Binding ButtonEnable}" FontWeight="Bold" FontSize="15" Width="50" Height="40" Margin="5" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column ="1" Text="{Binding Description}" VerticalAlignment="Center" Foreground="White" Margin="10 0 0 0" Width="300"/>
+                                    </StackPanel>
+                                </Border>
+                            </ItemContainerTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </ScrollViewer>
+            </GroupBox>
+
+            <UniformGrid Grid.Row="2" Columns="2">
+                <GroupBox Header="Z" Padding="3">
+                    <UniformGrid Columns="2">
+                        <UniformGrid Columns="1" Rows="2">
+                            <Button Command="{Binding RaiseZCommand}">
+                                <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-up-bold-outline_Black.png"/>
+                            </Button>
+                            <Button Command="{Binding DropZCommand}">
+                                <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-down-bold-outline_Black.png"/>
+                            </Button>
+                        </UniformGrid>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="1*"/>
+                            </Grid.RowDefinitions>
+                            <Slider Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" TickPlacement="BottomRight" TickFrequency="1" Minimum="1" Maximum="3" Value="{Binding ZTickValue}"/>
+                            <Label Grid.Row="1" Content="{Binding ZDistanceValue}" FontSize="12" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                        </Grid>
+                    </UniformGrid>
+                </GroupBox>
+                <GroupBox Header="Light" Padding="3">
+                    <UniformGrid Columns="2">
+                        <UniformGrid Columns="1" Rows="2">
+                            <RepeatButton Command="{Binding IncreaseLightIntensityCommand}">
+                                <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-up-bold-outline_Black.png"/>
+                            </RepeatButton>
+                            <RepeatButton Command="{Binding DecreaseLightIntensityCommand}">
+                                <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-down-bold-outline_Black.png"/>
+                            </RepeatButton>
+                        </UniformGrid>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="59*"/>
+                                <RowDefinition Height="6*"/>
+                                <RowDefinition Height="43*"/>
+                                <RowDefinition Height="43*"/>
+                            </Grid.RowDefinitions>
+                            <Slider Grid.Row="0" Orientation="Vertical" HorizontalAlignment="Center" TickPlacement="BottomRight" TickFrequency="1" Minimum="0" Maximum="1" Value="{Binding LightTickValue}"/>
+                            <Label Grid.Row="2" Content="{Binding SelectedLightType}" FontSize="12" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                            <Label Grid.Row="3" Content="{Binding LightValue}" FontSize="12" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0"/>
+                        </Grid>
+                    </UniformGrid>
+                </GroupBox>
+            </UniformGrid>
+
+            <UniformGrid Grid.Row="3" Rows="2" Columns="2">
+                <RepeatButton FontSize="20" Command="{Binding PatternWidthPlusCommand}">
+                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-split-vertical.png"/>
+                </RepeatButton>
+                <RepeatButton FontSize="20" Command="{Binding PatternWidthMinusCommand}">
+                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-collapse-horizontal.png"/>
+                </RepeatButton>
+
+                <RepeatButton FontSize="20" Command="{Binding PatternHeightPlusCommand}">
+                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-split-horizontal.png"/>
+                </RepeatButton>
+                <RepeatButton FontSize="20" Command="{Binding PatternHeightMinusCommand}">
+                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/arrow-collapse-vertical.png"/>
+                </RepeatButton>
+            </UniformGrid>
+
+            <UniformGrid Grid.Row="4" Rows="2" Columns="3">
+                <Button Background="Red" Content="Wafer Cam &#x0a;Extend" Command="{Binding WaferCamExtendCommand}"/>
+                <Button Background="Red" Content="Wafer Cam &#x0a;Fold" Command="{Binding WaferCamFoldCommand}"/>
+                <Button Background="Orange" Content="Move To Center" Command="{Binding MoveToCenterCommand}"/>
+                <Button Content="Observation" Command="{Binding ObservationCommand}"/>
+            </UniformGrid>
+        </Grid>
+    </Grid>
+</UserControl>

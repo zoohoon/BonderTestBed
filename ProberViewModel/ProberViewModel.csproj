@@ -1,0 +1,2886 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C7D1F978-D3AE-49AF-9A4B-09337BCBFAE9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ProberViewModel</RootNamespace>
+    <AssemblyName>ProberViewModel</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>ProberViewModel.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>ProberViewModel.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ProberViewModel.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ProberViewModel.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <CodeAnalysisRuleSet>ProberViewModel.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <CodeAnalysisRuleSet>ProberViewModel.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="CsvHelper, Version=12.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.12.2.2\lib\net47\CsvHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net47\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.2.2.920, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.2.2\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.6.0.325, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.6.0\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Expression.Drawing.3.0.0\lib\net45\Microsoft.Expression.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Pranas.ScreenshotCapture, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pranas.ScreenshotCapture.1.0.11\lib\net40\Pranas.ScreenshotCapture.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="SciChart.Charting, Version=4.2.1.9358, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SciChart\SciChart.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Charting3D, Version=4.2.1.9358, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SciChart\SciChart.Charting3D.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Core, Version=4.2.1.9358, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SciChart\SciChart.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Data, Version=4.2.1.9358, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SciChart\SciChart.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Drawing, Version=4.2.1.9358, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SciChart\SciChart.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Drawing.DirectX, Version=4.2.1.9358, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SciChart\SciChart.Drawing.DirectX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct2D1.4.2.0\lib\net45\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DXGI.4.2.0\lib\net45\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Mathematics, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Mathematics.4.2.0\lib\net45\SharpDX.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Text.Encoding.CodePages, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.5.0.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CommonDLL\DLL\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WindowsInput, Version=1.0.4.0, Culture=neutral, PublicKeyToken=9b287f7dc5073cad, processorArchitecture=MSIL">
+      <HintPath>..\packages\InputSimulator.1.0.4.0\lib\net20\WindowsInput.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\AxisObjectVM.cs" />
+    <Compile Include="Data\StageCamera.cs" />
+    <Compile Include="Data\VmComboBoxItem.cs" />
+    <Compile Include="Data\VmGPComboBoxItem.cs" />
+    <Compile Include="ViewModel\AccuracyCheckSetupViewModel.cs" />
+    <Compile Include="ViewModel\AccuracyCheckSubSettingViewModel.cs" />
+    <Compile Include="ViewModel\ActiveStageInformationUCViewModel.cs" />
+    <Compile Include="ViewModel\LogCollectViewModel.cs" />
+    <Compile Include="ViewModel\GP_LoaderFoupRecoveryControlViewModel.cs" />
+    <Compile Include="ViewModel\UcCardChangeSettingViewModel.cs" />
+    <Compile Include="ViewModel\DigitalTwinSettingViewModel.cs" />
+    <Compile Include="ViewModel\DigitalTwinViewModel.cs" />
+    <Compile Include="ViewModel\GP_FoupRecoveryControlViewModel.cs" />
+    <Compile Include="ViewModel\LoaderAccountViewModel.cs" />
+    <Compile Include="ViewModel\AccountViewModel.cs" />
+    <Compile Include="ViewModel\AlarmsSubViewModel.cs" />
+    <Compile Include="ViewModel\AlarmsViewModel.cs" />
+    <Compile Include="ViewModel\E84\E84ControlSettingViewModel.cs" />
+    <Compile Include="ViewModel\E84\E84ControlViewModel.cs" />
+    <Compile Include="ViewModel\FoupControlVM.cs" />
+    <Compile Include="ViewModel\FoupSubSettingViewModel.cs" />
+    <Compile Include="ViewModel\LoaderRetestSettingViewModel.cs" />
+    <Compile Include="ViewModel\LoaderStageSummaryVM\Common.cs" />
+    <Compile Include="ViewModel\LoaderStageSummaryVM\LoaderStageSummaryViewModel.cs" />
+    <Compile Include="ViewModel\LoaderLoginControlVM.cs" />
+    <Compile Include="ViewModel\EnvMonitoringViewModel.cs" />
+    <Compile Include="ViewModel\SoakingSystemViewModel.cs" />
+    <Compile Include="ViewModel\Soaking\ManualSoakingViewModel.cs" />
+    <Compile Include="ViewModel\OPUSV3DVM.cs" />
+    <Compile Include="ViewModel\ResultMap\E142MapAnalyzeVM.cs" />
+    <Compile Include="ViewModel\ResultMap\JsonHeaderLogic.cs" />
+    <Compile Include="ViewModel\ResultMap\ResultMapAnalyzeViewerVM.cs" />
+    <Compile Include="ViewModel\ResultMap\ResultMapConverterVM.cs" />
+    <Compile Include="ViewModel\ResultMap\STIFMapAnalyzeVM.cs" />
+    <Compile Include="ViewModel\BINAnalyzeViewModel.cs" />
+    <Compile Include="ViewModel\CardChangeScreenViewModel.cs" />
+    <Compile Include="ViewModel\ChuckPlanaritySubSettingVM.cs" />
+    <Compile Include="ViewModel\ChuckPlanarityVM.cs" />
+    <Compile Include="ViewModel\ChuckTiltingSubViewModel.cs" />
+    <Compile Include="ViewModel\ChuckTiltingVM.cs" />
+    <Compile Include="ViewModel\CleanUnitViewModel.cs" />
+    <Compile Include="ViewModel\CognexOCRSubSettingViewModel.cs" />
+    <Compile Include="ViewModel\CommunicationConnectViewModel.cs" />
+    <Compile Include="ViewModel\ContactSettingViewModel.cs" />
+    <Compile Include="ViewModel\CustomLabelProvider.cs" />
+    <Compile Include="ViewModel\DeviceChangeViewModel.cs" />
+    <Compile Include="ViewModel\DeviceSettingMainVM.cs" />
+    <Compile Include="ViewModel\DeviceUpDownSubSettingViewModel.cs" />
+    <Compile Include="Dialog\LoaderTestWindow.cs" />
+    <Compile Include="Dialog\Wizard\UCSeletecTemplateService.cs" />
+    <Compile Include="Dialog\Wizard\UCSeleteTemplate.xaml.cs">
+      <DependentUpon>UCSeleteTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\DutEditorSubViewModel.cs" />
+    <Compile Include="ViewModel\FoupSubViewModel.cs" />
+    <Compile Include="ViewModel\GemSysSettingViewModel.cs" />
+    <Compile Include="ViewModel\GPCardChangeOPViewModelModule.cs" />
+    <Compile Include="ViewModel\GPCCAlignSettingViewModel.cs" />
+    <Compile Include="ViewModel\GPChillerMainViewModel.cs" />
+    <Compile Include="ViewModel\GpibSettingViewModel.cs" />
+    <Compile Include="ViewModel\GPLoaderSetupWithCellViewModel.cs" />
+    <Compile Include="ViewModel\GP_MarkAlignSettingVM.cs" />
+    <Compile Include="ViewModel\HBChillerBase.cs" />
+    <Compile Include="ViewModel\LoaderPMIViewerVM.cs" />
+    <Compile Include="ViewModel\MultiManualContactViewModel.cs" />
+    <Compile Include="ViewModel\PMIViewerVM.cs" />
+    <Compile Include="ViewModel\InspectionControlVM.cs" />
+    <Compile Include="ViewModel\IOPanelVM.cs" />
+    <Compile Include="ViewModel\IOSubViewModel.cs" />
+    <Compile Include="ViewModel\LineClass.cs" />
+    <Compile Include="ViewModel\LoaderCardChangeObservationViewModelModule.cs" />
+    <Compile Include="ViewModel\LoaderChuckPlanarityVM.cs" />
+    <Compile Include="ViewModel\LoaderDeviceChangeViewModel.cs" />
+    <Compile Include="ViewModel\LoaderDutEditorViewModel.cs" />
+    <Compile Include="ViewModel\LoaderFileTransferViewModel.cs" />
+    <Compile Include="ViewModel\LoaderGPCardChangeOPViewModel.cs" />
+    <Compile Include="ViewModel\LoaderHandlingViewModel.cs" />
+    <Compile Include="ViewModel\LoaderInspectionViewModel.cs" />
+    <Compile Include="ViewModel\LoaderLogSettingViewModel.cs" />
+    <Compile Include="ViewModel\LoaderMainMenuVM.cs" />
+    <Compile Include="ViewModel\LoaderManualContactViewModel.cs" />
+    <Compile Include="ViewModel\LoaderManualModuleOPViewModel.cs" />
+    <Compile Include="ViewModel\LoaderMarkSettingVM.cs" />
+    <Compile Include="ViewModel\LoaderOperateViewModel.cs" />
+    <Compile Include="ViewModel\LoaderParameterViewModel.cs" />
+    <Compile Include="ViewModel\LoaderPolishWaferMakeSourceVM.cs" />
+    <Compile Include="ViewModel\LoaderPolishWaferRecipeSettingVM.cs" />
+    <Compile Include="ViewModel\LoaderSetupViewModelBase.cs" />
+    <Compile Include="ViewModel\LoaderStageSummaryVM\LoaderStageSummaryViewModel_GOP.cs" />
+    <Compile Include="ViewModel\LoaderTempDeviationViewModel.cs" />
+    <Compile Include="ViewModel\LoaderTempDeviceSettingViewModel.cs" />
+    <Compile Include="ViewModel\LoaderTopBarViewModel.cs" />
+    <Compile Include="ViewModel\LoaderWaferMapMakerViewModel.cs" />
+    <Compile Include="ViewModel\LoaderWaferSequenceMakerViewModel.cs" />
+    <Compile Include="ViewModel\LoginControlVM.cs" />
+    <Compile Include="ViewModel\LogSettingViewModel.cs" />
+    <Compile Include="ViewModel\LogViewerViewModel.cs" />
+    <Compile Include="ViewModel\LoaderPolishWaferViewModel.cs" />
+    <Compile Include="ViewModel\LotRunForcedDoneViewModel.cs" />
+    <Compile Include="ViewModel\LotScreenVM.cs" />
+    <Compile Include="ViewModel\MachineSettingLoaderViewModel.cs" />
+    <Compile Include="ViewModel\MachineSettingStageViewModel.cs" />
+    <Compile Include="ViewModel\MainMenuVM.cs" />
+    <Compile Include="ViewModel\MainTopBarControlVM.cs" />
+    <Compile Include="ViewModel\ManualContactControlVM.cs" />
+    <Compile Include="ViewModel\ManualJogViewModelBase.cs" />
+    <Compile Include="ViewModel\ManualSettingViewModel.cs" />
+    <Compile Include="ViewModel\MappingViewModel.cs" />
+    <Compile Include="ViewModel\MarkSettingSubViewModel.cs" />
+    <Compile Include="ViewModel\MaskingSettingControlVM.cs" />
+    <Compile Include="ViewModel\MaskingSubViewModel.cs" />
+    <Compile Include="Data\ModuleInfoElement\ChillerModuleInfoElement.cs" />
+    <Compile Include="Data\ModuleInfoElement\GEMModuleInfoElement.cs" />
+    <Compile Include="Data\ModuleInfoElement\GPIBModuleInfoElement.cs" />
+    <Compile Include="Data\ModuleInfoElement\ModuleInfoElement.cs" />
+    <Compile Include="Data\ModuleInfoElement\SONETModuleInfoElement.cs" />
+    <Compile Include="ViewModel\MotorsLoaderViewModel.cs" />
+    <Compile Include="ViewModel\MotorsViewModel.cs" />
+    <Compile Include="ViewModel\NCPadChangeScreenViewModel.cs" />
+    <Compile Include="ViewModel\NeedleCleanRecipeSettingViewModel.cs" />
+    <Compile Include="ViewModel\OCRSettingBase.cs" />
+    <Compile Include="ViewModel\OCRSubSettingViewModel.cs" />
+    <Compile Include="ViewModel\PadSettingViewModel.cs" />
+    <Compile Include="ViewModel\PataDataPool.cs" />
+    <Compile Include="ViewModel\PathMakerControlVM.cs" />
+    <Compile Include="ViewModel\PathMakerRenderLayer.cs" />
+    <Compile Include="ViewModel\FileSystemVIewModel.cs" />
+    <Compile Include="ViewModel\Soaking\UcSoakingAdvancedSettingViewModel.cs" />
+    <Compile Include="ViewModel\Soaking\UcSoakingTemplateViewModel.cs" />
+    <Compile Include="ViewModel\StatusSoakingSettingViewModel.cs" />
+    <Compile Include="ViewModel\Soaking\UcSoakingODViewModel.cs" />
+    <Compile Include="ViewModel\Soaking\UcSoakingEventSoakViewModel.cs" />
+    <Compile Include="ViewModel\Soaking\UcSoakingPolishWaferViewModel.cs" />
+    <Compile Include="ViewModel\Soaking\UcSoakingChillingTimeTableViewModel.cs" />
+    <Compile Include="ViewModel\Soaking\UcSoakingStepViewModel.cs" />
+    <Compile Include="ViewModel\Soaking\UcStatusSoakingBase.cs" />
+    <Compile Include="ViewModel\TCPIPSettingViewModel.cs" />
+    <Compile Include="ViewModel\TesterCommunicationSettingViewModel.cs" />
+    <Compile Include="ViewModel\TesterInterfaceVM.cs" />
+    <Compile Include="ViewModel\TextOnAPath.cs" />
+    <Compile Include="ViewModel\PinAlignIntervalSettingViewModel.cs" />
+    <Compile Include="ViewModel\PinAlignSettingViewModelPnP.cs" />
+    <Compile Include="ViewModel\PinAlignSettingVM.cs" />
+    <Compile Include="ViewModel\PinBasicInfoViewModel.cs" />
+    <Compile Include="ViewModel\PMIManualResultViewModel.cs" />
+    <Compile Include="ViewModel\PMIResultSummary.cs" />
+    <Compile Include="ViewModel\ProbeMarkInform.cs" />
+    <Compile Include="ViewModel\PMISettingViewModel.cs" />
+    <Compile Include="ViewModel\PnpControlVM.cs" />
+    <Compile Include="ViewModel\PolishWaferMakeSourceViewModel.cs" />
+    <Compile Include="ViewModel\PolishWaferRecipeSettingViewModel.cs" />
+    <Compile Include="ViewModel\PolishWaferSettingVM.cs" />
+    <Compile Include="ViewModel\PolishWaferSourceSettingViewModel.cs" />
+    <Compile Include="ViewModel\PolisWaferSourceSelectionBase.cs" />
+    <Compile Include="ViewModel\PopupPanelBase.cs" />
+    <Compile Include="ViewModel\ProbingSequenceSubViewModel.cs" />
+    <Compile Include="ViewModel\ProbingSystemSettingVM.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\RetestSettingViewModel.cs" />
+    <Compile Include="ViewModel\SamplePinAlignSettingViewModel.cs" />
+    <Compile Include="ViewModel\SemicsOCRSubSettingViewModel.cs" />
+    <Compile Include="ViewModel\SequenceMakerVM.cs" />
+    <Compile Include="ViewModel\Centering_Focusing_SetupViewModel.cs" />
+    <Compile Include="ViewModel\Cleaning_SetupViewModel.cs" />
+    <Compile Include="ViewModel\Manual_SetupViewModel.cs" />
+    <Compile Include="ViewModel\TouchSensorViewModel.cs" />
+    <Compile Include="ViewModel\UtilityOption\GPUtilityOptionViewModel.cs" />
+    <Compile Include="ViewModel\VerifyParameterViewModel.cs" />
+    <Compile Include="ViewModel\VMPatternViewer.cs" />
+    <Compile Include="ViewModel\VmTestSetupPage.cs" />
+    <Compile Include="ViewModel\WaferAlignSysSubViewModel.cs" />
+    <Compile Include="ViewModel\Wafer_SetupViewModel.cs" />
+    <Compile Include="ViewModel\SettingTemplateVM.cs" />
+    <Compile Include="ViewModel\SoakingRecipeSettingViewModel.cs" />
+    <Compile Include="ViewModel\SoakingSettingBase.cs" />
+    <Compile Include="ViewModel\SplashWindowVM.cs" />
+    <Compile Include="ViewModel\SystemSettingMainVM.cs" />
+    <Compile Include="ViewModel\TaskManageMentVM.cs" />
+    <Compile Include="ViewModel\TempDeviationViewModel.cs" />
+    <Compile Include="ViewModel\TempDeviceSettingViewModel.cs" />
+    <Compile Include="ViewModel\TemperatureCalViewModel.cs" />
+    <Compile Include="ViewModel\TemplateEditorVM.cs" />
+    <Compile Include="ViewModel\TestHeadDockScreenViewModel.cs" />
+    <Compile Include="ViewModel\UCCategoryDeviceSettingVM.cs" />
+    <Compile Include="ViewModel\Viewer3DViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
+    <Compile Include="ViewModel\ViewModelHelper.cs" />
+    <Compile Include="View\AccuracyCheck\AccuracyCheckSetup.xaml.cs">
+      <DependentUpon>AccuracyCheckSetup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Alaram\AlarmsViewControl.xaml.cs">
+      <DependentUpon>AlarmsViewControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BinAnalyzeView.xaml.cs">
+      <DependentUpon>BinAnalyzeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CardChangeOP\LoaderGPCardChangeOPView_6X2.xaml.cs">
+      <DependentUpon>LoaderGPCardChangeOPView_6X2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CardChangeOP\LoaderGPCardChangeOPView.xaml.cs">
+      <DependentUpon>LoaderGPCardChangeOPView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Chiller\GPChillerMainView.xaml.cs">
+      <DependentUpon>GPChillerMainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Chiller\GPChillerMainView_6X2.xaml.cs">
+      <DependentUpon>GPChillerMainView_6X2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Chiller\GpChillerStageSetupView.xaml.cs">
+      <DependentUpon>GpChillerStageSetupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Chiller\UcHBChiller.xaml.cs">
+      <DependentUpon>UcHBChiller.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ChuckPlanarity\ChuckPlanarityView.xaml.cs">
+      <DependentUpon>ChuckPlanarityView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ChuckPlanarity\chuckPosConverter.cs" />
+    <Compile Include="View\ChuckTilting\ChuckTiltingView.xaml.cs">
+      <DependentUpon>ChuckTiltingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ChuckTilting\RadialHeatMapControl.xaml.cs">
+      <DependentUpon>RadialHeatMapControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CognexOCR\UcCognexOCRMainPage.xaml.cs">
+      <DependentUpon>UcCognexOCRMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\CognexOCR\UcGPCognexOCRMainPage.xaml.cs">
+      <DependentUpon>UcGPCognexOCRMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Connect\CommunicationConnectView.xaml.cs">
+      <DependentUpon>CommunicationConnectView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DeviceChange\DeviceChangeView.xaml.cs">
+      <DependentUpon>DeviceChangeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DeviceUpDown\UcDeviceUpDownMainPage.xaml.cs">
+      <DependentUpon>UcDeviceUpDownMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DigitalTwin\DigitalTwinView.xaml.cs">
+      <DependentUpon>DigitalTwinView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DutEditor\UCDutEditor.xaml.cs">
+      <DependentUpon>UCDutEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\E84\E84ControlView.xaml.cs">
+      <DependentUpon>E84ControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\E84\Setting\E84ControlSettingView.xaml.cs">
+      <DependentUpon>E84ControlSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FileTransfer\LoaderFileTransferView.xaml.cs">
+      <DependentUpon>LoaderFileTransferView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FilterPanel\FilterPanel.xaml.cs">
+      <DependentUpon>FilterPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ForcedDone\LotRunForcedDoneView.xaml.cs">
+      <DependentUpon>LotRunForcedDoneView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ForcedDone\ModuleObject.xaml.cs">
+      <DependentUpon>ModuleObject.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\FoupConsole\UCFoupCon.xaml.cs">
+      <DependentUpon>UCFoupCon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Foup\Foup12Inch.xaml.cs">
+      <DependentUpon>Foup12Inch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Foup\Foup3DModel.xaml.cs">
+      <DependentUpon>Foup3DModel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Foup\Foup8Inch.xaml.cs">
+      <DependentUpon>Foup8Inch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Foup\FoupE84ControlView.xaml.cs">
+      <DependentUpon>FoupE84ControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Foup\FoupMainControlView.xaml.cs">
+      <DependentUpon>FoupMainControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Foup\FoupManualControlView.xaml.cs">
+      <DependentUpon>FoupManualControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Foup\FoupRecoveryControlView.xaml.cs">
+      <DependentUpon>FoupRecoveryControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Foup\OldFoup.xaml.cs">
+      <DependentUpon>OldFoup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GPCardChange\GPCardChageOPView.xaml.cs">
+      <DependentUpon>GPCardChageOPView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GPCardChange\UcGPCardChangeMainPage.xaml.cs">
+      <DependentUpon>UcGPCardChangeMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GPCardChange\UcGPCardChangeMainPage_DRAX.xaml.cs">
+      <DependentUpon>UcGPCardChangeMainPage_DRAX.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GPCCAlignSettingView.xaml.cs">
+      <DependentUpon>GPCCAlignSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GPFoupSetting\GPFoupSettingView.xaml.cs">
+      <DependentUpon>GPFoupSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GPFoupSetting\GPFoupSettingVM.cs" />
+    <Compile Include="View\GPLoaderJobViewer\GPLoaderJobView.xaml.cs">
+      <DependentUpon>GPLoaderJobView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GPLoaderJobViewer\GPLoaderJobVM.cs" />
+    <Compile Include="View\GPLoaderSetupWithCell\GPLoaderSetupWithCellView.xaml.cs">
+      <DependentUpon>GPLoaderSetupWithCellView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GP_FoupRecovery\GPFoupRecoveryControlView.xaml.cs">
+      <DependentUpon>GPFoupRecoveryControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Handling\FoupSubSettingView.xaml.cs">
+      <DependentUpon>FoupSubSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Handling\LoaderHandlingView.xaml.cs">
+      <DependentUpon>LoaderHandlingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Handling\LoaderHandlingView_6X2.xaml.cs">
+      <DependentUpon>LoaderHandlingView_6X2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Handling\LoaderHandlingView_GOP.xaml.cs">
+      <DependentUpon>LoaderHandlingView_GOP.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\InfomationView\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\InfomationView\ModuleInfoVM.cs" />
+    <Compile Include="View\Inspection\IndexLimitCheckInputControl.cs" />
+    <Compile Include="View\Inspection\InspectionControl.xaml.cs">
+      <DependentUpon>InspectionControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\IOPanel\UCIOPanel.xaml.cs">
+      <DependentUpon>UCIOPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoaderLogIntegratedViewer\LoaderLogIntegratedViewer.xaml.cs">
+      <DependentUpon>LoaderLogIntegratedViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoaderLogSetting\LoaderLogSettingView.xaml.cs">
+      <DependentUpon>LoaderLogSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoaderSetup\LoaderSetupPage.xaml.cs">
+      <DependentUpon>LoaderSetupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoaderSetup\OneClickPosPage.xaml.cs">
+      <DependentUpon>OneClickPosPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoaderSetup\Templates\TreeViewTemplate\BooleanToVisibilityConverter.cs" />
+    <Compile Include="View\LoaderSetup\Templates\TreeViewTemplate\ParamToNodeConverter.cs" />
+    <Compile Include="View\LoaderSetup\Templates\TreeViewTemplate\TreeViewItemBase.cs" />
+    <Compile Include="View\LoaderTest\UcLoaderTestMainPage.xaml.cs">
+      <DependentUpon>UcLoaderTestMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoaderTest\WaferHandlingUC\UcCassetteHandleIcon.xaml.cs">
+      <DependentUpon>UcCassetteHandleIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoaderTest\WaferHandlingUC\UcSlotStatusRecord.xaml.cs">
+      <DependentUpon>UcSlotStatusRecord.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LoaderTest\WaferHandlingUC\UcWaferHandleIcon.xaml.cs">
+      <DependentUpon>UcWaferHandleIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LogCollect\LogCollectControl.xaml.cs">
+      <DependentUpon>LogCollectControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LogIntergratedViewer\LogIntegratedView.xaml.cs">
+      <DependentUpon>LogIntegratedView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Login\LoginControl.xaml.cs">
+      <DependentUpon>LoginControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LogView\LogSettingView.xaml.cs">
+      <DependentUpon>LogSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LogView\LogViewerView.xaml.cs">
+      <DependentUpon>LogViewerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LotInfo\LotInfoRecipeView.xaml.cs">
+      <DependentUpon>LotInfoRecipeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LotInfo\LotInfoYieldView.xaml.cs">
+      <DependentUpon>LotInfoYieldView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Lot\LotScreen.xaml.cs">
+      <DependentUpon>LotScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManualContact\ManualContactControl.xaml.cs">
+      <DependentUpon>ManualContactControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManualContact\ValueConverterForManualConverter.cs" />
+    <Compile Include="View\ManualJog\AxisJogPanel.xaml.cs">
+      <DependentUpon>AxisJogPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManualJog\ChuckCenterOffsetMeasuerment.xaml.cs">
+      <DependentUpon>ChuckCenterOffsetMeasuerment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManualJog\ManualJogPage.xaml.cs">
+      <DependentUpon>ManualJogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManualJog\RadiusMeasuremnt.xaml.cs">
+      <DependentUpon>RadiusMeasuremnt.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManualJog\TestPages\CCTestPage.xaml.cs">
+      <DependentUpon>CCTestPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManualJog\TestPages\ForMarkAlignTest.xaml.cs">
+      <DependentUpon>ForMarkAlignTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManualJog\UCIOPanel.xaml.cs">
+      <DependentUpon>UCIOPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManualJog\UcJogControl.xaml.cs">
+      <DependentUpon>UcJogControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManualJog\UCLoaderPanel.xaml.cs">
+      <DependentUpon>UCLoaderPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManualJog\UCStageButton3.xaml.cs">
+      <DependentUpon>UCStageButton3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManualJog\UCStageButtons.xaml.cs">
+      <DependentUpon>UCStageButtons.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManualJog\UCStageButtons2.xaml.cs">
+      <DependentUpon>UCStageButtons2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManualJog\UcStagePanel.xaml.cs">
+      <DependentUpon>UcStagePanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManualModuleOperation\LoaderManualModuleOPView.xaml.cs">
+      <DependentUpon>LoaderManualModuleOPView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Mapping\CenterRactangleDrawer.xaml.cs">
+      <DependentUpon>CenterRactangleDrawer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Mapping\LineDrawerCanvas.xaml.cs">
+      <DependentUpon>LineDrawerCanvas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Mapping\MappingView.xaml.cs">
+      <DependentUpon>MappingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Mapping\UcMeasureDistance.xaml.cs">
+      <DependentUpon>UcMeasureDistance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MaskingSetting\MaskingSettingControl.xaml.cs">
+      <DependentUpon>MaskingSettingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Menu\LoaderMainMenuControl.xaml.cs">
+      <DependentUpon>LoaderMainMenuControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MultiManualContact\ParamSettingView.xaml.cs">
+      <DependentUpon>ParamSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Operator\OperatorView.xaml.cs">
+      <DependentUpon>OperatorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Monitoring\UcMonitoringMainPage.xaml.cs">
+      <DependentUpon>UcMonitoringMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MultiManualContact\MultiManualContactView.xaml.cs">
+      <DependentUpon>MultiManualContactView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\NeedleClean\UcNeedleCleanColumn.xaml.cs">
+      <DependentUpon>UcNeedleCleanColumn.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\NeedleClean\UcNeedleCleanMainPage.xaml.cs">
+      <DependentUpon>UcNeedleCleanMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\NeedleClean\UcNeedleCleanManualPage.xaml.cs">
+      <DependentUpon>UcNeedleCleanManualPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\NeedleClean\UcNeedleCleanRow.xaml.cs">
+      <DependentUpon>UcNeedleCleanRow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\NeedleClean\UcNeedleCleanSequencePage.xaml.cs">
+      <DependentUpon>UcNeedleCleanSequencePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\OCR\UcOCRSetting.xaml.cs">
+      <DependentUpon>UcOCRSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\OCR\UcOCRTableItem.xaml.cs">
+      <DependentUpon>UcOCRTableItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\OCR\UCOCRTableSetting.xaml.cs">
+      <DependentUpon>UCOCRTableSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Operation\LoaderOperateView.xaml.cs">
+      <DependentUpon>LoaderOperateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PatternViewer\PatternViewerControl.xaml.cs">
+      <DependentUpon>PatternViewerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ScreenLock.xaml.cs">
+      <DependentUpon>ScreenLock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EnvMonitoring\EnvMonitoringView.xaml.cs">
+      <DependentUpon>EnvMonitoringView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Soaking\StatusSoakingSettingView.xaml.cs">
+      <DependentUpon>StatusSoakingSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Soaking\ManualSoakingView.xaml.cs">
+      <DependentUpon>ManualSoakingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Soaking\UcSoakingAdvancedSetting.xaml.cs">
+      <DependentUpon>UcSoakingAdvancedSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Soaking\UcSoakingLabelTextBox.xaml.cs">
+      <DependentUpon>UcSoakingLabelTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Soaking\UcSoakingOD.xaml.cs">
+      <DependentUpon>UcSoakingOD.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Soaking\UcSoakingChillingTimeTable.xaml.cs">
+      <DependentUpon>UcSoakingChillingTimeTable.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Soaking\UcSoakingEventSoak.xaml.cs">
+      <DependentUpon>UcSoakingEventSoak.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Soaking\UcSoakingPolishWaferGuide.xaml.cs">
+      <DependentUpon>UcSoakingPolishWaferGuide.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Soaking\UcSoakingStep.xaml.cs">
+      <DependentUpon>UcSoakingStep.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Soaking\UcSoakingPolishWafer.xaml.cs">
+      <DependentUpon>UcSoakingPolishWafer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Soaking\UcSoakingTemplateChillingList.xaml.cs">
+      <DependentUpon>UcSoakingTemplateChillingList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Soaking\UcSoakingTemplateChillingSetting.xaml.cs">
+      <DependentUpon>UcSoakingTemplateChillingSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Soaking\UcSoakingTemplateSaveList.xaml.cs">
+      <DependentUpon>UcSoakingTemplateSaveList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Soaking\UcSoakingTemplateSaveView.xaml.cs">
+      <DependentUpon>UcSoakingTemplateSaveView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Soaking\UcSoakingTemplateSoakingList.xaml.cs">
+      <DependentUpon>UcSoakingTemplateSoakingList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Soaking\UcSoakingTemplateSoakingSetting.xaml.cs">
+      <DependentUpon>UcSoakingTemplateSoakingSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\AccuracyCheck\AccuracyCheckSubSettingView.xaml.cs">
+      <DependentUpon>AccuracyCheckSubSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\CardChange\UcCardChangeettingView.xaml.cs">
+      <DependentUpon>UcCardChangeettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\DigitalTwin\DigitalTwinSettingView.xaml.cs">
+      <DependentUpon>DigitalTwinSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\TouchSensorSetup\TouchSensorView.xaml.cs">
+      <DependentUpon>TouchSensorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Summary\ActiveStageInformationUC.xaml.cs">
+      <DependentUpon>ActiveStageInformationUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\Soaking\SoakingSystemView.xaml.cs">
+      <DependentUpon>SoakingSystemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TesterInterface\TesterInterfaceView.xaml.cs">
+      <DependentUpon>TesterInterfaceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\OPUSV3D\OPERA_STAGE_3DView.xaml.cs">
+      <DependentUpon>OPERA_STAGE_3DView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UtilityOption\GPUtilityOptionView.xaml.cs">
+      <DependentUpon>GPUtilityOptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\OPUSV3D\OPUSV3DView.xaml.cs">
+      <DependentUpon>OPUSV3DView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ParameterSetting\LoaderParameterSettingView.xaml.cs">
+      <DependentUpon>LoaderParameterSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PathMaker\PathMakerControl.xaml.cs">
+      <DependentUpon>PathMakerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PMIManualResult\PMIDutInfoControl.xaml.cs">
+      <DependentUpon>PMIDutInfoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PMIManualResult\PMIManualResultView.xaml.cs">
+      <DependentUpon>PMIManualResultView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PMIViewer\PMIViewerPage.xaml.cs">
+      <DependentUpon>PMIViewerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PnPControl\TemplatModuleService.cs" />
+    <Compile Include="View\PnPControl\UcPnpControl.xaml.cs">
+      <DependentUpon>UcPnpControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PolishWafer\LoaderPolishWaferView.xaml.cs">
+      <DependentUpon>LoaderPolishWaferView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PolishWafer\PolishWaferMakeSourceView.xaml.cs">
+      <DependentUpon>PolishWaferMakeSourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PolishWafer\PolishWaferManualPage.xaml.cs">
+      <DependentUpon>PolishWaferManualPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PolishWafer\UCPolishWaferUserSeq.xaml.cs">
+      <DependentUpon>UCPolishWaferUserSeq.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PopupControl\ModuleInfoList\ChillerModuleInfoList.xaml.cs">
+      <DependentUpon>ChillerModuleInfoList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PopupControl\ModuleInfoList\GEMModuleInfoList.xaml.cs">
+      <DependentUpon>GEMModuleInfoList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PopupControl\ModuleInfoList\GPIBModuleInfoList.xaml.cs">
+      <DependentUpon>GPIBModuleInfoList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PopupControl\ModuleInfoList\SONETModuleInfoList.xaml.cs">
+      <DependentUpon>SONETModuleInfoList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PopupControl\PopupPanel.xaml.cs">
+      <DependentUpon>PopupPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\RecipeEditor\UcRecipeEditorMainPage.xaml.cs">
+      <DependentUpon>UcRecipeEditorMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ResultMap\E142MapAnalyzeView.xaml.cs">
+      <DependentUpon>E142MapAnalyzeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ResultMap\ResultMapAnalyzeViewer.xaml.cs">
+      <DependentUpon>ResultMapAnalyzeViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ResultMap\STIFMapAnalyzeView.xaml.cs">
+      <DependentUpon>STIFMapAnalyzeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SequenceRunner\CardChangeScreenView.xaml.cs">
+      <DependentUpon>CardChangeScreenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SequenceRunner\NCPadChangeScreenView.xaml.cs">
+      <DependentUpon>NCPadChangeScreenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SequenceRunner\TestHeadDockScreenView.xaml.cs">
+      <DependentUpon>TestHeadDockScreenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Soaking\UCSoaking.xaml.cs">
+      <DependentUpon>UCSoaking.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StatisticsGraphs\CylinderGraph.xaml.cs">
+      <DependentUpon>CylinderGraph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StatisticsGraphs\CylinderOPGraph.xaml.cs">
+      <DependentUpon>CylinderOPGraph.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Data\Category.cs" />
+    <Compile Include="View\SubSetting\Data\SettingViewInfo.cs" />
+    <Compile Include="View\SubSetting\DeviceSettingMainPage.xaml.cs">
+      <DependentUpon>DeviceSettingMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\Contact\ContactSettingView.xaml.cs">
+      <DependentUpon>ContactSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\DutEditor\DutEditorSubView.xaml.cs">
+      <DependentUpon>DutEditorSubView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\Heating\SoakingRecipeSettingView.xaml.cs">
+      <DependentUpon>SoakingRecipeSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\Mark\MarkSettingSubView.xaml.cs">
+      <DependentUpon>MarkSettingSubView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\NeedleClean\NeedleCleanRecipeSettingView.xaml.cs">
+      <DependentUpon>NeedleCleanRecipeSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\OCR\CognexOCRSubSettingView.xaml.cs">
+      <DependentUpon>CognexOCRSubSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\OCR\OCRSubSettingView.xaml.cs">
+      <DependentUpon>OCRSubSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\OCR\SemicsOCRSubSettingView.xaml.cs">
+      <DependentUpon>SemicsOCRSubSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\PinAlign\PinAlignIntervalSettingView.xaml.cs">
+      <DependentUpon>PinAlignIntervalSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\PinAlign\PinAlignSettingView.xaml.cs">
+      <DependentUpon>PinAlignSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\PinAlign\PinAlignSettingViewPnP.xaml.cs">
+      <DependentUpon>PinAlignSettingViewPnP.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\PinAlign\PinBasicInfoView.xaml.cs">
+      <DependentUpon>PinBasicInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\PinAlign\SamplePinAlignSettingView.xaml.cs">
+      <DependentUpon>SamplePinAlignSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\PinAlign\UserControl\WaferIntervalSettingUI.xaml.cs">
+      <DependentUpon>WaferIntervalSettingUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\PinAlign\UserControl\WaferIntervalSettingUIViewModel.cs" />
+    <Compile Include="View\SubSetting\Device\PMI\PMISettingView.xaml.cs">
+      <DependentUpon>PMISettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\PolishWafer\PolishWaferRecipeSettingView.xaml.cs">
+      <DependentUpon>PolishWaferRecipeSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\PolishWafer\PolishWaferSourceSettingView.xaml.cs">
+      <DependentUpon>PolishWaferSourceSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\PolishWafer\PolisWaferSourceSelectionView.xaml.cs">
+      <DependentUpon>PolisWaferSourceSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\PolishWafer\UCItemSelection.xaml.cs">
+      <DependentUpon>UCItemSelection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\ProbingSequence\ProbingSequenceSubView.xaml.cs">
+      <DependentUpon>ProbingSequenceSubView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\ResultMap\ResultMapConverterView.xaml.cs">
+      <DependentUpon>ResultMapConverterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\Retest\RetestSettingSubView.xaml.cs">
+      <DependentUpon>RetestSettingSubView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\Temperature\TempDeviationView.xaml.cs">
+      <DependentUpon>TempDeviationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\Temperature\TempDeviceSettingView.xaml.cs">
+      <DependentUpon>TempDeviceSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\WaferAlign\Design\InfoGrid.xaml.cs">
+      <DependentUpon>InfoGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\WaferAlign\Design\UCEditorButton.xaml.cs">
+      <DependentUpon>UCEditorButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\Device\WaferAlign\WaferRecipeSettingView.xaml.cs">
+      <DependentUpon>WaferRecipeSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\SettingTemplatePage.xaml.cs">
+      <DependentUpon>SettingTemplatePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\SystemSettingMainPage.xaml.cs">
+      <DependentUpon>SystemSettingMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\Alarms\AlarmsSubView.xaml.cs">
+      <DependentUpon>AlarmsSubView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\ChuckPlanarity\ChuckPlanaritySubSettingView.xaml.cs">
+      <DependentUpon>ChuckPlanaritySubSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\ChuckTilting\ChuckTiltingSubView.xaml.cs">
+      <DependentUpon>ChuckTiltingSubView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\CleanUnit\CleanUnitView.xaml.cs">
+      <DependentUpon>CleanUnitView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\DeviceUpDown\DeviceUpDownSubSettingView.xaml.cs">
+      <DependentUpon>DeviceUpDownSubSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\FIleSystem\FileSystemView.xaml.cs">
+      <DependentUpon>FileSystemView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\Foup\FoupSubView.xaml.cs">
+      <DependentUpon>FoupSubView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\GEM\GemSysSettingView.xaml.cs">
+      <DependentUpon>GemSysSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\GPIB\GpibSettingView.xaml.cs">
+      <DependentUpon>GpibSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\IO\IOSubView.xaml.cs">
+      <DependentUpon>IOSubView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\MachineSetting-Loader\MachineSettingLoaderView.xaml.cs">
+      <DependentUpon>MachineSettingLoaderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\MachineSetting-Stage\MachineSettingStageView.xaml.cs">
+      <DependentUpon>MachineSettingStageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\Masking\MaskingSubView.xaml.cs">
+      <DependentUpon>MaskingSubView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\Motors-Loader\MotorsLoaderView.xaml.cs">
+      <DependentUpon>MotorsLoaderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\Motors-Stage\MotorsView.xaml.cs">
+      <DependentUpon>MotorsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\Probing\ProbingSystemSettingView.xaml.cs">
+      <DependentUpon>ProbingSystemSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\TCPIP\TCPIPSettingView.xaml.cs">
+      <DependentUpon>TCPIPSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\Temperature\TemperatureCalView.xaml.cs">
+      <DependentUpon>TemperatureCalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\TesterCommnuication\TesterCommnuicationSettingView.xaml.cs">
+      <DependentUpon>TesterCommnuicationSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\UserAccount\AccountView.xaml.cs">
+      <DependentUpon>AccountView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\VisionMapping\VisionMappingSubView.xaml.cs">
+      <DependentUpon>VisionMappingSubView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Summary\LoaderStageSummaryView.xaml.cs">
+      <DependentUpon>LoaderStageSummaryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Summary\LoaderStageSummary_6X2.xaml.cs">
+      <DependentUpon>LoaderStageSummary_6X2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Summary\LoaderStageSummary_GOP.xaml.cs">
+      <DependentUpon>LoaderStageSummary_GOP.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TaskManagement\UCTaskManagement.xaml.cs">
+      <DependentUpon>UCTaskManagement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestSetup\Tab\GPCC\Converteres\BoolToColor.cs" />
+    <Compile Include="View\TestSetup\Tab\GPCC\Converteres\BoolToExist.cs" />
+    <Compile Include="View\TestSetup\Tab\GPCC\Converteres\BoolToOpen.cs" />
+    <Compile Include="View\TestSetup\Tab\GPCC\UcGPCardChangeObservation.xaml.cs">
+      <DependentUpon>UcGPCardChangeObservation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestSetup\Tab\GPCC\UcGPCardChangeSetting.xaml.cs">
+      <DependentUpon>UcGPCardChangeSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestSetup\Tab\GPCC\VmGPCardChangeObservation.cs" />
+    <Compile Include="View\TestSetup\Tab\GPCC\VmGPCardChangeSetting.cs" />
+    <Compile Include="View\TestSetup\Tab\NC\UcNCTab.xaml.cs">
+      <DependentUpon>UcNCTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestSetup\Tab\NC\VmNCTab.cs" />
+    <Compile Include="View\TestSetup\Tab\Pin\UcPinTab.xaml.cs">
+      <DependentUpon>UcPinTab.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestSetup\Tab\Pin\VmPinTab.cs" />
+    <Compile Include="View\TestSetup\UcTestSetupPage.xaml.cs">
+      <DependentUpon>UcTestSetupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ThemeControl\AccentStyleWindow.xaml.cs">
+      <DependentUpon>AccentStyleWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TopBarControl\LoaderTopBarView.xaml.cs">
+      <DependentUpon>LoaderTopBarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Menu\MainMenu.xaml.cs">
+      <DependentUpon>MainMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TopBarControl\MainTopBarControl.xaml.cs">
+      <DependentUpon>MainTopBarControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TopBarControl\WizardTopBarControl.xaml.cs">
+      <DependentUpon>WizardTopBarControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TransferObjectTemplate\TemplateTransferObjectWindow.xaml.cs">
+      <DependentUpon>TemplateTransferObjectWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TransferObjectTemplate\TemplateTransferObjectVM.cs" />
+    <Compile Include="View\VerifyParam\VerifyParameterView.xaml.cs">
+      <DependentUpon>VerifyParameterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VisionMapping\UCVisionMapping.xaml.cs">
+      <DependentUpon>UCVisionMapping.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\VisionTestControllerPage\UcVisionTest.xaml.cs">
+      <DependentUpon>UcVisionTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SubSetting\System\WaferAlignSysSetting\WaferAlignSysSubView.xaml.cs">
+      <DependentUpon>WaferAlignSysSubView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WaferHandlingRecovery\UcWaferHandlingRecovery.xaml.cs">
+      <DependentUpon>UcWaferHandlingRecovery.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WaferHandlingRecovery\UserControl\UcHandHolderIcon.xaml.cs">
+      <DependentUpon>UcHandHolderIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WaferHandlingRecovery\UserControl\UcSlotHolderIcon.xaml.cs">
+      <DependentUpon>UcSlotHolderIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WaferHandling\UcWaferHandling.xaml.cs">
+      <DependentUpon>UcWaferHandling.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WaferHandling\UserControl\UcCassetteHandleIcon.xaml.cs">
+      <DependentUpon>UcCassetteHandleIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WaferHandling\UserControl\UcSlotStatusRecord.xaml.cs">
+      <DependentUpon>UcSlotStatusRecord.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WaferHandling\UserControl\UcWaferHandleIcon.xaml.cs">
+      <DependentUpon>UcWaferHandleIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WaferSelection\UcWaferSelectionView.xaml.cs">
+      <DependentUpon>UcWaferSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wafer\AutoSequenceContorl.xaml.cs">
+      <DependentUpon>AutoSequenceContorl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wafer\AutoSequenceDirectionWindow.xaml.cs">
+      <DependentUpon>AutoSequenceDirectionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wafer\Design\InfoGrid.xaml.cs">
+      <DependentUpon>InfoGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wafer\Design\UCEditorButton.xaml.cs">
+      <DependentUpon>UCEditorButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wafer\NotchSettingViewControl.xaml.cs">
+      <DependentUpon>NotchSettingViewControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wafer\PadSettingView.xaml.cs">
+      <DependentUpon>PadSettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wafer\SequenceMaker.xaml.cs">
+      <DependentUpon>SequenceMaker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wafer\WaferMapMaker.xaml.cs">
+      <DependentUpon>WaferMapMaker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wafer\WASettingView.xaml.cs">
+      <DependentUpon>WASettingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wizard\Converter\ButtonConverter.cs" />
+    <Compile Include="View\Wizard\Converter\HierarchyDataTemplateSelector.cs" />
+    <Compile Include="View\Wizard\Converter\ToggleConverter.cs" />
+    <Compile Include="View\Wizard\EditorUserControls\WizardCategoryEditor.xaml.cs">
+      <DependentUpon>WizardCategoryEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wizard\EditorUserControls\WizardUtilityEditor.xaml.cs">
+      <DependentUpon>WizardUtilityEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wizard\UCCategoryDeviceSetting.xaml.cs">
+      <DependentUpon>UCCategoryDeviceSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wizard\WizardCategory.xaml.cs">
+      <DependentUpon>WizardCategory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wizard\WizardEditor.xaml.cs">
+      <DependentUpon>WizardEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wizard\WizardEditorViewSelector.cs" />
+    <Compile Include="View\Wizard\WizardRecipe.xaml.cs">
+      <DependentUpon>WizardRecipe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wizard\WizardUtilitySereen.xaml.cs">
+      <DependentUpon>WizardUtilitySereen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Wizard\WizardViewSelector.cs" />
+    <Compile Include="ViewModel\VisionMappingSubViewModel.cs" />
+    <Compile Include="ViewModel\VisionTestViewModelBase.cs" />
+    <Compile Include="ViewModel\VmCognexOCRMainPage.cs" />
+    <Compile Include="ViewModel\VmDeviceUpDownMainPage.cs" />
+    <Compile Include="ViewModel\VmDutEditorPage.cs" />
+    <Compile Include="ViewModel\VmGPCardChangeMainPage.cs" />
+    <Compile Include="ViewModel\VmGPCognexOCRMainPage.cs" />
+    <Compile Include="ViewModel\VmLoaderTestMainPage.cs" />
+    <Compile Include="ViewModel\VmMonitoringMainPage.cs" />
+    <Compile Include="ViewModel\VmNeedleCleanMainPage.cs" />
+    <Compile Include="ViewModel\VmNeedleCleanManualPage.cs" />
+    <Compile Include="ViewModel\VmPolishWaferDevMainPage.cs" />
+    <Compile Include="ViewModel\VmRecipeEditorMainPage.cs" />
+    <Compile Include="ViewModel\WaferHandlingRecoveryVM.cs" />
+    <Compile Include="ViewModel\WaferHandlingVM.cs" />
+    <Compile Include="ViewModel\WaferMapMakerVM.cs" />
+    <Compile Include="ViewModel\WaferRecipeSettingViewModel.cs" />
+    <Compile Include="ViewModel\WaferSelectionVM.cs" />
+    <Compile Include="ViewModel\WaferSelectionViewModel.cs" />
+    <Compile Include="ViewModel\WASettingViewModel.cs" />
+    <Compile Include="ViewModel\WizardTopBarVM.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\3DTools\3DTools.csproj">
+      <Project>{5f603892-de40-4246-a969-1c6717afe35d}</Project>
+      <Name>3DTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AccountModule\AccountModule.csproj">
+      <Project>{4d2007eb-9874-4024-8986-3209415ad660}</Project>
+      <Name>AccountModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AlignRecoveryViewDialog\AlignRecoveryViewDialog.csproj">
+      <Project>{be1f157b-8084-403f-bc00-8639c4581779}</Project>
+      <Name>AlignRecoveryViewDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AlramViewDialog\AlarmViewDialog.csproj">
+      <Project>{CE2AB966-A806-476E-BDA1-3BE3E5B0572D}</Project>
+      <Name>AlarmViewDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AnimationScrollViewerProject\UcAnimationScrollViewer.csproj">
+      <Project>{503F4E1F-EACA-48E6-9244-3E01699CE08C}</Project>
+      <Name>UcAnimationScrollViewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppSeletor\AppSelector.csproj">
+      <Project>{53cb2291-3350-4104-ad0f-6d7c4be62487}</Project>
+      <Name>AppSelector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BinAnalyzer\BinAnalyzer.csproj">
+      <Project>{8bc811cb-16e4-4948-a09c-dd3d2cfb52c0}</Project>
+      <Name>BinAnalyzer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BinFunctionDlg\BinFunctionDlg.csproj">
+      <Project>{d0d28339-b578-499b-b940-cda88d8b47ac}</Project>
+      <Name>BinFunctionDlg</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CameraModule\CameraModule.csproj">
+      <Project>{2533A124-719E-43C3-983B-1DBAE92C21C5}</Project>
+      <Name>CameraModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CardChange\CardChange.csproj">
+      <Project>{533859F2-13E3-4139-A637-DF71951BF8FB}</Project>
+      <Name>CardChange</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChillerConnSettingDialog\ChillerConnSettingDialog.csproj">
+      <Project>{e42b072a-b142-410a-8792-069d6bc339bf}</Project>
+      <Name>ChillerConnSettingDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ChuckTiltHexagonJog\ChuckTiltHexagonJog.csproj">
+      <Project>{c9ac2ec4-e25c-46fa-a0c3-d083f9de204e}</Project>
+      <Name>ChuckTiltHexagonJog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cognex.Command\Cognex.Command.csproj">
+      <Project>{afe45a1f-4786-4ab5-b677-99e5a10c040a}</Project>
+      <Name>Cognex.Command</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cognex.Controls\Cognex.Controls.csproj">
+      <Project>{CDA466B0-020D-4FF5-8625-D105325A1C66}</Project>
+      <Name>Cognex.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CognexOCRManualDialog\CognexOCRManualDialog.csproj">
+      <Project>{D726D37C-7DCA-4B0C-AE22-5476B8CC22AB}</Project>
+      <Name>CognexOCRManualDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommunicationModule\CommunicationModule.csproj">
+      <Project>{5AC4D5A3-BFDC-4249-8262-7CE0932B159A}</Project>
+      <Name>CommunicationModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CUIContectMenu\CUIContextMenu.csproj">
+      <Project>{74683f81-897b-43ca-aef6-c001c3875024}</Project>
+      <Name>CUIContextMenu</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CUIService\CUIService.csproj">
+      <Project>{822fab06-827f-4cde-87da-469aacad3660}</Project>
+      <Name>CUIService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CUI\CUI.csproj">
+      <Project>{3c5e49e6-7976-45be-aba3-c245b5317b4d}</Project>
+      <Name>CUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CylinderType\CylType.csproj">
+      <Project>{9f3c48aa-bab6-44f3-96fd-e39c57e4b6ea}</Project>
+      <Name>CylType</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataTemplateService\DataTemplateService.csproj">
+      <Project>{acd1c295-f7e7-4bab-aac4-2de2df4b9905}</Project>
+      <Name>DataTemplateService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBManagerModule\DBManagerModule.csproj">
+      <Project>{f03a0b48-d800-4f3a-987a-62b3c458a273}</Project>
+      <Name>DBManagerModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DeviceUpDownControl\DeviceUpDownControl.csproj">
+      <Project>{6F9B1F9B-4E30-4748-A3A7-EE5B032AE40C}</Project>
+      <Name>DeviceUpDownControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DisplayModule\DisplayModule.csproj">
+      <Project>{52d36f67-9601-42bc-a2b7-748cc6d91931}</Project>
+      <Name>DisplayModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DutEditorView\ucDutViewer.csproj">
+      <Project>{0e8eb5f9-ee95-4e4d-a896-b6074b1f05e1}</Project>
+      <Name>ucDutViewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DutViewer\DutViewer.csproj">
+      <Project>{a1e82ecb-6854-4792-9936-a70754e7ecee}</Project>
+      <Name>DutViewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DXControlBase\DXControlBase.csproj">
+      <Project>{a34f896c-885d-4af5-a641-9c3721a1483f}</Project>
+      <Name>DXControlBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EmulGemView\EmulGemView.csproj">
+      <Project>{2dea706a-338b-49f7-b76d-4f0e4563e60a}</Project>
+      <Name>EmulGemView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnvControlModule\EnvControlModule.csproj">
+      <Project>{3F7FC0E2-C81A-443B-BAAD-47B53AD0D46F}</Project>
+      <Name>EnvControlModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ErrorMapping\ErrorMapping.csproj">
+      <Project>{F785CA2F-7621-40B0-AE4E-CBA12C4ABB55}</Project>
+      <Name>ErrorMapping</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ErrorParam\ErrorParam.csproj">
+      <Project>{D039B2D7-9F31-4D48-8BF1-B2FCE327F960}</Project>
+      <Name>ErrorParam</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Focusing\Focusing.csproj">
+      <Project>{E59F4F23-CFF5-414A-AB35-C0F547CA0299}</Project>
+      <Name>Focusing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FoupModules\FoupModules.csproj">
+      <Project>{B59743E0-2FCF-48A5-BB06-C942D38D9365}</Project>
+      <Name>FoupModules</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GEMModule\GEMModule.csproj">
+      <Project>{9f7a512a-39ff-4630-a4c4-e7b5513cb58b}</Project>
+      <Name>GEMModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GenericUndoRedo\GenericUndoRedo.csproj">
+      <Project>{E5323F74-C017-4AD0-9FA1-E53AB85B23BF}</Project>
+      <Name>GenericUndoRedo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeometryHelper\GeometryHelper.csproj">
+      <Project>{7C61FC0B-6EEE-4AFB-B500-6B7AFEDB510B}</Project>
+      <Name>GeometryHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GPLoaderRouter\GPLoaderRouter.csproj">
+      <Project>{cda49d6a-7f4a-41c0-b9d0-e419fca46291}</Project>
+      <Name>GPLoaderRouter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GrabberModule\GrabberModule.csproj">
+      <Project>{8c923857-e46e-48fe-8564-8332ed42ea1e}</Project>
+      <Name>GrabberModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphContext.cs\GraphicsModule.csproj">
+      <Project>{85955996-03EA-4427-A5F1-D294A368855C}</Project>
+      <Name>GraphicsModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HexagonJogControl\HexagonJogControl.csproj">
+      <Project>{47A2D727-AFD4-4AA0-91BF-17D82013CA54}</Project>
+      <Name>HexagonJogControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImageResourcePack\ImageResourcePack.csproj">
+      <Project>{73d2898a-fb92-408f-bad9-d0a049cae7e9}</Project>
+      <Name>ImageResourcePack</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IOPanelControl\IOPanelControl.csproj">
+      <Project>{621ac304-966b-443e-8b4d-7a5abfd99eee}</Project>
+      <Name>IOPanelControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IOStateProxy\IOStateProxy.csproj">
+      <Project>{9240ED27-1EF8-4BE1-917F-B27287675771}</Project>
+      <Name>IOStateProxy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IOStateServiceClient\IOStateServiceClient.csproj">
+      <Project>{297BE8F5-8018-4A25-8A2B-E640B9D98868}</Project>
+      <Name>IOStateServiceClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JogViewModel\JogViewModelModule.csproj">
+      <Project>{0F892996-80D9-4F48-B6B2-FA68E47059CD}</Project>
+      <Name>JogViewModelModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LampModule\LampModule.csproj">
+      <Project>{A4A2394E-55BF-45F1-9F47-850393B0B0EC}</Project>
+      <Name>LampModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LightJog\LightJog.csproj">
+      <Project>{c1bd4a8e-c666-49ca-bb0c-f7f6d6c3d466}</Project>
+      <Name>LightJog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ListViewLayout\ListViewLayout2010.csproj">
+      <Project>{916a9879-3f2d-471f-aafa-28f0c8a7ffa9}</Project>
+      <Name>ListViewLayout2010</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderConnectManager\LoaderCommunicationModule.csproj">
+      <Project>{7487A6B1-4918-499A-8732-1CF0579214D4}</Project>
+      <Name>LoaderCommunicationModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderControllerBase\LoaderControllerBase.csproj">
+      <Project>{9EBE6298-FE0A-4E7E-B8DE-E7F26C2B29A9}</Project>
+      <Name>LoaderControllerBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderController\LoaderController.csproj">
+      <Project>{160872cd-291e-4109-b7f3-48170dcad0d7}</Project>
+      <Name>LoaderController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderMapView\LoaderMapView.csproj">
+      <Project>{8EE032A0-0E9E-4546-BDD3-4F424DC3BFD7}</Project>
+      <Name>LoaderMapView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderMaster\LoaderMaster.csproj">
+      <Project>{0FA296B1-23E4-4AE6-820C-1AE13D193C7B}</Project>
+      <Name>LoaderMaster</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderBase\LoaderBase.csproj">
+      <Project>{8dbb64b8-644e-475d-8eaf-3b7ecd6f234d}</Project>
+      <Name>LoaderBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderCore\LoaderCore.csproj">
+      <Project>{59dd27b2-5bcc-46d4-8b20-0f853f210a71}</Project>
+      <Name>LoaderCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderParameters\LoaderParameters.csproj">
+      <Project>{9368b7a1-3625-42ab-a286-9e94caf1bdd9}</Project>
+      <Name>LoaderParameters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderRecoveryControl\LoaderRecoveryControl.csproj">
+      <Project>{D843E062-F2BD-4577-9D8C-867518C3D166}</Project>
+      <Name>LoaderRecoveryControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderServiceBase\LoaderServiceBase.csproj">
+      <Project>{B73C4A86-E81A-42B5-B859-8155A90E74C2}</Project>
+      <Name>LoaderServiceBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderServiceClientModules\LoaderServiceClientModules.csproj">
+      <Project>{89912FF3-C1F3-45E9-95DD-7B060BC68FAA}</Project>
+      <Name>LoaderServiceClientModules</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoginParamObject\LoginParamObject\LoginParamObject.csproj">
+      <Project>{9A57D268-1476-485D-A55C-0BADFC796F76}</Project>
+      <Name>LoginParamObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{d3b00cca-3c50-42b1-8dca-dfe47c759b57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogService\LogService.csproj">
+      <Project>{2c84f322-92f6-4350-b152-5b498fd1952f}</Project>
+      <Name>LogService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LotOPParameter\LotInfo.csproj">
+      <Project>{e4afa176-59ca-472d-8d3d-98a5b2a74fc8}</Project>
+      <Name>LotInfo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LuncherListViewModelModule\LuncherListViewModelModule.csproj">
+      <Project>{7f4f4e92-df92-4978-8560-f64969a13d6d}</Project>
+      <Name>LuncherListViewModelModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LuncherListViewModule\LuncherListViewModule.csproj">
+      <Project>{0ec3c61f-070a-4abf-9048-295d84909474}</Project>
+      <Name>LuncherListViewModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ManualJogView\ManualJogView.csproj">
+      <Project>{22dc0f7a-1b68-4ba7-9948-796cce3504a0}</Project>
+      <Name>ManualJogView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MapConverterModule\MapConverterModule.csproj">
+      <Project>{77ef2fc2-2ddc-42ff-b4dd-d7a03ac723a7}</Project>
+      <Name>MapConverterModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MapManagerModule\ResultMapModule.csproj">
+      <Project>{76B81089-01AC-4173-8842-8FE896C7F7A7}</Project>
+      <Name>ResultMapModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MapViewControl\MapView.csproj">
+      <Project>{c956d307-1c78-4d87-8259-ee2b9294115d}</Project>
+      <Name>MapView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MarkObject\MarkObject.csproj">
+      <Project>{037D49DE-4885-476E-9272-5294EDC3FB14}</Project>
+      <Name>MarkObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MaterialDesignExtensions\MaterialDesignExtensions.csproj">
+      <Project>{cf9285a2-5c42-4694-b060-4c8bd6a0092e}</Project>
+      <Name>MaterialDesignExtensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroDialogInterfaces\MetroDialogInterfaces.csproj">
+      <Project>{2c3114e3-137b-44ed-a9c2-ba5f2198a672}</Project>
+      <Name>MetroDialogInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModuleStateView\ModuleStateView.csproj">
+      <Project>{d0c2223d-d916-472e-85fd-ab69932f7a53}</Project>
+      <Name>ModuleStateView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MonitoringModule\MonitoringModule.csproj">
+      <Project>{A00DE0E5-6BBD-4068-90D9-A4FE61DB46D6}</Project>
+      <Name>MonitoringModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MotionManagerProxy\MotionManagerProxy.csproj">
+      <Project>{EA2C53C0-D52C-4564-8092-C46A282C3C6B}</Project>
+      <Name>MotionManagerProxy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MultiLancherProxy\MultiLauncherProxy.csproj">
+      <Project>{696F9135-C5AD-4B22-B740-B331EE785877}</Project>
+      <Name>MultiLauncherProxy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MultiManualContactSettingDialog\MultiManualContactSettingDialog.csproj">
+      <Project>{B57DB9F0-EB9F-46F7-93B2-9A9F679E7CF7}</Project>
+      <Name>MultiManualContactSettingDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MultiManualContactTransferDiaglog\MultiManualContactTransferDialog.csproj">
+      <Project>{924fd862-641a-4fe3-a1d3-a5ee5d97ed08}</Project>
+      <Name>MultiManualContactTransferDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NavPanelControl\NavPanelControl.csproj">
+      <Project>{fca3cb85-30f8-4e4f-8a1a-c506dd6dde22}</Project>
+      <Name>NavPanelControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NeedleCleaner\NeedleCleanerModuleParameter\NeedleCleanerModuleParameter.csproj">
+      <Project>{B9E47991-D88B-46E5-8A87-CDDDE625FF23}</Project>
+      <Name>NeedleCleanerModuleParameter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NeedleCleanViewer\NeedleCleanViewer.csproj">
+      <Project>{16BF6124-DEA6-4784-BB32-8490B00E378E}</Project>
+      <Name>NeedleCleanViewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NodeConverter\NodeConverter.csproj">
+      <Project>{ce6c0f24-6838-4f3f-932c-f29e4c7b738c}</Project>
+      <Name>NodeConverter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NotifyEventModule\NotifyEventModule.csproj">
+      <Project>{40F3E74A-35B7-417C-9118-EE5DB75340A6}</Project>
+      <Name>NotifyEventModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpusVStageMove\OpusVStageMove.csproj">
+      <Project>{30AC08F8-0655-49E6-8455-CC0B4B9BC945}</Project>
+      <Name>OpusVStageMove</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ParameterManager\ParameterManager.csproj">
+      <Project>{15aed574-b40e-4343-9ce5-08e112f957af}</Project>
+      <Name>ParameterManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PControl\PnPControl.csproj">
+      <Project>{6BE9F617-1527-4711-9A3E-61B3E6C84F3B}</Project>
+      <Name>PnPControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PinPadMatchModule\PinPadMatchModule.csproj">
+      <Project>{F6964A18-24D3-496D-9F84-B08458DA238E}</Project>
+      <Name>PinPadMatchModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PMI\PMIModuleParameter\PMIModuleParameter.csproj">
+      <Project>{271CD9EC-2B48-4018-90A9-18D2618BCEAB}</Project>
+      <Name>PMIModuleParameter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PolishWaferFocusingBySensorModule\PolishWaferFocusingBySensorModule.csproj">
+      <Project>{79F4BA66-4001-4C27-B2E2-FC3C0F55B3F4}</Project>
+      <Name>PolishWaferFocusingBySensorModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PolishWaferFocusing_Standard\PolishWaferFocusingModule.csproj">
+      <Project>{9F171110-8446-4348-AB7F-2919BA11CAF7}</Project>
+      <Name>PolishWaferFocusingModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PolishWaferParameters\PolishWaferParameters.csproj">
+      <Project>{B9C7EBB2-070E-4BDE-8183-462FFEE413FA}</Project>
+      <Name>PolishWaferParameters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProbeCardObject\ProbeCardObject.csproj">
+      <Project>{13c3dc6f-fb34-473f-a599-0a181b66efa9}</Project>
+      <Name>ProbeCardObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{edba3295-ff2a-4368-a217-6495941a8bf5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberSimulator\ProberSimulator.csproj">
+      <Project>{b2a4aadd-c4c3-4f23-bf05-8c22c22512c3}</Project>
+      <Name>ProberSimulator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProbingModule\ProbingModule.csproj">
+      <Project>{4d863027-8140-4e04-b93d-73cd6fb59894}</Project>
+      <Name>ProbingModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProgressDialogControl\ProgressDialogControl.csproj">
+      <Project>{a48afe47-aecd-485d-a5cc-056cafc0a1b6}</Project>
+      <Name>ProgressDialogControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RecipeEditorControl\RecipeEditorControl.csproj">
+      <Project>{052e0721-2a79-4905-add6-eaf06418c352}</Project>
+      <Name>RecipeEditorControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RelayCommandBase\RelayCommandBase.csproj">
+      <Project>{348522c5-8377-4d66-96f3-5d7da3d7762b}</Project>
+      <Name>RelayCommandBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ResultMapParamObject\ResultMapParamObject.csproj">
+      <Project>{CF8ECF19-6CD9-4B3D-A78C-D7FAC4A53509}</Project>
+      <Name>ResultMapParamObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ResultMapView\ResultMapView.csproj">
+      <Project>{4dfb4a33-bc0e-467f-9326-5f918a1c72cd}</Project>
+      <Name>ResultMapView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RetestObject\RetestObject.csproj">
+      <Project>{9F58F001-24C0-4CF3-A1CC-D721102FAD73}</Project>
+      <Name>RetestObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RFID\RFID.csproj">
+      <Project>{51B3BA62-9F09-461D-961E-21AE5005F348}</Project>
+      <Name>RFID</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RPAV300APAModule\PAModule.csproj">
+      <Project>{AD537959-7011-41FB-8FCE-0DD6FDB1BBF6}</Project>
+      <Name>PAModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecsGemServiceInterface\SecsGemServiceInterface.csproj">
+      <Project>{9A4AD3B3-F629-4FE6-A373-CBC0ACB4DEF7}</Project>
+      <Name>SecsGemServiceInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecsGemSettingDialogMainProject\SecsGemSettingDlg.csproj">
+      <Project>{2535D615-D7BE-4F6B-AD0D-E38CAE58BD82}</Project>
+      <Name>SecsGemSettingDlg</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecuritySystem\SecuritySystem.csproj">
+      <Project>{0641d3da-51cf-4237-b319-6ecfa2fc00a7}</Project>
+      <Name>SecuritySystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SequenceEngine\SequenceEngineService.csproj">
+      <Project>{752EC230-0BC1-4209-B04E-A2826A2EB738}</Project>
+      <Name>SequenceEngineService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SequenceRunnerBehaviors\SequenceRunnerBehaviors.csproj">
+      <Project>{EC7B7E56-37C3-44AB-B48D-45EC42440C09}</Project>
+      <Name>SequenceRunnerBehaviors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SequenceRunnerModuleProject\SequenceRunnerModule.csproj">
+      <Project>{647F7A4C-EB9A-4945-87A4-0DDA8031CF67}</Project>
+      <Name>SequenceRunnerModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SerializerProject\SerializerUtil.csproj">
+      <Project>{89ed1be4-fe82-406e-ae2c-6f3df03fcc90}</Project>
+      <Name>SerializerUtil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServiceProxy\ServiceProxy.csproj">
+      <Project>{EF12FE56-5D8D-44A2-AAEB-7EF8A2EB4231}</Project>
+      <Name>ServiceProxy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDXRender\SharpDXRender.csproj">
+      <Project>{29E2C211-0F8C-47B7-85AE-10F7C66F0738}</Project>
+      <Name>SharpDXRender</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SideViewer\UcSideViewer.csproj">
+      <Project>{8760a376-2cba-49e0-b5bb-1457abee35af}</Project>
+      <Name>UcSideViewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SmokeSensorModule\EnvMonitoring.csproj">
+      <Project>{b5250f83-b9b6-4f1f-9b22-63f153c35e47}</Project>
+      <Name>EnvMonitoring</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SoakingParameters\SoakingParameters.csproj">
+      <Project>{C1FB36BD-25B2-4D28-9EAA-737279F2A2B5}</Project>
+      <Name>SoakingParameters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Splasher\SplasherService.csproj">
+      <Project>{F43AD2A3-262C-44C9-80DD-4AA929720FE1}</Project>
+      <Name>SplasherService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SpoolingUtil\SpoolingUtil.csproj">
+      <Project>{811c2769-14cb-46bf-bd8e-2cb7e0597357}</Project>
+      <Name>SpoolingUtil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StageListViewModelModule\StageListViewModelModule.csproj">
+      <Project>{c9b46291-f319-4017-9ae1-6f2fe3831425}</Project>
+      <Name>StageListViewModelModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StageListViewModule\StageListViewModule.csproj">
+      <Project>{bd69c982-fcaf-4df0-9006-5e44c219de61}</Project>
+      <Name>StageListViewModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SubstrateObjects\SubstrateObjects.csproj">
+      <Project>{efb47aa8-b3c8-439c-8a01-d26db8522710}</Project>
+      <Name>SubstrateObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TCPIPParamObject\TCPIPParamObject.csproj">
+      <Project>{B35B9941-194A-44D2-B213-2DF569450B70}</Project>
+      <Name>TCPIPParamObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TempGraphControl\TempGraphControl.csproj">
+      <Project>{8644d2aa-06fb-4221-b411-f5b1a963ae9f}</Project>
+      <Name>TempGraphControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TempManager\TempController.csproj">
+      <Project>{7E060321-EAD9-43E8-8E76-5ECC3C26C6B6}</Project>
+      <Name>TempController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TouchSensorSysParameter\TouchSensorParameter.csproj">
+      <Project>{9F5A599B-A510-41D5-A975-5D9927E01B66}</Project>
+      <Name>TouchSensorParameter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UcCircularShapedJog\UcCircularShapedJog.csproj">
+      <Project>{dd0d1238-6068-4d5f-be54-8311dc4cf734}</Project>
+      <Name>UcCircularShapedJog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UcDisplayPort\UcDisplayPort.csproj">
+      <Project>{fba75c26-7e9c-4e69-a6cb-1a6110e76805}</Project>
+      <Name>UcDisplayPort</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UcPnPButtonJog\UcPnPButtonJog.csproj">
+      <Project>{d54076e4-8586-45e1-b7ad-49f24bdefa0d}</Project>
+      <Name>UcPnPButtonJog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UcPnPPrevNextJog\UcPnPPrevNextJog.csproj">
+      <Project>{c04f17fa-d71f-48cc-a03e-39a64f8e85a0}</Project>
+      <Name>UcPnPPrevNextJog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UCTaskManagement\UCTaskManagement.csproj">
+      <Project>{854819a3-ac62-471a-b51e-e2fad369cbc2}</Project>
+      <Name>UCTaskManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ValueConverters\ValueConverters.csproj">
+      <Project>{90e38e59-8fea-4da7-937f-888390b913c3}</Project>
+      <Name>ValueConverters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Viewer3DModel\Viewer3DModel\Viewer3DModel.csproj">
+      <Project>{24579383-8bf2-4fb7-a30f-47d2bd3ca876}</Project>
+      <Name>Viewer3DModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VirtualKeyboardControl\VirtualKeyboardControl.csproj">
+      <Project>{fda1a497-1086-4987-9c72-2284cf79fd16}</Project>
+      <Name>VirtualKeyboardControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VirtualStageConnector\VirtualStageConnector.csproj">
+      <Project>{cf58b870-25bf-43d9-8f17-b0e8e377f33b}</Project>
+      <Name>VirtualStageConnector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VisualChildrenHelper\VisualChildrenHelper.csproj">
+      <Project>{3FDC5D55-DE1B-45CA-A1D3-5B18D648A3EE}</Project>
+      <Name>VisualChildrenHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WaferSelectBase\WaferSelectSetupBase.csproj">
+      <Project>{49ba92f0-38f1-41fe-83df-5a5eeb39c7a0}</Project>
+      <Name>WaferSelectSetupBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WA_HighMagParameter_Standard\WA_HighMagParameter_Standard.csproj">
+      <Project>{89CEE01B-94DB-4FEF-8F04-BA31A0D027EE}</Project>
+      <Name>WA_HighMagParameter_Standard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WinAPIWrapper\WinAPIWrapper.csproj">
+      <Project>{09deb98b-5d20-45d9-b534-a0c085b711ff}</Project>
+      <Name>WinAPIWrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WPFSmartLibraryLight35\WPFSmartLibraryLight35.csproj">
+      <Project>{cc18e9e0-62b9-4c69-a531-f93398d5cd5b}</Project>
+      <Name>WPFSmartLibraryLight35</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Dialog\Wizard\UCSeleteTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\AccuracyCheck\AccuracyCheckSetup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Alaram\AlarmsViewControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\BinAnalyzeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CardChangeOP\LoaderGPCardChangeOPView_6X2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CardChangeOP\LoaderGPCardChangeOPView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Chiller\GPChillerMainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Chiller\GPChillerMainView_6X2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Chiller\GpChillerStageSetupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Chiller\UcHBChiller.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ChuckPlanarity\ChuckPlanarityView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ChuckTilting\ChuckTiltingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ChuckTilting\RadialHeatMapControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\CognexOCR\UcCognexOCRMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\CognexOCR\UcGPCognexOCRMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Connect\CommunicationConnectView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DeviceChange\DeviceChangeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DeviceUpDown\UcDeviceUpDownMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DigitalTwin\DigitalTwinView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DutEditor\UCDutEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\E84\E84ControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\E84\Setting\E84ControlSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\FileTransfer\LoaderFileTransferView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\FilterPanel\FilterPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ForcedDone\LotRunForcedDoneView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ForcedDone\ModuleObject.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\FoupConsole\UCFoupCon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Foup\Foup12Inch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Foup\Foup3DModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Foup\Foup8Inch.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Foup\FoupE84ControlView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Foup\FoupMainControlView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Foup\FoupManualControlView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Foup\FoupRecoveryControlView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Foup\OldFoup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\GPCardChange\GPCardChageOPView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\GPCardChange\UcGPCardChangeMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\GPCardChange\UcGPCardChangeMainPage_DRAX.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GPCCAlignSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\GPFoupSetting\GPFoupSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GPLoaderJobViewer\GPLoaderJobView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GPLoaderSetupWithCell\GPLoaderSetupWithCellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GP_FoupRecovery\GPFoupRecoveryControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Handling\FoupSubSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Handling\LoaderHandlingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Handling\LoaderHandlingView_6X2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Handling\LoaderHandlingView_GOP.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\InfomationView\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Inspection\InspectionControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\IOPanel\UCIOPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\LoaderLogIntegratedViewer\LoaderLogIntegratedViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LoaderLogSetting\LoaderLogSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\LoaderSetup\LoaderSetupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\LoaderSetup\OneClickPosPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\LoaderSetup\ParamTreeTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\LoaderTest\UcLoaderTestMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\LoaderTest\WaferHandlingUC\UcCassetteHandleIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\LoaderTest\WaferHandlingUC\UcSlotStatusRecord.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\LoaderTest\WaferHandlingUC\UcWaferHandleIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\LogCollect\LogCollectControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LogIntergratedViewer\LogIntegratedView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Login\LoginControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\LogView\LogSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LogView\LogViewerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LotInfo\LotInfoRecipeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\LotInfo\LotInfoYieldView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Lot\LotScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ManualContact\ManualContactControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ManualJog\AxisJogPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ManualJog\ChuckCenterOffsetMeasuerment.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ManualJog\ManualJogPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ManualJog\RadiusMeasuremnt.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ManualJog\TestPages\CCTestPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ManualJog\TestPages\ForMarkAlignTest.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ManualJog\UCIOPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ManualJog\UcJogControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ManualJog\UCLoaderPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ManualJog\UCStageButton3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ManualJog\UCStageButtons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ManualJog\UCStageButtons2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ManualJog\UcStagePanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ManualModuleOperation\LoaderManualModuleOPView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Mapping\CenterRactangleDrawer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Mapping\LineDrawerCanvas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Mapping\MappingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Mapping\UcMeasureDistance.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MaskingSetting\MaskingSettingControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Menu\LoaderMainMenuControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MultiManualContact\ParamSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Operator\OperatorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Monitoring\UcMonitoringMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\MultiManualContact\MultiManualContactView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\NeedleClean\UcNeedleCleanColumn.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\NeedleClean\UcNeedleCleanMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\NeedleClean\UcNeedleCleanManualPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\NeedleClean\UcNeedleCleanRow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\NeedleClean\UcNeedleCleanSequencePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\OCR\UcOCRSetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\OCR\UcOCRTableItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\OCR\UCOCRTableSetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Operation\LoaderOperateView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\EnvMonitoring\EnvMonitoringView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PatternViewer\PatternViewerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ScreenLock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Soaking\ManualSoakingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Soaking\StatusSoakingSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Soaking\UcSoakingAdvancedSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Soaking\UcSoakingLabelTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Soaking\UcSoakingOD.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Soaking\UcSoakingChillingTimeTable.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Soaking\UcSoakingEventSoak.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Soaking\UcSoakingPolishWaferGuide.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Soaking\UcSoakingStep.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Soaking\UcSoakingPolishWafer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Soaking\UcSoakingTemplateChillingList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Soaking\UcSoakingTemplateChillingSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Soaking\UcSoakingTemplateSaveList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Soaking\UcSoakingTemplateSaveView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Soaking\UcSoakingTemplateSoakingList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Soaking\UcSoakingTemplateSoakingSetting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SubSetting\System\AccuracyCheck\AccuracyCheckSubSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SubSetting\System\CardChange\UcCardChangeettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SubSetting\System\DigitalTwin\DigitalTwinSettingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SubSetting\System\TouchSensorSetup\TouchSensorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Summary\ActiveStageInformationUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SubSetting\System\Soaking\SoakingSystemView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TesterInterface\TesterInterfaceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\OPUSV3D\OPERA_STAGE_3DView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\UtilityOption\GPUtilityOptionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\OPUSV3D\OPUSV3DView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ParameterSetting\LoaderParameterSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PathMaker\PathMakerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PMIManualResult\PMIDutInfoControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PMIManualResult\PMIManualResultView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PMIViewer\PMIViewerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PnPControl\UcPnpControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PolishWafer\LoaderPolishWaferView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PolishWafer\PolishWaferMakeSourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PolishWafer\PolishWaferManualPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PolishWafer\UCPolishWaferUserSeq.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PopupControl\ModuleInfoList\ChillerModuleInfoList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PopupControl\ModuleInfoList\GEMModuleInfoList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PopupControl\ModuleInfoList\GPIBModuleInfoList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PopupControl\ModuleInfoList\SONETModuleInfoList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PopupControl\PopupPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\RecipeEditor\UcRecipeEditorMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ResultMap\E142MapAnalyzeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ResultMap\ResultMapAnalyzeViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ResultMap\STIFMapAnalyzeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SequenceRunner\CardChangeScreenView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SequenceRunner\NCPadChangeScreenView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SequenceRunner\TestHeadDockScreenView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Soaking\SoakingParamTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Soaking\UCSoaking.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\StatisticsGraphs\CylinderGraph.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\StatisticsGraphs\CylinderOPGraph.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\DeviceSettingMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\Contact\ContactSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\DutEditor\DutEditorSubView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\Heating\SoakingRecipeSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\Mark\MarkSettingSubView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\NeedleClean\NeedleCleanRecipeSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\OCR\CognexOCRSubSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\OCR\OCRSubSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\OCR\SemicsOCRSubSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\PinAlign\PinAlignIntervalSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\PinAlign\PinAlignSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\PinAlign\PinAlignSettingViewPnP.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\PinAlign\PinBasicInfoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\PinAlign\SamplePinAlignSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\PinAlign\UserControl\WaferIntervalSettingUI.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\PMI\PMISettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\PolishWafer\PolishWaferRecipeSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\PolishWafer\PolishWaferSourceSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\PolishWafer\PolisWaferSourceSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\PolishWafer\UCItemSelection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\ProbingSequence\ProbingSequenceSubView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\ResultMap\ResultMapConverterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SubSetting\Device\Retest\RetestSettingSubView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\Temperature\TempDeviationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\Temperature\TempDeviceSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\WaferAlign\Design\InfoGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\WaferAlign\Design\UCEditorButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\Device\WaferAlign\WaferRecipeSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\SettingTemplatePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\SystemSettingMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\Alarms\AlarmsSubView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\ChuckPlanarity\ChuckPlanaritySubSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\ChuckTilting\ChuckTiltingSubView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\CleanUnit\CleanUnitView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\DeviceUpDown\DeviceUpDownSubSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\FIleSystem\FileSystemView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\Foup\FoupSubView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\GEM\GemSysSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\GPIB\GpibSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\IO\IOSubView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\MachineSetting-Loader\MachineSettingLoaderView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\MachineSetting-Stage\MachineSettingStageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\Masking\MaskingSubView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\Motors-Loader\MotorsLoaderView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\Motors-Stage\MotorsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\Probing\ProbingSystemSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\TCPIP\TCPIPSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\Temperature\TemperatureCalView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\TesterCommnuication\TesterCommnuicationSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\UserAccount\AccountView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\VisionMapping\VisionMappingSubView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Summary\LoaderStageSummaryView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Summary\LoaderStageSummary_6X2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Summary\LoaderStageSummary_GOP.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TaskManagement\UCTaskManagement.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TestSetup\Tab\GPCC\UcGPCardChangeObservation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TestSetup\Tab\GPCC\UcGPCardChangeSetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TestSetup\Tab\NC\UcNCTab.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TestSetup\Tab\Pin\UcPinTab.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TestSetup\UcTestSetupPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ThemeControl\AccentStyleWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TopBarControl\LoaderTopBarView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Menu\MainMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TopBarControl\MainTopBarControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TopBarControl\WizardTopBarControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TransferObjectTemplate\TemplateTransferObjectWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TransferObjectTemplate\Template\Polish.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TransferObjectTemplate\Template\Standard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VerifyParam\VerifyParameterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\VisionMapping\UCVisionMapping.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\VisionTestControllerPage\UcVisionTest.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\SubSetting\System\WaferAlignSysSetting\WaferAlignSysSubView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WaferHandlingRecovery\UcWaferHandlingRecovery.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\WaferHandlingRecovery\UserControl\UcHandHolderIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\WaferHandlingRecovery\UserControl\UcSlotHolderIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\WaferHandling\UcWaferHandling.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\WaferHandling\UserControl\UcCassetteHandleIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\WaferHandling\UserControl\UcSlotStatusRecord.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\WaferHandling\UserControl\UcWaferHandleIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\WaferSelection\UcWaferSelectionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Wafer\AutoSequenceContorl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Wafer\AutoSequenceDirectionWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Wafer\Design\InfoGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Wafer\Design\UCEditorButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Wafer\NotchSettingViewControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Wafer\PadSettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Wafer\SequenceMaker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Wafer\WaferMapMaker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Wafer\WASettingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Wizard\EditorUserControls\WizardCategoryEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Wizard\EditorUserControls\WizardUtilityEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Wizard\UCCategoryDeviceSetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Wizard\WizardCategory.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Wizard\WizardEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Wizard\WizardRecipe.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Wizard\WizardUtilitySereen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Foup\Images\skip-previous.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Foup\Images\step-backward1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Foup\Images\step-backward2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Foup\Images\step-forward1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Foup\Images\step-forward2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Lot\Images\casslte.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Lot\Images\Recipe.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Lot\Images\Sample1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Lot\Images\Sample2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Lot\Images\Sample3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\Lot\Images\statistics.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\ManualContact\Images\ChuckDown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\ManualContact\Images\ChuckUp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\NeedleClean\Image\ArrowDownW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\NeedleClean\Image\ArrowLeftW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\NeedleClean\Image\ArrowRightW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\NeedleClean\Image\ArrowUpW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\NeedleClean\Image\Exit_img.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\NeedleClean\Image\Minus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\NeedleClean\Image\Plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="View\NeedleClean\Image\Save_img.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ChuckDown.bmp" />
+    <Resource Include="View\CardChangeOP\Resources\Arm.png" />
+    <Resource Include="View\CardChangeOP\Resources\BT.png" />
+    <Resource Include="View\CardChangeOP\Resources\Buffer.png" />
+    <Resource Include="View\CardChangeOP\Resources\Cardbuffer.PNG" />
+    <Resource Include="View\CardChangeOP\Resources\CardHand.PNG" />
+    <Resource Include="View\CardChangeOP\Resources\CardTray.PNG" />
+    <Resource Include="View\CardChangeOP\Resources\Cell.png" />
+    <Resource Include="View\CardChangeOP\Resources\FOUP.png" />
+    <Resource Include="View\CardChangeOP\Resources\Loader.png" />
+    <Resource Include="View\CardChangeOP\Resources\PA.png" />
+    <Resource Include="View\CardChangeOP\Resources\selecteicon.png" />
+    <Resource Include="Resources\Arm.png" />
+    <Resource Include="Resources\BT.png" />
+    <Resource Include="Resources\Buffer.png" />
+    <Resource Include="Resources\Cardbuffer.PNG" />
+    <Resource Include="Resources\CardHand.PNG" />
+    <Resource Include="Resources\CardTray.PNG" />
+    <Resource Include="Resources\Cell.png" />
+    <Resource Include="Resources\FOUP.png" />
+    <Resource Include="Resources\Loader.png" />
+    <Resource Include="Resources\PA.png" />
+    <Resource Include="Resources\selecteicon.png" />
+    <Resource Include="View\Device\Resources\Arm.png" />
+    <Resource Include="View\Device\Resources\Buffer.png" />
+    <Resource Include="View\Device\Resources\Cell.png" />
+    <Resource Include="View\Device\Resources\Computer.png" />
+    <Resource Include="View\Device\Resources\FOUP.png" />
+    <Resource Include="View\Device\Resources\Loader.png" />
+    <Resource Include="View\Device\Resources\PA.png" />
+    <Resource Include="View\Device\Resources\selecteicon.png" />
+    <Resource Include="View\Handling\Resources\Arm.png" />
+    <Resource Include="View\Handling\Resources\BT.png" />
+    <Resource Include="View\Handling\Resources\Buffer.png" />
+    <Resource Include="View\Handling\Resources\Cardbuffer.PNG" />
+    <Resource Include="View\Handling\Resources\CardHand.PNG" />
+    <Resource Include="View\Handling\Resources\CardTray.PNG" />
+    <Resource Include="View\Handling\Resources\Cell.png" />
+    <Resource Include="View\Handling\Resources\FOUP.png" />
+    <Resource Include="View\Handling\Resources\Loader.png" />
+    <Resource Include="View\Handling\Resources\PA.png" />
+    <Resource Include="View\Handling\Resources\selecteicon.png" />
+    <Resource Include="Resources\Computer.png" />
+    <Resource Include="View\MultiManualContact\Resources\FOUP.png" />
+    <Content Include="View\Operation\Resources\Arm.png" />
+    <Content Include="View\Operation\Resources\BT.png" />
+    <Content Include="View\Operation\Resources\Buffer.png" />
+    <Content Include="View\Operation\Resources\Cardbuffer.PNG" />
+    <Content Include="View\Operation\Resources\CardHand.PNG" />
+    <Content Include="View\Operation\Resources\CardTray.PNG" />
+    <Content Include="View\Operation\Resources\Cell.png" />
+    <Content Include="View\Operation\Resources\FOUP.png" />
+    <None Include="ProberViewModel.ruleset" />
+    <None Include="View\ManualJog\.editorconfig" />
+    <None Include="View\ManualJog\packages.config" />
+    <None Include="View\Operation\Resources\Image1.png" />
+    <Content Include="View\Operation\Resources\Loader.png" />
+    <Content Include="View\Operation\Resources\PA.png" />
+    <Content Include="View\Operation\Resources\selecteicon.png" />
+    <Resource Include="View\PnPControl\Image\CloseIcon.png" />
+    <Resource Include="View\PnPControl\Image\Exit_img.png" />
+    <Resource Include="View\PnPControl\Image\ExitIcon.png" />
+    <Resource Include="View\PnPControl\Image\ExitIcon_Content.png" />
+    <Resource Include="View\PnPControl\Image\ExpanderIcon.png" />
+    <Resource Include="View\PnPControl\Image\Save_Exit_Icon.png" />
+    <Resource Include="View\PnPControl\Image\Save_Exit_Icon_Content.png" />
+    <Resource Include="View\PnPControl\Image\Save_img.png" />
+    <Resource Include="View\PnPControl\Image\SaveIcon.png" />
+    <Resource Include="View\PnPControl\Image\SaveIcon_Content.png" />
+    <Resource Include="View\PolishWafer\Resources\Cell.png" />
+    <Resource Include="View\PolishWafer\Resources\Buffer.png" />
+    <Content Include="View\PolishWafer\Resources\JogLeft.png" />
+    <Content Include="View\PolishWafer\Resources\JogRight.png" />
+    <Resource Include="View\Summary\Resources\FOUP.png" />
+    <Resource Include="View\Summary\Resources\bottom-left.png" />
+    <Resource Include="View\Summary\Resources\bottom-right.png" />
+    <Content Include="View\VisionMapping\Resources\Clockwise.png" />
+    <Content Include="View\VisionMapping\Resources\CounterClockwise.png" />
+    <Content Include="View\VisionMapping\Resources\JogDown.png" />
+    <Content Include="View\VisionMapping\Resources\JogLeft.png" />
+    <Content Include="View\VisionMapping\Resources\JogRight.png" />
+    <Content Include="View\VisionMapping\Resources\JogUp.png" />
+    <Resource Include="View\Wafer\Images\Seq8.png" />
+    <Resource Include="View\Wafer\Images\Seq7.png" />
+    <Resource Include="View\Wafer\Images\Seq6.png" />
+    <Resource Include="View\Wafer\Images\Seq5.png" />
+    <Resource Include="View\Wafer\Images\Seq4.png" />
+    <Resource Include="View\Wafer\Images\Seq3.png" />
+    <Resource Include="View\Wafer\Images\Seq2.png" />
+    <Resource Include="View\Wafer\Images\Seq1.png" />
+    <Resource Include="View\Wafer\Images\compass.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

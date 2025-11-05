@@ -1,0 +1,49 @@
+﻿<Window x:Class="WaferDisappearControl.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Unknown Wafer Check UI" Height="600" Width="700" Background="DimGray" >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="0.8*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10,20,10,10">
+                    <Label x:Name="errorLabel" FontSize="25" Foreground="White">Module Name:</Label>
+                    <Label x:Name="lbModuleName" FontSize="25"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10,20,10,10">
+                    <Label FontSize="25" Foreground="White">Previous State:</Label>
+                    <Label x:Name="lbPreState" FontSize="25"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="10,20,10,10">
+                    <Label FontSize="25" Foreground="White">Current State:</Label>
+                    <Label x:Name="lbCurrentState" FontSize="25"></Label>
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="5">
+            <StackPanel>
+                <Label FontSize="20" Foreground="Yellow" Margin="10,20,10,10">※ Please check whether the state of the wafer is correct or not.</Label>
+                <CheckBox x:Name="cbCheck" Foreground="White" VerticalAlignment="Center"  FontSize="20" Margin="10,0,0,0">I understand and Agree with all of the above.</CheckBox>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="3"  Grid.Column="0">
+            <Button Name="OkBtn" Click="OkBtn_Click" FontSize="30">OK</Button>
+        </Grid>
+        <Grid Grid.Row="3"  Grid.Column="1">
+            <Button Name="CancelBtn" Click="CancelBtn_Click" FontSize="30">CANCEL</Button>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="UcWaferRecipeSettingView.WaferRecipeSettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UcWaferRecipeSettingView"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:design="clr-namespace:UcWaferRecipeSettingView.Design"
+             xmlns:cui="clr-namespace:CUI;assembly=CUI"
+             mc:Ignorable="d" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SettingControlStyle;component/SettingViewStyleDictionaly.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Margin="0,0,110,50">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <Label Content="Wafer Align Template"
+                Foreground="White"
+                FontWeight="Bold"
+                FontSize="32"
+                />
+            <Separator Margin="4" Background="White"/>
+            <Border Margin="4,0,0,0" Background="#3C454F">
+                <Label Padding="0" FontWeight="DemiBold" Content="WAFER ALIGN TEMPLATE SETTING" Foreground="WhiteSmoke" FontSize="16" VerticalAlignment="Center" />
+            </Border>
+        </StackPanel>
+
+        <cui:Button AutomationProperties.AutomationId="btnCreateWaferMap"
+                    GUID="5E1F25BD-DCAD-2F39-CFAA-3062B356AE82"
+                    Grid.Row="3"
+                    Padding="4" 
+                    Margin="20,16,0,0"
+                    VerticalAlignment="Top" Width="400" 
+                    HorizontalContentAlignment="Left" 
+                    HorizontalAlignment="Left"
+                    Height="52"
+                    Style="{DynamicResource NormalTypeCUIButtonStyle}"
+                    Command="{Binding CreateWaferMapViewCommand}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                    Content="Create Wafer Map" Lockable="False"/>
+
+    </Grid>
+   
+</UserControl>

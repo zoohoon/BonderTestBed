@@ -1,0 +1,415 @@
+﻿<UserControl x:Class="UCVisionMapping.UCVisionMapping"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:UcDisplayPort="clr-namespace:UcDisplayPort;assembly=UcDisplayPort" 
+             xmlns:ValueConvert="clr-namespace:ValueConverters;assembly=ValueConverters"   
+             xmlns:local="clr-namespace:UCVisionMapping"
+             mc:Ignorable="d" 
+            d:DesignHeight="940" d:DesignWidth="1280" Background="Transparent">
+    <!--<UserControl.Resources>
+        <ValueConvert:VMRelPosConvert x:Key="VMRelPosConvert"/>
+        <ValueConvert:VMPatternPosConvert x:Key="VMPatternPosConvert"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="900"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="900"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        --><!-- Camera Base --><!--
+        <Border Grid.Row="0"
+                Grid.Column="0" BorderBrush="DimGray" BorderThickness="1"  >
+            <Grid >
+                --><!-- Camera View -->
+                <!--<UcDisplayPort:DisplayPort x:Name="VMSetupDisPlay"
+                                         
+                                            TargetRectangleWidth="{Binding RectWidth, Mode=TwoWay}"
+                                            TargetRectangleHeight="{Binding RectHeight, Mode=TwoWay}"
+                                            TargetRectangleLeft="{Binding RectLeft, Mode=TwoWay}"
+                                            TargetRectangleTop="{Binding RectTop, Mode=TwoWay}"
+                                            MoveXValue="{Binding Prober._StageSuperVisor.MoveTargetPosX , Mode=TwoWay}"
+                                            MoveYValue="{Binding Prober._StageSuperVisor.MoveTargetPosY , Mode=TwoWay}"
+                                            />--><!--
+            </Grid>
+        </Border>
+
+        --><!-- Wafer Map Base -->
+        <!--<Border Grid.Row="1" Grid.Column="0" Margin="8" >
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="8,8" >
+                    <Image Source="{Binding PatImg}"/>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="2" Margin="8,8" >
+                    <Image Source="{Binding PatImg1}"/>
+                </Border>
+            
+              
+              
+            </Grid >
+
+        </Border>--><!--
+
+        <Grid Grid.Column="1" Grid.RowSpan="2">
+            <Grid Grid.Row="0" Margin="8" Grid.Column="1"  Grid.RowSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.7*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TabControl x:Name="VisionMappingTabCtrl" Background="Black" Grid.Row="1" Grid.Column="0"  Grid.ColumnSpan="3" Grid.RowSpan="2">
+                    <TabItem Header="Motion" FontSize="15" Foreground="White">
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="64"/>
+                                <ColumnDefinition MinWidth="64"/>
+                                <ColumnDefinition MinWidth="64"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Button x:Name="WaferFocusingBtn" Grid.Column="1" Grid.Row="1" Content="Focusing" Click="WaferFocusingBtn_Click"  />
+                            <Button x:Name="WaferAlignBtn" Grid.Column="0" Grid.Row="1" Content="Align" Click="WaferAlignBtn_Click"/>
+                            <Button x:Name="MoveZero" Grid.Column="2" Grid.Row="1" Content="Zero" Click="MoveZero_Click" />
+                            <RepeatButton x:Name="btnJogThetaLeft" Grid.Row="3" Grid.Column="0"  Click="btnJogThetaLeft_Click" Margin="2">
+                                <RepeatButton.Content>
+                                    <Image Source="Resources/CounterClockWise.png" Stretch="Uniform"/>
+                                </RepeatButton.Content>
+                            </RepeatButton>
+                            <RepeatButton x:Name="btnJogThetaRight" Grid.Row="3" Grid.Column="2"  Click="btnJogThetaRight_Click"  Margin="2">
+                                <RepeatButton.Content>
+                                    <Image Source="Resources/ClockWise.png" Stretch="Uniform"/>
+                                </RepeatButton.Content>
+                            </RepeatButton>
+                            <RepeatButton x:Name="btnJogUp" Grid.Row="3" Grid.Column="1"  Click="btnJogUp_Click" Margin="2">
+                                <RepeatButton.Content>
+                                    <Image Source="Resources/JogUp.png" Stretch="Uniform"/>
+                                </RepeatButton.Content>
+                            </RepeatButton>
+                            <RepeatButton x:Name="btnJogDown" Grid.Row="5" Grid.Column="1" Click="btnJogDown_Click"  Margin="2">
+                                <RepeatButton.Content>
+                                    <Image Source="Resources/JogDown.png" Stretch="Uniform"/>
+                                </RepeatButton.Content>
+                            </RepeatButton>
+                            <RepeatButton x:Name="btnJogLeft" Grid.Row="4" Grid.Column="0" Click="btnJogLeft_Click"  Margin="2">
+                                <RepeatButton.Content>
+                                    <Image Source="Resources/JogLeft.png" Stretch="Uniform"/>
+                                </RepeatButton.Content>
+                            </RepeatButton>
+                            <RepeatButton x:Name="btnJogRight" Grid.Row="4" Grid.Column="2" Click="btnJogRight_Click"  Margin="2">
+                                <RepeatButton.Content>
+                                    <Image Source="Resources/JogRight.png" Stretch="Uniform"/>
+                                </RepeatButton.Content>
+                            </RepeatButton>
+                            <RepeatButton x:Name="btnJogZUp" Grid.Row="5" Content="ZUP" Grid.Column="0" Click="btnJogZUp_Click"  Margin="2">
+
+                            </RepeatButton>
+                            <RepeatButton x:Name="btnJogZDown" Grid.Row="5" Content="ZDown" Grid.Column="2" Click="btnJogZDown_Click"  Margin="2">
+
+                            </RepeatButton>
+
+                            <Button x:Name="WaferHighBtn" Grid.Column="0" Grid.Row="9"  Height="30" Content="High" Click="WaferHighBtn_Click" MinWidth="64" Margin="8,8" />
+                            <Button x:Name="WaferLowBtn" Grid.Column="1" Grid.Row="9"  Height="30" Content="Low" Click="WaferLowBtn_Click" MinWidth="64" Margin="8,8" />
+                            <Label Grid.Column="0" Grid.Row="11" Content="X : " VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBox x:Name="txt_x" Grid.Column="1" Grid.Row="11" VerticalAlignment="Center" Grid.ColumnSpan="2"
+                                         Text="0" Foreground="Blue"/>
+                            <Label Grid.Column="0" Grid.Row="12" Content="Y : " VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBox x:Name="txt_y" Grid.Column="1" Grid.Row="12"  VerticalAlignment="Center" Grid.ColumnSpan="2"
+                                         Text="0" Foreground="Blue"/>
+                            <Label Grid.Column="0" Grid.Row="13" Content="Z : " VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBox x:Name="txt_Z" Grid.Column="1" Grid.Row="13"  VerticalAlignment="Center" Grid.ColumnSpan="2"
+                                         Text="0" Foreground="Blue"/>
+                            <Label Grid.Column="0" Grid.Row="14" Content="T : " VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            <TextBox x:Name="txt_T" Grid.Column="1" Grid.Row="14"  VerticalAlignment="Center" Grid.ColumnSpan="2"
+                                         Text="0" Foreground="Blue"/>
+
+
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem x:Name="VMTabItem" Header="Vision Mapping" FontSize="15" Foreground="White" >
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="64"/>
+                                <ColumnDefinition MinWidth="64"/>
+                                <ColumnDefinition MinWidth="64"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="DarkGray">
+                                <Label Content="Axis" Foreground="Black" FontSize="15" HorizontalAlignment="Center"></Label>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <RadioButton  Name="RB_X" Margin="10,0,20,0" Foreground="Black" FontSize="15" GroupName="RBGroup" IsChecked="True">X</RadioButton>
+                                    <RadioButton Name="RB_Y" Margin="10,0,20,0" Foreground="Black" FontSize="15" GroupName="RBGroup">Y</RadioButton>
+                                    <RadioButton Name="RB_Single" Margin="10,0,20,0" Foreground="Black" FontSize="15" GroupName="RBGroup">Single</RadioButton>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3">
+                                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
+                                    <Button x:Name="RegPattern" Width="150"  Height="30" FontSize="20" Content="Reg Pattern" Click="RegPattern_Click"  MinWidth="64" Margin="0,10,30,10"/>
+                                    <Button x:Name="FindPattern" Width="150" Height="30" FontSize="20" Content="Find Pattern" Click="FindPattern_Click"  MinWidth="64" Margin="0,10,0,10"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
+
+                                    <Button x:Name="RectWidthPlus" Width="20"  Height="20" FontSize="15" Content="W+" Click="RectWidthPlus_Click"  MinWidth="64" />
+                                    <Button x:Name="RectWidthMinus" Width="20" Height="20" FontSize="15" Content="W-" Click="RectWidthMinus_Click"  MinWidth="64" />
+
+
+
+                                    <Button x:Name="RectHeightPlus" Width="20"  Height="20" FontSize="15" Content="H+" Click="RectHeightPlus_Click"  MinWidth="64" />
+                                    <Button x:Name="RectHeightMinus" Width="20" Height="20" FontSize="15" Content="H-" Click="RectHeightMinus_Click"  MinWidth="64" />
+
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                                    <Button x:Name="GraphData" Width="120"  Height="20" FontSize="15" Content="Graph ( All )"  Click="GraphData_Click"  MinWidth="64" />
+                                    <Button x:Name="GraphSingleData" Width="120"  Height="20" FontSize="15" Content="Graph ( Single )"  Click="GraphSingleData_Click"  MinWidth="64" />
+                                </StackPanel>
+                            </StackPanel>
+                            <GroupBox  Header="DieSize" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,10,0,10">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Foreground="White" FontSize="18" >X:</Label>
+                                            <TextBox x:Name="DieSizeX_TB" Background="White"  Foreground="Black" Width="130" Height="25" FontSize="15" TextAlignment="Right">5000,834823</TextBox>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Label Foreground="White" FontSize="18" >Y:</Label>
+                                            <TextBox x:Name="DieSizeY_TB"  Background="White"  Foreground="Black" Width="130" Height="25"  TextAlignment="Right">5000,834823</TextBox>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <Button x:Name="DieSizeSet_Btn"  Width="78" Height="60" Margin="20,0,0,0" Foreground="White" Background="Red" FontSize="20" Click="DieSizeSet_Btn_Click">Set</Button>
+                                </StackPanel>
+                            </GroupBox>
+                            <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Vertical">
+                                <Button x:Name="VisionCam5_Btn"  Width="78" Height="50" Click="VisionCam5_Btn_Click"  Background="Green" MinWidth="64" Margin="0,0,0,0">Pos</Button>
+                                <Label HorizontalAlignment="Center" Foreground="Yellow" Grid.Row="8" Grid.Column="0" FontSize="12" 
+                                       Content="{Binding ErrMappingManager.ErrMappingParam.ErrorMappingCameras[4].RelPos_Y, Converter={StaticResource VMPatternPosConvert}}" ></Label>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Vertical">
+                                <Button x:Name="VisionCam7_Btn"  Width="78" Height="50" Click="VisionCam7_Btn_Click" Background="Green" MinWidth="64" Margin="0,0,0,0">Pos</Button>
+                                <Label HorizontalAlignment="Center" Foreground="Yellow" Grid.Row="8" Grid.Column="0" FontSize="12"
+                                       Content="{Binding ErrMappingManager.ErrMappingParam.ErrorMappingCameras[6].RelPos_Y, Converter={StaticResource VMPatternPosConvert}}" ></Label>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="5" Grid.Column="0" Orientation="Vertical">
+                                <Button x:Name="VisionCam3_Btn"  Width="78" Height="50" Click="VisionCam3_Btn_Click"  Background="Green" MinWidth="64" Margin="0,0,0,0">Pos</Button>
+                                <Label HorizontalAlignment="Center" Foreground="White" Grid.Row="8" Grid.Column="0" FontSize="12" 
+                                       Content="{Binding ErrMappingManager.ErrMappingParam.ErrorMappingCameras[2].RelPos_X, Converter={StaticResource VMPatternPosConvert}}" ></Label>
+                                <Label HorizontalAlignment="Center" Foreground="Yellow" Grid.Row="8" Grid.Column="0" FontSize="12" 
+                                       Content="{Binding ErrMappingManager.ErrMappingParam.ErrorMappingCameras[2].RelPos_Y, Converter={StaticResource VMPatternPosConvert}}" ></Label>
+                            </StackPanel>
+                            <StackPanel Grid.Row="7" Grid.Column="0" Orientation="Vertical">
+                                <Button x:Name="VisionCam1_Btn" Width="78" Height="50" Click="VisionCam1_Btn_Click"  Background="Green" MinWidth="64" Margin="0,0,0,0">Pos</Button>
+                                <Label HorizontalAlignment="Center" Foreground="White" Grid.Row="8" Grid.Column="0" FontSize="12"
+                                       Content="{Binding ErrMappingManager.ErrMappingParam.ErrorMappingCameras[0].RelPos_X, Converter={StaticResource VMPatternPosConvert}}" ></Label>
+                                <Label HorizontalAlignment="Center" Foreground="Yellow" Grid.Row="8" Grid.Column="0" FontSize="12"
+                                       Content="{Binding ErrMappingManager.ErrMappingParam.ErrorMappingCameras[0].RelPos_Y, Converter={StaticResource VMPatternPosConvert}}" ></Label>
+                            </StackPanel>
+                            <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Vertical">
+                                <Button x:Name="VisionCam6_Btn"  Width="78" Height="50" Click="VisionCam6_Btn_Click"  Background="Green" MinWidth="64" Margin="0,0,0,0">Pos</Button>
+                                <Label HorizontalAlignment="Center" Foreground="Yellow" Grid.Row="8" Grid.Column="0" FontSize="12" 
+                                       Content="{Binding ErrMappingManager.ErrMappingParam.ErrorMappingCameras[5].RelPos_Y, Converter={StaticResource VMPatternPosConvert}}" ></Label>
+                            </StackPanel>
+                            <StackPanel Grid.Row="4" Grid.Column="2" Orientation="Vertical">
+                                <Button x:Name="VisionCam8_Btn" Width="78" Height="50" Click="VisionCam8_Btn_Click"  Background="Green" MinWidth="64" Margin="0,0,0,0">Pos</Button>
+                                <Label HorizontalAlignment="Center" Foreground="Yellow" Grid.Row="8" Grid.Column="0" FontSize="12" 
+                                       Content="{Binding ErrMappingManager.ErrMappingParam.ErrorMappingCameras[7].RelPos_Y, Converter={StaticResource VMPatternPosConvert}}" ></Label>
+                            </StackPanel>
+                            <StackPanel Grid.Row="5" Grid.Column="2" Orientation="Vertical">
+                                <Button x:Name="VisionCam4_Btn"  Width="78" Height="50" Click="VisionCam4_Btn_Click"  Background="Green" MinWidth="64" Margin="0,0,0,0">Pos</Button>
+                                <Label HorizontalAlignment="Center" Foreground="White" Grid.Row="8" Grid.Column="0" FontSize="12" 
+                                       Content="{Binding ErrMappingManager.ErrMappingParam.ErrorMappingCameras[3].RelPos_X, Converter={StaticResource VMPatternPosConvert}}" ></Label>
+                                <Label HorizontalAlignment="Center" Foreground="Yellow" Grid.Row="8" Grid.Column="0" FontSize="12" 
+                                       Content="{Binding ErrMappingManager.ErrMappingParam.ErrorMappingCameras[3].RelPos_Y, Converter={StaticResource VMPatternPosConvert}}" ></Label>
+                            </StackPanel>
+                            <StackPanel Grid.Row="7" Grid.Column="2" Orientation="Vertical">
+                                <Button x:Name="VisionCam2_Btn"  Width="78" Height="50" Click="VisionCam2_Btn_Click"  Background="Green" MinWidth="64" Margin="0,0,0,0">Pos</Button>
+                                <Label HorizontalAlignment="Center" Foreground="White" Grid.Row="8" Grid.Column="0" FontSize="12" 
+                                       Content="{Binding ErrMappingManager.ErrMappingParam.ErrorMappingCameras[1].RelPos_X, Converter={StaticResource VMPatternPosConvert}}" ></Label>
+                                <Label HorizontalAlignment="Center" Foreground="Yellow" Grid.Row="8" Grid.Column="0" FontSize="12" 
+                                       Content="{Binding ErrMappingManager.ErrMappingParam.ErrorMappingCameras[1].RelPos_Y, Converter={StaticResource VMPatternPosConvert}}" ></Label>
+                            </StackPanel>
+
+                            <Button x:Name="ShiftAll_Btn" Grid.Row="4" Grid.Column="1" Width="78" Height="60"  Background="Red" MinWidth="64" Margin="8,8">Shift All</Button>
+                            <StackPanel Grid.Row="5" Grid.Column="1">
+                                <CheckBox x:Name="ExtraY_CB" Foreground="White"  FontSize="15"  >Extra Y</CheckBox>
+                                <CheckBox x:Name="FirstErrorComp_CB" Foreground="White"  FontSize="15" IsChecked="{Binding Path=MotionManager.ErrorManager.CompesationModules[0].Enable, Mode=TwoWay}">1ErrComp</CheckBox>
+                                <Button x:Name="VisionCamRef_Btn"  Width="78" Height="50"   Background="Green" MinWidth="64" Margin="8,8">REF</Button>
+                            </StackPanel>
+                            <Label Foreground="White" Grid.Row="8" Grid.Column="0" FontSize="20" >RelPos X:</Label>
+                            <Label x:Name="lb_RefX" Content="{Binding StageSupervisor.MotionManager.StageAxes.ProbeAxisProviders[0].Status.Position.Ref, Converter={StaticResource VMRelPosConvert}, ConverterParameter={x:Reference Name=lb_CurrentPosX} }" Foreground="White" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" FontSize="20"></Label>
+                            <Label x:Name="lb_CurrentPosX" Content="{Binding ErrMappingManager.CurrentCamPosX}" Visibility="Hidden" ></Label>
+                            <Label Foreground="White" Grid.Row="9" Grid.Column="0" FontSize="20" >RelPos Y:</Label>
+                            <Label x:Name="lb_RefY" Content="{Binding StageSupervisor.MotionManager.StageAxes.ProbeAxisProviders[1].Status.Position.Ref, Converter={StaticResource VMRelPosConvert},ConverterParameter={x:Reference Name=lb_CurrentPosY} }"  Foreground="White" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" FontSize="20" ></Label>
+                            <Label x:Name="lb_CurrentPosY" Content="{Binding ErrMappingManager.CurrentCamPosY}" Visibility="Hidden" ></Label>
+                            <Button x:Name="MeasureData_Btn" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="3" Height="35"  FontSize="20"  MinWidth="64" Margin="0,10,0,0" Click="MeasureData_Btn_Click" >Measure Data</Button>
+                            <Button x:Name="MakeErrData_Btn" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="3" Height="35"  FontSize="20"  MinWidth="64" Margin="0,10,0,0" Click="MakeErrData_Btn_Click">Make Error Data</Button>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Accuracy Check" FontSize="15" Foreground="White">
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MinWidth="64" Width="119*"/>
+                                <ColumnDefinition MinWidth="64" Width="36*"/>
+                                <ColumnDefinition Width="84*"/>
+                                <ColumnDefinition MinWidth="64" Width="119*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel  Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Background="DarkGray">
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <RadioButton  Name="RB_CheckOnly" Margin="10,0,20,0" Foreground="Black" FontSize="10" GroupName="RBGroupDirection" IsChecked="True">Check Only</RadioButton>
+                                    <RadioButton Name="RB_CrossX" Margin="10,0,20,0" Foreground="Black" FontSize="10" GroupName="RBGroupDirection">Cross X</RadioButton>
+                                    <RadioButton Name="RB_CrossY" Margin="10,0,20,0" Foreground="Black" FontSize="10" GroupName="RBGroupDirection">Cross Y</RadioButton>
+                                    <RadioButton Name="RB_Selective" Margin="10,0,20,0" Foreground="Black" FontSize="10" GroupName="RBGroupDirection">Selective</RadioButton>
+                                </StackPanel>
+                            </StackPanel>
+                            <Button x:Name="ResetErrorTable_Btn" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Height="35"  FontSize="20"  MinWidth="64" Margin="0,11,0,1" >ResetError Table</Button>
+                            <Button x:Name="ExportErrorTable_Btn" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" Height="35"  FontSize="20"  MinWidth="64" Margin="0,11,0,1" >ExportError Table</Button>
+                            <Button x:Name="PinAlign_Btn" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Height="35"  FontSize="20"  MinWidth="64" Margin="0,11,0,1" >Pin Ready To Apply</Button>
+                            <Button x:Name="WaferAlign_Btn" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" Height="35"  FontSize="20"  MinWidth="64" Margin="0,11,0,1" >WaferAlign</Button>
+                            <StackPanel Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="4" >
+                                <GroupBox  Header="Change Camera" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,10,0,10">
+                                    <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                                        <RadioButton  Name="RB_WaferCam" Margin="10,0,20,0" Foreground="White" FontSize="15" GroupName="RBGroupDirection" IsChecked="True">Wafer Camera</RadioButton>
+                                        <RadioButton Name="RB_JigCam" Margin="10,0,20,0" Foreground="White" FontSize="15" GroupName="RBGroupDirection">Jig Camera</RadioButton>
+                                        <RadioButton Name="RB_PinCam" Margin="10,0,20,0" Foreground="White" FontSize="15" GroupName="RBGroupDirection">Pin Camera</RadioButton>
+                                    </StackPanel>
+                                </GroupBox>
+                            </StackPanel>
+                            <StackPanel Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="4" >
+                                <Button x:Name="ZUP_Btn" Grid.Row="4" Grid.Column="1"  Height="60"  Background="Red" MinWidth="64" Margin="8,8">Z UP</Button>
+                            </StackPanel>
+                            <Button x:Name="Start_Btn" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="4" Height="35"  FontSize="20"  MinWidth="64" Margin="0,10,0,0" >Start</Button>
+                            <Button x:Name="Stop_Btn" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="4" Height="35"  FontSize="20"  MinWidth="64" Margin="0,10,0,0" >Stop</Button>
+                        </Grid>
+                    </TabItem>
+                    --><!--<TabItem x:Name="ScichartTabItem" Header="Graph" FontSize="15" Foreground="White" >
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                               
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <s3D:SciChart3DSurface x:Name="sciChart" Height="500" Grid.RowSpan="2" Grid.Column="0" BorderThickness="0" WorldDimensions="200,100,200">
+                                <s3D:SciChart3DSurface.Camera>
+                                    <s3D:Camera3D ZoomToFitOnAttach="True"/>
+                                </s3D:SciChart3DSurface.Camera>
+
+                                <s3D:SciChart3DSurface.RenderableSeries>
+                                    <s3D:SurfaceMeshRenderableSeries3D x:Name="surfaceMeshRenderableSeries" DrawMeshAs="SolidWireFrame" DrawSkirt="False" Stroke="#77228B22" StrokeThickness="2.0"/>
+
+                                </s3D:SciChart3DSurface.RenderableSeries>
+
+                                <s3D:SciChart3DSurface.XAxis>
+                                    <s3D:NumericAxis3D x:Name="XAx3D" VisibleRange="0,10" AxisTitle="Tenor"/>
+                                </s3D:SciChart3DSurface.XAxis>
+
+                                <s3D:SciChart3DSurface.YAxis>
+                                    <s3D:NumericAxis3D x:Name="YAx3D" AxisTitle="Rate (%)" VisibleRange="0,10"/>
+                                </s3D:SciChart3DSurface.YAxis>
+
+                                <s3D:SciChart3DSurface.ZAxis>
+                                    <s3D:DateTimeAxis3D x:Name="ZAx3D" DrawMajorBands="True" AxisTitle="Date"/>
+                                </s3D:SciChart3DSurface.ZAxis>
+
+
+                                <s3D:SciChart3DSurface.ChartModifier>
+                                    <s3D:ModifierGroup3D>
+                                        <s3D:MouseWheelZoomModifier3D/>
+                                    </s3D:ModifierGroup3D>
+                                </s3D:SciChart3DSurface.ChartModifier>
+
+                            </s3D:SciChart3DSurface>
+                        </Grid>
+                    </TabItem>--><!--
+                </TabControl>
+
+            </Grid>
+        </Grid>
+    </Grid>-->
+</UserControl>

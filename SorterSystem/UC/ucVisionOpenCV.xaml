@@ -1,0 +1,135 @@
+﻿<UserControl x:Class="SorterSystem.UC.ucVisionOpenCV"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SorterSystem.UC"
+             xmlns:conv="clr-namespace:SorterSystem.Converter"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800" Background="#FFFFFF">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <conv:IntToStringConverter x:Key="IntToStringConverter" />
+            <conv:StringConverter x:Key="StringConverter" />
+
+            <Style x:Key="btnFilter" TargetType="{x:Type Button}">
+                <Setter Property="Width" Value="60" />
+                <Setter Property="Margin" Value="3,0,3,0" />
+            </Style>
+            <Style x:Key="lbValue" TargetType="{x:Type Label}">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="Margin" Value="1" />
+            </Style>
+            <Style x:Key="tbValue" TargetType="{x:Type TextBox}">
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="Margin" Value="1" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource IntToStringConverter}}" />
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="300" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40*" />
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="0" Grid.Row="0" >
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Edge" VerticalAlignment="Center" />
+                <Button Style="{StaticResource btnFilter}" Command="{Binding Command1}" Content="1" />
+                <Button Style="{StaticResource btnFilter}" Command="{Binding Command2}" Content="2" />
+                <Button Style="{StaticResource btnFilter}" Command="{Binding Command3}" Content="3" />
+                <Label Content="Match" VerticalAlignment="Center" />
+                <Button Style="{StaticResource btnFilter}" Command="{Binding Command4}" Content="Add Ref" />
+                <Button Style="{StaticResource btnFilter}" Command="{Binding Command5}" Content="Match1" />
+                <Button Style="{StaticResource btnFilter}" Command="{Binding Command6}" Content="6" />
+                <Button Style="{StaticResource btnFilter}" Command="{Binding Command7}" Content="7" />
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="180" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" BorderThickness="1" BorderBrush="#000000" Margin="1">
+                <Image Margin="3" Source="{Binding ImageSource}" Stretch="Uniform"/>
+            </Border>
+            <DataGrid Grid.Row="1" ItemsSource="{Binding VisionResult}" AutoGenerateColumns="True" IsReadOnly="True" />
+            <!--<ListView >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Direction" Width="100" DisplayMemberBinding="{Binding DieDirection, Converter={StaticResource StringConverter}}" />
+                        <GridViewColumn Header="Center X" Width="80" DisplayMemberBinding="{Binding PosCenter.X, Converter={StaticResource StringConverter}}" />
+                        <GridViewColumn Header="Center Y" Width="80" DisplayMemberBinding="{Binding PosCenter.Y, Converter={StaticResource StringConverter}}" />
+                        <GridViewColumn Header="Vertex X" Width="80" DisplayMemberBinding="{Binding PosVertex.X, Converter={StaticResource StringConverter}}" />
+                        <GridViewColumn Header="Vertex Y" Width="80" DisplayMemberBinding="{Binding PosVertex.Y, Converter={StaticResource StringConverter}}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>-->
+        </Grid>
+        <Grid  Grid.Column="1" Grid.Row="0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="center">
+                <CheckBox Content="Load From File" IsChecked="{Binding IsLoadFromFile}" />
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="300" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <ListBox ItemsSource="{Binding ListMat}" SelectedValue="{Binding MatSelectedItem}" />
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource lbValue}"  Content="ThresHoldMin" />
+                <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource tbValue}" Text="{Binding VisionParameter.ThresholdMin}" />
+                <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource lbValue}" Content="ThresHoldMax" />
+                <TextBox Grid.Row="1" Grid.Column="1" Style="{StaticResource tbValue}" Text="{Binding VisionParameter.ThresholdMax}" />
+                <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource lbValue}" Content="Sobel:ksize" />
+                <TextBox Grid.Row="2" Grid.Column="1" Style="{StaticResource tbValue}" Text="{Binding VisionParameter.SobelKSize}" />
+                <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource lbValue}" Content="Sobel:scale" />
+                <TextBox Grid.Row="3" Grid.Column="1" Style="{StaticResource tbValue}" Text="{Binding VisionParameter.SobelScale}" />
+                <Label Grid.Row="4" Grid.Column="0" Style="{StaticResource lbValue}" Content="Morphology:Open" />
+                <TextBox Grid.Row="4" Grid.Column="1" Style="{StaticResource tbValue}" Text="{Binding VisionParameter.MorphologyOpen}" />
+                <Label Grid.Row="5" Grid.Column="0" Style="{StaticResource lbValue}" Content="Morphology:Close" />
+                <TextBox Grid.Row="5" Grid.Column="1" Style="{StaticResource tbValue}" Text="{Binding VisionParameter.MorphologyClose}" />
+                <Label Grid.Row="6" Grid.Column="0" Style="{StaticResource lbValue}" Content="Blob:MinArea" />
+                <TextBox Grid.Row="6" Grid.Column="1" Style="{StaticResource tbValue}" Text="{Binding VisionParameter.BlobMinArea}" />
+                <Label Grid.Row="7" Grid.Column="0" Style="{StaticResource lbValue}" Content="Profile:Step" />
+                <TextBox Grid.Row="7" Grid.Column="1" Style="{StaticResource tbValue}" Text="{Binding VisionParameter.ProfileStep}" />
+
+                <Label Grid.Row="8" Grid.Column="0" Style="{StaticResource lbValue}" Content="Image:Invert"/>
+                <CheckBox Content="Invert" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="8" VerticalAlignment="Center" IsChecked="{Binding Path=VisionParameter.ImageInvert, Mode=TwoWay}" />
+                <Label Grid.Row="9" Grid.Column="0" Style="{StaticResource lbValue}" Content="Find Method"/>
+                <CheckBox Content="LineDetection" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="9" VerticalAlignment="Center" IsChecked="{Binding Path=VisionParameter.LineDetection, Mode=TwoWay}" />
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="3">
+            <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                <Button Width="100" Command="{Binding BtnSetCenterCommand}">Set Center</Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

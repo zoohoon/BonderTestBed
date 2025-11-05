@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{89912FF3-C1F3-45E9-95DD-7B060BC68FAA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LoaderServiceClientModules</RootNamespace>
+    <AssemblyName>LoaderServiceClientModules</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="SciChart.Charting, Version=4.2.1.9358, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SciChart\SciChart.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Core, Version=4.2.1.9358, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SciChart\SciChart.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="SciChart.Data, Version=4.2.1.9358, Culture=neutral, PublicKeyToken=b55dd9efe817e823, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\SciChart\SciChart.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CoordManager\CoordManagerServiceClient.cs" />
+    <Compile Include="FileManager\FileManagerServiceClient.cs" />
+    <Compile Include="Inspection\InspectionModuleServiceClient.cs" />
+    <Compile Include="LotOPModule\LotOPModuleServiceClient.cs" />
+    <Compile Include="ManualContact\ManualContactModuleServiceClient.cs" />
+    <Compile Include="MotionManager\MotionManagerServiceClient.cs" />
+    <Compile Include="ParamManager\ParamManagerServiceClient.cs" />
+    <Compile Include="ResultMap\ResultMapManagerServiceClient.cs" />
+    <Compile Include="Retest\RetestModuleServiceClient.cs" />
+    <Compile Include="TCPIPModule\TCPIPModuleServiceClient.cs" />
+    <Compile Include="PinAligner\PinAlignerModuleServiceClient.cs" />
+    <Compile Include="PMIModule\PMIModuleServiceClient.cs" />
+    <Compile Include="PolishWaferModule\PolishWaferModuleServiceClient.cs" />
+    <Compile Include="ProbingModule\ProbingServiceClient.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SoakingModule\SoakingModuleServiceClient.cs" />
+    <Compile Include="StageMove\StageMoveServiceClient.cs" />
+    <Compile Include="StageSupervisor\StageSupervisorServiceClient.cs" />
+    <Compile Include="TempController\TempControllerServiceClient.cs" />
+    <Compile Include="TemplateManager\TemplateManagerServiceClient.cs" />
+    <Compile Include="VisionManager\VisionManagerServiceClient.cs" />
+    <Compile Include="WaferAligner\WaferAlignerServiceClient.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BinAnalyzer\BinAnalyzer.csproj">
+      <Project>{8BC811CB-16E4-4948-A09C-DD3D2CFB52C0}</Project>
+      <Name>BinAnalyzer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BinParamObject\BinParamObject.csproj">
+      <Project>{ECC9B665-366D-4929-A573-2CF952D2C39B}</Project>
+      <Name>BinParamObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CameraModule\CameraModule.csproj">
+      <Project>{2533a124-719e-43c3-983b-1dbae92c21c5}</Project>
+      <Name>CameraModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DutEditorView\ucDutViewer.csproj">
+      <Project>{0E8EB5F9-EE95-4E4D-A896-B6074B1F05E1}</Project>
+      <Name>ucDutViewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DXControlBase\DXControlBase.csproj">
+      <Project>{A34F896C-885D-4AF5-A641-9C3721A1483F}</Project>
+      <Name>DXControlBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderConnectManager\LoaderCommunicationModule.csproj">
+      <Project>{7487A6B1-4918-499A-8732-1CF0579214D4}</Project>
+      <Name>LoaderCommunicationModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderMapView\LoaderMapView.csproj">
+      <Project>{8ee032a0-0e9e-4546-bdd3-4f424dc3bfd7}</Project>
+      <Name>LoaderMapView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderBase\LoaderBase.csproj">
+      <Project>{8dbb64b8-644e-475d-8eaf-3b7ecd6f234d}</Project>
+      <Name>LoaderBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{d3b00cca-3c50-42b1-8dca-dfe47c759b57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ManualContactProject\ManualContact.csproj">
+      <Project>{B9FFB7B2-3BB1-49A5-9A49-F1F476E63ABD}</Project>
+      <Name>ManualContact</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroDialogInterfaces\MetroDialogInterfaces.csproj">
+      <Project>{2C3114E3-137B-44ED-A9C2-BA5F2198A672}</Project>
+      <Name>MetroDialogInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PControl\PnPControl.csproj">
+      <Project>{6BE9F617-1527-4711-9A3E-61B3E6C84F3B}</Project>
+      <Name>PnPControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PinAlignParam\PinAlignParam.csproj">
+      <Project>{7722B6D1-F7E2-4AAA-8060-60EA8C830595}</Project>
+      <Name>PinAlignParam</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PMI\PMIModuleParameter\PMIModuleParameter.csproj">
+      <Project>{271CD9EC-2B48-4018-90A9-18D2618BCEAB}</Project>
+      <Name>PMIModuleParameter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PolishWaferParameters\PolishWaferParameters.csproj">
+      <Project>{B9C7EBB2-070E-4BDE-8183-462FFEE413FA}</Project>
+      <Name>PolishWaferParameters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProbeCardObject\ProbeCardObject.csproj">
+      <Project>{13C3DC6F-FB34-473F-A599-0A181B66EFA9}</Project>
+      <Name>ProbeCardObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{edba3295-ff2a-4368-a217-6495941a8bf5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProbingModule\ProbingModule.csproj">
+      <Project>{4D863027-8140-4E04-B93D-73CD6FB59894}</Project>
+      <Name>ProbingModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RelayCommandBase\RelayCommandBase.csproj">
+      <Project>{348522c5-8377-4d66-96f3-5d7da3d7762b}</Project>
+      <Name>RelayCommandBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RequestBase\RequestInterface.csproj">
+      <Project>{67DD1A9E-8E04-4C70-96B7-729DC239E562}</Project>
+      <Name>RequestInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ResultMapParamObject\ResultMapParamObject.csproj">
+      <Project>{cf8ecf19-6cd9-4b3d-a78c-d7fac4a53509}</Project>
+      <Name>ResultMapParamObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RetestObject\RetestObject.csproj">
+      <Project>{9F58F001-24C0-4CF3-A1CC-D721102FAD73}</Project>
+      <Name>RetestObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SerializerProject\SerializerUtil.csproj">
+      <Project>{89ED1BE4-FE82-406E-AE2C-6F3DF03FCC90}</Project>
+      <Name>SerializerUtil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServiceProxy\ServiceProxy.csproj">
+      <Project>{ef12fe56-5d8d-44a2-aaeb-7ef8a2eb4231}</Project>
+      <Name>ServiceProxy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDXRender\SharpDXRender.csproj">
+      <Project>{29E2C211-0F8C-47B7-85AE-10F7C66F0738}</Project>
+      <Name>SharpDXRender</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SubstrateObjects\SubstrateObjects.csproj">
+      <Project>{efb47aa8-b3c8-439c-8a01-d26db8522710}</Project>
+      <Name>SubstrateObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SystemExceptions\SystemExceptions.csproj">
+      <Project>{acc1ae05-1091-40c6-b0fe-0035c61b3416}</Project>
+      <Name>SystemExceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TempManager\TempController.csproj">
+      <Project>{7E060321-EAD9-43E8-8E76-5ECC3C26C6B6}</Project>
+      <Name>TempController</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UcDisplayPort\UcDisplayPort.csproj">
+      <Project>{FBA75C26-7E9C-4E69-A6CB-1A6110E76805}</Project>
+      <Name>UcDisplayPort</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WA_HighMagParameter_Standard\WA_HighMagParameter_Standard.csproj">
+      <Project>{89CEE01B-94DB-4FEF-8F04-BA31A0D027EE}</Project>
+      <Name>WA_HighMagParameter_Standard</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

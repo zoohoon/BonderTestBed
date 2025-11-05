@@ -1,0 +1,784 @@
+﻿<UserControl x:Class="UcDeviceChangeView.DeviceChangeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UcDeviceChangeView"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:aniScroll="clr-namespace:UcAnimationScrollViewer;assembly=UcAnimationScrollViewer"
+             xmlns:resources="clr-namespace:ProberViewModel.Properties" 
+             xmlns:conv="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:prober="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             xmlns:dutedit="clr-namespace:ucDutViewer;assembly=ucDutViewer"
+             xmlns:pnpcontrol="clr-namespace:PnPControl;assembly=PnPControl"
+             xmlns:cui="clr-namespace:CUI;assembly=CUI"
+             xmlns:MapUC="clr-namespace:MapView;assembly=MapView"
+             mc:Ignorable="d"
+             d:DesignHeight="800" d:DesignWidth="1024">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <conv:BoolToVisibleOrCollapsedConverter x:Key="BtoV_VoOrCo" />
+            <conv:ShowUnderscoreConverter x:Key="ShowUnderscoreConverter"/>
+            
+            <local:TempToStringConverter x:Key="TempToStringConverter" />
+
+            <conv:ListBoxIndexConverter x:Key="ListBoxIndexConv"/>
+            
+            <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+            <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+            <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+            <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+            <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+            <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+            <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+            <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+
+            <DataTemplate x:Key="MapViewTemplate" DataType="{x:Type prober:IWaferObject}" >
+                <MapUC:ucWaferMapviewer MinHeight="200" MinWidth="200"
+                                        Opacity="1" 
+                                        IsEnabled="True"
+                                        WaferObject="{Binding
+                                            UpdateSourceTrigger=PropertyChanged
+                                            }" 
+                                        EnalbeClickToMove="False"
+                                        StageSyncEnalbe="False"
+                                        CursorXIndex="{Binding 
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Path=CurrentMXIndex, 
+                                            Mode=TwoWay}" 
+                                        CursorYIndex="{Binding 
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Path=CurrentMYIndex, 
+                                            Mode=TwoWay}" 
+                                        IsCrossLineVisible="False"
+                                        RenderMode="{Binding MapViewControlMode}"/>
+            </DataTemplate>
+
+            <pnpcontrol:TemplateSelector x:Key="ViewTargetTemplateSelector" 
+                                    MapViewDataTemplate="{StaticResource MapViewTemplate}"/>
+
+
+            <Style x:Key="UpButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <Border Name="UpButtonBorderStyle" Background="#333333">
+                                    <Border.BitmapEffect>
+                                        <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                    Color="LightGray"
+                                    ShadowDepth="5"
+                                    Softness="0"/>
+                                    </Border.BitmapEffect>
+                                </Border>
+                                <Viewbox Margin="8">
+                                    <Path Data="M1,21H23L12,2" Fill="White" Name="TryAngleIcon"/>
+                                </Viewbox>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsDefaulted" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="UpButtonBorderStyle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true"/>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Fill" TargetName="TryAngleIcon" Value="{StaticResource Button.Pressed.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="UpButtonBorderStyle" Value="{StaticResource Button.Disabled.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="UpButtonBorderStyle" Value="{StaticResource Button.Disabled.Border}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="DwButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <Border Name="DwButtonBorderStyle" Background="#333333">
+                                    <Border.BitmapEffect>
+                                        <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                    Color="LightGray" 
+                                    ShadowDepth="5"
+                                    Softness="0"/>
+                                    </Border.BitmapEffect>
+                                </Border>
+                                <Viewbox Margin="8">
+                                    <Path Data="M1,2H23L12,21"
+                                          Fill="White" Name="TryAngleIcon"
+                                          />
+                                </Viewbox>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsDefaulted" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="DwButtonBorderStyle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true"/>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Fill" TargetName="TryAngleIcon" Value="{StaticResource Button.Pressed.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="DwButtonBorderStyle" Value="{StaticResource Button.Disabled.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="DwButtonBorderStyle" Value="{StaticResource Button.Disabled.Border}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="RefreshButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <Border Name="DwButtonBorderStyle" Background="#333333">
+                                    <Border.BitmapEffect>
+                                        <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                    Color="LightGray" 
+                                    ShadowDepth="5"
+                                    Softness="0"/>
+                                    </Border.BitmapEffect>
+                                </Border>
+                                <Viewbox Margin="8">
+                                    <Path Data="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,
+                                          20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,
+                                          6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z"
+                                          Fill="White" Name="TryAngleIcon"
+                                          />
+                                </Viewbox>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsDefaulted" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="DwButtonBorderStyle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true"/>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Fill" TargetName="TryAngleIcon" Value="{StaticResource Button.Pressed.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="DwButtonBorderStyle" Value="{StaticResource Button.Disabled.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="DwButtonBorderStyle" Value="{StaticResource Button.Disabled.Border}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!--<Style x:Key="LabelButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <Border Name="DwButtonBorderStyle" Background="#333333">
+                                    <Border.BitmapEffect>
+                                        <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                                        Color="LightGray" 
+                                                        ShadowDepth="5"
+                                                        Softness="0"/>
+                                    </Border.BitmapEffect>
+                                </Border>
+                                <Grid>
+                                    <Label Content="{TemplateBinding Content}" HorizontalAlignment="Center"
+                                           Foreground="White" FontSize="16"
+                                           Padding="0"
+                                           VerticalAlignment="Center"/>
+                                </Grid>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsDefaulted" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="DwButtonBorderStyle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true"/>
+                                <Trigger Property="IsPressed" Value="true">
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="DwButtonBorderStyle" Value="{StaticResource Button.Disabled.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="DwButtonBorderStyle" Value="{StaticResource Button.Disabled.Border}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>-->
+
+            <Style x:Key="ClearButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid>
+                                <Border Name="ClearBtnStyleBorder" Background="Transparent">
+                                </Border>
+                                <Viewbox Margin="8">
+                                    <Path Name="SearchIcon" Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,
+                                          13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" Fill="White"
+                                          Stretch="Fill"/>
+                                </Viewbox>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsDefaulted" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="ClearBtnStyleBorder" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true"/>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Fill" TargetName="SearchIcon" Value="{StaticResource Button.Pressed.Border}"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="ClearBtnStyleBorder" Value="{StaticResource Button.Disabled.Background}"/>
+                                    <Setter Property="BorderBrush" TargetName="ClearBtnStyleBorder" Value="{StaticResource Button.Disabled.Border}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="myLBStyle" TargetType="{x:Type ListBoxItem}">
+                <Style.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                             Color="Transparent"/>
+                </Style.Resources>
+                
+                <Setter Property="AutomationProperties.AutomationId" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource ListBoxIndexConv}, StringFormat={}lBDevice_{0}}"/>
+            </Style>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Unloaded">
+            <i:InvokeCommandAction Command="{Binding ControlUnloadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120*"/>
+            <ColumnDefinition Width="160*"/>
+            <ColumnDefinition Width="160*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" BorderThickness="0.1"  Margin="8 8 4 8"
+                BorderBrush="White"/>
+        <Grid Grid.Column="0"  Margin="8 8 4 8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="72*"/>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox AutomationProperties.AutomationId="txtSearch"
+                         Grid.Column="0"
+                         Foreground="White"
+                         Focusable="False"
+                         materialDesign:HintAssist.Hint="Search"
+                         materialDesign:HintAssist.IsFloating="False"
+                         VerticalContentAlignment="Center"
+                         HorizontalContentAlignment="Center"
+                         Text="{Binding SearchStr, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         FontSize="24"
+                    Margin="0 8 0 8">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseUp">
+                            <i:InvokeCommandAction Command="{Binding SearchTBClickCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+                <Button AutomationProperties.AutomationId="btnRefresh"
+                        Grid.Column="1"
+                        Margin="0 8 0 8"
+                        Visibility="{Binding IsSearchDataClearButtonVisible, Converter={StaticResource BtoV_VoOrCo}}"
+                        Command="{Binding ClearSearchDataCommand}"
+                        Style="{StaticResource ClearButtonStyle}">
+                </Button>
+            </Grid>
+            <GroupBox  Grid.Row="1" BorderBrush="White" BorderThickness="1" Margin="0,-15,0,0" FontSize="18" Foreground="White" Header="Device List">
+                <GroupBox.Style>
+                    <Style BasedOn="{x:Null}"/>
+                </GroupBox.Style>
+                <Border  BorderThickness="0.5"
+                BorderBrush="White"/>
+            </GroupBox>
+            <aniScroll:AnimationScrollViewer x:Name="svViewer" Margin="8"
+                          Grid.Row="1"
+                          VerticalScrollBarVisibility="Hidden">
+                <ListBox ItemsSource="{Binding ShowingDeviceInfoCollection}"
+                         SelectedItem="{Binding SelectedDeviceInfo}"
+                         ItemContainerStyle="{StaticResource myLBStyle}"
+                         AutomationProperties.AutomationId="lbDeviceInfo">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Border Width="300">
+                                    <Border.Style>
+                                        <Style TargetType="{x:Type Border}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsNowDevice}" Value="True">
+                                                    <Setter Property="BorderBrush" Value="White"/>
+                                                    <Setter Property="BorderThickness" Value="0.5"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsNowDevice}" Value="False">
+                                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+                                </Border>
+                                <Grid Margin="8" Height="32">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Viewbox Grid.Column="0" Margin="0" Width="32">
+                                            <Path
+                                            Stretch="Uniform"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center">
+                                                <Path.Style>
+                                                    <Style TargetType="{x:Type Path}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsNowDevice}" Value="True">
+                                                                <Setter Property="Data" Value="M2,10.96C1.5,10.68 1.35,10.07 1.63,9.59L3.13,7C3.24,6.8 3.41,6.66 3.6,
+                                                                    6.58L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,2.18L20.47,6.62C20.66,
+                                                                    6.72 20.82,6.88 20.91,7.08L22.36,9.6C22.64,10.08 22.47,10.69 22,10.96L21,11.54V16.5C21,
+                                                                    16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,22 12,22C11.79,22 11.59,21.94 11.43,
+                                                                    21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V10.96C2.7,11.13 2.32,11.14 2,10.96M12,
+                                                                    4.15V4.15L12,10.85V10.85L17.96,7.5L12,4.15M5,15.91L11,19.29V12.58L5,9.21V15.91M19,15.91V12.69L14,
+                                                                    15.59C13.67,15.77 13.3,15.76 13,15.6V19.29L19,15.91M13.85,13.36L20.13,9.73L19.55,8.72L13.27,
+                                                                    12.35L13.85,13.36Z"/>
+                                                                <Setter Property="Fill" Value="#be8158"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsNowDevice}" Value="False">
+                                                                <Setter Property="Data" Value="M21,16.5C21,16.88 20.79,17.21 20.47,17.38L12.57,21.82C12.41,21.94 12.21,
+                                                                    22 12,22C11.79,22 11.59,21.94 11.43,21.82L3.53,17.38C3.21,17.21 3,16.88 3,16.5V7.5C3,
+                                                                    7.12 3.21,6.79 3.53,6.62L11.43,2.18C11.59,2.06 11.79,2 12,2C12.21,2 12.41,2.06 12.57,
+                                                                    2.18L20.47,6.62C20.79,6.79 21,7.12 21,7.5V16.5M12,4.15L10.11,5.22L16,8.61L17.96,7.5L12,
+                                                                    4.15M6.04,7.5L12,10.85L13.96,9.75L8.08,6.35L6.04,7.5M5,15.91L11,19.29V12.58L5,9.21V15.91M19,
+                                                                    15.91V9.21L13,12.58V19.29L19,15.91Z"/>
+                                                                <Setter Property="Fill" Value="#964b00"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Path.Style>
+                                            </Path>
+                                        </Viewbox>
+                                        <Label Grid.Column="1" 
+                                           Margin="0"
+                                           Content="{Binding Name ,Converter={StaticResource ShowUnderscoreConverter}}">
+                                            <Label.Style>
+                                                <Style TargetType="{x:Type Label}" BasedOn="{StaticResource {x:Type Label}}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsNowDevice}" Value="True">
+                                                            <Setter Property="Foreground" Value="White"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding IsNowDevice}" Value="False">
+                                                            <Setter Property="Foreground" Value="#aaaaaa"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Label.Style>
+                                        </Label>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </aniScroll:AnimationScrollViewer>
+
+            <Border Grid.Row="2" BorderThickness="0.5" 
+                BorderBrush="White"/>
+
+            <Grid Grid.Row="2" Margin="8">
+
+                <Button Grid.Column="1"
+                            Margin="4"
+                            Style="{StaticResource RefreshButtonStyle}"
+                            Command="{Binding RefreshDevListCommand}"/>
+            </Grid>
+
+            <Border Grid.Row="3" BorderThickness="0.5" 
+                BorderBrush="White"/>
+            <Grid Grid.Row="3" Margin="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="9*"/>
+                    <ColumnDefinition Width="117*"/>
+                    <ColumnDefinition Width="125*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0"
+                            Margin="4"
+                            Style="{StaticResource UpButtonStyle}"
+                            Click="CategoryUpBtnClick" Grid.ColumnSpan="2"
+                            AutomationProperties.AutomationId="btnUp"/>
+
+                <Button Grid.Column="2"
+                            Margin="4"
+                            Style="{StaticResource DwButtonStyle}"
+                            Click="CategoryDwBtnClick"
+                            AutomationProperties.AutomationId="btnDown"/>
+            </Grid>
+        </Grid>
+
+
+        <Grid Grid.Column="1"  Margin="8"
+              Grid.ColumnSpan="2"
+              >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80*"/>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+            <GroupBox  Grid.Row="0"
+                       Header="{x:Static resources:Resources.DeviceInformation}"
+                       VerticalContentAlignment="Stretch"
+                       VerticalAlignment="Stretch"
+                       FontSize="20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" BorderThickness="0.1" 
+                    BorderBrush="White"/>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0" BorderThickness="0.1" 
+                    BorderBrush="White"/>
+                        <Grid Grid.Row="0" Margin="8">
+                            <ContentControl 
+                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                Content="{Binding ShowingDevice.DutViewControl.WaferObject, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                ContentTemplateSelector="{StaticResource ViewTargetTemplateSelector}"/>
+                        </Grid>
+
+                        <Border Grid.Row="1" BorderThickness="0.1" 
+                    BorderBrush="White"/>
+                        <Grid Grid.Row="1" Margin="8">
+                            <dutedit:ucDUTviewer DataContext="{Binding ShowingDevice.DutViewControl}"
+                                                 GUID="864AB820-A21C-42F6-BB3D-D510AD256BA5"/>
+                        </Grid>
+                    </Grid>
+
+                    <Border Grid.Column="1" BorderThickness="0.1" 
+                    BorderBrush="White"/>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="16*"/>
+                            <RowDefinition Height="88*"/>
+                        </Grid.RowDefinitions>
+
+                        <GroupBox Grid.Row="0" Margin="4 0 0 4"
+                                  Header="{x:Static resources:Resources.DeviceName}"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  FontSize="14"
+                                  >
+                            <Grid>
+                                <TextBlock Text="{Binding ShowingDevice.Name}"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="20"
+                                       Padding="0"
+                                       ></TextBlock>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Grid.Row="1" Margin="4 4 0 0"
+                                  Header="{x:Static resources:Resources.Details}"
+                                  HorizontalContentAlignment="Center"
+                                  VerticalContentAlignment="Center"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  FontSize="14"
+                                  >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80*"/>
+                                    <ColumnDefinition Width="80*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Row="0" Grid.Column="0"
+                                       HorizontalContentAlignment="Right"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="White"
+                                       Content="SetTemp : "/>
+                                <TextBlock Grid.Row="0" Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           FontSize="16"
+                                           Padding="16"
+                                           Foreground="White"
+                                       Text="{Binding ShowingDevice.SetTemp, Converter={StaticResource TempToStringConverter}
+                                            , StringFormat={}{0} ℃}"
+                                       />
+
+                                <Label Grid.Row="1" Grid.Column="0"
+                                       HorizontalContentAlignment="Right"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="White"
+                                       Content="WaferSize : "/>
+                                <TextBlock Grid.Row="1" Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           FontSize="16"
+                                           Padding="16"
+                                           Foreground="White"
+                                       Text="{Binding ShowingDevice.WaferSize}"
+                                       />
+
+                                <Label Grid.Row="2" Grid.Column="0"
+                                       HorizontalContentAlignment="Right"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="White"
+                                       Content="Notch Type : "/>
+                                <TextBlock Grid.Row="2" Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           FontSize="16"
+                                           Padding="16"
+                                           Foreground="White"
+                                       Text="{Binding ShowingDevice.WaferNotchType}"
+                                       />
+
+                                <Label Grid.Row="3" Grid.Column="0"
+                                       HorizontalContentAlignment="Right"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="White"
+                                       Content="Notch Angle : "/>
+                                <TextBlock Grid.Row="3" Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           FontSize="16"
+                                           Padding="16"
+                                           Foreground="White"
+                                       Text="{Binding ShowingDevice.WaferNotchAngle, StringFormat={}{0} °}"
+                                       />
+
+                                <Label Grid.Row="4" Grid.Column="0"
+                                       HorizontalContentAlignment="Right"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="White"
+                                       Content="WaferThickness : "/>
+                                <TextBlock Grid.Row="4" Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           FontSize="16"
+                                           Padding="16"
+                                           Foreground="White"
+                                       Text="{Binding ShowingDevice.WaferThickness, StringFormat={}{0:0.###} µm}"
+                                       />
+
+                                <Label Grid.Row="5" Grid.Column="0"
+                                       HorizontalContentAlignment="Right"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="White"
+                                       Content="WaferMapCountX : "/>
+                                <TextBlock Grid.Row="5" Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           FontSize="16"
+                                           Padding="16"
+                                           Foreground="White"
+                                       Text="{Binding ShowingDevice.WaferMapCountX}"
+                                       />
+
+                                <Label Grid.Row="6" Grid.Column="0"
+                                       HorizontalContentAlignment="Right"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="White"
+                                       Content="WaferMapCountY : "/>
+                                <TextBlock Grid.Row="6" Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           FontSize="16"
+                                           Padding="16"
+                                           Foreground="White"
+                                       Text="{Binding ShowingDevice.WaferMapCountY}"
+                                       />
+
+                                <Label Grid.Row="7" Grid.Column="0"
+                                       HorizontalContentAlignment="Right"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="White"
+                                       Content="DieSizeX : "/>
+                                <TextBlock Grid.Row="7" Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           FontSize="16"
+                                           Padding="16"
+                                           Foreground="White"
+                                       Text="{Binding ShowingDevice.DieSizeX, StringFormat={}{0} µm}"
+                                       />
+
+                                <Label Grid.Row="8" Grid.Column="0"
+                                       HorizontalContentAlignment="Right"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="White"
+                                       Content="DieSizeY : "/>
+                                <TextBlock Grid.Row="8" Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           FontSize="16"
+                                           Padding="16"
+                                           Foreground="White"
+                                           Text="{Binding ShowingDevice.DieSizeY, StringFormat={}{0} µm}"
+                                       />
+
+                                <Label Grid.Row="9" Grid.Column="0"
+                                       HorizontalContentAlignment="Right"
+                                       VerticalContentAlignment="Center"
+                                       Foreground="White"
+                                       Content="Dut : "/>
+                                <TextBlock Grid.Row="9" Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           FontSize="16"
+                                           Padding="16"
+                                           Foreground="White"
+                                           Text="{Binding ShowingDevice.DutCount, StringFormat={}{0} Para}"
+                                       />
+
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </Grid>
+            </GroupBox>
+
+            <Border Grid.Row="1" BorderThickness="0.5" 
+                    BorderBrush="White"/>
+            <Grid Grid.Row="1" Margin="4"
+                  Grid.RowSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+
+                <cui:Button AutomationProperties.AutomationId="btnChangeDevice"
+                            GUID="fddd5efa-8b26-4c0c-a98f-311ba91ae67c"
+                            Grid.Column="0" Margin="8"
+                            Content="{x:Static resources:Resources.ChangeDevice}"
+                            Padding="0"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                            Command="{Binding ChangeDeviceCommand}"
+                            IsEnabled="{Binding IsCanChangeDevice}"
+                            Style="{DynamicResource NormalTypeCUIButtonStyle}">
+                </cui:Button>
+
+                <!--<cui:Button  GUID="baad2700-15f2-4e45-b12d-56e97b90e2f2"
+                             Grid.Column="1" Margin="8"
+                            Content="{x:Static resources:Resources.CreateNewDevice}"
+                            Padding="0"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                            Command="{Binding CreateNewDeviceCommand}"
+                            Style="{DynamicResource NormalTypeCUIButtonStyle}"
+                            >
+                </cui:Button>-->
+
+                <cui:Button AutomationProperties.AutomationId="btnSaveAs"
+                            GUID="0be242de-db1b-4ab0-a8dc-023180f8bfba"
+                            Grid.Column="1" Margin="8"
+                            Content="{x:Static resources:Resources.SaveAs}"
+                            Padding="0"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
+                            Command="{Binding SaveAsDeviceCommand}"
+                            Style="{DynamicResource NormalTypeCUIButtonStyle}">
+                </cui:Button>
+
+                <cui:Button AutomationProperties.AutomationId="btnDelete"
+                            GUID="6bdbd496-3c8a-4888-b3a6-5d0fbdd65dbb"
+                            Grid.Column="2" Margin="8"
+                            Content="{x:Static resources:Resources.Delete}"
+                            Padding="0"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
+                            Command="{Binding DeleteDeviceCommand}"
+                            Style="{DynamicResource NormalTypeCUIButtonStyle}">
+                </cui:Button>
+
+                <cui:Button AutomationProperties.AutomationId="btnUpDownload"
+                            GUID="cdff09fe-36de-41c7-b940-45d1ea608444" Visibility="{Binding UpDownloadVisibility}"
+                            Grid.Row="1"
+                            Grid.Column="3" 
+                            Margin="8" 
+                            Padding="0"
+                            Content="{x:Static resources:Resources.GoToDownLoadPage}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
+                            Command="{Binding PageSwitchingCommand}"
+                            Style="{DynamicResource NormalTypeCUIButtonStyle}">
+                </cui:Button>
+
+                <!--<Button Grid.Column="2" Margin="8"
+                        Content="{x:Static resources:Resources.GoToDownLoadPage}"
+                        Style="{StaticResource LabelButtonStyle}"
+                        Command="{Binding GoToDownLoadPageCommand}"
+                        >
+                </Button>-->
+            </Grid>
+        </Grid>
+
+
+    </Grid>
+</UserControl>

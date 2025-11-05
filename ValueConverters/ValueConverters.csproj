@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{90E38E59-8FEA-4DA7-937F-888390B913C3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ValueConverters</RootNamespace>
+    <AssemblyName>ValueConverters</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AlignStateToPathConverter.cs" />
+    <Compile Include="BaseConverter.cs" />
+    <Compile Include="BooleanConverter.cs" />
+    <Compile Include="Bool\HomeBtnEnabledConverter.cs" />
+    <Compile Include="Bool\MainMenuStateConverter.cs" />
+    <Compile Include="BrushConverter.cs" />
+    <Compile Include="ComparisonBinding.cs" />
+    <Compile Include="ConvertMultiValue.cs" />
+    <Compile Include="CoordConvert.cs" />
+    <Compile Include="CoordIndexConverter.cs" />
+    <Compile Include="CylStateToColorConverter.cs" />
+    <Compile Include="DateTimeConverter.cs" />
+    <Compile Include="DoubleToSignStringConverter.cs" />
+    <Compile Include="EmptyStringConverter.cs" />
+    <Compile Include="EnumConverter.cs" />
+    <Compile Include="ErrorLevelConveter.cs" />
+    <Compile Include="EventBadgeConverter.cs" />
+    <Compile Include="Foup3D_PositionConvert.cs" />
+    <Compile Include="FoupConverter.cs" />
+    <Compile Include="FoupProcedureStateToBrushConvert.cs" />
+    <Compile Include="FoupStateToBoolConvert.cs" />
+    <Compile Include="GPLotStateConvert.cs" />
+    <Compile Include="HalfConverter.cs" />
+    <Compile Include="CamCoordConverter.cs" />
+    <Compile Include="ImageConverter.cs" />
+    <Compile Include="IndexBooleanConverter.cs" />
+    <Compile Include="IndexConverter.cs" />
+    <Compile Include="InputOutputDescriptionConverter.cs" />
+    <Compile Include="IntToStringConverter.cs" />
+    <Compile Include="IntToStringPlusConverter.cs" />
+    <Compile Include="LampTypeToBrushConverter.cs" />
+    <Compile Include="ModuleIDToStringConverter.cs" />
+    <Compile Include="ProberStatusToStringConverter.cs" />
+    <Compile Include="PWDefineTypeToBrushConverter.cs" />
+    <Compile Include="StageLockConverter.cs" />
+    <Compile Include="StreamingModeConverter.cs" />
+    <Compile Include="StringToSolidColorConverter.cs" />
+    <Compile Include="TemperatureOffsetCalcConverter.cs" />
+    <Compile Include="TemperatureUnitConverter.cs" />
+    <Compile Include="UserLevelToBooleanConverter.cs" />
+    <Compile Include="Visibility\IntToVisibilityConverter.cs" />
+    <Compile Include="InverseBooleanConverter.cs" />
+    <Compile Include="ItemSourceCountFilterConverter.cs" />
+    <Compile Include="ExceptionConverter.cs" />
+    <Compile Include="LevelConverter.cs" />
+    <Compile Include="LogTypeToBoolConverter.cs" />
+    <Compile Include="LotInfoYieldConvert.cs" />
+    <Compile Include="LotSetupConverter.cs" />
+    <Compile Include="MarginConverter.cs" />
+    <Compile Include="MaskingCheckMultiConverter.cs" />
+    <Compile Include="MathConverter.cs" />
+    <Compile Include="NumericComparisonToBoolConverter.cs" />
+    <Compile Include="NumericConverter.cs" />
+    <Compile Include="PMISetupConverter.cs" />
+    <Compile Include="PositionProjectionConverter.cs" />
+    <Compile Include="ProgressBarColorConverter.cs" />
+    <Compile Include="SignToBrushConverter.cs" />
+    <Compile Include="StateToColorConverter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SetupStateImageConvert.cs" />
+    <Compile Include="LotStateToStringConverter.cs" />
+    <Compile Include="StringConverter.cs" />
+    <Compile Include="StringToGeometryConverter.cs" />
+    <Compile Include="Bool\ListCountIsZero.cs" />
+    <Compile Include="TypeToStringConverter.cs" />
+    <Compile Include="SetZeroPositionConvert.cs" />
+    <Compile Include="TreeviewItemVisibleConverter.cs" />
+    <Compile Include="ViewTargetConverter.cs" />
+    <Compile Include="VMPatternPosConvert.cs" />
+    <Compile Include="VMRelPosConvert.cs" />
+    <Compile Include="WaferConverter.cs" />
+    <Compile Include="WaferOnCSTConverter.cs" />
+    <Compile Include="WaferOntheChuckToDataConverter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AccountModule\AccountModule.csproj">
+      <Project>{4D2007EB-9874-4024-8986-3209415AD660}</Project>
+      <Name>AccountModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommonResources\CommonResources.csproj">
+      <Project>{3dfeba09-c510-4721-bcd0-8a91bf3f4b53}</Project>
+      <Name>CommonResources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CylinderType\CylType.csproj">
+      <Project>{9f3c48aa-bab6-44f3-96fd-e39c57e4b6ea}</Project>
+      <Name>CylType</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnumHelperModule\EnumHelperModule.csproj">
+      <Project>{CA53B753-CA73-42FC-B2E6-61DE2F187760}</Project>
+      <Name>EnumHelperModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ImageResourcePack\ImageResourcePack.csproj">
+      <Project>{73d2898a-fb92-408f-bad9-d0a049cae7e9}</Project>
+      <Name>ImageResourcePack</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IOManager\IOManager.csproj">
+      <Project>{8761ac2b-3144-4025-a12d-1dbb4ddbacb2}</Project>
+      <Name>IOManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderControllerBase\LoaderControllerBase.csproj">
+      <Project>{9ebe6298-fe0a-4e7e-b8de-e7f26c2b29a9}</Project>
+      <Name>LoaderControllerBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderBase\LoaderBase.csproj">
+      <Project>{8DBB64B8-644E-475D-8EAF-3B7ECD6F234D}</Project>
+      <Name>LoaderBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderParameters\LoaderParameters.csproj">
+      <Project>{9368B7A1-3625-42AB-A286-9E94CAF1BDD9}</Project>
+      <Name>LoaderParameters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{D3B00CCA-3C50-42B1-8DCA-DFE47C759B57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{EDBA3295-FF2A-4368-A217-6495941A8BF5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProbingModule\ProbingModule.csproj">
+      <Project>{4D863027-8140-4E04-B93D-73CD6FB59894}</Project>
+      <Name>ProbingModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RelayCommandBase\RelayCommandBase.csproj">
+      <Project>{348522c5-8377-4d66-96f3-5d7da3d7762b}</Project>
+      <Name>RelayCommandBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RequestBase\RequestInterface.csproj">
+      <Project>{67dd1a9e-8e04-4c70-96b7-729dc239e562}</Project>
+      <Name>RequestInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SubstrateObjects\SubstrateObjects.csproj">
+      <Project>{EFB47AA8-B3C8-439C-8A01-D26DB8522710}</Project>
+      <Name>SubstrateObjects</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ArrowUpW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ArrowDownW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ArrowLeftW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ArrowRightW.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

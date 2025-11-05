@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="EventCodeEditor.GEM.GemAlarmSetupView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EventCodeEditor.GEM"
+             mc:Ignorable="d" Height="450" Width="800"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+    
+        <!-- Gem Alaram Param List-->
+        <Grid>
+            <ListView ItemsSource="{Binding gEMAlarmParam.GemAlramInfos}" SelectedItem="{Binding SelectedAlarmParam}">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="Alarm ID" Width="Auto" DisplayMemberBinding="{Binding Path=AlaramID}"/>
+                            <GridViewColumn Header="RaiseOnlyLot" Width="200">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding RaiseOnlyLot}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+        <!-- Controls -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Alarm ID" Foreground="Black"/>
+                    <TextBox Text="{Binding GemAlarmID}"/>
+                    <Label Content="Enable Raise Alarm Only Lot" Foreground="Black"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Content="Enable" GroupName="GemAlarm" IsChecked="{Binding GemAlarmRaiseOnlyLotEnable}" Foreground="Black" VerticalContentAlignment="Center"/>
+                        <RadioButton Grid.Column="1" Content="Disalbe" GroupName="GemAlarm" IsChecked="{Binding GemAlarmRaiseOnlyLotDisable}" Foreground="Black" VerticalContentAlignment="Center"/>
+                    </Grid>
+
+                    <Button Content="Add Alarm" Command="{Binding AddAlarmCommand}"/>
+                    <Button Content="Delete Alarm" Command="{Binding DeleteAlarmCommand}"/>
+                    <Button Content="Save" Command="{Binding SaveParamCommand}"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1">
+
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

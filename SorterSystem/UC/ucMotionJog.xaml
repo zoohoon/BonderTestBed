@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="SorterSystem.UC.ucMotionJog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SorterSystem.UC"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <local:ucMotionJogAxis Grid.Column="0" DataContext="{Binding AxisX}" />
+        <local:ucMotionJogAxis Grid.Column="1" DataContext="{Binding AxisY}" />
+        <local:ucMotionJogAxis Grid.Column="2" DataContext="{Binding AxisZ}" />
+        <local:ucMotionJogAxis Grid.Column="3" DataContext="{Binding AxisPZ}" />
+        <local:ucMotionJogAxis Grid.Column="4" DataContext="{Binding AxisT}" />
+    </Grid>
+</UserControl>

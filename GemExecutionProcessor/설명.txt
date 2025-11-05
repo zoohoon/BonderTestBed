@@ -1,0 +1,7 @@
+﻿GemExecutionProcessor는 GEM Module의 Core 기능을 구현하고 있습니다.
+GemExecutionProcessor의 기능은 다음과 같습니다.
+
+1. 중계기 or GEM Dongle과 통신을 합니다.
+2. GEM 통신 처리 부분입니다.
+
+Single Prober에서는 GEM Dongle, Group Prober에서는 Cell에서 사용 될 것 입니다.

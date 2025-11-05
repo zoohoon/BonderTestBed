@@ -1,0 +1,420 @@
+﻿<dialogs:CustomDialog x:Class="PMISetup.UC.WaferPMIMapSetupControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:local="clr-namespace:PMISetup.UC"
+             xmlns:pmi="clr-namespace:ProberInterfaces.PMI;assembly=ProberInterfaces"
+             xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:conv="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:prvm="clr-namespace:ProberViewModel;assembly=ProberViewModel"
+             xmlns:MapView="clr-namespace:MapView;assembly=MapView"
+             mc:Ignorable="d" Height="1080" Width="1260"
+             Background="#FF232222"
+             x:Name="dialog"
+             Style="{DynamicResource FullScreenDialogStyle}" >
+
+    <dialogs:CustomDialog.Resources>
+        <conv:BooleanToIntConverter             x:Key="BooleanToIsCheckedConverter"/>
+        <conv:EnumBooleanConverter              x:Key="EnumBooleanConverter"/>
+        <conv:MulitCommandParameterConverter    x:Key="MulitCommandParameterConverter"/>
+        <conv:MathConverter x:Key="Mathconv"/>
+        <conv:IndexConverter x:Key="indexconverter"/>
+        <conv:IntToStringPlusOneConverter x:Key="PlusOneConv"/>
+    </dialogs:CustomDialog.Resources>
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="1240" Height="1000">
+
+        <Grid.Resources>
+            <ResourceDictionary>
+                <System:Double x:Key="DialogTitleFontSize">26</System:Double>
+                <System:Double x:Key="DialogMessageFontSize">15</System:Double>
+                <Style x:Key="TitleLabel" TargetType="Label">
+                    <Setter Property="Margin" Value="0 8 0 0"/>
+                    <Setter Property="Background" Value="DodgerBlue" />
+                    <Setter Property="FontSize" Value="30" />
+                    <Setter Property="Foreground" Value="#FFE8E8E8"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+                <Style x:Key="DefaultButton" TargetType="Button">
+                    <Setter Property="Margin" Value="10"/>
+                    <Setter Property="FontSize" Value="35" />
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+                <Style x:Key="WaferButton" TargetType="ToggleButton">
+                    <Setter Property="Margin" Value="4"/>
+                    <Setter Property="FontSize" Value="24" />
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+                <Style x:Key="ExtraButton" TargetType="Button">
+                    <Setter Property="Margin" Value="4"/>
+                    <Setter Property="FontSize" Value="16" />
+                    <Setter Property="MinHeight" Value="46"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+                <Style x:Key="SubTitleLabel" TargetType="Label">
+                    <Setter Property="Margin" Value="4 8"/>
+                    <Setter Property="Background" Value="DodgerBlue"/>
+                    <Setter Property="FontSize" Value="16" />
+                    <Setter Property="Foreground" Value="#FFE8E8E8"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+                <Style x:Key="ContentLabel" TargetType="Label">
+                    <Setter Property="Margin" Value="4 8"/>
+                    <Setter Property="Background" Value="Black"/>
+                    <Setter Property="FontSize" Value="16" />
+                    <Setter Property="Foreground" Value="Linen"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+            </ResourceDictionary>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="1*" MinHeight="20" />
+            <RowDefinition Height="9*" />
+
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+
+            <ColumnDefinition Width="5.5*"/>
+            <ColumnDefinition Width="4.5*"/>
+            <!--<ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>-->
+
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource TitleLabel}" Content ="PMI Wafer-Map Setup" Width="1240"/>
+
+        <Border Grid.Row="1" Grid.Column="0" BorderBrush="LightGray" BorderThickness="1" Margin="8">
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Label Grid.Row="0" Content="Map Selection" Style="{StaticResource SubTitleLabel}"/>
+                </Grid>
+
+                <Grid Grid.Row="1">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"-->
+                    
+                    <ListView x:Name="lstview"
+                              ItemsSource="{Binding PMIInfo.WaferTemplateInfo}" 
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="5"></UniformGrid>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="white" BorderThickness="1" Margin="2">
+                                    <Button Foreground="Black"
+                                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}, Path=DataContext.SelectWaferTemplateCommand}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}, Path=DataContext}">
+                                        <Button.Content>
+                                            <TextBlock>
+                                                <TextBlock.Text>
+                                                    <MultiBinding StringFormat="{} Wafer {0}, Map {1}">
+                                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}" 
+                                                                 Converter="{StaticResource indexconverter}"/>
+                                                        <!--<Binding Path="SelectedMapIndex.Value" 
+                                                                 Converter="{StaticResource Mathconv}"
+                                                                 ConverterParameter="@VALUE+1"/>-->
+                                                        <Binding Path="SelectedMapIndex.Value" 
+                                                                 Converter="{StaticResource PlusOneConv}"
+                                                                 ConverterParameter="plusOne"
+                                                                 />
+                                                        
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                        </Button.Content>
+                                        <!--Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ItemsControl.AlternationIndex)}"-->
+                                        <!--<Button.Content>
+                                            <MultiBinding StringFormat="{} Wafer {0}">
+                                                --><!--<Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}"
+                                                         Converter="{StaticResource indexconverter}"/>--><!--
+                                                <Binding RelativeSource="{RelativeSource Mode=TemplatedParent}" Path="ItemsControl.AlternationIndex"
+                                                         Converter="{StaticResource indexconverter}"/>
+                                            </MultiBinding>
+
+                                            --><!--"{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ItemsControl.AlternationIndex)}--><!--
+                                            
+                                        </Button.Content>-->
+                                    </Button>
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    
+                    <!--<Label Grid.Column="0" HorizontalAlignment="Center"
+                        Style="{StaticResource ContentLabel}"
+                        Content="Current Map Index : "
+                        Background="Transparent"
+                        Foreground="Linen"/>
+
+                    <Label Grid.Column="1"
+                        Style="{StaticResource ContentLabel}"
+                        Background="Transparent"
+                        HorizontalContentAlignment="Stretch"
+                        HorizontalAlignment="Center"
+                        Foreground="Linen">
+                        <Label.Content>
+                            <MultiBinding StringFormat="{} {0}">
+                                <Binding Path="PMIInfo.SelectedWaferTemplate.SelectedMapIndex"
+                                         Converter="{StaticResource Mathconv}"
+                                         ConverterParameter="@VALUE+1"/>
+                            </MultiBinding>
+                        </Label.Content>
+                    </Label>-->
+
+                </Grid>
+
+                <Grid Grid.Row="2">
+
+                    <Border BorderBrush="White" BorderThickness="1"
+                        Width="600" Height="600" 
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch">
+
+                        <!--<MapView:ucWaferMapviewer 
+                            Opacity="1" 
+                            Margin="4" 
+                            WaferObject="{Binding StageSupervisor.WaferObject}"
+                            UnderDutDices="{Binding ProbingModule.ProbingProcessStatus.UnderDutDevs}"
+                            CursorXIndex="{Binding StageSupervisor.WaferObject.CurrentMXIndex,
+                            Mode=TwoWay}" 
+                            CursorYIndex="{Binding StageSupervisor.WaferObject.CurrentMYIndex,
+                            Mode=TwoWay}"
+                            CurCamera="{Binding CurCam}"
+                            CoordinateManager="{Binding CoordManager}"
+                            EnalbeClickToMove="{Binding StageSupervisor.WaferObject.MapViewStageSyncEnable}"
+                            RenderMode="{Binding StageSupervisor.WaferObject.MapViewControlMode}"
+                            StepLabel="{Binding StageSupervisor.WaferObject.MapViewStepLabel}" />--> 
+                        <MapView:MapViewControl 
+                            Opacity="1" 
+                            Margin="4" 
+                            WaferObject="{Binding StageSupervisor.WaferObject}"
+                            UnderDutDices="{Binding ProbingModule.ProbingProcessStatus.UnderDutDevs}"
+                            CursorXIndex="{Binding StageSupervisor.WaferObject.CurrentMXIndex,
+                            Mode=TwoWay}" 
+                            CursorYIndex="{Binding StageSupervisor.WaferObject.CurrentMYIndex,
+                            Mode=TwoWay}"
+                            CurCamera="{Binding CurCam}"
+                            CoordinateManager="{Binding CoordManager}"
+                            EnalbeClickToMove="{Binding StageSupervisor.WaferObject.MapViewStageSyncEnable}"
+                            RenderMode="{Binding StageSupervisor.WaferObject.MapViewControlMode}"
+                            StepLabel="{Binding StageSupervisor.WaferObject.MapViewStepLabel}" />
+                    </Border>
+
+                </Grid>
+
+                <Grid Grid.Row="3">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="6*"/>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="6*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" 
+                        Content="PREV" 
+                        Margin="4"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="Linen"
+                        MinHeight="46"
+                        Style="{DynamicResource DarkActionBtnSytle}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding ChangeMapIndexCommand}"
+                                                   CommandParameter="{x:Static pmi:SETUP_DIRECTION.PREV}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <Label Grid.Column="1"
+                        Style="{StaticResource ContentLabel}">
+                        <Label.Content>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{} {0} / {1}">
+                                        <!--<Binding Path="PMIInfo.SelectedNormalPMIMapTemplateIndex"
+                                         Converter="{StaticResource Mathconv}"
+                                         ConverterParameter="@VALUE+1"/>-->
+
+                                        <Binding Path="PMIInfo.SelectedNormalPMIMapTemplateIndex"
+                                         Converter="{StaticResource PlusOneConv}" ConverterParameter="plusOne"/>
+                                        <Binding Path="PMIInfo.NormalPMIMapTemplateInfo.Count" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                           
+                        </Label.Content>
+                    </Label>
+
+                    <Button Grid.Column="2" 
+                        Content="NEXT" 
+                        Margin="4"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="Linen"
+                        MinHeight="46"
+                        Style="{DynamicResource DarkActionBtnSytle}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding ChangeMapIndexCommand}"
+                                                   CommandParameter="{x:Static pmi:SETUP_DIRECTION.NEXT}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                </Grid>
+
+                <Grid Grid.Row="4">
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="6*"/>
+                        <ColumnDefinition Width="6*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                        Content="Add" 
+                        Margin="4"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="Linen"
+                        MinHeight="46"
+                        Style="{DynamicResource DarkActionBtnSytle}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding AddNormalPMIMapCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <Button Grid.Column="1"
+                        Content="Delete" 
+                        Margin="4"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="Linen"
+                        MinHeight="46"
+                        Style="{DynamicResource DarkActionBtnSytle}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding DeleteNormalPMIMapCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    
+                </Grid>
+                
+                <Grid Grid.Row="5">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="6*"/>
+                        <ColumnDefinition Width="6*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                        Content="APPLY" 
+                        Margin="4"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="Linen"
+                        MinHeight="46"
+                        Style="{DynamicResource DarkActionBtnSytle}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding ApplyMapToWaferCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    
+                    <Button Grid.Column="1"
+                        Content="APPLY ALL" 
+                        Margin="4"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="Linen"
+                        MinHeight="46"
+                        Style="{DynamicResource DarkActionBtnSytle}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding ApplyMapToAllWaferCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                </Grid>
+
+                <!--<Grid.ColumnDefinitions>
+                    
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    
+                </Grid.ColumnDefinitions>-->
+
+            </Grid>
+        </Border>
+
+        <Grid Grid.Column="1" Grid.Row="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="9*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" BorderBrush="LightGray" BorderThickness="1" Margin="8">
+                <prvm:UcWaferSelectionView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                           Visibility="{Binding WaferIntervalVisibility}"/>
+            </Border>
+
+            <Button Grid.Row="1"
+                Content="EXIT"     
+                Margin="10"
+                FontSize="35"
+                FontWeight="Bold"
+                Foreground="Linen"
+                Style="{DynamicResource DarkActionBtnSytle}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Click">
+                        <i:InvokeCommandAction Command="{Binding CmdExitClick}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </Button>
+
+        </Grid>
+    </Grid>
+</dialogs:CustomDialog>

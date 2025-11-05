@@ -1,0 +1,827 @@
+﻿<UserControl x:Class="TemperatureCalViewProject.TemperatureCalView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TemperatureCalViewProject"
+             xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:tempGraphControl="clr-namespace:TempGraphControl;assembly=TempGraphControl"
+             xmlns:psetup="clr-namespace:ProberInterfaces.PMI;assembly=ProberInterfaces"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:conv="clr-namespace:ValueConverters;assembly=ValueConverters" xmlns:param="clr-namespace:RecipeEditorControl.RecipeEditorParamEdit;assembly=RecipeEditorControl"
+             mc:Ignorable="d" 
+               d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+
+            <!--<conv:MathConverter x:Key="Mathconv"/>-->
+            <conv:TemperatureOffsetCalcConverter x:Key="OffsetCalcConv"/>
+
+            <conv:TemperatureUnitConverter x:Key="TemperatureUnitConv"/>
+            <conv:IntToStringPlusOneConverter x:Key="PlusOneConv"/>
+
+            <conv:IntToVisibilityConverter x:Key="IntToVisibilityConv"/>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SettingControlStyle;component/SettingViewStyleDictionaly.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+
+    <Grid Background="#131313" Margin="2">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Label Grid.Column="0" Content="Temperature Setup" Foreground="White" FontWeight="Bold" FontSize="24" Height="42"/>
+        </Grid>
+
+        <StackPanel Grid.Row="1">
+            <Separator Grid.Row="2" Margin="0" Background="White"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2">
+            <Separator Margin="0" Background="White"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" FontSize="24" Content="Temp. Control" Foreground="White" VerticalAlignment="Center"></Label>
+
+                <ToggleButton Grid.Column="1" FontSize="24"
+                              VerticalAlignment="Center" 
+                              HorizontalAlignment="Left"
+                              IsChecked="{Binding TempControlEnable, Mode=TwoWay}">
+                              <!--IsChecked="{Binding TempController.TempManager.TempCommInfoParam.Init_WriteEnable.Value, Mode=TwoWay}">-->
+                    <!--<ToggleButton.Style>
+                        <Style TargetType="{x:Type ToggleButton}">
+                            <Setter Property="Content" Value="ValueForUnToggledState" />
+                            <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <Setter Property="Content" Value="ValueForToggledState" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>-->
+
+                </ToggleButton>
+                <Grid Grid.Column="2">
+                    <Label Grid.Column="0" FontSize="24" Content="Chuck Vac." Foreground="White" VerticalAlignment="Center"></Label>
+
+                </Grid>
+                <ToggleButton Grid.Column="3" FontSize="24"
+                                          VerticalAlignment="Center" 
+                                          HorizontalAlignment="Left"
+                                          IsChecked="{Binding ChuckVac, Mode=TwoWay}">
+                </ToggleButton>
+                <!--<ToggleButton Grid.Column="0" 
+                              VerticalAlignment="Center" 
+                              HorizontalAlignment="Right"
+                              IsChecked="{Binding TempController.TempManager.TempCommInfoParam.Init_WriteEnable.Value, Mode=TwoWay}"
+                              Command="{Binding PWEnableClickCommand}"
+                              CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>-->
+
+                <!--<cui:Button Grid.Column="1" Content="Set"
+                                    GUID="FEF726E0-E3D3-422C-AC37-A292D85A6F7E"
+                                    Style="{DynamicResource NormalTypeCUIButtonStyle}"
+                                    FontSize="24"
+                                    Margin="0"
+                                    Height="52" Width="200"
+                                    Command="{Binding SettingSVCommand}"/>-->
+                <Grid Grid.Column="4">
+
+                    <!--<Grid.RowDefinitions>
+                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.7*"/>
+                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="0.2*"/>
+                    </Grid.RowDefinitions>-->
+
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.Resources>
+                            <Style TargetType="Label">
+                                <Setter Property="FontSize" Value="36" />
+                            </Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontSize" Value="36" />
+                            </Style>
+                        </Grid.Resources>
+                        <Label Grid.Column="0" Content="PV" Foreground="Crimson"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
+
+                        <TextBlock Grid.Column="1" FontSize="36" Foreground="Crimson"
+                                   HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                   Text="{Binding TempController.TempInfo.CurTemp.Value, Converter={StaticResource TemperatureUnitConv}}" />
+                        <Label Grid.Column="2" Content="℃" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                               FontSize="36" Foreground="Crimson"/>
+
+                        <Label Grid.Column="3" Content=" /" Foreground="White"
+                               HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="36"/>
+
+
+                        <Label Grid.Column="4" Content="SV" Foreground="Green"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36"/>
+
+                        <TextBlock Grid.Column="5" FontSize="36" 
+                                   HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                   Foreground="Green"      
+                                   Text="{Binding TempController.TempInfo.SetTemp.Value, Converter={StaticResource TemperatureUnitConv}}" />
+                        <Label Grid.Column="6" Content="℃" 
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center" 
+                               FontSize="36" Foreground="Green"/>
+
+                    </Grid>
+
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="2" >
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TabControl Grid.Row="0" Width="auto" SelectedIndex="{Binding TabControlSelectedIndex}" >
+
+                <TabControl.Resources>
+
+                    <Style TargetType="{x:Type TabItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type TabItem}">
+                                    <Grid x:Name="grid">
+                                        <Border 
+                              Name="Border"
+                              Background="#FF8C00"
+                              BorderBrush="Black" 
+                              BorderThickness="1,1,1,1" Margin="4,4,4,4"
+                              CornerRadius="6,6,0,0" >
+                                            <TextBlock x:Name="ContentSite"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Text="{TemplateBinding Header}"
+                                    Margin="12,2,12,2"/>
+                                        </Border>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="ContentSite" Property="FontWeight" Value="Bold" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+
+                    </Style>
+
+                </TabControl.Resources>
+
+                <TabItem Header="Heater Offset Setting" Foreground="White" FontSize="24" Background="#1f1f1f">
+                    <Grid Background="#1f1f1f">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+
+                        </Grid>
+                        <Border BorderBrush="White" BorderThickness="2" Margin="4" Grid.Column="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Column="0" Grid.Row="1" 
+                                       HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                       HorizontalContentAlignment="Left"
+                                       Foreground="White" FontWeight="Bold" 
+                                       Content="Log Int.(secs)">
+                                </Label>
+                                <TextBox Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" HorizontalContentAlignment="Right"
+                                                     Text="{Binding LoggingInterval}" 
+                                                    FontSize="32" Style="{DynamicResource InputTextBox}"  Margin="8,2,8,8">
+
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseDown" >
+                                            <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                </TextBox>
+                            </Grid>
+                        </Border>
+                        <Border BorderBrush="White" BorderThickness="2" Margin="4" MaxWidth="960" Grid.ColumnSpan="1">
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="0.3*"/>
+                                        <RowDefinition Height="0.7*"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label Grid.Row="0"
+                                    Content="Target Temperature" 
+                                           HorizontalAlignment="Center" FontSize="24" FontWeight="Bold"/>
+                                    <!--<Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="8*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                    </Grid.ColumnDefinitions>-->
+                                    <Border Grid.Row="1" BorderThickness="1" BorderBrush="DimGray" Margin="4">
+                                        <Grid >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBox Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Right"
+                                                     Text="{Binding ChangeTemp, Converter={StaticResource TemperatureUnitConv}}" 
+                                                    FontSize="64" Style="{DynamicResource InputTextBox}" Width="256" Margin="8">
+
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                        <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+
+                                            </TextBox>
+                                            <!--<controls:NumericUpDown Maximum="200" Minimum="-70" Interval="0.1" HorizontalAlignment="Stretch"
+                                                                    Value="{Binding ChangeTemp, Converter={StaticResource TemperatureUnitConv}}"
+                                                                    >
+                                                -->
+                                            <!--<i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                        <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>-->
+                                            <!--
+                                            </controls:NumericUpDown>-->
+                                            <Label Grid.Column="1" Content="℃" Margin="0" 
+                                                   HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                   FontSize="64"/>
+                                        </Grid>
+                                    </Border>
+
+                                    <Grid Grid.Row="3">
+                                        <Button Grid.Row="1" Command="{Binding SetTempCommand}" FontSize="18" Height="64" Content="Apply Temp. To Device" Margin="8" FontWeight="Bold" Foreground="White"/>
+                                    </Grid>
+
+                                </Grid>
+
+                                <Grid Grid.Column="1">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="0.3*"/>
+                                        <RowDefinition Height="0.7*"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label Grid.Row="0" Content="Measured Temperature" 
+                                           HorizontalAlignment="Center" FontSize="24" FontWeight="Bold"/>
+                                    <Border Grid.Row="1" BorderBrush="DimGray" BorderThickness="1" Margin="4">
+                                        <Grid >
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBox HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Right" Text="{Binding CorrectTemp, Converter={StaticResource TemperatureUnitConv}}" 
+                                             Style="{DynamicResource InputTextBox}" FontSize="64" Width="256" Margin="8">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                        <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, 
+                                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </TextBox>
+                                            <!--<controls:NumericUpDown Maximum="200" Minimum="-70" Interval="0.1" HorizontalAlignment="Stretch"
+                                                                Value="{Binding CorrectTemp, Converter={StaticResource TemperatureUnitConv}}"
+                                                                 Grid.RowSpan="2">
+                                                -->
+                                            <!--<i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                                        <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>-->
+                                            <!--
+                                            </controls:NumericUpDown>-->
+                                            <Label Grid.Column="1" Content="℃" Margin="0"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               FontSize="64" Grid.RowSpan="2"/>
+                                        </Grid>
+
+                                    </Border>
+
+                                    <!--<Border Grid.Row="2" BorderBrush="White" BorderThickness="1" CornerRadius="3" Margin="3">
+                                        <Grid>
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+
+
+                                            
+
+                                        </Grid>
+                                    </Border>-->
+
+                                    <Grid Grid.Row="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="2*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Column="0">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="0" Content="Offset" 
+                                                   HorizontalAlignment="Left"  VerticalAlignment="Center">
+
+                                            </Label>
+
+                                            <TextBlock Grid.Column="1" 
+                                                       HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Right"
+                                                       FontSize="28" Foreground="LawnGreen" >
+                                                <TextBlock.Text>
+                                                    <MultiBinding Converter="{StaticResource OffsetCalcConv}">
+                                                        <Binding Path="ChangeTemp" />
+                                                        <Binding Path="CorrectTemp" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+
+                                            <Label Grid.Column="2" Content="℃" 
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                   FontSize="18" Padding="0,8,0,0"/>
+                                        </Grid>
+                                        <Button Grid.Column="1" Command="{Binding AddOffsetInfoCommand}" Height="64" Margin="8"
+                                             Content="Add Offset" FontSize="18" FontWeight="Bold" Foreground="White"/>
+
+                                    </Grid>
+                                </Grid>
+
+                            </Grid>
+                        </Border>
+                        <tempGraphControl:TempGraph Grid.Row="1" Grid.ColumnSpan="2" Margin="4,36"></tempGraphControl:TempGraph>
+
+                        <Button Grid.Row="2" Grid.ColumnSpan="2" Command="{Binding SaveTempInfoCommand}" HorizontalAlignment="Right" Margin="15"
+                    Width="196" Height="64" Content="Save" FontSize="18" FontWeight="Bold" Foreground="White"/>
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="Heater Offset Table" Foreground="White" FontSize="24" Width="auto">
+                    <Grid Background="#1f1f1f" >
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.1*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="0.1*"/>
+                            <RowDefinition Height="0.2*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button Grid.Column="0" Margin="2"
+                        Content="PREV" 
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="Linen"
+                        MinHeight="46" 
+                        Command="{Binding ChangePageCommand}" 
+                        CommandParameter="{x:Static psetup:SETUP_DIRECTION.PREV}">
+                            </Button>
+
+                            <Label Grid.Column="1" HorizontalContentAlignment="Center">
+                                <Label.Content>
+                                    <TextBlock FontSize="18" HorizontalAlignment="Center">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{} PAGE {0} / {1}">
+                                                <Binding Path="CurrentPage"
+                                         Converter="{StaticResource PlusOneConv}"
+                                         ConverterParameter="plusOne"/>
+                                                <Binding Path="PageCount" Mode="OneWay" 
+                                         />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+
+                                </Label.Content>
+                            </Label>
+
+                            <Button Grid.Column="2" Margin="2"
+                        Content="NEXT" 
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="Linen"
+                        MinHeight="46"
+                        Command="{Binding ChangePageCommand}" 
+                        CommandParameter="{x:Static psetup:SETUP_DIRECTION.NEXT}">
+                            </Button>
+                        </Grid>
+
+                        <Grid Grid.Row="1">
+
+                            <Grid MaxWidth="930">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <DataGrid x:Name="FirstDG" Grid.Column="0" ItemsSource="{Binding First_DG_TempCalInfos}" 
+                                          SelectionChanged="DataGrid_First_SelectionChanged" SelectedItem="{Binding First_SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          Visibility="{Binding First_DG_TempCalInfos.Count, Converter={StaticResource IntToVisibilityConv}}"
+                                          SelectionMode="Single" FontSize="18" FontWeight="Bold"
+                                          CanUserSortColumns="False" 
+                                          AutoGenerateColumns="False" Margin="4,8" 
+                                          CanUserAddRows="False"
+                                          CanUserReorderColumns="False"
+                                          EnableColumnVirtualization="False"
+                                          EnableRowVirtualization="False"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Top"
+                                          HorizontalContentAlignment="Center" Foreground="White" Background="Black">
+
+                                    <DataGrid.Resources>
+                                        <Style TargetType="{x:Type DataGridCell}">
+                                            <Style.Triggers>
+                                                <Trigger Property="DataGridCell.IsSelected" Value="True">
+                                                    <Setter Property="Background" Value="#FF8C00" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                        </Style>
+                                        <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="Foreground" Value="White" />
+                                        </Style>
+                                    </DataGrid.Resources>
+
+                                    <DataGrid.Columns>
+
+                                        <DataGridTextColumn Header="TARGET" Width="Auto" FontSize="16" FontWeight="Bold"
+                                            Binding="{Binding StandardTemp, Converter={StaticResource TemperatureUnitConv}}" 
+                                            IsReadOnly="True">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+
+                                        <DataGridTemplateColumn Header="MEASURED TEMP." Width="*">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <TextBlock Grid.Column="0" Text="{Binding CorrectTemp, Converter={StaticResource TemperatureUnitConv}, StringFormat=F1}" 
+                                                                   FontSize="16" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="GreenYellow"/>
+
+                                                        <Button Grid.Column="1" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.CorrectTempChangeDOWNCommand}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=SelectedItem}"
+                                                Width="52" Height="48">
+                                                            <Button.Content>
+                                                                <Viewbox Width="24" Height="24">
+                                                                    <Canvas Width="24" Height="24">
+                                                                        <Path Data="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z" Fill="Black" />
+                                                                    </Canvas>
+                                                                </Viewbox>
+                                                            </Button.Content>
+                                                        </Button>
+
+                                                        <Button Grid.Column="2" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.CorrectTempChangeUPCommand}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=SelectedItem}"
+                                                Width="52" Height="48">
+                                                            <Button.Content>
+                                                                <Viewbox Width="24" Height="24">
+                                                                    <Canvas Width="24" Height="24">
+                                                                        <Path Data="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" Fill="Black" />
+                                                                    </Canvas>
+                                                                </Viewbox>
+                                                            </Button.Content>
+                                                        </Button>
+
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="DIFF." Width="64">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" VerticalAlignment="Center">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding Converter="{StaticResource OffsetCalcConv}">
+                                                                <Binding Path="StandardTemp" />
+                                                                <Binding Path="CorrectTemp" />
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="DELETE" Width="Auto">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Width="48" Height="48"
+                                                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveTempInfoCommand}"
+                                                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=SelectedItem}">
+                                                        <Button.Content>
+                                                            <Viewbox Width="24" Height="24">
+                                                                <Canvas Width="24" Height="24">
+                                                                    <Path Data="M19,13H5V11H19V13Z" Fill="Black" />
+                                                                </Canvas>
+                                                            </Viewbox>
+                                                        </Button.Content>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                                <DataGrid x:Name="SecondDG"  Grid.Column="1" ItemsSource="{Binding Second_DG_TempCalInfos}" 
+                                          SelectionChanged="DataGrid_Second_SelectionChanged" SelectedItem="{Binding Second_SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          SelectionMode="Single" Visibility="{Binding Second_DG_TempCalInfos.Count, Converter={StaticResource IntToVisibilityConv}}"
+                                          FontSize="18" FontWeight="Bold"
+                                          CanUserSortColumns="False" 
+                                          AutoGenerateColumns="False" Margin="4,8" 
+                                          CanUserAddRows="False"
+                                          CanUserReorderColumns="False"
+                                          EnableColumnVirtualization="False"
+                                          EnableRowVirtualization="False"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Top"
+                                          HorizontalContentAlignment="Center" Foreground="White" Background="Black">
+
+                                    <DataGrid.Resources>
+                                        <Style TargetType="{x:Type DataGridCell}">
+                                            <Style.Triggers>
+                                                <Trigger Property="DataGridCell.IsSelected" Value="True">
+                                                    <Setter Property="Background" Value="#FF8C00" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                        <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                                            <Setter Property="Foreground" Value="White" />
+                                        </Style>
+                                    </DataGrid.Resources>
+
+                                    <DataGrid.Columns>
+
+                                        <DataGridTextColumn Header="TARGET" Width="Auto" FontSize="16"
+                                        Binding="{Binding StandardTemp, Converter={StaticResource TemperatureUnitConv}}" 
+                                        IsReadOnly="True">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+
+                                        <DataGridTemplateColumn Header="MEASURED TEMP." Width="*">
+
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+
+                                                    <Grid >
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <TextBlock Grid.Column="0" Text="{Binding CorrectTemp, Converter={StaticResource TemperatureUnitConv}, StringFormat=F1}" 
+                                                                   FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="GreenYellow"/>
+
+                                                        <Button Grid.Column="1" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.CorrectTempChangeDOWNCommand}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=SelectedItem}"
+                                                Width="52" Height="48">
+                                                            <Button.Content>
+                                                                <Viewbox Width="24" Height="24">
+                                                                    <Canvas Width="24" Height="24">
+                                                                        <Path Data="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z" Fill="Black" />
+                                                                    </Canvas>
+                                                                </Viewbox>
+                                                            </Button.Content>
+                                                        </Button>
+
+                                                        <Button Grid.Column="2" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.CorrectTempChangeUPCommand}"
+                                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=SelectedItem}"
+                                                Width="52" Height="48">
+                                                            <Button.Content>
+                                                                <Viewbox Width="24" Height="24">
+                                                                    <Canvas Width="24" Height="24">
+                                                                        <Path Data="M13,20H11V8L5.5,13.5L4.08,12.08L12,4.16L19.92,12.08L18.5,13.5L13,8V20Z" Fill="Black" />
+                                                                    </Canvas>
+                                                                </Viewbox>
+                                                            </Button.Content>
+                                                        </Button>
+
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTemplateColumn Header="DIFF." Width="64">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock HorizontalAlignment="Center" FontSize="16" FontWeight="Bold" VerticalAlignment="Center">
+                                                        <TextBlock.Text>
+                                                            <MultiBinding Converter="{StaticResource OffsetCalcConv}">
+                                                                <Binding Path="StandardTemp" />
+                                                                <Binding Path="CorrectTemp" />
+                                                            </MultiBinding>
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                        <DataGridTemplateColumn Header="DELETE">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Width="48" Height="48"
+                                                            Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.RemoveTempInfoCommand}"
+                                                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=SelectedItem}">
+                                                        <Button.Content>
+                                                            <Viewbox Width="24" Height="24">
+                                                                <Canvas Width="24" Height="24">
+                                                                    <Path Data="M19,13H5V11H19V13Z" Fill="Black" />
+                                                                </Canvas>
+                                                            </Viewbox>
+                                                        </Button.Content>
+                                                    </Button>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                    </DataGrid.Columns>
+                                </DataGrid>
+
+                            </Grid>
+                        </Grid>
+
+                        <Button Grid.Row="2" Command="{Binding RemoveAllTempInfoCommand}" Width="150" Height="40" Content="Delete All" FontSize="18" FontWeight="Bold" Foreground="White"/>
+                        <Button Grid.Row="3" Grid.ColumnSpan="2" Command="{Binding SaveTempInfoCommand}" HorizontalAlignment="Right" Margin="15"
+                    Width="196" Height="64" Content="Save" FontSize="18" FontWeight="Bold" Foreground="White"/>
+                    </Grid>
+
+                </TabItem>
+
+                <!--<TabItem Header="Monitoring MV" Foreground="White" FontSize="24">
+                    <Grid Background="#1f1f1f">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        -->
+                <!-- Prober Deviation -->
+                <!--
+                        <StackPanel>
+                            <Label Content="Monitoring MV Time" Foreground="White" FontSize="24"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+
+                                <TextBox Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Right"
+                                                     Text="{Binding MonitoringMVTimeInSec}" 
+                                                    FontSize="64" Style="{DynamicResource InputTextBox}" Width="256" Margin="8">
+
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseDown" >
+                                            <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+
+                                </TextBox>
+                                <Label Grid.Column="1" Content="(Sec)" Foreground="White" FontSize="24"/>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </TabItem>-->
+                <TabItem Header="Temp Parameter" Foreground="White" FontSize="24" >
+                    <param:UcRecipeEditorParamEdit Background="Black" DataContext="{Binding RecipeEditorParamEdit}" FontSize="16" />
+                </TabItem>
+                <!--<TabItem Header="Heater Offset Store and Restore" Foreground="White" FontSize="24" Visibility="Hidden">
+
+                    <Grid>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition Width="800"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Column="0" Content="Path : " Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                            <TextBlock Grid.Column="1" Text="{Binding SavePath}" TextTrimming="WordEllipsis"
+                           HorizontalAlignment="Stretch" VerticalAlignment="Center" FontWeight="Bold" FontSize="18"  IsEnabled="False" Foreground="White"/>
+                        </Grid>
+
+                        <Grid Grid.Row="1">
+                            <Button Grid.Column="2" HorizontalAlignment="Center" Width="150" Height="45" Content="SET PATH" Foreground="White" Command="{Binding SavePathSetCommand}"/>
+                        </Grid>
+
+                        <Grid Grid.Row="2">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Width="150" Height="45" Content="Data Store To HD" Foreground="White"
+                        Command="{Binding TempDataStoreCommand}"/>
+                                <Button Width="150" Height="45" Content="Data Restore From HD" Foreground="White" 
+                        Command="{Binding TempDataReStoreCommand}"/>
+                            </StackPanel>
+                        </Grid>
+
+                    </Grid>
+
+
+                </TabItem>-->
+
+            </TabControl>
+        </Grid>
+    </Grid>
+</UserControl>

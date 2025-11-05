@@ -1,0 +1,239 @@
+﻿<Window x:Class="EnvControlWindow.GP.GPEnvControlMainWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:local="clr-namespace:EnvControlWindow.GP"
+             mc:Ignorable="d" x:Name="ucwindow" Height="960"
+             d:DesignHeight="600" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+        <ListView  x:Name="CellListView" ItemsSource="{Binding Cells}" Background="#FF2C2C2F" 
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    <!--<Setter Property="IsEnabled" Value="{Binding IsEnableTransfer, Mode=TwoWay}"/>-->
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="4" Rows="3"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate >
+                    <Border BorderBrush="DimGray" BorderThickness="1">
+                        <Grid Width="320" Height="300">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="8*"/>
+                            </Grid.RowDefinitions>
+                            <Label x:Name="StageIndexLB" Background="Purple" Margin="2" Content="{Binding Index}" ContentStringFormat="Stage #{0}"/>
+                            <StackPanel Orientation="Vertical" Grid.Row="1">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="In" Foreground="Black" HorizontalContentAlignment="Right"  Margin="0"/>
+                                    <ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}" 
+                                                  IsChecked="{Binding CoolantInValveState}"  Margin="0">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding InValveOnCommand, ElementName=ucwindow}"  
+                                                   CommandParameter="{Binding ElementName=StageIndexLB, Path=Content}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding InValveOffCommand, ElementName=ucwindow}"  
+                                                   CommandParameter="{Binding ElementName=StageIndexLB, Path=Content}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </ToggleButton>
+                                </Grid>
+                                <Grid >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Out" Foreground="Black" HorizontalContentAlignment="Right" Margin="0"/>
+                                    <ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}" 
+                                                  IsChecked="{Binding CoolantOutValveState}" Margin="0">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding OutValveOnCommand, ElementName=ucwindow}"  
+                                                   CommandParameter="{Binding ElementName=StageIndexLB, Path=Content}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding OutValveOffCommand, ElementName=ucwindow}"  
+                                                   CommandParameter="{Binding ElementName=StageIndexLB, Path=Content}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </ToggleButton>
+                                </Grid>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Dry Air" Foreground="Black" HorizontalContentAlignment="Right" Margin="0"/>
+                                    <ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}"
+                                                  IsChecked="{Binding DryAirValveState}" Margin="0">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding DryAirValveOnCommand, ElementName=ucwindow}"  
+                                                   CommandParameter="{Binding ElementName=StageIndexLB, Path=Content}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding DryAirValveOffCommand, ElementName=ucwindow}"  
+                                                   CommandParameter="{Binding ElementName=StageIndexLB, Path=Content}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </ToggleButton>
+                                </Grid>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Purge" Foreground="Black" HorizontalContentAlignment="Right" Margin="0"/>
+                                    <ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}" 
+                                                  IsChecked="{Binding PurgeValveState}" Margin="0">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding PurgeValveOnCommand, ElementName=ucwindow}"  
+                                                   CommandParameter="{Binding ElementName=StageIndexLB, Path=Content}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding PurgeValveOffCommand, ElementName=ucwindow}"  
+                                                   CommandParameter="{Binding ElementName=StageIndexLB, Path=Content}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </ToggleButton>
+                                </Grid>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Manual Purge" Foreground="Black" HorizontalContentAlignment="Right" Margin="0"/>
+                                    <ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}" 
+                                                  IsChecked="{Binding ManualPurgeValveState}" Margin="0">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding ManualPurgeValveOnCommand, ElementName=ucwindow}"  
+                                                   CommandParameter="{Binding ElementName=StageIndexLB, Path=Content}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding ManualPurgeValveOffCommand, ElementName=ucwindow}"  
+                                                   CommandParameter="{Binding ElementName=StageIndexLB, Path=Content}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </ToggleButton>
+                                </Grid>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Drain" Foreground="Black" HorizontalContentAlignment="Right" Margin="0"/>
+                                    <ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}" Margin="0"
+                                                  IsChecked="{Binding DraninValveState}" >
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding DrainAirValveOnCommand, ElementName=ucwindow}"  
+                                                   CommandParameter="{Binding ElementName=StageIndexLB, Path=Content}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding DrainAirValveOffCommand, ElementName=ucwindow}"  
+                                                   CommandParameter="{Binding ElementName=StageIndexLB, Path=Content}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </ToggleButton>
+                                </Grid>
+                                <!--<Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Leak" Foreground="Black" HorizontalContentAlignment="Right" Margin="0"/>
+                                    <ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}" Margin="0"
+                                                  IsChecked="{Binding LeakValveState}" >
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding LeakValveOnCommand, ElementName=ucwindow}"  
+                                                   CommandParameter="{Binding ElementName=StageIndexLB, Path=Content}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding LeakValveOffCommand, ElementName=ucwindow}"  
+                                                   CommandParameter="{Binding ElementName=StageIndexLB, Path=Content}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </ToggleButton>
+                                </Grid>-->
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+
+        <!--<Grid Grid.Column="1">
+            <Grid Width="200" Height="160">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+                <Label Background="Purple" Margin="2" Content="{Binding Path=Cells[0]}" ContentStringFormat="Stage #{0}"/>
+                <StackPanel Orientation="Vertical" Grid.Row="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="In" Foreground="Black" HorizontalContentAlignment="Center"/>
+                        <ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Out" Foreground="Black" HorizontalContentAlignment="Center"/>
+                        <ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Dry Air" Foreground="Black" HorizontalContentAlignment="Center"/>
+                        <ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Purge" Foreground="Black" HorizontalContentAlignment="Center"/>
+                        <ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}"/>
+                    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Drain" Foreground="Black" HorizontalContentAlignment="Center"/>
+                        <ToggleButton Grid.Column="1" Style="{DynamicResource ON_OFF_ToggleBtn}"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Grid>-->
+    </Grid>
+</Window>

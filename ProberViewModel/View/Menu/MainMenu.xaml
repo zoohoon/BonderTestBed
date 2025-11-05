@@ -1,0 +1,779 @@
+﻿<UserControl x:Class="ProberViewModel.MainMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:resources="clr-namespace:ProberViewModel.Properties"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:ProberViewModel"
+             xmlns:cui="clr-namespace:CUI;assembly=CUI"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:conv="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:account="clr-namespace:AccountModule;assembly=AccountModule"
+             mc:Ignorable="d" 
+             d:DesignHeight="96" d:DesignWidth="90">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- MahApps -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.MeBackPreScreenTransitiontro;component/Styles/Accents/BaseLight.xaml" />-->
+                <!-- Material Design -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.indigo.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.deeporange.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Slider.xaml" />
+                <!-- Material Design: MahApps Compatibility -->
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Flyout.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <conv:LockingColorChangerUsingMasking x:Key="LockingColorChangerUsingMasking"/>
+            <conv:MaskingCheckMultiConverter x:Key="converter"/>
+            <conv:MaskingVisiblilityMultiConverter x:Key="MaskingVisiblilityMultiConverter"/>
+
+            <!--BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}"-->
+            <Style x:Key="MenuItemBaseStyle" TargetType="MenuItem">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type MenuItem}">
+                            <Border x:Name="Bd" 
+                                Padding="17,0,17,0" 
+                                BorderBrush="#FFd6d9f4" 
+                                BorderThickness="0.1"                     
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True" Uid="Border_38">
+                                <ContentPresenter x:Name="ContentPresenter"  
+                                              Content="{TemplateBinding Header}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Grid.Column="1" 
+                                              ContentSource="Header" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              RecognizesAccessKey="True" 
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                              Uid="ContentPresenter_33"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsHighlighted" Value="True">
+                                    <Setter Property="Background" TargetName="Bd" Value="#4B4B4B"/>
+                                    <Setter Property="BorderBrush" TargetName="Bd" Value="#4B4B4B"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Background" TargetName="Bd" Value="#222222"/>
+                                    <Setter Property="BorderBrush" TargetName="Bd" Value="#222222"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="CuiMenuItemBaseStyle" TargetType="cui:MenuItem">
+                <Setter Property="IsEnabled">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource converter}">
+                            <Binding RelativeSource="{RelativeSource Self}" Path="MaskingLevel"/>
+                            <Binding Source="{x:Static account:AccountManager.CurrentUserInfo}" Path="UserLevel"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type cui:MenuItem}">
+                            <Grid>
+                                <Border x:Name="Bd" 
+                                Padding="17,0,17,0" 
+                                BorderBrush="#FFd6d9f4" 
+                                BorderThickness="0.1"                     
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True" Uid="Border_38">
+                                    <ContentPresenter x:Name="ContentPresenter"  
+                                              Content="{TemplateBinding Header}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Grid.Column="1" 
+                                              ContentSource="Header" 
+                                              Margin="{TemplateBinding Padding}" 
+                                              RecognizesAccessKey="True" 
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                              Uid="ContentPresenter_33"/>
+                                </Border>
+                                <Viewbox Name="cb_lockimg" Width="20" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" >
+                                    <Canvas Width="24" Height="24">
+                                        <Canvas.Effect>
+                                            <DropShadowEffect Color="Green" Direction="90" Opacity="1" BlurRadius="2" ShadowDepth ="3"></DropShadowEffect>
+                                        </Canvas.Effect>
+                                        <Path Data="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" 
+                                              >
+                                            <Path.Fill>
+                                                <MultiBinding Converter="{StaticResource LockingColorChangerUsingMasking}">
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type cui:MenuItem}}" 
+                                                             Mode="OneWay" 
+                                                             Path="MaskingLevel"/>
+                                                    <Binding Source="{x:Static account:AccountManager.CurrentUserInfo}" Path="UserLevel"/>
+                                                </MultiBinding>
+                                            </Path.Fill>
+                                        </Path>
+                                    </Canvas>
+                                </Viewbox>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsHighlighted" Value="True">
+                                    <Setter Property="Background" TargetName="Bd" Value="#4B4B4B"/>
+                                    <Setter Property="BorderBrush" TargetName="Bd" Value="#4B4B4B"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="True">
+                                    <Setter Property="Visibility" TargetName="cb_lockimg" Value="Hidden"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Background" TargetName="Bd" Value="#222222"/>
+                                    <Setter Property="BorderBrush" TargetName="Bd" Value="#222222"/>
+                                    <Setter Property="Visibility" TargetName="cb_lockimg" Value="Visible"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <DataTrigger Value="Visible">
+                        <DataTrigger.Binding>
+                            <MultiBinding Converter="{StaticResource MaskingVisiblilityMultiConverter}">
+                                <Binding RelativeSource="{RelativeSource Self}" Path="MaskingLevel"/>
+                                <Binding Source="{x:Static account:AccountManager.CurrentUserInfo}" Path="UserLevel"/>
+                            </MultiBinding>
+                        </DataTrigger.Binding>
+                        <Setter Property="MenuItem.Visibility" Value="Visible"/>
+                    </DataTrigger>
+                    <DataTrigger Value="Hidden">
+                        <DataTrigger.Binding>
+                            <MultiBinding Converter="{StaticResource MaskingVisiblilityMultiConverter}">
+                                <Binding RelativeSource="{RelativeSource Self}" Path="MaskingLevel"/>
+                                <Binding Source="{x:Static account:AccountManager.CurrentUserInfo}" Path="UserLevel"/>
+                            </MultiBinding>
+                        </DataTrigger.Binding>
+                        <Setter Property="MenuItem.Visibility" Value="Collapsed"/>
+                    </DataTrigger>
+                    <DataTrigger Value="Collapsed">
+                        <DataTrigger.Binding>
+                            <MultiBinding Converter="{StaticResource MaskingVisiblilityMultiConverter}">
+                                <Binding RelativeSource="{RelativeSource Self}" Path="MaskingLevel"/>
+                                <Binding Source="{x:Static account:AccountManager.CurrentUserInfo}" Path="UserLevel"/>
+                            </MultiBinding>
+                        </DataTrigger.Binding>
+                        <Setter Property="MenuItem.Visibility" Value="Collapsed"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+
+    <Border>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="2" BorderBrush="#FFd6d9f4" BorderThickness="0.5" CornerRadius="2" Margin="1">
+
+                <Menu AutomationProperties.AutomationId="Root_Menu" FlowDirection="LeftToRight" Margin="4">
+
+                    <Menu.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            </StackPanel>
+                        </ItemsPanelTemplate>
+                    </Menu.ItemsPanel>
+
+                    <MenuItem AutomationProperties.AutomationId="Root_MenuItem" Width="130" Height="96" Margin="8" Padding="0">
+
+                        <MenuItem.Header>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <materialDesign:PackIcon Height="40" Width="40" HorizontalAlignment="Stretch"
+                                                         Margin="0" Kind="Menu">
+                                    <!--<materialDesign:PackIcon.Style>
+                                        <Style TargetType="materialDesign:PackIcon" BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}">
+                                            <Setter Property="Kind" Value="Menu"/>
+                                        </Style>
+                                    </materialDesign:PackIcon.Style>-->
+                                </materialDesign:PackIcon>
+                                <Label Grid.Row="1" Margin="0"
+                                       Content="{x:Static resources:Resources.MENU}" 
+                                       BorderThickness="0" 
+                                       HorizontalContentAlignment="Center" 
+                                       FontWeight="Bold" 
+                                       FontSize="16"
+                                       Padding="0" />
+                            </Grid>
+                        </MenuItem.Header>
+
+
+
+                        <MenuItem AutomationProperties.AutomationId="Operation_MenuItem"
+                                  Width="200" Header="{x:Static resources:Resources.OPERATION}"  
+                                  BorderBrush="#FFd6d9f4" BorderThickness="0.1" MinHeight="56" HorizontalAlignment="Left" >
+
+                            <cui:MenuItem AutomationProperties.AutomationId="ManualProbe_MenuItem"
+                                          GUID="c2fc1bc0-47ef-4245-9be3-d3d8b1c1e993" 
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Operation_ManualProbeLockable}"
+                                          Width="200" 
+                                          Command="{Binding ManualProbePageSwitchingCommand}" 
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.ManualProbe}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <cui:MenuItem AutomationProperties.AutomationId="WaferInspection_MenuItem"
+                                          GUID="07e8063c-c82e-4205-a48a-a50ebc75d283"
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Operation_WaferInspectionLockable}"
+                                          Width="200" 
+                                          Command="{Binding PageSwitchingCommand}" 
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.WaferInspection}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <cui:MenuItem AutomationProperties.AutomationId="WaferHandling_MenuItem"
+                                          GUID="6aab9edd-a6f5-4af3-b28c-aca2f5e8c912"
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Operation_WaferHandlingLockable}"
+                                          Width="200" 
+                                          Command="{Binding PageSwitchingCommand}" 
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.WaferHandling}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <cui:MenuItem AutomationProperties.AutomationId="ProbeCardChange_MenuItem"
+                                          GUID = "A3A63ECA-8554-E143-B29C-785AF67A618E" 
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Operation_ProbeCardChangeLockable}"
+                                          Width="200" 
+                                          Command="{Binding PageSwitchingCommand}" 
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.ProbeCardChange}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <cui:MenuItem AutomationProperties.AutomationId="TesterHeadChange_MenuItem"
+                                          GUID = "6AC7461F-C60E-44E6-AC8B-B12BEEE69C75" 
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Operation_TesterHeadChangeLockable}"
+                                          Width="200" 
+                                          Command="{Binding PageSwitchingCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Visibility="Collapsed"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.TesterHeadChange}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <cui:MenuItem AutomationProperties.AutomationId="CleanSheetChange_MenuItem"
+                                          GUID = "48AE13F2-CF6D-4363-9824-8A83E4A6D1AC" 
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Operation_CleanSheetChangeLockable}"
+                                          Width="200" 
+                                          Command="{Binding PageSwitchingCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.CleanSheetChange}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <!--<cui:MenuItem GUID ="870725f0-45c4-421c-9518-4124e4b46b66" 
+                                          Width="200" 
+                                          Command="{Binding }"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource MenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.CleanSheetChange}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>-->
+
+                            <cui:MenuItem AutomationProperties.AutomationId="NeedleCleaning_MenuItem"
+                                          GUID ="ea92c38f-412f-42e7-95f9-a10d87e0fe86" 
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Operation_CleanPadCleaningLockable}"
+                                          Width="200" 
+                                          Command="{Binding PageSwitchingCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          BorderBrush="#FFd6d9f4" 
+                                          BorderThickness="0.1" 
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.NeedleCleaning}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <!--<cui:MenuItem GUID ="4a314616-85e4-470a-98d2-0794ba46b786"
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Operation_PolishWaferCleaningLockable}"
+                                          Width="200" 
+                                          Command="{Binding PageSwitchingCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.PolishWaferCleaning}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>-->
+
+                            <cui:MenuItem AutomationProperties.AutomationId="MotionJog_MenuItem"
+                                          GUID ="c5401dca-cc6e-47cc-ae5b-8e2cb49f0d29"
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Operation_MotionJogLockable}"
+                                          Width="200" 
+                                          Command="{Binding PageSwitchingCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.MotionJog}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <cui:MenuItem AutomationProperties.AutomationId="CassettePort_MenuItem"
+                                          GUID ="6e5a46fe-99a0-477c-a4ba-9ee3f6d27cce"
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Operation_CassettePortLockable}"
+                                          Width="200" 
+                                          Command="{Binding PageSwitchingCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.CassettePort}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+
+                            <cui:MenuItem AutomationProperties.AutomationId="ManualAlign_MenuItem"
+                                          Width="200" 
+                                          Lockable="False"
+                                          HorizontalContentAlignment="Center" VerticalAlignment="Bottom"  MinHeight="56">
+                                <!--BorderBrush="#FFd6d9f4" BorderThickness="0.1"-->
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.ManualAlign}}" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                </MenuItem.Header>
+                                <!--BorderBrush="#FFd6d9f4" BorderThickness="0.1"-->
+                                <cui:MenuItem AutomationProperties.AutomationId="WaferAlign_MenuItem"
+                                              Lockable="{Binding ViewModelManager.MenuLoakables.Operation_Alignment_WaferAlignmentLockable}"
+                                              Background="#303030"
+                                              BorderBrush="#FFd6d9f4"
+                                              Width="200" 
+                                              Command="{Binding WaferAlignDialogCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                              MinHeight="56"
+                                              Style="{StaticResource MenuItemBaseStyle}">
+                                    <MenuItem.Header>
+                                        <TextBlock Text="{Binding Source ={x:Static resources:Resources.WaferAlign}}" TextWrapping="Wrap"/>
+                                    </MenuItem.Header>
+                                </cui:MenuItem>
+
+                                <cui:MenuItem AutomationProperties.AutomationId="PinAlign_MenuItem"
+                                              Lockable="{Binding ViewModelManager.MenuLoakables.Operation_Alignment_PinAlignmentLockable}"
+                                              Background="#303030"
+                                              BorderBrush="#FFd6d9f4"
+                                              Width="200" 
+                                              Command="{Binding PinAlignDialogCommand}" 
+                                              CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                              MinHeight="56"
+                                              Style="{StaticResource MenuItemBaseStyle}">
+                                    <MenuItem.Header>
+                                        <TextBlock Text="{Binding Source ={x:Static resources:Resources.PinAlign}}" TextWrapping="Wrap"/>
+                                    </MenuItem.Header>
+                                </cui:MenuItem>
+                            </cui:MenuItem>
+
+                            <cui:MenuItem AutomationProperties.AutomationId="ManualSoaking_MenuItem"
+                                          GUID ="984EA871-A66D-48A9-AA32-5E9E82DEA84B"
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Operation_ManualSoakingLockable}"
+                                          Width="200" 
+                                          Command="{Binding ManualSoakingCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="ManualSoaking" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+                            <!--<cui:MenuItem Width="200" Header="Manual Align" Lockable="{Binding ViewModelManager.MenuLoakables.Operation_ManualProbeLockable}"
+                                  BorderBrush="#FFd6d9f4" BorderThickness="0.1" MinHeight="56" >-->
+
+                            <!--<cui:MenuItem 
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Operation_ManualProbeLockable}"
+                                          BorderBrush="#FFd6d9f4"
+                                          Width="200" 
+                                          Command="{Binding WaferAlignDialogCommand}" 
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                    <MenuItem.Header>
+                                        <TextBlock Text="{Binding Source ={x:Static resources:Resources.WaferAlign}}" TextWrapping="Wrap"/>
+                                    </MenuItem.Header>
+                                </cui:MenuItem>
+
+                                <cui:MenuItem 
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Operation_ManualProbeLockable}"
+                                          BorderBrush="#FFd6d9f4"
+                                           Width="200" 
+                                          Command="{Binding PinAlignDialogCommand}" 
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                    <MenuItem.Header>
+                                        <TextBlock Text="{Binding Source ={x:Static resources:Resources.PinAlign}}" TextWrapping="Wrap"/>
+                                    </MenuItem.Header>
+                                </cui:MenuItem>-->
+                            <!--</cui:MenuItem>-->
+                        </MenuItem>
+
+                        <MenuItem AutomationProperties.AutomationId="Recipe_MenuItem" 
+                                  Width="200" 
+                                  Header="{x:Static resources:Resources.Recipe}" 
+                                  BorderBrush="#FFd6d9f4" 
+                                  BorderThickness="0.1" 
+                                  MinHeight="56">
+
+                            <!--<cui:MenuItem GUID ="62768cfc-5554-4cc7-9440-beb88cf110d8"
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Recipe_CreateLockable}"
+                                          Width="200" 
+                                          Command="{Binding }" 
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource MenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.Create}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>-->
+
+                            <cui:MenuItem AutomationProperties.AutomationId="RecipeSettingChange_MenuItem" 
+                                          GUID ="299e36db-7e1b-4a8c-8700-c7edcd9bcf90"
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Recipe_SettingChangeLockable}"
+                                          Width="200" 
+                                          Command="{Binding PageSwitchingCommand}" 
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.SettingChange}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <cui:MenuItem AutomationProperties.AutomationId="DeviceChange_MenuItem"
+                                          GUID ="11113CA7-3C74-49E1-8F7C-B72019B7AA35"
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Recipe_DeviceChangeLockable}"
+                                          Width="200" 
+                                          Command="{Binding PageSwitchingCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.DeviceChange}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <cui:MenuItem AutomationProperties.AutomationId="Upload_Download_MenuItem"
+                                          GUID ="cdff09fe-36de-41c7-b940-45d1ea608444"
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Recipe_Upload_DownloadLockable}"
+                                          Width="200" 
+                                          Command="{Binding PageSwitchingCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.Upload_Download}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <!--<cui:MenuItem GUID ="150464d0-f0d1-49ac-b619-ed8fafbc1425"
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Recipe_Management_Copy_RemoveLockable}"
+                                          Width="200" 
+                                          Command="{Binding }"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource MenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.management_Copy_Remove}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>-->
+
+                        </MenuItem>
+
+                        <!--<MenuItem Width="200" Header="{x:Static resources:Resources.User}" BorderBrush="#FFd6d9f4" BorderThickness="0.1" MinHeight="56">
+
+                            <cui:MenuItem GUID ="c50a7c18-e386-4dab-81ad-d656944b61f6" 
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.User_LogOutLockable}"
+                                          Width="200" 
+                                          Command="{Binding PageSwitchingCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource MenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.Logout}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                        </MenuItem>-->
+
+                        <MenuItem AutomationProperties.AutomationId="Utility_MenuItem"
+                                  Width="200" 
+                                  Header="{x:Static resources:Resources.Utility}" 
+                                  BorderBrush="#FFd6d9f4" 
+                                  BorderThickness="0.1" 
+                                  MinHeight="56">
+
+                            <cui:MenuItem AutomationProperties.AutomationId="PMIViewer_MenuItem"
+                                          GUID ="f2bd33d8-2c9d-45b2-a5b0-1fd43ff486a5"
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Utility_PMIViewerLockable}"
+                                          Width="200" 
+                                          Command="{Binding PageSwitchingCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.PMIViewer}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <cui:MenuItem AutomationProperties.AutomationId="ResultMapViewer_MenuItem"
+                                          GUID ="6ad513cd-0991-4f1e-8d5e-1ef9ab89e344"
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Utility_ResultMapViewerLockable}"
+                                          Width="200" 
+                                          Command="{Binding PageSwitchingCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.ResultMapViewer}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+                            
+                            <cui:MenuItem AutomationProperties.AutomationId="SnapShot_MenuItem"
+                                          GUID ="60b0deec-0c8e-4698-828e-041d4c747b50" 
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Utility_SnapShotLockable}"
+                                          Width="200" 
+                                          Command="{Binding SnapShotCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.SnapShot}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <cui:MenuItem AutomationProperties.AutomationId="TaskManagement_MenuItem"
+                                          GUID ="2d24423e-b34d-4633-9415-e8176f1aabb3" 
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Utility_TaskManagement}"
+                                          Width="200" 
+                                          Command="{Binding TaskManageSwitchingCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.TaskManagement}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+                            
+                        </MenuItem>
+
+                        <MenuItem AutomationProperties.AutomationId="System_MenuItem"
+                                  Width="200" 
+                                  Header="{x:Static resources:Resources.System}" 
+                                  BorderBrush="#FFd6d9f4" 
+                                  BorderThickness="0.1" 
+                                  MinHeight="56">
+
+                            <cui:MenuItem AutomationProperties.AutomationId="MachineInitialization_MenuItem"
+                                          GUID ="a8159a60-25c8-4a84-8b29-c61baf9680df" 
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Sytem_InitializationLockable}"
+                                          Width="200" 
+                                          Command="{Binding SystemInitCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.MachineInitialization}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <cui:MenuItem AutomationProperties.AutomationId="LoaderInitialization_MenuItem"
+                                          GUID ="9b194aa1-bbe3-481a-b91d-0461ffd889f1" 
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.Loader_InitializationLockable}"
+                                          Width="200" 
+                                          Command="{Binding LoaderInitCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.LoaderInitialization}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <cui:MenuItem AutomationProperties.AutomationId="SystemSettingChange_MenuItem"
+                                          GUID ="61777098-82f7-4e7c-a9ee-a40e46051367" 
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.System_SettingChangeLockable}"
+                                          Width="200" 
+                                          Command="{Binding PageSwitchingCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.SettingChange}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <cui:MenuItem AutomationProperties.AutomationId="ClearParameter_MenuItem"
+                                          GUID = "039176e9-b73c-463c-aca3-0a5dfb5fc102" 
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.System_QuitLockable}"
+                                          Width="200" 
+                                          Command="{Binding ClearParameterTableCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="Clear Parameter Table" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <cui:MenuItem AutomationProperties.AutomationId="ReLoadAltParam_MenuItem"
+                                          GUID = "c313094f-e29e-4eef-875e-51d9f7601588" 
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.System_QuitLockable}"
+                                          Width="200" 
+                                          Command="{Binding ReLoadAltParamCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="Re-Load AltParam" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <cui:MenuItem AutomationProperties.AutomationId="Logout_MenuItem"
+                                          GUID ="c50a7c18-e386-4dab-81ad-d656944b61f6" 
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.User_LogOutLockable}"
+                                          Width="200" 
+                                          Command="{Binding LogOutCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.Logout}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                            <cui:MenuItem AutomationProperties.AutomationId="ShutDown_MenuItem"
+                                          GUID ="7ac354a9-ad86-43ae-94cf-00e55e460507" 
+                                          Lockable="{Binding ViewModelManager.MenuLoakables.System_QuitLockable}"
+                                          Width="200" 
+                                          Command="{Binding ShutDownSystemCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          MinHeight="56"
+                                          Style="{StaticResource CuiMenuItemBaseStyle}">
+                                <MenuItem.Header>
+                                    <TextBlock Text="{Binding Source ={x:Static resources:Resources.turnoff}}" TextWrapping="Wrap"/>
+                                </MenuItem.Header>
+                            </cui:MenuItem>
+
+                        </MenuItem>
+
+
+                        <!--<MenuItem Width="200" Header="TEST" BorderBrush="#FFd6d9f4" BorderThickness="0.1" MinHeight="56">-->
+
+                        <!--<MenuItem Width="200" Header="{x:Static resources:Resources.MotionControl}" Command="{Binding GoMotionControlCommand}" BorderBrush="#FFd6d9f4" BorderThickness="0.1" MinHeight="56"/>
+
+                            <cui:MenuItem GUID ="f3e91359-198e-4d73-99cb-bf9c14f5cb8f"
+                                          Width="200" 
+                                          Header="{x:Static resources:Resources.IOControl}" 
+                                          Command="{Binding GoIOControlCommand}" 
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          BorderBrush="#FFd6d9f4" 
+                                          BorderThickness="0.1" 
+                                          MinHeight="56"/>
+                            
+                            <cui:MenuItem GUID ="258d2968-ac65-45be-b86a-e1dc18500d21"
+                                          Width="200" 
+                                          Header="{x:Static resources:Resources.FoupControl}"
+                                          Command="{Binding GoFoupControlCommand}" 
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          BorderBrush="#FFd6d9f4" 
+                                          BorderThickness="0.1" 
+                                          MinHeight="56"/>
+
+                            <cui:MenuItem GUID ="ea4e4a41-1cc1-4a8f-bfc7-d93e6e286baf" 
+                                      Width="200" Header="{x:Static resources:Resources.SetupRecipe}" 
+                                      BorderBrush="#FFd6d9f4" 
+                                      BorderThickness="0.1" 
+                                      MinHeight="56" 
+                                      Command="{Binding DoSetUpRecipe}"
+                                      CommandParameter="{Binding RelativeSource={RelativeSource Self}}">
+                            </cui:MenuItem>
+
+                            <MenuItem Width="200" Header="{x:Static resources:Resources.SysInit}" Command="{Binding SystemInitCommand}" BorderBrush="#FFd6d9f4" BorderThickness="0.1" MinHeight="56"/>
+
+                            <cui:MenuItem GUID ="724b762e-c19f-43f9-ac38-b4dd1a2d014d"
+                                          Width="200" 
+                                          Header="{x:Static resources:Resources.TaskManagement}" 
+                                          Command="{Binding GoTaskManagement}" 
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          BorderBrush="#FFd6d9f4" 
+                                          BorderThickness="0.1" 
+                                          MinHeight="56"/>
+
+                            <cui:MenuItem GUID ="d182d1bd-c33a-4f9a-a332-564ae1c4a7cd" 
+                                          Width="200" 
+                                          Header="{x:Static resources:Resources.Statistics}" 
+                                          Command="{Binding StatisticsViewCommand}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          BorderBrush="#FFd6d9f4" 
+                                          BorderThickness="0.1" 
+                                          MinHeight="56"/>
+
+                            <MenuItem Width="200" Header="{x:Static resources:Resources.LogManagement}" Command="{Binding DoLogManagement}" BorderBrush="#FFd6d9f4" BorderThickness="0.1" MinHeight="56"/>
+                            <MenuItem Width="200" Header="{x:Static resources:Resources.languageSetting}" Command="{Binding SetupThemeCommand}" BorderBrush="#FFd6d9f4" BorderThickness="0.1" MinHeight="56"/>
+
+                            <cui:MenuItem GUID = "8983E320-A19D-EAB5-4655-D2B07363031D"
+                                          Width="200" 
+                                          Header="{x:Static resources:Resources.SystemSetting}" 
+                                          Command="{Binding ViewTransitionCommand}" 
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          BorderBrush="#FFd6d9f4" 
+                                          BorderThickness="0.1" 
+                                          MinHeight="56"/>
+
+                            <cui:MenuItem GUID = "DBE2055C-58A4-A93E-A3F4-37533E59639E"
+                                          Width="200" 
+                                          Header="{x:Static resources:Resources.DeviceSetting}" 
+                                          Command="{Binding ViewTransitionCommand}" 
+                                          CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                          BorderBrush="#FFd6d9f4" 
+                                          BorderThickness="0.1" 
+                                          MinHeight="56"/>-->
+                        <!--</MenuItem>-->
+
+                    </MenuItem>
+                </Menu>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

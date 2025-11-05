@@ -1,0 +1,207 @@
+﻿<Window x:Class="BinFunctionDlg.BinFunctionDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BinFunctionDlg"
+             xmlns:aniScroll="clr-namespace:UcAnimationScrollViewer;assembly=UcAnimationScrollViewer"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d"  d:DesignHeight="450" d:DesignWidth="800" Background="Black">
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0">
+            <Border BorderThickness="1" BorderBrush="Gray">
+                <Label Content="BIN FUNCTION EDITOR" HorizontalAlignment="Center" FontSize="24"/>
+            </Border>
+        </Grid>
+        
+        <Grid Grid.Row="1">
+            <Border BorderThickness="1" BorderBrush="Gray">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Content="ADD" MinWidth="100" MinHeight="55" Command="{Binding AddBINInfoCommand}"/>
+                    <Button Content="DELETE" MinWidth="100" MinHeight="55" Command="{Binding DeleteBINInfoCommand}"/>
+                    <Button Content="SAVE" MinWidth="100" MinHeight="55" Command="{Binding SaveBINInfosCommand}"/>
+                    <Button Content="DELETE ALL" MinWidth="100" MinHeight="55" Command="{Binding DeleteAllBINInfosCommand}"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Border BorderThickness="1" BorderBrush="Gray">
+                <aniScroll:AnimationScrollViewer x:Name="svViewer" Margin="8" Grid.Row="0" VerticalScrollBarVisibility="Hidden">
+
+                    <DataGrid SelectionMode="Single"
+                              ItemsSource="{Binding BINInfos}"
+                              SelectedItem="{Binding SelectedBINInfo}"
+                              ScrollViewer.CanContentScroll="True"
+                              VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                              VirtualizingPanel.VirtualizationMode="Standard"
+                              VirtualizingPanel.IsVirtualizing="True"
+                              HeadersVisibility="Column"
+                              CanUserResizeRows="False"
+                              CanUserResizeColumns="False"
+                              CanUserSortColumns="True" 
+                              CanUserAddRows="False" 
+                              CanUserReorderColumns="True"
+                              AutoGenerateColumns="False"
+                              materialDesign:DataGridAssist.ColumnHeaderPadding="5"
+                              Margin="5"
+                              Background="Black"
+                              VerticalScrollBarVisibility="Visible"
+                              HorizontalScrollBarVisibility="Visible"
+                              >
+                        <DataGrid.Columns>
+
+                            <!--<DataGridTemplateColumn IsReadOnly="True" MinWidth="50" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        --><!--<Image Width="18" Height="18" Margin="1"
+                                                       Source="pack://application:,,,/ImageResourcePack;component/Images/Fault_Image01.png"/>--><!--
+                                        <Image HorizontalAlignment="Stretch"
+                                                   Width="20"
+                                                   Height="20"
+                                                   Margin="1" 
+                                                   RenderOptions.BitmapScalingMode="HighQuality"
+                                                   Source="{Binding Properties[LogType], Converter={StaticResource LogTypeToImageConv}}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>-->
+
+                            <materialDesign:MaterialDataGridTextColumn Width="150" Binding="{Binding BinCode.Value}" Header="Code">
+
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+
+                            </materialDesign:MaterialDataGridTextColumn>
+
+                            <materialDesign:MaterialDataGridComboBoxColumn Header="Pass/Fail" Width="150" 
+                                                                           SelectedItemBinding="{Binding PassFail.Value}">
+                                <DataGridComboBoxColumn.ItemsSource>
+                                    <x:Array Type="system:Int32">
+                                        <system:Int32>0</system:Int32>
+                                        <system:Int32>1</system:Int32>
+                                    </x:Array>
+                                </DataGridComboBoxColumn.ItemsSource>
+                                
+                            </materialDesign:MaterialDataGridComboBoxColumn>
+
+                            <materialDesign:MaterialDataGridComboBoxColumn Header="Retest for CP1" Width="150" 
+                                                    SelectedItemBinding="{Binding RetestForCP1Enable.Value}">
+
+                                <DataGridComboBoxColumn.ItemsSource>
+                                    <x:Array Type="system:Boolean">
+                                        <system:Boolean>True</system:Boolean>
+                                        <system:Boolean>False</system:Boolean>
+                                    </x:Array>
+                                </DataGridComboBoxColumn.ItemsSource>
+                                
+                            </materialDesign:MaterialDataGridComboBoxColumn>
+
+                            <materialDesign:MaterialDataGridComboBoxColumn Width="150" SelectedItemBinding="{Binding RetestForCP2Enable.Value}" Header="Retest for CP2">
+                                <DataGridComboBoxColumn.ItemsSource>
+                                    <x:Array Type="system:Boolean">
+                                        <system:Boolean>True</system:Boolean>
+                                        <system:Boolean>False</system:Boolean>
+                                    </x:Array>
+                                </DataGridComboBoxColumn.ItemsSource>
+
+                            </materialDesign:MaterialDataGridComboBoxColumn>
+
+                            <materialDesign:MaterialDataGridComboBoxColumn Width="150" SelectedItemBinding="{Binding RretestForNthEnable.Value}" Header="Retest for CPN">
+
+                                <DataGridComboBoxColumn.ItemsSource>
+                                    <x:Array Type="system:Boolean">
+                                        <system:Boolean>True</system:Boolean>
+                                        <system:Boolean>False</system:Boolean>
+                                    </x:Array>
+                                </DataGridComboBoxColumn.ItemsSource>
+
+                            </materialDesign:MaterialDataGridComboBoxColumn>
+
+
+                            <materialDesign:MaterialDataGridComboBoxColumn Width="150" SelectedItemBinding="{Binding InstantRetestForCP1Enable.Value}" Header="Instant retest for CP1">
+
+                                <DataGridComboBoxColumn.ItemsSource>
+                                    <x:Array Type="system:Boolean">
+                                        <system:Boolean>True</system:Boolean>
+                                        <system:Boolean>False</system:Boolean>
+                                    </x:Array>
+                                </DataGridComboBoxColumn.ItemsSource>
+
+                            </materialDesign:MaterialDataGridComboBoxColumn>
+
+                            <materialDesign:MaterialDataGridComboBoxColumn Width="150" SelectedItemBinding="{Binding InstantRetestForRetestEnable.Value}" Header="Instant retest for retest">
+
+                                <DataGridComboBoxColumn.ItemsSource>
+                                    <x:Array Type="system:Boolean">
+                                        <system:Boolean>True</system:Boolean>
+                                        <system:Boolean>False</system:Boolean>
+                                    </x:Array>
+                                </DataGridComboBoxColumn.ItemsSource>
+
+                            </materialDesign:MaterialDataGridComboBoxColumn>
+
+                            <materialDesign:MaterialDataGridTextColumn Width="150" Binding="{Binding Description.Value}" Header="Description">
+
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center" />
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+
+                            </materialDesign:MaterialDataGridTextColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    
+
+
+                    <!--<ListView ItemsSource="{Binding BINInfos}" 
+                          Background="Black" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          SelectedItem="{Binding SelectedBINInfo}"
+                          SelectionMode="Single">
+
+                        --><!--<i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding DataContext.DeviceAssignonLotsettingCommand,ElementName=window}"  
+                                                                    CommandParameter="{Binding ElementName=DevList_LotSetting, Path=SelectedItems}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>--><!--
+
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1" BorderBrush="White" Width="Auto">
+                                    <Label Content="{Binding BinCode.Value}"/>
+                                    --><!--<Grid MinHeight="25" Margin="5">
+                                        <Label Grid.Column="1" Margin="0" Content="AAA" Foreground="White" FontSize="12"/>
+                                    </Grid>--><!--
+                                </Border>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>-->
+
+                </aniScroll:AnimationScrollViewer>
+            </Border>
+        </Grid>
+
+    </Grid>
+</Window>

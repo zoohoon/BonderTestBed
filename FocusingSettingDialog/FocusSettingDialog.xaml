@@ -1,0 +1,112 @@
+﻿<Window x:Class="FocusingSettingDialog.FocusSettingDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FocusingSettingDialog"
+             mc:Ignorable="d" Background="White"
+             d:DesignHeight="800" d:DesignWidth="600" Width="600" Height="600">
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Label Content="FOCUSING SETTING" VerticalContentAlignment="Center"  Foreground="Black" FontWeight="DemiBold"/>
+            <Border BorderBrush="Black" BorderThickness="0.6"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Delay Time (한번움직일때마다) : " Foreground="Black"></Label>
+                <TextBox Grid.Column="1"  VerticalAlignment="Center" Text="{Binding FocusDealyTime}"/>
+                <Button Grid.Column="2" x:Name="SetDelayTime" Content="SET DELAY TIME" Width="120" Click="SetDelayTime_Click"/>
+            </Grid>
+        </Grid>
+        
+        <Grid Grid.Row="2">
+            <Grid Background="Gray">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Save Image : "  Foreground="Black"></Label>
+                <CheckBox Grid.Column="1" VerticalContentAlignment="Center" IsChecked="{Binding SaveImageFlag}" >
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="1.4" ScaleY="1.4" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+            </Grid>
+        </Grid>
+        
+        <Grid Grid.Row="3">
+            <Grid Background="Gray">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Overlay ROI : "  Foreground="Black"></Label>
+                <CheckBox Grid.Column="1" VerticalContentAlignment="Center" IsChecked="{Binding OverlayFocusROIFlag}" >
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="1.4" ScaleY="1.4" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+            </Grid>
+        </Grid>
+        
+        <Grid Grid.Row="4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="1.6*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Save Image Path(폴더) : "  Foreground="Black"></Label>
+                <TextBox Grid.Column="1" VerticalAlignment="Center" Text="{Binding SaveImageFullPath}" />
+                <Button Grid.Column="2" x:Name="SetPathBtn" Content="SET PATH" Width="120" Click="SetPathBtn_Click"/>
+            </Grid>
+        </Grid>
+        
+        <Grid Grid.Row="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Set Idle Grab Count: "  Foreground="Black"></Label>
+                <TextBox Grid.Column="1" VerticalAlignment="Center" Text="{Binding SetIdleGrabCount}" />
+                <Button Grid.Column="2" x:Name="SetIdleGrabCount_btn" Content="SET Idle Grab" Width="120" Click="SetIdleGrabCount_Click"/>
+            </Grid>
+        </Grid>
+        
+        <Grid Grid.Row="6">
+            <GroupBox Header="Fail occurrence control box">
+                <Grid Background="Gray">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="FOCUS_POS_NEAREDGE" Foreground="Black"/>
+                    <CheckBox VerticalAlignment="Center"  Width="50" Height="50" Grid.Column="1"
+                        x:Name="cb_error_FOCUS_POS_NEAREDGE"
+                        IsChecked="{Binding error_FOCUS_POS_NEAREDGE_Checked, Mode=TwoWay}"
+                        Checked="cb_error_FOCUS_POS_NEAREDGE_Checked" Unchecked="cb_error_FOCUS_POS_NEAREDGE_Unchecked"/>
+                </Grid>
+            </GroupBox>
+        </Grid>
+        
+    </Grid> 
+</Window>

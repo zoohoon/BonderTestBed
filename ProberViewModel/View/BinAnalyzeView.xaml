@@ -1,0 +1,181 @@
+﻿<UserControl x:Class="ProberViewModel.BINAnalyzeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProberViewModel"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:pi="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             xmlns:MapUC="clr-namespace:MapView;assembly=MapView"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <MapUC:ucWaferMapviewer Margin="4" 
+                                    WaferObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type UserControl}},Path=DataContext.StageSupervisor.WaferObject}"
+                                    UnderDutDices="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.UnderDutDies}"
+                                    CurrXYIndex="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.MXYIndex, Mode=TwoWay}" 
+                                    EnalbeClickToMove="False"
+                                    CoordinateManager="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.CoordinateManager, Mode=TwoWay}"
+                                    IsCrossLineVisible="True"
+                                    StageSyncEnalbe="False"
+                                    RenderMode="BinMode"
+                                    BINType ="{Binding BinType}"
+                                    />
+        </Grid>
+
+        <Grid Grid.Column="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+
+                <StackPanel Orientation="Vertical">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" 
+                                   Content="BIN type :"
+                                   Foreground="White"/>
+                        <TextBox Grid.Column="1" 
+                                     VerticalAlignment="Center" 
+                                     HorizontalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     Text="{Binding BinType}"
+                                     IsReadOnly="True"/>
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" 
+                                   Content="Dut count :"
+                                   Foreground="White"/>
+                        <TextBox Grid.Column="1" 
+                                     VerticalAlignment="Center" 
+                                     HorizontalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     Text="{Binding DutCount}"
+                                     IsReadOnly="True"/>
+                    </Grid>
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" 
+                                   Content="BIN Data :"
+                                   Foreground="White"/>
+                        <TextBox Grid.Column="1" 
+                                     VerticalAlignment="Center" 
+                                     HorizontalAlignment="Stretch"
+                                     VerticalContentAlignment="Center"
+                                     HorizontalContentAlignment="Center"
+                                     Text="{Binding CurrentBINData}"
+                                     IsReadOnly="True"/>
+                    </Grid>
+
+
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row="1">
+
+                <Button Grid.Column="0" 
+                        Content="CLEAR" 
+                        Margin="4"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="Linen"
+                        MaxHeight="32" Command="{Binding BINDataClearComand}">
+                </Button>
+
+            </Grid>
+
+            <Grid Grid.Row="2">
+
+                <!-- Probing seq.-->
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="6*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" 
+                        Content="PREV" 
+                        Margin="4"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="Linen"
+                        MaxHeight="32"
+                        >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding ChangeProbingSeqIndexCommand}"
+                                                   CommandParameter="{x:Static pi:SEQ_DIRECTION.PREV}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+
+                <!--<Label Grid.Column="1"
+                        Style="{StaticResource ContentLabel}">
+                    <Label.Content>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{} {0} / {1}">
+                                    -->
+                <!--<Binding Path="PMIInfo.SelectedNormalPMIMapTemplateIndex"
+                                         Converter="{StaticResource Mathconv}"
+                                         ConverterParameter="@VALUE+1"/>-->
+                <!--
+
+                                    <Binding Path="PMIInfo.SelectedNormalPMIMapTemplateIndex"
+                                         Converter="{StaticResource PlusOneConv}" ConverterParameter="plusOne"/>
+                                    <Binding Path="PMIInfo.NormalPMIMapTemplateInfo.Count" Mode="OneWay"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+
+                    </Label.Content>
+                </Label>-->
+
+                <Button Grid.Column="2" 
+                        Content="NEXT" 
+                        Margin="4"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="Linen"
+                        MaxHeight="32"
+                        >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding ChangeProbingSeqIndexCommand}"
+                                                   CommandParameter="{x:Static pi:SEQ_DIRECTION.NEXT}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+
+            </Grid>
+
+        </Grid>
+    </Grid>
+</UserControl>

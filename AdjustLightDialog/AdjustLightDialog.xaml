@@ -1,0 +1,244 @@
+﻿<Window x:Class="AdjustLightDialog.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AdjustLightDialog"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:lj ="clr-namespace:LightJog;assembly=LightJog"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        WindowStyle="SingleBorderWindow"
+        Background="#333333"
+        Title="AdjustLight" Height="600" Width="800">
+    <Grid
+        IsEnabled="{Binding GridEnabled}">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0"
+                BorderThickness="1"
+                BorderBrush="White">
+        </Border>
+        <Border Grid.Row="1"
+                BorderThickness="1"
+                BorderBrush="White">
+        </Border>
+        <Border Grid.Row="2"
+                BorderThickness="1"
+                BorderBrush="White">
+        </Border>
+        <Border Grid.Row="3"
+                BorderThickness="1"
+                BorderBrush="White">
+        </Border>
+        <Grid Grid.Row="0"
+              >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Label     Foreground="White"
+                       Grid.Column="0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Margin="8"
+                       FontSize="16"
+                       Content="Camera : "
+                       />
+            <ComboBox Foreground="WhiteSmoke"
+                      Grid.Column="1"
+                      VerticalContentAlignment="Center"
+                      HorizontalContentAlignment="Center"
+                      Margin="8,40,8,61"
+                      ItemsSource="{Binding CamList}"
+                      SelectedItem="{Binding CurCam}"
+                      DisplayMemberPath="CameraChannel.Type"
+                      IsReadOnly="True"
+                      >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged" >
+                        <i:InvokeCommandAction Command="{Binding SelectedCameraCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+
+            <Label     Foreground="White"
+                       Grid.Column="2"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Margin="8"
+                       FontSize="16"
+                       Content="Light Type : "/>
+            <ComboBox Foreground="WhiteSmoke"
+                      Grid.Column="3"
+                      VerticalContentAlignment="Center"
+                      HorizontalContentAlignment="Center"
+                      Margin="8,40,8,61"
+                      ItemsSource="{Binding LightChannelTypeList}"
+                      SelectedItem="{Binding CurLightType}"
+                      DisplayMemberPath="Type"
+                      IsReadOnly="True"
+                      >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged" >
+                        <i:InvokeCommandAction Command="{Binding SelectedLightTypeCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+
+        </Grid>
+        
+        <Grid Grid.Row="1"
+              >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Label     Foreground="White"
+                       Grid.Column="0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Margin="8"
+                       FontSize="16"
+                       Content="LightValue : "
+                       />
+            <TextBox Foreground="WhiteSmoke"
+                     Grid.Column="1"
+                     Margin="8,42,8,60"
+                     Text="{Binding LightJogVM.CurLightChannel.CurLightValue}"
+                     VerticalContentAlignment="Center"
+                     HorizontalContentAlignment="Center"
+                     IsEnabled="False"
+                     />
+
+            <Label     Foreground="White"
+                       Grid.Column="2"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Margin="8"
+                       FontSize="16"
+                       Content="IO Value : "/>
+            <TextBox Foreground="WhiteSmoke"
+                     Grid.Column="3"
+                     Margin="8,42,8,60"
+                     Text="{Binding LightJogVM.CurLightChannel.IOValue}"
+                     VerticalContentAlignment="Center"
+                     HorizontalContentAlignment="Center"
+                     IsEnabled="False"
+                     />
+
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label     Foreground="White"
+                       Grid.Column="0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Margin="8"
+                       FontSize="16"
+                       Content="Gray Level"
+                       />
+            <Grid Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    Foreground="WhiteSmoke"
+                    Grid.Column="0"
+                    Margin="8,40,8,60"
+                    Text="{Binding GrayLevel}"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    />
+                <Button x:Name="RefrashGrayLevelBtn" Height="40" Width="40" Margin="0,0,0,23"
+                        Grid.Column="1"
+                    Command="{Binding RefrashGrayLevelCommand}" Background="White">
+                    <materialDesign:PackIcon Kind="Refresh" Foreground="{Binding }" Width="32" Height="32"/>
+                </Button>
+                <TextBlock Grid.Column="1" Foreground="White" Margin="0,80,0,0" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold"
+                        >Refrash</TextBlock>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Label Foreground="White"
+                       Grid.Column="0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Margin="8"
+                       FontSize="16"
+                       Content="Max Intensity"
+                       />
+            </Grid>
+            <Grid Grid.Column="3">
+                <TextBox
+                    Foreground="WhiteSmoke"
+                    Grid.Column="0"
+                    Margin="8,40,8,60"
+                    Text="{Binding LightMaxIntensity}"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    IsEnabled="False"
+                    />
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+            <Viewbox Height="100" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,10,10" >
+                <lj:UcLightJog  Width="250" Height="100" Opacity="0.9" 
+                                                IsEnabled="True" 
+                                                DataContext="{Binding LightJogVM}"/>
+            </Viewbox>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Button
+                    Grid.Column="1"
+                    Margin="30"
+                    Content="Change LUT Parameter"
+                    Command="{Binding ParameterChangeCommand}"
+                    
+                    />
+            </Grid>
+            <Grid Grid.Column="2">
+                <Button
+                    Grid.Column="1"
+                    Margin="30"
+                    Content="Load LUT"
+                    Command="{Binding LoadLUTCommand}"
+                    
+                    />
+            </Grid>
+            <Grid Grid.Column="3">
+                <Button
+                    Grid.Column="1"
+                    Margin="30"
+                    Content="Default LUT"
+                    Command="{Binding DefaultLUTCommand}"
+                    
+                    />
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

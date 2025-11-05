@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="ProberViewModel.View.Handling.FoupSubSettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProberViewModel.View.Handling"
+             xmlns:pi="clr-namespace:ProberInterfaces.Foup;assembly=ProberInterfaces"
+             xmlns:lp="clr-namespace:LoaderParameters.Data;assembly=LoaderParameters"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             mc:Ignorable="d"
+             d:DesignHeight="200" d:DesignWidth="240">
+    <UserControl.Resources>
+        <local:ModeToBtnEnableConverter x:Key="ModeToBtnEnableConverter"/>
+        <local:StateToGBEnableConverter x:Key="StateToGBEnableConv"/>
+        <local:FoupStateToInverseVisibilityConverter x:Key="FoupStateToInverseVisibilityConverter" />
+        <vc:BoolConverter x:Key="BoolConv"/>
+
+        <System:Boolean x:Key="FalseValue">False</System:Boolean>
+        <System:Boolean x:Key="TrueValue">True</System:Boolean>
+        
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="0.4*"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="0.4*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.ColumnSpan="2" FontSize="24" Foreground="Black" Margin="0"
+               FontWeight="DemiBold"
+               Content="{Binding FoupIndex}" ContentStringFormat="FOUP #{0}" />
+
+        <GroupBox Grid.Row="1" Grid.ColumnSpan="2" Header="ENABLE" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="ENABLE" Margin="4" Style="{x:Null}" 
+                        IsEnabled="{Binding CassetteModule.Enable, Mode=TwoWay, Converter={StaticResource BoolConv}}"
+                        Command="{Binding FoupChangEnableCommand}" CommandParameter="{StaticResource TrueValue}"/>
+                <Button Grid.Column="1" Content="DISABLE" Margin="4"  Style="{x:Null}"
+                        IsEnabled="{Binding CassetteModule.Enable, Mode=TwoWay}"
+                        Command="{Binding FoupChangEnableCommand}" CommandParameter="{StaticResource FalseValue}"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="2" Grid.ColumnSpan="2" Header="MODE" IsEnabled="{Binding CassetteModule.Enable, Mode=TwoWay}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="ONLINE" Margin="4" Style="{x:Null}" 
+                        IsEnabled="{Binding FoupController.FoupModuleInfo.FoupModeStatus, Converter={StaticResource ModeToBtnEnableConverter},
+                                    ConverterParameter={x:Static pi:FoupModeStatusEnum.ONLINE}}"
+                        Command="{Binding DataContext.FoupChangModeCommand,  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                        CommandParameter="{x:Static pi:FoupModeStatusEnum.ONLINE}"/>
+                <Button Grid.Column="1" Content="OFFLINE" Margin="4"  Style="{x:Null}"
+                        IsEnabled="{Binding FoupController.FoupModuleInfo.FoupModeStatus, Converter={StaticResource ModeToBtnEnableConverter},
+                                    ConverterParameter={x:Static pi:FoupModeStatusEnum.OFFLINE}}"
+                        Command="{Binding FoupChangModeCommand}" CommandParameter="{x:Static pi:FoupModeStatusEnum.OFFLINE}"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="3" Grid.ColumnSpan="2" Header="STATE" IsEnabled="{Binding LoaderMaster.DynamicMode, Converter={StaticResource StateToGBEnableConv}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="LOAD__UNLOAD" Margin="4" Style="{x:Null}"  
+                        Command="{Binding DataContext.DYFoupStateChangeCommand,  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                        CommandParameter="{x:Static lp:DynamicFoupStateEnum.LOAD_AND_UNLOAD}"/>
+                <Button Grid.Column="1" Content="UNLOAD" Margin="4"  Style="{x:Null}"
+                        Command="{Binding DYFoupStateChangeCommand}" CommandParameter="{x:Static lp:DynamicFoupStateEnum.UNLOAD}"/>
+            </Grid>
+        </GroupBox>
+        <Button Grid.Column="0" Grid.Row="4" Content="Recovery" Margin="4" Style="{x:Null}" Background="LightGoldenrodYellow"
+                Command="{Binding EntryFoupRecoveryPageCommand}" Visibility="{Binding FoupState, Converter={StaticResource FoupStateToInverseVisibilityConverter}}"/>
+        <Button Grid.Column="1" Grid.Row="4" Content="EXIT" Margin="4" Style="{x:Null}"
+                Command="{Binding ExitCommand}"/>
+    </Grid>
+</UserControl>

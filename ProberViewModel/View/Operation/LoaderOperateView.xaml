@@ -1,0 +1,1126 @@
+﻿<UserControl x:Class="ProberViewModel.LoaderOperateView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProberViewModel"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:pi="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             xmlns:ps="clr-namespace:ProberSimulator;assembly=ProberSimulator"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:iop="clr-namespace:IOPanelControl;assembly=IOPanelControl"
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             mc:Ignorable="d" 
+             MaxHeight="1018" MaxWidth="1936" Background="#FF1C1C1F" d:DesignWidth="867">
+
+    <UserControl.Resources>
+
+        <vc:GPManualHandlingViewDisableConverter x:Key="GPManualHandlingViewDisableConv" />
+        
+        <Style x:Key="GroupBoxForegroundStyle" TargetType="GroupBox">
+            <Setter Property="Foreground" Value="MediumPurple"/>
+        </Style>
+        <Style x:Key="ToggleControlStyle" TargetType="ToggleButton">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+
+        <local:EllipseInputFill x:Key="EllipseInputFill"/>
+        <local:EllipseInputStroke x:Key="EllipseInputStroke"/>
+        <local:InputStringConvert x:Key="InputStringConvert"/>
+        <local:IsActiveBrushConvert x:Key="IsActiveBrushConvert"/>
+        <local:RectGreenFill x:Key="RectGreenFill"/>
+        <local:RectRedFill x:Key="RectRedFill"/>
+        <local:RectOrangeFill x:Key="RectOrangeFill"/>
+    </UserControl.Resources>
+
+    <Grid IsEnabled="{Binding LoaderModule.LoaderMaster.CurrentModuleState, Converter={StaticResource GPManualHandlingViewDisableConv}}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="1.5*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border  Grid.Row="1" Grid.ColumnSpan="3" BorderBrush="DimGray" BorderThickness="2" Margin="4">
+            <Grid >
+                <Grid.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontSize" Value="22"/>
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="1.2*"/>
+                    <ColumnDefinition Width="0.8*"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Content="LX" FontSize="12"/>
+                <Label Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Content="LZM" FontSize="12"/>
+                <Label Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Content="LZS" FontSize="12"/>
+                <Label Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Content="LW" FontSize="12"/>
+                <Label Grid.Column="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Content="LB" FontSize="12"/>
+                <Label Grid.Column="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Content="LUU" FontSize="12"/>
+                <Label Grid.Column="6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Content="LUD" FontSize="12"/>
+                <Label Grid.Column="7" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Content="LCC" FontSize="12"/>
+                <Label Grid.Column="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Content="FOUP" FontSize="12"/>
+
+                <!--<Label Grid.Column="8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Content="Init" FontSize="12"/>-->
+                <Grid Grid.Column="9" Grid.RowSpan="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button AutomationProperties.AutomationId="btnInitSystem"
+                            Grid.Row="0" Grid.RowSpan="1" Margin="4" Grid.ColumnSpan="2" Height="48" VerticalAlignment="Stretch" Content="Init. System" Foreground="White" Command="{Binding InitSysCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnHoming"
+                            Grid.Row="1" Grid.RowSpan="1" Margin="4" Grid.ColumnSpan="2" Height="48" VerticalAlignment="Stretch" Content="Homing" Foreground="White" Command="{Binding HomingSysCommand}"/>
+                </Grid>
+                <Label Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" FontSize="18"
+                       Content="{Binding LX.Status.Position.Actual }" ContentStringFormat="{}{0:0.0}" />
+                <Label Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" FontSize="18"
+                       Content="{Binding LZM.Status.Position.Actual }" ContentStringFormat="{}{0:0.0}"/>
+                <Label Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2"  FontSize="18"
+                       Content="{Binding LZS.Status.Position.Actual }" ContentStringFormat="{}{0:0.0}"/>
+                <Label Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" FontSize="18" 
+                       Content="{Binding LW.Status.Position.Actual }" ContentStringFormat="{}{0:0.0}"/>
+                <Label Grid.Row="1" Grid.Column="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" FontSize="18"  
+                       Content="{Binding LT.Status.Position.Actual }" ContentStringFormat="{}{0:0.0}"/>
+                <Label Grid.Row="1" Grid.Column="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" FontSize="18" 
+                       Content="{Binding LUU.Status.Position.Actual }" ContentStringFormat="{}{0:0.0}"/>
+                <Label Grid.Row="1" Grid.Column="6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" FontSize="18" 
+                       Content="{Binding LUD.Status.Position.Actual }" ContentStringFormat="{}{0:0.0}"/>
+                <Label Grid.Row="1" Grid.Column="7" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" FontSize="18" 
+                       Content="{Binding LCC.Status.Position.Actual }" ContentStringFormat="{}{0:0.0}"/>
+                <Grid Grid.Row="2" Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!--<TextBox Margin="4" Grid.Column="1"></TextBox>-->
+                    <Controls:NumericUpDown AutomationProperties.AutomationId="NudLX"
+                                            Margin="4"  Grid.ColumnSpan="2" Minimum="0" Maximum="1000000" Interval="10" Value="{Binding LXStep}"/>
+                    <Button AutomationProperties.AutomationId="btnLXJogStepPos"
+                            Margin="4" Grid.Column="0" Grid.Row="1" Height="32" Content="+" FontWeight="Bold" FontSize="14"
+                            Command="{Binding JogStepPosCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.LX}"></Button>
+                    <Button AutomationProperties.AutomationId="btnLXJogStepNeg"
+                            Margin="4" Grid.Column="1" Grid.Row="1" Content="-" FontWeight="Bold" FontSize="14"  Height="32"
+                            Command="{Binding JogStepNegCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.LX}"></Button>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="1" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!--<TextBox Margin="4" Grid.Column="1"></TextBox>-->
+                    <Controls:NumericUpDown AutomationProperties.AutomationId="NudLZM"
+                                            Margin="4"  Grid.ColumnSpan="2" Minimum="0" Maximum="1000000" Interval="10" Value="{Binding LZStep}"/>
+                    <Button AutomationProperties.AutomationId="btnLZMJogStepPos"
+                            Margin="4" Grid.Column="0" Grid.Row="1" Height="32" Content="+" FontWeight="Bold" FontSize="14"
+                            Command="{Binding JogStepPosCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.LZM}"></Button>
+                    <Button AutomationProperties.AutomationId="btnLZMJogStepNeg"
+                            Margin="4" Grid.Column="1" Grid.Row="1" Content="-" FontWeight="Bold" FontSize="14"  Height="32"
+                            Command="{Binding JogStepNegCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.LZM}"></Button>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!--<TextBox Margin="4" Grid.Column="1"></TextBox>-->
+                    <Controls:NumericUpDown AutomationProperties.AutomationId="NudLW"
+                                            Margin="4"  Grid.ColumnSpan="2" Minimum="0" Maximum="1000000" Interval="10" Value="{Binding LWStep}"/>
+                    <Button AutomationProperties.AutomationId="btnLWJogStepPos"
+                            Margin="4" Grid.Column="0" Grid.Row="1" Height="32" Content="+" FontWeight="Bold" FontSize="14"
+                            Command="{Binding JogStepPosCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.LW}"></Button>
+                    <Button AutomationProperties.AutomationId="btnLWJogStepNeg"
+                            Margin="4" Grid.Column="1" Grid.Row="1" Content="-" FontWeight="Bold" FontSize="14"  Height="32"
+                            Command="{Binding JogStepNegCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.LW}"></Button>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!--<TextBox Margin="4" Grid.Column="1"></TextBox>-->
+                    <Controls:NumericUpDown AutomationProperties.AutomationId="NudLB"
+                                            Margin="4"  Grid.ColumnSpan="2" Minimum="0" Maximum="1000000" Interval="10" Value="{Binding LBStep}"/>
+                    <Button AutomationProperties.AutomationId="btnLBJogStepPos"
+                            Margin="4" Grid.Column="0" Grid.Row="1" Height="32" Content="+" FontWeight="Bold" FontSize="14"
+                            Command="{Binding JogStepPosCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.LB}"></Button>
+                    <Button AutomationProperties.AutomationId="btnLBJogStepNeg"
+                            Margin="4" Grid.Column="1" Grid.Row="1" Content="-" FontWeight="Bold" FontSize="14"  Height="32"
+                            Command="{Binding JogStepNegCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.LB}"></Button>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!--<TextBox Margin="4" Grid.Column="1"></TextBox>-->
+                    <Controls:NumericUpDown AutomationProperties.AutomationId="NudLUU"
+                                            Margin="4"  Grid.ColumnSpan="2" Minimum="0" Maximum="1000000" Interval="10" Value="{Binding LUUStep}"/>
+                    <Button AutomationProperties.AutomationId="btnLUUJogStepPos"
+                            Margin="4" Grid.Column="0" Grid.Row="1" Height="32" Content="+" FontWeight="Bold" FontSize="14"
+                            Command="{Binding JogStepPosCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.LUU}"></Button>
+                    <Button AutomationProperties.AutomationId="btnLUUJogStepNeg"
+                            Margin="4" Grid.Column="1" Grid.Row="1" Content="-" FontWeight="Bold" FontSize="14"  Height="32"
+                            Command="{Binding JogStepNegCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.LUU}"></Button>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!--<TextBox Margin="4" Grid.Column="1"></TextBox>-->
+                    <Controls:NumericUpDown AutomationProperties.AutomationId="NudLUD"
+                                            Margin="4"  Grid.ColumnSpan="2" Minimum="0" Maximum="1000000" Interval="10" Value="{Binding LUDStep}"/>
+                    <Button AutomationProperties.AutomationId="btnLUDJogStepPos"
+                            Margin="4" Grid.Column="0" Grid.Row="1" Height="32" Content="+" FontWeight="Bold" FontSize="14"
+                            Command="{Binding JogStepPosCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.LUD}"></Button>
+                    <Button AutomationProperties.AutomationId="btnLUDJogStepNeg"
+                            Margin="4" Grid.Column="1" Grid.Row="1" Content="-" FontWeight="Bold" FontSize="14"  Height="32"
+                            Command="{Binding JogStepNegCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.LUD}"></Button>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="7">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!--<TextBox Margin="4" Grid.Column="1"></TextBox>-->
+                    <Controls:NumericUpDown AutomationProperties.AutomationId="NudLCC"
+                                            Margin="4"  Grid.ColumnSpan="2" Minimum="0" Maximum="1000000" Interval="10" Value="{Binding LCCStep}"/>
+                    <Button AutomationProperties.AutomationId="btnLCCJogStepPos"
+                            Margin="4" Grid.Column="0" Grid.Row="1" Height="32" Content="+" FontWeight="Bold" FontSize="14"
+                            Command="{Binding JogStepPosCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.LCC}"></Button>
+                    <Button AutomationProperties.AutomationId="btnLCCJogStepNeg"
+                            Margin="4" Grid.Column="1" Grid.Row="1" Content="-" FontWeight="Bold" FontSize="14"  Height="32"
+                            Command="{Binding JogStepNegCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.LCC}"></Button>
+                </Grid>
+                <Grid Grid.Row="1" Grid.RowSpan="2" Grid.Column="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!--<TextBox Margin="4" Grid.Column="1"></TextBox>-->
+                    <Controls:NumericUpDown AutomationProperties.AutomationId="NudFOUP"
+                                            Grid.Row="0" Margin="4"  Grid.ColumnSpan="3" Minimum="0" Maximum="1000000" Interval="10" Value="{Binding FC1Step}"/>
+                    <Button AutomationProperties.AutomationId="btnFOUP1JogStepPos"
+                            Margin="1" Grid.Column="0" Grid.Row="1" Content="UP" FontWeight="Bold" FontSize="8" VerticalAlignment="Stretch"
+                            Command="{Binding JogStepPosCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.FC1}"></Button>
+                    <Button AutomationProperties.AutomationId="btnFOUP1JogStepNeg"
+                            Margin="1" Grid.Column="0" Grid.Row="2" Content="DN" FontWeight="Bold"   FontSize="8" VerticalAlignment="Stretch"
+                            Command="{Binding JogStepNegCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.FC1}"></Button>
+                    <Button AutomationProperties.AutomationId="btnFOUP2JogStepPos"
+                            Margin="1" Grid.Column="1" Grid.Row="1"  Content="UP" FontWeight="Bold" FontSize="8" VerticalAlignment="Stretch"
+                            Command="{Binding JogStepPosCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.FC2}"></Button>
+                    <Button AutomationProperties.AutomationId="btnFOUP2JogStepNeg"
+                            Margin="1" Grid.Column="1" Grid.Row="2" Content="DN" FontWeight="Bold"  FontSize="8" VerticalAlignment="Stretch"
+                            Command="{Binding JogStepNegCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.FC2}"></Button>
+                    <Button AutomationProperties.AutomationId="btnFOUP3JogStepPos"
+                            Margin="1" Grid.Column="2" Grid.Row="1"  Content="UP" FontWeight="Bold" FontSize="8" VerticalAlignment="Stretch"
+                            Command="{Binding JogStepPosCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.FC3}"></Button>
+                    <Button AutomationProperties.AutomationId="btnFOUP3JogStepNeg"
+                            Margin="1" Grid.Column="2" Grid.Row="2" Content="DN" FontWeight="Bold"  FontSize="8" VerticalAlignment="Stretch"
+                            Command="{Binding JogStepNegCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.FC3}"></Button>
+                    <Button Margin="1" Grid.Column="3" Grid.Row="1"  Content="UP" FontWeight="Bold" FontSize="8" VerticalAlignment="Stretch"
+                            Command="{Binding JogStepPosCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.FC4}"></Button>
+                    <Button Margin="1" Grid.Column="3" Grid.Row="2" Content="DN" FontWeight="Bold"  FontSize="8" VerticalAlignment="Stretch"
+                            Command="{Binding JogStepNegCommand}" CommandParameter="{x:Static pi:EnumAxisConstants.FC4}"></Button>
+
+                </Grid>
+            </Grid>
+        </Border>
+        <Border BorderBrush="DimGray" BorderThickness="2" Margin="4">
+            <Grid  MinWidth="600">
+                <ps:GP_TOT />
+                <ListView HorizontalAlignment="Left" VerticalAlignment="Bottom" 
+                      Margin="4" Background="Transparent" Foreground="WhiteSmoke"
+                      ItemsSource="{Binding MoveSteps}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <!--<ToggleButton VerticalAlignment="Bottom" HorizontalAlignment="Right" 
+                              Width="64" Grid.ColumnSpan="2" Margin="8" Content="Axis" 
+                              IsChecked="{Binding GPLoader.AxisEnabled, Mode=OneWay}" 
+                              Command="{Binding AxisEnableCommand}"/>-->
+                <Button AutomationProperties.AutomationId="btnTurnOffdrives"
+                        Background="Transparent" Margin="4" BorderThickness="0" Height="40" ToolTip="Turn off drives"
+                        VerticalAlignment="Top" HorizontalAlignment="Right" Command="{Binding AxisDisableCommand}"  >
+                    <materialDesign:PackIcon Kind="PowerPlugOff" Margin="0" Foreground="Red" Height="36" Width="36"/>
+                </Button>
+
+                <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel HorizontalAlignment="Center"  Grid.ColumnSpan="4">
+                        <ListView ItemsSource="{Binding LoaderModule.FoupScanFlag}">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"></StackPanel>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding FoupName}" IsChecked="{Binding ScanFlag, Mode=TwoWay}" Foreground="White"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+
+                    <Label Grid.Row="1" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Content="FC1" Foreground="White" FontSize="12"/>
+                    <Label Grid.Row="1" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Content="FC2" Foreground="White" FontSize="12"/>
+                    <Label Grid.Row="1" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Content="FC3" Foreground="White" FontSize="12"/>
+                    <Label Grid.Row="1" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" Content="FC4" Foreground="White" FontSize="12"/>
+                    <Label Grid.Row="2" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" FontSize="18" Width="96" Foreground="White" 
+                        Content="{Binding FC1.Status.Position.Actual }" ContentStringFormat="{}{0:0.0}"/>
+                    <Label Grid.Row="2" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" FontSize="18" Width="96" Foreground="White" 
+                        Content="{Binding FC2.Status.Position.Actual }" ContentStringFormat="{}{0:0.0}"/>
+                    <Label Grid.Row="2" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" FontSize="18" Width="96" Foreground="White" 
+                        Content="{Binding FC3.Status.Position.Actual }" ContentStringFormat="{}{0:0.0}"/>
+                    <Label Grid.Row="2" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="2" FontSize="18" Width="96" Foreground="White" 
+                        Content="{Binding FC4.Status.Position.Actual }" ContentStringFormat="{}{0:0.0}"/>
+                    <Border  Grid.Row="1" Grid.Column="0" BorderBrush="DimGray" BorderThickness="2" Grid.ColumnSpan="4" Grid.RowSpan="3">
+                    </Border>
+                </Grid>
+
+                <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <!--<Button Grid.Column="0" HorizontalContentAlignment="Center" Width="100" Height="50" VerticalContentAlignment="Center" Margin="2" Content="Load" Foreground="White" FontSize="12" Command="{Binding WaferLoadCommand}"/>
+                    <Button Grid.Column="1" HorizontalContentAlignment="Center" Width="100" Height="50" Command="{Binding WaferUnloadCommand}" VerticalContentAlignment="Center" Margin="2" Content="UnLoad" Foreground="White" FontSize="12" />-->
+                    <Button AutomationProperties.AutomationId="btnFoupRepeatTest"
+                            Grid.Column="0" Grid.Row="1" HorizontalContentAlignment="Center" Width="100" Height="50" Command="{Binding FoupRepeatTestCommand}" VerticalContentAlignment="Center" Margin="2" Content="FoupRepeatTest" Foreground="White" FontSize="12" />
+                    <Button AutomationProperties.AutomationId="btnWaferToPATest"
+                            Grid.Column="0" Grid.Row="2" HorizontalContentAlignment="Center" Width="100" Height="50" Command="{Binding WaferToPACommand}" VerticalContentAlignment="Center" Margin="2" Content="WaferToPATest" Foreground="White" FontSize="12" />
+                    <CheckBox AutomationProperties.AutomationId="cbFoupRepeat"
+                              Grid.Column="0" Grid.Row="0" HorizontalContentAlignment="Center" Height="50" IsChecked="{Binding IsFoupRepeat, Mode=TwoWay}" VerticalContentAlignment="Center" Margin="2" Content="Repeat" Foreground="White" FontSize="12" />
+                    <Button AutomationProperties.AutomationId="btnCTLockTest"
+                            Grid.Column="1" Grid.Row="1" HorizontalContentAlignment="Center" Width="100" Height="50" Command="{Binding CTLockCommand}" VerticalContentAlignment="Center" Margin="2" Content="CT LOCK" Foreground="White" FontSize="12" />
+                    <Button AutomationProperties.AutomationId="btnCTUnlockTest"
+                            Grid.Column="1" Grid.Row="2" HorizontalContentAlignment="Center" Width="100" Height="50" Command="{Binding CTUnlockCommand}" VerticalContentAlignment="Center" Margin="2" Content="CT UNLOCK" Foreground="White" FontSize="12" />
+                </Grid>
+
+            </Grid>
+
+        </Border>
+        <Border Grid.Column="2" Grid.RowSpan="1" BorderBrush="DimGray" BorderThickness="2" Margin="4" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <GroupBox Grid.Column="0" Header="LOADER INPUT"  Foreground="White" FontSize="20" FontWeight="Bold" Margin="10">
+                    <ScrollViewer Grid.Row="0" Margin="0">
+                        <Grid  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <GroupBox  Grid.Row="0"  Header="ARM , CARD ARM" FontSize="15"  Width="400" Foreground="YellowGreen"  HorizontalAlignment="Left" BorderBrush="White" BorderThickness="1" Style="{DynamicResource GroupBoxForegroundStyle}" Margin="1,0,0,0"  >
+                                <ItemsControl ItemsSource="{Binding GPIO_INPUT_ARMs}"  Margin="0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderThickness="1" Margin="1" BorderBrush="{Binding Path=IsActive.Value , Converter={StaticResource IsActiveBrushConvert}}">
+                                                <Grid Width="125" Height="60">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1.2*"/>
+                                                    </Grid.RowDefinitions>
+
+
+                                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=Alias}" ToolTip="{Binding Path=Key}" Foreground="White"  TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"
+                                           TextAlignment="Center" FontWeight="Bold" FontSize="12" Padding="0" Margin="0,2,0,0" />
+
+                                                    <Path StrokeThickness="2" Fill="Silver" Grid.Column="0" Grid.Row="1" Stroke="White">
+                                                        <Path.Data>
+                                                            <RectangleGeometry Rect="10,0,100,25"  RadiusX="10" RadiusY="10" />
+                                                        </Path.Data>
+                                                    </Path>
+                                                    <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="15,-7,0,0"  >
+
+                                                        <Ellipse  Width="20" Height="20" Margin="0" Fill="{Binding Path=Value , Converter={StaticResource EllipseInputFill}}" Stroke="{Binding Path=Value , Converter={StaticResource EllipseInputStroke}}" StrokeThickness="2" ></Ellipse>
+                                                        <Label Foreground="Black" HorizontalAlignment="Center"  Margin="0,-5,0,4.5" Content="{Binding Path=Value , Converter={StaticResource InputStringConvert}}"></Label>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </GroupBox>
+                            <GroupBox Grid.Row="1"   Header="BUFFER" FontSize="15" Width="400" Foreground="YellowGreen"  HorizontalAlignment="Left" BorderBrush="White" BorderThickness="1" Style="{DynamicResource GroupBoxForegroundStyle}" Margin="1,0,0,0" MinHeight="50"  >
+                                <ItemsControl ItemsSource="{Binding GPIO_INPUT_BUFFERs}"  Margin="0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderThickness="1" Margin="1" BorderBrush="{Binding Path=IsActive.Value , Converter={StaticResource IsActiveBrushConvert}}">
+                                                <Grid Width="125" Height="60">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1.2*"/>
+                                                    </Grid.RowDefinitions>
+
+
+                                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=Alias}" ToolTip="{Binding Path=Key}" Foreground="White"  TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"
+                                           TextAlignment="Center" FontWeight="Bold" FontSize="12" Padding="0" Margin="0,2,0,0" />
+
+                                                    <Path StrokeThickness="2" Fill="Silver" Grid.Column="0" Grid.Row="1" Stroke="White">
+                                                        <Path.Data>
+                                                            <RectangleGeometry Rect="10,0,100,25"  RadiusX="10" RadiusY="10" />
+                                                        </Path.Data>
+                                                    </Path>
+                                                    <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="15,-7,0,0"  >
+
+                                                        <Ellipse  Width="20" Height="20" Margin="0" Fill="{Binding Path=Value , Converter={StaticResource EllipseInputFill}}" Stroke="{Binding Path=Value , Converter={StaticResource EllipseInputStroke}}" StrokeThickness="2" ></Ellipse>
+                                                        <Label Foreground="Black" HorizontalAlignment="Center"  Margin="0,-5,0,4.5" Content="{Binding Path=Value , Converter={StaticResource InputStringConvert}}"></Label>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </GroupBox>
+                            <GroupBox Grid.Row="2"   Header="FIXED TRAY , INSPECTION TRAY" FontSize="15" Width="400" Foreground="YellowGreen"  HorizontalAlignment="Left" BorderBrush="White" BorderThickness="1" Style="{DynamicResource GroupBoxForegroundStyle}" Margin="1,0,0,0" MinHeight="50" >
+                                <ItemsControl ItemsSource="{Binding GPIO_INPUT_FIXEDs}"  Margin="0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderThickness="1" Margin="1" BorderBrush="{Binding Path=IsActive.Value , Converter={StaticResource IsActiveBrushConvert}}">
+                                                <Grid Width="125" Height="60">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1.2*"/>
+                                                    </Grid.RowDefinitions>
+
+
+                                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=Alias}" ToolTip="{Binding Path=Key}" Foreground="White"  TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"
+                                           TextAlignment="Center" FontWeight="Bold" FontSize="12" Padding="0" Margin="0,2,0,0" />
+
+                                                    <Path StrokeThickness="2" Fill="Silver" Grid.Column="0" Grid.Row="1" Stroke="White">
+                                                        <Path.Data>
+                                                            <RectangleGeometry Rect="10,0,100,25"  RadiusX="10" RadiusY="10" />
+                                                        </Path.Data>
+                                                    </Path>
+                                                    <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="15,-7,0,0"  >
+
+                                                        <Ellipse  Width="20" Height="20" Margin="0" Fill="{Binding Path=Value , Converter={StaticResource EllipseInputFill}}" Stroke="{Binding Path=Value , Converter={StaticResource EllipseInputStroke}}" StrokeThickness="2" ></Ellipse>
+                                                        <Label Foreground="Black" HorizontalAlignment="Center"  Margin="0,-5,0,4.5" Content="{Binding Path=Value , Converter={StaticResource InputStringConvert}}"></Label>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </GroupBox>
+                            <GroupBox Grid.Row="3"   Header="CARD TRAY , CARD BUFFER" FontSize="15" Width="400" Foreground="YellowGreen"  HorizontalAlignment="Left" BorderBrush="White" BorderThickness="1" Style="{DynamicResource GroupBoxForegroundStyle}" Margin="1,0,0,0" MinHeight="50"  >
+                                <ItemsControl ItemsSource="{Binding GPIO_INPUT_CARDBUFs}"  Margin="0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderThickness="1" Margin="1" BorderBrush="{Binding Path=IsActive.Value , Converter={StaticResource IsActiveBrushConvert}}">
+                                                <Grid Width="125" Height="60">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1.2*"/>
+                                                    </Grid.RowDefinitions>
+
+
+                                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=Alias}" ToolTip="{Binding Path=Key}" Foreground="White"  TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"
+                                           TextAlignment="Center" FontWeight="Bold" FontSize="12" Padding="0" Margin="0,2,0,0" />
+
+                                                    <Path StrokeThickness="2" Fill="Silver" Grid.Column="0" Grid.Row="1" Stroke="White">
+                                                        <Path.Data>
+                                                            <RectangleGeometry Rect="10,0,100,25"  RadiusX="10" RadiusY="10" />
+                                                        </Path.Data>
+                                                    </Path>
+                                                    <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="15,-7,0,0"  >
+
+                                                        <Ellipse  Width="20" Height="20" Margin="0" Fill="{Binding Path=Value , Converter={StaticResource EllipseInputFill}}" Stroke="{Binding Path=Value , Converter={StaticResource EllipseInputStroke}}" StrokeThickness="2" ></Ellipse>
+                                                        <Label Foreground="Black" HorizontalAlignment="Center"  Margin="0,-5,0,4.5" Content="{Binding Path=Value , Converter={StaticResource InputStringConvert}}"></Label>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </GroupBox>
+                            <GroupBox Grid.Row="4"   Header="ETC" FontSize="15" Width="400" Foreground="YellowGreen"  HorizontalAlignment="Left" BorderBrush="White" BorderThickness="1" Style="{DynamicResource GroupBoxForegroundStyle}" Margin="1,0,0,0" MinHeight="50" >
+                                <ItemsControl ItemsSource="{Binding GPIO_INPUT_ETCs}"  Margin="0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderThickness="1" Margin="1" BorderBrush="{Binding Path=IsActive.Value , Converter={StaticResource IsActiveBrushConvert}}">
+                                                <Grid Width="125" Height="60">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1.2*"/>
+                                                    </Grid.RowDefinitions>
+
+
+                                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=Alias}" ToolTip="{Binding Path=Key}" Foreground="White"  TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"
+                                           TextAlignment="Center" FontWeight="Bold" FontSize="12" Padding="0" Margin="0,2,0,0" />
+
+                                                    <Path StrokeThickness="2" Fill="Silver" Grid.Column="0" Grid.Row="1" Stroke="White">
+                                                        <Path.Data>
+                                                            <RectangleGeometry Rect="10,0,100,25"  RadiusX="10" RadiusY="10" />
+                                                        </Path.Data>
+                                                    </Path>
+                                                    <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="15,-7,0,0"  >
+
+                                                        <Ellipse  Width="20" Height="20" Margin="0" Fill="{Binding Path=Value , Converter={StaticResource EllipseInputFill}}" Stroke="{Binding Path=Value , Converter={StaticResource EllipseInputStroke}}" StrokeThickness="2" ></Ellipse>
+                                                        <Label Foreground="Black" HorizontalAlignment="Center"  Margin="0,-5,0,4.5" Content="{Binding Path=Value , Converter={StaticResource InputStringConvert}}"></Label>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </GroupBox>
+
+
+                        </Grid>
+
+                    </ScrollViewer>
+                </GroupBox>
+                <GroupBox Grid.Column="1" Header="LOADER OUTPUT"  HorizontalContentAlignment="Center"   Foreground="White" FontSize="20"  FontWeight="Bold" Margin="10" >
+                    <ScrollViewer Grid.Row="0" Margin="0">
+
+                        <Grid  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <GroupBox  Grid.Row="0"  Header="ARM , CARD ARM" FontSize="15" Width="400" Foreground="YellowGreen"  HorizontalAlignment="Left" BorderBrush="White" BorderThickness="1" Style="{DynamicResource GroupBoxForegroundStyle}" Margin="1,0,0,0" MinHeight="50"  >
+                                <ItemsControl ItemsSource="{Binding GPIO_OUTPUT_ARMs}"  Margin="0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderThickness="1" Margin="1" BorderBrush="{Binding Path=IsActive.Value , Converter={StaticResource IsActiveBrushConvert}}">
+                                                <Grid Width="125" Height="60">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1.2*"/>
+                                                    </Grid.RowDefinitions>
+
+
+                                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=Alias}" ToolTip="{Binding Path=Key}" Foreground="White"  TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis" 
+                                           TextAlignment="Center" FontWeight="Bold" FontSize="13" Padding="0" Margin="0,2,0,0" />
+                                                    <Controls:ToggleSwitchButton Width="90" ThumbIndicatorWidth="20"   ThumbIndicatorBrush="Gray" Background="White" OnSwitchBrush="DeepSkyBlue" OffSwitchBrush="White" Margin="-2"  Grid.Column="0" Grid.Row="1"   BorderBrush="{Binding Path=IsActive.Value , Converter={StaticResource IsActiveBrushConvert}}" IsChecked="{Binding Path=Value}" Style="{DynamicResource ToggleControlStyle}">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="Checked">
+                                                                <i:InvokeCommandAction Command="{Binding OutputOnCommand}"/>
+                                                            </i:EventTrigger>
+                                                            <i:EventTrigger EventName="Unchecked">
+                                                                <i:InvokeCommandAction Command="{Binding OutputOffCommand}"/>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </Controls:ToggleSwitchButton>
+                                                </Grid>
+                                            </Border>
+
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </GroupBox>
+                            <GroupBox Grid.Row="1"   Header="BUFFER" FontSize="15" Width="400" Foreground="YellowGreen"  HorizontalAlignment="Left" BorderBrush="White" BorderThickness="1" Style="{DynamicResource GroupBoxForegroundStyle}" Margin="1,0,0,0" MinHeight="50"  >
+                                <ItemsControl ItemsSource="{Binding GPIO_OUTPUT_BUFFERs}"  Margin="0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderThickness="1" Margin="1" BorderBrush="{Binding Path=IsActive.Value , Converter={StaticResource IsActiveBrushConvert}}">
+                                                <Grid Width="125" Height="60">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1.2*"/>
+                                                    </Grid.RowDefinitions>
+
+
+                                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=Alias}" ToolTip="{Binding Path=Key}" Foreground="White"  TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis" 
+                                           TextAlignment="Center" FontWeight="Bold" FontSize="13" Padding="0" Margin="0,2,0,0" />
+                                                    <Controls:ToggleSwitchButton Width="90" ThumbIndicatorWidth="20"   ThumbIndicatorBrush="Gray" Background="White" OnSwitchBrush="DeepSkyBlue" OffSwitchBrush="White" Margin="-2"  Grid.Column="0" Grid.Row="1"   BorderBrush="{Binding Path=IsActive.Value , Converter={StaticResource IsActiveBrushConvert}}" IsChecked="{Binding Path=Value}" Style="{DynamicResource ToggleControlStyle}">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="Checked">
+                                                                <i:InvokeCommandAction Command="{Binding OutputOnCommand}"/>
+                                                            </i:EventTrigger>
+                                                            <i:EventTrigger EventName="Unchecked">
+                                                                <i:InvokeCommandAction Command="{Binding OutputOffCommand}"/>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </Controls:ToggleSwitchButton>
+                                                </Grid>
+                                            </Border>
+
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </GroupBox>
+                            <GroupBox Grid.Row="2"   Header="CARD TRAY , CARD BUFFER" FontSize="15" Width="400" Foreground="YellowGreen"  HorizontalAlignment="Left" BorderBrush="White" BorderThickness="1" Style="{DynamicResource GroupBoxForegroundStyle}" Margin="1,0,0,0" MinHeight="50"  >
+                                <ItemsControl ItemsSource="{Binding GPIO_OUTPUT_CARDBUFs}"  Margin="0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderThickness="1" Margin="1" BorderBrush="{Binding Path=IsActive.Value , Converter={StaticResource IsActiveBrushConvert}}">
+                                                <Grid Width="125" Height="60">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1.2*"/>
+                                                    </Grid.RowDefinitions>
+
+
+                                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=Alias}" ToolTip="{Binding Path=Key}" Foreground="White"  TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis" 
+                                           TextAlignment="Center" FontWeight="Bold" FontSize="13" Padding="0" Margin="0,2,0,0" />
+                                                    <Controls:ToggleSwitchButton Width="90" ThumbIndicatorWidth="20"   ThumbIndicatorBrush="Gray" Background="White" OnSwitchBrush="DeepSkyBlue" OffSwitchBrush="White" Margin="-2"  Grid.Column="0" Grid.Row="1"   BorderBrush="{Binding Path=IsActive.Value , Converter={StaticResource IsActiveBrushConvert}}" IsChecked="{Binding Path=Value}" Style="{DynamicResource ToggleControlStyle}">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="Checked">
+                                                                <i:InvokeCommandAction Command="{Binding OutputOnCommand}"/>
+                                                            </i:EventTrigger>
+                                                            <i:EventTrigger EventName="Unchecked">
+                                                                <i:InvokeCommandAction Command="{Binding OutputOffCommand}"/>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </Controls:ToggleSwitchButton>
+                                                </Grid>
+                                            </Border>
+
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+
+                            </GroupBox>
+                            <GroupBox Grid.Row="3"   Header="ETC" FontSize="15" Width="400" Foreground="YellowGreen"  HorizontalAlignment="Left" BorderBrush="White" BorderThickness="1" Style="{DynamicResource GroupBoxForegroundStyle}" Margin="1,0,0,0" MinHeight="50"  >
+                                <ItemsControl ItemsSource="{Binding GPIO_OUTPUT_ETCs}"  Margin="0">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderThickness="1" Margin="1" BorderBrush="{Binding Path=IsActive.Value , Converter={StaticResource IsActiveBrushConvert}}">
+                                                <Grid Width="125" Height="60">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="1*"/>
+                                                        <RowDefinition Height="1.2*"/>
+                                                    </Grid.RowDefinitions>
+
+
+                                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=Alias}" ToolTip="{Binding Path=Key}" Foreground="White"  TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis" 
+                                           TextAlignment="Center" FontWeight="Bold" FontSize="13" Padding="0" Margin="0,2,0,0" />
+                                                    <Controls:ToggleSwitchButton Width="90" ThumbIndicatorWidth="20"   ThumbIndicatorBrush="Gray" Background="White" OnSwitchBrush="DeepSkyBlue" OffSwitchBrush="White" Margin="-2"  Grid.Column="0" Grid.Row="1"   BorderBrush="{Binding Path=IsActive.Value , Converter={StaticResource IsActiveBrushConvert}}" IsChecked="{Binding Path=Value}" Style="{DynamicResource ToggleControlStyle}">
+                                                        <i:Interaction.Triggers>
+                                                            <i:EventTrigger EventName="Checked">
+                                                                <i:InvokeCommandAction Command="{Binding OutputOnCommand}"/>
+                                                            </i:EventTrigger>
+                                                            <i:EventTrigger EventName="Unchecked">
+                                                                <i:InvokeCommandAction Command="{Binding OutputOffCommand}"/>
+                                                            </i:EventTrigger>
+                                                        </i:Interaction.Triggers>
+                                                    </Controls:ToggleSwitchButton>
+                                                </Grid>
+                                            </Border>
+
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </GroupBox>
+                            <ItemsControl ItemsSource="{Binding SelectedFoupModule.Outputs}"  Margin="0">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="1" Margin="1" >
+                                            <Grid Width="110" Height="60">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="1*"/>
+                                                    <RowDefinition Height="1.2*"/>
+                                                </Grid.RowDefinitions>
+
+
+                                                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding Path=Alias}" ToolTip="{Binding Path=Key}"  TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis"
+                                           TextAlignment="Center" FontWeight="Bold" FontSize="13" Padding="0" Margin="0,2,0,0" />
+
+                                                <!--<Path StrokeThickness="2" Fill="Silver" Grid.Column="0" Grid.Row="1" Stroke="{Binding Path=IsActive.Value , Converter={StaticResource IsActiveBrushConvert}}">
+                                                    <Path.Data>
+                                                        <RectangleGeometry Rect="10,0,90,25"  RadiusX="10" RadiusY="10" />
+                                                    </Path.Data>
+                                                </Path>-->
+                                                <ToggleButton   BorderThickness="2"   Margin="-2" Background="Silver" Grid.Column="0" Grid.Row="1"  IsChecked="{Binding Path=Value}" >
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="Checked">
+                                                            <i:InvokeCommandAction Command="{Binding OutputOnCommand}"/>
+                                                        </i:EventTrigger>
+                                                        <i:EventTrigger EventName="Unchecked">
+                                                            <i:InvokeCommandAction Command="{Binding OutputOffCommand}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </ToggleButton>
+                                                <!--<StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Margin="15,-7,0,0"  >
+
+                                                    <Ellipse  Width="20" Height="20" Margin="0" Fill="{Binding Path=Value , Converter={StaticResource EllipseInputFill}}" Stroke="{Binding Path=Value , Converter={StaticResource EllipseInputStroke}}" StrokeThickness="2" ></Ellipse>
+                                                    <Label Foreground="Black" HorizontalAlignment="Center"  Margin="0,-5,0,4.5" Content="{Binding Path=Value , Converter={StaticResource InputStringConvert}}"></Label>
+                                                </StackPanel>-->
+                                            </Grid>
+                                        </Border>
+
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </Grid>
+                    </ScrollViewer>
+                </GroupBox>
+            </Grid>
+        </Border>
+        <Border BorderBrush="DimGray" BorderThickness="2" Grid.Column="1" Grid.RowSpan="1" Margin="4">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0">
+                    <Button AutomationProperties.AutomationId="btnCassettePick"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="Cassette Pick" Height="30" Foreground="White" Command="{Binding CstPickCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnCassettePut"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="Cassette Put" Height="30" Foreground="White" Command="{Binding CSTPutCommand}"/>
+                    <Grid>
+                        <Button AutomationProperties.AutomationId="btnPAPick"
+                                Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                                Width="128" Margin="2" Content="PA Pick" Height="30" Foreground="White" Command="{Binding PAPickCommand}"/>
+                        <CheckBox AutomationProperties.AutomationId="cbPAPickForced"
+                                  HorizontalAlignment="Right" IsChecked="{Binding isPickForced}" VerticalAlignment="Top" Foreground="White" Margin="2"/>
+                    </Grid>
+                    <Grid>
+                        <Button AutomationProperties.AutomationId="btnPAPut"
+                                Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                                Width="128" Margin="2" Content="PA Put" Height="30" Foreground="White" Command="{Binding PAPutCommand}"/>
+                        <CheckBox AutomationProperties.AutomationId="cbPAPutForced"
+                                  HorizontalAlignment="Right" IsChecked="{Binding isPutForced}" VerticalAlignment="Top" Foreground="White" Margin="2"/>
+                    </Grid>
+                    <Button AutomationProperties.AutomationId="btnBufferPick"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="Buffer Pick" Height="30" Foreground="White" Command="{Binding BufferPickCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnBufferPut"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="Buffer Put" Height="30" Foreground="White" Command="{Binding BUfferPutCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnStagePick"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="Stage Pick" Height="30" Foreground="White" Command="{Binding StagePickCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnStagePut"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="Stage Put" Height="30" Foreground="White" Command="{Binding StagePutCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnINSPPick"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="INSP Pick" Height="30" Foreground="White" Command="{Binding INSPPickCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnINSPPut"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="INSP Put" Height="30" Foreground="White" Command="{Binding INSPPutCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnPAReset"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="PAReset" Height="30" Foreground="White" Command="{Binding PAResetCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnWLoadMove"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="W__Load Move" Height="30" Foreground="White" Command="{Binding WaferLoadMoveCommand}"/>
+                    <Button Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="BCDRead Move" Height="30" Foreground="White" Command="{Binding BCDReadMoveCommand}"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="1">
+                    <Button AutomationProperties.AutomationId="btnFixedTrayPick"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="FixedTray Pick" Height="30"  Foreground="White" Command="{Binding FixedTrayPickCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnFixedTrayPut"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="FixedTray Put" Height="30" Foreground="White" Command="{Binding FixedTrayPutCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnCardTrayPick"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="CardTray Pick" Height="30" Foreground="White" Command="{Binding CardTrayPickCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnCardTrayPut"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="CardTray Put" Height="30" Foreground="White" Command="{Binding CardTrayPutCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnCardBufferPick"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="CardBuffer Pick" Height="30" Foreground="White" Command="{Binding CardBufferPickCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnCardBufferPut"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="CardBuffer Put" Height="30" Foreground="White" Command="{Binding CardBufferPutCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnCCPick"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="CC Pick" Height="30" Foreground="White" Command="{Binding CardChangePickCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnCCPut"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="CC Put" Height="30" Foreground="White" Command="{Binding CardChangePutCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnCCLoad"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="CST Load" Height="30" Foreground="White" Command="{Binding CSTLoadCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnCCUnload"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="CST Unload" Height="30" Foreground="White" Command="{Binding CSTUnloadCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnCSTSCAN"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="CST SCAN" Height="30" Foreground="White" Command="{Binding CSTScanCommand}"/>
+                    <Button AutomationProperties.AutomationId="btnCLoadMove"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Width="128" Margin="2" Content="C__Load Move" Height="30" Foreground="White" Command="{Binding CardLoadMoveCommand}"/>
+
+                </StackPanel>
+                <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 10 0 0">
+                    <StackPanel Grid.Column="1" Orientation="Vertical" >
+                        <StackPanel Orientation="Horizontal">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="WaferSize" Grid.Column="0" Width="135" Margin="10 0 10 0"/>
+                                <ComboBox Grid.Column="1"
+                                          Height="30"
+                                          Width="100"
+                                          AutomationProperties.AutomationId="cmbCassette"
+                                          Margin="4,1" Foreground="White"
+                                          ItemsSource="{Binding WaferSizeList}"
+                                          SelectedIndex="{Binding SelectedWaferSizeIndex}">
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Cassette" Grid.Column="0" Width="135" Margin="10 0 10 0"/>
+                                <ComboBox Grid.Column="1"
+                                          Height="30"
+                                          Width="100"
+                                          AutomationProperties.AutomationId="cmbCassette"
+                                          Margin="4,1" Foreground="White"
+                                          ItemsSource="{Binding CassetteList}"
+                                          SelectedIndex="{Binding SelectedCassetteIndex}">
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Slot" Grid.Column="0"  Width="135" Margin="10 0 10 0"/>
+                                <ComboBox Grid.Column="1"
+                                          Height="30"
+                                          Width="100"
+                                          AutomationProperties.AutomationId="cmbSLOT"
+                                          Margin="4,1" Foreground="White"
+                                          ItemsSource="{Binding SlotList}"
+                                          SelectedIndex="{Binding SelectedSlotIndex}">
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Arm" Grid.Column="0"  Width="135" Margin="10 0 10 0"/>
+                                <ComboBox Grid.Column="1"
+                                          Height="30"
+                                          Width="100"
+                                          AutomationProperties.AutomationId="cmbArm"
+                                          Margin="4,1" Foreground="White"
+                                          ItemsSource="{Binding ArmList}"
+                                          SelectedIndex="{Binding SelectedArmIndex}">
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Buffer" Grid.Column="0"  Width="135" Margin="10 0 10 0"/>
+                                <ComboBox Grid.Column="1"
+                                          Height="30"
+                                          Width="100"
+                                          AutomationProperties.AutomationId="cmbBUFFER"
+                                          Margin="4,1" Foreground="White"
+                                          ItemsSource="{Binding BufferList}"
+                                          SelectedIndex="{Binding SelectedBufferIndex}">
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="FixedTray" Grid.Column="0"  Width="135" Margin="10 0 10 0"/>
+                                <ComboBox Grid.Column="1"
+                                          Height="30"
+                                          Width="100"
+                                          AutomationProperties.AutomationId="cmbFixedTray"
+                                          Margin="4,1" Foreground="White"
+                                          ItemsSource="{Binding FixedTrayList}"
+                                          SelectedIndex="{Binding SelectedFixedTrayIndex}">
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="InspectionTray" Grid.Column="0"  Width="135" Margin="10 0 10 0"/>
+                                <ComboBox Grid.Column="1"
+                                          Height="30"
+                                          Width="100"
+                                          AutomationProperties.AutomationId="cmbInspTray"
+                                          Margin="4,1" Foreground="White"
+                                          ItemsSource="{Binding InspectionTrayList}"
+                                          SelectedIndex="{Binding SelectedInspectionTrayIndex}">
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Stage" Grid.Column="0"  Width="135" Margin="10 0 10 0"/>
+                                <ComboBox Grid.Column="1"
+                                          Height="30"
+                                          Width="100"
+                                          AutomationProperties.AutomationId="cmbChuck"
+                                          Margin="4,1" Foreground="White"
+                                          ItemsSource="{Binding StageList}"
+                                          SelectedIndex="{Binding SelectedChuckIndex}">
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="CardTray" Grid.Column="0"  Width="135" Margin="10 0 10 0"/>
+                                <ComboBox Grid.Column="1"
+                                          Height="30"
+                                          Width="100"
+                                          AutomationProperties.AutomationId="cmbCardTray"
+                                          Margin="4,1" Foreground="White"
+                                          ItemsSource="{Binding CardTrayList}"
+                                          SelectedIndex="{Binding SelectedCardTrayIndex}">
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="CardBuffer" Grid.Column="0"  Width="135" Margin="10 0 10 0"/>
+                                <ComboBox Grid.Column="1"
+                                          Height="30"
+                                          Width="100"
+                                          AutomationProperties.AutomationId="cmbCardBuffer"
+                                          Margin="4,1" Foreground="White"
+                                          ItemsSource="{Binding CardBufferList}"
+                                          SelectedIndex="{Binding SelectedCardBufferIndex}">
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="PreAlign" Grid.Column="0"  Width="135" Margin="10 0 10 0"/>
+                                <ComboBox Grid.Column="1"
+                                          Height="30"
+                                          Width="100"
+                                          AutomationProperties.AutomationId="cmbPreAlign"
+                                          Margin="4,1" Foreground="White"
+                                          ItemsSource="{Binding PAList}"
+                                          SelectedIndex="{Binding SelectedPAIndex}">
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CDA49D6A-7F4A-41C0-B9D0-E419FCA46291}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GPLoaderRouter</RootNamespace>
+    <AssemblyName>GPLoaderRouter</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="RFID, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\bin\x64\Release\RFID.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TwinCAT.Ads, Version=4.1.25.0, Culture=neutral, PublicKeyToken=180016cd49e5e8c3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\TwinCAT\TwinCAT.Ads.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FoupCommands\Foup_CoverLock.cs" />
+    <Compile Include="FoupCommands\Foup_CoverOpen.cs" />
+    <Compile Include="FoupCommands\Foup_CoverUnlock.cs" />
+    <Compile Include="FoupCommands\Foup_CstLock.cs" />
+    <Compile Include="FoupCommands\Foup_CstUnlock.cs" />
+    <Compile Include="FoupCommands\Foup_DPIn.cs" />
+    <Compile Include="FoupCommands\Foup_DPOut.cs" />
+    <Compile Include="GPLoader.cs" />
+    <Compile Include="GPLoaderCommandEmulator.cs" />
+    <Compile Include="GPLoaderFoupCommandParam.cs" />
+    <Compile Include="GPLoaderRobotCommand.cs" />
+    <Compile Include="GPLoaderRobotCommandParam.cs" />
+    <Compile Include="GPLoaderSysParam.cs" />
+    <Compile Include="IGPLoaderRobotCommand.cs" />
+    <Compile Include="IOSymbolMappings.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RobotCommands\Buffer_Pick.cs" />
+    <Compile Include="RobotCommands\Buffer_Put.cs" />
+    <Compile Include="RobotCommands\CardBuffer_Pick.cs" />
+    <Compile Include="RobotCommands\CardBuffer_Put.cs" />
+    <Compile Include="RobotCommands\CardChange_Pick.cs" />
+    <Compile Include="RobotCommands\CardChange_Put.cs" />
+    <Compile Include="RobotCommands\CardIDRead_Move.cs" />
+    <Compile Include="RobotCommands\Cassette_Pick.cs" />
+    <Compile Include="RobotCommands\Cassette_Put.cs" />
+    <Compile Include="RobotCommands\CSTDrawer_Pick.cs" />
+    <Compile Include="RobotCommands\CSTDrawer_Put.cs" />
+    <Compile Include="RobotCommands\FixedTray_Pick.cs" />
+    <Compile Include="RobotCommands\FixedTray_Put.cs" />
+    <Compile Include="FoupCommands\Foup_CoverClose.cs" />
+    <Compile Include="RobotCommands\PreAligner_Pick.cs" />
+    <Compile Include="RobotCommands\PreAligner_Put.cs" />
+    <Compile Include="RobotCommands\Stage_Pick.cs" />
+    <Compile Include="RobotCommands\Stage_Put.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BCDCLV50x\BCDCLV50x.csproj">
+      <Project>{83F9E235-B169-44C4-887C-DED6E467E175}</Project>
+      <Name>BCDCLV50x</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CardIDManualDialog\CardIDManualDialog.csproj">
+      <Project>{b1e2ad62-1b5c-478e-88b5-f1308a902306}</Project>
+      <Name>CardIDManualDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cognex.Command\Cognex.Command.csproj">
+      <Project>{AFE45A1F-4786-4AB5-B677-99E5A10C040A}</Project>
+      <Name>Cognex.Command</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CognexOCRManualDialog\CognexOCRManualDialog.csproj">
+      <Project>{D726D37C-7DCA-4B0C-AE22-5476B8CC22AB}</Project>
+      <Name>CognexOCRManualDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderBase\LoaderBase.csproj">
+      <Project>{8DBB64B8-644E-475D-8EAF-3B7ECD6F234D}</Project>
+      <Name>LoaderBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderParameters\LoaderParameters.csproj">
+      <Project>{9368B7A1-3625-42AB-A286-9E94CAF1BDD9}</Project>
+      <Name>LoaderParameters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{d3b00cca-3c50-42b1-8dca-dfe47c759b57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroDialogInterfaces\MetroDialogInterfaces.csproj">
+      <Project>{2C3114E3-137B-44ED-A9C2-BA5F2198A672}</Project>
+      <Name>MetroDialogInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NotifyEventModule\NotifyEventModule.csproj">
+      <Project>{40F3E74A-35B7-417C-9118-EE5DB75340A6}</Project>
+      <Name>NotifyEventModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{edba3295-ff2a-4368-a217-6495941a8bf5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SequenceRunnerBehaviors\SequenceRunnerBehaviors.csproj">
+      <Project>{EC7B7E56-37C3-44AB-B48D-45EC42440C09}</Project>
+      <Name>SequenceRunnerBehaviors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SignalTowerModule\SignalTowerModule.csproj">
+      <Project>{B73F76F3-FE03-4E90-AE75-EF9B97D7A610}</Project>
+      <Name>SignalTowerModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SystemExceptions\SystemExceptions.csproj">
+      <Project>{acc1ae05-1091-40c6-b0fe-0035c61b3416}</Project>
+      <Name>SystemExceptions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TwinCatHelper\TwinCatHelper.csproj">
+      <Project>{0a31715b-f565-4904-90d4-e3287c21ef59}</Project>
+      <Name>TwinCatHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WaferIDManualDialog\WaferIDManualDialog.csproj">
+      <Project>{f3b9a869-7d2e-49fc-a3fc-dc33149a2621}</Project>
+      <Name>WaferIDManualDialog</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

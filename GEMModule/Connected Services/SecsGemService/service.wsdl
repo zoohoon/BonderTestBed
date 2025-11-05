@@ -1,0 +1,2441 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="SecsGemService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetNamedPipeBinding_ISecsGemService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1">
+        </msb:BinaryEncoding>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256>
+                </sp:Basic256>
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict>
+                </sp:Strict>
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsam:Addressing>
+          <wsp:Policy>
+            <wsam:AnonymousResponses>
+            </wsam:AnonymousResponses>
+          </wsp:Policy>
+        </wsam:Addressing>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/WcfSecs_XGemService" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ISecsGemService_GEMSetPPFmtChanged_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetPPFmtChanged" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetPPFmtChanged_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetPPFmtChangedResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqPPLoadInquire_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqPPLoadInquire" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqPPLoadInquire_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqPPLoadInquireResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPPLoadInquire_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPLoadInquire" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPPLoadInquire_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPLoadInquireResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqPPSend_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqPPSend" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqPPSend_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqPPSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPPSend_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPSend" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPPSend_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqPP_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqPP" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqPP_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqPPResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPP_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPP" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPP_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPPDelete_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPDelete" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPPDelete_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPDeleteResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPPList_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPList" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPPList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPListResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqPPFmtSend_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqPPFmtSend" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqPPFmtSend_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqPPFmtSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqPPFmtSend2_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqPPFmtSend2" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqPPFmtSend2_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqPPFmtSend2Response" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPPFmtSend_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPFmtSend" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPPFmtSend_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPFmtSendResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqPPFmt_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqPPFmt" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqPPFmt_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqPPFmtResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPPFmt_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPFmt" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPPFmt_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPFmtResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPPFmt2_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPFmt2" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPPFmt2_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPFmt2Response" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqPPFmtVerification_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqPPFmtVerification" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqPPFmtVerification_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqPPFmtVerificationResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetTerminalMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetTerminalMessage" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetTerminalMessage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetTerminalMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetVariable_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetVariable" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetVariable_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetVariableResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMGetVariable_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMGetVariable" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMGetVariable_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMGetVariableResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetVariables_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetVariables" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetVariables_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetVariablesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetVarName_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetVarName" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetVarName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetVarNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMGetVarName_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMGetVarName" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMGetVarName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMGetVarNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetEvent_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetEvent" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetEvent_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetEventResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetSpecificMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetSpecificMessage" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetSpecificMessage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetSpecificMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMGetSpecificMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMGetSpecificMessage" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMGetSpecificMessage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMGetSpecificMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetAllStringItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllStringItem" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetAllStringItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllStringItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetAllStringItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetAllStringItem" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetAllStringItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetAllStringItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqPPSendEx_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqPPSendEx" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqPPSendEx_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqPPSendExResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPPSendEx_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPSendEx" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPPSendEx_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPSendExResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqPPEx_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqPPEx" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqPPEx_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqPPExResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPPEx_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPEx" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspPPEx_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspPPExResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetVariableEx_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetVariableEx" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetVariableEx_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetVariableExResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqLoopback_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqLoopback" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqLoopback_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqLoopbackResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetEventEnable_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetEventEnable" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetEventEnable_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetEventEnableResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetAlarmEnable_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetAlarmEnable" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetAlarmEnable_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetAlarmEnableResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMGetEventEnable_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMGetEventEnable" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMGetEventEnable_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMGetEventEnableResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMGetAlarmEnable_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMGetAlarmEnable" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMGetAlarmEnable_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMGetAlarmEnableResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMGetAlarmInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMGetAlarmInfo" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMGetAlarmInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMGetAlarmInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMGetSVInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMGetSVInfo" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMGetSVInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMGetSVInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMGetECVInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMGetECVInfo" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMGetECVInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMGetECVInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspOffline_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspOffline" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspOffline_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspOfflineResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspOnline_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspOnline" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspOnline_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspOnlineResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqHostOffline_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqHostOffline" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqHostOffline_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqHostOfflineResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqStartPolling_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqStartPolling" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqStartPolling_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqStartPollingResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqStopPolling_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqStopPolling" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqStopPolling_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqStopPollingResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMEnableLog_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMEnableLog" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMEnableLog_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMEnableLogResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetLogOption_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetLogOption" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetLogOption_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetLogOptionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_Init_SECSGEM_InputMessage">
+    <wsdl:part name="parameters" element="tns:Init_SECSGEM" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_Init_SECSGEM_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Init_SECSGEMResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_Close_SECSGEM_InputMessage">
+    <wsdl:part name="parameters" element="tns:Close_SECSGEM" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_Close_SECSGEM_OutputMessage">
+    <wsdl:part name="parameters" element="tns:Close_SECSGEMResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_Start_InputMessage">
+    <wsdl:part name="parameters" element="tns:Start" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_Start_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StartResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_Stop_InputMessage">
+    <wsdl:part name="parameters" element="tns:Stop" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_Stop_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StopResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_ServerConnect_InputMessage">
+    <wsdl:part name="parameters" element="tns:ServerConnect" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_ServerConnect_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ServerConnectResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_MakeObject_InputMessage">
+    <wsdl:part name="parameters" element="tns:MakeObject" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_MakeObject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MakeObjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetListItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetListItem" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetListItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetListItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetBinaryItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetBinaryItem" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetBinaryItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetBinaryItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetBoolItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetBoolItem" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetBoolItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetBoolItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetBoolItems_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetBoolItems" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetBoolItems_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetBoolItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetUint1Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetUint1Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetUint1Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetUint1ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetUint1Items_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetUint1Items" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetUint1Items_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetUint1ItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetUint2Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetUint2Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetUint2Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetUint2ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetUint2Items_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetUint2Items" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetUint2Items_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetUint2ItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetUint4Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetUint4Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetUint4Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetUint4ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetUint4Items_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetUint4Items" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetUint4Items_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetUint4ItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetUint8Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetUint8Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetUint8Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetUint8ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetUint8Items_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetUint8Items" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetUint8Items_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetUint8ItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetInt1Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetInt1Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetInt1Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetInt1ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetInt1Items_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetInt1Items" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetInt1Items_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetInt1ItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetInt2Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetInt2Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetInt2Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetInt2ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetInt2Items_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetInt2Items" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetInt2Items_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetInt2ItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetInt4Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetInt4Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetInt4Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetInt4ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetInt4Items_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetInt4Items" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetInt4Items_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetInt4ItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetInt8Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetInt8Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetInt8Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetInt8ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetInt8Items_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetInt8Items" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetInt8Items_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetInt8ItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetFloat4Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetFloat4Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetFloat4Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetFloat4ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetFloat4Items_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetFloat4Items" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetFloat4Items_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetFloat4ItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetFloat8Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetFloat8Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetFloat8Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetFloat8ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetFloat8Items_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetFloat8Items" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetFloat8Items_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetFloat8ItemsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetStringItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetStringItem" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SetStringItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetStringItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetListItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetListItem" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetListItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetListItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetBinaryItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBinaryItem" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetBinaryItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBinaryItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetBoolItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBoolItem" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetBoolItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBoolItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetUint1Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUint1Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetUint1Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUint1ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetUint2Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUint2Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetUint2Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUint2ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetUint4Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUint4Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetUint4Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUint4ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetUint8Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUint8Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetUint8Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUint8ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetInt1Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetInt1Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetInt1Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetInt1ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetInt2Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetInt2Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetInt2Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetInt2ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetInt4Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetInt4Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetInt4Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetInt4ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetInt8Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetInt8Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetInt8Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetInt8ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetFloat4Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFloat4Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetFloat4Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFloat4ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetFloat8Item_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFloat8Item" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetFloat8Item_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFloat8ItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetStringItem_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetStringItem" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GetStringItem_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetStringItemResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_CloseObject_InputMessage">
+    <wsdl:part name="parameters" element="tns:CloseObject" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_CloseObject_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CloseObjectResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SendSECSMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendSECSMessage" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_SendSECSMessage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendSECSMessageResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqOffline_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqOffline" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqOffline_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqOfflineResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqLocal_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqLocal" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqLocal_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqLocalResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqRemote_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqRemote" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqRemote_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqRemoteResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetEstablish_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetEstablish" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetEstablish_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetEstablishResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetParam_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetParam" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetParam_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetParamResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMGetParam_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMGetParam" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMGetParam_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMGetParamResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMEQInitialized_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMEQInitialized" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMEQInitialized_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMEQInitializedResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqGetDateTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqGetDateTime" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqGetDateTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqGetDateTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspGetDateTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspGetDateTime" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspGetDateTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspGetDateTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspDateTime_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspDateTime" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspDateTime_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspDateTimeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetAlarm_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetAlarm" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetAlarm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetAlarmResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspRemoteCommand_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspRemoteCommand" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspRemoteCommand_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspRemoteCommandResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspRemoteCommand2_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspRemoteCommand2" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspRemoteCommand2_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspRemoteCommand2Response" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspChangeECV_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspChangeECV" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMRspChangeECV_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMRspChangeECVResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetECVChanged_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetECVChanged" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetECVChanged_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetECVChangedResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqAllECInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqAllECInfo" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMReqAllECInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMReqAllECInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetPPChanged_InputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetPPChanged" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_GEMSetPPChanged_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GEMSetPPChangedResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_CallBack_ConnectSuccess_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:CallBack_ConnectSuccess" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_CallBack_ConnectSuccess_InputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:CallBack_ConnectSuccessResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_Are_You_There_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:Are_You_There" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_Are_You_There_InputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:Are_You_ThereResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_CallBack_Close_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:CallBack_Close" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_OnSECSMessageReceive_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnSECSMessageReceive" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_OnCarrierActMsgRecive_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnCarrierActMsgRecive" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_OnGEMControlStateChange_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnGEMControlStateChange" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_OnGEMStateEvent_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnGEMStateEvent" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_OnGEMCommStateChange_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnGEMCommStateChange" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_OnGEMRspGetDateTime_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnGEMRspGetDateTime" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_OnGEMTerminalMultiMessage_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnGEMTerminalMultiMessage" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_OnGEMTerminalMessage_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnGEMTerminalMessage" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_OnGEMReqDateTime_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnGEMReqDateTime" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_OnGEMReqRemoteCommand_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnGEMReqRemoteCommand" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_OnGEMReqPPList_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnGEMReqPPList" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_OnGEMECVChanged_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnGEMECVChanged" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_OnGEMReqChangeECV_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnGEMReqChangeECV" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_OnGEMErrorEvent_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnGEMErrorEvent" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_OnGEMReqPPDelete_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnGEMReqPPDelete" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_OnGEMRspAllECInfo_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnGEMRspAllECInfo" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_OnGEMReqPPSendEx_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnGEMReqPPSendEx" />
+  </wsdl:message>
+  <wsdl:message name="ISecsGemService_OnGEMReqPPEx_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnGEMReqPPEx" />
+  </wsdl:message>
+  <wsdl:portType name="ISecsGemService">
+    <wsdl:operation name="GEMSetPPFmtChanged">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMSetPPFmtChanged" message="tns:ISecsGemService_GEMSetPPFmtChanged_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMSetPPFmtChangedResponse" message="tns:ISecsGemService_GEMSetPPFmtChanged_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqPPLoadInquire">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMReqPPLoadInquire" message="tns:ISecsGemService_GEMReqPPLoadInquire_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMReqPPLoadInquireResponse" message="tns:ISecsGemService_GEMReqPPLoadInquire_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPPLoadInquire">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPLoadInquire" message="tns:ISecsGemService_GEMRspPPLoadInquire_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPLoadInquireResponse" message="tns:ISecsGemService_GEMRspPPLoadInquire_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqPPSend">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMReqPPSend" message="tns:ISecsGemService_GEMReqPPSend_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMReqPPSendResponse" message="tns:ISecsGemService_GEMReqPPSend_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPPSend">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPSend" message="tns:ISecsGemService_GEMRspPPSend_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPSendResponse" message="tns:ISecsGemService_GEMRspPPSend_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqPP">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMReqPP" message="tns:ISecsGemService_GEMReqPP_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMReqPPResponse" message="tns:ISecsGemService_GEMReqPP_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPP">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPP" message="tns:ISecsGemService_GEMRspPP_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPResponse" message="tns:ISecsGemService_GEMRspPP_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPPDelete">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPDelete" message="tns:ISecsGemService_GEMRspPPDelete_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPDeleteResponse" message="tns:ISecsGemService_GEMRspPPDelete_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPPList">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPList" message="tns:ISecsGemService_GEMRspPPList_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPListResponse" message="tns:ISecsGemService_GEMRspPPList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqPPFmtSend">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMReqPPFmtSend" message="tns:ISecsGemService_GEMReqPPFmtSend_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMReqPPFmtSendResponse" message="tns:ISecsGemService_GEMReqPPFmtSend_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqPPFmtSend2">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMReqPPFmtSend2" message="tns:ISecsGemService_GEMReqPPFmtSend2_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMReqPPFmtSend2Response" message="tns:ISecsGemService_GEMReqPPFmtSend2_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPPFmtSend">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPFmtSend" message="tns:ISecsGemService_GEMRspPPFmtSend_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPFmtSendResponse" message="tns:ISecsGemService_GEMRspPPFmtSend_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqPPFmt">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMReqPPFmt" message="tns:ISecsGemService_GEMReqPPFmt_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMReqPPFmtResponse" message="tns:ISecsGemService_GEMReqPPFmt_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPPFmt">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPFmt" message="tns:ISecsGemService_GEMRspPPFmt_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPFmtResponse" message="tns:ISecsGemService_GEMRspPPFmt_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPPFmt2">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPFmt2" message="tns:ISecsGemService_GEMRspPPFmt2_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPFmt2Response" message="tns:ISecsGemService_GEMRspPPFmt2_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqPPFmtVerification">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMReqPPFmtVerification" message="tns:ISecsGemService_GEMReqPPFmtVerification_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMReqPPFmtVerificationResponse" message="tns:ISecsGemService_GEMReqPPFmtVerification_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetTerminalMessage">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMSetTerminalMessage" message="tns:ISecsGemService_GEMSetTerminalMessage_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMSetTerminalMessageResponse" message="tns:ISecsGemService_GEMSetTerminalMessage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetVariable">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMSetVariable" message="tns:ISecsGemService_GEMSetVariable_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMSetVariableResponse" message="tns:ISecsGemService_GEMSetVariable_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMGetVariable">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMGetVariable" message="tns:ISecsGemService_GEMGetVariable_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMGetVariableResponse" message="tns:ISecsGemService_GEMGetVariable_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetVariables">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMSetVariables" message="tns:ISecsGemService_GEMSetVariables_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMSetVariablesResponse" message="tns:ISecsGemService_GEMSetVariables_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetVarName">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMSetVarName" message="tns:ISecsGemService_GEMSetVarName_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMSetVarNameResponse" message="tns:ISecsGemService_GEMSetVarName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMGetVarName">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMGetVarName" message="tns:ISecsGemService_GEMGetVarName_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMGetVarNameResponse" message="tns:ISecsGemService_GEMGetVarName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetEvent">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMSetEvent" message="tns:ISecsGemService_GEMSetEvent_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMSetEventResponse" message="tns:ISecsGemService_GEMSetEvent_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetSpecificMessage">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMSetSpecificMessage" message="tns:ISecsGemService_GEMSetSpecificMessage_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMSetSpecificMessageResponse" message="tns:ISecsGemService_GEMSetSpecificMessage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMGetSpecificMessage">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMGetSpecificMessage" message="tns:ISecsGemService_GEMGetSpecificMessage_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMGetSpecificMessageResponse" message="tns:ISecsGemService_GEMGetSpecificMessage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllStringItem">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GetAllStringItem" message="tns:ISecsGemService_GetAllStringItem_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GetAllStringItemResponse" message="tns:ISecsGemService_GetAllStringItem_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetAllStringItem">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetAllStringItem" message="tns:ISecsGemService_SetAllStringItem_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetAllStringItemResponse" message="tns:ISecsGemService_SetAllStringItem_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqPPSendEx">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMReqPPSendEx" message="tns:ISecsGemService_GEMReqPPSendEx_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMReqPPSendExResponse" message="tns:ISecsGemService_GEMReqPPSendEx_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPPSendEx">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPSendEx" message="tns:ISecsGemService_GEMRspPPSendEx_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPSendExResponse" message="tns:ISecsGemService_GEMRspPPSendEx_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqPPEx">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMReqPPEx" message="tns:ISecsGemService_GEMReqPPEx_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMReqPPExResponse" message="tns:ISecsGemService_GEMReqPPEx_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPPEx">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPEx" message="tns:ISecsGemService_GEMRspPPEx_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMRspPPExResponse" message="tns:ISecsGemService_GEMRspPPEx_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetVariableEx">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMSetVariableEx" message="tns:ISecsGemService_GEMSetVariableEx_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMSetVariableExResponse" message="tns:ISecsGemService_GEMSetVariableEx_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqLoopback">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMReqLoopback" message="tns:ISecsGemService_GEMReqLoopback_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMReqLoopbackResponse" message="tns:ISecsGemService_GEMReqLoopback_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetEventEnable">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMSetEventEnable" message="tns:ISecsGemService_GEMSetEventEnable_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMSetEventEnableResponse" message="tns:ISecsGemService_GEMSetEventEnable_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetAlarmEnable">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMSetAlarmEnable" message="tns:ISecsGemService_GEMSetAlarmEnable_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMSetAlarmEnableResponse" message="tns:ISecsGemService_GEMSetAlarmEnable_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMGetEventEnable">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMGetEventEnable" message="tns:ISecsGemService_GEMGetEventEnable_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMGetEventEnableResponse" message="tns:ISecsGemService_GEMGetEventEnable_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMGetAlarmEnable">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMGetAlarmEnable" message="tns:ISecsGemService_GEMGetAlarmEnable_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMGetAlarmEnableResponse" message="tns:ISecsGemService_GEMGetAlarmEnable_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMGetAlarmInfo">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMGetAlarmInfo" message="tns:ISecsGemService_GEMGetAlarmInfo_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMGetAlarmInfoResponse" message="tns:ISecsGemService_GEMGetAlarmInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMGetSVInfo">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMGetSVInfo" message="tns:ISecsGemService_GEMGetSVInfo_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMGetSVInfoResponse" message="tns:ISecsGemService_GEMGetSVInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMGetECVInfo">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMGetECVInfo" message="tns:ISecsGemService_GEMGetECVInfo_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMGetECVInfoResponse" message="tns:ISecsGemService_GEMGetECVInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspOffline">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMRspOffline" message="tns:ISecsGemService_GEMRspOffline_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMRspOfflineResponse" message="tns:ISecsGemService_GEMRspOffline_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspOnline">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMRspOnline" message="tns:ISecsGemService_GEMRspOnline_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMRspOnlineResponse" message="tns:ISecsGemService_GEMRspOnline_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqHostOffline">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMReqHostOffline" message="tns:ISecsGemService_GEMReqHostOffline_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMReqHostOfflineResponse" message="tns:ISecsGemService_GEMReqHostOffline_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqStartPolling">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMReqStartPolling" message="tns:ISecsGemService_GEMReqStartPolling_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMReqStartPollingResponse" message="tns:ISecsGemService_GEMReqStartPolling_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqStopPolling">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMReqStopPolling" message="tns:ISecsGemService_GEMReqStopPolling_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMReqStopPollingResponse" message="tns:ISecsGemService_GEMReqStopPolling_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMEnableLog">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMEnableLog" message="tns:ISecsGemService_GEMEnableLog_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMEnableLogResponse" message="tns:ISecsGemService_GEMEnableLog_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetLogOption">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMSetLogOption" message="tns:ISecsGemService_GEMSetLogOption_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMSetLogOptionResponse" message="tns:ISecsGemService_GEMSetLogOption_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Init_SECSGEM">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/Init_SECSGEM" message="tns:ISecsGemService_Init_SECSGEM_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/Init_SECSGEMResponse" message="tns:ISecsGemService_Init_SECSGEM_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Close_SECSGEM">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/Close_SECSGEM" message="tns:ISecsGemService_Close_SECSGEM_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/Close_SECSGEMResponse" message="tns:ISecsGemService_Close_SECSGEM_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Start">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/Start" message="tns:ISecsGemService_Start_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/StartResponse" message="tns:ISecsGemService_Start_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Stop">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/Stop" message="tns:ISecsGemService_Stop_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/StopResponse" message="tns:ISecsGemService_Stop_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ServerConnect">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/ServerConnect" message="tns:ISecsGemService_ServerConnect_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/ServerConnectResponse" message="tns:ISecsGemService_ServerConnect_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MakeObject">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/MakeObject" message="tns:ISecsGemService_MakeObject_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/MakeObjectResponse" message="tns:ISecsGemService_MakeObject_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetListItem">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetListItem" message="tns:ISecsGemService_SetListItem_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetListItemResponse" message="tns:ISecsGemService_SetListItem_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetBinaryItem">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetBinaryItem" message="tns:ISecsGemService_SetBinaryItem_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetBinaryItemResponse" message="tns:ISecsGemService_SetBinaryItem_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetBoolItem">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetBoolItem" message="tns:ISecsGemService_SetBoolItem_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetBoolItemResponse" message="tns:ISecsGemService_SetBoolItem_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetBoolItems">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetBoolItems" message="tns:ISecsGemService_SetBoolItems_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetBoolItemsResponse" message="tns:ISecsGemService_SetBoolItems_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetUint1Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetUint1Item" message="tns:ISecsGemService_SetUint1Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetUint1ItemResponse" message="tns:ISecsGemService_SetUint1Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetUint1Items">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetUint1Items" message="tns:ISecsGemService_SetUint1Items_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetUint1ItemsResponse" message="tns:ISecsGemService_SetUint1Items_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetUint2Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetUint2Item" message="tns:ISecsGemService_SetUint2Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetUint2ItemResponse" message="tns:ISecsGemService_SetUint2Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetUint2Items">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetUint2Items" message="tns:ISecsGemService_SetUint2Items_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetUint2ItemsResponse" message="tns:ISecsGemService_SetUint2Items_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetUint4Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetUint4Item" message="tns:ISecsGemService_SetUint4Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetUint4ItemResponse" message="tns:ISecsGemService_SetUint4Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetUint4Items">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetUint4Items" message="tns:ISecsGemService_SetUint4Items_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetUint4ItemsResponse" message="tns:ISecsGemService_SetUint4Items_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetUint8Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetUint8Item" message="tns:ISecsGemService_SetUint8Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetUint8ItemResponse" message="tns:ISecsGemService_SetUint8Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetUint8Items">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetUint8Items" message="tns:ISecsGemService_SetUint8Items_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetUint8ItemsResponse" message="tns:ISecsGemService_SetUint8Items_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetInt1Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetInt1Item" message="tns:ISecsGemService_SetInt1Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetInt1ItemResponse" message="tns:ISecsGemService_SetInt1Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetInt1Items">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetInt1Items" message="tns:ISecsGemService_SetInt1Items_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetInt1ItemsResponse" message="tns:ISecsGemService_SetInt1Items_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetInt2Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetInt2Item" message="tns:ISecsGemService_SetInt2Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetInt2ItemResponse" message="tns:ISecsGemService_SetInt2Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetInt2Items">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetInt2Items" message="tns:ISecsGemService_SetInt2Items_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetInt2ItemsResponse" message="tns:ISecsGemService_SetInt2Items_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetInt4Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetInt4Item" message="tns:ISecsGemService_SetInt4Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetInt4ItemResponse" message="tns:ISecsGemService_SetInt4Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetInt4Items">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetInt4Items" message="tns:ISecsGemService_SetInt4Items_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetInt4ItemsResponse" message="tns:ISecsGemService_SetInt4Items_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetInt8Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetInt8Item" message="tns:ISecsGemService_SetInt8Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetInt8ItemResponse" message="tns:ISecsGemService_SetInt8Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetInt8Items">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetInt8Items" message="tns:ISecsGemService_SetInt8Items_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetInt8ItemsResponse" message="tns:ISecsGemService_SetInt8Items_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetFloat4Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetFloat4Item" message="tns:ISecsGemService_SetFloat4Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetFloat4ItemResponse" message="tns:ISecsGemService_SetFloat4Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetFloat4Items">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetFloat4Items" message="tns:ISecsGemService_SetFloat4Items_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetFloat4ItemsResponse" message="tns:ISecsGemService_SetFloat4Items_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetFloat8Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetFloat8Item" message="tns:ISecsGemService_SetFloat8Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetFloat8ItemResponse" message="tns:ISecsGemService_SetFloat8Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetFloat8Items">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetFloat8Items" message="tns:ISecsGemService_SetFloat8Items_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetFloat8ItemsResponse" message="tns:ISecsGemService_SetFloat8Items_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetStringItem">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SetStringItem" message="tns:ISecsGemService_SetStringItem_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SetStringItemResponse" message="tns:ISecsGemService_SetStringItem_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetListItem">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GetListItem" message="tns:ISecsGemService_GetListItem_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GetListItemResponse" message="tns:ISecsGemService_GetListItem_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBinaryItem">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GetBinaryItem" message="tns:ISecsGemService_GetBinaryItem_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GetBinaryItemResponse" message="tns:ISecsGemService_GetBinaryItem_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBoolItem">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GetBoolItem" message="tns:ISecsGemService_GetBoolItem_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GetBoolItemResponse" message="tns:ISecsGemService_GetBoolItem_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUint1Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GetUint1Item" message="tns:ISecsGemService_GetUint1Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GetUint1ItemResponse" message="tns:ISecsGemService_GetUint1Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUint2Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GetUint2Item" message="tns:ISecsGemService_GetUint2Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GetUint2ItemResponse" message="tns:ISecsGemService_GetUint2Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUint4Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GetUint4Item" message="tns:ISecsGemService_GetUint4Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GetUint4ItemResponse" message="tns:ISecsGemService_GetUint4Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUint8Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GetUint8Item" message="tns:ISecsGemService_GetUint8Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GetUint8ItemResponse" message="tns:ISecsGemService_GetUint8Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInt1Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GetInt1Item" message="tns:ISecsGemService_GetInt1Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GetInt1ItemResponse" message="tns:ISecsGemService_GetInt1Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInt2Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GetInt2Item" message="tns:ISecsGemService_GetInt2Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GetInt2ItemResponse" message="tns:ISecsGemService_GetInt2Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInt4Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GetInt4Item" message="tns:ISecsGemService_GetInt4Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GetInt4ItemResponse" message="tns:ISecsGemService_GetInt4Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetInt8Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GetInt8Item" message="tns:ISecsGemService_GetInt8Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GetInt8ItemResponse" message="tns:ISecsGemService_GetInt8Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFloat4Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GetFloat4Item" message="tns:ISecsGemService_GetFloat4Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GetFloat4ItemResponse" message="tns:ISecsGemService_GetFloat4Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFloat8Item">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GetFloat8Item" message="tns:ISecsGemService_GetFloat8Item_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GetFloat8ItemResponse" message="tns:ISecsGemService_GetFloat8Item_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStringItem">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GetStringItem" message="tns:ISecsGemService_GetStringItem_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GetStringItemResponse" message="tns:ISecsGemService_GetStringItem_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CloseObject">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/CloseObject" message="tns:ISecsGemService_CloseObject_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/CloseObjectResponse" message="tns:ISecsGemService_CloseObject_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendSECSMessage">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/SendSECSMessage" message="tns:ISecsGemService_SendSECSMessage_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/SendSECSMessageResponse" message="tns:ISecsGemService_SendSECSMessage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqOffline">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMReqOffline" message="tns:ISecsGemService_GEMReqOffline_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMReqOfflineResponse" message="tns:ISecsGemService_GEMReqOffline_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqLocal">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMReqLocal" message="tns:ISecsGemService_GEMReqLocal_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMReqLocalResponse" message="tns:ISecsGemService_GEMReqLocal_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqRemote">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMReqRemote" message="tns:ISecsGemService_GEMReqRemote_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMReqRemoteResponse" message="tns:ISecsGemService_GEMReqRemote_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetEstablish">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMSetEstablish" message="tns:ISecsGemService_GEMSetEstablish_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMSetEstablishResponse" message="tns:ISecsGemService_GEMSetEstablish_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetParam">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMSetParam" message="tns:ISecsGemService_GEMSetParam_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMSetParamResponse" message="tns:ISecsGemService_GEMSetParam_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMGetParam">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMGetParam" message="tns:ISecsGemService_GEMGetParam_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMGetParamResponse" message="tns:ISecsGemService_GEMGetParam_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMEQInitialized">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMEQInitialized" message="tns:ISecsGemService_GEMEQInitialized_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMEQInitializedResponse" message="tns:ISecsGemService_GEMEQInitialized_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqGetDateTime">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMReqGetDateTime" message="tns:ISecsGemService_GEMReqGetDateTime_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMReqGetDateTimeResponse" message="tns:ISecsGemService_GEMReqGetDateTime_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspGetDateTime">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMRspGetDateTime" message="tns:ISecsGemService_GEMRspGetDateTime_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMRspGetDateTimeResponse" message="tns:ISecsGemService_GEMRspGetDateTime_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspDateTime">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMRspDateTime" message="tns:ISecsGemService_GEMRspDateTime_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMRspDateTimeResponse" message="tns:ISecsGemService_GEMRspDateTime_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetAlarm">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMSetAlarm" message="tns:ISecsGemService_GEMSetAlarm_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMSetAlarmResponse" message="tns:ISecsGemService_GEMSetAlarm_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspRemoteCommand">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMRspRemoteCommand" message="tns:ISecsGemService_GEMRspRemoteCommand_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMRspRemoteCommandResponse" message="tns:ISecsGemService_GEMRspRemoteCommand_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspRemoteCommand2">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMRspRemoteCommand2" message="tns:ISecsGemService_GEMRspRemoteCommand2_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMRspRemoteCommand2Response" message="tns:ISecsGemService_GEMRspRemoteCommand2_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspChangeECV">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMRspChangeECV" message="tns:ISecsGemService_GEMRspChangeECV_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMRspChangeECVResponse" message="tns:ISecsGemService_GEMRspChangeECV_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetECVChanged">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMSetECVChanged" message="tns:ISecsGemService_GEMSetECVChanged_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMSetECVChangedResponse" message="tns:ISecsGemService_GEMSetECVChanged_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqAllECInfo">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMReqAllECInfo" message="tns:ISecsGemService_GEMReqAllECInfo_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMReqAllECInfoResponse" message="tns:ISecsGemService_GEMReqAllECInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetPPChanged">
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/GEMSetPPChanged" message="tns:ISecsGemService_GEMSetPPChanged_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/GEMSetPPChangedResponse" message="tns:ISecsGemService_GEMSetPPChanged_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CallBack_ConnectSuccess">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/CallBack_ConnectSuccess" message="tns:ISecsGemService_CallBack_ConnectSuccess_OutputCallbackMessage" />
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/CallBack_ConnectSuccessResponse" message="tns:ISecsGemService_CallBack_ConnectSuccess_InputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Are_You_There">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/Are_You_There" message="tns:ISecsGemService_Are_You_There_OutputCallbackMessage" />
+      <wsdl:input wsam:Action="http://tempuri.org/ISecsGemService/Are_You_ThereResponse" message="tns:ISecsGemService_Are_You_There_InputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CallBack_Close">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/CallBack_Close" message="tns:ISecsGemService_CallBack_Close_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnSECSMessageReceive">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/OnSECSMessageReceive" message="tns:ISecsGemService_OnSECSMessageReceive_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnCarrierActMsgRecive">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/OnCarrierActMsgRecive" message="tns:ISecsGemService_OnCarrierActMsgRecive_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMControlStateChange">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/OnGEMControlStateChange" message="tns:ISecsGemService_OnGEMControlStateChange_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMStateEvent">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/OnGEMStateEvent" message="tns:ISecsGemService_OnGEMStateEvent_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMCommStateChange">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/OnGEMCommStateChange" message="tns:ISecsGemService_OnGEMCommStateChange_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMRspGetDateTime">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/OnGEMRspGetDateTime" message="tns:ISecsGemService_OnGEMRspGetDateTime_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMTerminalMultiMessage">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/OnGEMTerminalMultiMessage" message="tns:ISecsGemService_OnGEMTerminalMultiMessage_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMTerminalMessage">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/OnGEMTerminalMessage" message="tns:ISecsGemService_OnGEMTerminalMessage_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMReqDateTime">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/OnGEMReqDateTime" message="tns:ISecsGemService_OnGEMReqDateTime_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMReqRemoteCommand">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/OnGEMReqRemoteCommand" message="tns:ISecsGemService_OnGEMReqRemoteCommand_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMReqPPList">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/OnGEMReqPPList" message="tns:ISecsGemService_OnGEMReqPPList_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMECVChanged">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/OnGEMECVChanged" message="tns:ISecsGemService_OnGEMECVChanged_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMReqChangeECV">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/OnGEMReqChangeECV" message="tns:ISecsGemService_OnGEMReqChangeECV_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMErrorEvent">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/OnGEMErrorEvent" message="tns:ISecsGemService_OnGEMErrorEvent_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMReqPPDelete">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/OnGEMReqPPDelete" message="tns:ISecsGemService_OnGEMReqPPDelete_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMRspAllECInfo">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/OnGEMRspAllECInfo" message="tns:ISecsGemService_OnGEMRspAllECInfo_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMReqPPSendEx">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/OnGEMReqPPSendEx" message="tns:ISecsGemService_OnGEMReqPPSendEx_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMReqPPEx">
+      <wsdl:output wsam:Action="http://tempuri.org/ISecsGemService/OnGEMReqPPEx" message="tns:ISecsGemService_OnGEMReqPPEx_OutputCallbackMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NetNamedPipeBinding_ISecsGemService" type="tns:ISecsGemService">
+    <wsp:PolicyReference URI="#NetNamedPipeBinding_ISecsGemService_policy">
+    </wsp:PolicyReference>
+    <soap12:binding transport="http://schemas.microsoft.com/soap/named-pipe" />
+    <wsdl:operation name="GEMSetPPFmtChanged">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMSetPPFmtChanged" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqPPLoadInquire">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMReqPPLoadInquire" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPPLoadInquire">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMRspPPLoadInquire" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqPPSend">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMReqPPSend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPPSend">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMRspPPSend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqPP">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMReqPP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPP">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMRspPP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPPDelete">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMRspPPDelete" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPPList">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMRspPPList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqPPFmtSend">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMReqPPFmtSend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqPPFmtSend2">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMReqPPFmtSend2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPPFmtSend">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMRspPPFmtSend" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqPPFmt">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMReqPPFmt" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPPFmt">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMRspPPFmt" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPPFmt2">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMRspPPFmt2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqPPFmtVerification">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMReqPPFmtVerification" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetTerminalMessage">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMSetTerminalMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetVariable">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMSetVariable" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMGetVariable">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMGetVariable" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetVariables">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMSetVariables" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetVarName">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMSetVarName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMGetVarName">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMGetVarName" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetEvent">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMSetEvent" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetSpecificMessage">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMSetSpecificMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMGetSpecificMessage">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMGetSpecificMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllStringItem">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GetAllStringItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetAllStringItem">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetAllStringItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqPPSendEx">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMReqPPSendEx" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPPSendEx">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMRspPPSendEx" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqPPEx">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMReqPPEx" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspPPEx">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMRspPPEx" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetVariableEx">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMSetVariableEx" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqLoopback">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMReqLoopback" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetEventEnable">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMSetEventEnable" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetAlarmEnable">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMSetAlarmEnable" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMGetEventEnable">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMGetEventEnable" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMGetAlarmEnable">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMGetAlarmEnable" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMGetAlarmInfo">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMGetAlarmInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMGetSVInfo">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMGetSVInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMGetECVInfo">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMGetECVInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspOffline">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMRspOffline" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspOnline">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMRspOnline" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqHostOffline">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMReqHostOffline" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqStartPolling">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMReqStartPolling" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqStopPolling">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMReqStopPolling" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMEnableLog">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMEnableLog" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetLogOption">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMSetLogOption" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Init_SECSGEM">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/Init_SECSGEM" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Close_SECSGEM">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/Close_SECSGEM" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Start">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/Start" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Stop">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/Stop" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ServerConnect">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/ServerConnect" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MakeObject">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/MakeObject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetListItem">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetListItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetBinaryItem">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetBinaryItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetBoolItem">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetBoolItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetBoolItems">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetBoolItems" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetUint1Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetUint1Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetUint1Items">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetUint1Items" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetUint2Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetUint2Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetUint2Items">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetUint2Items" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetUint4Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetUint4Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetUint4Items">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetUint4Items" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetUint8Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetUint8Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetUint8Items">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetUint8Items" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetInt1Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetInt1Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetInt1Items">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetInt1Items" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetInt2Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetInt2Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetInt2Items">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetInt2Items" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetInt4Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetInt4Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetInt4Items">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetInt4Items" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetInt8Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetInt8Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetInt8Items">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetInt8Items" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetFloat4Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetFloat4Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetFloat4Items">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetFloat4Items" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetFloat8Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetFloat8Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetFloat8Items">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetFloat8Items" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetStringItem">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SetStringItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetListItem">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GetListItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBinaryItem">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GetBinaryItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBoolItem">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GetBoolItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUint1Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GetUint1Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUint2Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GetUint2Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUint4Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GetUint4Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUint8Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GetUint8Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInt1Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GetInt1Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInt2Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GetInt2Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInt4Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GetInt4Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInt8Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GetInt8Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFloat4Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GetFloat4Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFloat8Item">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GetFloat8Item" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStringItem">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GetStringItem" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CloseObject">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/CloseObject" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendSECSMessage">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/SendSECSMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqOffline">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMReqOffline" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqLocal">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMReqLocal" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqRemote">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMReqRemote" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetEstablish">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMSetEstablish" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetParam">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMSetParam" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMGetParam">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMGetParam" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMEQInitialized">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMEQInitialized" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqGetDateTime">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMReqGetDateTime" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspGetDateTime">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMRspGetDateTime" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspDateTime">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMRspDateTime" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetAlarm">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMSetAlarm" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspRemoteCommand">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMRspRemoteCommand" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspRemoteCommand2">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMRspRemoteCommand2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMRspChangeECV">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMRspChangeECV" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetECVChanged">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMSetECVChanged" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMReqAllECInfo">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMReqAllECInfo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GEMSetPPChanged">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/GEMSetPPChanged" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CallBack_ConnectSuccess">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/CallBack_ConnectSuccess" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Are_You_There">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/Are_You_There" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CallBack_Close">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/CallBack_Close" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnSECSMessageReceive">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/OnSECSMessageReceive" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnCarrierActMsgRecive">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/OnCarrierActMsgRecive" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMControlStateChange">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/OnGEMControlStateChange" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMStateEvent">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/OnGEMStateEvent" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMCommStateChange">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/OnGEMCommStateChange" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMRspGetDateTime">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/OnGEMRspGetDateTime" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMTerminalMultiMessage">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/OnGEMTerminalMultiMessage" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMTerminalMessage">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/OnGEMTerminalMessage" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMReqDateTime">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/OnGEMReqDateTime" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMReqRemoteCommand">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/OnGEMReqRemoteCommand" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMReqPPList">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/OnGEMReqPPList" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMECVChanged">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/OnGEMECVChanged" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMReqChangeECV">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/OnGEMReqChangeECV" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMErrorEvent">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/OnGEMErrorEvent" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMReqPPDelete">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/OnGEMReqPPDelete" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMRspAllECInfo">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/OnGEMRspAllECInfo" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMReqPPSendEx">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/OnGEMReqPPSendEx" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnGEMReqPPEx">
+      <soap12:operation soapAction="http://tempuri.org/ISecsGemService/OnGEMReqPPEx" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SecsGemService">
+    <wsdl:port name="NetNamedPipeBinding_ISecsGemService" binding="tns:NetNamedPipeBinding_ISecsGemService">
+      <soap12:address location="net.pipe://localhost/secsgempipe" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.pipe://localhost/secsgempipe</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>DESKTOP-APD5LEV\Jake</Upn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

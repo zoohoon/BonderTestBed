@@ -1,0 +1,404 @@
+﻿<UserControl x:Class="ProberDevelopPackWindow.Tab.VisionCameraSettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProberDevelopPackWindow.Tab"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             Height="960" Width="1140">
+    <TabControl>
+        <TabControl.Resources>
+            <Style TargetType="TabItem">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TabItem">
+                            <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
+                                <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="False">
+                                    <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </TabControl.Resources>
+        <!-- Digitizer -->
+        <TabItem Header="Digitizer">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Digitizer List-->
+                <Border BorderBrush="Black" BorderThickness="1">
+                    <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="DIGITIZER" Background="#3C454F" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                   FontSize="24" FontWeight="DemiBold" Margin="2" BorderBrush="Black" BorderThickness="2"/>
+                    <ListView Grid.Row="1" ItemsSource="{Binding DigitizerList}" SelectedItem="{Binding SelectedDigitizer}" SelectedIndex="{Binding SelectedDigitizerIndex}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectedDigitizerChangedCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ListView>
+                </Grid>
+                </Border>
+                <!-- Setting-->
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1">
+                    <Grid  Margin="8,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="4*"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Communication -->
+                    <GroupBox   Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="8"
+                        Header="Communication"
+                        Background="#3C454F"
+                        FontWeight="DemiBold" 
+                        Foreground="WhiteSmoke" 
+                        BorderBrush="#3C454F"
+                        FontSize="12"
+                        >
+                        <Grid Grid.Row="0" Grid.Column="0"
+                              Margin="8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Button Grid.Row="0" Margin="2" Content="CONNECT"
+                            Command="{Binding CamConnectCommand}">
+
+                            </Button>
+
+                            <Button Grid.Row="1" Margin="2" Content="DISCONNECT"
+                            Command="{Binding CamDisconnectCommand}">
+
+                            </Button>
+
+                        </Grid>
+                    </GroupBox>
+
+                    <!-- Param-->
+                    <Grid Grid.Row="1">
+                        <StackPanel Orientation="Vertical">
+                            <!-- Digitizer Name-->
+                            <Grid Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="DigitizerName :"/>
+                                <TextBox Grid.Column="1" Text="{Binding SelectedDigiParam.DigiGroup.Value}"/>
+                            </Grid>
+
+                            <!-- GrabRaft-->
+                            <Grid Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Grab Raft :"/>
+                                <TextBox Grid.Column="1" Text="{Binding SelectedDigiParam.GrabRaft.Value}"/>
+                            </Grid>
+
+                            <!-- DCF -->
+                            <Grid Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="DCF :"/>
+                                <TextBox Grid.Column="1" Text="{Binding SelectedDigiParam.DCF.Value}"/>
+                            </Grid>
+
+                            <!-- Digi Group-->
+                            <Grid Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Digi Group :"/>
+                                <TextBox Grid.Column="1" Text="{Binding SelectedDigiParam.DigiGroup.Value}"/>
+                            </Grid>
+
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Load & Save-->
+                    <Grid Grid.Column="1" Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Margin="4" Content="LOAD" FontSize="16" Command="{Binding LoadDigiParamCommand}"/>
+                        <Button Grid.Column="1" Margin="4" Content="SAVE" FontSize="16" Command="{Binding SaveDigiParamCommand}"/>
+                    </Grid>
+
+                </Grid>
+                </Border>
+                
+            </Grid>
+        </TabItem>
+
+        <!-- Camera -->
+        <TabItem Header="Camera">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Camera List-->
+                <Border BorderBrush="Black" BorderThickness="1">
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Content="CAMERA" Background="#3C454F" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                   FontSize="24" FontWeight="DemiBold" Margin="2" BorderBrush="Black" BorderThickness="2"/>
+                        <ListView Grid.Row="1" ItemsSource="{Binding ProberCamList}" SelectedItem="{Binding SelectedCamera}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding SelectedCameraChangedCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ListView>
+                    </Grid>
+                </Border>
+                
+                <!-- Param-->
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1">
+                    <Grid Grid.Column="1" Margin="8,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Orientation="Vertical">
+                            <!-- Digitizer Number-->
+                            <Grid Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Digi Number :"/>
+                                <TextBox Grid.Column="1" Text="{Binding SelectedCameraParam.DigiNumber.Value}"/>
+                            </Grid>
+
+                            <!-- Channel Number-->
+                            <Grid Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Channel Number :"/>
+                                <TextBox Grid.Column="1" Text="{Binding SelectedCameraParam.ChannelNumber.Value}"/>
+                            </Grid>
+
+                            <!-- Channel Number-->
+                            <Grid Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="ChannelNumber :"/>
+                                <TextBox Grid.Column="1" Text="{Binding SelectedCameraParam.ChannelNumber.Value}"/>
+                            </Grid>
+
+                            <!-- Channel Desc-->
+                            <Grid Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Channel Desc :"/>
+                                <TextBox Grid.Column="1" Text="{Binding SelectedCameraParam.ChannelDesc.Value}"/>
+                            </Grid>
+
+                            <!-- Channel Type-->
+                            <Grid Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Channel Type :"/>
+                                <TextBox Grid.Column="1" Text="{Binding SelectedCameraParam.ChannelType.Value}"/>
+                            </Grid>
+
+                            <!-- Vertical Flip-->
+                            <Grid Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Vertical Flip :"/>
+                                <!--<TextBox Grid.Column="1" Text="{Binding SelectedCameraParam.VerticalFlip.Value}"/>-->
+                                <ComboBox Grid.Column="1" ItemsSource="{Binding FlipEnums}"
+                                          SelectedItem="{Binding SelectedCameraParam.VerticalFlip.Value}">
+
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SelectionChanged">
+                                            <i:InvokeCommandAction Command="{Binding CameraFilpChangedCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </ComboBox>
+                            </Grid>
+
+                            <!-- Horizontal Flip-->
+                            <Grid Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Horizontal Flip :"/>
+                                <!--<TextBox Grid.Column="1" Text="{Binding SelectedCameraParam.HorizontalFlip.Value}"/>-->
+                                <ComboBox Grid.Column="1" ItemsSource="{Binding FlipEnums}"
+                                          SelectedItem="{Binding SelectedCameraParam.HorizontalFlip.Value}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SelectionChanged">
+                                            <i:InvokeCommandAction Command="{Binding CameraFilpChangedCommand}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </ComboBox>
+                            </Grid>
+
+                            <!-- Ratio X-->
+                            <Grid Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Ratio X :"/>
+                                <TextBox Grid.Column="1" Text="{Binding SelectedCameraParam.RatioX.Value}"/>
+                            </Grid>
+
+                            <!-- Ratio Y-->
+                            <Grid Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Ratio Y :"/>
+                                <TextBox Grid.Column="1" Text="{Binding SelectedCameraParam.RatioY.Value}"/>
+                            </Grid>
+
+                            <!-- Grab Size X-->
+                            <Grid Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Grab Size X :"/>
+                                <TextBox Grid.Column="1" Text="{Binding SelectedCameraParam.GrabSizeX.Value}"/>
+                            </Grid>
+
+                            <!-- Grab Size Y-->
+                            <Grid Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Grab Size Y :"/>
+                                <TextBox Grid.Column="1" Text="{Binding SelectedCameraParam.GrabSizeY.Value}"/>
+                            </Grid>
+
+                            <!-- Band-->
+                            <Grid Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Band :"/>
+                                <TextBox Grid.Column="1" Text="{Binding SelectedCameraParam.Band.Value}"/>
+                            </Grid>
+
+                            <!-- Color Dept-->
+                            <Grid Margin="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="Color Dept :"/>
+                                <TextBox Grid.Column="1" Text="{Binding SelectedCameraParam.ColorDept.Value}"/>
+                            </Grid>
+                        </StackPanel>
+
+
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="4*"/>
+                            </Grid.RowDefinitions>
+                            <GroupBox 
+                                Margin="8"
+                                Header="Grab"
+                                Background="#3C454F"
+                                FontWeight="DemiBold" 
+                                Foreground="WhiteSmoke" 
+                                BorderBrush="#3C454F"
+                                FontSize="12"
+                                >   
+                                <Grid Grid.Row="0" Grid.Column="0"
+                              Margin="8">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Button Grid.Row="0" Margin="2" Content="START"
+                            Command="{Binding StartGrabCommand}">
+
+                                    </Button>
+
+                                    <Button Grid.Row="1" Margin="2" Content="Stop"
+                            Command="{Binding StopGrabCommand}">
+
+                                    </Button>
+
+                                </Grid>
+                            </GroupBox>
+                        </Grid>
+
+                        <Grid Grid.Column="1" Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <!--<Button Grid.Column="0" Margin="4" Content="LOAD" FontSize="16" Command="{Binding LoadCamParamCommand}"/>-->
+                            <Button Grid.Column="1" Margin="4" Content="SAVE" FontSize="16" Command="{Binding SaveCamParamCommand}"/>
+                        </Grid>
+
+                    </Grid>
+                </Border>
+            </Grid>
+        </TabItem>
+    </TabControl>
+</UserControl>

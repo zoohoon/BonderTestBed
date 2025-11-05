@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="CylinderGraphControl.CylinderGraph"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:s="http://schemas.abtsoftware.co.uk/scichart"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CylinderGraphControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+
+        <!--  Label used in cursors  -->
+        <Style x:Key="HintDataItemsStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="FontFamily" Value="Arial" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Margin" Value="3,2,2,2" />
+        </Style>
+
+        <DataTemplate x:Key="CursorTooltipTemplate" DataType="s:BoxPlotSeriesInfo">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource HintDataItemsStyle}" Text="{Binding SeriesName, StringFormat='{}{0} - '}" />
+                <TextBlock Style="{StaticResource HintDataItemsStyle}" Text="{Binding FormattedMinimumValue, StringFormat='{}Min : {0}'}" />
+                <TextBlock Style="{StaticResource HintDataItemsStyle}" Text="{Binding FormattedMaximumValue, StringFormat='{}Max : {0}'}" />
+                <TextBlock Style="{StaticResource HintDataItemsStyle}" Text="{Binding FormattedMedianValue, StringFormat='{}Avg : {0}'}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CursorTooltipTemplate1" DataType="s:SeriesInfo">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource HintDataItemsStyle}" Text="{Binding SeriesName, StringFormat='{}{0} - '}" />
+                <TextBlock Style="{StaticResource HintDataItemsStyle}" Text="{Binding FormattedXValue, StringFormat='{}Min : {0}'}" />
+                <TextBlock Style="{StaticResource HintDataItemsStyle}" Text="{Binding FormattedYValue, StringFormat='{}Max : {0}'}" />
+            </StackPanel>
+        </DataTemplate>
+
+    </UserControl.Resources>
+    <Grid>
+        <!--  Create the chart surface  -->
+        <s:SciChartSurface Name="scichartsurface"
+                           ChartTitle="Cylinder"
+                           Padding="0"
+                           BorderThickness="0"
+                           RenderableSeries="{s:SeriesBinding RenderableSeriesViewModels}">
+            <s:SciChartSurface.Resources>
+                <Style x:Key="boxDataSeriesStyle" TargetType="s:FastBoxPlotRenderableSeries">
+                    <Setter Property="StrokeThickness" Value="3" />
+                    <Setter Property="Opacity" Value="0.5" />
+                    <!--<Setter Property="Stroke" Value="#ff99ed3f" />-->
+                    <Setter Property="Focusable" Value="True"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="s:CursorModifier.TooltipTemplate" Value="{StaticResource CursorTooltipTemplate}"/>
+                </Style>
+            </s:SciChartSurface.Resources>
+
+            <!--  Create a Y Axis with GrowBy  -->
+            <s:SciChartSurface.YAxis>
+                <s:NumericAxis GrowBy="0.1, 0.1" DrawMajorBands="True" AutoRange="Always"/>
+            </s:SciChartSurface.YAxis>
+
+            <s:SciChartSurface.ChartModifier>
+                <s:ModifierGroup>
+                    <s:CursorModifier ShowAxisLabels="False" ShowTooltip="True" UseInterpolation="True"/>
+                    <!--<s:LegendModifier ShowLegend="True" LegendPlacement="Inside" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Right"/>-->
+                    <s:XAxisDragModifier />
+                    <s:YAxisDragModifier/>
+                    <s:ZoomExtentsModifier ExecuteOn="MouseDoubleClick"/>
+                </s:ModifierGroup>
+            </s:SciChartSurface.ChartModifier>
+
+        </s:SciChartSurface>
+    </Grid>
+</UserControl>

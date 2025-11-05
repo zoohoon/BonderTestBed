@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="CardChangeCreator.MachineTabItemControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CardChangeCreator"
+             mc:Ignorable="d" 
+             Background="White"
+             d:DesignHeight="800" d:DesignWidth="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="80*"/>
+            <!--<RowDefinition Height="8*"/>-->
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            
+            <ComboBox x:Name="comboxCCType" Grid.Column="0" Margin="8" IsEditable="True"
+                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                      IsReadOnly="True" Text="Select Card Change Type"
+                      />
+            <ComboBox x:Name="comboxEquipmentType" Grid.Column="1" Margin="8" IsEditable="True"
+                      VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                      IsReadOnly="True" Text="Select Equipment Type"
+                      />
+            <Button x:Name="btnNewData" Grid.Column="2" Margin="8"
+                    Content="New Data" Click="btnNewData_Click"
+                    />
+            <Button x:Name="btnloadData" Grid.Column="3" Margin="8"
+                    Content="Load Data" Click="btnloadData_Click"
+                    />
+        </Grid>
+
+        <local:Pre_Post_ProcessingSettingControl x:Name="ppSettingControl" Grid.Row="1" IsEnabled="False" Visibility="Visible"/>
+        <local:OrderSettingControl x:Name="orderSettingControl" Grid.Row="1" IsEnabled="False" Visibility="Hidden"/>
+        <local:DesideNextBehaviorControl x:Name="desideNextBehaviorControl" Grid.Row="1" IsEnabled="False" Visibility="Hidden"/>
+    </Grid>
+</UserControl>

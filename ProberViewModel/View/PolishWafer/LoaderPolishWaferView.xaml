@@ -1,0 +1,1001 @@
+﻿<UserControl x:Class="ProberViewModel.LoaderPolishWaferView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProberViewModel"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:stagelist ="clr-namespace:StageListViewModule;assembly=StageListViewModule"
+             xmlns:ProbeInterface="clr-namespace:ProberInterfaces.PolishWafer;assembly=ProberInterfaces"
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:view="clr-namespace:ProberViewModel.View"
+             x:Name="ucwindow"
+             mc:Ignorable="d" 
+             d:DesignHeight="1010" d:DesignWidth="1850">
+
+    <UserControl.Resources>
+
+        <vc:SubsStatusToValueConverter x:Key="StatusToColorConv" />
+        <vc:GPHandlingBtnEnableConverter x:Key="GPHandlingBtnEnableConverter" />
+        <vc:GPLotStateToStringConverter4 x:Key="BtoVConv" />
+
+        <vc:StageStateToValueConverter1 x:Key="CellStateColorConv" />
+
+        <vc:EnumStageWaferStatusTextConverter x:Key="WaferStatusToTextConv" />
+        <vc:EnumStageCardStatusTextConverter x:Key="CardStatusToTextConv" />
+
+        <local:ListViewConverter x:Key="ListViewConverter"/>
+        <local:ImageConverter x:Key="ImageConverter"/>
+        <local:TransferObjectLabelConverter x:Key="TransferObjectLabelConverter"/>
+
+        <local:VirtualKeyBoardTextBoxConverter x:Key="VirtualKeyBoardTextBoxConverter"/>
+
+        <vc:ViewTargetConverter x:Key="ViewTargetConverter"/>
+
+        <vc:ListBoxIndexConverter x:Key="ListBoxIndexConv"/>
+        
+        <!--<local:NameAndIndexConverter x:Key="NameAndIndexConv"/>
+        <local:CustomConverter x:Key="CustomConv"/>
+        <local:CustomConverter2 x:Key="CustomConv2"/>
+        <local:CustomConverter3 x:Key="CustomConv3"/>-->
+        
+        <ObjectDataProvider x:Key="getDataFromPWScrubMode" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="ProbeInterface:PWScrubMode"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+        <ObjectDataProvider x:Key="getDataFromCleaningDirection" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="ProbeInterface:CleaningDirection"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+        <ObjectDataProvider x:Key="getDataFromPWFocusingPointMode" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="ProbeInterface:PWFocusingPointMode"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+        <!--<ObjectDataProvider x:Key="getDataFromPWFocusingType" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="ProbeInterface:PWFocusingType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>-->
+
+        <!--<ObjectDataProvider x:Key="getDataFromCleaningIntervalMode" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="ProbeInterface:EnumCleaningTriggerMode"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>-->
+
+        <local:NameAndIndexConverter x:Key="NameAndIndexConv"/>
+        <local:ManualTransferAndCleaingBtnEnableConverter x:Key="ManualTransferAndCleaingBtnEnableConv"/>
+        <local:ManualCleaingBtnEnableConverter x:Key="ManualCleaingBtnEnableConv"/>
+        <local:PWSubsStatusToValueConverter x:Key="PWStatusToColorConv" />
+
+        <Style x:Key="alternatingWithTriggers" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Background" Value="Blue"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Style.Triggers>
+                <Trigger Property="ListBox.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="CornflowerBlue"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+                <Trigger Property="ListBox.AlternationIndex" Value="2">
+                    <Setter Property="Background" Value="LightBlue"/>
+                    <Setter Property="Foreground" Value="Navy"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="StatusLabelStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="DimGray"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="BorderBrush" Value="DimGray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Width" Value="120"/>
+        </Style>
+        <Style x:Key="ModuleNameLabelStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="680"/>
+            </Grid.ColumnDefinitions>
+
+
+            <Border Grid.Column="0" BorderBrush="DimGray" BorderThickness="0.8" Margin="1">
+
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <GroupBox Grid.Row="0" Grid.ColumnSpan="3" BorderThickness="3" >
+                        <GroupBox.Header>
+                            <TextBlock Text="1. SELECT RECIPE" FontWeight="Bold" Foreground="Yellow" Height="20" FontSize="15" />
+                        </GroupBox.Header>
+                        <Grid MaxHeight="190">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <GroupBox Grid.Column="0">
+                                <GroupBox.Header>
+                                    <TextBlock Text="Interval" FontWeight="Bold" Foreground="White" Height="15" FontSize="13" />
+                                </GroupBox.Header>
+                                <ListBox ItemsSource="{Binding PolishWaferParam.PolishWaferIntervalParameters}" AlternationCount="100"
+                                         ScrollViewer.VerticalScrollBarVisibility="Auto" Height="140"
+                         SelectedItem="{Binding SelectedIntervalParam, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsSelected" Value="True" >
+                                                    <Setter Property="FontWeight" Value="Bold" />
+                                                    <Setter Property="Background" Value="Gray" />
+                                                    <Setter Property="Foreground" Value="White" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                            <Style.Resources>
+                                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
+                                            </Style.Resources>
+                                            <Setter Property="AutomationProperties.AutomationId" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource ListBoxIndexConv}, StringFormat={}lvPolishWaferIntervalParameters_{0}}"/>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <TextBlock Foreground="White" FontSize="20" 
+                                        Text="{Binding Path=(ItemsControl.AlternationIndex), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, 
+                                        Converter={StaticResource NameAndIndexConv}, ConverterParameter='Interval'}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </GroupBox>
+                            <GroupBox Grid.Column="1"  >
+                                <GroupBox.Header>
+                                    <TextBlock Text="Cleaning List" FontWeight="Bold" Foreground="White" Height="15" FontSize="13" />
+                                </GroupBox.Header>
+                                <ListBox ItemsSource="{Binding SelectedIntervalParam.CleaningParameters}" VerticalAlignment="Top"
+                         SelectedItem="{Binding SelectedCleaningParam, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="100">
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsSelected" Value="True" >
+                                                    <Setter Property="FontWeight" Value="Bold" />
+                                                    <Setter Property="Background" Value="Gray" />
+                                                    <Setter Property="Foreground" Value="White" />
+                                                </Trigger>
+                                            </Style.Triggers>
+                                            <Style.Resources>
+                                                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
+                                            </Style.Resources>
+                                            <Setter Property="AutomationProperties.AutomationId" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource ListBoxIndexConv}, StringFormat={}lvPolishWaferCleaningParameters_{0}}"/>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid >
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Foreground="White" FontSize="20" Text="{Binding WaferDefineType.Value}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </GroupBox>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Grid.Row="1" Grid.ColumnSpan="3" BorderThickness="3" FontWeight="Bold" >
+                        <GroupBox.Header>
+                            <TextBlock Text="2. SELECT ACTIVE LOCATION" FontWeight="Bold" Foreground="Yellow" Height="20" FontSize="15" />
+                        </GroupBox.Header>
+                        <Grid MaxHeight="1500">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="3*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="50, 0, 0, 0">
+                                <Image Width="30" Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="./Resources/Buffer.png"  />
+                                <Label Content="Fixed Trays" FontSize="12" FontWeight="Bold" HorizontalAlignment="Center" Style="{StaticResource ModuleNameLabelStyle}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 0, 100, 0">
+                                <Image Width="30" Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="./Resources/Buffer.png"  />
+                                <Label Content="Inspection Trays" FontSize="12" FontWeight="Bold" HorizontalAlignment="Center" Style="{StaticResource ModuleNameLabelStyle}"/>
+                            </StackPanel>
+
+
+                            <Grid Grid.Row="1" Grid.ColumnSpan="3" Height="auto">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" BorderThickness="0" BorderBrush="DimGray">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <ListView  Grid.Row="1" x:Name="FTListView" ItemsSource="{Binding FTs}" Background="#FF1C1C1F" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Top" Height="Auto" Margin="0, 10, 0, 30">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="SelectionChanged">
+                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.ObjectClickCommand, ElementName=ucwindow}" >
+                                                        <i:InvokeCommandAction.CommandParameter>
+                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                <Binding ElementName="FTListView"/>
+                                                                <Binding ElementName="FTListView" Path="SelectedIndex"/>
+                                                                <Binding ElementName="FTListView" Path="SelectedItem"/>
+                                                            </MultiBinding>
+                                                        </i:InvokeCommandAction.CommandParameter>
+                                                    </i:InvokeCommandAction>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                                                    <Setter Property="IsEnabled" Value="{Binding IsEnableTransfer, Mode=TwoWay}"/>
+                                                    <Setter Property="AutomationProperties.AutomationId" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource ListBoxIndexConv}, StringFormat={}lvFT_{0}}"/>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <UniformGrid Columns="2"/>
+                                                </ItemsPanelTemplate>
+                                            </ListView.ItemsPanel>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border BorderBrush="DimGray" BorderThickness="1" Width="180">
+                                                        <Grid >
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Label HorizontalAlignment="Left" VerticalAlignment="Center" Content="{Binding Name}" FontSize="12" Margin="0" 
+                                                                       Foreground="{Binding IsEnableTransfer, Converter={StaticResource PWStatusToColorConv}}"
+                                                                       BorderBrush="{Binding IsEnableTransfer, Converter={StaticResource PWStatusToColorConv}}"
+                                                                       />
+                                                                <Label Style="{StaticResource StatusLabelStyle}" FontSize="12" Width="auto" BorderThickness="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                                                                                Content="{Binding WaferStatus}"
+                                                                                Foreground="{Binding WaferStatus, Converter={StaticResource StatusToColorConv}}"
+                                                                                BorderBrush="{Binding WaferStatus, Converter={StaticResource StatusToColorConv}}"/>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Grid>
+                                </Border>
+                                <Border Grid.Column="1" BorderThickness="0" BorderBrush="DimGray" >
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <ListView Grid.Row="1" x:Name="ITListView" ItemsSource="{Binding ITs}" Background="#FF1C1C1F" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" VerticalAlignment="Top" Height="Auto" Margin="0, 10, 0, 30">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="SelectionChanged">
+                                                    <i:InvokeCommandAction Command="{Binding Path=DataContext.ObjectClickCommand, ElementName=ucwindow}" >
+                                                        <i:InvokeCommandAction.CommandParameter>
+                                                            <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                                <Binding ElementName="ITListView"/>
+                                                                <Binding ElementName="ITListView" Path="SelectedIndex"/>
+                                                                <Binding ElementName="ITListView" Path="SelectedItem"/>
+                                                            </MultiBinding>
+                                                        </i:InvokeCommandAction.CommandParameter>
+                                                    </i:InvokeCommandAction>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                                                    <Setter Property="IsEnabled" Value="{Binding IsEnableTransfer, Mode=TwoWay}"/>
+                                                    <Setter Property="AutomationProperties.AutomationId" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource ListBoxIndexConv}, StringFormat={}lvIT_{0}}"/>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <UniformGrid Columns="2"/>
+                                                </ItemsPanelTemplate>
+                                            </ListView.ItemsPanel>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border BorderBrush="DimGray" BorderThickness="1" Width="180">
+                                                        <Grid >
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <Label HorizontalAlignment="Left" VerticalAlignment="Center" Content="{Binding Name}" FontSize="12" Margin="0" 
+                                                                      Foreground="{Binding IsEnableTransfer, Converter={StaticResource PWStatusToColorConv}}"
+                                                                      BorderBrush="{Binding IsEnableTransfer, Converter={StaticResource PWStatusToColorConv}}"
+                                                                       />
+                                                                <Label Style="{StaticResource StatusLabelStyle}" 
+                                                        FontSize="12" Width="auto" BorderThickness="0" 
+                                                        VerticalContentAlignment="Center"
+                                                        Content="{Binding WaferStatus}"
+                                                        Foreground="{Binding WaferStatus, Converter={StaticResource StatusToColorConv}}"
+                                                        BorderBrush="{Binding WaferStatus, Converter={StaticResource StatusToColorConv}}"/>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+
+                            <CheckBox Grid.Row="2" Grid.Column="2" IsChecked="{Binding ModuleInfoEnable, Mode=TwoWay}"
+                                      VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="15" Foreground="White" Margin="0, 0, 10, 10">Information View</CheckBox>
+                            
+                            <Border Grid.Row="3" Grid.Column="0"  Grid.RowSpan="3" BorderBrush="WhiteSmoke" BorderThickness="0.6" Height="240" Margin="4">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Label  Grid.Row="0" Content="Source" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                                    <Image Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="4" Width="120" Height="120" 
+                                   Source="{Binding TransferSource ,Converter={StaticResource ImageConverter}}">
+                                    </Image>
+                                    <Label Grid.Row="2" FontSize="18" Foreground="WhiteSmoke" Margin="4"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Content="{Binding TransferSource, Converter={StaticResource TransferObjectLabelConverter}}" 
+                               Grid.Column="1"/>
+                                </Grid>
+                            </Border>
+                            <Label Grid.Row="3" Grid.Column="1" Grid.RowSpan="4" Content="→" FontSize="30" FontWeight="Bold" Foreground="WhiteSmoke" 
+                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Border Grid.Row="3" Grid.Column="2" BorderBrush="WhiteSmoke" BorderThickness="0.6" Height="240" Margin="4">
+                                <Grid >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Label  Grid.Row="0" Content="Target" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                                    <Image Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Stretch"  Width="120" Height="120"
+                                   Source="{Binding TransferTarget ,Converter={StaticResource ImageConverter}}">
+                                    </Image>
+                                    <Label Grid.Row="2" FontSize="18" Foreground="WhiteSmoke" 
+                                                HorizontalAlignment="Center" 
+                               Content="{Binding TransferTarget, Converter={StaticResource TransferObjectLabelConverter}}"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" BorderThickness="3" MinHeight="100">
+                        <GroupBox.Header>
+                            <TextBlock Text="3. EXECUTE" FontWeight="Bold" Foreground="Yellow" Height="20" FontSize="15" />
+                        </GroupBox.Header>
+                        <Grid Grid.Row="2" Height="80">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" Content="TRANSFER &amp; CLEANING" FontSize="18" FontWeight="Bold"  Command="{Binding ManualTransferAndCleaningCommand}" 
+                              Height="50" Width="220">
+                                <Button.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource ManualTransferAndCleaingBtnEnableConv}">
+                                        <Binding Path="LoaderModule.LoaderMaster.CurrentModuleState"/>
+                                        <Binding Path="TransferEnable"/>
+                                        <Binding Path="SelectedCell"/>
+                                    </MultiBinding>
+                                </Button.IsEnabled>
+                            </Button>
+                            <Button Grid.Column="1" Content="TRANSFER" FontSize="18" FontWeight="Bold" Command="{Binding TransferCommand}"
+                         AutomationProperties.AutomationId="btnTransfer" Height="50" Width="220">
+                                <Button.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource GPHandlingBtnEnableConverter}">
+                                        <Binding Path="LoaderModule.LoaderMaster.CurrentModuleState"/>
+                                        <Binding Path="TransferEnable"/>
+                                    </MultiBinding>
+                                </Button.IsEnabled>
+                            </Button>
+
+                            <Button Grid.Column="2" Content="CLEANING" FontSize="18" FontWeight="Bold" Command="{Binding ManualPWCleaningCommand}" 
+                              Height="50" Width="220">
+                                <Button.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource ManualCleaingBtnEnableConv}">
+                                        <Binding Path="IsCleaning"/>
+                                        <Binding Path="SelectedCell"/>
+                                    </MultiBinding>
+                                </Button.IsEnabled>
+                            </Button>
+
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Column="1" Margin="1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="11*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Border BorderBrush="DimGray" BorderThickness="1.2">
+                        <Label Content="Cell Information" Foreground="White" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        </Label>
+                    </Border>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Border BorderThickness="1.2 " BorderBrush="DimGray">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <!--<Image Grid.Row="1"  Width="138" Height="100" Source="./Resources/Cell.png"/>-->
+                            <Border Grid.Row="0" BorderBrush="WhiteSmoke" BorderThickness="1.2" Height="40" >
+                                <Label Content="{Binding SelectedCell.StageInfo.LastTitle}"
+                                        FontSize="16" 
+                                        Foreground="WhiteSmoke" Margin="1"
+                                        FontWeight="Bold" 
+                                        HorizontalAlignment="Stretch" 
+                                        VerticalAlignment="Stretch" 
+                                        HorizontalContentAlignment="Center"
+                                        VerticalContentAlignment="Center" 
+                                        AutomationProperties.AutomationId="lblSelectedCellLastTitle"/>
+                            </Border >
+                            <Label Grid.Row="1" FontSize="16"  HorizontalAlignment="Stretch" Height="40"
+                                   Width="Auto" 
+                                   VerticalContentAlignment="Center"
+                                   Style="{StaticResource StatusLabelStyle}"
+                                   BorderThickness="1"
+                                   Foreground="{Binding SelectedCell.CardStatus, Converter={StaticResource StatusToColorConv}}"
+                                   BorderBrush="{Binding SelectedCell.CardStatus, Converter={StaticResource StatusToColorConv}}" 
+                                   AutomationProperties.AutomationId="lblSelectedCellCardStatus">
+                                <MultiBinding Converter="{StaticResource CardStatusToTextConv}">
+                                    <Binding Path="SelectedCell.CardStatus" />
+                                    <Binding Path="SelectedCell.Progress"/>
+                                    <Binding Path="SelectedCell.CardObj"/>
+                                </MultiBinding>
+                            </Label>
+
+                            <Label Grid.Row="2"  FontSize="16"  HorizontalAlignment="Stretch" Height="40"
+                                   Width="Auto" 
+                                   VerticalContentAlignment="Center"
+                                   Style="{StaticResource StatusLabelStyle}"
+                                   BorderThickness="1"
+                                   Foreground="{Binding SelectedCell.WaferStatus, Converter={StaticResource StatusToColorConv}}"
+                                   BorderBrush="{Binding SelectedCell.WaferStatus, Converter={StaticResource StatusToColorConv}}" 
+                                   AutomationProperties.AutomationId="lblSelectedCellWaferStatus">
+                                <MultiBinding Converter="{StaticResource WaferStatusToTextConv}">
+                                    <Binding Path="SelectedCell.WaferStatus" />
+                                    <Binding Path="SelectedCell.Progress"/>
+                                    <Binding Path="SelectedCell.WaferObj"/>
+                                </MultiBinding>
+                            </Label>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <Border BorderBrush="DimGray" BorderThickness="1.2">
+                        <Label Content="Manual Cleaning Parameter" Foreground="White" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        </Label>
+                    </Border>
+                </Grid>
+
+                <Grid Grid.Row="3">
+                    <Border BorderBrush="DimGray" BorderThickness="1.2">
+                        <StackPanel HorizontalAlignment="Center">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <Grid Grid.Row="0" Margin="0,4,0,4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Grid.Row="0" Content="Wafer Define Type" Margin="0,4,0,4"
+                                                                       HorizontalContentAlignment="Center"
+                                                                       Style="{DynamicResource TitleBorderLabel}"/>
+                                        <TextBox Grid.Column="1" Grid.Row="0" Margin="0,4,0,4" IsReadOnly="True"
+                                                                         Text="{Binding ManualCleaningParam.WaferDefineType.Value}"
+                                                                         HorizontalContentAlignment="Center" IsEnabled="False"
+                                                                         Style="{DynamicResource InputTextBox}" FontSize="18" AutomationProperties.AutomationId="tbWaferDefineType">
+                                            <!--<i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding WaferDefineTypeTextBoxClickCommand}">
+                                                </i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>-->
+
+                                        </TextBox>
+                                    </Grid>
+
+                                    <Grid Margin="0,4,0,4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Content="CleaningScrubMode" Margin="0,4,0,4"
+                                                                       HorizontalContentAlignment="Center"
+                                                                       Style="{DynamicResource TitleBorderLabel}"/>
+                                        <ComboBox  Margin="0,4,0,4" Grid.Column="1"
+                                                   Style="{x:Null}"
+                                                   VerticalContentAlignment="Center"
+                                                   HorizontalContentAlignment="Center"
+                                                   Foreground="Black"
+                                                   FontSize="18"
+                                                   ItemsSource="{Binding Source={StaticResource getDataFromPWScrubMode}}"
+                                                   SelectedItem="{Binding ManualCleaningParam.CleaningScrubMode.Value}"
+                                                   AutomationProperties.AutomationId="cbCleaningScrubMode">
+                                        </ComboBox>
+                                    </Grid>
+
+                                    <Grid Margin="0,4,0,4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Grid.Row="0" Content="CleaningDirection" Margin="0,4,0,4"
+                                                                       HorizontalContentAlignment="Center"
+                                                                       Style="{DynamicResource TitleBorderLabel}"/>
+                                        <ComboBox  Margin="0,4,0,4" Width="100" Grid.Column="1"
+                                                   Style="{x:Null}"
+                                                   VerticalContentAlignment="Center"
+                                                   HorizontalContentAlignment="Center"
+                                                   Foreground="Black"
+                                                   FontSize="18"
+                                                   ItemsSource="{Binding Source={StaticResource getDataFromCleaningDirection}}"
+                                                   SelectedItem="{Binding ManualCleaningParam.CleaningDirection.Value}"
+                                                   AutomationProperties.AutomationId="cbCleaningScrubMode">
+                                        </ComboBox>
+                                    </Grid>
+
+                                <Grid Margin="0,4,0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Grid.Row="0" Content="ContactLength" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                    <TextBox HorizontalContentAlignment="Center" Grid.Column="1"
+                                             VerticalAlignment="Center"
+                                             Text="{Binding ManualCleaningParam.ContactLength.Value}"
+                                             Style="{DynamicResource InputTextBox}"
+                                             FontSize="18"
+                                             AutomationProperties.AutomationId="tbContactLength">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding FloatTextBoxClickCommand}" >
+                                                    <i:InvokeCommandAction.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                            <Binding Path="ManualCleaningParam.ContactLength"/>
+                                                        </MultiBinding>
+                                                    </i:InvokeCommandAction.CommandParameter>
+                                                </i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>
+
+                                <Grid Margin="0,4,0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Grid.Row="0" Content="ContactCount" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                    <TextBox HorizontalContentAlignment="Center" Grid.Column="1"
+                                             VerticalAlignment="Center"
+                                             Text="{Binding ManualCleaningParam.ContactCount.Value}"
+                                             Style="{DynamicResource InputTextBox}"
+                                             FontSize="18"
+                                             AutomationProperties.AutomationId="tbContactCount">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding FloatTextBoxClickCommand}" >
+                                                    <i:InvokeCommandAction.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                            <Binding Path ="ManualCleaningParam.ContactCount"/>
+                                                        </MultiBinding>
+                                                    </i:InvokeCommandAction.CommandParameter>
+                                                </i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>
+
+                                <Grid Margin="0,4,0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Grid.Row="0" Content="ScrubingLength" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                    <TextBox HorizontalContentAlignment="Center" Grid.Column="1"
+                                             VerticalAlignment="Center"
+                                             Text="{Binding ManualCleaningParam.ScrubingLength.Value}"
+                                             Style="{DynamicResource InputTextBox}"
+                                             FontSize="18"
+                                             AutomationProperties.AutomationId="tbScrubingLength">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding FloatTextBoxClickCommand}" >
+                                                    <i:InvokeCommandAction.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                            <Binding Path ="ManualCleaningParam.ScrubingLength"/>
+                                                        </MultiBinding>
+                                                    </i:InvokeCommandAction.CommandParameter>
+                                                </i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>
+
+                                <Grid Margin="0,4,0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Grid.Row="0" Content="OverdriveValue" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                    <TextBox HorizontalContentAlignment="Center" Grid.Column="1"
+                                             VerticalAlignment="Center"
+                                             Text="{Binding ManualCleaningParam.OverdriveValue.Value}"
+                                             Style="{DynamicResource InputTextBox}"
+                                             FontSize="18"
+                                             AutomationProperties.AutomationId="tbOverdriveValue">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding FloatTextBoxClickCommand}" >
+                                                    <i:InvokeCommandAction.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                            <Binding Path ="ManualCleaningParam.OverdriveValue"/>
+                                                        </MultiBinding>
+                                                    </i:InvokeCommandAction.CommandParameter>
+                                                </i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>
+
+                                <Grid Margin="0,4,0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Grid.Row="0" Content="Clearance" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                    <TextBox HorizontalContentAlignment="Center" Grid.Column="1"
+                                             VerticalAlignment="Center"
+                                             Text="{Binding ManualCleaningParam.Clearance.Value}"
+                                             Style="{DynamicResource InputTextBox}"
+                                             FontSize="18"
+                                             AutomationProperties.AutomationId="tbClearance">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding FloatTextBoxClickCommand}" >
+                                                    <i:InvokeCommandAction.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                            <Binding Path ="ManualCleaningParam.Clearance"/>
+                                                        </MultiBinding>
+                                                    </i:InvokeCommandAction.CommandParameter>
+                                                </i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>
+
+                                    <!--<Grid Margin="0,4,0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Grid.Row="0" Content="PadShiftOffset" Margin="0,4,0,4"
+                                                                       HorizontalContentAlignment="Center"
+                                                                       Style="{DynamicResource TitleBorderLabel}"/>
+                                    <TextBox HorizontalContentAlignment="Center" Grid.Column="1"
+                                                                 VerticalAlignment="Center"
+                                                                 Text="{Binding PadShiftOffset.Value}"
+                                                                 Style="{DynamicResource InputTextBox}"
+                                                                 FontSize="18">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>-->
+
+                                    <!--<Grid Margin="0,4,0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Grid.Row="0" Content="CurrentAngle" Margin="0,4,0,4"
+                                                                       HorizontalContentAlignment="Center"
+                                                                       Style="{DynamicResource TitleBorderLabel}"/>
+                                    <TextBox HorizontalContentAlignment="Center" Grid.Column="1"
+                                                                 VerticalAlignment="Center"
+                                                                 Text="{Binding CurrentAngle.Value}"
+                                                                 Style="{DynamicResource InputTextBox}"
+                                                                 FontSize="18">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>-->
+
+                                    <!--<Grid Margin="0,4,0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Grid.Row="0" Content="RotateAngle" Margin="0,4,0,4"
+                                                                       HorizontalContentAlignment="Center"
+                                                                       Style="{DynamicResource TitleBorderLabel}"/>
+                                    <TextBox HorizontalContentAlignment="Center" Grid.Column="1"
+                                                                 VerticalAlignment="Center"
+                                                                 Text="{Binding RotateAngle.Value}"
+                                                                 Style="{DynamicResource InputTextBox}"
+                                                                 FontSize="18">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding DataContext.FloatTextBoxClickCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                                                                           CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>-->
+
+                                    <Grid Margin="0,4,0,4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Content="FocusingPointMode" Margin="0,4,0,4"
+                                                                       HorizontalContentAlignment="Center"
+                                                                       Style="{DynamicResource TitleBorderLabel}"/>
+                                        <ComboBox  Margin="0,4,0,4" Grid.Column="1"
+                                                   Style="{x:Null}"
+                                                   VerticalContentAlignment="Center"
+                                                   HorizontalContentAlignment="Center"
+                                                   Foreground="Black"
+                                                   FontSize="18"
+                                                   ItemsSource="{Binding Source={StaticResource getDataFromPWFocusingPointMode}}"
+                                                   SelectedItem="{Binding ManualCleaningParam.FocusingPointMode.Value}"
+                                                   AutomationProperties.AutomationId="cbFocusingPointMode">
+                                        </ComboBox>
+                                    </Grid>
+
+                                <Grid Margin="0,4,0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Grid.Row="0" Content="Focusing range" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                    <TextBox HorizontalContentAlignment="Center" Grid.Column="1"
+                                             VerticalAlignment="Center"
+                                             Text="{Binding ManualCleaningParam.FocusParam.FocusRange.Value}"
+                                             Style="{DynamicResource InputTextBox}"
+                                             FontSize="18"
+                                             AutomationProperties.AutomationId="tbFocusRange">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding FloatTextBoxClickCommand}" >
+                                                    <i:InvokeCommandAction.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                            <Binding Path ="ManualCleaningParam.FocusParam.FocusRange"/>
+                                                        </MultiBinding>
+                                                    </i:InvokeCommandAction.CommandParameter>
+                                                </i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>
+
+                                <Grid Margin="0,4,0,4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Grid.Row="0" Content="Focusing height tolerance" Margin="0,4,0,4"
+                                                                   HorizontalContentAlignment="Center"
+                                                                   Style="{DynamicResource TitleBorderLabel}"/>
+                                    <TextBox HorizontalContentAlignment="Center" Grid.Column="1"
+                                             VerticalAlignment="Center"
+                                             Text="{Binding ManualCleaningParam.FocusingHeightTolerance.Value}"
+                                             Style="{DynamicResource InputTextBox}"
+                                             FontSize="18"
+                                             AutomationProperties.AutomationId="tbFocusingHeightTolerance">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                                <i:InvokeCommandAction Command="{Binding FloatTextBoxClickCommand}" >
+                                                    <i:InvokeCommandAction.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource VirtualKeyBoardTextBoxConverter}">
+                                                            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}"/>
+                                                            <Binding Path ="ManualCleaningParam.FocusingHeightTolerance"/>
+                                                        </MultiBinding>
+                                                    </i:InvokeCommandAction.CommandParameter>
+                                                </i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                </Grid>
+                                
+                                    <Grid Margin="0,4,0,4">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Column="0">
+                                            <Label Content="PinAlign before cleaning" Margin="0,4,0,4"
+                                                                       HorizontalContentAlignment="Center"
+                                                                       Style="{DynamicResource TitleBorderLabel}"/>
+                                        </Grid>
+
+                                        <Grid Grid.Column="1">
+                                            <Viewbox Height="45" Width="100" HorizontalAlignment="Right">
+                                                <ToggleButton Style="{DynamicResource ON_OFF_ToggleBtn}"
+                                                              VerticalAlignment="Center" 
+                                                              HorizontalAlignment="Right"
+                                                              IsChecked="{Binding ManualCleaningParam.PinAlignBeforeCleaning.Value, Mode=TwoWay}"
+                                                              Command="{Binding PWEnableClickCommand}" 
+                                                              CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                                              AutomationProperties.AutomationId="tglPinAlignBeforeCleaning"/>
+                                            </Viewbox>
+                                        </Grid>
+
+
+                                    </Grid>
+
+                                    <Grid Margin="0,4,0,4">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid Grid.Column="0">
+                                            <Label Content="PinAlign after cleaning" Margin="0,4,0,4"
+                                                                       HorizontalContentAlignment="Center"
+                                                                       Style="{DynamicResource TitleBorderLabel}"/>
+                                        </Grid>
+
+                                        <Grid Grid.Column="1">
+                                            <Viewbox Height="45" Width="100" HorizontalAlignment="Right">
+                                                <ToggleButton Style="{DynamicResource ON_OFF_ToggleBtn}" 
+                                                              VerticalAlignment="Center" 
+                                                              HorizontalAlignment="Right"
+                                                              IsChecked="{Binding ManualCleaningParam.PinAlignAfterCleaning.Value, Mode=TwoWay}"
+                                                              Command="{Binding PWEnableClickCommand}" 
+                                                              CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                                              AutomationProperties.AutomationId="tglPinAlignAfterCleaning"/>
+                                            </Viewbox>
+                                        </Grid>
+
+                                    </Grid>
+
+                                    <Grid Margin="0,4,0,4">
+
+                                        <Grid Margin="0,4,0,4">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid Grid.Column="0">
+                                                <Label Content="Edge detection before cleaning" Margin="0,4,0,4"
+                                                                       HorizontalContentAlignment="Center"
+                                                                       Style="{DynamicResource TitleBorderLabel}"/>
+                                            </Grid>
+
+                                            <Grid Grid.Column="1">
+                                                <Viewbox Height="45" Width="100" HorizontalAlignment="Right">
+                                                    <ToggleButton Style="{DynamicResource ON_OFF_ToggleBtn}" 
+                                                                  VerticalAlignment="Center" 
+                                                                  HorizontalAlignment="Right"
+                                                                  IsChecked="{Binding ManualCleaningParam.EdgeDetectionBeforeCleaning.Value, Mode=TwoWay}"
+                                                                  Command="{Binding PWEnableClickCommand}" 
+                                                                  CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                                                                  AutomationProperties.AutomationId="tglEdgeDetectionBeforeCleaning"/>
+                                                </Viewbox>
+                                            </Grid>
+
+
+                                        </Grid>
+
+
+                                    </Grid>
+
+                                    <Grid Margin="0,4,0,4">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="5*"/>
+                                            <ColumnDefinition Width="5*"/>
+                                        </Grid.ColumnDefinitions>
+                                    </Grid>
+
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+            </Grid>
+
+            <Grid Grid.Column="4">
+                <Border BorderBrush="DimGray" BorderThickness="2" 
+                                                HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <ContentControl Width="640" Height="640" 
+                                            Margin="4" 
+                                            VerticalAlignment="Center" HorizontalAlignment="Center"
+                                            Content="{Binding DisplayPort}"/>
+                </Border>
+            </Grid>
+        </Grid>
+        <Grid>
+            <view:ScreenLock DataContext="{Binding SelectedStage}"/>
+        </Grid>
+    </Grid>
+</UserControl>

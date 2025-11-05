@@ -1,0 +1,626 @@
+﻿<Window x:Class="AlarmViewDialog.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:aniScroll="clr-namespace:UcAnimationScrollViewer;assembly=UcAnimationScrollViewer"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:MahAppsControls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:local="clr-namespace:AlarmViewDialog"
+        WindowStyle="None"
+        WindowState="Normal"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        mc:Ignorable="d" Topmost="True"
+        Title="Alaram Dialog" Width="700" Height="600">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:ForeGroundConverter x:Key="foreGroundConverter"/>
+            <local:IsCheckedVisibleConverter x:Key="IsCheckedVisibleConv" />
+            <local:ViewHistoryBtnColorConverter x:Key="ViewHistoryBtnColorConverter" />
+            <local:ViewLogBtnColorConverter x:Key="ViewLogBtnColorConverter"/>
+
+            <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+
+            <Style x:Key="ON_OFF_ToggleBtn" TargetType="ToggleButton" BasedOn="{StaticResource {x:Type ToggleButton}}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <ControlTemplate.Resources>
+                                <SineEase x:Key="RippleEasingFunction" EasingMode="EaseInOut"/>
+                                <Storyboard x:Key="ShowRipple">
+                                    <DoubleAnimation Storyboard.TargetName="RippleThumb" Storyboard.TargetProperty="Opacity"
+                                             EasingFunction="{StaticResource RippleEasingFunction}"
+                                             To="0.26" Duration="0"/>
+                                    <DoubleAnimation Storyboard.TargetName="RippleThumb" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                             EasingFunction="{StaticResource RippleEasingFunction}"
+                                             From="1" To="2.5" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="RippleThumb" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                             EasingFunction="{StaticResource RippleEasingFunction}"
+                                             From="1" To="2.5" Duration="0:0:0.2"/>
+                                </Storyboard>
+                                <Storyboard x:Key="HideRipple">
+                                    <DoubleAnimation Storyboard.TargetName="RippleThumb" Storyboard.TargetProperty="Opacity"
+                                             EasingFunction="{StaticResource RippleEasingFunction}"
+                                             To="0.26" Duration="0:0:0.3"/>
+                                </Storyboard>
+                            </ControlTemplate.Resources>
+                            <Viewbox Width="65" Margin="0,5,0,5">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CheckStates">
+                                        <VisualStateGroup.Transitions>
+                                            <VisualTransition From="*" To="Checked">
+                                                <Storyboard>
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="ThumbHolder">
+                                                        <EasingDoubleKeyFrame KeyTime="0" Value="-10"/>
+                                                        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="50">
+                                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                                <QuadraticEase EasingMode="EaseOut"/>
+                                                            </EasingDoubleKeyFrame.EasingFunction>
+                                                        </EasingDoubleKeyFrame>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualTransition>
+                                            <VisualTransition From="Checked" To="Unchecked">
+                                                <Storyboard>
+                                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="ThumbHolder">
+                                                        <EasingDoubleKeyFrame KeyTime="0" Value="50"/>
+                                                        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="-10">
+                                                            <EasingDoubleKeyFrame.EasingFunction>
+                                                                <QuadraticEase EasingMode="EaseOut"/>
+                                                            </EasingDoubleKeyFrame.EasingFunction>
+                                                        </EasingDoubleKeyFrame>
+                                                    </DoubleAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualTransition>
+                                        </VisualStateGroup.Transitions>
+                                        <VisualState x:Name="Checked">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="ThumbHolder"
+                                                         Duration="0" To="50" />
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Unchecked">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="ThumbHolder"
+                                                         Duration="0" To="-10" />
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Grid>
+                                    <Rectangle x:Name="Track"
+                                                    HorizontalAlignment="Left" Height="25"
+                                                    Stroke="{x:Null}" 
+                                                   VerticalAlignment="Top" Width="65" 
+                                                   RadiusY="7.5" RadiusX="7.5"
+                                                   Opacity="0.56"/>
+                                    <TextBlock  x:Name="TrackText"
+                                                    VerticalAlignment="Center"
+                                                    Foreground="Black"
+                                                    FontSize="18"/>
+
+                                    <Grid x:Name="ThumbHolder"
+                                  HorizontalAlignment="Left" VerticalAlignment="Top">
+                                        <Ellipse x:Name="RippleThumb"
+                                         Fill="{DynamicResource PrimaryHueLightBrush}"
+                                         Height="15" Width="15"
+                                         IsHitTestVisible="False"
+                                         Opacity="0.26"
+                                         Margin="0"
+                                         HorizontalAlignment="Center" VerticalAlignment="Center"
+                                         RenderTransformOrigin="0.5,0.5">
+                                            <Ellipse.RenderTransform>
+                                                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                            </Ellipse.RenderTransform>
+                                        </Ellipse>
+                                        <AdornerDecorator CacheMode="{Binding RelativeSource={RelativeSource Self}, Path=(materialDesign:ShadowAssist.CacheMode)}">
+                                            <Ellipse x:Name="Thumb"
+                                             Fill="#FFFAFAFA" Stroke="Gray" 
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             Width="25" Height="25"
+                                             Margin="0,0,0,0"
+                                             RenderTransformOrigin="0.5,0.5"
+                                             Effect="{DynamicResource MaterialDesignShadowDepth1}">
+                                            </Ellipse>
+                                        </AdornerDecorator>
+                                        <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  x:Name="ContentPresenter"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                                                  FlowDirection="LeftToRight"/>
+                                        <Grid.RenderTransform>
+                                            <TranslateTransform X="0" Y="0"/>
+                                        </Grid.RenderTransform>
+                                    </Grid>
+                                </Grid>
+                            </Viewbox>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                    <!--<Setter TargetName="Thumb" Property="Fill" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Background}" />-->
+                                    <Setter TargetName="Track" Property="Fill" Value="White" />
+                                    <Setter TargetName="Track" Property="Opacity" Value="0.80" />
+                                    <Setter TargetName="TrackText" Property="Text" Value="On" />
+                                    <Setter TargetName="TrackText" Property="HorizontalAlignment" Value="Left" />
+                                    <Setter TargetName="TrackText" Property="Margin" Value="10 0 0 0" />
+                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsChecked" Value="True" />
+                                        <Condition Property="materialDesign:ToggleButtonAssist.HasOnContent" Value="True" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="ContentPresenter" Property="Content" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(materialDesign:ToggleButtonAssist.OnContent)}" />
+                                    <Setter TargetName="ContentPresenter" Property="ContentTemplate" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(materialDesign:ToggleButtonAssist.OnContentTemplate)}" />
+                                </MultiTrigger>
+                                <Trigger Property="IsChecked" Value="False">
+                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}"/>
+                                    <Setter TargetName="Track" Property="Fill" Value="{DynamicResource PrimaryHueLightBrush}" />
+                                    <Setter TargetName="Track" Property="Opacity" Value="0.50" />
+                                    <Setter TargetName="TrackText" Property="Text" Value="Off" />
+                                    <Setter TargetName="TrackText" Property="HorizontalAlignment" Value="Right" />
+                                    <Setter TargetName="TrackText" Property="Margin" Value="0 0 10 0" />
+                                    <!-- Need to set Foreground to Background here instead of hardcoded PrimaryHueMidBrush -->
+                                </Trigger>
+                                <Trigger Property="Button.IsDefaulted" Value="true"/>
+                                <Trigger Property="IsMouseOver" Value="true"/>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard Storyboard="{StaticResource ShowRipple}"/>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard Storyboard="{StaticResource HideRipple}"/>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter TargetName="Thumb" Property="Fill" Value="#BDBDBD" />
+                                    <Setter TargetName="Track" Property="Fill">
+                                        <Setter.Value>
+                                            <SolidColorBrush Color="White" Opacity=".12" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="UpButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="#FFDDDDDD"/>
+                <Setter Property="BorderBrush" Value="#FF707070"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid Opacity="0.5">
+                                <Border Name="UpButtonBorderStyle" Background="#333333">
+                                    <Border.BitmapEffect>
+                                        <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                    Color="LightGray" 
+                                    ShadowDepth="10"
+                                    Softness="0.5"
+                                    />
+                                    </Border.BitmapEffect>
+                                </Border>
+                                <Viewbox Margin="8">
+                                    <Path Data="M1,21H23L12,2" Fill="White" Name="TryAngleIcon"/>
+                                </Viewbox>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsDefaulted" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="UpButtonBorderStyle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true"/>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Fill" TargetName="TryAngleIcon" Value="#FF2C628B"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="UpButtonBorderStyle" Value="#252525"/>
+                                    <Setter Property="BorderBrush" TargetName="UpButtonBorderStyle" Value="#FFADB2B5"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="DwButtonStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="#FFDDDDDD"/>
+                <Setter Property="BorderBrush" Value="#FF707070"/>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="1"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Grid Opacity="0.5">
+                                <Border Name="DwButtonBorderStyle" Background="#333333">
+                                    <Border.BitmapEffect>
+                                        <DropShadowBitmapEffect x:Name="btnImageEffect"
+                                    Color="LightGray" 
+                                    ShadowDepth="10"
+                                    Softness="0.5"/>
+                                    </Border.BitmapEffect>
+                                </Border>
+                                <Viewbox Margin="8">
+                                    <Path Data="M1,2H23L12,21"
+                                          Fill="White" Name="TryAngleIcon"
+                                          />
+                                </Viewbox>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsDefaulted" Value="true">
+                                    <Setter Property="BorderBrush" TargetName="DwButtonBorderStyle" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="true"/>
+                                <Trigger Property="IsPressed" Value="true">
+                                    <Setter Property="Fill" TargetName="TryAngleIcon" Value="#FF2C628B"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Background" TargetName="DwButtonBorderStyle" Value="#252525"/>
+                                    <Setter Property="BorderBrush" TargetName="DwButtonBorderStyle" Value="#FFADB2B5"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" 
+                                        VerticalAlignment="Top" Grid.Column="0">
+                <Grid HorizontalAlignment="Right" Margin="5,0,0,0" >
+                    <Button AutomationProperties.AutomationId="btnDismiss"
+                            x:Name="DismissBtn" Height="40" Width="40" Margin="0,0,0,5"
+                            Command="{Binding AllAlramCheckedCommand}" Background="DimGray">
+                        <materialDesign:PackIcon Kind="Drafts" Foreground="White" Width="32" Height="32"/>
+                    </Button>
+                    <TextBlock x:Name="DismissTb" Foreground="DimGray" Margin="0,46,0,0" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold">Dismiss</TextBlock>
+                </Grid>
+
+                <Grid HorizontalAlignment="Right" Margin="5,0,0,0" >
+                    <Button AutomationProperties.AutomationId="btnHistory"
+                            x:Name="HistoryListviewBtn" Height="40" Width="40" Margin="0,0,0,5"
+                            Command="{Binding HistoryAlaramCommand}" Background="DimGray">
+                        <materialDesign:PackIcon Kind="LibraryBooks" Foreground="{Binding HistorySwitch, Converter={StaticResource ViewHistoryBtnColorConverter}}" Width="32" Height="32"/>
+                    </Button>
+                    <TextBlock x:Name="HistoryTb" Foreground="DimGray" Margin="0,46,0,0" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold"
+                        >History</TextBlock>
+                </Grid>
+
+            </StackPanel>
+
+            <Grid Grid.Column="1">
+                <ToggleButton AutomationProperties.AutomationId="tglCheckAllAtExit"
+                              x:Name="CheckCloseToggle"
+                              Style="{StaticResource ON_OFF_ToggleBtn}"
+                              IsChecked="{Binding CheckAtCloseToggle}"
+                              Height="40" Width="80" >
+                </ToggleButton>
+
+                <TextBlock x:Name="CheckCloseToggleTb" Foreground="DimGray" Margin="0,42,10,0" FontSize="10" HorizontalAlignment="Center">Check all at exit</TextBlock>
+            </Grid>
+
+            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" 
+                                        VerticalAlignment="Top" Grid.Column="0">
+                <Grid HorizontalAlignment="Right" Margin="5,0,0,0" >
+                    <Button AutomationProperties.AutomationId="btnOpenFile"
+                            x:Name="OpenFileBtn" Height="40" Width="40" Visibility="Hidden" Margin="0,0,0,5"
+                        Command="{Binding OpenFileCommand}" Background="DimGray">
+                        <materialDesign:PackIcon Kind="OpenInNew" Foreground="{Binding }" Width="32" Height="32"/>
+                    </Button>
+                    <TextBlock x:Name="OpenFileTb" Visibility="Hidden" Foreground="DimGray" Margin="0,46,0,0" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold">OpenFile</TextBlock>
+                </Grid>
+
+                <Grid HorizontalAlignment="Right" Margin="5,0,0,0" >
+                    <Button AutomationProperties.AutomationId="btnRefresh"
+                            x:Name="RefrashFileBtn" Height="40" Width="40" Visibility="Hidden" Margin="0,0,0,5"
+                            Command="{Binding RefrashFileCommand}" Background="DimGray">
+                        <materialDesign:PackIcon Kind="Refresh" Foreground="{Binding }" Width="32" Height="32"/>
+                    </Button>
+                    <TextBlock x:Name="RefrashFileTb" Visibility="Hidden" Foreground="DimGray" Margin="0,46,0,0" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold">Refrash</TextBlock>
+                </Grid>
+
+            </StackPanel>
+
+            <Grid Grid.Column="2">
+
+                <DatePicker  AutomationProperties.AutomationId="dpStart"
+                             x:Name="StartDatePicker"
+                             Visibility="Hidden"
+                             Width="65" Height="25" FontSize="7" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Margin="0,0,65,25"
+                             Foreground="Black"
+                             Background="WhiteSmoke"
+                             SelectedDate ="{Binding StartDate, Mode=TwoWay}"
+                             materialDesign:HintAssist.Hint="Start Date" >
+                    <DatePicker.RenderTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </DatePicker.RenderTransform>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectedDateChanged" >
+                            <i:InvokeCommandAction Command="{Binding PeriodFilterCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </DatePicker>
+            </Grid>
+            
+            <Grid Grid.Column="3">
+                <DatePicker  AutomationProperties.AutomationId="dpEnd"
+                             x:Name="EndDatePicker"
+                             Visibility="Hidden"
+                             Width="65" Height="25" FontSize="7" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" Margin="0,0,65,25"
+                             Foreground="Black"
+                             Background="WhiteSmoke"
+                             SelectedDate ="{Binding EndDate, Mode=TwoWay}"
+                             materialDesign:HintAssist.Hint="End Date">
+                    <DatePicker.RenderTransform>
+                        <ScaleTransform ScaleX="2" ScaleY="2"/>
+                    </DatePicker.RenderTransform>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectedDateChanged" >
+                            <i:InvokeCommandAction Command="{Binding PeriodFilterCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </DatePicker>
+            </Grid>
+            
+            <Grid Grid.Column="1">
+                <ComboBox AutomationProperties.AutomationId="cmbSelectLogType"
+                          x:Name="LogTypeCb" Margin="8" Width="120" IsEditable="True"
+                          VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                          IsReadOnly="True" Text="Select Log Type" Visibility="Hidden"
+                          ItemsSource="{Binding ComboItemSource}"
+                          SelectedItem="{Binding CurrentSelection}"
+                          SelectionChanged="LogTypeCb_SelectionChanged"/>
+            </Grid>
+            
+            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="4">
+                <Grid HorizontalAlignment="Right" Margin="5,0,0,0" >
+                    <Button AutomationProperties.AutomationId="btnLog"
+                            x:Name="LogListviewBtn" Height="40" Width="40" Margin="0,0,0,5"
+                            Command="{Binding UpdateLogCommand}" Background="DimGray">
+                        <materialDesign:PackIcon Kind="LibraryBooks" Foreground="{Binding LogSwitch, Converter={StaticResource ViewLogBtnColorConverter}}" Width="32" Height="32"/>
+                    </Button>
+                    <TextBlock x:Name="CellLogTb" Foreground="DimGray" Margin="0,46,0,0" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold"
+                            >Log</TextBlock>
+                </Grid>
+                <Grid HorizontalAlignment="Right" Margin="5,0,0,0" >
+                    <Button AutomationProperties.AutomationId="btnCloseWindow"
+                            Height="40" Width="40" HorizontalAlignment="Right" Margin="0,0,0,5" 
+                            Command="{Binding CloseWindowCommand}">
+                        <materialDesign:PackIcon Kind="Clear" Foreground="White" Width="40" Height="40"/>
+                    </Button>
+                </Grid>
+            </StackPanel>
+            
+        </Grid>
+
+        <aniScroll:AnimationScrollViewer x:Name="svAlarmView" Grid.Row="1" BorderBrush="Black" BorderThickness="1"
+                          VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Stretch" 
+                          HorizontalScrollBarVisibility="Hidden" >
+            <Border  BorderBrush="Black" BorderThickness="1" Margin="4">
+                <ListView Grid.Row="2" 
+                          x:Name="uiListView" 
+                          HorizontalAlignment="Stretch" 
+                          BorderBrush="Black" BorderThickness="1"
+                          SelectionMode="Single" 
+                          ItemsSource="{Binding CellInfo.ErrorCodeAlarams}"
+                          VirtualizingPanel.IsVirtualizing="True"
+                          ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                          SelectedIndex="{Binding SelectedAlaramIndex}">
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}" CommandParameter="{Binding ElementName=uiListView, Path=SelectedItems}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Event Code" Width="300" DisplayMemberBinding="{Binding ErrorCode}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Label Content="{Binding Path=ErrorCode}" Foreground="{Binding Path=IsChecked, Converter={StaticResource foreGroundConverter}}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Time of occurrence" Width="160" DisplayMemberBinding="{Binding ErrorOccurTime}"/>
+
+                            <GridViewColumn Header="Image" Width="300">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Show" Width="100"
+                                                Command="{Binding DataContext.ButtonClickCommand, RelativeSource={RelativeSource AncestorType=ListView}}" 
+                                                CommandParameter="{Binding}"
+                                                Visibility="{Binding ImageDatasHashCode, Converter={StaticResource NullToVisibilityConverter}}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Border>
+
+        </aniScroll:AnimationScrollViewer>
+        <aniScroll:AnimationScrollViewer x:Name="svLogView" Grid.Row="1" BorderBrush="Black" BorderThickness="1"
+                          VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Stretch" 
+                          HorizontalScrollBarVisibility="Hidden" 
+                                         Visibility="Hidden">
+            <Border  BorderBrush="Black" BorderThickness="1" Margin="4">
+                <TabControl SelectionChanged="TabControl_SelectionChanged">
+                    <TabItem Header="LOG_LIST">
+                        <ListView Grid.Row="2" 
+                  x:Name="uiLogListView" 
+                  HorizontalAlignment="Stretch" 
+                  BorderBrush="Black" BorderThickness="1"
+                  SelectionMode="Single" 
+                  VirtualizingPanel.IsVirtualizing="True"
+                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                  >
+
+                            <!--<ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="Visibility" Value="{Binding IsChecked, Converter={StaticResource IsCheckedVisibleConv}}" />
+                        </Style>
+                    </ListView.ItemContainerStyle>-->
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding SelectedLogChangedCommand}"  
+                                                   CommandParameter="{Binding ElementName=uiLogListView, Path=SelectedItems}"/>
+
+                                </i:EventTrigger>
+
+                            </i:Interaction.Triggers>
+                            <!--<ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="IsSelected" Value="{Binding StageInfo.IsChecked}" />
+                        </Style>
+                    </ListView.ItemContainerStyle>-->
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="FileName" Width="200" DisplayMemberBinding="{Binding LogFileName}"/>
+                                    <GridViewColumn Header="FilePath" Width="470"  DisplayMemberBinding="{Binding LogFilePath}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </TabItem>
+                    <TabItem Header="SETTING">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="60"/>
+                            </Grid.RowDefinitions>
+                            <ListView Grid.Row="0" 
+                                  HorizontalAlignment="Stretch" 
+                                  BorderBrush="Black" BorderThickness="1"
+                                  SelectionMode="Single" 
+                                  VirtualizingPanel.IsVirtualizing="True"
+                                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                  ItemsSource="{Binding LogPathInfos}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="LOG_TYPE" Width="140" DisplayMemberBinding="{Binding LogType}"/>
+                                        <GridViewColumn Header="PATH" Width="470">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBox Text="{Binding Path=LogPath, Mode=TwoWay}" Width="470"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                            <Button Grid.Row="1" Width="80" Height="40" Content="SAVE"
+                                    HorizontalAlignment="Right" Command="{Binding SaveLogPathSettingCommand}"/>
+                        </Grid>
+                    </TabItem>
+
+
+                    <!--<TabItem Header="IMAGE_LOG">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="10*"/>
+                            </Grid.RowDefinitions>
+                            <GroupBox  Grid.Row="0" Header="ImageFormat" Style="{x:Null}" BorderBrush="Black" >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="40"/>
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel Orientation="Horizontal" Margin="4">
+                                        <RadioButton Margin="2" Content=".JPEG" GroupName="RBImageFormat" IsChecked="{Binding ImageLogParam.JPEG}"/>
+                                        <RadioButton Margin="2" Content=".BMP" GroupName="RBImageFormat" IsChecked="{Binding ImageLogParam.BMP}"/>
+
+                                    </StackPanel>
+
+                                    <Button Grid.Row="1" Width="80" Height="30" Content="SAVE" Margin="0"
+                                             HorizontalAlignment="Right" Command="{Binding SaveImageFormatSettingCommand}"/>
+                                </Grid>
+                            </GroupBox>
+                            <ListView 
+                                  Grid.Row="1"
+                                  HorizontalAlignment="Stretch" 
+                                  BorderBrush="Black" BorderThickness="1"
+                                  SelectionMode="Single" 
+                                  VirtualizingPanel.IsVirtualizing="True"
+                                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                  ItemsSource="{Binding ImageLogPathInfos}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="LOG_TYPE" Width="140" DisplayMemberBinding="{Binding Key}"/>
+                                        <GridViewColumn Header="PATH" Width="470"  DisplayMemberBinding="{Binding Value}"/>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </TabItem>-->
+
+
+                </TabControl>
+            </Border>
+
+        </aniScroll:AnimationScrollViewer>
+
+        <Border Grid.Row="2" BorderBrush="WhiteSmoke" BorderThickness="0.6" Margin="0,0,0,4">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button AutomationProperties.AutomationId="btnUp"
+                        Grid.Column="0"
+                        Margin="4"
+                        Opacity="0.5"
+                        Style="{StaticResource UpButtonStyle}"
+                        Click="StageListUpBtnClick"/>
+
+                <Button AutomationProperties.AutomationId="btnDown"
+                        Grid.Column="2"
+                        Margin="4"
+                        Opacity="0.5"
+                        Style="{StaticResource DwButtonStyle}"
+                        Click="StageListDownBtnClick"/>
+            </Grid>
+        </Border>
+
+    </Grid>
+</Window>

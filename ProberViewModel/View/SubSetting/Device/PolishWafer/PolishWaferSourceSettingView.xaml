@@ -1,0 +1,323 @@
+﻿<UserControl x:Class="UcPolishWaferSourceSettingView.PolishWaferSourceSettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UcPolishWaferSourceSettingView"
+             xmlns:wafer="clr-namespace:ProberViewModel;assembly=WaferSelectionView"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:uc="clr-namespace:PolishWaferSourceSettingViewProject.UC"
+             xmlns:cui="clr-namespace:CUI;assembly=CUI"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+            <local:FixedTrayCountNumConverter x:Key="FixedTrayCountNumConverter"/>
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel>
+            <Label Content="Polish Wafer Source"
+                Foreground="White"
+                FontWeight="Bold"
+                FontSize="56"
+                />
+                <Separator Margin="4" Background="White"/>
+                <StackPanel>
+                    <Border Margin="4,0,0,0" Background="#3C454F">
+                        <Label Padding="0" FontWeight="DemiBold" Content="Setup" Foreground="WhiteSmoke" FontSize="16" VerticalAlignment="Center" />
+                    </Border>
+                    <Grid Margin="16" HorizontalAlignment="Left">
+                    <cui:Button AutomationProperties.AutomationId="btnSetup"
+                                GUID="764051a7-75fe-48a9-b685-d335e0f978d8"
+                                Style="{DynamicResource NormalTypeCUIButtonStyle}"
+                                Height="52" Width="160" Margin="8"
+                                Command="{Binding PolishWaferSourceCommand}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                Content="Setup"/>
+                    </Grid>
+                </StackPanel>
+        </StackPanel>
+    </Grid>
+
+    <!--<Grid>
+        -->
+    <!--<ListView x:Name="myListView" ItemsSource="{Binding WaferSelections}>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <wafer:UcWaferSelectionView/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>-->
+    <!--
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+            <Label Content="Polish Wafer Source"
+                Foreground="White"
+                FontWeight="Bold"
+                FontSize="56"
+                />
+            <Separator Margin="4" Background="White"/>
+            <Border Margin="4,0,0,0" Background="#3C454F">
+                <Label Padding="0" FontWeight="DemiBold" 
+                       Content="SOURCE SETTING" 
+                       Foreground="WhiteSmoke" 
+                       FontSize="16" VerticalAlignment="Center" />
+            </Border>
+        </StackPanel>
+
+        <Grid Grid.Row ="1">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+
+            -->
+    <!--<wafer:UcWaferSelectionView Height="800" DataContext="{Binding SelectedWaferSelection}"/>-->
+    <!--
+            <uc:PolisWaferSourceSelectionView Grid.Column="0" DataContext="{Binding PolishWaferSourceModel}"></uc:PolisWaferSourceSelectionView>
+
+                <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+
+                <Grid Margin="0,4,0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" Content="Define Name" Margin="0,4,0,4" 
+                               HorizontalContentAlignment="Stretch"
+                               Style="{DynamicResource TitleBorderLabel}"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" Margin="0,4,0,4" 
+                                 Text="{Binding  PolishWaferObj.DefineType.Value}"
+                                 HorizontalContentAlignment="Stretch"
+                                 Style="{DynamicResource InputTextBox}" FontSize="18">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                <i:InvokeCommandAction Command="{Binding DefineNameTextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                </Grid>
+
+                <Grid Margin="0,4,0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" Content="Wafer ID" Margin="0,4,0,4" 
+                               HorizontalContentAlignment="Center"
+                               Style="{DynamicResource TitleBorderLabel}"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" Margin="0,4,0,4" 
+                                 Text="{Binding  PolishWaferObj.ID.Value}"
+                                 HorizontalContentAlignment="Center"
+                                 Style="{DynamicResource InputTextBox}" FontSize="18">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown" >
+                                <i:InvokeCommandAction Command="{Binding DefineNameTextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+                </Grid>
+
+                <Grid Margin="0,4,0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" Content="Wafer Type" Margin="0,4,0,4" 
+                               HorizontalContentAlignment="Center"
+                               Style="{DynamicResource TitleBorderLabel}"/>
+                    <ComboBox  Grid.Column="1" Grid.Row="0" Margin="0,4,0,4"
+                                   Style="{x:Null}"
+                                   VerticalContentAlignment="Center"
+                                   HorizontalContentAlignment="Center"
+                                   Foreground="Black"
+                                   FontSize="18"
+                                   ItemsSource="{Binding Source={StaticResource getDataFromWaferTypeEnum}}"
+                                   SelectedItem="{Binding PolishWaferObj.PhysicalType.Value}"/>
+                </Grid>
+
+                <Grid Margin="0,4,0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" Content="Wafer Size" Margin="0,4,0,4" 
+                               HorizontalContentAlignment="Center"
+                               Style="{DynamicResource TitleBorderLabel}"/>
+
+                    <TextBox Grid.Column="1" Grid.Row="0" Margin="0,4,0,4" Text="{Binding WaferSizeEnum, Mode=OneWay}"
+                                 HorizontalContentAlignment="Center"
+                                 Style="{DynamicResource InputTextBox}" FontSize="18" IsReadOnly="True">
+                        -->
+    <!----><!--
+                    </TextBox>
+                    
+                </Grid>
+                
+                <Grid Margin="0,4,0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" Content="Thickness" Margin="0,4,0,4" 
+                               HorizontalContentAlignment="Center"
+                               Style="{DynamicResource TitleBorderLabel}"/>
+                    <TextBox Grid.Column="1" Grid.Row="0" Margin="0,4,0,4" 
+                                 Text="{Binding  PolishWaferObj.Thickness.Value, StringFormat={}{0:0.###}}"
+                                 HorizontalContentAlignment="Center"
+                                 Style="{DynamicResource InputTextBox}" FontSize="18">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown" >
+                            <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                            </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </Grid>
+
+                    <Grid Margin="0,4,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0" Content="EdgeMargin" Margin="0,4,0,4" 
+                               HorizontalContentAlignment="Center"
+                               Style="{DynamicResource TitleBorderLabel}"/>
+                        <TextBox Grid.Column="1" Grid.Row="0" Margin="0,4,0,4" 
+                                 Text="{Binding  PolishWaferObj.WaferMargin.Value}"
+                                 HorizontalContentAlignment="Center"
+                                 Style="{DynamicResource InputTextBox}" FontSize="18">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </Grid>
+
+                    <Grid Margin="0,4,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0" Content="NotchAngle" Margin="0,4,0,4" 
+                               HorizontalContentAlignment="Center"
+                               Style="{DynamicResource TitleBorderLabel}"/>
+                        <TextBox Grid.Column="1" Grid.Row="0" Margin="0,4,0,4" 
+                                 Text="{Binding  PolishWaferObj.NotchAngle.Value}"
+                                 HorizontalContentAlignment="Center"
+                                 Style="{DynamicResource InputTextBox}" FontSize="18">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </Grid>
+
+                    <Grid Margin="0,4,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0" Content="Rotate Angle" Margin="0,4,0,4" 
+                               HorizontalContentAlignment="Center"
+                               Style="{DynamicResource TitleBorderLabel}"/>
+                        <TextBox Grid.Column="1" Grid.Row="0" Margin="0,4,0,4" 
+                                 Text="{Binding  PolishWaferObj.RotateTargetAngle.Value}"
+                                 HorizontalContentAlignment="Center"
+                                 Style="{DynamicResource InputTextBox}" FontSize="18">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </Grid>
+
+                    <Grid Margin="0,4,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0" Content="Align Type" Margin="0,4,0,4" 
+                               HorizontalContentAlignment="Center"
+                               Style="{DynamicResource TitleBorderLabel}"/>
+                        <ComboBox  Grid.Column="1" Grid.Row="0" Margin="0,4,0,4"
+                                   Style="{x:Null}"
+                                   VerticalContentAlignment="Center"
+                                   HorizontalContentAlignment="Center"
+                                   Foreground="Black"
+                                   FontSize="18"
+                                   ItemsSource="{Binding Source={StaticResource getDataFromAlignTypeEnum}}"
+                                   SelectedItem="{Binding PolishWaferObj.AlignType.Value}"/>
+                    </Grid>
+
+                    <Grid Margin="0,4,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0" Content="Align Mode" Margin="0,4,0,4" 
+                               HorizontalContentAlignment="Center"
+                               Style="{DynamicResource TitleBorderLabel}"/>
+                        <ComboBox  Grid.Column="1" Grid.Row="0" Margin="0,4,0,4"
+                                   Style="{x:Null}"
+                                   VerticalContentAlignment="Center"
+                                   HorizontalContentAlignment="Center"
+                                   Foreground="Black"
+                                   FontSize="18"
+                                   ItemsSource="{Binding Source={StaticResource getDataFromAlignModeEnum}}"
+                                   SelectedItem="{Binding PolishWaferObj.FocusingMode.Value}"/>
+                    </Grid>
+
+
+
+
+
+                    -->
+    <!--<Button Margin="8,4,8,4" HorizontalAlignment="Center" Width="320" Height="40"
+                            Content="Move To Wafer Thickness"
+                        Command="{Binding MoveToWaferThicknessCommand}"
+                        Style="{DynamicResource ControlButtonStyle}" >
+                </Button>
+                <Button Margin="8,4,8,4" HorizontalAlignment="Center" Width="320" Height="40"
+                            Content="Adjust Wafer Height"
+                        Command="{Binding AdjustWaferHeightCommand}"
+                        Style="{DynamicResource ControlButtonStyle}" >
+                </Button>-->
+    <!--
+            </StackPanel>
+
+        </Grid>
+
+
+        -->
+    <!--<ItemsControl ItemsSource="{Binding WaferSelections[0]}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="AA" />
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>-->
+    <!--
+    </Grid>-->
+</UserControl>

@@ -1,0 +1,524 @@
+﻿<UserControl x:Class="UcDisplayPort.DisplayPort" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ValueConvert="clr-namespace:ValueConverters;assembly=ValueConverters"   
+             xmlns:local="clr-namespace:UcDisplayPort"
+             xmlns:pi="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:sharprender="clr-namespace:SharpDXRender;assembly=SharpDXRender"
+             xmlns:outlinetextblock="clr-namespace:OutlinedTextBlockControl;assembly=OutlinedTextBlockControl"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+             xmlns:cuim="clr-namespace:CUIContextMenu;assembly=CUIContextMenu"
+             xmlns:account="clr-namespace:AccountModule;assembly=AccountModule"
+             xmlns:dragaAnddrop="clr-namespace:UIElementDropBebavior;assembly=UIElementDropBebavior"
+             mc:Ignorable="d" 
+             x:Name="ucwindow"
+             AutomationProperties.AutomationId="ucDisplayPort"
+             d:DesignHeight="320" d:DesignWidth="240" MinWidth="64" MinHeight="48" Loaded="ucwindow_Loaded">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ListBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.RadioButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="OSDLabelStyle" TargetType="{x:Type Label}">
+                <!--<Style.Resources>
+                    <DropShadowEffect x:Key="dropShadowEffect" Color="WhiteSmoke" BlurRadius="0" Opacity="1" 
+                                                  ShadowDepth="1" Direction="160"/>
+                </Style.Resources>-->
+                <Setter Property="Foreground" Value="WhiteSmoke"/>
+                <!--<Setter Property="FontFamily" Value="NanumGothic"/>-->
+                <Setter Property="FontWeight" Value="Medium"/>
+                <Setter Property="FontSize" Value="{Binding ElementName=ucwindow, Path=OSDLabelStyleFontSize}"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="2,1"/>
+                <!--<Setter Property="Effect" Value="{StaticResource dropShadowEffect}"/>-->
+                <Setter Property="Background" Value="#6F000000"/>
+                <Setter Property="MinWidth" Value="24"/>
+                <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Foreground"  Value="#CCCCCC"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="OSDRichTextBoxStyle" TargetType="{x:Type RichTextBox}">
+                <!--<Style.Resources>
+                    <DropShadowEffect x:Key="dropShadowEffect" Color="WhiteSmoke" BlurRadius="0" Opacity="1" 
+                                                  ShadowDepth="1" Direction="160"/>
+                </Style.Resources>-->
+                <Setter Property="Foreground" Value="WhiteSmoke"/>
+                <!--<Setter Property="FontFamily" Value="NanumGothic"/>-->
+                <Setter Property="FontWeight" Value="Medium"/>
+                <Setter Property="FontSize" Value="{Binding ElementName=ucwindow, Path=OSDLabelStyleFontSize}"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="2,1"/>
+                <!--<Setter Property="Effect" Value="{StaticResource dropShadowEffect}"/>-->
+                <Setter Property="Background" Value="#6F000000"/>
+                <Setter Property="MinWidth" Value="24"/>
+                <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Foreground"  Value="#CCCCCC"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <ValueConvert:HalfConverter x:Key="HalfConverter"/>
+            <ValueConvert:CamCoordConverter x:Key="PosToCamPosConverter"/>
+            <ValueConvert:CoordIndexConverter x:Key="PosToIndexConverter"/>
+            <ValueConvert:LockingColorChangerUsingMasking x:Key="LockingColorChangerUsingMasking"/>
+            <ValueConvert:MaskingCheckMultiConverter x:Key="converter"/>
+            <ValueConvert:BoolToSolidColorConverter x:Key="BoolToSolidColorConverter"/>
+
+            <DataTemplate x:Key="OverlayCanvasTemplate" DataType="{x:Type Canvas}">
+                <ContentControl Name="OverlayControl" Content="{Binding CurCam.DisplayService.OverlayCanvas}" />
+            </DataTemplate>
+
+            <ValueConvert:SetZeroPositionConvert x:Key="SetZeroPositionConverter"/>
+            <ValueConvert:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" True="Visible" False="Hidden"/>
+            <ValueConvert:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter2" True="Collapsed" False="Visible"/>
+            <ValueConvert:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConv_TV" True="Visible" False="Collapsed"/>
+            <ValueConvert:MultiMarginConverter x:Key="MultiMarginConv"/>
+
+            <local:WirteableBitmapConverter x:Key="ImageConverter"/>
+            <Style x:Key="SetZero"  TargetType="{x:Type Label}">
+                <Setter Property="Content">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource SetZeroPositionConverter}" UpdateSourceTrigger="PropertyChanged">
+                            <Binding ElementName="ucwindow" Path="SetZeroCoordXPos"/>
+                            <Binding ElementName="ucwindow" Path="SetZeroCoordYPos"/>
+                            <Binding ElementName="ucwindow" Path="SetZeroCoordZPos"/>
+                            <Binding ElementName="ucwindow" Path="SetZeroCoordPZPos"/>
+                            <Binding ElementName="ucwindow" Path="AssignedCamera"/>
+                            <Binding ElementName="ucwindow" Path="StageSupervisor"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!--<ValueConvert:CameraSetFromConverter x:Key="CameraSetFromConv_X" Axis="X"/>
+            <ValueConvert:CameraSetFromConverter x:Key="CameraSetFromConv_Y" Axis="Y"/>
+            <ValueConvert:CameraSetFromConverter x:Key="CameraSetFromConv_Z" Axis="Z"/>-->
+            
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <UserControl.CommandBindings>
+    </UserControl.CommandBindings>
+
+    <Grid Name="DPGrid" PreviewMouseLeftButtonDown="DPGrid_PreviewMouseLeftButtonDown"  PreviewMouseLeftButtonUp="DPGrid_MouseLeftButtonUp"
+           IsHitTestVisible="{Binding ElementName=ucwindow ,Path=IsHitTestVisible}">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="221*"/>
+            <ColumnDefinition Width="19*"/>
+        </Grid.ColumnDefinitions>
+        
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseLeftButtonDown">
+                <i:InvokeCommandAction Command="{Binding Path=StageSupervisor.ClickToMoveLButtonDownCommand}"
+                                       CommandParameter="{Binding ElementName=ucwindow, Path=EnalbeClickToMove}">
+                </i:InvokeCommandAction>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+
+        <i:Interaction.Behaviors>
+            <dragaAnddrop:UIElementDropBehavior 
+                DropCommand="{Binding Path=StageSupervisor.VisionManager.DragDropVisionFilesCommand}" 
+                DragOverCommand="{Binding  Path=StageSupervisor.VisionManager.DragOverVisionFilesCommand}" 
+                Cameara="{Binding ElementName=ucwindow, Path=AssignedCamera}"/>
+        </i:Interaction.Behaviors>
+
+        <Image  po:Freeze="True"
+               OpacityMask="{x:Null}" RenderOptions.BitmapScalingMode="NearestNeighbor" 
+               RenderOptions.EdgeMode="Aliased" 
+               Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2" 
+               RenderTransformOrigin="0.5,0.5">
+            
+            <Image.RenderTransform>
+                <ScaleTransform  ScaleX="{Binding ElementName=ucwindow, Path=VmDispVerFlip}" ScaleY="{Binding ElementName=ucwindow, Path=VmDispVerFlip}"/>
+            </Image.RenderTransform>
+            
+            <Image.Source>
+                <MultiBinding Converter="{StaticResource ImageConverter}" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="DisplayImage" ElementName="ucwindow"/>
+                    <Binding Path="WriteableBitmap" ElementName="ucwindow"/>
+                </MultiBinding>
+            </Image.Source>
+        </Image>
+
+
+        <Grid x:Name="Grid_OverlayCanvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MaxWidth="{Binding ElementName=DPGrid, Path=ActualWidth}"
+              MaxHeight="{Binding ElementName=DPGrid, Path=ActualHeight}" ClipToBounds="True" Grid.ColumnSpan="2" >
+            <ContentControl x:Name="CC_OverlayCanvas" Content="{Binding Path=AssignedCamera.DisplayService.OverlayCanvas, ElementName=ucwindow,
+                NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" >
+            </ContentControl>
+
+        </Grid>
+
+        <Canvas Name="OSDCanvas" SizeChanged="OSDCanvas_SizeChanged" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.ColumnSpan="2">
+
+            <Line x:Name="VertCorner" Stroke="Red" StrokeThickness="1.5" Visibility="Hidden"></Line>
+            <Line x:Name="HorCorner" Stroke="Red" StrokeThickness="1.5" Visibility="Hidden"></Line>
+
+            <Line x:Name="TopLeftToBottomRightLine"
+                  X1="0"
+                  Y1="0"
+                  X2="{Binding Path=ActualWidth, ElementName=ucwindow}"
+                  Y2="{Binding Path=ActualHeight, ElementName=ucwindow}"
+                  Stroke="LimeGreen"
+                  StrokeThickness="4"
+                  Opacity ="0.5"
+                  Visibility="{Binding ElementName=ucwindow, Path=StageSupervisor.WaferObject.TopLeftToBottomRightLineVisible}"/>
+
+            <Line x:Name="BottomLeftToTopRightLine"
+                  X1="0"
+                  Y1="{Binding Path=ActualHeight, ElementName=ucwindow}"
+                  X2="{Binding Path=ActualWidth, ElementName=ucwindow}"
+                  Y2="0"
+                  Stroke="LimeGreen"
+                  StrokeThickness="4"
+                  Opacity ="0.5"
+                  Visibility="{Binding ElementName=ucwindow, Path=StageSupervisor.WaferObject.BottomLeftToTopRightLineVisible}"/>
+            
+            <Grid x:Name="Grid_LowerTextContent" Canvas.Bottom="1" Visibility="{Binding Path=GridVisibility, ElementName=ucwindow, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="96"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+
+                <StackPanel Grid.Row="0" 
+                            Visibility="{Binding Path=MarkerEnable, 
+                                                    ElementName=ucwindow, 
+                                                    Converter={StaticResource BooleanToVisibilityConv_TV}}">
+                    <Grid>
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Label Style="{StaticResource OSDLabelStyle}" Grid.Row="0" Grid.Column="0">
+                            <Label.Content>
+                                <materialDesign:PackIcon Kind="MapMarker" Foreground="White" Height="19"/>
+                            </Label.Content>
+                        </Label>
+
+                        <Label Content="Set X: " Style="{StaticResource OSDLabelStyle}" Grid.Row="0" Grid.Column="1"/>
+
+                        <Label AutomationProperties.AutomationId="lbSetXPos"
+                               Grid.Row="0" Grid.Column="2" MinWidth="48" Style="{StaticResource OSDLabelStyle}">
+                            <Label.Content>
+                                <MultiBinding Converter="{StaticResource SetZeroPositionConverter}" >
+                                    <Binding ElementName="ucwindow" Path="AxisXPos.Status.Position.Ref"/>
+                                    <Binding ElementName="ucwindow" Path="MarkerSetPos.X.Value"/>
+                                    <Binding ElementName="ucwindow" Path="MarkerEnable"/>
+                                </MultiBinding>
+                            </Label.Content>
+                        </Label>
+
+                        <Label Content="Set Y: " Style="{StaticResource OSDLabelStyle}" Grid.Row="0" Grid.Column="3"/>
+
+                        <Label AutomationProperties.AutomationId="lbSetYPos"
+                               Grid.Row="0" Grid.Column="4" MinWidth="48" Style="{StaticResource OSDLabelStyle}">
+                            <Label.Content>
+                                <MultiBinding Converter="{StaticResource SetZeroPositionConverter}">
+                                    <Binding ElementName="ucwindow" Path="AxisYPos.Status.Position.Ref"/>
+                                    <Binding ElementName="ucwindow" Path="MarkerSetPos.Y.Value"/>
+                                    <Binding ElementName="ucwindow" Path="MarkerEnable"/>
+                                </MultiBinding>
+                            </Label.Content>
+                        </Label>
+
+                        <Label Content="Set Z: " 
+                               Style="{StaticResource OSDLabelStyle}" Grid.Row="0" Grid.Column="5"/>
+
+                        <Label AutomationProperties.AutomationId="lbSetZPos"
+                               Grid.Row="0" Grid.Column="6" MinWidth="48" Style="{StaticResource OSDLabelStyle}">
+                            <Label.Content>
+                                <MultiBinding Converter="{StaticResource SetZeroPositionConverter}">
+                                    <Binding ElementName="ucwindow" Path="AxisZPos.Status.Position.Ref"/>
+                                    <Binding ElementName="ucwindow" Path="MarkerSetPos.Z.Value"/>
+                                    <Binding ElementName="ucwindow" Path="MarkerEnable"/>
+                                </MultiBinding>
+                            </Label.Content>
+                        </Label>
+
+                        <Label Content="Set PZ: " 
+                               Style="{StaticResource OSDLabelStyle}" Grid.Row="0" Grid.Column="7"/>
+
+                        <Label AutomationProperties.AutomationId="lbSetPZPos"
+                               Grid.Row="0" Grid.Column="8" MinWidth="48" Style="{StaticResource OSDLabelStyle}">
+                            <Label.Content>
+                                <MultiBinding Converter="{StaticResource SetZeroPositionConverter}">
+                                    <Binding ElementName="ucwindow" Path="AxisPZPos.Status.Position.Ref"/>
+                                    <Binding ElementName="ucwindow" Path="MarkerSetPos.PZ.Value"/>
+                                    <Binding ElementName="ucwindow" Path="MarkerEnable"/>
+                                </MultiBinding>
+                            </Label.Content>
+                        </Label>
+
+                    </Grid>
+                </StackPanel>
+                
+    
+                <StackPanel Grid.Column="0" Grid.Row="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="96"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Label x:Name="POSXLabel" Content="X : " Grid.Row="1" Style="{StaticResource OSDLabelStyle}"/>
+
+                        <Label x:Name="lb_posx" Grid.Row="1" Content="{Binding Path=AxisXPos.Status.Position.Ref  , ElementName=ucwindow}" AutomationProperties.AutomationId="lbAxisXPos"
+                       ContentStringFormat="{}{0:0.0}"  
+                       Grid.Column="1" Style="{StaticResource OSDLabelStyle}" Width="80" HorizontalContentAlignment="Right"/>
+                        <Label x:Name="POSYLabel" Content="Y : " Grid.Row="2" Style="{StaticResource OSDLabelStyle}"/>
+                        <Label x:Name="lb_posy"  Content="{Binding AxisYPos.Status.Position.Ref  , ElementName=ucwindow}" AutomationProperties.AutomationId="lbAxisYPos"
+                       ContentStringFormat="{}{0:0.0}"  
+                       Grid.Column="1" Grid.Row="2" Style="{StaticResource OSDLabelStyle}" Width="80" HorizontalContentAlignment="Right"/>
+
+                        <Label Content="Z : " Grid.Row="3" Style="{StaticResource OSDLabelStyle}"/>
+                        <Label x:Name="lb_posz" Content="{Binding AxisZPos.Status.Position.Ref , ElementName=ucwindow}" AutomationProperties.AutomationId="lbAxisZPos"
+                       ContentStringFormat="{}{0:0.0}"  
+                       Grid.Column="1" Grid.Row="3" Style="{StaticResource OSDLabelStyle}" Width="80" HorizontalContentAlignment="Right"/>
+                        
+                        <Label Content="PZ : " Grid.Row="4" Style="{StaticResource OSDLabelStyle}"/>
+                        <Label x:Name="lb_pospz" Content="{Binding AxisPZPos.Status.Position.Ref , ElementName=ucwindow}" AutomationProperties.AutomationId="lbAxisPZPos"
+                       ContentStringFormat="{}{0:0.0}"  
+                       Grid.Column="1" Grid.Row="4" Style="{StaticResource OSDLabelStyle}" Width="80" HorizontalContentAlignment="Right"/>
+                        
+                        <Label Content="T : " Grid.Row="5" Style="{StaticResource OSDLabelStyle}" />
+                        <Label x:Name="lb_post"  Content="{Binding AxisTPos.Status.Position.Ref, ElementName=ucwindow}" AutomationProperties.AutomationId="lbAxisTPos"
+                       ContentStringFormat="{}{0:0.0}"
+                       Grid.Column="1" Grid.Row="5" Style="{StaticResource OSDLabelStyle}" Width="80" HorizontalContentAlignment="Right"/>
+
+                    </Grid>
+                </StackPanel>
+
+
+            </Grid>
+
+            <Grid x:Name="grid_UpperTextContent" Canvas.Top="0" Canvas.Left="0"
+                  Visibility="{Binding Path=GridVisibility, ElementName=ucwindow, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="96"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Label x:Name="XLabel" Content="X : " Grid.Row="0" Style="{StaticResource OSDLabelStyle}">
+
+                        </Label>
+                        <Label x:Name="lb_userposx" Content="{Binding Path=AssignedCamera.CamSystemPos.X.Value, ElementName=ucwindow}" AutomationProperties.AutomationId="lbCamSystemPosX"
+                               ContentStringFormat="{}{0:0.0}" MinWidth="48" HorizontalContentAlignment="Right"
+                               Grid.Column="1" Grid.Row="0" Style="{StaticResource OSDLabelStyle}"/>
+
+                        <Label x:Name="YLabel" Content="Y : "  Grid.Column="2"  Style="{StaticResource OSDLabelStyle}">
+
+                        </Label>
+                        <Label  x:Name="lb_userposy" Content="{Binding Path=AssignedCamera.CamSystemPos.Y.Value, ElementName=ucwindow}" AutomationProperties.AutomationId="lbCamSystemPosY"
+                                    ContentStringFormat="{}{0:0.0}" MinWidth="48" HorizontalContentAlignment="Right"
+                                    Grid.Column="3" Grid.Row="0" Style="{StaticResource OSDLabelStyle}"/>
+
+                        <Label x:Name="ZLabel" Content="Z : " Grid.Row="0" Grid.Column="4"  Style="{StaticResource OSDLabelStyle}">
+
+                        </Label>
+                        <Label  x:Name="lb_userposz" Content="{Binding Path=AssignedCamera.CamSystemPos.Z.Value, ElementName=ucwindow}" AutomationProperties.AutomationId="lbCamSystemPosZ"
+                                    ContentStringFormat="{}{0:0.0}"  MinWidth="36" HorizontalContentAlignment="Right"
+                                    Grid.Column="5" Grid.Row="0" Style="{StaticResource OSDLabelStyle}">
+                        </Label>
+                    </Grid>
+                </Border>
+
+                <Border x:Name="bd_UpperTextContent" Grid.Row="1" Grid.ColumnSpan="2" Visibility="{Binding Path=GridVisibility, ElementName=ucwindow, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="96"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Label x:Name="IndexXLabel" Content="UX : " Grid.Row="0" Style="{StaticResource OSDLabelStyle}" Width="28"/>
+                        <Label x:Name="lb_indexX" Content="{Binding Path=AssignedCamera.CamSystemUI.XIndex, ElementName=ucwindow}" AutomationProperties.AutomationId="lbCamSystemUIX"
+                               Grid.Row="0" Grid.Column="1"  Style="{StaticResource OSDLabelStyle}" />
+                        <Label x:Name="IndexYLabel" Content="UY : " Grid.Row="1" Style="{StaticResource OSDLabelStyle}" Width="28"/>
+                        <Label x:Name="lb_indexY"  Content="{Binding Path=AssignedCamera.CamSystemUI.YIndex, ElementName=ucwindow}" AutomationProperties.AutomationId="lbCamSystemUIY"
+                               Grid.Row="1" Grid.Column="1"  Style="{StaticResource OSDLabelStyle}"/>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="2" Grid.ColumnSpan="2" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="96"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Label x:Name="lb_focus" Content="FocusValue : " Grid.Row="0" Style="{StaticResource OSDLabelStyle}" 
+                               Visibility="{Binding Path=AssignedCamera.EnableGetFocusValueFlag, ElementName=ucwindow}"/>
+                        <Label x:Name="lb_focusval" Content="{Binding Path=AssignedCamera.CamCurImage.FocusLevelValue, ElementName=ucwindow}" AutomationProperties.AutomationId="lbFocusLevelValue"
+                               Grid.Row="0" Grid.Column="1"  Style="{StaticResource OSDLabelStyle}" 
+                               Visibility="{Binding Path=AssignedCamera.EnableGetFocusValueFlag, ElementName=ucwindow}"/>
+                    </Grid>
+                </Border>
+
+            </Grid>
+
+            <Line Name="VertCrossLine"
+                  X1="{Binding Path=ActualWidth, ElementName=ucwindow, Converter={StaticResource HalfConverter}}" 
+                  Y1="0" 
+                  X2="{Binding Path=ActualWidth, ElementName=ucwindow,Converter={StaticResource HalfConverter} }" 
+                  Y2="{Binding Path=ActualHeight, ElementName=ucwindow }" 
+                  Stroke="#FF76E744" StrokeThickness="0.5" />
+            
+            <Line Name="HorCrossLine"
+                  X1="0"
+                  Y1="{Binding Path=ActualHeight, ElementName=ucwindow ,Converter={StaticResource HalfConverter}}"
+                  X2="{Binding Path=ActualWidth, ElementName=ucwindow}" 
+                  Y2="{Binding Path=ActualHeight, ElementName=ucwindow ,Converter={StaticResource HalfConverter}}" 
+                  Stroke="#FF76E744" StrokeThickness="0.5" />
+
+           
+
+            <Rectangle Canvas.Left="{Binding Path=RectLeft, ElementName=ucwindow, Mode=TwoWay}"
+                       Canvas.Top="{Binding Path=RectTop, ElementName=ucwindow, Mode=TwoWay}"
+                       Height="{Binding Path=RectHeight, ElementName=ucwindow, Mode=TwoWay}" 
+                       Width="{Binding Path=RectWidth, ElementName=ucwindow, Mode=TwoWay}"
+                       Name="TargetRectangle" Stroke="Orange" StrokeThickness="1.5"/>
+
+
+            <Line Name="LeftUpperXLine" Stroke="GreenYellow" StrokeThickness="1.5" Visibility="Hidden"/>
+            <Line Name="LeftUpperYLine" Stroke="GreenYellow" StrokeThickness="1.5"  Visibility="Hidden"/>
+            <Line x:Name="RightUpperXLine" Stroke="GreenYellow" StrokeThickness="1.5"  Visibility="Hidden"/>
+            <Line x:Name="RightUpperYLine" Stroke="GreenYellow" StrokeThickness="1.5"  Visibility="Hidden"/>
+            <Line x:Name="LeftBottomXLine" Stroke="GreenYellow" StrokeThickness="1.5"  Visibility="Hidden"/>
+            <Line x:Name="LeftBottomYLine" Stroke="GreenYellow" StrokeThickness="1.5"  Visibility="Hidden"/>
+            <Line x:Name="RightBottomXLine" Stroke="GreenYellow" StrokeThickness="1.5"  Visibility="Hidden"/>
+            <Line x:Name="RightBottomYLine" Stroke="GreenYellow" StrokeThickness="1.5"  Visibility="Hidden"/>
+
+            <StackPanel Margin="0,80,0,0"  Width="{Binding Path=ActualWidth, ElementName=ucwindow}" Height="{Binding Path=OverlayTextVerPos, ElementName=ucwindow}">
+                <RichTextBox  Grid.Row="0" FontSize="{Binding ElementName=ucwindow, Path=OverlayFontSize}" local:HtmlRichTextBoxBehavior.Text="{Binding Path=OverlayText, ElementName=ucwindow}" Style="{StaticResource OSDRichTextBoxStyle}"
+                Padding="0" HorizontalAlignment="Stretch" BorderThickness="0" Opacity="0" Foreground="{Binding Path=OverlayTextActive, ElementName=ucwindow, Converter={StaticResource BoolToSolidColorConverter}}"/>
+                <RichTextBox  Grid.Row="1" FontSize="{Binding ElementName=ucwindow, Path=OverlayFontSize}" local:HtmlRichTextBoxBehavior.Text="{Binding Path=OverlayLabel, ElementName=ucwindow}" Style="{StaticResource OSDRichTextBoxStyle}"
+                Padding="0" HorizontalAlignment="Stretch" BorderThickness="0" Opacity="0" Foreground="{Binding Path=OverlayLabelActive, ElementName=ucwindow, Converter={StaticResource BoolToSolidColorConverter}}"/>
+            </StackPanel>
+        </Canvas>
+
+        <Viewbox x:Name="vb_lockimg" Width="48" Height="48" VerticalAlignment="Top" HorizontalAlignment="Center" 
+                     Visibility="{Binding Path = IsEnabled, ElementName=ucwindow, Converter={StaticResource BooleanToVisibilityConverter2}}" Margin="96,0,77.29,0">
+            <Canvas Width="24" Height="24">
+                <Canvas.Effect>
+                    <DropShadowEffect Color="Green" Direction="90" Opacity="1" BlurRadius="2" ShadowDepth ="3"></DropShadowEffect>
+                </Canvas.Effect>
+                <Path Data="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" 
+                    >
+                    <Path.Fill>
+                        <MultiBinding Converter="{StaticResource LockingColorChangerUsingMasking}">
+                            <Binding ElementName="ucwindow" Path="MaskingLevel"/>
+                            <Binding Source="{x:Static account:AccountManager.CurrentUserInfo}" Path="UserLevel"/>
+                        </MultiBinding>
+                    </Path.Fill>
+                </Path>
+            </Canvas>
+        </Viewbox>
+
+        <Canvas Name="OverlayCanvas" Grid.ColumnSpan="2">
+        </Canvas>
+        
+        <!-- RenderControl-->
+        <sharprender:RenderControl x:Name="mainRender" RenderLayerData="{Binding ElementName=ucwindow, Path=RenderLayer}" Grid.ColumnSpan="2"/>
+
+        <ToggleButton Width="{Binding ElementName=ucwindow, Path=MarkButtonSize}" 
+                      Height="{Binding ElementName=ucwindow, Path=MarkButtonSize}" 
+                      Background="Orange" 
+                      Margin="{Binding ElementName=ucwindow, Path=MarkerButtonMargin}"
+                      Visibility="{Binding ElementName=ucwindow, Path=StageSupervisor.WaferObject.DPMarkerVisible}"
+                      Style="{StaticResource MaterialDesignActionToggleButton}"
+                      Foreground="Black"
+                      IsChecked="{Binding ElementName=ucwindow, Path=MarkerEnable}">
+            
+            <ToggleButton.Content>
+                <materialDesign:PackIcon Kind="MapMarkerOff" Foreground="White"  
+                                         />
+            </ToggleButton.Content>
+            
+            <materialDesign:ToggleButtonAssist.OnContent>
+                <materialDesign:PackIcon Kind="MapMarker" Foreground="White" 
+                                         />
+            </materialDesign:ToggleButtonAssist.OnContent>
+        </ToggleButton>
+    </Grid>
+</UserControl>
+

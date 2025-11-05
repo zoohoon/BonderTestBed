@@ -1,0 +1,391 @@
+﻿<UserControl x:Class="SequenceMakerScreen.SequenceMaker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:MapUC="clr-namespace:MapView;assembly=MapView"
+             xmlns:circleJog="clr-namespace:UcCircularShapedJog;assembly=UcCircularShapedJog"
+             xmlns:resources="clr-namespace:ProberViewModel.Properties"
+             xmlns:local="clr-namespace:SequenceMakerScreen"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d" 
+            d:DesignHeight="892" d:DesignWidth="1280">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="SContentLabel" TargetType="{x:Type Label}" BasedOn="{StaticResource {x:Type Label}}">
+                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="4,2,4,2"/>
+                <Setter Property="Foreground" Value="#d9d9d9"/>
+                <Setter Property="FontFamily" Value="맑은 고딕"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="MahApps.Metro.Styles.ToggleSwitch" TargetType="{x:Type controls:ToggleSwitch}">
+                <Setter Property="FontFamily" Value="{DynamicResource ToggleSwitchFontFamily}" />
+                <Setter Property="FontSize" Value="{DynamicResource ToggleSwitchFontSize}" />
+                <Setter Property="Foreground" Value="{DynamicResource BlackBrush}" />
+                <Setter Property="HeaderFontFamily" Value="{DynamicResource ToggleSwitchHeaderFontFamily}" />
+                <Setter Property="controls:ControlsHelper.HeaderFontSize" Value="{DynamicResource ToggleSwitchHeaderFontSize}" />
+                <Setter Property="controls:ControlsHelper.HeaderMargin" Value="0 0 0 5" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="IsTabStop" Value="True" />
+                <Setter Property="OffSwitchBrush" Value="{DynamicResource GrayBrush4}" />
+                <Setter Property="OnSwitchBrush" Value="{DynamicResource AccentColorBrush}" />
+                <Setter Property="SnapsToDevicePixels" Value="True" />
+                <Setter Property="ThumbIndicatorBrush" Value="{DynamicResource BlackBrush}" />
+                <Setter Property="ThumbIndicatorDisabledBrush" Value="{DynamicResource GrayBrush4}" />
+                <Setter Property="ThumbIndicatorWidth" Value="13" />
+                <Setter Property="ToggleSwitchButtonStyle" Value="{DynamicResource MahApps.Metro.Styles.ToggleSwitchButton}" />
+                <Setter Property="Validation.ErrorTemplate" Value="{DynamicResource ValidationErrorTemplate}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type controls:ToggleSwitch}">
+                            <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                <Grid Background="Transparent" Margin="{TemplateBinding Padding}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition x:Name="firstCol" Width="*" />
+                                        <ColumnDefinition x:Name="secCol" Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <ContentControl x:Name="Header"
+                                            Grid.ColumnSpan="2"
+                                            Margin="{TemplateBinding controls:ControlsHelper.HeaderMargin}"
+                                            FontFamily="{TemplateBinding HeaderFontFamily}"
+                                            FontSize="{TemplateBinding controls:ControlsHelper.HeaderFontSize}"
+                                            FontWeight="{TemplateBinding controls:ControlsHelper.HeaderFontWeight}"
+                                            Content="{TemplateBinding Header}"
+                                            ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                            ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
+                                            ContentStringFormat="{TemplateBinding HeaderStringFormat}"
+                                            IsTabStop="False" />
+                                    <ContentControl x:Name="Content"
+                                            Margin="0 0 2 0"
+                                            Grid.Row="1"
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                            FontFamily="{TemplateBinding FontFamily}"
+                                            FontSize="{TemplateBinding FontSize}"
+                                            Content="{TemplateBinding Content}"
+                                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                                            ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
+                                            ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                            IsTabStop="False" />
+                                    <controls:ToggleSwitchButton x:Name="Switch"
+                                                         Grid.Row="1"
+                                                         Grid.Column="1"
+                                                         VerticalAlignment="Center"
+                                                         Style="{TemplateBinding ToggleSwitchButtonStyle}"
+                                                         Background="{TemplateBinding Background}"
+                                                         FocusVisualStyle="{x:Null}"
+                                                         IsChecked="{Binding IsChecked, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                         OffSwitchBrush="{TemplateBinding OffSwitchBrush}"
+                                                         OnSwitchBrush="{TemplateBinding OnSwitchBrush}"
+                                                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                         ThumbIndicatorBrush="{TemplateBinding ThumbIndicatorBrush}"
+                                                         ThumbIndicatorDisabledBrush="{TemplateBinding ThumbIndicatorDisabledBrush}"
+                                                         ThumbIndicatorWidth="{TemplateBinding ThumbIndicatorWidth}" />
+                                </Grid>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="0"
+                                                         Storyboard.TargetName="Header"
+                                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                         To="0.3" />
+                                                <DoubleAnimation Duration="0"
+                                                         Storyboard.TargetName="Content"
+                                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                         To="0.3" />
+                                                <DoubleAnimation Duration="0"
+                                                         Storyboard.TargetName="Switch"
+                                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                         To="0.75" />
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsChecked" Value="True" />
+                                        <Condition Property="Content" Value="{x:Null}" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="Content" Property="Content">
+                                        <Setter.Value>
+                                            <Binding RelativeSource="{RelativeSource TemplatedParent}"
+                                             Path="OnLabel"
+                                             Mode="TwoWay" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsChecked" Value="False" />
+                                        <Condition Property="Content" Value="{x:Null}" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter TargetName="Content" Property="Content">
+                                        <Setter.Value>
+                                            <Binding RelativeSource="{RelativeSource TemplatedParent}"
+                                             Path="OffLabel"
+                                             Mode="TwoWay" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </MultiTrigger>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Header}" Value="{x:Null}">
+                                    <Setter TargetName="Header" Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                                <Trigger Property="ContentDirection" Value="RightToLeft">
+                                    <Setter TargetName="Content" Property="Margin" Value="2 0 0 0" />
+                                    <Setter TargetName="Content" Property="Grid.Column" Value="1" />
+                                    <Setter TargetName="Switch" Property="Grid.Column" Value="0" />
+                                    <Setter TargetName="firstCol" Property="Width" Value="Auto" />
+                                    <Setter TargetName="secCol" Property="Width" Value="*" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2.8*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8.5*"/>
+            <!--<RowDefinition Height="1.5*"/>-->
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Column="0" Grid.RowSpan="2">
+
+            <MapUC:ucWaferMapviewer  Grid.RowSpan="2" Margin="4" 
+                                      WaferObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                              AncestorType={x:Type UserControl}}, 
+                                                   Path=DataContext.StageSupervisor.WaferObject}"
+                                      UnderDutDices="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                              AncestorType={x:Type UserControl}}, 
+                                                   Path=DataContext.UnderDutDies}"
+
+
+                                      CurrXYIndex="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                                              AncestorType={x:Type UserControl}}, 
+                                                   Path=DataContext.MXYIndex, Mode=TwoWay}" 
+                                      EnalbeClickToMove="False"
+                                      CoordinateManager="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                         AncestorType={x:Type UserControl}}, Path=DataContext.CoordinateManager, Mode=TwoWay}"
+                                      IsCrossLineVisible="True"
+                                      StageSyncEnalbe="False"
+                                      RenderMode="SeqenceMode"
+                                      />
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="0.5*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row='0'>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition Height="1.3*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Total Seq.Num" 
+                           Style="{DynamicResource TitleBorderLabel}"
+                           HorizontalContentAlignment="Center"
+                           Margin="4"/>
+
+                    <Label  Grid.Column="1"  Content="{Binding SequenceCount}" 
+                            Style="{DynamicResource ContentBorderLabel}"
+                            HorizontalContentAlignment="Center"
+                            Margin="4"/>
+                            
+                </Grid>
+
+                <Label Grid.Row="1" Content="Current Seq.Num" 
+                       Style="{DynamicResource TitleBorderLabel}"
+                       HorizontalContentAlignment="Center"
+                       Margin="4,2,4,2"/>
+
+                <Grid Grid.Row="2" Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="1.6*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <!--<RepeatButton Grid.Column="0"  Style="{DynamicResource ImageIConBtnStyle}" Command="{Binding MoveToPrevSeqCommand}">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/chevron-left.png"/>
+                    </RepeatButton>
+
+                    <Label Grid.Column="1" Style="{DynamicResource SContentLabel}"                            
+                           Content="{Binding CurrentSeqNumber}"/>
+
+                    <RepeatButton Grid.Column="2" Style="{DynamicResource ImageIConBtnStyle}" Command="{Binding MoveToNextSeqCommand}">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/chevron-right.png"/>
+                    </RepeatButton>-->
+
+                    <RepeatButton AutomationProperties.AutomationId="rbtnSeqPrev"
+                                  Grid.Column="0" Command="{Binding MoveToPrevSeqCommand}" Background="Transparent">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/chevron-left.png"/>
+                    </RepeatButton>
+
+                    <Label Grid.Column="1" Style="{DynamicResource SContentLabel}"                            
+                           Content="{Binding CurrentSeqNumber}"/>
+
+                    <RepeatButton AutomationProperties.AutomationId="rbtnSeqNext"
+                                  Grid.Column="2" Command="{Binding MoveToNextSeqCommand}" Background="Transparent">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/chevron-right.png"/>
+                    </RepeatButton>
+                    
+
+                </Grid>
+
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="0,16,0,16">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="12,12,12,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button AutomationProperties.AutomationId="btnAdd"
+                            Grid.Column="0" Content="Add" Height="46" 
+                            Command="{Binding InsertSeqCommand}"
+                            Style="{DynamicResource ControlButtonStyle}"></Button>
+                    <Button AutomationProperties.AutomationId="btnDelete"
+                            Grid.Column="1" Content="Delete" Height="46" 
+                            Command="{Binding DeleteSeqCommand}"
+                            Style="{DynamicResource ControlButtonStyle}"></Button>
+                </Grid>
+
+                <Grid Grid.Row="2" Margin='12,0,12,12'>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <RepeatButton AutomationProperties.AutomationId="rbtnJogLeftUp"
+                                  Grid.Column="0" Grid.Row="0" Margin="6" Style="{DynamicResource ControlRepeatBtnStyle}" Command="{Binding MapMoveCommand}" CommandParameter="1">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/JogLeftUpG.png"/>
+                    </RepeatButton>
+                    <RepeatButton AutomationProperties.AutomationId="rbtnJogUp"
+                                  Grid.Column="1" Grid.Row="0" Margin="6" Style="{DynamicResource ControlRepeatBtnStyle}" Command="{Binding MapMoveCommand}" CommandParameter="2">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/JogUpG.png"/>
+                    </RepeatButton>
+                    <RepeatButton AutomationProperties.AutomationId="rbtnJogRightUp"
+                                  Grid.Column="2" Grid.Row="0" Margin="6" Style="{DynamicResource ControlRepeatBtnStyle}" Command="{Binding MapMoveCommand}" CommandParameter="3">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/JogRightUpG.png"/>
+                    </RepeatButton>
+                    <RepeatButton AutomationProperties.AutomationId="rbtnJogLeft"
+                                  Grid.Column="0" Grid.Row="1" Margin="6" Style="{DynamicResource ControlRepeatBtnStyle}" Command="{Binding MapMoveCommand}" CommandParameter="4">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/JogLeftG.png"/>
+                    </RepeatButton>
+                    <RepeatButton AutomationProperties.AutomationId="rbtnJogRight"
+                                  Grid.Column="2" Grid.Row="1" Margin="6" Style="{DynamicResource ControlRepeatBtnStyle}" Command="{Binding MapMoveCommand}" CommandParameter="5">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/JogRightG.png"/>
+                    </RepeatButton>
+                    <RepeatButton AutomationProperties.AutomationId="rbtnJogLeftDown"
+                                  Grid.Column="0" Grid.Row="2" Margin="6" Style="{DynamicResource ControlRepeatBtnStyle}" Command="{Binding MapMoveCommand}" CommandParameter="6">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/JogLeftDownG.png"/>
+                    </RepeatButton>
+                    <RepeatButton AutomationProperties.AutomationId="rbtnJogDown"
+                                  Grid.Column="1" Grid.Row="2" Margin="6" Style="{DynamicResource ControlRepeatBtnStyle}" Command="{Binding MapMoveCommand}" CommandParameter="7">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/JogDownG.png"/>
+                    </RepeatButton>
+                    <RepeatButton AutomationProperties.AutomationId="rbtnJogRightDown"
+                                  Grid.Column="2" Grid.Row="2" Margin="6" Style="{DynamicResource ControlRepeatBtnStyle}" Command="{Binding MapMoveCommand}" CommandParameter="8">
+                        <Image Source="pack://application:,,,/ImageResourcePack;component/Images/JogRightDownG.png"/>
+                    </RepeatButton>
+
+                    <Grid Grid.Column="1" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Viewbox>
+                            <CheckBox AutomationProperties.AutomationId="cbAutoAdd"
+                                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding AutoAddSeqEnable}"/>
+                        </Viewbox>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <Label  Foreground="#d9d9d9" Content="Enter" FontSize="18" Padding="0" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Row="2" Margin="12,12,12,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button AutomationProperties.AutomationId="btnAutoMakeSeq"
+                        Grid.Column="0" Content="Auto Seq" Height="46"       
+                        Command="{Binding AutoMakeSeqCommand}"
+                        Style="{DynamicResource ControlButtonStyle}"/>
+                <Button AutomationProperties.AutomationId="btnDeleteAllSeq"
+                        Grid.Column="1" Content="Delete All Seq" Height="46" 
+                        Command="{Binding DeleteAllSeqCommand}"
+                        Style="{DynamicResource ControlButtonStyle}"/>
+            </Grid>
+
+        </Grid>
+
+        <!--<local:AutoSequenceDirectionWindow Grid.RowSpan="3" Grid.ColumnSpan="3" 
+                                           Visibility="{Binding AutoSeqContorlVisibility}"
+                                           Focusable="True"/>-->
+
+        <!--<Grid Grid.Column="1" Grid.Row="1" Margin="0" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal" >
+                --><!--<Button Grid.Row="2" Margin="8,8,8,8" HorizontalAlignment="Right" Width="60" Height="60" Command="{Binding SaveProbingSeqCommand}"
+                        Style="{DynamicResource ImageIConBtnStyle}">
+                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/SaveIcon.png"/>
+                </Button>--><!--
+                <Button Grid.Row="2" Margin="8,8,24,8" HorizontalAlignment="Right" Width="60" Height="60" Command="{Binding ExitPageCommand}"
+                        Style="{DynamicResource ImageIConBtnStyle}">
+                    <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ExpanderIcon.png"/>
+                </Button>
+            </StackPanel>
+        </Grid>-->
+    
+    </Grid>
+</UserControl>

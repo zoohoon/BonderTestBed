@@ -1,0 +1,1262 @@
+﻿<UserControl x:Class="UcContactSettingView.ContactSettingView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:UcContactSettingView"
+             xmlns:resources="clr-namespace:ProberViewModel.Properties"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:Enum="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
+             mc:Ignorable="d" 
+             d:DesignHeight="880" d:DesignWidth="880">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <local:ListViewConverter x:Key="ListViewConverter" />
+            <local:BoolToColorConverter x:Key="BoolToColorConverter" />
+            <local:FirstContactAllContactSubCal x:Key="FirstContactAllContactSubCal"/>
+            <local:EnumToBooleanConverter x:Key="BackODOptionConverter"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/SettingControlStyle;component/SettingToggleStyleDictionaly.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <mah:MetroTabControl Margin="8 8 120 8">
+        <mah:MetroTabItem AutomationProperties.AutomationId="tiZClearance"
+                          Header="{x:Static resources:Resources.Str_ZClearanceAndOverdrive}" 
+                          mah:ControlsHelper.HeaderFontSize ="24"
+                          mah:ControlsHelper.HeaderMargin="10"
+                          Background="#888888"
+                          Foreground="White"
+                          Margin="1">
+            <Grid Background="#222222">
+                <GroupBox Header="Z Clearance &amp; Overdrive" FontSize="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                          
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                        </Grid.RowDefinitions>
+                        
+                        <Grid Grid.Row="1">
+                            <!--<Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>-->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Grid.Row="0" Content="Z clearance : " Foreground="White"
+                                           HorizontalContentAlignment="Center"
+                                           Style="{DynamicResource TitleBorderLabel}"/>
+                                <TextBox AutomationProperties.AutomationId="txtZClearnce"
+                                         Grid.Column="1" Text="{Binding ZClearence.Value}" MinWidth="250" Margin="4"
+                                         HorizontalContentAlignment="Center" VerticalAlignment="Center"
+                                         Style="{DynamicResource InputTextBox}" FontSize="18">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseDown" >
+                                            <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                                <i:InvokeCommandAction.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}" />
+                                                        <Binding Path="ZClearence.PropertyPath"/>
+                                                    </MultiBinding>
+                                                </i:InvokeCommandAction.CommandParameter>
+                                            </i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                                <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text=" ㎛"/>
+                            </Grid>
+                            
+                            <!--<TextBlock  Grid.Column="0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="Z clearance : "/>
+
+                            <TextBox    Grid.Column="1"
+                                        Margin="16 0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Text="{Binding ProbingDevCopyParam.ZClearence.Value,
+                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        />
+
+                            <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="㎛"/>-->
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Grid.Row="0" Content="Overdrive : " Foreground="White"
+                                           HorizontalContentAlignment="Center"
+                                           Style="{DynamicResource TitleBorderLabel}"/>
+                                <TextBox AutomationProperties.AutomationId="txtOverdrive"
+                                         Grid.Column="1" Text="{Binding Overdrive.Value}" MinWidth="250" Margin="4"
+                                         HorizontalContentAlignment="Center" VerticalAlignment="Center"
+                                         Style="{DynamicResource InputTextBox}" FontSize="18">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseDown" >
+                                            <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                                <i:InvokeCommandAction.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}" />
+                                                        <Binding Path="Overdrive.PropertyPath"/>
+                                                    </MultiBinding>
+                                                </i:InvokeCommandAction.CommandParameter>
+                                            </i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                                <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text=" ㎛"/>
+                            </Grid>
+                            
+                            <!--<Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock  Grid.Column="0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="Overdrive : "/>
+
+                            <TextBox    Grid.Column="1"
+                                        Margin="16 0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Text="{Binding ProbingDevCopyParam.OverDrive.Value,
+                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        />
+
+                            <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="㎛"/>-->
+                        </Grid>
+                        <Grid Grid.Row="3">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Grid.Row="0" Content="Overdrive Upper limit : " Foreground="White"
+                                           HorizontalContentAlignment="Center"
+                                           Style="{DynamicResource TitleBorderLabel}"/>
+                                <TextBox AutomationProperties.AutomationId="txtSoakingBeforeZupClearance"
+                                         Grid.Column="1" Text="{Binding OverdriveUpperLimit.Value}" MinWidth="250" Margin="4"
+                                         HorizontalContentAlignment="Center" VerticalAlignment="Center"
+                                         Style="{DynamicResource InputTextBox}" FontSize="18">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseDown" >
+                                            <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                                <i:InvokeCommandAction.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}" />
+                                                        <Binding Path="OverdriveUpperLimit.PropertyPath"/>
+                                                    </MultiBinding>
+                                                </i:InvokeCommandAction.CommandParameter>
+                                            </i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                                <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text=" ㎛"/>
+                            </Grid>
+
+                        </Grid>
+                        <Grid Grid.Row="4">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Grid.Row="0" Content="Overdrive Low limit : " Foreground="White"
+                                           HorizontalContentAlignment="Center"
+                                           Style="{DynamicResource TitleBorderLabel}"/>
+                                <TextBox AutomationProperties.AutomationId="txtSoakingBeforeZupClearance"
+                                         Grid.Column="1" Text="{Binding OverdriveLowLimit.Value}" MinWidth="250" Margin="4"
+                                         HorizontalContentAlignment="Center" VerticalAlignment="Center"
+                                         Style="{DynamicResource InputTextBox}" FontSize="18">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseDown" >
+                                            <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                                <i:InvokeCommandAction.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}" />
+                                                        <Binding Path="OverdriveLowLimit.PropertyPath"/>
+                                                    </MultiBinding>
+                                                </i:InvokeCommandAction.CommandParameter>
+                                            </i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                                <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text=" ㎛"/>
+                            </Grid>
+
+                        </Grid>
+                        <Grid Grid.Row="5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Grid.Row="0" Content="Soaking before Zup Z clearance : " Foreground="White"
+                                           HorizontalContentAlignment="Center"
+                                           Style="{DynamicResource TitleBorderLabel}"/>
+                                <TextBox AutomationProperties.AutomationId="txtSoakingBeforeZupClearance"
+                                         Grid.Column="1" Text="{Binding BeforeZupSoakingClearanceZ.Value}" MinWidth="250" Margin="4"
+                                         HorizontalContentAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding BeforeZupSoakEnableCtrl}"
+                                         Style="{DynamicResource InputTextBox}" FontSize="18">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseDown" >
+                                            <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                                <i:InvokeCommandAction.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}" />
+                                                        <Binding Path="BeforeZupSoakingClearanceZ.PropertyPath"/>
+                                                    </MultiBinding>
+                                                </i:InvokeCommandAction.CommandParameter>
+                                            </i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                                <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text=" ㎛"/>
+                            </Grid>
+
+                        </Grid>
+                        <Grid Grid.Row="6">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Grid.Row="0" Content="Soaking before Zup Time : " Foreground="White"
+                                           HorizontalContentAlignment="Center"
+                                           Style="{DynamicResource TitleBorderLabel}"/>
+                                <TextBox AutomationProperties.AutomationId="txtSoakingBeforeZupTime"
+                                         Grid.Column="1" Text="{Binding BeforeZupSoakingTime.Value}" MinWidth="250" Margin="4"
+                                         HorizontalContentAlignment="Center" VerticalAlignment="Center" IsEnabled="{Binding BeforeZupSoakEnableCtrl}"
+                                         Style="{DynamicResource InputTextBox}" FontSize="18">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="PreviewMouseDown" >
+                                            <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                                <i:InvokeCommandAction.CommandParameter>
+                                                    <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                        <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}" />
+                                                        <Binding Path="BeforeZupSoakingTime.PropertyPath"/>
+                                                    </MultiBinding>
+                                                </i:InvokeCommandAction.CommandParameter>
+                                            </i:InvokeCommandAction>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </TextBox>
+                                <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text=" sec"/>
+                            </Grid>
+                           
+                        </Grid>
+                        <Grid Grid.Row="7">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="1*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Grid.Row="0" Content="Soaking before Zup Enable  " Foreground="White"
+                                           HorizontalContentAlignment="Center"
+                                           Style="{DynamicResource TitleBorderLabel}"/>
+                                <ToggleButton AutomationProperties.AutomationId="tbtnSoakingBeforeZupEnable"
+                                              HorizontalAlignment="Right" VerticalAlignment="Center" Margin="4"  Grid.Row="0" Grid.Column="1" IsChecked="{Binding BeforeZupSoakingEnable.Value}" IsEnabled="{Binding BeforeZupSoakEnableCtrl}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Checked">
+                                            <i:InvokeCommandAction Command="{Binding ContanctBeforeSoakEnableCommand}" CommandParameter="{Binding BeforeZupSoakingEnable.PropertyPath}" />
+                                        </i:EventTrigger>
+                                        <i:EventTrigger EventName="Unchecked">
+                                            <i:InvokeCommandAction Command="{Binding ContanctBeforeSoakDisableCommand}" CommandParameter="{Binding BeforeZupSoakingEnable.PropertyPath}" />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </ToggleButton>
+                            </Grid>
+                        </Grid>
+
+                        <Grid Grid.Row="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="5*"/>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Grid.Row="0" Content="Pin Pad Matched Timeout : " Foreground="White"
+                                           HorizontalContentAlignment="Center"
+                                           Style="{DynamicResource TitleBorderLabel}"/>
+                            <TextBox AutomationProperties.AutomationId="txtZClearnce"
+                                         Grid.Column="1" Text="{Binding PinPadMatchedTimeOut.Value}" MinWidth="250" Margin="4"
+                                         HorizontalContentAlignment="Center" VerticalAlignment="Center"
+                                         Style="{DynamicResource InputTextBox}" FontSize="18">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                        <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                            <i:InvokeCommandAction.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}" />
+                                                    <Binding Path="PinPadMatchedTimeOut.PropertyPath"/>
+                                                </MultiBinding>
+                                            </i:InvokeCommandAction.CommandParameter>
+                                        </i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+                            <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text=" sec"/>
+                        </Grid>
+                        <Grid Grid.Row="9">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="5*"/>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Grid.Row="0" Content="Probing XY OffSet Upper Limit : " Foreground="White"
+                                           HorizontalContentAlignment="Center"
+                                           Style="{DynamicResource TitleBorderLabel}"/>
+                            <TextBox AutomationProperties.AutomationId="txtOffSet"
+                                         Grid.Column="1" Text="{Binding ProbingXYOffSetUpperLimit.Value}" MinWidth="250" Margin="4"
+                                         HorizontalContentAlignment="Center" VerticalAlignment="Center"
+                                         Style="{DynamicResource InputTextBox}" FontSize="18">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                        <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                            <i:InvokeCommandAction.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}" />
+                                                    <Binding Path="ProbingXYOffSetUpperLimit.PropertyPath"/>
+                                                </MultiBinding>
+                                            </i:InvokeCommandAction.CommandParameter>
+                                        </i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+                            <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text=" ㎛"/>
+                        </Grid>
+
+                        <Grid Grid.Row="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="5*"/>
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Grid.Row="0" Content="Probing XY OffSet Low Limit : " Foreground="White"
+                                           HorizontalContentAlignment="Center"
+                                           Style="{DynamicResource TitleBorderLabel}"/>
+                            <TextBox AutomationProperties.AutomationId="txtOffSet"
+                                         Grid.Column="1" Text="{Binding ProbingXYOffSetLowLimit.Value}" MinWidth="250" Margin="4"
+                                         HorizontalContentAlignment="Center" VerticalAlignment="Center"
+                                         Style="{DynamicResource InputTextBox}" FontSize="18">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                        <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                            <i:InvokeCommandAction.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}" />
+                                                    <Binding Path="ProbingXYOffSetLowLimit.PropertyPath"/>
+                                                </MultiBinding>
+                                            </i:InvokeCommandAction.CommandParameter>
+                                        </i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+                            <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text=" ㎛"/>
+                        </Grid>
+
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </mah:MetroTabItem>
+        <!--<mah:MetroTabItem Header="{x:Static resources:Resources.Str_ContactLimits}" 
+                              mah:ControlsHelper.HeaderFontSize ="24"
+                              mah:ControlsHelper.HeaderMargin="10"
+                            Background="#888888"
+                            Foreground="White"
+                          Margin="1"
+                     >
+            <Grid Background="#222222">
+                <GroupBox Header="{x:Static resources:Resources.Str_ContactLimits}"
+                          FontSize="20"
+                          >
+                    <Grid Margin="8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="120*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="240*"/>
+                                <ColumnDefinition Width="120*"/>
+                                <ColumnDefinition Width="40*"/>
+                                <ColumnDefinition Width="80*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock  Grid.Column="0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Text="{x:Static resources:Resources.AcceptableRangeOfFirstToAllContact}"
+                                        />
+
+                            <TextBox    Grid.Column="1"
+                                        Margin="16 0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Text="{Binding ProbingModule.ProbingModuleDevParam_IParam.FirstContactToAllContactLimitRange.Value,
+                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        />
+
+                            <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="24"
+                                        Text="㎛"
+                                        />
+
+                            <ToggleButton Grid.Column="3"
+                                          HorizontalAlignment="Center"
+                                          IsChecked="{Binding ProbingModule.ProbingModuleDevParam_IParam.IsEnableFirstContactToAllContactLimit.Value}"
+                                          />
+
+
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="240*"/>
+                                <ColumnDefinition Width="120*"/>
+                                <ColumnDefinition Width="40*"/>
+                                <ColumnDefinition Width="80*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock  Grid.Column="0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Text="{x:Static resources:Resources.AcceptableRangeOfAllToOverdrive}"
+                                        />
+
+                            <TextBox    Grid.Column="1"
+                                        Margin="16 0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Text="{Binding ProbingModule.ProbingModuleDevParam_IParam.AllContactToOverdriveLimitRange.Value,
+                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        />
+
+                            <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="24"
+                                        Text="㎛"/>
+
+                            <ToggleButton Grid.Column="3"
+                                          HorizontalAlignment="Center"
+                                          IsChecked="{Binding ProbingModule.ProbingModuleDevParam_IParam.IsEnableAllContactToOverdriveLimit.Value}"/>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="240*"/>
+                                <ColumnDefinition Width="120*"/>
+                                <ColumnDefinition Width="40*"/>
+                                <ColumnDefinition Width="80*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock  Grid.Column="0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Text="{x:Static resources:Resources.AcceptableRangeOfFirstToOverdrive}"
+                                        />
+
+                            <TextBox    Grid.Column="1"
+                                        Margin="16 0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Text="{Binding ProbingModule.ProbingModuleDevParam_IParam.FirstContactToOverdriveLimitRange.Value,
+                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        />
+
+                            <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="24"
+                                        Text="㎛"/>
+
+                            <ToggleButton Grid.Column="3"
+                                          HorizontalAlignment="Center"
+                                          IsChecked="{Binding ProbingModule.ProbingModuleDevParam_IParam.IsEnableFirstContactToOverdriveLimit.Value}"/>
+                        </Grid>
+                        <Grid Grid.Row="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="240*"/>
+                                <ColumnDefinition Width="120*"/>
+                                <ColumnDefinition Width="40*"/>
+                                <ColumnDefinition Width="80*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock  Grid.Column="0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Text="{x:Static resources:Resources.OverdriveLowLimit}"
+                                        />
+
+                            <TextBox    Grid.Column="1"
+                                        Margin="16 0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Text="{Binding ProbingModule.ProbingModuleDevParam_IParam.OverdriveLowLimit.Value,
+                                        Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        />
+
+                            <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="24"
+                                        Text="㎛"/>
+                        </Grid>
+                        <Grid Grid.Row="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                        <Grid Grid.Row="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock  Grid.Column="0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Text="{x:Static resources:Resources.CurrentFirstContactHeight}"
+                                        />
+
+                            <TextBlock Grid.Column="1"
+                                       Margin="20"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       FontSize="16"
+                                       Text="{Binding ProbingModule.FirstContactHeight, StringFormat={}{0} ㎛}"
+                                       />
+
+                        </Grid>
+                        <Grid Grid.Row="6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock  Grid.Column="0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Text="{x:Static resources:Resources.CurrentAllContactHeight}"
+                                        />
+
+                            <TextBlock Grid.Column="1"
+                                       Margin="20"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       FontSize="16"
+                                       Text="{Binding ProbingModule.AllContactHeight, StringFormat={}{0} ㎛}"
+                                       />
+                        </Grid>
+                        <Grid Grid.Row="7">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock  Grid.Column="0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Text="{x:Static resources:Resources.DistanceToAllFromFirstContact}"
+                                        />
+
+                            <TextBlock Grid.Column="1"
+                                       Margin="20"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       FontSize="16"
+                                       >
+                                <TextBlock.Text>
+                                    <MultiBinding   Converter="{StaticResource FirstContactAllContactSubCal}"
+                                                    StringFormat="{}{0} ㎛">
+                                        <Binding Path="ProbingModule.FirstContactHeight"/>
+                                        <Binding Path="ProbingModule.AllContactHeight"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </Grid>
+                        <Grid Grid.Row="8" Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                        </Grid>
+                        <Grid Grid.Row="9" Grid.Column="0" Margin="8">
+                            <Grid Background="Black">
+                                <TextBlock VerticalAlignment="Bottom"
+                                       Text="{Binding ProbingModule.ProbingModuleDevParam_IParam.ZClearence.Value, StringFormat=Z Clearance : {0} ㎛}"
+                                       FontSize="12"
+                                           Margin="8"
+                                       Foreground="#FF00FF00"/>
+
+                                <Viewbox>
+                                    <Grid Margin="120 0 20 16">
+                                        <TextBlock Text="Z Up" FontSize="12" Foreground="#FF00FF00"/>
+                                        <Path Data="M883.09016,382.42623" Fill="#FFF4F4F5" HorizontalAlignment="Right" Height="1" Margin="0,0,-92.09,35.574" Stretch="Fill" Stroke="#FF00FF00" VerticalAlignment="Bottom" Width="1"/>
+                                        <Grid HorizontalAlignment="Left" Height="171" VerticalAlignment="Top" Width="478" Canvas.Left="26.068" Canvas.Top="31.192" Margin="0,10,0,0">
+                                            <Path Data="M137.48438,183.03125 L366.18925,183.03125" Fill="#FF00FF00" Height="1.004" Margin="3.32,0,4.307,3.463" Stretch="Fill" Stroke="#FF00FF00" VerticalAlignment="Bottom"/>
+                                            <Path Data="M137,80 L137,183.01942" Fill="#FF00FF00" HorizontalAlignment="Left" Margin="3.476,15.362,0,3.463" Stretch="Fill" Stroke="#FF00FF00" Width="1"/>
+                                            <Path Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="7.97" Stroke="#FF00FF00" VerticalAlignment="Top" Width="7.969" Data="M0.5,0.5 L7.4689991,0.5 7.4689991,0.97143352 0.97043335,7.4699994 0.5,7.4699994 z" RenderTransformOrigin="0.500000023575588,0.500000050555512" Stretch="Fill" Margin="-0.455,11.013,0,0">
+                                                <Path.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform/>
+                                                        <SkewTransform/>
+                                                        <RotateTransform Angle="45"/>
+                                                        <TranslateTransform/>
+                                                    </TransformGroup>
+                                                </Path.RenderTransform>
+                                            </Path>
+                                            <Path Fill="#FFF4F4F5" HorizontalAlignment="Right" Height="7.97" Stroke="#FF00FF00" VerticalAlignment="Bottom" Width="7.969" Data="M0.5,0.5 L7.4689991,0.5 7.4689991,0.97143352 0.97043335,7.4699994 0.5,7.4699994 z" RenderTransformOrigin="0.500000023575588,0.500000050555512" Stretch="Fill">
+                                                <Path.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform/>
+                                                        <SkewTransform/>
+                                                        <RotateTransform Angle="135"/>
+                                                        <TranslateTransform/>
+                                                    </TransformGroup>
+                                                </Path.RenderTransform>
+                                            </Path>
+
+                                            <TextBlock Text="{x:Static resources:Resources.FirstContact}"
+                                                       Margin="10 0 0 30"
+                                                       VerticalAlignment="Bottom"
+                                                       Foreground="Gray"
+                                                       FontSize="16"/>
+
+                                            <Path Data="M0.49999999,0.49999999 L12.500001,0.49999999 M16.5,
+                                                  0.49999999 L28.500001,0.49999999 M32.5,
+                                                  0.49999999 L44.500001,0.49999999 M48.5,
+                                                  0.49999999 L60.500001,0.49999999 M64.5,
+                                                  0.49999999 L76.500001,0.49999999 M80.5,
+                                                  0.49999999 L92.500001,0.49999999 M96.5,
+                                                  0.49999999 L108.5,0.49999999 M112.5,0.49999999 L124.5,
+                                                  0.49999999 M128.5,0.49999999 L140.5,0.49999999 M144.5,
+                                                  0.49999999 L156.5,0.49999999 M160.5,0.49999999 L172.5,
+                                                  0.49999999 M176.5,0.49999999 L188.5,0.49999999 M192.5,
+                                                  0.49999999 L204.5,0.49999999 M208.5,0.49999999 L220.5,
+                                                  0.49999999" 
+                                                  Fill="#FFFFFFFF" 
+                                                  HorizontalAlignment="Left" 
+                                                  Height="1" 
+                                                  Stretch="Fill" 
+                                                  Stroke="Gray"
+                                                  VerticalAlignment="Bottom"
+                                                  Width="377.65" Canvas.Left="10" 
+                                                  Canvas.Top="14.421" Margin="104.826,0,-4.476,39.905"/>
+
+                                            <TextBlock Text="{x:Static resources:Resources.AllContact}"
+                                                       Margin="10 0 0 70"
+                                                       VerticalAlignment="Bottom"
+                                                       Foreground="Gray"
+                                                       FontSize="16"/>
+
+                                            <Path Data="M0.49999999,0.49999999 L12.500001,0.49999999 M16.5,
+                                                  0.49999999 L28.500001,0.49999999 M32.5,
+                                                  0.49999999 L44.500001,0.49999999 M48.5,
+                                                  0.49999999 L60.500001,0.49999999 M64.5,
+                                                  0.49999999 L76.500001,0.49999999 M80.5,
+                                                  0.49999999 L92.500001,0.49999999 M96.5,
+                                                  0.49999999 L108.5,0.49999999 M112.5,0.49999999 L124.5,
+                                                  0.49999999 M128.5,0.49999999 L140.5,0.49999999 M144.5,
+                                                  0.49999999 L156.5,0.49999999 M160.5,0.49999999 L172.5,
+                                                  0.49999999 M176.5,0.49999999 L188.5,0.49999999 M192.5,
+                                                  0.49999999 L204.5,0.49999999 M208.5,0.49999999 L220.5,
+                                                  0.49999999" 
+                                                  Fill="#FFFFFFFF" 
+                                                  HorizontalAlignment="Left" 
+                                                  Height="1" 
+                                                  Stretch="Fill" 
+                                                  Stroke="Gray"
+                                                  VerticalAlignment="Bottom"
+                                                  Width="377.65" Canvas.Left="10" 
+                                                  Canvas.Top="14.421" Margin="104.826,0,-4.476,80.01"/>
+
+                                            <TextBlock Text="{x:Static resources:Resources.OverDrive}"
+                                                       Margin="10 0 0 110"
+                                                       VerticalAlignment="Bottom"
+                                                       Foreground="Gray"
+                                                       FontSize="16"/>
+
+                                            <Path Data="M0.49999999,0.49999999 L12.500001,0.49999999 M16.5,
+                                                  0.49999999 L28.500001,0.49999999 M32.5,
+                                                  0.49999999 L44.500001,0.49999999 M48.5,
+                                                  0.49999999 L60.500001,0.49999999 M64.5,
+                                                  0.49999999 L76.500001,0.49999999 M80.5,
+                                                  0.49999999 L92.500001,0.49999999 M96.5,
+                                                  0.49999999 L108.5,0.49999999 M112.5,0.49999999 L124.5,
+                                                  0.49999999 M128.5,0.49999999 L140.5,0.49999999 M144.5,
+                                                  0.49999999 L156.5,0.49999999 M160.5,0.49999999 L172.5,
+                                                  0.49999999 M176.5,0.49999999 L188.5,0.49999999 M192.5,
+                                                  0.49999999 L204.5,0.49999999 M208.5,0.49999999 L220.5,
+                                                  0.49999999" 
+                                                  Fill="#FFFFFFFF" 
+                                                  HorizontalAlignment="Left" 
+                                                  Height="1" 
+                                                  Stretch="Fill" 
+                                                  Stroke="Gray"
+                                                  VerticalAlignment="Bottom"
+                                                  Width="377.65" Canvas.Left="10" 
+                                                  Canvas.Top="14.421" Margin="104.826,0,-4.476,120.01"/>
+
+                                            <TextBlock  Text="{Binding ProbingModule.ProbingModuleDevParam_IParam.FirstContactToAllContactLimitRange.Value,
+                                                StringFormat={}{0} ㎛,
+                                                UpdateSourceTrigger=PropertyChanged}"
+                                                        Margin="175 100 0 0"
+                                                        Foreground="{Binding ProbingModule.ProbingModuleDevParam_IParam.IsEnableFirstContactToAllContactLimit.Value,
+                                                Converter={StaticResource BoolToColorConverter}}" 
+                                                        FontSize="16"/>
+
+                                            <Path Data="M137,80 L137,183.01942" Fill="#FF00FF00"
+                                                  HorizontalAlignment="Left" 
+                                                  Margin="164,95.362,0,39.905"
+                                                  Stretch="Fill" 
+                                                  Stroke="{Binding ProbingModule.ProbingModuleDevParam_IParam.IsEnableFirstContactToAllContactLimit.Value,
+                                                Converter={StaticResource BoolToColorConverter}}" 
+                                                  Width="1"/>
+                                            <Path Fill="{Binding ProbingModule.ProbingModuleDevParam_IParam.IsEnableFirstContactToAllContactLimit.Value,
+                                                Converter={StaticResource BoolToColorConverter}}"
+                                                  HorizontalAlignment="Left" Height="7.97"
+                                                  Stroke="{Binding ProbingModule.ProbingModuleDevParam_IParam.IsEnableFirstContactToAllContactLimit.Value,
+                                                Converter={StaticResource BoolToColorConverter}}" VerticalAlignment="Top"
+                                                  Width="7.969" 
+                                                  Data="M0.5,0.5 L7.4689991,0.5 7.4689991,
+                                                  0.97143352 0.97043335,7.4699994 0.5,7.4699994 z"
+                                                  RenderTransformOrigin="0.500000023575588,0.500000050555512"
+                                                  Stretch="Fill" Margin="160.455,91.989,0,0">
+                                                <Path.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform/>
+                                                        <SkewTransform/>
+                                                        <RotateTransform Angle="45"/>
+                                                        <TranslateTransform/>
+                                                    </TransformGroup>
+                                                </Path.RenderTransform>
+                                            </Path>
+
+                                            <TextBlock  Text="{Binding ProbingModule.ProbingModuleDevParam_IParam.AllContactToOverdriveLimitRange.Value,
+                                                StringFormat={}{0} ㎛,
+                                                UpdateSourceTrigger=PropertyChanged}"
+                                                        Margin="285 60 0 0"
+                                                        Foreground="{Binding ProbingModule.ProbingModuleDevParam_IParam.IsEnableAllContactToOverdriveLimit.Value,
+                                                Converter={StaticResource BoolToColorConverter}}" 
+                                                        FontSize="16"/>
+                                            <Path Data="M137,80 L137,183.01942" Fill="#FF00FF00"
+                                                  HorizontalAlignment="Left" 
+                                                  Margin="273.984,57.026,0,81.01"
+                                                  Stretch="Fill" 
+                                                  Stroke="{Binding ProbingModule.ProbingModuleDevParam_IParam.IsEnableAllContactToOverdriveLimit.Value,
+                                                Converter={StaticResource BoolToColorConverter}}" 
+                                                  Width="1.166"/>
+                                            <Path Fill="{Binding ProbingModule.ProbingModuleDevParam_IParam.IsEnableAllContactToOverdriveLimit.Value,
+                                                Converter={StaticResource BoolToColorConverter}}" 
+                                                  Stroke="{Binding ProbingModule.ProbingModuleDevParam_IParam.IsEnableAllContactToOverdriveLimit.Value,
+                                                Converter={StaticResource BoolToColorConverter}}"
+                                                  HorizontalAlignment="Left" Height="7.97"
+                                                  VerticalAlignment="Top"
+                                                  Width="7.969" 
+                                                  Data="M0.5,0.5 L7.4689991,0.5 7.4689991,
+                                                  0.97143352 0.97043335,7.4699994 0.5,7.4699994 z"
+                                                  RenderTransformOrigin="0.500000023575588,0.500000050555512"
+                                                  Stretch="Fill" Margin="270.455,52.989,0,0">
+                                                <Path.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform/>
+                                                        <SkewTransform/>
+                                                        <RotateTransform Angle="45"/>
+                                                        <TranslateTransform/>
+                                                    </TransformGroup>
+                                                </Path.RenderTransform>
+                                            </Path>
+
+                                            <TextBlock  Text="{Binding ProbingModule.ProbingModuleDevParam_IParam.FirstContactToOverdriveLimitRange.Value,
+                                                                StringFormat={}{0} ㎛,
+                                                UpdateSourceTrigger=PropertyChanged}"
+                                                        Margin="390 100 0 0"
+                                                        Foreground="{Binding ProbingModule.ProbingModuleDevParam_IParam.IsEnableFirstContactToOverdriveLimit.Value,
+                                                Converter={StaticResource BoolToColorConverter}}" 
+                                                        FontSize="16"/>
+                                            <Path Data="M137,80 L137,183.01942" Fill="#FF00FF00"
+                                                  HorizontalAlignment="Left" 
+                                                  Margin="384,57.026,0,39.905"
+                                                  Stretch="Fill" 
+                                                  Stroke="{Binding ProbingModule.ProbingModuleDevParam_IParam.IsEnableFirstContactToOverdriveLimit.Value,
+                                                Converter={StaticResource BoolToColorConverter}}" 
+                                                  Width="1"/>
+                                            <Path Fill="{Binding ProbingModule.ProbingModuleDevParam_IParam.IsEnableFirstContactToOverdriveLimit.Value,
+                                                Converter={StaticResource BoolToColorConverter}}"
+                                                  Stroke="{Binding ProbingModule.ProbingModuleDevParam_IParam.IsEnableFirstContactToOverdriveLimit.Value,
+                                                Converter={StaticResource BoolToColorConverter}}"
+                                                  HorizontalAlignment="Left" Height="7.97"
+                                                  VerticalAlignment="Top"
+                                                  Width="7.969" 
+                                                  Data="M0.5,0.5 L7.4689991,0.5 7.4689991,
+                                                  0.97143352 0.97043335,7.4699994 0.5,7.4699994 z"
+                                                  RenderTransformOrigin="0.500000023575588,0.500000050555512"
+                                                  Stretch="Fill" Margin="380.455,52.989,0,0">
+                                                <Path.RenderTransform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform/>
+                                                        <SkewTransform/>
+                                                        <RotateTransform Angle="45"/>
+                                                        <TranslateTransform/>
+                                                    </TransformGroup>
+                                                </Path.RenderTransform>
+                                            </Path>
+
+
+
+                                        </Grid>
+
+
+                                    </Grid>
+                                </Viewbox>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </mah:MetroTabItem>-->
+        <mah:MetroTabItem Header="{x:Static resources:Resources.Str_MultipleContactSetting}" 
+                     mah:ControlsHelper.HeaderFontSize ="24"
+                     mah:ControlsHelper.HeaderMargin="10"
+                            Background="#888888"
+                            Foreground="White"
+                          Margin="1"
+                          Visibility="Visible"
+                     >
+            <Grid Background="#222222">
+                <GroupBox Header="Multiple Contact Z Clearance &amp; Overdrive" FontSize="20">
+                    <Grid Margin="8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="72*"/>
+                                <ColumnDefinition Width="40*"/>
+                                <ColumnDefinition Width="40*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock  Grid.Column="0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="Multiple Contact Count : "/>
+
+                            <TextBox    Grid.Column="1"
+                                        Margin="16 0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Text="{Binding MultipleContactCount.Value}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                        <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                            <i:InvokeCommandAction.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}" />
+                                                    <Binding Path="MultipleContactCount.PropertyPath"/>
+                                                </MultiBinding>
+                                            </i:InvokeCommandAction.CommandParameter>
+                                        </i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+
+                            <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="(0 ~ 10)"/>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="72*"/>
+                                <ColumnDefinition Width="40*"/>
+                                <ColumnDefinition Width="40*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock  Grid.Column="0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="Multiple Contact Back Overdrive : "/>
+
+                            <TextBox    Grid.Column="1"
+                                        Margin="16 0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Text="{Binding MultipleContactBackOD.Value}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                        <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                            <i:InvokeCommandAction.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}" />
+                                                    <Binding Path="MultipleContactBackOD.PropertyPath"/>
+                                                </MultiBinding>
+                                            </i:InvokeCommandAction.CommandParameter>
+                                        </i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+
+                            <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="(-500 ~ 0) ㎛"/>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="72*"/>
+                                <ColumnDefinition Width="40*"/>
+                                <ColumnDefinition Width="40*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock  Grid.Column="0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="Multiple Contact Speed : "/>
+
+                            <TextBox    Grid.Column="1"
+                                        Margin="16 0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Text="{Binding MultipleContactSpeed.Value}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                        <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                            <i:InvokeCommandAction.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}" />
+                                                    <Binding Path="MultipleContactSpeed.PropertyPath"/>
+                                                </MultiBinding>
+                                            </i:InvokeCommandAction.CommandParameter>
+                                        </i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+
+                            <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="(10 ~ 260,000)"/>
+                        </Grid>
+                        <Grid Grid.Row="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="72*"/>
+                                <ColumnDefinition Width="40*"/>
+                                <ColumnDefinition Width="40*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock  Grid.Column="0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="Multiple Contact Accel : "/>
+
+                            <TextBox    Grid.Column="1"
+                                        Margin="16 0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Text="{Binding MultipleContactAccel.Value}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                        <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                            <i:InvokeCommandAction.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}" />
+                                                    <Binding Path="MultipleContactAccel.PropertyPath"/>
+                                                </MultiBinding>
+                                            </i:InvokeCommandAction.CommandParameter>
+                                        </i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+
+                            <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="(10 ~ 2,600,000)"/>
+                        </Grid>
+                        <Grid Grid.Row="4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="72*"/>
+                                <ColumnDefinition Width="40*"/>
+                                <ColumnDefinition Width="40*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock  Grid.Column="0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="Multiple Contact Overdrive (Additional OD) : "/>
+
+                            <TextBox    Grid.Column="1"
+                                        Margin="16 0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Text="{Binding MultipleContactOD.Value}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                        <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                            <i:InvokeCommandAction.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}" />
+                                                    <Binding Path="MultipleContactOD.PropertyPath"/>
+                                                </MultiBinding>
+                                            </i:InvokeCommandAction.CommandParameter>
+                                        </i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+
+                            <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="(-30 ~ 30) ㎛"/>
+                        </Grid>
+                        <Grid Grid.Row="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="72*"/>
+                                <ColumnDefinition Width="40*"/>
+                                <ColumnDefinition Width="40*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock  Grid.Column="0"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="Multiple Contact Delay Time : "/>
+
+                            <TextBox    Grid.Column="1"
+                                        Margin="16 0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        VerticalContentAlignment="Center"
+                                        Text="{Binding MultipleContactDelayTime.Value}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                        <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}">
+                                            <i:InvokeCommandAction.CommandParameter>
+                                                <MultiBinding Converter="{StaticResource ListViewConverter}">
+                                                    <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}" />
+                                                    <Binding Path="MultipleContactDelayTime.PropertyPath"/>
+                                                </MultiBinding>
+                                            </i:InvokeCommandAction.CommandParameter>
+                                        </i:InvokeCommandAction>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+
+                            <TextBlock  Grid.Column="2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="(0 ~ 5000) ms"/>
+                        </Grid>
+                        <Grid Grid.Row="6" Grid.RowSpan="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="72*"/>
+                                <ColumnDefinition Width="80*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0" VerticalAlignment="Top"
+                                  Margin="0 16">
+                                <TextBlock HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        FontSize="16"
+                                        Text="Multiple Contact Back OD Option : "/>
+                            </Grid>
+
+                            <Grid Grid.Column="1">
+                                <StackPanel Margin="16 8">
+                                    <RadioButton GroupName="BackODOption"
+                                                 IsChecked="{Binding MultipleContactBackODOption.Value, Mode=TwoWay, Converter={StaticResource BackODOptionConverter}, 
+                                                            ConverterParameter={x:Static Enum:MultipleContactBackODOptionEnum.BackODFromProbingOD}}"
+                                                 Content="Back OD from Probing Overdrive"
+                                                 Command="{Binding BackODOptionCommand}" CommandParameter="{x:Static Enum:MultipleContactBackODOptionEnum.BackODFromProbingOD}"
+                                                 Margin="8"
+                                                 FontSize="16"
+                                                 VerticalContentAlignment="Bottom"
+                                                 Foreground="White"/>
+                                    <RadioButton GroupName="BackODOption"
+                                                 IsChecked="{Binding MultipleContactBackODOption.Value, Mode=TwoWay, Converter={StaticResource BackODOptionConverter}, 
+                                                            ConverterParameter={x:Static Enum:MultipleContactBackODOptionEnum.BackODFromAllContact}}"
+                                                 Content="Back OD from All Contact"
+                                                 Command="{Binding BackODOptionCommand}" CommandParameter="{x:Static Enum:MultipleContactBackODOptionEnum.BackODFromAllContact}"
+                                                 Margin="8"
+                                                 FontSize="16"
+                                                 VerticalContentAlignment="Bottom"
+                                                 Foreground="White"/>
+                                    <RadioButton GroupName="BackODOption"
+                                                IsChecked="{Binding MultipleContactBackODOption.Value, Mode=TwoWay, Converter={StaticResource BackODOptionConverter}, 
+                                                            ConverterParameter={x:Static Enum:MultipleContactBackODOptionEnum.BackODFromFirstContact}}"
+                                                 Content="Back OD from First Contact"
+                                                 Command="{Binding BackODOptionCommand}" CommandParameter="{x:Static Enum:MultipleContactBackODOptionEnum.BackODFromFirstContact}"
+                                                 Margin="8"
+                                                 FontSize="16"
+                                                 VerticalContentAlignment="Bottom"
+                                                 Foreground="White"/>
+                                </StackPanel>
+                            </Grid>
+
+                        </Grid>
+
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </mah:MetroTabItem>
+        <!--<mah:MetroTabItem Header="{x:Static resources:Resources.Str_ZSoftTouch}"
+                     mah:ControlsHelper.HeaderFontSize ="24"
+                            Background="#888888"
+                            Foreground="White"
+                          Margin="1"
+                          Visibility="Collapsed"
+                     >
+            <Grid Background="#222222">
+                <GroupBox Header="Z Soft Touch" FontSize="20">
+                    <Grid Margin="8">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="32*"/>
+                            <RowDefinition Height="120*"/>
+                        </Grid.RowDefinitions>
+
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </mah:MetroTabItem>-->
+    </mah:MetroTabControl>
+</UserControl>

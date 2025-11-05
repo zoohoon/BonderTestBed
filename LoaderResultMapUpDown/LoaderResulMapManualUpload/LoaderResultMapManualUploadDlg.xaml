@@ -1,0 +1,41 @@
+﻿<Window x:Class="LoaderResultMapUpDown.LoaderResulMapManualUpload.LoaderResultMapManualUploadDlg"
+        x:Name="ResultMapManualUploadWnd"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:LoaderResultMapUpDown.LoaderResulMapManualUpload"
+             mc:Ignorable="d" Height="399.386" Width="498.157" WindowStyle="None" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" MouseLeftButtonDown="ResultMapManualUploadWnd_MouseLeftButtonDown">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Margin="0,0,0,0.6">
+        <Rectangle HorizontalAlignment="Left" Height="26" Stroke="Black" VerticalAlignment="Top" Width="499" Fill="#FF1F1D1D" Margin="-1,0,0,0"/>
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="235" FontWeight="Bold" Foreground="#FFE7E7E7" Panel.ZIndex="1" FontSize="14" Margin="1,2,0,0"><Run Text=" Failed"/><Run Text=" Result Map Manual Upload"/></TextBlock>
+        <Button Content="X" HorizontalAlignment="Left" Margin="473,2,0,0" VerticalAlignment="Top" Width="21" FontWeight="Bold" Command="{Binding ManualUploadDlgClose}" CommandParameter="{Binding ElementName=ResultMapManualUploadWnd}" Height="22"/>
+        <ListView HorizontalAlignment="Left" Height="215" Margin="0,25,0,0" VerticalAlignment="Top" Width="498" ItemsSource="{Binding ManualUploadItemList}" FontWeight="Bold" SelectedItem="{Binding CurrentSelectedItem}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Stage No." Width="90" DisplayMemberBinding="{Binding stageNum}"/>
+                    <GridViewColumn Header="Result Map." Width="130" DisplayMemberBinding="{Binding resultFileNm}"/>
+                    <GridViewColumn Header="Date" Width="150" DisplayMemberBinding="{Binding dateInfo}"/>
+                    <GridViewColumn Header="Result" Width="80" DisplayMemberBinding="{Binding uploadResult}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Content="Close" HorizontalAlignment="Left" Margin="415,357,0,0" VerticalAlignment="Top" Width="75" Height="32" Command="{Binding ManualUploadDlgClose}" CommandParameter="{Binding ElementName=ResultMapManualUploadWnd}"/>
+        <Button x:Name="UploadBtnInXaml" Content="Upload" HorizontalAlignment="Left" Margin="328,357,0,0" VerticalAlignment="Top" Width="75" Height="32" Command="{Binding ManualUploadStart}" CommandParameter="{Binding ElementName=ResultMapManualUploadWnd}"/>
+        <TextBlock HorizontalAlignment="Left" Height="69" Margin="0,253,0,0" TextWrapping="Wrap" Text="{Binding Detail_Info}" VerticalAlignment="Top" Width="498" Background="#FFCAC7C7"/>
+        <ProgressBar HorizontalAlignment="Left" Height="12" Margin="0,240,0,0" VerticalAlignment="Top" Width="498" Minimum="0" Maximum="100" Value="{Binding progressPos}" />
+        <TextBlock HorizontalAlignment="Left" Height="27" Margin="4,325,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="479" FontWeight="Bold"><Run Text="* "/><Run Text="When the window is displayed"/><Run Text=" "/><Run Text="No "/><Run Text="'"/><Run Text="ResultMap"/><Run Text="' file"/><Run Text=" upload retries."/></TextBlock>
+        <TextBlock x:Name="PreviousTaskNotice" HorizontalAlignment="Left" Height="32" Margin="13,345,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="330"><Run Text="The previous task being processed remains."/><LineBreak/><Run Text="Please wait a moment."/><Run Text="..."/></TextBlock>
+
+
+    </Grid>
+</Window>

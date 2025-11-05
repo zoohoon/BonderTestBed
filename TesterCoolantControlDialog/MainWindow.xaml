@@ -1,0 +1,220 @@
+﻿<Window x:Class="TesterCoolantControlDialog.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+        xmlns:s="clr-namespace:System;assembly=mscorlib"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:TesterCoolantControlDialog"
+        mc:Ignorable="d"
+        Title="Tester Coolant Control Panel" Height="700" Width="480" Topmost="True" WindowStyle="ToolWindow" MaxWidth="900" ResizeMode="NoResize" Closing="Window_Closing"
+        Background="#FF2C2C2F" IsVisibleChanged="Window_IsVisibleChanged">
+    <Window.Resources>
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="Margin" Value="8"/>
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+        <vc:BooltoGrnColorConv x:Key="BoolToColorConv"/>
+        <vc:BooltoGrnColorInvConv x:Key="BoolToColorInvConv"/>
+    </Window.Resources>
+    <Grid Background="#FF2C2C2F" Margin="16">
+        <UniformGrid Rows="12">
+            <Grid>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="CELL 1" Margin="8" Foreground="WhiteSmoke" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"></Label>
+                <Button Grid.Column="1" Margin="12" Content="ON" Command="{Binding CoolantONCommand}" CommandParameter="0" 
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[0], Converter={StaticResource BoolToColorConv}}"/>
+                <Button Grid.Column="2" Margin="12" Content="OFF" Command="{Binding CoolantOFFCommand}" CommandParameter="0"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[0], Converter={StaticResource BoolToColorInvConv}}"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="2"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="1"/>
+                <Border BorderBrush="DimGray" BorderThickness="0,0,0,1" Grid.ColumnSpan="3" Margin="0"/>
+            </Grid>            
+            <Grid>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="CELL 2"/>
+                <Button Grid.Column="1" Margin="12" Content="ON" Command="{Binding CoolantONCommand}" CommandParameter="1"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[1], Converter={StaticResource BoolToColorConv}}"/>
+                <Button Grid.Column="2" Margin="12" Content="OFF" Command="{Binding CoolantOFFCommand}" CommandParameter="1"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[1], Converter={StaticResource BoolToColorInvConv}}"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="2"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="1"/>
+                <Border BorderBrush="DimGray" BorderThickness="0,0,0,1" Grid.ColumnSpan="3" Margin="0"/>
+            </Grid>
+            <Grid>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="CELL 3"/>
+                <Button Grid.Column="1" Margin="12" Content="ON" Command="{Binding CoolantONCommand}" CommandParameter="2"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[2], Converter={StaticResource BoolToColorConv}}"/>
+                <Button Grid.Column="2" Margin="12" Content="OFF" Command="{Binding CoolantOFFCommand}" CommandParameter="2"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[2], Converter={StaticResource BoolToColorInvConv}}"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="2"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="1"/>
+                <Border BorderBrush="DimGray" BorderThickness="0,0,0,1" Grid.ColumnSpan="3" Margin="0"/>
+            </Grid>
+            <Grid>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="CELL 4"/>
+                <Button Grid.Column="1" Margin="12" Content="ON" Command="{Binding CoolantONCommand}" CommandParameter="3"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[3], Converter={StaticResource BoolToColorConv}}"/>
+                <Button Grid.Column="2" Margin="12" Content="OFF" Command="{Binding CoolantOFFCommand}" CommandParameter="3"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[3], Converter={StaticResource BoolToColorInvConv}}"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="2"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="1"/>
+                <Border BorderBrush="DimGray" BorderThickness="0,0,0,1" Grid.ColumnSpan="3" Margin="0"/>
+            </Grid>
+            <Grid>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="CELL 5"/>
+                <Button Grid.Column="1" Margin="12" Content="ON" Command="{Binding CoolantONCommand}" CommandParameter="4"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[4], Converter={StaticResource BoolToColorConv}}"/>
+                <Button Grid.Column="2" Margin="12" Content="OFF" Command="{Binding CoolantOFFCommand}" CommandParameter="4"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[4], Converter={StaticResource BoolToColorInvConv}}"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="2"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="1"/>
+                <Border BorderBrush="DimGray" BorderThickness="0,0,0,1" Grid.ColumnSpan="3" Margin="0"/>
+            </Grid>
+            <Grid>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="CELL 6"/>
+                <Button Grid.Column="1" Margin="12" Content="ON" Command="{Binding CoolantONCommand}" CommandParameter="5"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[5], Converter={StaticResource BoolToColorConv}}"/>
+                <Button Grid.Column="2" Margin="12" Content="OFF" Command="{Binding CoolantOFFCommand}" CommandParameter="5"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[5], Converter={StaticResource BoolToColorInvConv}}"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="2"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="1"/>
+                <Border BorderBrush="DimGray" BorderThickness="0,0,0,1" Grid.ColumnSpan="3" Margin="0"/>
+            </Grid>
+            <Grid>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="CELL 7"/>
+                <Button Grid.Column="1" Margin="12" Content="ON" Command="{Binding CoolantONCommand}" CommandParameter="6"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[6], Converter={StaticResource BoolToColorConv}}"/>
+                <Button Grid.Column="2" Margin="12" Content="OFF" Command="{Binding CoolantOFFCommand}" CommandParameter="6"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[6], Converter={StaticResource BoolToColorInvConv}}"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="2"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="1"/>
+                <Border BorderBrush="DimGray" BorderThickness="0,0,0,1" Grid.ColumnSpan="3" Margin="0"/>
+            </Grid>
+            <Grid>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="CELL 8"/>
+                <Button Grid.Column="1" Margin="12" Content="ON" Command="{Binding CoolantONCommand}" CommandParameter="7"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[7], Converter={StaticResource BoolToColorConv}}"/>
+                <Button Grid.Column="2" Margin="12" Content="OFF" Command="{Binding CoolantOFFCommand}" CommandParameter="7"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[7], Converter={StaticResource BoolToColorInvConv}}"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="2"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="1"/>
+                <Border BorderBrush="DimGray" BorderThickness="0,0,0,1" Grid.ColumnSpan="3" Margin="0"/>
+            </Grid>
+            <Grid>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="CELL 9"/>
+                <Button Grid.Column="1" Margin="12" Content="ON" Command="{Binding CoolantONCommand}" CommandParameter="8"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[8], Converter={StaticResource BoolToColorConv}}"/>
+                <Button Grid.Column="2" Margin="12" Content="OFF" Command="{Binding CoolantOFFCommand}" CommandParameter="8"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[8], Converter={StaticResource BoolToColorInvConv}}"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="2"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="1"/>
+                <Border BorderBrush="DimGray" BorderThickness="0,0,0,1" Grid.ColumnSpan="3" Margin="0"/>
+            </Grid>
+            <Grid>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="CELL 10"/>
+                <Button Grid.Column="1" Margin="12" Content="ON" Command="{Binding CoolantONCommand}" CommandParameter="9"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[9], Converter={StaticResource BoolToColorConv}}"/>
+                <Button Grid.Column="2" Margin="12" Content="OFF" Command="{Binding CoolantOFFCommand}" CommandParameter="9"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[9], Converter={StaticResource BoolToColorInvConv}}"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="2"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="1"/>
+                <Border BorderBrush="DimGray" BorderThickness="0,0,0,1" Grid.ColumnSpan="3" Margin="0"/>
+            </Grid>
+            <Grid>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="CELL 11"/>
+                <Button Grid.Column="1" Margin="12" Content="ON" Command="{Binding CoolantONCommand}" CommandParameter="10"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[10], Converter={StaticResource BoolToColorConv}}"/>
+                <Button Grid.Column="2" Margin="12" Content="OFF" Command="{Binding CoolantOFFCommand}" CommandParameter="10"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[10], Converter={StaticResource BoolToColorInvConv}}"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="2"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="1"/>
+                <Border BorderBrush="DimGray" BorderThickness="0,0,0,1" Grid.ColumnSpan="3" Margin="0"/>
+            </Grid>
+            <Grid>
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.6*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label Content="CELL 12"/>
+                <Button Grid.Column="1" Margin="12" Content="ON" Command="{Binding CoolantONCommand}" CommandParameter="11"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[11], Converter={StaticResource BoolToColorConv}}"/>
+                <Button Grid.Column="2" Margin="12" Content="OFF" Command="{Binding CoolantOFFCommand}" CommandParameter="11"
+                        Background="{Binding GPLoader.TesterCoolantValveOpened[11], Converter={StaticResource BoolToColorInvConv}}"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="2"/>
+                <Border BorderBrush="DimGray" BorderThickness="1,0,0,0" Margin="0" Grid.Column="1"/>
+                <Border BorderBrush="DimGray" BorderThickness="0,0,0,1" Grid.ColumnSpan="3" Margin="0"/>
+            </Grid>
+        </UniformGrid>
+    </Grid>
+</Window>

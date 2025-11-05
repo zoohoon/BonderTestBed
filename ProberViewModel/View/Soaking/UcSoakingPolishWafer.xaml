@@ -1,0 +1,119 @@
+﻿<UserControl x:Class="SoakingSettingView.UcSoakingPolishWafer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SoakingSettingView"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="1280" Background="Transparent">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Margin="0, 0, 0, -10">
+        <Border Margin="20, 30, 20. 20" BorderThickness="1.5" BorderBrush="DarkGray" CornerRadius="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <!-- Edge Detection 사용시 Width 1*로 변경 -->
+                    <ColumnDefinition Width="0"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <Label FontSize="13"
+                           Content="Enable Edge Detection in Polish Soak : "
+                           VerticalAlignment="Bottom"
+                           HorizontalAlignment="Left"
+                           Margin="0, 0, 0, 10" />
+                    <ToggleButton VerticalAlignment="Bottom"
+                                  HorizontalAlignment="Left"
+                                  Margin="0, 0, 0, 5" 
+                                  Foreground="White"    
+                                  IsEnabled="{Binding UsePolishWafer}"
+                                  IsChecked="{Binding EnableEdgeDetection}"
+                                  Style="{StaticResource ON_OFF_ToggleBtn}"
+                                  />
+                    
+                </StackPanel>
+
+                <Grid Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="170"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Label Grid.Column="0"
+                           FontSize="13"
+                           Content="Select Polish Wafer : "
+                           VerticalAlignment="Bottom"
+                           HorizontalAlignment="Left"
+                           Margin="0, 0, 0, 10" />
+                    <ComboBox Grid.Column="1"
+                              Name="CboSelectPolishWafer" 
+                              IsEnabled="{Binding UsePolishWafer}"
+                              ItemsSource="{Binding SelectedPolishWaferList}"
+                              SelectionChanged="ComboBoxSelectionChanged_AlwaysNull"
+                              VerticalAlignment="Bottom"
+                              HorizontalAlignment="Left"
+                              Height="25"
+                              Margin="0, 0, 0, 10">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Width="{Binding   RelativeSource={RelativeSource Mode=FindAncestor , AncestorType=ComboBox, AncestorLevel=1}, Path=ActualWidth}">
+                                    <CheckBox IsChecked="{Binding IsSelected}" Width="200"
+                                              FontSize="14"
+                                              VerticalAlignment="Center"
+                                              Checked="OnCboSelectPolishWaferChecked"
+                                              Unchecked="OnCboSelectPolishWaferChecked">
+                                        <TextBlock Text="{Binding ObjectData}"
+                                                   Margin="3 0 0 0"/>
+                                    </CheckBox>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <TextBlock Grid.Column="1"
+                               IsHitTestVisible="False"
+                               Name="CboTextSelectPolishWafer"
+                               Height="23"
+                               FontSize="13"
+                               Foreground="White"
+                               IsEnabled="{Binding UsePolishWafer}"
+                               Text="{Binding SelectedPolishWafer, Mode=TwoWay}"
+                               VerticalAlignment="Bottom"
+                               Margin="10, 0, 0, 10" />
+                </Grid>
+
+                <Grid Grid.Column="2" Width="370" HorizontalAlignment="Right" Margin="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <local:UcSoakingPolishWaferGuide Grid.Row="0" FontSize="12"/>
+                </Grid>
+            </Grid>
+        </Border>
+        <Border Background="#38393e"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Margin="30, 13, 10, 10"
+                    CornerRadius="10"
+                    Height="32"
+                    >
+            <CheckBox VerticalAlignment="Center"
+                      Foreground="white"
+                      Margin="10, 0, 14, 0"
+                      FontSize="11"
+                      IsChecked="{Binding UsePolishWafer}">
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                </CheckBox.LayoutTransform>
+                <TextBlock Text="Use Polish Wafer" Margin="2 0 0 0"/>
+            </CheckBox>
+        </Border>
+    </Grid>
+</UserControl>

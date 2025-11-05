@@ -1,0 +1,224 @@
+﻿<Window x:Class="EventCodeEditor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ErrorCodeAlaramEditor"
+        mc:Ignorable="d"  Height="1020" Width="1920"
+        Title="MainWindow">
+    <Grid Margin="4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="1.4*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--STAGE LIST-->
+        <Grid Grid.Row="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Grid.Column="0" Background="MediumPurple" Margin="2">
+                <Label  Content="STAGE LIST" BorderBrush="Black" FontWeight="DemiBold"
+                        HorizontalAlignment="Center" VerticalAlignment="Center" Style="{x:Null}" HorizontalContentAlignment="Center"/>
+            </Grid>
+            <Grid  Grid.Row="1" Grid.Column="0" Margin="2,0,2,0">
+                <ListBox ItemsSource="{Binding StageList}" SelectedIndex="{Binding SelectedStageIndex, Mode=TwoWay}" BorderBrush="Black" BorderThickness="1" Foreground="Black">
+                </ListBox>
+
+                <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
+                    <Button Content="Refresh Loader" Height="30" Margin="2" x:Name="RefreshInfoLoader" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <!--CONTROL-->
+        <Grid Grid.Column="1" >
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="0">
+                <!-- ERROR CODE LIST -->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Grid.Column="0" Background="MediumPurple" Margin="2">
+                        <Label  Content="Event CODE" BorderBrush="Black" FontWeight="DemiBold"
+                                HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{x:Null}"/>
+                    </Grid>
+
+                    <ListBox Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Margin="2,0,2,0" Foreground="Black"
+                             ItemsSource="{Binding EventCodeEnumList}" SelectedValue="{Binding SelectedEventCodeEnum, Mode=TwoWay}"
+                             ScrollViewer.HorizontalScrollBarVisibility="Visible" >
+                        
+                    
+                    </ListBox>
+                </Grid>
+            </Grid >
+
+
+            <!-- PROBER ACTION KIND & GEM ALARM ALCD -->
+            <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Vertical" Grid.Row="0">
+ 
+                    <Grid Grid.Row="0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Grid.Column="0" Background="MediumPurple" Margin="2">
+                            <Label  Content="PROBER ACTION" BorderBrush="Black" FontWeight="DemiBold"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{x:Null}"/>
+                        </Grid>
+                        <ComboBox Grid.Row="1" Grid.Column="0" Height="40"
+                                  ItemsSource="{Binding PoberErrorKindList}" SelectedItem="{Binding SelectedProberErrorKind, Mode=TwoWay}"/>
+                    </Grid>
+
+                    <Grid Grid.Row="1" Margin="0,4,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Grid.Column="0" Background="MediumPurple" Margin="2">
+                            <Label  Content="MESSAGE TITLE" BorderBrush="Black" FontWeight="DemiBold"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{x:Null}"/>
+                        </Grid>
+                        <TextBox Text="{Binding AlarmMessageTitle, UpdateSourceTrigger=PropertyChanged}" TextWrapping="WrapWithOverflow" 
+                                 Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="1" VerticalContentAlignment="Top">
+
+                        </TextBox>
+                    </Grid>
+
+                    <Grid Grid.Row="2" Margin="0,4,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Grid.Column="0" Background="MediumPurple" Margin="2">
+                            <Label  Content="MESSAGE CONTENT" BorderBrush="Black" FontWeight="DemiBold"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{x:Null}"/>
+                        </Grid>
+                        <TextBox x:Name="ErrorCodeMSGTextBox" Text="{Binding AlarmMessageContent, UpdateSourceTrigger=PropertyChanged}" TextWrapping="WrapWithOverflow" 
+                                 Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Margin="2" Height="100">
+
+                        </TextBox>
+                    </Grid>
+
+                    <Grid Grid.Row="3" Margin="0,4,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Grid.Column="0" Background="MediumPurple" Margin="2">
+                            <Label  Content="ALARM ID" BorderBrush="Black" FontWeight="DemiBold"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{x:Null}"/>
+                        </Grid>
+                        <TextBox x:Name="AlarmIDTextBox" Text="{Binding GemAlarmID, UpdateSourceTrigger=PropertyChanged}" TextWrapping="WrapWithOverflow" 
+                                 Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="1" VerticalContentAlignment="Top">
+
+                        </TextBox>
+                    </Grid>
+
+                    <Grid  Margin="0,4,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Grid.Column="0" Background="MediumPurple" Margin="2">
+                            <Label  Content="ENABLE NOTIFY MESSAGE DIALOG" BorderBrush="Black" FontWeight="DemiBold"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{x:Null}"/>
+                        </Grid>
+                        <ToggleButton Grid.Row="1"  IsChecked="{Binding NotifyMessageDialogEnableFlag}"/>
+                    </Grid>
+
+                    <Grid  Margin="0,4,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Grid.Column="0" Background="MediumPurple" Margin="2">
+                            <Label  Content="ENABLE NOTIFY EVENT LOG" BorderBrush="Black" FontWeight="DemiBold"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{x:Null}"/>
+                        </Grid>
+                        <ToggleButton Grid.Row="1" IsChecked="{Binding NotifyEventLogEnableFlag}"/>
+                    </Grid>
+
+                    <Grid  Margin="0,4,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Grid.Column="0" Background="MediumPurple" Margin="2">
+                            <Label  Content="ENALBE NOTIFY PRO LOG" BorderBrush="Black" FontWeight="DemiBold"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{x:Null}"/>
+                        </Grid>
+                        <ToggleButton Grid.Row="1" IsChecked="{Binding NotifyProLogEnableFlag}"/>
+                    </Grid>
+
+                    <Grid  Margin="0,4,0,0" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Grid.Column="0" Background="MediumPurple" Margin="2">
+                            <Label  Content="PROLOG TYPE" BorderBrush="Black" FontWeight="DemiBold"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{x:Null}"/>
+                        </Grid>
+                        <ComboBox Grid.Row="1" Grid.Column="0" Height="40"
+                            ItemsSource="{Binding PrologTypeList}" SelectedItem="{Binding SelectedPrologType, Mode=TwoWay}"/>
+                    </Grid>
+
+                </StackPanel>
+                <Grid Grid.Row="1" Margin="0,4,0,8">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                        <Button Content="Add Event Code" Height="30" Margin="2" x:Name="AddErrorCodeParam" Command="{Binding AddEventCodeParamCommand}"/>
+                        <Button Content="Modify Event Code" Height="30" Margin="2" Command="{Binding ModifyEventCodeParamCommand}"/>
+                        <Button Content="Delete Event Code" Height="30" Margin="2" x:Name="DeleteErrorCodeParam" Command="{Binding DeleteEventCodeParamCommand}"/>
+                        <Button Content="Raise Event (Stage)" Height="30" Margin="2" x:Name="SetStageAlarm" Command="{Binding StageRaiseEventCodeCommand}"/>
+                        <Button Content="Raise Event (Loader)" Height="30" Margin="2" x:Name="SetLoaderAlarm" Command="{Binding LoaderRaiseEventCodeCommand}"/>
+                        <Button Content="Download Param(To Stage)" Height="30" Margin="2" x:Name="DownloadParamToStage" Command="{Binding DownloadParamToStageCommand}"/>
+                        <Button Content="Save Param" Height="30" Margin="2" Command="{Binding SaveParamCommand}"/>
+                        <Button Content="Show GemAlarm Setup" Height="30" Margin="2" Command="{Binding ShowGemAlarmSetupWindowCommand}"/>
+                    </StackPanel>
+
+                </Grid>
+
+            </Grid>
+        </Grid>
+        
+        <!-- List All -->
+        <Grid Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            
+            <Grid Grid.Row="0" Grid.Column="3" Background="MediumPurple" Margin="2">
+                <Label  Content="ERROR CODE PARAM" BorderBrush="Black" FontWeight="DemiBold" HorizontalAlignment="Center" VerticalAlignment="Center"  Style="{x:Null}"/>
+            </Grid>
+
+            <ListView Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="1" Foreground="Black"
+                      ItemsSource="{Binding NotifyEventCodeParam}" SelectedIndex="{Binding ParamListIndex}"
+                      SelectedItem="{Binding SelectedEventCodeParam}"
+                      ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header = "Event Code" DisplayMemberBinding = "{Binding EventCode}" Width="200"/>
+                        <GridViewColumn Header = "Message" DisplayMemberBinding = "{Binding Message}" Width="400"/>
+                        <GridViewColumn Header = "Gem Alarm ID" DisplayMemberBinding = "{Binding GemAlaramNumber}" Width="120"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4A4C22C3-A351-460F-9C3B-B14C4A743E9A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WAPadStandardModule</RootNamespace>
+    <AssemblyName>WAPadStandardModule</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PadDutRenderLayer.cs" />
+    <Compile Include="PadStandard.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UC\PadAdvenSettingControl.xaml.cs">
+      <DependentUpon>PadAdvenSettingControl.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DutEditorView\ucDutViewer.csproj">
+      <Project>{0E8EB5F9-EE95-4E4D-A896-B6074B1F05E1}</Project>
+      <Name>ucDutViewer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Focusing\Focusing.csproj">
+      <Project>{E59F4F23-CFF5-414A-AB35-C0F547CA0299}</Project>
+      <Name>Focusing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeometryHelper\GeometryHelper.csproj">
+      <Project>{7C61FC0B-6EEE-4AFB-B500-6B7AFEDB510B}</Project>
+      <Name>GeometryHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GraphContext.cs\GraphicsModule.csproj">
+      <Project>{85955996-03EA-4427-A5F1-D294A368855C}</Project>
+      <Name>GraphicsModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{d3b00cca-3c50-42b1-8dca-dfe47c759b57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroDialogInterfaces\MetroDialogInterfaces.csproj">
+      <Project>{2C3114E3-137B-44ED-A9C2-BA5F2198A672}</Project>
+      <Name>MetroDialogInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PControl\PnPControl.csproj">
+      <Project>{6BE9F617-1527-4711-9A3E-61B3E6C84F3B}</Project>
+      <Name>PnPControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProbeCardObject\ProbeCardObject.csproj">
+      <Project>{13C3DC6F-FB34-473F-A599-0A181B66EFA9}</Project>
+      <Name>ProbeCardObject</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{EDBA3295-FF2A-4368-A217-6495941A8BF5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RelayCommandBase\RelayCommandBase.csproj">
+      <Project>{348522c5-8377-4d66-96f3-5d7da3d7762b}</Project>
+      <Name>RelayCommandBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharpDXRender\SharpDXRender.csproj">
+      <Project>{29E2C211-0F8C-47B7-85AE-10F7C66F0738}</Project>
+      <Name>SharpDXRender</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SubstrateObjects\SubstrateObjects.csproj">
+      <Project>{EFB47AA8-B3C8-439C-8A01-D26DB8522710}</Project>
+      <Name>SubstrateObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UcDisplayPort\UcDisplayPort.csproj">
+      <Project>{FBA75C26-7E9C-4E69-A6CB-1A6110E76805}</Project>
+      <Name>UcDisplayPort</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VirtualKeyboardControl\VirtualKeyboardControl.csproj">
+      <Project>{FDA1A497-1086-4987-9C72-2284CF79FD16}</Project>
+      <Name>VirtualKeyboardControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WAProcBaseParam\WAProcBaseParam.csproj">
+      <Project>{cb677735-9dc2-424e-a6e7-c565c11ca3d3}</Project>
+      <Name>WAProcBaseParam</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WA_PadParameter_Standard\WA_PadParameter_Standard.csproj">
+      <Project>{1b01c285-630f-48ed-99a7-bb987bc9bbdc}</Project>
+      <Name>WA_PadParameter_Standard</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ReferencePath Include="D:\NPOS\NPOS\packages\Autofac.4.6.2\lib\net45\Autofac.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\bin\x64\Debug\Focusing.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\bin\x64\Debug\GeometryHelper.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\bin\x64\Debug\GraphicsContext.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\bin\x64\Debug\LogModule.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\packages\MahApps.Metro.1.6.5\lib\net47\MahApps.Metro.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\packages\MahApps.Metro.IconPacks.Material.2.3.0\lib\net46\MahApps.Metro.IconPacks.Material.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\packages\MaterialDesignColors.1.2.2\lib\net45\MaterialDesignColors.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\packages\MaterialDesignThemes.2.6.0\lib\net45\MaterialDesignThemes.Wpf.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\bin\x64\Debug\MetroDialogInterfaces.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Microsoft.CSharp.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\mscorlib.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\bin\x64\Debug\PnPControl.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\PresentationCore.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\PresentationFramework.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\bin\x64\Debug\ProbeCardObject.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\bin\x64\Debug\ProberErrorCode.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\bin\x64\Debug\ProberInterfaces.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\bin\x64\Debug\RelayCommandBase.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\bin\x64\Debug\SharpDXRender.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\bin\x64\Debug\SubstrateObjects.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Configuration.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Core.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Data.DataSetExtensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Data.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Drawing.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.IO.Compression.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.IO.Compression.FileSystem.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Net.Http.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Numerics.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Runtime.Serialization.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.ServiceModel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Transactions.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\CommonDLL\DLL\System.Windows.Interactivity.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xaml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xml.Linq.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\bin\x64\Debug\UcDisplayPort.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\bin\x64\Debug\ucDutViewer.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\bin\x64\Debug\VirtualKeyboardControl.exe" />
+    <ReferencePath Include="D:\NPOS\NPOS\bin\x64\Debug\WAProcBaseParam.dll" />
+    <ReferencePath Include="D:\NPOS\NPOS\bin\x64\Debug\WA_PadParameter_Standard.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\WindowsBase.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\netstandard.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="D:\NPOS\NPOS\PadStandard\obj\x64\Debug\UC\PadAdvenSettingControl.g.cs" />
+  </ItemGroup>
+</Project>

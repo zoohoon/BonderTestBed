@@ -1,0 +1,62 @@
+﻿<Window x:Class="SECS_Host.View.Dialog_ChangeECV"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SECS_Host.View"
+        mc:Ignorable="d"
+        Title="Dialog_ChangeECV" Height="640" Width="960"  Closing="Window_Closing">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <DataGrid Grid.Column="0" Margin="8" ItemsSource="{Binding EquipCollection}"
+                  AutoGenerateColumns="False" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridCheckBoxColumn Header="V" Width="8" 
+                                        Binding="{Binding IsChecked}"/>
+                <DataGridTextColumn Header="ECID" IsReadOnly="True"
+                                    Binding="{Binding ECID}" Width="6*"/>
+                <DataGridTextColumn Header="ECName" IsReadOnly="True"
+                                    Binding="{Binding ECName}" Width="14*"/>
+                <DataGridTextColumn Header="ECV" IsReadOnly="False"
+                                    Binding="{Binding ECV}" Width="6*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Background" Value="#5C95DE58"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="ECMin" IsReadOnly="True"
+                                    Binding="{Binding ECMin}" Width="5*"/>
+                <DataGridTextColumn Header="ECMax" IsReadOnly="True"
+                                    Binding="{Binding ECMax}" Width="4*"/>
+                <DataGridTextColumn Header="ECDef" IsReadOnly="True"
+                                    Binding="{Binding ECDef}" Width="6*"/>
+                <DataGridTextColumn Header="Units" IsReadOnly="True"
+                                    Binding="{Binding Units}" Width="6*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Button Grid.Row="0" Margin="8" Content="Change"
+                    Command="{Binding SendNewEquipConstantCommand}"/>
+            <Button Grid.Row="1" Margin="8" Content="Cancel"
+                    Command="{Binding DialogCancelCommand}"/>
+        </Grid>
+    </Grid>
+</Window>

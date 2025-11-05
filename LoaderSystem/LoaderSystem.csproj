@@ -1,0 +1,418 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{44E18124-07D7-4F28-85DE-E1092B96C9A1}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>LoaderSystem</RootNamespace>
+    <AssemblyName>LoaderSystem</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationVersion>1.0.3.4</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\LoaderSystem\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>ARM2_NoWafer.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+    <Reference Include="Autofac, Version=4.6.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net47\MahApps.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=1.2.2.920, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.1.2.2\lib\net45\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.MahApps, Version=0.1.0.325, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.MahApps.0.1.0\lib\net45\MaterialDesignThemes.MahApps.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=2.6.0.325, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.2.6.0\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json.Encryption, Version=1.0.0.0, Culture=neutral, PublicKeyToken=816df355b41ce519, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.Encryption.2.2.0\lib\netstandard2.0\Newtonsoft.Json.Encryption.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Pranas.ScreenshotCapture, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Pranas.ScreenshotCapture.1.0.11\lib\net40\Pranas.ScreenshotCapture.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="SciChart.Charting">
+      <HintPath>..\SciChart\SciChart.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CommonDLL\DLL\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ARM2_NoWafer.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AccountModule\AccountModule.csproj">
+      <Project>{4d2007eb-9874-4024-8986-3209415ad660}</Project>
+      <Name>AccountModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BarcordReaderView\BarcordReaderView.csproj">
+      <Project>{d2ed64ca-5273-47f1-9c8a-782843ee1426}</Project>
+      <Name>BarcordReaderView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BCDCLV50x\BCDCLV50x.csproj">
+      <Project>{83F9E235-B169-44C4-887C-DED6E467E175}</Project>
+      <Name>BCDCLV50x</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cognex.Controls\Cognex.Controls.csproj">
+      <Project>{CDA466B0-020D-4FF5-8625-D105325A1C66}</Project>
+      <Name>Cognex.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CUIService\CUIService.csproj">
+      <Project>{822FAB06-827F-4CDE-87DA-469AACAD3660}</Project>
+      <Name>CUIService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CUI\CUI.csproj">
+      <Project>{3c5e49e6-7976-45be-aba3-c245b5317b4d}</Project>
+      <Name>CUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBManagerModule\DBManagerModule.csproj">
+      <Project>{F03A0B48-D800-4F3A-987A-62B3C458A273}</Project>
+      <Name>DBManagerModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBTableEditor\DBTableEditor.csproj">
+      <Project>{48a1594b-9e03-405b-a662-38bd78bbd2fe}</Project>
+      <Name>DBTableEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DemoRunDYWindow\DemoRunDYWindow.csproj">
+      <Project>{8223a013-6f3d-444e-bccf-54a930eac7f8}</Project>
+      <Name>DemoRunDYWindow</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\E84SimulatorDialog\E84SimulatorDialog.csproj">
+      <Project>{2f5439a3-4537-4df6-8f0f-3101d5e5f77f}</Project>
+      <Name>E84SimulatorDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EmulGemView\EmulGemView.csproj">
+      <Project>{2DEA706A-338B-49F7-B76D-4F0E4563E60A}</Project>
+      <Name>EmulGemView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EnvControlWindow\EnvControlWindow.csproj">
+      <Project>{4a424167-b3ba-4724-a3d5-f03d6fbc8fa8}</Project>
+      <Name>EnvControlWindow</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ErrorCodeAlaramEditor\EventCodeEditor.csproj">
+      <Project>{808c0095-28a7-4b9b-836f-21b568865614}</Project>
+      <Name>EventCodeEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GPLoaderRouter\GPLoaderRouter.csproj">
+      <Project>{CDA49D6A-7F4A-41C0-B9D0-E419FCA46291}</Project>
+      <Name>GPLoaderRouter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IOPanelControl\IOPanelControl.csproj">
+      <Project>{621ac304-966b-443e-8b4d-7a5abfd99eee}</Project>
+      <Name>IOPanelControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderMapView\LoaderMapView.csproj">
+      <Project>{8ee032a0-0e9e-4546-bdd3-4f424dc3bfd7}</Project>
+      <Name>LoaderMapView</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderMaster\LoaderMaster.csproj">
+      <Project>{0FA296B1-23E4-4AE6-820C-1AE13D193C7B}</Project>
+      <Name>LoaderMaster</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderBase\LoaderBase.csproj">
+      <Project>{8DBB64B8-644E-475D-8EAF-3B7ECD6F234D}</Project>
+      <Name>LoaderBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderCore\LoaderCore.csproj">
+      <Project>{59dd27b2-5bcc-46d4-8b20-0f853f210a71}</Project>
+      <Name>LoaderCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderFactory\LoaderFactory.csproj">
+      <Project>{8475fcd1-c9d7-455d-b2f0-96380263fd73}</Project>
+      <Name>LoaderFactory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderModule\LoaderParameters\LoaderParameters.csproj">
+      <Project>{9368B7A1-3625-42AB-A286-9E94CAF1BDD9}</Project>
+      <Name>LoaderParameters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderPnpManager\LoaderPnpManagerModule.csproj">
+      <Project>{B3D94F69-CE70-44F4-A0D2-514E2C507E81}</Project>
+      <Name>LoaderPnpManagerModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderServiceBase\LoaderServiceBase.csproj">
+      <Project>{B73C4A86-E81A-42B5-B859-8155A90E74C2}</Project>
+      <Name>LoaderServiceBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LoaderViewModelModule\LoaderViewModelModule.csproj">
+      <Project>{7558be10-ae4d-4129-ac81-c3ab71e1583f}</Project>
+      <Name>LoaderViewModelModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{d3b00cca-3c50-42b1-8dca-dfe47c759b57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroDialogInterfaces\MetroDialogInterfaces.csproj">
+      <Project>{2C3114E3-137B-44ED-A9C2-BA5F2198A672}</Project>
+      <Name>MetroDialogInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroDialogManager\MetroDialogModule.csproj">
+      <Project>{5C29E10E-AA00-4449-8494-6A12C1576E39}</Project>
+      <Name>MetroDialogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NotifyEventModule\NotifyEventModule.csproj">
+      <Project>{40F3E74A-35B7-417C-9118-EE5DB75340A6}</Project>
+      <Name>NotifyEventModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ParameterManager\ParameterManager.csproj">
+      <Project>{15AED574-B40E-4343-9CE5-08E112F957AF}</Project>
+      <Name>ParameterManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberDevelopPackWindow\ProberDevelopPackWindow.csproj">
+      <Project>{55b8c03e-749e-45b6-befb-6ab5e86e3102}</Project>
+      <Name>ProberDevelopPackWindow</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{edba3295-ff2a-4368-a217-6495941a8bf5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberSimulator\ProberSimulator.csproj">
+      <Project>{b2a4aadd-c4c3-4f23-bf05-8c22c22512c3}</Project>
+      <Name>ProberSimulator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberViewModel\ProberViewModel.csproj">
+      <Project>{c7d1f978-d3ae-49af-9a4b-09337bcbfae9}</Project>
+      <Name>ProberViewModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RelayCommandBase\RelayCommandBase.csproj">
+      <Project>{348522C5-8377-4D66-96F3-5D7DA3D7762B}</Project>
+      <Name>RelayCommandBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RepeatedTransferDialog\RepeatedTransferDialog.csproj">
+      <Project>{ecd1167a-44c6-4310-8643-1fcf6f75ec4c}</Project>
+      <Name>RepeatedTransferDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecsGemSettingDialogMainProject\SecsGemSettingDlg.csproj">
+      <Project>{2535D615-D7BE-4F6B-AD0D-E38CAE58BD82}</Project>
+      <Name>SecsGemSettingDlg</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sentinel\Sentinel.csproj">
+      <Project>{3881A71D-BD95-42A5-B872-B73ECFBE18E1}</Project>
+      <Name>Sentinel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SignalTowerDialogServiceProvider\SignalTowerDialogServiceProvider.csproj">
+      <Project>{F8D79357-E4CB-4EFC-9A90-918039197CA3}</Project>
+      <Name>SignalTowerDialogServiceProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SingleInputDialogServiceProvider\SingleInputDialogServiceProvider.csproj">
+      <Project>{997127C2-E026-4809-AA31-0B9760EDF75F}</Project>
+      <Name>SingleInputDialogServiceProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Splasher\SplasherService.csproj">
+      <Project>{F43AD2A3-262C-44C9-80DD-4AA929720FE1}</Project>
+      <Name>SplasherService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SplashWindowControl\SplashWindowControl.csproj">
+      <Project>{9c74c3d5-6cc5-459d-aaae-2ba93f8d4c91}</Project>
+      <Name>SplashWindowControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StageDataModule\LoaderRemoteMediatorModule.csproj">
+      <Project>{256c9952-43c3-4017-8469-df4c85b2ca32}</Project>
+      <Name>LoaderRemoteMediatorModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestSimulationDialog\TestSimulationDialog.csproj">
+      <Project>{11b9feb5-030f-46ac-9fcd-7234962de422}</Project>
+      <Name>TestSimulationDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TesterCoolantControlDialog\TesterCoolantControlDialog.csproj">
+      <Project>{0d40580c-e91d-4836-ac5a-024deabdcc94}</Project>
+      <Name>TesterCoolantControlDialog</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UtilityDialogs\UtilityDialogs.csproj">
+      <Project>{e90cff2c-e153-4b9d-bf4c-586a3f4e5996}</Project>
+      <Name>UtilityDialogs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ValueConverters\ValueConverters.csproj">
+      <Project>{90e38e59-8fea-4da7-937f-888390b913c3}</Project>
+      <Name>ValueConverters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VirtualKeyboardControl\VirtualKeyboardControl.csproj">
+      <Project>{FDA1A497-1086-4987-9C72-2284CF79FD16}</Project>
+      <Name>VirtualKeyboardControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WaitCancelDialogServiceProvider\WaitCancelDialogServiceProvider.csproj">
+      <Project>{B3180AF3-803B-40EB-B41F-E617D2A55315}</Project>
+      <Name>WaitCancelDialogServiceProvider</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2%28x86 및 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\map.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\SEMICS.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(SolutionDir)\LoaderMapDiagram\mermaid.js" "$(TargetDir)" /s /d /y</PostBuildEvent>
+  </PropertyGroup>
+</Project>

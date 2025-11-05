@@ -1,0 +1,85 @@
+﻿<dialogs:CustomDialog
+             x:Class="BaseFocusingAdvanceSetup.View.BaseFocusingAdvanceSetupView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BaseFocusingAdvanceSetup.View"
+             xmlns:dialogs="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:focusingcontrol="clr-namespace:FocusingControl;assembly=FocusingControl"
+             mc:Ignorable="d" x:Name="ucdialog" >
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="FontSize" Value="12" />
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Margin" Value="2"/>
+                </Style>
+
+
+                <Style TargetType="{x:Type Label}">
+                    <Setter Property="FontSize" Value="16" />
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Margin" Value="0"/>
+                </Style>
+
+            </ResourceDictionary>
+        </Grid.Resources>
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <TabControl Grid.Row="0" >
+            <TabItem Header="BASE" >
+                <StackPanel>
+                    <Label Content="Manual Input BaseFocusing Parameter" Foreground="Black" FontWeight="DemiBold"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Content="Enable" HorizontalAlignment="Left" Margin="0,8,0,0" Foreground="Black"/>
+                        <ComboBox Grid.Row="0" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Width="200"
+                   ItemsSource="{Binding BaseFocusingEnableEnums}" SelectedItem="{Binding BaseFocusEnable}"/>
+                        <Label Grid.Row="1" Content="DoFirstPin" HorizontalAlignment="Left" Margin="0,8,0,0" Foreground="Black"/>
+                        <ComboBox Grid.Row="1" Grid.Column="1" Margin="4" HorizontalAlignment="Left" Width="200"
+                   ItemsSource="{Binding BaseFocusingFirstPinEnums}" SelectedItem="{Binding DoFirstPin}"/>
+                        <Label Grid.Row="2" Grid.Column="0" Content="Tolerance" Foreground="Black"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" Margin="4"
+                         Text="{Binding  FocusingTolerance, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+            
+            <TabItem Header="FOCUSING">
+                <focusingcontrol:FocusingViewControl 
+                    FocusParam="{Binding DataContext.FocusParam, Mode=TwoWay, ElementName=ucdialog}"/>
+            </TabItem>
+
+        </TabControl>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" >
+            <Button Content="OK" Margin="4" FontSize="15" Command="{Binding CmdOKClick}" Width="80" HorizontalAlignment="Right" />
+            <Button Content="CANCEL" Margin="4" FontSize="15" Command="{Binding CmdCancelClick}" Width="80" HorizontalAlignment="Right" />
+        </StackPanel>
+
+    </Grid>
+</dialogs:CustomDialog>

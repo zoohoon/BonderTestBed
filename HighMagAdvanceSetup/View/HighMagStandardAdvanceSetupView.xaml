@@ -1,0 +1,373 @@
+﻿<dialogs:CustomDialog x:Class="HighMagAdvanceSetup.View.HighMagStandardAdvanceSetupView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HighMagAdvanceSetup.View"
+             xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:focusingcontrol="clr-namespace:FocusingControl;assembly=FocusingControl"    
+             mc:Ignorable="d" x:Name="ucdialog">
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <local:EnumDescriptionConverter x:Key="EnumDescriptionConv"/>
+                <Style TargetType="{x:Type TextBox}">
+                    <Setter Property="FontSize" Value="12" />
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Margin" Value="2"/>
+                </Style>
+
+
+                <Style TargetType="{x:Type Label}">
+                    <Setter Property="FontSize" Value="16" />
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="Margin" Value="0"/>
+                </Style>
+
+            </ResourceDictionary>
+        </Grid.Resources>
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <TabControl Grid.Row="0" >
+            <TabItem AutomationProperties.AutomationId="tiAlign" 
+                     Header="ALIGN" >
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="JumpIndex Setup Type" Foreground="Black" FontWeight="DemiBold" />
+                        <StackPanel Grid.Column="1"  Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Label Content="MANUAL" Foreground="Black" FontWeight="DemiBold"/>
+                            <CheckBox AutomationProperties.AutomationId="cbJumpIndexManual"
+                                      x:Name="cb_manual" VerticalAlignment="Center" Style="{x:Null}"
+                                      IsChecked="{Binding ManualChecked}"/>
+                            <Label Content="AUTO" Foreground="Black" FontWeight="DemiBold"/>
+                            <CheckBox AutomationProperties.AutomationId="cbJumpIndexAuto"
+                                      x:Name="cb_auto" VerticalAlignment="Center" Style="{x:Null}"
+                                      IsChecked="{Binding AutoChecked}"/>
+                        </StackPanel>
+
+                    </Grid>
+                    
+                    <Label Grid.Row="1" Content="Manual Input JumpIndex(Please input as a positive number.)" Foreground="Black" FontWeight="DemiBold" Margin="0,2,0,0"/>
+                    <Grid Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="2" Grid.Row="0" Content="UPPER" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black"/>
+                        <Label Grid.Column="1" Grid.Row="2" Content="LEFT1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black"/>
+                        <Label Grid.Column="0" Grid.Row="2" Content="LEFT2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black"/>
+                        <Label Grid.Column="2" Grid.Row="2" Content="CENTER" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black"/>
+                        <Label Grid.Column="3" Grid.Row="2" Content="RIGHT1" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black"/>
+                        <Label Grid.Column="4" Grid.Row="2" Content="RIGHT2" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black"/>
+                        <Label Grid.Column="2" Grid.Row="4" Content="BOTTOM" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black"/>
+
+
+                        <TextBox AutomationProperties.AutomationId="txtJumpIndexUpper" x:Name="tb_upper" 
+                                 Text="{Binding UpperIndex, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Grid.Row="1" Grid.Column="2"  Style="{DynamicResource ErrorInfoTextBoxStyle}"
+                                 IsEnabled="{Binding TestBoxInEnabled}" >
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                        <TextBox AutomationProperties.AutomationId="txtJumpIndexLeft1" x:Name="tb_left1"
+                                 Text="{Binding Left1Index, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"  Grid.Column="1" Grid.Row="3"  Style="{DynamicResource ErrorInfoTextBoxStyle}"
+                                 IsEnabled="{Binding TestBoxInEnabled}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                        <TextBox AutomationProperties.AutomationId="txtJumpIndexLeft2" x:Name="tb_left2" 
+                                 Text="{Binding Left2Index, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Grid.Column="0" Grid.Row="3" Style="{DynamicResource ErrorInfoTextBoxStyle}"
+                                 IsEnabled="{Binding TestBoxInEnabled}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+
+                        <TextBox AutomationProperties.AutomationId="txtJumpIndexRight1" x:Name="tb_right1" 
+                                 Grid.Column="3" 
+                                 Text="{Binding Right1Index, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Grid.Row="3" Style="{DynamicResource ErrorInfoTextBoxStyle}"
+                                 IsEnabled="{Binding TestBoxInEnabled}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                        <TextBox AutomationProperties.AutomationId="txtJumpIndexRight2" x:Name="tb_right2"
+                                 Text="{Binding Right2Index, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Grid.Column="4" Grid.Row="3" Style="{DynamicResource ErrorInfoTextBoxStyle}"
+                                 IsEnabled="{Binding TestBoxInEnabled}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                        <TextBox AutomationProperties.AutomationId="txtJumpIndexBottom" x:Name="tb_bottom" 
+                                 Text="{Binding BottomIndex, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Grid.Column="2"  Grid.Row="5" Style="{DynamicResource ErrorInfoTextBoxStyle}"
+                                 IsEnabled="{Binding TestBoxInEnabled}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </Grid>
+
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="0.9*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Selected Processing Point (Except Registration Wafer Alignment)" Foreground="Black" FontWeight="DemiBold"/>
+                        <!--<ComboBox AutomationProperties.AutomationId="cmbProcessingPoint"
+                              Grid.Column="1" HorizontalAlignment="Right" x:Name="combo_ProcessingPoint"  Width="200" FontSize="20"
+                              ItemsSource="{Binding EnumProcessingPoints}" SelectedItem="{Binding High_ProcessingPoint}" DisplayMemberPath="{Binding ., Converter={StaticResource EnumDescriptionConv}}"/>-->
+                        <ComboBox AutomationProperties.AutomationId="cmbProcessingPoint" Grid.Column="1" HorizontalAlignment="Right" x:Name="combo_ProcessingPoint"  Width="140" FontSize="15"
+                                        ItemsSource="{Binding EnumProcessingPoints}" 
+                                        SelectedItem="{Binding High_ProcessingPoint}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConv}}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+
+                    </Grid>
+
+                    <Label Grid.Row="4" Content="Manual Input PatternMatching Parameter" Foreground="Black" FontWeight="DemiBold"/>
+                    <Grid  Grid.Row="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Content="Acceptance : " HorizontalAlignment="Right" Margin="0,8,0,0" Foreground="Black"/>
+                        <TextBox AutomationProperties.AutomationId="txtPatternMatchingAcceptance"
+                                 Grid.Row="0" Grid.Column="1" Style="{DynamicResource ErrorInfoTextBoxStyle}"
+                                 Text="{Binding  PMAcceptance, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </Grid>
+
+                    <Label Content="Input VerifyAlign Limit Parameter(um)" Foreground="Black" FontWeight="DemiBold"/>
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Content="Limit X : " HorizontalAlignment="Right" Margin="0,8,0,0"/>
+                        <TextBox AutomationProperties.AutomationId="txtVerifyAlignLimitX"
+                                 Grid.Row="0" Grid.Column="1" Style="{DynamicResource ErrorInfoTextBoxStyle}"
+                                 Text="{Binding VerifyXLimit, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                        <Label Grid.Row="1" Content="Limit Y : " HorizontalAlignment="Right" Margin="0,8,0,0"/>
+                        <TextBox AutomationProperties.AutomationId="txtVerifyAlignLimitY" 
+                                 Grid.Row="1" Grid.Column="1" Style="{DynamicResource ErrorInfoTextBoxStyle}"
+                                 Text="{Binding VerifyYLimit, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                        <Label Grid.Row="2" Content="Limit Angle : " HorizontalAlignment="Right" Margin="0,8,0,0"/>
+                        <TextBox AutomationProperties.AutomationId="txtVerifyAlignLimitY" 
+                                 Grid.Row="2" Grid.Column="1" Style="{DynamicResource ErrorInfoTextBoxStyle}"
+                                 Text="{Binding VerfiyAngleLimit, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding DecimalTextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </Grid>
+
+                    <Label  Content="Input VerifyCenter Limit Parameter(um)" Foreground="Black" FontWeight="DemiBold"/>
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Content="Limit X : " HorizontalAlignment="Right" Margin="0,8,0,0"/>
+                        <TextBox AutomationProperties.AutomationId="txtVerifyAlignLimitX"
+                                 Grid.Row="0" Grid.Column="1" Style="{DynamicResource ErrorInfoTextBoxStyle}"
+                                 Text="{Binding VerifyCenterXLimit, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                        <Label Grid.Row="1" Content="Limit Y : " HorizontalAlignment="Right" Margin="0,8,0,0"/>
+                        <TextBox AutomationProperties.AutomationId="txtVerifyAlignLimitY" 
+                                 Grid.Row="1" Grid.Column="1" Style="{DynamicResource ErrorInfoTextBoxStyle}"
+                                 Text="{Binding VerifyCenterYLimit, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </Grid>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="Seleted HeightProfiling" Foreground="Black" FontWeight="DemiBold"/>
+                        <ComboBox AutomationProperties.AutomationId="cmbHeightProfiling"
+                              Grid.Column="1" Margin="8,2,0,2" HorizontalAlignment="Right" x:Name="combo_HeightPoint"  Width="200"
+                              ItemsSource="{Binding EnumHeightPoints}" SelectedItem="{Binding HeightPoint}"/>
+                    </Grid>
+                    <Label  Content="Manual Input Wafer Planarity Limit" Foreground="Black" FontWeight="DemiBold"  Margin="0,4,0,0"/>
+                    <Grid  >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0" Content="Limit: " HorizontalAlignment="Right" Margin="0,8,0,0"/>
+                        <TextBox AutomationProperties.AutomationId="txtWaferPlanarityLimit"
+                                 Grid.Row="0" Grid.Column="1" Style="{DynamicResource ErrorInfoTextBoxStyle}"
+                                 Text="{Binding  WaferPlanarityLimit, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </Grid>
+
+                </StackPanel>
+            </TabItem>
+
+            <TabItem AutomationProperties.AutomationId="tiFocusing" 
+                     Header="FOCUSING">
+                <focusingcontrol:FocusingViewControl 
+                    FocusParam="{Binding DataContext.FocusParam, Mode=TwoWay, ElementName=ucdialog}"/>
+            </TabItem>
+
+            <TabItem Header="Hidden" Visibility="{Binding HiddenTabVisibility}">
+                <Grid>
+                    <StackPanel Margin="0,0,4,0">
+                        
+                        <!-- RetryFocusingROIMargin_X-->
+                        <Grid Margin="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.4*"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Retry ROI Margin X (μm): " />
+                            <TextBox AutomationProperties.AutomationId="txtRetryFocusingROIMargin_X"
+                         Grid.Column="1" Text="{Binding RetryFocusingROIMargin_X, Mode=TwoWay}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                        <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+                        </Grid>
+
+                        <!-- RetryFocusingROIMargin_Y-->
+                        <Grid Margin="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.4*"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Retry ROI Margin Y (μm) : " />
+                            <TextBox AutomationProperties.AutomationId="txtDepthOfField"
+                         Grid.Column="1" Text="{Binding RetryFocusingROIMargin_Y, Mode=TwoWay}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="PreviewMouseDown" >
+                                        <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </TextBox>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" >
+            <Button AutomationProperties.AutomationId="btnOK" Content="OK" Margin="4" FontSize="15" Command="{Binding CmdOKClick}" Width="80" HorizontalAlignment="Right" />
+            <Button AutomationProperties.AutomationId="btnCancel" Content="CANCEL" Margin="4" FontSize="15" Command="{Binding CmdCancelClick}" Width="80" HorizontalAlignment="Right" />
+        </StackPanel>
+        
+    </Grid>
+</dialogs:CustomDialog>

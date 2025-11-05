@@ -1,0 +1,222 @@
+﻿<UserControl x:Class="WizardEditorView.EditorUserControls.WizardCategoryEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"      
+             xmlns:local="clr-namespace:WizardEditorView.EditorUserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="852" d:DesignWidth="1280">
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="0.5*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.ColumnSpan="2" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Margin="8" Grid.Column="2" Content="Refresh" Width="120"
+                    FontSize="12" 
+                    Command="{Binding RecipeRefreshCommand}"/>
+                <Label Content="RecipeFolderName  " Foreground="Black"
+                   FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center"
+                   FontWeight="DemiBold"/>
+            </StackPanel>
+
+            <ComboBox Grid.Column="1" Margin="8" Background="LightGray" Foreground="Black"
+                      ItemsSource="{Binding WizardRecipesName}"
+                      SelectedIndex="{Binding SeletedRecipeIndex, Mode=TwoWay}">
+            </ComboBox>
+            <Button Margin="8" Grid.Column="2" Content="Load"
+                    FontSize="12" 
+                    Command="{Binding RecipeLoadCommand}"/>
+        </Grid>
+
+        <Grid Grid.ColumnSpan="2" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Margin="8" Grid.Column="2" Content="New" Width="120"
+                    FontSize="12" 
+                    Command="{Binding RecipeNewCommand}"/>
+                <Label Content="NewRecipeFolderName  " Foreground="Black"
+                   FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center"
+                   FontWeight="DemiBold"/>
+            </StackPanel>
+
+            <TextBox Grid.Column="1" Margin="8" Background="LightGray" Foreground="Black"
+                      Text="{Binding NewRecipeFolderName}">
+            </TextBox>
+            <Button Margin="8" Grid.Column="2" Content="Create"
+                    FontSize="12" 
+                    Command="{Binding RecipeCreateCommand}"/>
+        </Grid>
+        
+        <!--<Grid Grid.Row="1" Grid.ColumnSpan="2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TreeView>
+                
+            </TreeView>
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.ColumnSpan="2">
+            <Button />
+        </Grid>-->
+        <Grid Grid.Column="0" Grid.Row="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2.5*"/>
+                    <ColumnDefinition Width="0.6*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Label Content="Category" FontSize="24" FontWeight="DemiBold" Foreground="Black"
+                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+                <ListBox x:Name="categorylistbox" Grid.Column="0" Grid.Row="1" Margin="8"
+                         ItemsSource="{Binding Categories}" Background="LightGray" Foreground="Black">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding CategoryChangedCommand}"
+                                                   CommandParameter="{Binding SelectedValue, ElementName=categorylistbox}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    
+                </ListBox>
+                <TextBox Grid.Column="0" Grid.Row="2" Margin="16" Background="LightGray"
+                        Foreground="Black" Text="{Binding NewCategoryName}"/>
+
+                <Grid Grid.Column="1" Grid.Row="1"
+                      VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                    <StackPanel Width="90" >
+                        <Button Margin="16" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                Command="{Binding CategoryDeleteCommand}">
+                            <Button.Content>
+                                <Image Source="pack://application:,,,/ImageResourcePack;component/Images/Minus.png" 
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            </Button.Content>
+                        </Button>
+
+                        <Button Margin="16" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                Command="{Binding CategoryOrderUpCommand}">
+                            <Button.Content>
+                                <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowUp.png" 
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            </Button.Content>
+                        </Button>
+
+                        <Button Margin="16" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                Command="{Binding CategoryOrderDownCommand}">
+                            <Button.Content>
+                                <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowDown.png" 
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+
+                </Grid>
+                
+                <Grid Grid.Column="1" Grid.Row="2">
+                    <Button Margin="12" Command="{Binding CategoryAddCommand}">
+                        <Button.Content>
+                            <Image Source="pack://application:,,,/ImageResourcePack;component/Images/Plus.png" 
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        </Button.Content>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="9*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.ColumnSpan="3" Content="Step" FontSize="24" FontWeight="DemiBold"
+                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+            <ListBox Grid.Column="0" Grid.Row="1" Margin="16" Background="LightGray" Foreground="Black"
+                     ItemsSource="{Binding Categories.WizardMainSteps}"/>
+
+            <Grid Grid.Column="1" Grid.Row="1" >
+                <StackPanel Width="100"  VerticalAlignment="Center" HorizontalAlignment="Left">
+
+                    <Button Margin="16" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                            Command="{Binding CategoryStepAddCommand}">
+                        <Button.Content>
+                            <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowLeft.png" 
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        </Button.Content>
+                    </Button>
+
+                    <Button Margin="16" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                            Command="{Binding CategoryStepDeleteCommand}">
+                        <Button.Content>
+                            <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowRight.png" 
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        </Button.Content>
+                    </Button>
+
+                </StackPanel>
+                
+                <StackPanel Width="90" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+
+                    <Button Margin="16" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                            Command="{Binding CategoryStepOrderUpCommand}">
+                        <Button.Content>
+                            <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowUp.png" 
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        </Button.Content>
+                    </Button>
+
+                    <Button Margin="16" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                            Command="{Binding CategoryStepOrderDownCommand}">
+                        <Button.Content>
+                            <Image Source="pack://application:,,,/ImageResourcePack;component/Images/ArrowDown.png" 
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <ListBox Grid.Column="2" Grid.Row="1" Margin="16" Background="LightGray" Foreground="Black"
+                     ItemsSource="{Binding CateogyStepAllItems}"/>
+        </Grid>
+
+        <Grid Grid.Row="3" Grid.ColumnSpan="2">
+            <Button Margin="8" Grid.Column="2" Content="Save"
+                    FontSize="24" Width="150" HorizontalAlignment="Right"
+                    Command="{Binding RecipeSaveCommand}"/>
+        </Grid>
+        
+    </Grid>
+</UserControl>

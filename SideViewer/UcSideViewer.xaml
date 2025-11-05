@@ -1,0 +1,169 @@
+﻿<UserControl x:Class="UcSideViewer.UcSideViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vc="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:local="clr-namespace:UcSideViewer"
+             mc:Ignorable="d" Width="250">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <vc:BoolToVisibleOrHiddenConverter x:Key="BtoVVisibleOrHidden" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border BorderBrush="Gray" BorderThickness="1, 0, 0, 1" CornerRadius="4">
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!--HorizontalAlignment="Center" VerticalAlignment="Center"
+               HorizontalContentAlignment="Center" VerticalContentAlignment="Center"-->
+
+            <!--<Border BorderBrush="White" BorderThickness="1" Grid.Row="0">-->
+            <Label Grid.Row="0" 
+               HorizontalAlignment="Left"       
+               FontWeight="UltraBold"
+               Content="{Binding SideViewTitle}"
+               FontSize="{Binding SideViewTitleFontSize}"
+               Foreground="{Binding SideViewTitleFontColor}"
+               Background="{Binding SideViewTitleBackground}"
+               />
+            <!--</Border>-->
+            <StackPanel Grid.Row="1" Visibility="{Binding SideViewExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}">
+                <local:ExpanderItem Grid.Row="0"
+                                Header="{Binding ExpanderItem_01.Header}"
+                                Description="{Binding ExpanderItem_01.Description}"
+                                HeaderFontSize="{Binding ExpanderItem_01.HeaderFontSize}"
+                                DescriptionFontSize="{Binding ExpanderItem_01.DescriptionFontSize}"
+                                HeaderColor="{Binding ExpanderItem_01.HeaderColor}"
+                                ExpanderVisibility="{Binding ExpanderItem_01.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}"/>
+
+                <Border Background="Gray" Grid.Row="1" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" Opacity="0.6"
+                    Visibility="{Binding ExpanderItem_02.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}" />
+                <local:ExpanderItem Grid.Row="2"
+                                Header="{Binding ExpanderItem_02.Header}"
+                                Description="{Binding ExpanderItem_02.Description}"
+                                HeaderFontSize="{Binding ExpanderItem_02.HeaderFontSize}"
+                                DescriptionFontSize="{Binding ExpanderItem_02.DescriptionFontSize}"
+                                HeaderColor="{Binding ExpanderItem_02.HeaderColor}"
+                                ExpanderVisibility="{Binding ExpanderItem_02.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}"/>
+
+                <Border Background="Gray" Grid.Row="3" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" Opacity="0.6"
+                    Visibility="{Binding ExpanderItem_03.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}" />
+                <local:ExpanderItem Grid.Row="4"
+                                Header="{Binding ExpanderItem_03.Header}"
+                                Description="{Binding ExpanderItem_03.Description}"
+                                HeaderFontSize="{Binding ExpanderItem_03.HeaderFontSize}"
+                                DescriptionFontSize="{Binding ExpanderItem_03.DescriptionFontSize}"
+                                HeaderColor="{Binding ExpanderItem_03.HeaderColor}"
+                                ExpanderVisibility="{Binding ExpanderItem_03.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}"/>
+
+                <Border Background="Gray" Grid.Row="5" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" Opacity="0.6"
+                    Visibility="{Binding ExpanderItem_04.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}" />
+                <local:ExpanderItem Grid.Row="6"
+                                Header="{Binding ExpanderItem_04.Header}"
+                                Description="{Binding ExpanderItem_04.Description}"
+                                HeaderFontSize="{Binding ExpanderItem_04.HeaderFontSize}"
+                                DescriptionFontSize="{Binding ExpanderItem_04.DescriptionFontSize}"
+                                HeaderColor="{Binding ExpanderItem_04.HeaderColor}"
+                                ExpanderVisibility="{Binding ExpanderItem_04.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}"/>
+
+                <Border Background="Gray" Grid.Row="7" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" Opacity="0.6"
+                    Visibility="{Binding ExpanderItem_05.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}" />
+                <local:ExpanderItem Grid.Row="8"
+                                Header="{Binding ExpanderItem_05.Header}"
+                                Description="{Binding ExpanderItem_05.Description}"
+                                HeaderFontSize="{Binding ExpanderItem_05.HeaderFontSize}"
+                                DescriptionFontSize="{Binding ExpanderItem_05.DescriptionFontSize}"
+                                HeaderColor="{Binding ExpanderItem_05.HeaderColor}"
+                                ExpanderVisibility="{Binding ExpanderItem_05.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}"/>
+
+                <Border Background="Gray" Grid.Row="9" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" Opacity="0.6"
+                    Visibility="{Binding ExpanderItem_06.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}" />
+                <local:ExpanderItem Grid.Row="10"
+                                Header="{Binding ExpanderItem_06.Header}"
+                                Description="{Binding ExpanderItem_06.Description}"
+                                HeaderFontSize="{Binding ExpanderItem_06.HeaderFontSize}"
+                                DescriptionFontSize="{Binding ExpanderItem_06.DescriptionFontSize}"
+                                HeaderColor="{Binding ExpanderItem_06.HeaderColor}"
+                                ExpanderVisibility="{Binding ExpanderItem_06.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}"/>
+
+                <Border Background="Gray" Grid.Row="11" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" Opacity="0.6"
+                    Visibility="{Binding ExpanderItem_07.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}" />
+                <local:ExpanderItem Grid.Row="12"
+                                Header="{Binding ExpanderItem_07.Header}"
+                                Description="{Binding ExpanderItem_07.Description}"
+                                HeaderFontSize="{Binding ExpanderItem_07.HeaderFontSize}"
+                                DescriptionFontSize="{Binding ExpanderItem_07.DescriptionFontSize}"
+                                HeaderColor="{Binding ExpanderItem_07.HeaderColor}"
+                                ExpanderVisibility="{Binding ExpanderItem_07.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}"/>
+
+                <Border Background="Gray" Grid.Row="13" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" Opacity="0.6"
+                    Visibility="{Binding ExpanderItem_08.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}" />
+                <local:ExpanderItem Grid.Row="14"
+                                Header="{Binding ExpanderItem_08.Header}"
+                                Description="{Binding ExpanderItem_08.Description}"
+                                HeaderFontSize="{Binding ExpanderItem_08.HeaderFontSize}"
+                                DescriptionFontSize="{Binding ExpanderItem_08.DescriptionFontSize}"
+                                HeaderColor="{Binding ExpanderItem_08.HeaderColor}"
+                                ExpanderVisibility="{Binding ExpanderItem_08.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}"/>
+
+                <Border Background="Gray" Grid.Row="15" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" Opacity="0.6"
+                    Visibility="{Binding ExpanderItem_09.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}" />
+                <local:ExpanderItem Grid.Row="16"
+                                Header="{Binding ExpanderItem_09.Header}"
+                                Description="{Binding ExpanderItem_09.Description}"
+                                HeaderFontSize="{Binding ExpanderItem_09.HeaderFontSize}"
+                                DescriptionFontSize="{Binding ExpanderItem_09.DescriptionFontSize}"
+                                HeaderColor="{Binding ExpanderItem_09.HeaderColor}"
+                                ExpanderVisibility="{Binding ExpanderItem_09.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}"/>
+
+                <Border Background="Gray" Grid.Row="17" Height="1" HorizontalAlignment="Stretch" SnapsToDevicePixels="True" Opacity="0.6"
+                    Visibility="{Binding ExpanderItem_10.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}" />
+                <local:ExpanderItem Grid.Row="18"
+                                Header="{Binding ExpanderItem_10.Header}"
+                                Description="{Binding ExpanderItem_10.Description}"
+                                HeaderFontSize="{Binding ExpanderItem_10.HeaderFontSize}"
+                                DescriptionFontSize="{Binding ExpanderItem_10.DescriptionFontSize}"
+                                HeaderColor="{Binding ExpanderItem_10.HeaderColor}"
+                                ExpanderVisibility="{Binding ExpanderItem_10.ExpanderVisibility, Converter={StaticResource BtoVVisibleOrHidden}}"/>
+            </StackPanel>
+
+            <!--<Border BorderBrush="White" BorderThickness="1" Grid.Row="1">-->
+            <ListView Grid.Row="1" ItemsSource="{Binding SideViewTextBlocks}"
+                    Visibility="{Binding SideViewTextVisibility, Converter={StaticResource BtoVVisibleOrHidden}}"
+                    Width="Auto" Height="Auto"
+                    ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                    ScrollViewer.VerticalScrollBarVisibility="Hidden">
+
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <local:SideViewTextBlock Visibility="Visible"
+                                SideTextContents="{Binding SideTextContents}"
+                                SideTextFontSize="{Binding SideTextFontSize}"
+                                SideTextFontColor="{Binding SideTextFontColor}"
+                                SideTextBackground="{Binding SideTextBackground}"/>
+                        <!--<TextBlock x:Name="textblock" FontWeight="Bold" TextWrapping="Wrap" Padding="10"
+                            Text="TEST"/>-->
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <!--</Border>-->
+            <!--<local:SideViewTextBlock Grid.Row="1"
+                                 Visibility="{Binding SideViewTextVisibility, Converter={StaticResource BtoVVisibleOrHidden}}"
+                                 SideTextContents="{Binding SideViewTextBlock.SideTextContents}"
+                                 SideTextFontSize="{Binding SideViewTextBlock.SideTextFontSize}"
+                                 SideTextFontColor="{Binding SideViewTextBlock.SideTextFontColor}"
+                                 SideTextBackground="{Binding SideViewTextBlock.SideTextBackground}"/>-->
+        </Grid>
+    </Border>
+</UserControl>
