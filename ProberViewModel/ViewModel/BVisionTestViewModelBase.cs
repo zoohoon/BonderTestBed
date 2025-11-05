@@ -235,6 +235,7 @@ namespace BVisionTestViewModel
         private WriteableBitmap _cam1, _cam2, _cam3, _cam4, _cam5;
         private readonly int[] _w = new int[MAX_CAM];
         private readonly int[] _h = new int[MAX_CAM];
+        private readonly int[] _slotToDevice = new int[MAX_CAM];
 
         // 모델/시리얼 표시
         private readonly string[] _camModel = new string[MAX_CAM] { "-", "-", "-", "-", "-" };
@@ -370,67 +371,86 @@ namespace BVisionTestViewModel
         {
             try
             {
-                int index = Convert.ToInt32(param);
+                int slot = Convert.ToInt32(param);
 
-                // 최초 Open
-                if (_grabber[index] == null)
-                {
-                    // SOFT 체크(컬러/그레이)
-                    bool soft = GetSoftByIndex(index);
-                    _isColor[index] = soft;
-
-                    CoaxlinkEx.UpdateCameraList(); // 최신 갱신
-                    _grabber[index] = new CoaxlinkEx(CoaxlinkEx.GetCameraInfo(index));
-
-                    long width = _grabber[index].GetValueInteger(CoaxlinkEx.TransportLayer.Stream, "Width");
-                    long height = _grabber[index].GetValueInteger(CoaxlinkEx.TransportLayer.Stream, "Height");
-
-                    InitBitmap(index, (int)width, (int)height, _isColor[index]);
-                    SetModelSerial(index, _grabber[index].DeviceModelName, _grabber[index].DeviceSerialNumber);
-                }
-                else
+                if (_grabber[slot] != null)
                 {
                     // Close
-                    StopThread(index);
-
-                    _grabber[index]?.Dispose();
-                    _grabber[index] = null;
-
-                    SetModelSerial(index, "-", "-");
+                    StopThread(slot);
+                    _grabber[slot]?.Stop();  // 안전
+                    _grabber[slot]?.Dispose();
+                    _grabber[slot] = null;
+                    SetModelSerial(slot, "-", "-");
+                    return;
                 }
+
+                // 재매핑 적용 오픈
+                OpenCameraInternal(slot);
             }
             catch (Exception ex)
             {
                 LoggerManager.Exception(ex);
             }
+        }
+
+        // 공통 오픈(재매핑 적용 + 비트맵/모델세팅). 이미 열려있으면 리턴
+        private void OpenCameraInternal(int slot)
+        {
+            if (_grabber[slot] != null) return;
+
+            // SOFT/RAW 반영
+            bool soft = GetSoftByIndex(slot);
+            _isColor[slot] = soft;
+
+            // 재매핑 사용
+            int deviceIndex = GetDeviceIndexForSlot(slot);
+            if (deviceIndex < 0)
+                throw new InvalidOperationException("No device mapped to this slot. Set mapping or select from combo.");
+
+            CoaxlinkEx.UpdateCameraList();
+            var camInfo = CoaxlinkEx.GetCameraInfo(deviceIndex);
+            if (camInfo == null)
+                throw new InvalidOperationException("Mapped device not available. Refresh devices or update mapping.");
+
+            _grabber[slot] = new CoaxlinkEx(camInfo);
+
+            long width = _grabber[slot].GetValueInteger(CoaxlinkEx.TransportLayer.Stream, "Width");
+            long height = _grabber[slot].GetValueInteger(CoaxlinkEx.TransportLayer.Stream, "Height");
+
+            InitBitmap(slot, (int)width, (int)height, _isColor[slot]);
+            SetModelSerial(slot, _grabber[slot].DeviceModelName, _grabber[slot].DeviceSerialNumber);
         }
 
         private void OnStartCamera(object param)
         {
             try
             {
-                int index = Convert.ToInt32(param);
-                if (_grabber[index] == null)
-                    throw new InvalidOperationException("Open the camera first.");
+                int slot = Convert.ToInt32(param);
 
-                // Start <-> Stop 토글
-                if (!_isWorking[index])
+                // ☆ 자동오픈: 아직 안 열렸다면 먼저 연다(재매핑 적용됨)
+                if (_grabber[slot] == null)
                 {
-                    _isWorking[index] = true;
+                    OpenCameraInternal(slot);
+                }
 
-                    _displayThread[index] = new Thread(DisplayThreadProc)
+                // Start <-> Stop 토글 (연결은 유지)
+                if (!_isWorking[slot])
+                {
+                    _isWorking[slot] = true;
+
+                    _displayThread[slot] = new Thread(DisplayThreadProc)
                     {
                         IsBackground = true,
-                        Name = $"DisplayThread_Cam{index + 1}"
+                        Name = $"DisplayThread_Cam{slot + 1}"
                     };
-                    _displayThread[index].Start(index);
+                    _displayThread[slot].Start(slot);
 
-                    _grabber[index].Start();
+                    _grabber[slot].Start();
                 }
                 else
                 {
-                    StopThread(index);
-                    _grabber[index]?.Stop();
+                    StopThread(slot);
+                    _grabber[slot]?.Stop();  // 연결은 열어둠 (Open 다시 눌러 닫기)
                 }
             }
             catch (Exception ex)
@@ -438,6 +458,7 @@ namespace BVisionTestViewModel
                 LoggerManager.Exception(ex);
             }
         }
+
 
         private void StopThread(int index)
         {
@@ -514,6 +535,10 @@ namespace BVisionTestViewModel
             }
         }
 
+        private int GetDeviceIndexForSlot(int slot)
+        {
+            return _slotToDevice[slot];
+        }
         #endregion
 
         #region Simple RelayCommand (없으면 사용)
@@ -725,6 +750,15 @@ namespace BVisionTestViewModel
                     StageCamList.Add(new StageCamera(enumStageCamType.UNDEFINED));
 
                     PosList = new List<CatCoordinates>();
+                    
+                    for (int i = 0; i < MAX_CAM; i++)
+                    {
+                        _slotToDevice[0] = 1;   // CX 4
+                        _slotToDevice[1] = 4;   // CX 1
+                        _slotToDevice[2] = 3;   // CX 5
+                        _slotToDevice[3] = 0;   // CX 3
+                        _slotToDevice[4] = 2;   // CX 2
+                    }
 
                     Initialized = true;
 

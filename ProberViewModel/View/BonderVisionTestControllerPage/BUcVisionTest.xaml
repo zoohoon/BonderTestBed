@@ -9,7 +9,7 @@
              xmlns:prober="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
              xmlns:formarkpages="clr-namespace:ManualJogView.TestPages;assembly=ManualJogView"
              mc:Ignorable="d" 
-             d:DesignHeight="940" d:DesignWidth="1280" >
+             d:DesignHeight="940" d:DesignWidth="1600" >
     <UserControl.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="DisplayViewTemplate" DataType="{x:Type prober:IDisplayPort}" >
@@ -168,8 +168,8 @@
                                         <RadioButton x:Name="rbRaw1"  Style="{StaticResource CtlRadio}" Content="RAW" IsChecked="True"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="3"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="3"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="0"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                                         <TextBlock Style="{StaticResource CtlLabel}" Text="{Binding Cam1Model}"/>
@@ -194,8 +194,8 @@
                                         <RadioButton x:Name="rbRaw2"  Style="{StaticResource CtlRadio}" Content="RAW" IsChecked="True"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="0"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="1"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="1"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                                         <TextBlock Style="{StaticResource CtlLabel}" Text="{Binding Cam2Model}"/>
@@ -220,8 +220,8 @@
                                         <RadioButton x:Name="rbRaw3"  Style="{StaticResource CtlRadio}" Content="RAW" IsChecked="True"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="4"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="4"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="2"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="2"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                                         <TextBlock Style="{StaticResource CtlLabel}" Text="{Binding Cam3Model}"/>
@@ -246,8 +246,8 @@
                                         <RadioButton x:Name="rbRaw4"  Style="{StaticResource CtlRadio}" Content="RAW" IsChecked="True"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="2"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="2"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="3"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="3"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                                         <TextBlock Style="{StaticResource CtlLabel}" Text="{Binding Cam4Model}"/>
@@ -272,8 +272,8 @@
                                         <RadioButton x:Name="rbRaw5"  Style="{StaticResource CtlRadio}" Content="RAW" IsChecked="True"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="1"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="1"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="4"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="4"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                                         <TextBlock Style="{StaticResource CtlLabel}" Text="{Binding Cam5Model}"/>
