@@ -46,3 +46,11 @@ D:\NPOS\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.C
 D:\NPOS\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.CopyComplete
 D:\NPOS\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.dll
 D:\NPOS\NPOS\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.pdb
+C:\Users\정슬찬\Source\Repos\BonderTestBed\bin\x64\Debug\TestResultDialogVM.dll.config
+C:\Users\정슬찬\Source\Repos\BonderTestBed\bin\x64\Debug\TestResultDialogVM.dll
+C:\Users\정슬찬\Source\Repos\BonderTestBed\bin\x64\Debug\TestResultDialogVM.pdb
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.AssemblyReference.cache
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.CoreCompileInputs.cache
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.csproj.CopyComplete
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.dll
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogVMProject\obj\x64\Debug\TestResultDialogVM.pdb
