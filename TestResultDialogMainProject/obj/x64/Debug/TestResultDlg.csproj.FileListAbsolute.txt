@@ -76,3 +76,16 @@ D:\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.Core
 D:\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.CopyComplete
 D:\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.dll
 D:\NPOS\NPOS\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.pdb
+C:\Users\정슬찬\Source\Repos\BonderTestBed\bin\x64\Debug\TestResultDlg.dll.config
+C:\Users\정슬찬\Source\Repos\BonderTestBed\bin\x64\Debug\TestResultDlg.dll
+C:\Users\정슬찬\Source\Repos\BonderTestBed\bin\x64\Debug\TestResultDlg.pdb
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.AssemblyReference.cache
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogMainProject\obj\x64\Debug\TestResultDialog.g.cs
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg_MarkupCompile.cache
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg_MarkupCompile.lref
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogMainProject\obj\x64\Debug\TestResultDialog.baml
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.g.resources
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.CoreCompileInputs.cache
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.csproj.CopyComplete
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.dll
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogMainProject\obj\x64\Debug\TestResultDlg.pdb

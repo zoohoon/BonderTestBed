@@ -50,3 +50,11 @@ D:\NPOS\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.CoreCompileInp
 D:\NPOS\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.CopyComplete
 D:\NPOS\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.dll
 D:\NPOS\NPOS\TestSetupDialog\obj\x64\Debug\TestSetupDialog.pdb
+C:\Users\정슬찬\Source\Repos\BonderTestBed\bin\x64\Debug\TestSetupDialog.dll.config
+C:\Users\정슬찬\Source\Repos\BonderTestBed\bin\x64\Debug\TestSetupDialog.dll
+C:\Users\정슬찬\Source\Repos\BonderTestBed\bin\x64\Debug\TestSetupDialog.pdb
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.AssemblyReference.cache
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.CoreCompileInputs.cache
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.CopyComplete
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestSetupDialog\obj\x64\Debug\TestSetupDialog.dll
+C:\Users\정슬찬\Source\Repos\BonderTestBed\TestSetupDialog\obj\x64\Debug\TestSetupDialog.pdb
