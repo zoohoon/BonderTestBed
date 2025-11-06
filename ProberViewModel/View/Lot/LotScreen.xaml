@@ -973,7 +973,7 @@
             <Button Content="Die Align" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" 
                     Height="50" Width="100" Margin="320,185,0,0"
                     Command="{Binding DieAlignCommand}" />
-            <Button Content="Vision Monitor" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" 
+            <Button Content="Vision&#10;Monitor" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" 
                 Height="50" Width="100" Margin="100,185,0,0"
                 Command="{Binding VisionSetUpViewCommand}" />
             <!-- 251013 sebas ==> -->            
