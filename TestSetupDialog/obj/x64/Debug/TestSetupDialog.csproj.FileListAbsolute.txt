@@ -58,7 +58,3 @@ C:\Users\정슬찬\Source\Repos\BonderTestBed\TestSetupDialog\obj\x64\Debug\Test
 C:\Users\정슬찬\Source\Repos\BonderTestBed\TestSetupDialog\obj\x64\Debug\TestSetupDialog.csproj.CopyComplete
 C:\Users\정슬찬\Source\Repos\BonderTestBed\TestSetupDialog\obj\x64\Debug\TestSetupDialog.dll
 C:\Users\정슬찬\Source\Repos\BonderTestBed\TestSetupDialog\obj\x64\Debug\TestSetupDialog.pdb
-D:\NPOS\bin\x64\Debug\dll\x86\OpenCvSharpExtern.dll
-D:\NPOS\bin\x64\Debug\dll\x86\opencv_videoio_ffmpeg4100.dll
-D:\NPOS\bin\x64\Debug\dll\x64\OpenCvSharpExtern.dll
-D:\NPOS\bin\x64\Debug\dll\x64\opencv_videoio_ffmpeg4100_64.dll
