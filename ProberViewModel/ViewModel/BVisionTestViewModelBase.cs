@@ -28,6 +28,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using FTech_CoaxlinkEx;  // Euresys SDK Wrapper
+using System.Windows.Threading;
 
 namespace BVisionTestViewModel
 {
@@ -427,30 +428,44 @@ namespace BVisionTestViewModel
             {
                 int slot = Convert.ToInt32(param);
 
-                // ☆ 자동오픈: 아직 안 열렸다면 먼저 연다(재매핑 적용됨)
+                // 자동 오픈
                 if (_grabber[slot] == null)
-                {
                     OpenCameraInternal(slot);
+
+                // 이미 동작 중이면 -> Stop
+                if (_isWorking[slot])
+                {
+                    // Stop 순서: 루프 종료 -> SDK Stop (둘 다 가볍게)
+                    StopThread(slot);
+                    try { _grabber[slot]?.Stop(); } catch { /* swallow */ }
+                    return;
                 }
 
-                // Start <-> Stop 토글 (연결은 유지)
-                if (!_isWorking[slot])
+                // 이미 스레드가 있다면 무시(중복 Start 방지)
+                if (_displayThread[slot] != null && _displayThread[slot].IsAlive)
+                    return;
+
+                _isWorking[slot] = true;
+
+                _displayThread[slot] = new Thread(DisplayThreadProc)
                 {
-                    _isWorking[slot] = true;
+                    IsBackground = true,
+                    Name = $"DisplayThread_Cam{slot + 1}"
+                };
+                _displayThread[slot].Start(slot);
 
-                    _displayThread[slot] = new Thread(DisplayThreadProc)
-                    {
-                        IsBackground = true,
-                        Name = $"DisplayThread_Cam{slot + 1}"
-                    };
-                    _displayThread[slot].Start(slot);
-
+                // 일부 SDK는 Start가 잠깐 블록될 수 있어 예외만 잡고 그대로 진행
+                try
+                {
                     _grabber[slot].Start();
                 }
-                else
+                catch (Exception ex)
                 {
+                    _isWorking[slot] = false;
+                    LoggerManager.Exception(ex);
+                    // 스레드 정리
                     StopThread(slot);
-                    _grabber[slot]?.Stop();  // 연결은 열어둠 (Open 다시 눌러 닫기)
+                    throw;
                 }
             }
             catch (Exception ex)
@@ -459,42 +474,110 @@ namespace BVisionTestViewModel
             }
         }
 
-
         private void StopThread(int index)
         {
             try
             {
                 if (_displayThread[index] != null)
                 {
-                    _isWorking[index] = false;
-                    _displayThread[index].Join();
+                    _isWorking[index] = false; // 루프 종료 신호
+
+                    // UI 스레드에서는 길게 Join하지 말 것 (교착/프리즈 방지)
+                    bool onUI = Application.Current?.Dispatcher?.CheckAccess() == true;
+                    int joinTimeoutMs = onUI ? 200 : 1000;
+
+                    // 스레드가 0.2~1.0초 안에 끝나면 OK, 아니면 포기하고 참조만 끊음
+                    if (!_displayThread[index].Join(joinTimeoutMs))
+                    {
+                        // 남아있어도 IsBackground=true라서 프로세스 종료를 막지 않음
+                    }
+
                     _displayThread[index] = null;
                 }
             }
-            catch { /* swallow */ }
+            catch
+            {
+                // swallow
+            }
+        }
+
+        // UI 호출을 항상 비동기로 보장하여 교착 차단
+        private void SafeUpdateFrame(int camIndex, byte[] src, int w, int h, bool isColor)
+        {
+            try
+            {
+                var disp = Application.Current?.Dispatcher;
+                if (disp == null || disp.CheckAccess())
+                {
+                    UpdateFrame(camIndex, src, w, h, isColor);
+                }
+                else
+                {
+                    disp.BeginInvoke(new Action(() =>
+                    {
+                        try { UpdateFrame(camIndex, src, w, h, isColor); }
+                        catch (Exception ex) { LoggerManager.Exception(ex); }
+                    }), DispatcherPriority.Render);
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggerManager.Exception(ex);
+            }
         }
 
         private void DisplayThreadProc(object state)
         {
             int camIndex = (int)state;
 
-            while (_isWorking[camIndex])
+            // 타임아웃을 짧게 해서 _isWorking=false 신호에 빨리 반응
+            const int WAIT_TIMEOUT_MS = 100;
+
+            try
             {
-                Thread.Sleep(30);
+                while (_isWorking[camIndex])
+                {
+                    // CPU 쉬어가기
+                    Thread.Sleep(10);
 
-                var handle = _grabber[camIndex].GrabDone;
-                if (!handle.WaitOne(1000))
-                    continue;
+                    var handle = _grabber[camIndex].GrabDone;
+                    if (handle == null)
+                        continue;
 
-                byte[] src = _isColor[camIndex]
-                    ? _grabber[camIndex].ColorBuffer
-                    : _grabber[camIndex].Buffer;
+                    // 프레임 신호 대기 (짧은 타임아웃)
+                    if (!handle.WaitOne(WAIT_TIMEOUT_MS))
+                        continue;
 
-                int w = GetWidth(camIndex);
-                int h = GetHeight(camIndex);
-                bool isColor = _isColor[camIndex];
+                    // 정지 직전 들어온 신호일 수 있으니 루프 플래그 재확인
+                    if (!_isWorking[camIndex])
+                        break;
 
-                UpdateFrame(camIndex, src, w, h, isColor);
+                    // 버퍼 꺼내기
+                    byte[] src = _isColor[camIndex]
+                        ? _grabber[camIndex].ColorBuffer
+                        : _grabber[camIndex].Buffer;
+
+                    if (src == null || src.Length == 0)
+                        continue;
+
+                    int w = GetWidth(camIndex);
+                    int h = GetHeight(camIndex);
+                    bool isColor = _isColor[camIndex];
+
+                    // ★ 동기 Invoke 금지 → 비동기로 UI 업데이트
+                    SafeUpdateFrame(camIndex, src, w, h, isColor);
+
+                    // SDK에 버퍼 반환/재활용이 필요하다면 여기서 처리
+                    // 예) _grabber[camIndex].RecycleBuffer();
+                }
+            }
+            catch (ThreadAbortException)
+            {
+                // ignore
+            }
+            catch (Exception ex)
+            {
+                LoggerManager.Exception(ex);
             }
         }
 
