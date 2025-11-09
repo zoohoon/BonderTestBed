@@ -28,6 +28,9 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using FTech_CoaxlinkEx;  // Euresys SDK Wrapper
+using System.Windows.Threading;
+using System.IO;
+using System.Globalization;
 
 namespace BVisionTestViewModel
 {
@@ -218,68 +221,83 @@ namespace BVisionTestViewModel
         readonly Guid _ViewModelGUID = new Guid("01613590-0FAD-CE9F-9A79-F13B71BA2A06");
         public Guid ScreenGUID { get { return _ViewModelGUID; } }
 
+
         // =============================
-        // Multi-Cam (Euresys) Integration for BUcVisionTest VM
+        // Multi-Cam
         // =============================
         #region MultiCam Fields
 
         private const int MAX_CAM = 5;
 
-        // Euresys SDK Wrapper (FTech_CoaxlinkEx)
         private CoaxlinkEx[] _grabber = new CoaxlinkEx[MAX_CAM];
         private Thread[] _displayThread = new Thread[MAX_CAM];
         private bool[] _isWorking = new bool[MAX_CAM];
         private bool[] _isColor = new bool[MAX_CAM];
 
-        // WriteableBitmap & meta
         private WriteableBitmap _cam1, _cam2, _cam3, _cam4, _cam5;
         private readonly int[] _w = new int[MAX_CAM];
         private readonly int[] _h = new int[MAX_CAM];
         private readonly int[] _slotToDevice = new int[MAX_CAM];
 
-        // 모델/시리얼 표시
         private readonly string[] _camModel = new string[MAX_CAM] { "-", "-", "-", "-", "-" };
         private readonly string[] _camSerial = new string[MAX_CAM] { "-", "-", "-", "-", "-" };
 
-        #endregion
+        // UI 표시명 → 파일명에 사용 (XAML 배지와 동일)
+        private readonly string[] _camDisplayName = new string[MAX_CAM] { "CX 4", "CX 1", "CX 5", "CX 3", "CX 2" };
 
-        #region MultiCam Properties (Binding Targets)
+        // FPS/HUD 관련 (DateTime 기반)
+        private readonly long[] _frameCounter = new long[MAX_CAM];
+        private readonly double[] _measuredFps = new double[MAX_CAM];
+        private readonly double?[] _setpointFps = new double?[MAX_CAM];
+        private readonly int?[] _frameAveraging = new int?[MAX_CAM];
+        private readonly long[] _fpsWindowStartMs = new long[MAX_CAM];
 
-        // ImageSource (XAML: Cam1Source~Cam5Source 바인딩됨)
-        public ImageSource Cam1Source => _cam1;
-        public ImageSource Cam2Source => _cam2;
-        public ImageSource Cam3Source => _cam3;
-        public ImageSource Cam4Source => _cam4;
-        public ImageSource Cam5Source => _cam5;
-
-        // 모델/시리얼 (XAML: Cam1Model ~ Cam5Model, Cam1Serial ~ Cam5Serial)
-        public string Cam1Model { get => _camModel[0]; private set { _camModel[0] = value; RaisePropertyChanged(); } }
-        public string Cam1Serial { get => _camSerial[0]; private set { _camSerial[0] = value; RaisePropertyChanged(); } }
-        public string Cam2Model { get => _camModel[1]; private set { _camModel[1] = value; RaisePropertyChanged(); } }
-        public string Cam2Serial { get => _camSerial[1]; private set { _camSerial[1] = value; RaisePropertyChanged(); } }
-        public string Cam3Model { get => _camModel[2]; private set { _camModel[2] = value; RaisePropertyChanged(); } }
-        public string Cam3Serial { get => _camSerial[2]; private set { _camSerial[2] = value; RaisePropertyChanged(); } }
-        public string Cam4Model { get => _camModel[3]; private set { _camModel[3] = value; RaisePropertyChanged(); } }
-        public string Cam4Serial { get => _camSerial[3]; private set { _camSerial[3] = value; RaisePropertyChanged(); } }
-        public string Cam5Model { get => _camModel[4]; private set { _camModel[4] = value; RaisePropertyChanged(); } }
-        public string Cam5Serial { get => _camSerial[4]; private set { _camSerial[4] = value; RaisePropertyChanged(); } }
-
-        // SOFT/RAW 선택 (각 카메라)
-        private bool[] _soft = new bool[MAX_CAM]; // true=SOFT(컬러), false=RAW(그레이)
-        public bool Soft1 { get => _soft[0]; set { if (_soft[0] != value) { _soft[0] = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(Raw1)); } } }
-        public bool Raw1 { get => !_soft[0]; set { var nv = !value; if (_soft[0] != nv) { _soft[0] = nv; RaisePropertyChanged(nameof(Soft1)); RaisePropertyChanged(); } } }
-        public bool Soft2 { get => _soft[1]; set { if (_soft[1] != value) { _soft[1] = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(Raw2)); } } }
-        public bool Raw2 { get => !_soft[1]; set { var nv = !value; if (_soft[1] != nv) { _soft[1] = nv; RaisePropertyChanged(nameof(Soft2)); RaisePropertyChanged(); } } }
-        public bool Soft3 { get => _soft[2]; set { if (_soft[2] != value) { _soft[2] = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(Raw3)); } } }
-        public bool Raw3 { get => !_soft[2]; set { var nv = !value; if (_soft[2] != nv) { _soft[2] = nv; RaisePropertyChanged(nameof(Soft3)); RaisePropertyChanged(); } } }
-        public bool Soft4 { get => _soft[3]; set { if (_soft[3] != value) { _soft[3] = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(Raw4)); } } }
-        public bool Raw4 { get => !_soft[3]; set { var nv = !value; if (_soft[3] != nv) { _soft[3] = nv; RaisePropertyChanged(nameof(Soft4)); RaisePropertyChanged(); } } }
-        public bool Soft5 { get => _soft[4]; set { if (_soft[4] != value) { _soft[4] = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(Raw5)); } } }
-        public bool Raw5 { get => !_soft[4]; set { var nv = !value; if (_soft[4] != nv) { _soft[4] = nv; RaisePropertyChanged(nameof(Soft5)); RaisePropertyChanged(); } } }
+        // SOFT/RAW
+        private bool[] _soft = new bool[MAX_CAM];
 
         #endregion
 
-        #region MultiCam Public Helpers
+        #region Properties (Binding)
+
+        public ImageSource Cam1Source { get { return _cam1; } }
+        public ImageSource Cam2Source { get { return _cam2; } }
+        public ImageSource Cam3Source { get { return _cam3; } }
+        public ImageSource Cam4Source { get { return _cam4; } }
+        public ImageSource Cam5Source { get { return _cam5; } }
+
+        public string Cam1Model { get { return _camModel[0]; } private set { _camModel[0] = value; RaisePropertyChanged(); } }
+        public string Cam1Serial { get { return _camSerial[0]; } private set { _camSerial[0] = value; RaisePropertyChanged(); } }
+        public string Cam2Model { get { return _camModel[1]; } private set { _camModel[1] = value; RaisePropertyChanged(); } }
+        public string Cam2Serial { get { return _camSerial[1]; } private set { _camSerial[1] = value; RaisePropertyChanged(); } }
+        public string Cam3Model { get { return _camModel[2]; } private set { _camModel[2] = value; RaisePropertyChanged(); } }
+        public string Cam3Serial { get { return _camSerial[2]; } private set { _camSerial[2] = value; RaisePropertyChanged(); } }
+        public string Cam4Model { get { return _camModel[3]; } private set { _camModel[3] = value; RaisePropertyChanged(); } }
+        public string Cam4Serial { get { return _camSerial[3]; } private set { _camSerial[3] = value; RaisePropertyChanged(); } }
+        public string Cam5Model { get { return _camModel[4]; } private set { _camModel[4] = value; RaisePropertyChanged(); } }
+        public string Cam5Serial { get { return _camSerial[4]; } private set { _camSerial[4] = value; RaisePropertyChanged(); } }
+
+        public bool Soft1 { get { return _soft[0]; } set { if (_soft[0] != value) { _soft[0] = value; RaisePropertyChanged(); RaisePropertyChanged("Raw1"); } } }
+        public bool Raw1 { get { return !_soft[0]; } set { var nv = !value; if (_soft[0] != nv) { _soft[0] = nv; RaisePropertyChanged("Soft1"); RaisePropertyChanged(); } } }
+        public bool Soft2 { get { return _soft[1]; } set { if (_soft[1] != value) { _soft[1] = value; RaisePropertyChanged(); RaisePropertyChanged("Raw2"); } } }
+        public bool Raw2 { get { return !_soft[1]; } set { var nv = !value; if (_soft[1] != nv) { _soft[1] = nv; RaisePropertyChanged("Soft2"); RaisePropertyChanged(); } } }
+        public bool Soft3 { get { return _soft[2]; } set { if (_soft[2] != value) { _soft[2] = value; RaisePropertyChanged(); RaisePropertyChanged("Raw3"); } } }
+        public bool Raw3 { get { return !_soft[2]; } set { var nv = !value; if (_soft[2] != nv) { _soft[2] = nv; RaisePropertyChanged("Soft3"); RaisePropertyChanged(); } } }
+        public bool Soft4 { get { return _soft[3]; } set { if (_soft[3] != value) { _soft[3] = value; RaisePropertyChanged(); RaisePropertyChanged("Raw4"); } } }
+        public bool Raw4 { get { return !_soft[3]; } set { var nv = !value; if (_soft[3] != nv) { _soft[3] = nv; RaisePropertyChanged("Soft4"); RaisePropertyChanged(); } } }
+        public bool Soft5 { get { return _soft[4]; } set { if (_soft[4] != value) { _soft[4] = value; RaisePropertyChanged(); RaisePropertyChanged("Raw5"); } } }
+        public bool Raw5 { get { return !_soft[4]; } set { var nv = !value; if (_soft[4] != nv) { _soft[4] = nv; RaisePropertyChanged("Soft5"); RaisePropertyChanged(); } } }
+
+        // HUD
+        private readonly string[] _hud = new string[MAX_CAM] { "", "", "", "", "" };
+        public string Cam1Hud { get { return _hud[0]; } private set { _hud[0] = value; RaisePropertyChanged(); } }
+        public string Cam2Hud { get { return _hud[1]; } private set { _hud[1] = value; RaisePropertyChanged(); } }
+        public string Cam3Hud { get { return _hud[2]; } private set { _hud[2] = value; RaisePropertyChanged(); } }
+        public string Cam4Hud { get { return _hud[3]; } private set { _hud[3] = value; RaisePropertyChanged(); } }
+        public string Cam5Hud { get { return _hud[4]; } private set { _hud[4] = value; RaisePropertyChanged(); } }
+
+        #endregion
+
+        #region Helpers
 
         public void InitBitmap(int camIndex, int width, int height, bool isColor)
         {
@@ -291,12 +309,12 @@ namespace BVisionTestViewModel
 
             switch (camIndex)
             {
-                case 0: _cam1 = wb; RaisePropertyChanged(nameof(Cam1Source)); break;
-                case 1: _cam2 = wb; RaisePropertyChanged(nameof(Cam2Source)); break;
-                case 2: _cam3 = wb; RaisePropertyChanged(nameof(Cam3Source)); break;
-                case 3: _cam4 = wb; RaisePropertyChanged(nameof(Cam4Source)); break;
-                case 4: _cam5 = wb; RaisePropertyChanged(nameof(Cam5Source)); break;
-                default: throw new ArgumentOutOfRangeException(nameof(camIndex));
+                case 0: _cam1 = wb; RaisePropertyChanged("Cam1Source"); break;
+                case 1: _cam2 = wb; RaisePropertyChanged("Cam2Source"); break;
+                case 2: _cam3 = wb; RaisePropertyChanged("Cam3Source"); break;
+                case 3: _cam4 = wb; RaisePropertyChanged("Cam4Source"); break;
+                case 4: _cam5 = wb; RaisePropertyChanged("Cam5Source"); break;
+                default: throw new ArgumentOutOfRangeException("camIndex");
             }
         }
 
@@ -312,13 +330,12 @@ namespace BVisionTestViewModel
             }
         }
 
-        public int GetWidth(int camIndex) => _w[camIndex];
-        public int GetHeight(int camIndex) => _h[camIndex];
+        public int GetWidth(int camIndex) { return _w[camIndex]; }
+        public int GetHeight(int camIndex) { return _h[camIndex]; }
 
         public void UpdateFrame(int camIndex, byte[] src, int width, int height, bool isColor)
         {
             WriteableBitmap target = null;
-
             switch (camIndex)
             {
                 case 0: target = _cam1; break;
@@ -326,24 +343,64 @@ namespace BVisionTestViewModel
                 case 2: target = _cam3; break;
                 case 3: target = _cam4; break;
                 case 4: target = _cam5; break;
-                default: target = null; break;
             }
-
-            if (target == null)
-                return;
+            if (target == null || src == null || src.Length == 0) return;
 
             int bpp = isColor ? 3 : 1;
             int stride = width * bpp;
 
-            Application.Current?.Dispatcher?.Invoke(() =>
+            var disp = Application.Current == null ? null : Application.Current.Dispatcher;
+            if (disp == null || disp.CheckAccess())
             {
                 target.WritePixels(new Int32Rect(0, 0, width, height), src, stride, 0);
-            });
+            }
+            else
+            {
+                disp.BeginInvoke(new Action(delegate
+                {
+                    target.WritePixels(new Int32Rect(0, 0, width, height), src, stride, 0);
+                }), DispatcherPriority.Render);
+            }
+        }
+
+        private WriteableBitmap GetBitmap(int camIndex)
+        {
+            switch (camIndex)
+            {
+                case 0: return _cam1;
+                case 1: return _cam2;
+                case 2: return _cam3;
+                case 3: return _cam4;
+                case 4: return _cam5;
+            }
+            return null;
+        }
+
+        private void UpdateHud(int camIndex, double measuredFps, double? setFps, int? averaging)
+        {
+            string set = setFps.HasValue ? setFps.Value.ToString("0.0", CultureInfo.InvariantCulture) : "-";
+            string avg = averaging.HasValue ? ("x" + averaging.Value) : "-";
+            string text = string.Format("FPS {0:0.0} / {1}  |  Avg {2}", measuredFps, set, avg);
+
+            switch (camIndex)
+            {
+                case 0: Cam1Hud = text; break;
+                case 1: Cam2Hud = text; break;
+                case 2: Cam3Hud = text; break;
+                case 3: Cam4Hud = text; break;
+                case 4: Cam5Hud = text; break;
+            }
+        }
+
+        private static readonly DateTime _epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        private static long NowMs()
+        {
+            return (long)(DateTime.UtcNow - _epoch).TotalMilliseconds;
         }
 
         #endregion
 
-        #region MultiCam Commands (Open/Start)
+        #region Commands (Open/Start/Capture)
 
         private ICommand _OpenCameraCommand;
         public ICommand OpenCameraCommand
@@ -367,6 +424,62 @@ namespace BVisionTestViewModel
             }
         }
 
+        private ICommand _CaptureCameraCommand;
+        public ICommand CaptureCameraCommand
+        {
+            get
+            {
+                if (_CaptureCameraCommand == null)
+                    _CaptureCameraCommand = new RelayCommand<object>(OnCaptureCamera, CanCaptureCamera);
+                return _CaptureCameraCommand;
+            }
+        }
+
+        private bool CanCaptureCamera(object param)
+        {
+            if (param == null) return false;
+            int slot;
+            if (!int.TryParse(param.ToString(), out slot)) return false;
+            return GetBitmap(slot) != null;
+        }
+
+        private void OnCaptureCamera(object param)
+        {
+            try
+            {
+                int slot = Convert.ToInt32(param);
+                var bmp = GetBitmap(slot);
+                if (bmp == null) return;
+
+                string camName = (slot >= 0 && slot < MAX_CAM) ? _camDisplayName[slot] : ("CAM" + (slot + 1));
+
+                // 날짜별 폴더 구조 생성
+                string root = @"D:\Capture";
+                string folder = Path.Combine(root,
+                    DateTime.Now.ToString("yyyy"),
+                    DateTime.Now.ToString("MM"),
+                    DateTime.Now.ToString("dd"));
+
+                Directory.CreateDirectory(folder);
+
+                // 저장 파일명
+                string fileName = $"{camName}_{DateTime.Now:yyyyMMdd_HHmmss_fff}.png";
+                string path = Path.Combine(folder, fileName);
+
+                // PNG 저장
+                var encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(bmp));
+                using (var fs = new FileStream(path, FileMode.Create, FileAccess.Write))
+                {
+                    encoder.Save(fs);
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggerManager.Exception(ex);
+            }
+        }
+
         private void OnOpenCamera(object param)
         {
             try
@@ -375,16 +488,15 @@ namespace BVisionTestViewModel
 
                 if (_grabber[slot] != null)
                 {
-                    // Close
                     StopThread(slot);
-                    _grabber[slot]?.Stop();  // 안전
-                    _grabber[slot]?.Dispose();
+                    try { _grabber[slot].Stop(); } catch { }
+                    try { _grabber[slot].Dispose(); } catch { }
                     _grabber[slot] = null;
                     SetModelSerial(slot, "-", "-");
+                    UpdateHud(slot, 0.0, null, null);
                     return;
                 }
 
-                // 재매핑 적용 오픈
                 OpenCameraInternal(slot);
             }
             catch (Exception ex)
@@ -393,16 +505,66 @@ namespace BVisionTestViewModel
             }
         }
 
-        // 공통 오픈(재매핑 적용 + 비트맵/모델세팅). 이미 열려있으면 리턴
+        private void OnStartCamera(object param)
+        {
+            try
+            {
+                int slot = Convert.ToInt32(param);
+
+                if (_grabber[slot] == null)
+                    OpenCameraInternal(slot);
+
+                if (_isWorking[slot])
+                {
+                    StopThread(slot);
+                    try { _grabber[slot].Stop(); } catch { }
+                    return;
+                }
+
+                if (_displayThread[slot] != null && _displayThread[slot].IsAlive)
+                    return;
+
+                _isWorking[slot] = true;
+
+                // FPS 윈도우 리셋
+                _frameCounter[slot] = 0;
+                _measuredFps[slot] = 0.0;
+                _fpsWindowStartMs[slot] = NowMs();
+
+                _displayThread[slot] = new Thread(DisplayThreadProc);
+                _displayThread[slot].IsBackground = true;
+                _displayThread[slot].Name = "DisplayThread_Cam" + (slot + 1);
+                _displayThread[slot].Start(slot);
+
+                try
+                {
+                    _grabber[slot].Start();
+                }
+                catch (Exception ex)
+                {
+                    _isWorking[slot] = false;
+                    LoggerManager.Exception(ex);
+                    StopThread(slot);
+                    throw;
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggerManager.Exception(ex);
+            }
+        }
+
+        #endregion
+
+        #region Open/Display/Close
+
         private void OpenCameraInternal(int slot)
         {
             if (_grabber[slot] != null) return;
 
-            // SOFT/RAW 반영
             bool soft = GetSoftByIndex(slot);
             _isColor[slot] = soft;
 
-            // 재매핑 사용
             int deviceIndex = GetDeviceIndexForSlot(slot);
             if (deviceIndex < 0)
                 throw new InvalidOperationException("No device mapped to this slot. Set mapping or select from combo.");
@@ -419,46 +581,90 @@ namespace BVisionTestViewModel
 
             InitBitmap(slot, (int)width, (int)height, _isColor[slot]);
             SetModelSerial(slot, _grabber[slot].DeviceModelName, _grabber[slot].DeviceSerialNumber);
+
+            // 설정 FPS / Averaging 읽기: Remote → Device fallback
+            _setpointFps[slot] =
+                TryReadDouble(slot, CoaxlinkEx.TransportLayer.Remote, "AcquisitionFrameRate")
+                ?? TryReadDouble(slot, CoaxlinkEx.TransportLayer.Device, "AcquisitionFrameRate");
+
+            object avgObj = TryReadFirstAvailableInteger(
+                slot, CoaxlinkEx.TransportLayer.Remote,
+                "FrameAverage", "AverageFrames", "FilterSize", "FrameAveraging", "Averaging"
+            );
+            if (avgObj == null)
+            {
+                avgObj = TryReadFirstAvailableInteger(
+                    slot, CoaxlinkEx.TransportLayer.Device,
+                    "FrameAverage", "AverageFrames", "FilterSize", "FrameAveraging", "Averaging"
+                );
+            }
+            _frameAveraging[slot] = avgObj == null ? (int?)null : (int?)Convert.ToInt32(avgObj);
+
+            UpdateHud(slot, 0.0, _setpointFps[slot], _frameAveraging[slot]);
         }
 
-        private void OnStartCamera(object param)
+        private void DisplayThreadProc(object state)
         {
+            int camIndex = (int)state;
+            const int WAIT_TIMEOUT_MS = 100;
+
             try
             {
-                int slot = Convert.ToInt32(param);
-
-                // ☆ 자동오픈: 아직 안 열렸다면 먼저 연다(재매핑 적용됨)
-                if (_grabber[slot] == null)
+                while (_isWorking[camIndex])
                 {
-                    OpenCameraInternal(slot);
-                }
+                    // 너무 바쁘면 CPU 100% 방지
+                    Thread.Sleep(1);
 
-                // Start <-> Stop 토글 (연결은 유지)
-                if (!_isWorking[slot])
-                {
-                    _isWorking[slot] = true;
+                    var handle = _grabber[camIndex].GrabDone;
+                    if (handle == null) continue;
+                    if (!handle.WaitOne(WAIT_TIMEOUT_MS)) continue;
+                    if (!_isWorking[camIndex]) break;
 
-                    _displayThread[slot] = new Thread(DisplayThreadProc)
+                    // 버퍼
+                    byte[] src = _isColor[camIndex] ? _grabber[camIndex].ColorBuffer : _grabber[camIndex].Buffer;
+                    if (src == null || src.Length == 0) continue;
+
+                    int w = GetWidth(camIndex);
+                    int h = GetHeight(camIndex);
+                    bool isColor = _isColor[camIndex];
+
+                    // UI 갱신
+                    SafeUpdateFrame(camIndex, src, w, h, isColor);
+
+                    // 실제 취득 FPS = Grab 이벤트 카운트의 1초 평균
+                    _frameCounter[camIndex]++;
+                    long now = NowMs();
+                    long elapsed = now - _fpsWindowStartMs[camIndex];
+                    if (elapsed >= 1000)
                     {
-                        IsBackground = true,
-                        Name = $"DisplayThread_Cam{slot + 1}"
-                    };
-                    _displayThread[slot].Start(slot);
+                        double cameraFps = (_frameCounter[camIndex] * 1000.0) / (double)elapsed;
+                        _measuredFps[camIndex] = cameraFps;
 
-                    _grabber[slot].Start();
-                }
-                else
-                {
-                    StopThread(slot);
-                    _grabber[slot]?.Stop();  // 연결은 열어둠 (Open 다시 눌러 닫기)
+                        _frameCounter[camIndex] = 0;
+                        _fpsWindowStartMs[camIndex] = now;
+
+                        var disp = Application.Current == null ? null : Application.Current.Dispatcher;
+                        if (disp == null)
+                        {
+                            UpdateHud(camIndex, _measuredFps[camIndex], _setpointFps[camIndex], _frameAveraging[camIndex]);
+                        }
+                        else
+                        {
+                            disp.BeginInvoke(new Action(delegate
+                            {
+                                UpdateHud(camIndex, _measuredFps[camIndex], _setpointFps[camIndex], _frameAveraging[camIndex]);
+                            }));
+                        }
+                    }
+                    // 필요 시: _grabber[camIndex].RecycleBuffer();
                 }
             }
+            catch (ThreadAbortException) { }
             catch (Exception ex)
             {
                 LoggerManager.Exception(ex);
             }
         }
-
 
         private void StopThread(int index)
         {
@@ -467,57 +673,45 @@ namespace BVisionTestViewModel
                 if (_displayThread[index] != null)
                 {
                     _isWorking[index] = false;
-                    _displayThread[index].Join();
+
+                    bool onUI = Application.Current != null && Application.Current.Dispatcher != null
+                                && Application.Current.Dispatcher.CheckAccess();
+                    int joinTimeoutMs = onUI ? 200 : 1000;
+
+                    if (!_displayThread[index].Join(joinTimeoutMs))
+                    {
+                        // 남아 있어도 IsBackground=true 이므로 무시 가능
+                    }
                     _displayThread[index] = null;
                 }
             }
-            catch { /* swallow */ }
+            catch { }
         }
 
-        private void DisplayThreadProc(object state)
+        private void SafeUpdateFrame(int camIndex, byte[] src, int w, int h, bool isColor)
         {
-            int camIndex = (int)state;
-
-            while (_isWorking[camIndex])
+            try
             {
-                Thread.Sleep(30);
-
-                var handle = _grabber[camIndex].GrabDone;
-                if (!handle.WaitOne(1000))
-                    continue;
-
-                byte[] src = _isColor[camIndex]
-                    ? _grabber[camIndex].ColorBuffer
-                    : _grabber[camIndex].Buffer;
-
-                int w = GetWidth(camIndex);
-                int h = GetHeight(camIndex);
-                bool isColor = _isColor[camIndex];
-
-                UpdateFrame(camIndex, src, w, h, isColor);
+                var disp = Application.Current == null ? null : Application.Current.Dispatcher;
+                if (disp == null || disp.CheckAccess())
+                {
+                    UpdateFrame(camIndex, src, w, h, isColor);
+                }
+                else
+                {
+                    disp.BeginInvoke(new Action(delegate
+                    {
+                        try { UpdateFrame(camIndex, src, w, h, isColor); }
+                        catch (Exception ex) { LoggerManager.Exception(ex); }
+                    }), DispatcherPriority.Render);
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggerManager.Exception(ex);
             }
         }
 
-        private bool GetSoftByIndex(int index)
-        {
-            switch (index)
-            {
-                case 0:
-                    return Soft1;
-                case 1:
-                    return Soft2;
-                case 2:
-                    return Soft3;
-                case 3:
-                    return Soft4;
-                case 4:
-                    return Soft5;
-                default:
-                    return false;
-            }
-        }
-
-        // 종료 시 정리용 (필요 시 외부에서 호출)
         public void CloseAllCameras()
         {
             for (int i = 0; i < MAX_CAM; i++)
@@ -535,10 +729,93 @@ namespace BVisionTestViewModel
             }
         }
 
+        private bool GetSoftByIndex(int index)
+        {
+            switch (index)
+            {
+                case 0: return Soft1;
+                case 1: return Soft2;
+                case 2: return Soft3;
+                case 3: return Soft4;
+                case 4: return Soft5;
+            }
+            return false;
+        }
+
         private int GetDeviceIndexForSlot(int slot)
         {
             return _slotToDevice[slot];
         }
+
+        #endregion
+
+        #region Feature Read Helpers (no GetValueFloat)
+
+        // double 읽기: Integer 시도 → String 시도(실패 시 null)
+        private double? TryReadDouble(int index, CoaxlinkEx.TransportLayer layer, string feature)
+        {
+            try
+            {
+                long ival = _grabber[index].GetValueInteger(layer, feature);
+                return (double)ival;
+            }
+            catch
+            {
+                try
+                {
+                    string sval = _grabber[index].GetValueString(layer, feature);
+                    if (string.IsNullOrEmpty(sval)) return null;
+
+                    double d;
+                    if (double.TryParse(sval, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out d))
+                        return d;
+
+                    // 로케일이 , 인 경우 대비
+                    if (double.TryParse(sval, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.CurrentCulture, out d))
+                        return d;
+                }
+                catch { }
+            }
+            return null;
+        }
+
+        // integer 읽기: 성공 시 long 반환, 실패 시 null
+        private long? TryReadInteger(int index, CoaxlinkEx.TransportLayer layer, string feature)
+        {
+            try
+            {
+                return _grabber[index].GetValueInteger(layer, feature);
+            }
+            catch
+            {
+                try
+                {
+                    string sval = _grabber[index].GetValueString(layer, feature);
+                    if (string.IsNullOrEmpty(sval)) return null;
+
+                    long v;
+                    if (long.TryParse(sval, NumberStyles.Integer, CultureInfo.InvariantCulture, out v))
+                        return v;
+
+                    if (long.TryParse(sval, NumberStyles.Integer, CultureInfo.CurrentCulture, out v))
+                        return v;
+                }
+                catch { }
+            }
+            return null;
+        }
+
+        // 후보 이름들 중 먼저 읽히는 값을 반환 (long? 또는 null)
+        private object TryReadFirstAvailableInteger(int index, CoaxlinkEx.TransportLayer layer, params string[] features)
+        {
+            for (int i = 0; i < features.Length; i++)
+            {
+                var v = TryReadInteger(index, layer, features[i]);
+                if (v.HasValue) return v.Value;
+            }
+            return null;
+        }
+
         #endregion
 
         #region Simple RelayCommand (없으면 사용)

@@ -9,7 +9,7 @@
              xmlns:prober="clr-namespace:ProberInterfaces;assembly=ProberInterfaces"
              xmlns:formarkpages="clr-namespace:ManualJogView.TestPages;assembly=ManualJogView"
              mc:Ignorable="d" 
-             d:DesignHeight="940" d:DesignWidth="1600" >
+             d:DesignHeight="940" d:DesignWidth="1800" >
     <UserControl.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="DisplayViewTemplate" DataType="{x:Type prober:IDisplayPort}" >
@@ -158,22 +158,21 @@
                     <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Card}">
                         <Grid>
                             <Image Style="{StaticResource CamImage}" Source="{Binding Cam1Source}"/>
+
                             <Border Style="{StaticResource Badge}">
                                 <TextBlock Text="CX 4" Foreground="#ddd" FontWeight="SemiBold"/>
                             </Border>
+
+                            <!-- FPS 표시 -->
+                            <TextBlock Text="{Binding Cam1Hud}" Foreground="Lime" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,40,0,0"/>
+
+                            <!-- 하단 바 -->
                             <Border VerticalAlignment="Bottom" Background="#2a2a2a" Opacity="0.95" Padding="8">
                                 <DockPanel LastChildFill="False">
-                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                                        <RadioButton x:Name="rbSoft1" Style="{StaticResource CtlRadio}" Content="SOFT"/>
-                                        <RadioButton x:Name="rbRaw1"  Style="{StaticResource CtlRadio}" Content="RAW" IsChecked="True"/>
-                                    </StackPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="0"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="0"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <TextBlock Style="{StaticResource CtlLabel}" Text="{Binding Cam1Model}"/>
-                                        <TextBlock Style="{StaticResource CtlLabel}" Text="{Binding Cam1Serial}"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="0" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="0" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Capture" Command="{Binding CaptureCameraCommand}" CommandParameter="0"/>
                                     </StackPanel>
                                 </DockPanel>
                             </Border>
@@ -184,22 +183,21 @@
                     <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource Card}">
                         <Grid>
                             <Image Style="{StaticResource CamImage}" Source="{Binding Cam2Source}"/>
+
                             <Border Style="{StaticResource Badge}">
                                 <TextBlock Text="CX 1" Foreground="#ddd" FontWeight="SemiBold"/>
                             </Border>
+
+                            <!-- FPS 표시 -->
+                            <TextBlock Text="{Binding Cam2Hud}" Foreground="Lime" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,40,0,0"/>
+
+                            <!-- 하단 바 -->
                             <Border VerticalAlignment="Bottom" Background="#2a2a2a" Opacity="0.95" Padding="8">
                                 <DockPanel LastChildFill="False">
-                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                                        <RadioButton x:Name="rbSoft2" Style="{StaticResource CtlRadio}" Content="SOFT"/>
-                                        <RadioButton x:Name="rbRaw2"  Style="{StaticResource CtlRadio}" Content="RAW" IsChecked="True"/>
-                                    </StackPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="1"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="1"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <TextBlock Style="{StaticResource CtlLabel}" Text="{Binding Cam2Model}"/>
-                                        <TextBlock Style="{StaticResource CtlLabel}" Text="{Binding Cam2Serial}"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="1" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="1" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Capture" Command="{Binding CaptureCameraCommand}" CommandParameter="1"/>
                                     </StackPanel>
                                 </DockPanel>
                             </Border>
@@ -210,22 +208,21 @@
                     <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Card}">
                         <Grid>
                             <Image Style="{StaticResource CamImage}" Source="{Binding Cam3Source}"/>
+
                             <Border Style="{StaticResource Badge}">
                                 <TextBlock Text="CX 5" Foreground="#ddd" FontWeight="SemiBold"/>
                             </Border>
+
+                            <!-- FPS 표시 -->
+                            <TextBlock Text="{Binding Cam3Hud}" Foreground="Lime" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,40,0,0"/>
+
+                            <!-- 하단 바 -->
                             <Border VerticalAlignment="Bottom" Background="#2a2a2a" Opacity="0.95" Padding="8">
                                 <DockPanel LastChildFill="False">
-                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                                        <RadioButton x:Name="rbSoft3" Style="{StaticResource CtlRadio}" Content="SOFT"/>
-                                        <RadioButton x:Name="rbRaw3"  Style="{StaticResource CtlRadio}" Content="RAW" IsChecked="True"/>
-                                    </StackPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="2"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="2"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <TextBlock Style="{StaticResource CtlLabel}" Text="{Binding Cam3Model}"/>
-                                        <TextBlock Style="{StaticResource CtlLabel}" Text="{Binding Cam3Serial}"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="2" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="2" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Capture" Command="{Binding CaptureCameraCommand}" CommandParameter="2"/>
                                     </StackPanel>
                                 </DockPanel>
                             </Border>
@@ -236,22 +233,21 @@
                     <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource Card}">
                         <Grid>
                             <Image Style="{StaticResource CamImage}" Source="{Binding Cam4Source}"/>
+
                             <Border Style="{StaticResource Badge}">
                                 <TextBlock Text="CX 3" Foreground="#ddd" FontWeight="SemiBold"/>
                             </Border>
+
+                            <!-- FPS 표시 -->
+                            <TextBlock Text="{Binding Cam4Hud}" Foreground="Lime" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,40,0,0"/>
+
+                            <!-- 하단 바 -->
                             <Border VerticalAlignment="Bottom" Background="#2a2a2a" Opacity="0.95" Padding="8">
                                 <DockPanel LastChildFill="False">
-                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                                        <RadioButton x:Name="rbSoft4" Style="{StaticResource CtlRadio}" Content="SOFT"/>
-                                        <RadioButton x:Name="rbRaw4"  Style="{StaticResource CtlRadio}" Content="RAW" IsChecked="True"/>
-                                    </StackPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="3"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="3"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <TextBlock Style="{StaticResource CtlLabel}" Text="{Binding Cam4Model}"/>
-                                        <TextBlock Style="{StaticResource CtlLabel}" Text="{Binding Cam4Serial}"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="3" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="3" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Capture" Command="{Binding CaptureCameraCommand}" CommandParameter="3"/>
                                     </StackPanel>
                                 </DockPanel>
                             </Border>
@@ -262,22 +258,21 @@
                     <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource Card}">
                         <Grid>
                             <Image Style="{StaticResource CamImage}" Source="{Binding Cam5Source}"/>
+
                             <Border Style="{StaticResource Badge}">
                                 <TextBlock Text="CX 2" Foreground="#ddd" FontWeight="SemiBold"/>
                             </Border>
+
+                            <!-- FPS 표시 -->
+                            <TextBlock Text="{Binding Cam5Hud}" Foreground="Lime" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,40,0,0"/>
+
+                            <!-- 하단 바 -->
                             <Border VerticalAlignment="Bottom" Background="#2a2a2a" Opacity="0.95" Padding="8">
                                 <DockPanel LastChildFill="False">
-                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                                        <RadioButton x:Name="rbSoft5" Style="{StaticResource CtlRadio}" Content="SOFT"/>
-                                        <RadioButton x:Name="rbRaw5"  Style="{StaticResource CtlRadio}" Content="RAW" IsChecked="True"/>
-                                    </StackPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="4"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="4"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <TextBlock Style="{StaticResource CtlLabel}" Text="{Binding Cam5Model}"/>
-                                        <TextBlock Style="{StaticResource CtlLabel}" Text="{Binding Cam5Serial}"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="4" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Start" Command="{Binding StartCameraCommand}" CommandParameter="4" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Capture" Command="{Binding CaptureCameraCommand}" CommandParameter="4"/>
                                     </StackPanel>
                                 </DockPanel>
                             </Border>
@@ -286,7 +281,6 @@
                 </Grid>
             </Grid>
         </Grid>
-
         <!-- 하단 버튼들 -->
         <Grid Grid.Column="0" Grid.Row="2">
             <Grid.ColumnDefinitions>
