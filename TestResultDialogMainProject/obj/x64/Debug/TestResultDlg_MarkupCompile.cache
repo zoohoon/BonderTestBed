@@ -4,7 +4,7 @@
 library
 C#
 .cs
-C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogMainProject\obj\x64\Debug\
+D:\NPOS\TestResultDialogMainProject\obj\x64\Debug\
 TestResultDlg
 none
 false
@@ -13,7 +13,7 @@ DEBUG;TRACE
 11532037551
 
 21324080693
-16432968499
+161944271601
 TestResultDialog.xaml;
 
 False

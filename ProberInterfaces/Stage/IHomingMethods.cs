@@ -19,7 +19,7 @@ namespace ProberInterfaces
         FLSEDGE = 18,
         PH = 19,
         NH = 21,
-        NHFLSEDGE = 24, // 251031 sebas add
+        PHPIRLS = 28,   // 251104 sebas add
         NI = 33,
         PI = 34,
         VH = 35,

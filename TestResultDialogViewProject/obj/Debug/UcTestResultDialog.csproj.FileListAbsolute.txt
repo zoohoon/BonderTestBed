@@ -9,3 +9,14 @@ D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\Debug\UcTestResultDialog.g.resou
 D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\Debug\UcTestResultDialog.csproj.CoreCompileInputs.cache
 D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\Debug\UcTestResultDialog.dll
 D:\SW\NPOS\NPOS\TestResultDialogViewProject\obj\Debug\UcTestResultDialog.pdb
+D:\NPOS\bin\x64\Debug\UcTestResultDialog.dll
+D:\NPOS\bin\x64\Debug\UcTestResultDialog.pdb
+D:\NPOS\TestResultDialogViewProject\obj\Debug\UcTestResultDialog.csproj.AssemblyReference.cache
+D:\NPOS\TestResultDialogViewProject\obj\Debug\TestResultDialogView.g.cs
+D:\NPOS\TestResultDialogViewProject\obj\Debug\UcTestResultDialog_MarkupCompile.cache
+D:\NPOS\TestResultDialogViewProject\obj\Debug\UcTestResultDialog_MarkupCompile.lref
+D:\NPOS\TestResultDialogViewProject\obj\Debug\TestResultDialogView.baml
+D:\NPOS\TestResultDialogViewProject\obj\Debug\UcTestResultDialog.g.resources
+D:\NPOS\TestResultDialogViewProject\obj\Debug\UcTestResultDialog.csproj.CoreCompileInputs.cache
+D:\NPOS\TestResultDialogViewProject\obj\Debug\UcTestResultDialog.dll
+D:\NPOS\TestResultDialogViewProject\obj\Debug\UcTestResultDialog.pdb

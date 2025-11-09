@@ -2326,7 +2326,10 @@ namespace StageModule
         }
         public EventCodeEnum SetWaferObjectStatus()
         {
-            EventCodeEnum retval = StageModuleState.VacuumOnOff(true, extraVacReady: true);
+            // <-- 251106 sebas 이니셜할 때 IO 쓰는거 막음
+            // EventCodeEnum retval = StageModuleState.VacuumOnOff(true, extraVacReady: true);
+            EventCodeEnum retval = EventCodeEnum.NONE;
+            // -->
 
             EventCodeEnum waferNotExistRetVal;
             EventCodeEnum waferExistRetVal;
@@ -2349,7 +2352,10 @@ namespace StageModule
                 }
                 else
                 {
-                    waferNotExistRetVal = StageModuleState.MonitorForVacuum(true, 100, 3000);
+                    // <-- 251106 sebas 이니셜할 때 IO 쓰는거 막음
+                    // waferNotExistRetVal = StageModuleState.MonitorForVacuum(true, 100, 3000);
+                    waferNotExistRetVal = EventCodeEnum.NONE;
+                    // -->
                 }
             }
             catch (Exception err)
@@ -2376,9 +2382,10 @@ namespace StageModule
                 // Normal case) BACKUP = NOT_EXIST
                 if (this.SlotInformation.WaferStatus == EnumSubsStatus.NOT_EXIST)
                 {
-                    this.WaferObject.SetWaferStatus(EnumSubsStatus.NOT_EXIST);
-
-                    retval = CheckVacuumStatus();
+                    // <-- 251106 sebas 이니셜할 때 IO 쓰는거 막음
+                    //this.WaferObject.SetWaferStatus(EnumSubsStatus.NOT_EXIST);
+                    //retval = CheckVacuumStatus();
+                    // -->
                 }
                 // Abnormal case) BACKUP = !NOT_EXIST
                 else

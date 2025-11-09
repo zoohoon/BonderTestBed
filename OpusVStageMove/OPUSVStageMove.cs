@@ -9966,31 +9966,33 @@ namespace OpusVStageMove
 
                     if (isThreelegUp == true || isThreelegDown == false)
                     {
-                        LoggerManager.Debug($"Start VacuumOn Before ThreeLegDown");
+                        // <-- 251106 sebas : ManualJog UI로 바꿀 때 IO 쓰기되는 부분 막음
+                        //LoggerManager.Debug($"Start VacuumOn Before ThreeLegDown");
 
-                        vacRet = VacuumOnOffFunc(true, extraVacReady: true, extraVacOn: false);
+                        //vacRet = VacuumOnOffFunc(true, extraVacReady: true, extraVacOn: false);
 
-                        if (vacRet == EventCodeEnum.NONE)
-                        {
-                            Module.IOManager().IO.Outputs.DO_TRILEG_SUCTION.SetValue();
+                        //if (vacRet == EventCodeEnum.NONE)
+                        //{
+                        //    Module.IOManager().IO.Outputs.DO_TRILEG_SUCTION.SetValue();
 
-                            ret = Module.MotionManager().VMove(axis, (axis.Param.Speed.Value * -1d), EnumTrjType.Normal);
-                            ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                        //    ret = Module.MotionManager().VMove(axis, (axis.Param.Speed.Value * -1d), EnumTrjType.Normal);
+                        //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                            int iret = Module.MotionManager().WaitForAxisMotionDone(axis, axis.Param.TimeOut.Value);
+                        //    int iret = Module.MotionManager().WaitForAxisMotionDone(axis, axis.Param.TimeOut.Value);
 
-                            if (iret != 0)
-                            {
-                                ret = EventCodeEnum.IO_TIMEOUT_ERROR;
-                                ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                            }
-                        }
-                        else
-                        {
-                            LoggerManager.Debug($"Error VacuumOn Before ThreeLegDown");
+                        //    if (iret != 0)
+                        //    {
+                        //        ret = EventCodeEnum.IO_TIMEOUT_ERROR;
+                        //        ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    LoggerManager.Debug($"Error VacuumOn Before ThreeLegDown");
 
-                            return EventCodeEnum.Chuck_Vacuum_Error;
-                        }
+                        //    return EventCodeEnum.Chuck_Vacuum_Error;
+                        //}
+                        // -->
                     }
                     else if (isThreelegUp == false && isThreelegDown == true)
                     {
@@ -10066,29 +10068,31 @@ namespace OpusVStageMove
 
                             stw.Stop();
 
-                            vacRet = VacuumOnOffFunc(true, extraVacReady: true, extraVacOn: true);
-                            if (vacRet != EventCodeEnum.NONE)
-                            {
-                                LoggerManager.Debug($"Error VacuumOn(extraVacOn) After ThreeLegDown");
+                            // <-- 251106 sebas : ManualJog UI로 바꿀 때 IO 쓰기되는 부분 막음
+                            //vacRet = VacuumOnOffFunc(true, extraVacReady: true, extraVacOn: true);
+                            //if (vacRet != EventCodeEnum.NONE)
+                            //{
+                            //    LoggerManager.Debug($"Error VacuumOn(extraVacOn) After ThreeLegDown");
 
-                                return EventCodeEnum.Chuck_Vacuum_Error;
-                            }
+                            //    return EventCodeEnum.Chuck_Vacuum_Error;
+                            //}
 
-                            vacRet = CheckWaferStatus(true);
+                            //vacRet = CheckWaferStatus(true);
 
-                            LoggerManager.Debug($"ThreeLeg is TimeOut Error.  CheckWaferStatus(true) . retValue:{vacRet}");
+                            //LoggerManager.Debug($"ThreeLeg is TimeOut Error.  CheckWaferStatus(true) . retValue:{vacRet}");
 
-                            if (vacRet != EventCodeEnum.NONE)
-                            {
-                                LoggerManager.Debug($"Start VacuumOff after ThreeLegDown Error");
+                            //if (vacRet != EventCodeEnum.NONE)
+                            //{
+                            //    LoggerManager.Debug($"Start VacuumOff after ThreeLegDown Error");
 
-                                vacRet = VacuumOnOffFunc(false, extraVacReady: false);
+                            //    vacRet = VacuumOnOffFunc(false, extraVacReady: false);
 
-                                if (vacRet != EventCodeEnum.NONE)
-                                {
-                                    LoggerManager.Debug($"Error VacuumOff after ThreeLegDown. retValue:{vacRet}");
-                                }
-                            }
+                            //    if (vacRet != EventCodeEnum.NONE)
+                            //    {
+                            //        LoggerManager.Debug($"Error VacuumOff after ThreeLegDown. retValue:{vacRet}");
+                            //    }
+                            //}
+                            // -->
 
                             return ret;
                         }
@@ -13026,14 +13030,14 @@ namespace OpusVStageMove
                     z1Axis.Status.CompValue = 0;
                     z2Axis.Status.CompValue = 0;
 
-                    // <-- 251031 sebas add
+                    // <-- 251031 sebas add test
                     if(false)
                     {
                         //ioret = Module.IOManager().IOServ.WriteBit(Module.IOManager().IO.Outputs.DO_ARM_AIR1, true);
                         //ioret = Module.IOManager().IOServ.WriteBit(Module.IOManager().IO.Outputs.DO_ARM_AIR1, false);
 
-                        ret = Module.MotionManager().HomingTaskRun(EnumAxisConstants.FDZ1);
-                        ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                        //ret = Module.MotionManager().HomingTaskRun(EnumAxisConstants.FDZ1);
+                        //ResultValidate(MethodBase.GetCurrentMethod(), ret);
                     }
                     // -->
 

@@ -518,12 +518,12 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Content="{Binding AAxis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12"/>
-                            <Label Grid.Row="1" Content="{Binding U1Axis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12"/>
-                            <Label Grid.Row="2" Content="{Binding U2Axis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12"/>
-                            <Label Grid.Row="3" Content="{Binding WAxis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12"/>
-                            <Label Grid.Row="4" Content="{Binding VAxis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12"/>
-                            <Label Grid.Row="5" Content="{Binding SCAxis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12"/>
+                            <Label Grid.Row="0" Content="{Binding FDT1ActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12"/>
+                            <Label Grid.Row="1" Content="{Binding FDZ1ActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12"/>
+                            <Label Grid.Row="2" Content="{Binding EJX1ActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12"/>
+                            <Label Grid.Row="3" Content="{Binding EJY1ActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12"/>
+                            <Label Grid.Row="4" Content="{Binding EJZ1ActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12"/>
+                            <Label Grid.Row="5" Content="{Binding EJPZ1ActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12"/>
 
                         </Grid>
                     </Grid>
@@ -667,8 +667,8 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Content="{Binding XAxis.Status.RawPosition.Actual}" Foreground="White" Width="200" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20"/>
-                            <Label Grid.Row="1" Content="{Binding YAxis.Status.RawPosition.Actual}" Foreground="White" Width="200" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20"/>
+                            <Label Grid.Row="0" Content="{Binding XActualVal}" Foreground="White" Width="200" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20"/>
+                            <Label Grid.Row="1" Content="{Binding YActualVal}" Foreground="White" Width="200" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20"/>
                         </Grid>
                     </Grid>
                     <Grid Grid.Column="1" Margin="10,0,10,0">
@@ -742,7 +742,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Content="{Binding AAxis.Status.RawPosition.Actual}" Foreground="White" Width="200" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20"/>
+                            <Label Grid.Row="0" Content="{Binding NZD1ActualVal}" Foreground="White" Width="200" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20"/>
 
                         </Grid>
                     </Grid>
@@ -801,7 +801,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Label Grid.Row="0" Content="{Binding AAxis.Status.RawPosition.Actual}" Foreground="White" Width="200" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20"/>
+                            <Label Grid.Row="0" Content="{Binding NSZ1ActualVal}" Foreground="White" Width="200" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20"/>
                         </Grid>
                     </Grid>
                     <Grid Grid.Column="1" Margin="10,0,10,0">
@@ -885,7 +885,7 @@
                                 HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                                 Background="Black" Foreground="White" 
                                 FontSize="12" 
-                                Content="{Binding XAxis.Status.RawPosition.Actual}" 
+                                Content="{Binding CActualVal}" 
                                 ContentStringFormat="F2"
                                    />
                             <Label Grid.Row="1"
@@ -893,7 +893,7 @@
                                 HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                                 Foreground="White" 
                                 FontSize="12"
-                                Content="{Binding YAxis.Status.RawPosition.Actual}" 
+                                Content="{Binding TRIActualVal}" 
                                 ContentStringFormat="F2"
                                    />
                             <Label Grid.Row="2"
@@ -901,7 +901,7 @@
                                 HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                                 Foreground="White" 
                                 FontSize="12"
-                                Content="{Binding ZAxis.Status.RawPosition.Actual}" 
+                                Content="{Binding Z0ActualVal}" 
                                 ContentStringFormat="F2"
                                    />
                             <Label Grid.Row="3"
@@ -909,7 +909,7 @@
                                 HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                                 Foreground="White" 
                                 FontSize="12"
-                                Content="{Binding ZAxis.Status.RawPosition.Actual}" 
+                                Content="{Binding Z1ActualVal}" 
                                 ContentStringFormat="F2"
                                    />
                             <Label Grid.Row="4"
@@ -917,7 +917,7 @@
                                 HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                                 Foreground="White" 
                                 FontSize="12"
-                                Content="{Binding ZAxis.Status.RawPosition.Actual}" 
+                                Content="{Binding Z2ActualVal}" 
                                 ContentStringFormat="F2"
                                    />
                         </Grid>
@@ -1415,10 +1415,10 @@
                                     <ToggleButton FontSize="40" FontWeight="Bold" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Checked">
-                                                <i:InvokeCommandAction Command="{Binding OutputOnCommand}"/>
+                                                <i:InvokeCommandAction Command="{Binding Arm_Air1_ONCommand}"/>
                                             </i:EventTrigger>
                                             <i:EventTrigger EventName="Unchecked">
-                                                <i:InvokeCommandAction Command="{Binding OuputOffCommand}"/>
+                                                <i:InvokeCommandAction Command="{Binding Arm_Air1_OFFCommand}"/>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                         <ToggleButton.Style>
@@ -1439,15 +1439,24 @@
                                 </Border>
                                 <Border Grid.Row="1" BorderBrush="White" BorderThickness="0,0,0,5">
                                     <ToggleButton FontSize="40" FontWeight="Bold" Background="Transparent" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding MAGNETIC1_ONCommand}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding MAGNETIC1_OFFCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <ToggleButton.Style>
                                             <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
                                                 <Setter Property="Foreground" Value="Red"/>
                                                 <Setter Property="Content" Value="OFF"/>
                                                 <Style.Triggers>
                                                     <Trigger Property="IsChecked" Value="True">
                                                         <Setter Property="Background" Value="#40FFFFFF"/>
                                                         <Setter Property="Foreground" Value="Blue"/>
-                                                        <Setter Property="Content" Value="ON"/>
+                                                        <Setter Property="Content" Value="ON" />
                                                     </Trigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -1456,15 +1465,24 @@
                                 </Border>
                                 <Border Grid.Row="2" BorderBrush="White" BorderThickness="0,0,0,5">
                                     <ToggleButton FontSize="40" FontWeight="Bold" Background="Transparent" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding ARM_VACON1Command}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding ARM_VACOFF1Command}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <ToggleButton.Style>
                                             <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
                                                 <Setter Property="Foreground" Value="Red"/>
                                                 <Setter Property="Content" Value="OFF"/>
                                                 <Style.Triggers>
                                                     <Trigger Property="IsChecked" Value="True">
                                                         <Setter Property="Background" Value="#40FFFFFF"/>
                                                         <Setter Property="Foreground" Value="Blue"/>
-                                                        <Setter Property="Content" Value="ON"/>
+                                                        <Setter Property="Content" Value="ON" />
                                                     </Trigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -1473,15 +1491,24 @@
                                 </Border>
                                 <Border Grid.Row="3" BorderBrush="White" BorderThickness="0,0,0,5">
                                     <ToggleButton FontSize="40" FontWeight="Bold" Background="Transparent" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding ARM_BlowON1Command}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding ARM_BlowOFF1Command}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <ToggleButton.Style>
                                             <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
                                                 <Setter Property="Foreground" Value="Red"/>
                                                 <Setter Property="Content" Value="OFF"/>
                                                 <Style.Triggers>
                                                     <Trigger Property="IsChecked" Value="True">
                                                         <Setter Property="Background" Value="#40FFFFFF"/>
                                                         <Setter Property="Foreground" Value="Blue"/>
-                                                        <Setter Property="Content" Value="ON"/>
+                                                        <Setter Property="Content" Value="ON" />
                                                     </Trigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -1490,15 +1517,24 @@
                                 </Border>
                                 <Border Grid.Row="4" BorderBrush="White" BorderThickness="0,0,0,5">
                                     <ToggleButton FontSize="40" FontWeight="Bold" Background="Transparent" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding ARM_VACON2Command}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding ARM_VACOFF2Command}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <ToggleButton.Style>
                                             <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
                                                 <Setter Property="Foreground" Value="Red"/>
                                                 <Setter Property="Content" Value="OFF"/>
                                                 <Style.Triggers>
                                                     <Trigger Property="IsChecked" Value="True">
                                                         <Setter Property="Background" Value="#40FFFFFF"/>
                                                         <Setter Property="Foreground" Value="Blue"/>
-                                                        <Setter Property="Content" Value="ON"/>
+                                                        <Setter Property="Content" Value="ON" />
                                                     </Trigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -1507,15 +1543,24 @@
                                 </Border>
                                 <Border Grid.Row="5" BorderBrush="White" BorderThickness="0,0,0,5">
                                     <ToggleButton FontSize="40" FontWeight="Bold" Background="Transparent" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding ARM_VAC_BlowON2Command}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding ARM_VAC_BlowOFF2Command}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <ToggleButton.Style>
                                             <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
                                                 <Setter Property="Foreground" Value="Red"/>
                                                 <Setter Property="Content" Value="OFF"/>
                                                 <Style.Triggers>
                                                     <Trigger Property="IsChecked" Value="True">
                                                         <Setter Property="Background" Value="#40FFFFFF"/>
                                                         <Setter Property="Foreground" Value="Blue"/>
-                                                        <Setter Property="Content" Value="ON"/>
+                                                        <Setter Property="Content" Value="ON" />
                                                     </Trigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -1524,15 +1569,24 @@
                                 </Border>
                                 <Border Grid.Row="6" BorderBrush="White" BorderThickness="0,0,0,5">
                                     <ToggleButton FontSize="40" FontWeight="Bold" Background="Transparent" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding Arm_Air2_ONCommand}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding Arm_Air2_OFFCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <ToggleButton.Style>
                                             <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
                                                 <Setter Property="Foreground" Value="Red"/>
                                                 <Setter Property="Content" Value="OFF"/>
                                                 <Style.Triggers>
                                                     <Trigger Property="IsChecked" Value="True">
                                                         <Setter Property="Background" Value="#40FFFFFF"/>
                                                         <Setter Property="Foreground" Value="Blue"/>
-                                                        <Setter Property="Content" Value="ON"/>
+                                                        <Setter Property="Content" Value="ON" />
                                                     </Trigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -1541,15 +1595,24 @@
                                 </Border>
                                 <Border Grid.Row="7" BorderBrush="White" BorderThickness="0,0,0,5">
                                     <ToggleButton FontSize="40" FontWeight="Bold" Background="Transparent" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding DOCHUCKAIRON_0Command}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding DOCHUCKAIRON_0_OFFCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <ToggleButton.Style>
                                             <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
                                                 <Setter Property="Foreground" Value="Red"/>
                                                 <Setter Property="Content" Value="OFF"/>
                                                 <Style.Triggers>
                                                     <Trigger Property="IsChecked" Value="True">
                                                         <Setter Property="Background" Value="#40FFFFFF"/>
                                                         <Setter Property="Foreground" Value="Blue"/>
-                                                        <Setter Property="Content" Value="ON"/>
+                                                        <Setter Property="Content" Value="ON" />
                                                     </Trigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -1558,15 +1621,24 @@
                                 </Border>
                                 <Border Grid.Row="8" BorderBrush="White" BorderThickness="0,0,0,5">
                                     <ToggleButton FontSize="40" FontWeight="Bold" Background="Transparent" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding DOCHUCKAIRON_2Command}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding DOCHUCKAIRON_2_OFFCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <ToggleButton.Style>
                                             <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
                                                 <Setter Property="Foreground" Value="Red"/>
                                                 <Setter Property="Content" Value="OFF"/>
                                                 <Style.Triggers>
                                                     <Trigger Property="IsChecked" Value="True">
                                                         <Setter Property="Background" Value="#40FFFFFF"/>
                                                         <Setter Property="Foreground" Value="Blue"/>
-                                                        <Setter Property="Content" Value="ON"/>
+                                                        <Setter Property="Content" Value="ON" />
                                                     </Trigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -1575,15 +1647,24 @@
                                 </Border>
                                 <Border Grid.Row="9" BorderBrush="White" BorderThickness="0,0,0,5">
                                     <ToggleButton FontSize="40" FontWeight="Bold" Background="Transparent" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding TRILEG_SUCTION_ONCommand}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding TRILEG_SUCTION_OFFCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <ToggleButton.Style>
                                             <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
                                                 <Setter Property="Foreground" Value="Red"/>
                                                 <Setter Property="Content" Value="OFF"/>
                                                 <Style.Triggers>
                                                     <Trigger Property="IsChecked" Value="True">
                                                         <Setter Property="Background" Value="#40FFFFFF"/>
                                                         <Setter Property="Foreground" Value="Blue"/>
-                                                        <Setter Property="Content" Value="ON"/>
+                                                        <Setter Property="Content" Value="ON" />
                                                     </Trigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -1592,15 +1673,24 @@
                                 </Border>
                                 <Border Grid.Row="10" BorderBrush="White" BorderThickness="0,0,0,5">
                                     <ToggleButton FontSize="40" FontWeight="Bold" Background="Transparent" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding FD_VAC_ONCommand}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding FD_VAC_OFFCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <ToggleButton.Style>
                                             <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
                                                 <Setter Property="Foreground" Value="Red"/>
                                                 <Setter Property="Content" Value="OFF"/>
                                                 <Style.Triggers>
                                                     <Trigger Property="IsChecked" Value="True">
                                                         <Setter Property="Background" Value="#40FFFFFF"/>
                                                         <Setter Property="Foreground" Value="Blue"/>
-                                                        <Setter Property="Content" Value="ON"/>
+                                                        <Setter Property="Content" Value="ON" />
                                                     </Trigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -1609,15 +1699,24 @@
                                 </Border>
                                 <Border Grid.Row="11" BorderBrush="White">
                                     <ToggleButton FontSize="40" FontWeight="Bold" Background="Transparent" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding EJ_VAC_ONCommand}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding EJ_VAC_OFFCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
                                         <ToggleButton.Style>
                                             <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
                                                 <Setter Property="Foreground" Value="Red"/>
                                                 <Setter Property="Content" Value="OFF"/>
                                                 <Style.Triggers>
                                                     <Trigger Property="IsChecked" Value="True">
                                                         <Setter Property="Background" Value="#40FFFFFF"/>
                                                         <Setter Property="Foreground" Value="Blue"/>
-                                                        <Setter Property="Content" Value="ON"/>
+                                                        <Setter Property="Content" Value="ON" />
                                                     </Trigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -1635,7 +1734,6 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
-                            <RowDefinition Height="0.05*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
@@ -1646,21 +1744,22 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Grid.Row="0" Content=" 5CAM Module&#10;     Homing " FontSize="25"  Foreground="White"
+                        <Button Grid.Column="0" Grid.Row="0" Content=" 5CAM Module&#10;     Homing " FontSize="20"  Foreground="White"
                             Command="{Binding CAM_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <Button Grid.Column="1" Grid.Row="0" Content=" Nano Stage &#10;   Homing " FontSize="25"  Foreground="White"
+                        <Button Grid.Column="1" Grid.Row="0" Content=" Nano Stage &#10;   Homing " FontSize="20"  Foreground="White"
                             Command="{Binding NANO_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <Button Grid.Column="2" Grid.Row="0" Content=" DD Module &#10;   Homing " FontSize="25"  Foreground="White"
+                        <Button Grid.Column="2" Grid.Row="0" Content=" DD Module &#10;   Homing " FontSize="20"  Foreground="White"
                             Command="{Binding DD_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <Button Grid.Column="3" Grid.Row="0" Content=" Wafer Module &#10;     Homing " FontSize="25"  Foreground="White"
+                        <Button Grid.Column="3" Grid.Row="0" Content=" Wafer Module &#10;     Homing " FontSize="20"  Foreground="White"
                             Command="{Binding Wafer_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <Button Grid.Column="4" Grid.Row="0" Content=" FD Module &#10;   Homing " FontSize="25"  Foreground="White"
+                        <Button Grid.Column="4" Grid.Row="0" Content=" FD Module &#10;   Homing " FontSize="20"  Foreground="White"
                             Command="{Binding FD_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <Button Grid.Column="5" Grid.Row="0" Content=" Base X,Y &#10; Homing " FontSize="25"  Foreground="White" 
+                        <Button Grid.Column="5" Grid.Row="0" Content=" Base X,Y &#10; Homing " FontSize="20"  Foreground="White" 
                             Command="{Binding XY_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <Button Grid.Column="0" Grid.Row="2" Content=" Total Module Homing " FontSize="25"  Foreground="White" Grid.ColumnSpan="6"
-                            Command="{Binding YPosMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+                        <Button Grid.Column="0" Grid.Row="2" Content=" Total Module Homing " FontSize="20"  Foreground="White" Grid.ColumnSpan="6"
+                            Command="{Binding TotalModuleHomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
                     </Grid>
+
                 </GroupBox>
                 <!--Grid.RowDefinitions>
                 <RowDefinition Height="4.2*"/>

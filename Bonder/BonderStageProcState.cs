@@ -121,9 +121,10 @@ namespace Bonder.BonderStageProcStates
                     }
                 }
             }
-            catch
+            catch (Exception err)
             {
-
+                LoggerManager.Exception(err);
+                throw;
             }
         }
     }

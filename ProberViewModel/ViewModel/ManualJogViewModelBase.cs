@@ -22,6 +22,7 @@ using ProberInterfaces.PnpSetup;
 using MetroDialogInterfaces;
 using ProberInterfaces.State;
 using ProberViewModel.Data;
+using System.Threading;
 //using ProberInterfaces.ThreadSync;
 
 namespace ManualJogViewModel
@@ -3002,9 +3003,10 @@ namespace ManualJogViewModel
         {
             try
             {
-                
 
+                double apos = 0;
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                //var axisCCS = this.MotionManager().GetActualPos(EnumAxisConstants.X, ref apos);
                 if (axis == null)
                 {
 
@@ -3022,14 +3024,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task XNegMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.X);
                 if (axis == null)
                 {
@@ -3047,14 +3049,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task YPosMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
                 if (axis == null)
                 {
@@ -3073,14 +3075,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task YNegMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
                 if (axis == null)
                 {
@@ -3100,14 +3102,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task ZPosMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.Z);
                 if (axis == null)
                 {
@@ -3126,14 +3128,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task ZNegMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.Z);
                 if (axis == null)
                 {
@@ -3152,14 +3154,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task CPosMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.C);
                 if (axis == null)
                 {
@@ -3178,14 +3180,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task CNegMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.C);
                 if (axis == null)
                 {
@@ -3204,14 +3206,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task TriPosMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.TRI);
                 if (axis == null)
                 {
@@ -3230,14 +3232,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task TriNegMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.TRI);
                 if (axis == null)
                 {
@@ -3256,14 +3258,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task PzPosMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.PZ);
                 if (axis == null)
                 {
@@ -3282,14 +3284,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task PzNegMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.PZ);
                 if (axis == null)
                 {
@@ -3308,14 +3310,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task APosMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.A);
                 if (axis == null)
                 {
@@ -3334,14 +3336,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task ANegMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.A);
                 if (axis == null)
                 {
@@ -3360,14 +3362,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task U1PosMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.U1);
                 if (axis == null)
                 {
@@ -3386,14 +3388,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task U1NegMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.U1);
                 if (axis == null)
                 {
@@ -3412,14 +3414,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task U2PosMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.U2);
                 if (axis == null)
                 {
@@ -3438,14 +3440,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task U2NegMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.U2);
                 if (axis == null)
                 {
@@ -3464,14 +3466,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task WPosMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.W);
                 if (axis == null)
                 {
@@ -3491,14 +3493,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task WNegMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.W);
                 if (axis == null)
                 {
@@ -3517,14 +3519,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task VPosMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.V);
                 if (axis == null)
                 {
@@ -3543,14 +3545,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task VNegMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.V);
                 if (axis == null)
                 {
@@ -3569,14 +3571,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task ScPosMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.SC);
                 if (axis == null)
                 {
@@ -3595,14 +3597,14 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
         private async Task ScNegMoveFunc()
         {
             try
             {
-                
+
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.SC);
                 if (axis == null)
                 {
@@ -3621,17 +3623,16 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
             }
         }
 
         //251029 yb add
         private async Task CX1PosMoveFunc()
         {
+            EventCodeEnum ret = EventCodeEnum.NODATA;
             try
             {
-
-
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.CX1);
                 if (axis == null)
                 {
@@ -3653,6 +3654,23 @@ namespace ManualJogViewModel
 
             }
         }
+        // <-- 251105 sebas homing test
+        protected EventCodeEnum ResultValidate(object funcname, EventCodeEnum retcode)
+        {
+            EventCodeEnum ret = EventCodeEnum.UNDEFINED;
+
+            ret = retcode;
+
+            if (retcode != EventCodeEnum.NONE)
+            {
+                LoggerManager.Debug($"ResultValidate Fail :  Error code = {retcode.ToString()}, fucntion name = {funcname.ToString()}");
+
+                throw new Exception($"FunctionName: {funcname.ToString()} Returncode: {retcode.ToString()} Error occurred");
+            }
+
+            return ret;
+        }
+        // -->
         private async Task CX1NegMoveFunc()
         {
             try
@@ -4903,7 +4921,8 @@ namespace ManualJogViewModel
                 apos = axis.Status.RawPosition.Ref;
                 //this.MotionManager().GetActualPos(AxisObject.AxisType.Value, ref apos); //AxisObject.AxisType.Value 축 Enum //  apos : 축위치
                 double pos = Math.Abs(RelMoveStepDist); // 움직일 거리의 절대값
-                if (pos + apos < AxisObject.Param.PosSWLimit.Value) // 리밋체크 pos(움직일 거리)와 apos(기존 나의 위치)의 합이 리밋보다 작으면 동작
+                if (pos + apos < 1000000.0) // 리밋체크 pos(움직일 거리)와 apos(기존 나의 위치)의 합이 리밋보다 작으면 동작
+                //if (pos + apos < AxisObject.Param.PosSWLimit.Value)
                 {
                     EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
                     NegButtonVisibility = false;
@@ -4940,7 +4959,10 @@ namespace ManualJogViewModel
                 apos = axis.Status.RawPosition.Ref;
                 //this.MotionManager().GetActualPos(AxisObject.AxisType.Value, ref apos);
                 double pos = Math.Abs(RelMoveStepDist) * -1;
-                if (pos + apos > AxisObject.Param.NegSWLimit.Value)
+
+                // 251106 sebas limit 해제
+                // if (pos + apos > AxisObject.Param.NegSWLimit.Value)
+                if (true)
                 {
                     PosButtonVisibility = false;
                     //20251030 yb
@@ -4967,13 +4989,303 @@ namespace ManualJogViewModel
         }
         #endregion
         #region Position PosRefresh
+        public double _XActualVal = 0.0;
+        public double XActualVal
+        {
+            get
+            {
+                return _XActualVal;
+            }
+            set
+            {
+                if (_XActualVal != value)
+                {
+                    _XActualVal = value;
+                    RaisePropertyChanged("XActualVal");
+                }
+            }
+        }
+        public double _YActualVal = 0.0;
+        public double YActualVal
+        {
+            get
+            {
+                return _YActualVal;
+            }
+            set
+            {
+                if (_YActualVal != value)
+                {
+                    _YActualVal = value;
+                    RaisePropertyChanged("YActualVal");
+                }
+            }
+        }
 
+        public double _CActualVal = 0.0;
+        public double CActualVal
+        {
+            get
+            {
+                return _CActualVal;
+            }
+            set
+            {
+                if (_CActualVal != value)
+                {
+                    _CActualVal = value;
+                    RaisePropertyChanged("CActualVal");
+                }
+            }
+        }
+
+        public double _TRIActualVal = 0.0;
+        public double TRIActualVal
+        {
+            get
+            {
+                return _TRIActualVal;
+            }
+            set
+            {
+                if (_TRIActualVal != value)
+                {
+                    _TRIActualVal = value;
+                    RaisePropertyChanged("TRIActualVal");
+                }
+            }
+        }
+
+        public double _Z0ActualVal = 0.0;
+        public double Z0ActualVal
+        {
+            get
+            {
+                return _Z0ActualVal;
+            }
+            set
+            {
+                if (_Z0ActualVal != value)
+                {
+                    _Z0ActualVal = value;
+                    RaisePropertyChanged("Z0ActualVal");
+                }
+            }
+        }
+
+        public double _Z1ActualVal = 0.0;
+        public double Z1ActualVal
+        {
+            get
+            {
+                return _Z1ActualVal;
+            }
+            set
+            {
+                if (_Z1ActualVal != value)
+                {
+                    _Z1ActualVal = value;
+                    RaisePropertyChanged("Z1ActualVal");
+                }
+            }
+        }
+
+        public double _Z2ActualVal = 0.0;
+        public double Z2ActualVal
+        {
+            get
+            {
+                return _Z2ActualVal;
+            }
+            set
+            {
+                if (_Z2ActualVal != value)
+                {
+                    _Z2ActualVal = value;
+                    RaisePropertyChanged("Z2ActualVal");
+                }
+            }
+        }
+
+        public double _NSZ1ActualVal = 0.0;
+        public double NSZ1ActualVal
+        {
+            get
+            {
+                return _NSZ1ActualVal;
+            }
+            set
+            {
+                if (_NSZ1ActualVal != value)
+                {
+                    _NSZ1ActualVal = value;
+                    RaisePropertyChanged("NSZ1ActualVal");
+                }
+            }
+        }
+
+        public double _FDZ1ActualVal = 0.0;
+        public double FDZ1ActualVal
+        {
+            get
+            {
+                return _FDZ1ActualVal;
+            }
+            set
+            {
+                if (_FDZ1ActualVal != value)
+                {
+                    _FDZ1ActualVal = value;
+                    RaisePropertyChanged("FDZ1ActualVal");
+                }
+            }
+        }
+
+        public double _FDT1ActualVal = 0.0;
+        public double FDT1ActualVal
+        {
+            get
+            {
+                return _FDT1ActualVal;
+            }
+            set
+            {
+                if (_FDT1ActualVal != value)
+                {
+                    _FDT1ActualVal = value;
+                    RaisePropertyChanged("FDT1ActualVal");
+                }
+            }
+        }
+
+        public double _EJX1ActualVal = 0.0;
+        public double EJX1ActualVal
+        {
+            get
+            {
+                return _EJX1ActualVal;
+            }
+            set
+            {
+                if (_EJX1ActualVal != value)
+                {
+                    _EJX1ActualVal = value;
+                    RaisePropertyChanged("EJX1ActualVal");
+                }
+            }
+        }
+
+        public double _EJY1ActualVal = 0.0;
+        public double EJY1ActualVal
+        {
+            get
+            {
+                return _EJY1ActualVal;
+            }
+            set
+            {
+                if (_EJY1ActualVal != value)
+                {
+                    _EJY1ActualVal = value;
+                    RaisePropertyChanged("EJY1ActualVal");
+                }
+            }
+        }
+
+        public double _EJZ1ActualVal = 0.0;
+        public double EJZ1ActualVal
+        {
+            get
+            {
+                return _EJZ1ActualVal;
+            }
+            set
+            {
+                if (_EJZ1ActualVal != value)
+                {
+                    _EJZ1ActualVal = value;
+                    RaisePropertyChanged("EJZ1ActualVal");
+                }
+            }
+        }
+
+        public double _EJPZ1ActualVal = 0.0;
+        public double EJPZ1ActualVal
+        {
+            get
+            {
+                return _EJPZ1ActualVal;
+            }
+            set
+            {
+                if (_EJPZ1ActualVal != value)
+                {
+                    _EJPZ1ActualVal = value;
+                    RaisePropertyChanged("EJPZ1ActualVal");
+                }
+            }
+        }
+
+        public double _NZD1ActualVal = 0.0;
+        public double NZD1ActualVal
+        {
+            get
+            {
+                return _NZD1ActualVal;
+            }
+            set
+            {
+                if (_NZD1ActualVal != value)
+                {
+                    _NZD1ActualVal = value;
+                    RaisePropertyChanged("NZD1ActualVal");
+                }
+            }
+        }
         private async Task PosRefresh()
         {
             try
             {
+
                 IMotionManager Motionmanager = this.MotionManager();
                 //XActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.X).Status.Position.Actual,2);
+                double Pos = 0.0;
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref Pos);
+                XActualVal = Pos;
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref Pos);
+                YActualVal = Pos;
+
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.C).AxisType.Value, ref Pos);
+                CActualVal = Pos;
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.TRI).AxisType.Value, ref Pos);
+                TRIActualVal = Pos;
+
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z0).AxisType.Value, ref Pos);
+                Z0ActualVal = Pos;
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z1).AxisType.Value, ref Pos);
+                Z1ActualVal = Pos;
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z2).AxisType.Value, ref Pos);
+                Z2ActualVal = Pos;
+
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ1).AxisType.Value, ref Pos);
+                NSZ1ActualVal = Pos;
+
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref Pos);
+                FDZ1ActualVal = Pos;
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDT1).AxisType.Value, ref Pos);
+                FDT1ActualVal = Pos;
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJX1).AxisType.Value, ref Pos);
+                EJX1ActualVal = Pos;
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJY1).AxisType.Value, ref Pos);
+                EJY1ActualVal = Pos;
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref Pos);
+                EJZ1ActualVal = Pos;
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJPZ1).AxisType.Value, ref Pos);
+                EJPZ1ActualVal = Pos;
+
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NZD1).AxisType.Value, ref Pos);
+                NZD1ActualVal = Pos;
+
                 //YActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.Y).Status.Position.Actual, 2);
                 //ZActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.Z).Status.Position.Actual, 2);
                 //CActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.C).Status.Position.Actual, 2);
@@ -5773,7 +6085,7 @@ namespace ManualJogViewModel
             {
 
                 EnumMessageDialogResult ret;
-                
+
                 await Task.Run(() =>
                 {
                     ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
@@ -5805,7 +6117,7 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
 
             }
         }
@@ -5825,7 +6137,7 @@ namespace ManualJogViewModel
             {
 
                 EnumMessageDialogResult ret;
-                
+
                 await Task.Run(() =>
                 {
                     ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
@@ -5855,7 +6167,7 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
 
             }
         }
@@ -6097,7 +6409,7 @@ namespace ManualJogViewModel
                 bool isThreelegDown = false;
                 bool isThreelegUp = false;
                 int IOError;
-                
+
                 await Task.Run(async () =>
                 {
                     ProbeAxisObject zaxis = this.MotionManager().GetAxis(EnumAxisConstants.Z);
@@ -6241,7 +6553,7 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
 
             }
         }
@@ -6266,7 +6578,7 @@ namespace ManualJogViewModel
                 bool isThreelegDown = false;
                 bool isThreelegUp = false;
                 int IOError;
-                
+
                 await Task.Run(async () =>
                 {
                     if (LoaderController.LoaderInfo.StateMap.PreAlignModules[0].WaferStatus == EnumSubsStatus.EXIST) // Unload 해야하는 상황
@@ -6292,7 +6604,7 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
 
             }
         }
@@ -6316,7 +6628,7 @@ namespace ManualJogViewModel
                 bool isThreelegDown = false;
                 bool isThreelegUp = false;
                 int IOError;
-                
+
                 await Task.Run(async () =>
                 {
                     if (LoaderController.LoaderInfo.StateMap.ARMModules[0].WaferStatus == EnumSubsStatus.EXIST) // Unload 해야하는 상황
@@ -6342,7 +6654,7 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
 
             }
         }
@@ -6366,7 +6678,7 @@ namespace ManualJogViewModel
                 bool isThreelegDown = false;
                 bool isThreelegUp = false;
                 int IOError;
-                
+
                 await Task.Run(async () =>
                 {
                     if (LoaderController.LoaderInfo.StateMap.ARMModules[1].WaferStatus == EnumSubsStatus.EXIST) // Unload 해야하는 상황
@@ -6392,7 +6704,7 @@ namespace ManualJogViewModel
             }
             finally
             {
-                
+
 
             }
         }
@@ -7169,75 +7481,724 @@ namespace ManualJogViewModel
 
         #endregion
 
+        #region I/O ON OFF
         //251103 YB IO test
-        private RelayCommand _OuputOffCommand;
-        public ICommand OuputOffCommand
+        private RelayCommand _Arm_Air1_OFFCommand;
+        public ICommand Arm_Air1_OFFCommand
         {
             get
             {
-                if (null == _OuputOffCommand) _OuputOffCommand = new RelayCommand(OuputOff);
-                return _OuputOffCommand;
+                if (null == _Arm_Air1_OFFCommand) _Arm_Air1_OFFCommand = new RelayCommand(Arm_Air1_OFF);
+                return _Arm_Air1_OFFCommand;
             }
         }
 
-        private void OuputOff()
+        private void Arm_Air1_OFF()
         {
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, false);
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1_OFF, true); //air off
+            Thread.Sleep(250);
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1_OFF, false);
         }
 
-        private RelayCommand _OutputOnCommand;
-        public ICommand OutputOnCommand
+        private RelayCommand _Arm_Air1_ONCommand;
+        public ICommand Arm_Air1_ONCommand
         {
             get
             {
-                if (null == _OutputOnCommand) _OutputOnCommand = new RelayCommand(OutputOn);
-                return _OutputOnCommand;
+                if (null == _Arm_Air1_ONCommand) _Arm_Air1_ONCommand = new RelayCommand(Arm_Air1_ON);
+                return _Arm_Air1_ONCommand;
             }
         }
 
-        private void OutputOn()
+        private void Arm_Air1_ON()
         {
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, true); //air on
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, false); 
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1_OFF, true); //air off
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1_OFF, false);
-
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_MAGNETIC1, true);
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_MAGNETIC1, false);
-
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, true); // vac on
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, false); 
-
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, true); //blow on
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, false); // 둘다  off
-
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, true);
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, false);
-
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, true);
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, false);
-
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, true); //air on
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, false);
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2_OFF, true); //air off
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2_OFF, false);
-
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DOCHUCKAIRON_0, true);
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DOCHUCKAIRON_0, false);
-
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DOCHUCKAIRON_2, true);
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DOCHUCKAIRON_2, false);
-
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_TRILEG_SUCTION, true);
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_TRILEG_SUCTION, false);
-
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_FD_VAC, true);
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_FD_VAC, false);
-
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, true);
-            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, false);
-
+            Thread.Sleep(250);
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, false);
 
         }
+
+        private RelayCommand _MAGNETIC1_OFFCommand;
+        public ICommand MAGNETIC1_OFFCommand
+        {
+            get
+            {
+                if (null == _MAGNETIC1_OFFCommand) _MAGNETIC1_OFFCommand = new RelayCommand(MAGNETIC1_OFF);
+                return _MAGNETIC1_OFFCommand;
+            }
+        }
+
+        private void MAGNETIC1_OFF()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_MAGNETIC1, false);
+        }
+
+        private RelayCommand _MAGNETIC1_ONCommand;
+        public ICommand MAGNETIC1_ONCommand
+        {
+            get
+            {
+                if (null == _MAGNETIC1_ONCommand) _MAGNETIC1_ONCommand = new RelayCommand(MAGNETIC1_ON);
+                return _MAGNETIC1_ONCommand;
+            }
+        }
+
+        private void MAGNETIC1_ON()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_MAGNETIC1, true);
+        }
+
+        private RelayCommand _ARM_VACOFF1Command;
+        public ICommand ARM_VACOFF1Command
+        {
+            get
+            {
+                if (null == _ARM_VACOFF1Command) _ARM_VACOFF1Command = new RelayCommand(ARM_VACOFF1);
+                return _ARM_VACOFF1Command;
+            }
+        }
+
+        private void ARM_VACOFF1()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, true);
+            Thread.Sleep(250);
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, false);
+        }
+
+        private RelayCommand _ARM_VACON1Command;
+        public ICommand ARM_VACON1Command
+        {
+            get
+            {
+                if (null == _ARM_VACON1Command) _ARM_VACON1Command = new RelayCommand(ARM_VACON1);
+                return _ARM_VACON1Command;
+            }
+        }
+
+        private void ARM_VACON1()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, true);
+            Thread.Sleep(250);
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, false);
+        }
+
+        private RelayCommand _ARM_BlowOFF1Command;
+        public ICommand ARM_BlowOFF1Command
+        {
+            get
+            {
+                if (null == _ARM_BlowOFF1Command) _ARM_BlowOFF1Command = new RelayCommand(ARM_BlowOFF1);
+                return _ARM_BlowOFF1Command;
+            }
+        }
+
+        private void ARM_BlowOFF1()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, false);
+        }
+
+        private RelayCommand _ARM_BlowON1Command;
+        public ICommand ARM_BlowON1Command
+        {
+            get
+            {
+                if (null == _ARM_BlowON1Command) _ARM_BlowON1Command = new RelayCommand(ARM_BlowON1);
+                return _ARM_BlowON1Command;
+            }
+        }
+
+        private void ARM_BlowON1()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, true);
+            Thread.Sleep(250);
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, false);
+            Thread.Sleep(250);
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, true);
+        }
+
+        private RelayCommand _ARM_VACOFF2Command;
+        public ICommand ARM_VACOFF2Command
+        {
+            get
+            {
+                if (null == _ARM_VACOFF2Command) _ARM_VACOFF2Command = new RelayCommand(ARM_VACOFF2);
+                return _ARM_VACOFF2Command;
+            }
+        }
+
+        private void ARM_VACOFF2()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, true);
+            Thread.Sleep(250);
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, false);
+        }
+
+        private RelayCommand _ARM_VACON2Command;
+        public ICommand ARM_VACON2Command
+        {
+            get
+            {
+                if (null == _ARM_VACON2Command) _ARM_VACON2Command = new RelayCommand(ARM_VACON2);
+                return _ARM_VACON2Command;
+            }
+        }
+
+        private void ARM_VACON2()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, true);
+            Thread.Sleep(250);
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, false);
+        }
+
+        private RelayCommand _ARM_VAC_BlowOFF2Command;
+        public ICommand ARM_VAC_BlowOFF2Command
+        {
+            get
+            {
+                if (null == _ARM_VAC_BlowOFF2Command) _ARM_VAC_BlowOFF2Command = new RelayCommand(ARM_VAC_BlowOFF2);
+                return _ARM_VAC_BlowOFF2Command;
+            }
+        }
+
+        private void ARM_VAC_BlowOFF2()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, false);
+        }
+
+        private RelayCommand _ARM_VAC_BlowON2Command;
+        public ICommand ARM_VAC_BlowON2Command
+        {
+            get
+            {
+                if (null == _ARM_VAC_BlowON2Command) _ARM_VAC_BlowON2Command = new RelayCommand(ARM_VAC_BlowON2);
+                return _ARM_VAC_BlowON2Command;
+            }
+        }
+
+        private void ARM_VAC_BlowON2()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, true);
+            Thread.Sleep(250);
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, false);
+            Thread.Sleep(250);
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, true);
+        }
+
+        private RelayCommand _Arm_Air2_OFFCommand;
+        public ICommand Arm_Air2_OFFCommand
+        {
+            get
+            {
+                if (null == _Arm_Air2_OFFCommand) _Arm_Air2_OFFCommand = new RelayCommand(Arm_Air2_OFF);
+                return _Arm_Air2_OFFCommand;
+            }
+        }
+
+        private void Arm_Air2_OFF()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2_OFF, true); //air off
+            Thread.Sleep(250);
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2_OFF, false);
+        }
+
+        private RelayCommand _Arm_Air2_ONCommand;
+        public ICommand Arm_Air2_ONCommand
+        {
+            get
+            {
+                if (null == _Arm_Air2_ONCommand) _Arm_Air2_ONCommand = new RelayCommand(Arm_Air2_ON);
+                return _Arm_Air2_ONCommand;
+            }
+        }
+
+        private void Arm_Air2_ON()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, true); //air on
+            Thread.Sleep(250);
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, false);
+
+        }
+
+        private RelayCommand _DOCHUCKAIRON_0_OFFCommand;
+        public ICommand DOCHUCKAIRON_0_OFFCommand
+        {
+            get
+            {
+                if (null == _DOCHUCKAIRON_0_OFFCommand) _DOCHUCKAIRON_0_OFFCommand = new RelayCommand(DOCHUCKAIRON_0_OFF);
+                return _DOCHUCKAIRON_0_OFFCommand;
+            }
+        }
+
+        private void DOCHUCKAIRON_0_OFF()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DOCHUCKAIRON_0, false);
+        }
+
+        private RelayCommand _DOCHUCKAIRON_0Command;
+        public ICommand DOCHUCKAIRON_0Command
+        {
+            get
+            {
+                if (null == _DOCHUCKAIRON_0Command) _DOCHUCKAIRON_0Command = new RelayCommand(DOCHUCKAIRON_0);
+                return _DOCHUCKAIRON_0Command;
+            }
+        }
+
+        private void DOCHUCKAIRON_0()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DOCHUCKAIRON_0, true);
+        }
+
+        private RelayCommand _DOCHUCKAIRON_2_OFFCommand;
+        public ICommand DOCHUCKAIRON_2_OFFCommand
+        {
+            get
+            {
+                if (null == _DOCHUCKAIRON_2_OFFCommand) _DOCHUCKAIRON_2_OFFCommand = new RelayCommand(DOCHUCKAIRON_2_OFF);
+                return _DOCHUCKAIRON_2_OFFCommand;
+            }
+        }
+
+        private void DOCHUCKAIRON_2_OFF()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DOCHUCKAIRON_2, false);
+        }
+
+        private RelayCommand _DOCHUCKAIRON_2Command;
+        public ICommand DOCHUCKAIRON_2Command
+        {
+            get
+            {
+                if (null == _DOCHUCKAIRON_2Command) _DOCHUCKAIRON_2Command = new RelayCommand(DOCHUCKAIRON_2);
+                return _DOCHUCKAIRON_2Command;
+            }
+        }
+
+        private void DOCHUCKAIRON_2()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DOCHUCKAIRON_2, true);
+        }
+
+        private RelayCommand _TRILEG_SUCTION_OFFCommand;
+        public ICommand TRILEG_SUCTION_OFFCommand
+        {
+            get
+            {
+                if (null == _TRILEG_SUCTION_OFFCommand) _TRILEG_SUCTION_OFFCommand = new RelayCommand(TRILEG_SUCTION_OFF);
+                return _TRILEG_SUCTION_OFFCommand;
+            }
+        }
+
+        private void TRILEG_SUCTION_OFF()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_TRILEG_SUCTION, false);
+        }
+
+        private RelayCommand _TRILEG_SUCTION_ONCommand;
+        public ICommand TRILEG_SUCTION_ONCommand
+        {
+            get
+            {
+                if (null == _TRILEG_SUCTION_ONCommand) _TRILEG_SUCTION_ONCommand = new RelayCommand(TRILEG_SUCTION_ON);
+                return _TRILEG_SUCTION_ONCommand;
+            }
+        }
+
+        private void TRILEG_SUCTION_ON()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_TRILEG_SUCTION, true);
+        }
+
+        private RelayCommand _FD_VAC_OFFCommand;
+        public ICommand FD_VAC_OFFCommand
+        {
+            get
+            {
+                if (null == _FD_VAC_OFFCommand) _FD_VAC_OFFCommand = new RelayCommand(FD_VAC_OFF);
+                return _FD_VAC_OFFCommand;
+            }
+        }
+
+        private void FD_VAC_OFF()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_FD_VAC, false);
+        }
+
+        private RelayCommand _FD_VAC_ONCommand;
+        public ICommand FD_VAC_ONCommand
+        {
+            get
+            {
+                if (null == _FD_VAC_ONCommand) _FD_VAC_ONCommand = new RelayCommand(FD_VAC_ON);
+                return _FD_VAC_ONCommand;
+            }
+        }
+
+        private void FD_VAC_ON()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_FD_VAC, true);
+        }
+
+        private RelayCommand _EJ_VAC_OFFCommand;
+        public ICommand EJ_VAC_OFFCommand
+        {
+            get
+            {
+                if (null == _EJ_VAC_OFFCommand) _EJ_VAC_OFFCommand = new RelayCommand(EJ_VAC_OFF);
+                return _EJ_VAC_OFFCommand;
+            }
+        }
+
+        private void EJ_VAC_OFF()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, false);
+        }
+
+        private RelayCommand _EJ_VAC_ONCommand;
+        public ICommand EJ_VAC_ONCommand
+        {
+            get
+            {
+                if (null == _EJ_VAC_ONCommand) _FD_VAC_ONCommand = new RelayCommand(EJ_VAC_ON);
+                return _EJ_VAC_ONCommand;
+            }
+        }
+
+        private void EJ_VAC_ON()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, true);
+        }
+        #endregion
+
+        private AsyncCommand _CAM_HomingCommand;
+        public ICommand CAM_HomingCommand
+        {
+            get
+            {
+                if (null == _CAM_HomingCommand) _CAM_HomingCommand = new AsyncCommand(CAMH_oming_Func);
+                return _CAM_HomingCommand;
+            }
+        }
+
+        private async Task CAMH_oming_Func()
+        {
+            try
+            {
+                EventCodeEnum ret = EventCodeEnum.NODATA;
+
+                ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.CX1, EnumAxisConstants.CY1, EnumAxisConstants.CZ1,
+                                                            EnumAxisConstants.CX2, EnumAxisConstants.CY2, EnumAxisConstants.CZ2,
+                                                            EnumAxisConstants.CX3, EnumAxisConstants.CY3, EnumAxisConstants.CZ3,
+                                                            EnumAxisConstants.CX4, EnumAxisConstants.CY4, EnumAxisConstants.CZ4,
+                                                            EnumAxisConstants.CZ5);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                //if (ret == EventCodeEnum.NONE)
+                //{
+                //    // ui 표시
+                //}
+                //else
+                //{
+                //    // 에러 메시지 팝업
+                //}
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+            }
+            finally
+            {
+
+            }
+        }
+
+        private AsyncCommand _NANO_HomingCommand;
+        public ICommand NANO_HomingCommand
+        {
+            get
+            {
+                if (null == _NANO_HomingCommand) _NANO_HomingCommand = new AsyncCommand(NANOHoming_Func);
+                return _NANO_HomingCommand;
+            }
+        }
+
+        private async Task NANOHoming_Func()
+        {
+            try
+            {
+                EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+                EventCodeEnum ret = EventCodeEnum.NODATA;
+                ProbeAxisObject axisNSZ1 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ1);
+
+                ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.NSZ1);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                Thread.Sleep(250);
+
+                // Nano Z 위로 이동 (relmove)
+                ProbeAxisObject AxisObjectNSZ1 = axisNSZ1;
+                double pos = 16000000;
+
+                retVal = this.MotionManager().RelMove(AxisObjectNSZ1, pos, AxisObjectNSZ1.Param.Speed.Value, AxisObjectNSZ1.Param.Acceleration.Value);
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+            }
+            finally
+            {
+
+            }
+        }
+
+        private AsyncCommand _DD_HomingCommand;
+        public ICommand DD_HomingCommand
+        {
+            get
+            {
+                if (null == _DD_HomingCommand) _DD_HomingCommand = new AsyncCommand(DDHoming_Func);
+                return _DD_HomingCommand;
+            }
+        }
+
+        private async Task DDHoming_Func()
+        {
+            try
+            {
+                EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+                EventCodeEnum ret = EventCodeEnum.NODATA;
+                ProbeAxisObject axisNZD1 = this.MotionManager().GetAxis(EnumAxisConstants.NZD1);
+
+                // 돌리기전 에어 켜야 함!!!
+                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, true);
+                Thread.Sleep(250);
+                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, true);
+                Thread.Sleep(250);
+
+                // 전자석 off 체크
+
+                ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.NZD1);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                Thread.Sleep(250);
+
+                // Nano Z 위로 이동 (relmove)
+                ProbeAxisObject AxisObjectNZD1 = axisNZD1;
+                double pos = 50000;
+                retVal = this.MotionManager().RelMove(AxisObjectNZD1, pos, AxisObjectNZD1.Param.Speed.Value, AxisObjectNZD1.Param.Acceleration.Value);
+
+                // 에어 off
+                Thread.Sleep(250);
+                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, false);
+                Thread.Sleep(250);
+                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1_OFF, true);
+                Thread.Sleep(250);
+                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1_OFF, false);
+                Thread.Sleep(250);
+
+                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, false);
+                Thread.Sleep(250);
+                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2_OFF, true);
+                Thread.Sleep(250);
+                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2_OFF, false);
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+            }
+            finally
+            {
+
+            }
+        }
+
+        private AsyncCommand _Wafer_HomingCommand;
+        public ICommand Wafer_HomingCommand
+        {
+            get
+            {
+                if (null == _Wafer_HomingCommand) _Wafer_HomingCommand = new AsyncCommand(WaferHoming_Func);
+                return _Wafer_HomingCommand;
+            }
+        }
+
+        private async Task WaferHoming_Func()
+        {
+            try
+            {
+                EventCodeEnum ret = EventCodeEnum.NODATA;
+
+                ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Z0, EnumAxisConstants.Z1, EnumAxisConstants.Z2);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.C);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.TRI);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+            }
+            finally
+            {
+
+            }
+        }
+
+        private AsyncCommand _FD_HomingCommand;
+        public ICommand FD_HomingCommand
+        {
+            get
+            {
+                if (null == _FD_HomingCommand) _FD_HomingCommand = new AsyncCommand(FDHoming_Func);
+                return _FD_HomingCommand;
+            }
+        }
+
+        private async Task FDHoming_Func()
+        {
+            try
+            {
+                EventCodeEnum ret = EventCodeEnum.NODATA;
+                EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+                ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
+                Thread.Sleep(250);
+                // Ejection Z축
+                ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.EJZ1);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                Thread.Sleep(250);
+
+                // Ejection Z 위로 이동 (relmove)
+                ProbeAxisObject AxisObjectEJZ1 = axisEJZ1;
+                double pos = 20000;
+
+                retVal = this.MotionManager().RelMove(AxisObjectEJZ1, pos, AxisObjectEJZ1.Param.Speed.Value, AxisObjectEJZ1.Param.Acceleration.Value);
+
+                ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
+                // FD 척 Z 축
+                ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.FDZ1);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                Thread.Sleep(250);
+
+                // FD 척 위로 이동 (relmove)
+                ProbeAxisObject AxisObjectFDZ1 = axisFDZ1;
+                pos = 20000000;
+
+                retVal = this.MotionManager().RelMove(AxisObjectFDZ1, pos, AxisObjectFDZ1.Param.Speed.Value, AxisObjectFDZ1.Param.Acceleration.Value);
+                Thread.Sleep(250);
+
+                if (retVal == EventCodeEnum.NONE)
+                {
+                    // Ejection X, Y 및 FD척 theta
+                    ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.EJX1, EnumAxisConstants.EJY1, EnumAxisConstants.EJPZ1);
+                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                    ProbeAxisObject axisFDT1 = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
+                    Thread.Sleep(250);
+
+                    ProbeAxisObject AxisObjectFDT1 = axisFDT1;
+                    pos = 10000;
+
+                    retVal = this.MotionManager().RelMove(AxisObjectFDT1, pos, AxisObjectFDT1.Param.Speed.Value, AxisObjectFDT1.Param.Acceleration.Value);
+                    Thread.Sleep(250);
+
+                    ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.FDT1);
+                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+            }
+            finally
+            {
+
+            }
+        }
+
+        private AsyncCommand _XY_HomingCommand;
+        public ICommand XY_HomingCommand
+        {
+            get
+            {
+                if (null == _XY_HomingCommand) _XY_HomingCommand = new AsyncCommand(XYHoming_Func);
+                return _XY_HomingCommand;
+            }
+        }
+
+        private async Task XYHoming_Func()
+        {
+            try
+            {
+                EventCodeEnum ret = EventCodeEnum.NODATA;
+                EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+                axis = this.MotionManager().GetAxis(EnumAxisConstants.X);
+
+                ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.X);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                Thread.Sleep(250);
+
+                // X축 중앙으로 이동 (relmove)
+                AxisObject = axis;
+                double pos = 500000;
+
+                retVal = this.MotionManager().RelMove(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
+
+                if (retVal == EventCodeEnum.NONE)
+                {
+                    ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Y);
+                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+            }
+            finally
+            {
+
+            }
+        }
+
+
+
+        //251106 yb 전체 호밍 추가
+        private AsyncCommand _TotalModuleHomingCommand;
+        public ICommand TotalModuleHomingCommand
+        {
+            get
+            {
+                if (null == _TotalModuleHomingCommand) _TotalModuleHomingCommand = new AsyncCommand(TotalModuleHoming_Func);
+                return _TotalModuleHomingCommand;
+            }
+        }
+
+        private async Task TotalModuleHoming_Func()
+        {
+            CAMH_oming_Func();
+            NANOHoming_Func();
+            DDHoming_Func();
+            WaferHoming_Func();
+            FDHoming_Func();
+            XYHoming_Func();
+
+            // Nano Z 축 아래로 이동
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            ProbeAxisObject axisNSZ1 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ1);
+
+            ProbeAxisObject AxisObjectNSZ1 = axisNSZ1;
+            double pos = -16000000;
+
+            retVal = this.MotionManager().RelMove(AxisObjectNSZ1, pos, AxisObjectNSZ1.Param.Speed.Value, AxisObjectNSZ1.Param.Acceleration.Value);
+        }
+
     }
 }

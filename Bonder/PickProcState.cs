@@ -91,8 +91,9 @@ namespace Bonder.PickProcStates
 
                 SetDoneState();
             }
-            catch
+            catch (Exception err)
             {
+                LoggerManager.Exception(err);
                 StateTransition(new SystemErrorState(Module));
             }
         }
