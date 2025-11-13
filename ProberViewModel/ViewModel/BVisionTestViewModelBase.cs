@@ -1858,15 +1858,13 @@ namespace BVisionTestViewModel
             {
                 await Task.Run(() =>
                 {
-                    //ProbeAxisObject xaxis = this.MotionManager().GetAxis(EnumAxisConstants.X);
-                    //ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
-                    //ProbeAxisObject zaxis = this.MotionManager().GetAxis(EnumAxisConstants.Z);
+                    ProbeAxisObject xaxis = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                    ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+                    ProbeAxisObject zaxis = this.MotionManager().GetAxis(EnumAxisConstants.Z);
 
-
-                    //this.MotionManager().StageMove(0, 0, xaxis.Param.ClearedPosition.Value, 0); // X좌표
-                    //this.MotionManager().StageMove(0, 0, yaxis.Param.ClearedPosition.Value, 0); // Y좌표
-                    //this.MotionManager().StageMove(0, 0, zaxis.Param.ClearedPosition.Value, 0); // Z좌표
-
+                    this.MotionManager().RelMove(xaxis, 0); // X좌표 이동
+                    this.MotionManager().RelMove(yaxis, 0); // Y좌표 이동
+                    this.MotionManager().RelMove(zaxis, 0); // Y좌표 이동
                 });
             }
             catch (Exception err)
@@ -1902,11 +1900,11 @@ namespace BVisionTestViewModel
             {
                 await Task.Run(() =>
                 {
-                    //ProbeAxisObject xaxis = this.MotionManager().GetAxis(EnumAxisConstants.X);
-                    //ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+                    ProbeAxisObject xaxis = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                    ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
 
-                    //this.MotionManager().StageMove(0, 0, xaxis.Param.ClearedPosition.Value, 0); // X좌표
-                    //this.MotionManager().StageMove(0, 0, yaxis.Param.ClearedPosition.Value, 0); // Y좌표
+                    this.MotionManager().RelMove(xaxis, 0); // X좌표 이동
+                    this.MotionManager().RelMove(yaxis, 0); // Y좌표 이동
                 });
             }
             catch (Exception err)
@@ -1945,8 +1943,8 @@ namespace BVisionTestViewModel
                     ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
 
                     // X, Y 인덱스 값을 기입하여 움직인다.
-                    this.MotionManager().StageMove(0, 0, xaxis.Param.ClearedPosition.Value, 0); // X좌표 이동
-                    this.MotionManager().StageMove(0, 0, yaxis.Param.ClearedPosition.Value, 0); // Y좌표 이동
+                    this.MotionManager().RelMove(xaxis, 0); // X좌표 이동
+                    this.MotionManager().RelMove(yaxis, 0); // Y좌표 이동
                 });
             }
             catch (Exception err)
