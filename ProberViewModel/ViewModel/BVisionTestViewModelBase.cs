@@ -1940,12 +1940,13 @@ namespace BVisionTestViewModel
             {
                 await Task.Run(() =>
                 {
-                    //ProbeAxisObject xaxis = this.MotionManager().GetAxis(EnumAxisConstants.X);
-                    //ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+                    // 20251113 Nick
+                    ProbeAxisObject xaxis = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                    ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
 
-                    //// X, Y 인덱스 값을 기입하여 움직인다.
-                    //this.MotionManager().StageMove(0, 0, xaxis.Param.ClearedPosition.Value, 0); // X좌표 이동
-                    //this.MotionManager().StageMove(0, 0, yaxis.Param.ClearedPosition.Value, 0); // Y좌표 이동
+                    // X, Y 인덱스 값을 기입하여 움직인다.
+                    this.MotionManager().StageMove(0, 0, xaxis.Param.ClearedPosition.Value, 0); // X좌표 이동
+                    this.MotionManager().StageMove(0, 0, yaxis.Param.ClearedPosition.Value, 0); // Y좌표 이동
                 });
             }
             catch (Exception err)
