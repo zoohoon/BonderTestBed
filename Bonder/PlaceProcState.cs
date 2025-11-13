@@ -2,6 +2,7 @@
 using ProberErrorCode;
 using ProberInterfaces;
 using ProberInterfaces.Bonder;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -97,9 +98,10 @@ namespace Bonder.PlaceProcStates
 
                 SetDoneState();
             }
-            catch
+            catch (Exception err)
             {
-
+                LoggerManager.Exception(err);
+                throw;
             }
         }
     }

@@ -24,8 +24,9 @@ namespace Bonder
             {
                 this.StateObj = new IdleState(this);
             }
-            catch (Exception)
+            catch (Exception err)
             {
+                LoggerManager.Exception(err);
                 LoggerManager.Debug("[Bonder] PickProcModule InitState Error");
                 throw;
             }
@@ -37,8 +38,9 @@ namespace Bonder
             {
                 this.StateObj.Execute();
             }
-            catch (Exception)
+            catch (Exception err)
             {
+                LoggerManager.Exception(err);
                 LoggerManager.Debug("[Bonder] PickProcModule Execute Error");
                 throw;
             }
@@ -50,8 +52,9 @@ namespace Bonder
             {
 
             }
-            catch (Exception)
+            catch (Exception err)
             {
+                LoggerManager.Exception(err);
                 LoggerManager.Debug("[Bonder] PickProcModule SelfRecovery Error");
                 throw;
             }

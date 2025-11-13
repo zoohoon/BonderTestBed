@@ -76,6 +76,7 @@ namespace Bonder    // 251013 sebas
                 catch (Exception err)
                 {
                     LoggerManager.Exception(err);
+                    throw;
                 }
 
             }
@@ -468,8 +469,9 @@ namespace Bonder    // 251013 sebas
                     IsInitModule = true;
                 }
             }
-            catch
+            catch (Exception err)
             {
+                LoggerManager.Exception(err);
                 throw;
             }
 

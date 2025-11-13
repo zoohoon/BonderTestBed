@@ -597,6 +597,19 @@ namespace Motion
                 }
                 else
                 {
+                    // 251106 sebas add homing delay
+                    if(singleAxis.AxisName == "g37")
+                    {
+                        Thread.Sleep(500);
+                    }
+                    else if(singleAxis.AxisName == "g33" || singleAxis.AxisName == "g34" || singleAxis.AxisName == "g35" || singleAxis.AxisName == "g36" || singleAxis.AxisName == "g38")
+                    {
+                        Thread.Sleep(2000);
+                    }
+                    else if(singleAxis.AxisName == "a16" || singleAxis.AxisName == "a17")
+                    {
+                        Thread.Sleep(1000);
+                    }
                     singleAxis.HomeDS402Ex(pos, dlimitvel, daccpulse, highspeed, lowspeed, ot, 2000, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE,
                         nMethodNumber, timeoutLimt, timeoutLimt, 1, sparebyte);
                     while (singleAxis.ReadStatus() != VALID_STAND_STILL_MASK)
@@ -3121,24 +3134,25 @@ namespace Motion
                         }
                         else
                         {
-                            // <-- 251103 sebas
-                            if (axis.Label.Value == "EJX1" || axis.Label.Value == "EJY1" || axis.Label.Value == "FDT1" || axis.Label.Value == "EJPZ1" || axis.Label.Value == "EJZ1" || axis.Label.Value == "NZD")
+                            // <-- 251106 sebas
+                            if (axis.Label.Value == "X" || axis.Label.Value == "Y" || axis.Label.Value == "T" || axis.Label.Value == "TRI" || axis.Label.Value == "Z" || axis.Label.Value == "Z0" || axis.Label.Value == "Z1" || axis.Label.Value == "Z2")
                             {
+                                // 251106 sebas 주석처리
+                                //nRetVal = RelMove(axis, posOffset,
+                                //                            axis.Param.HommingSpeed.Value,
+                                //                            axis.Param.HommingAcceleration.Value);
+                                //ResultValidate(nRetVal);
+                                //nRetVal = WaitForAxisMotionDone(axis, axis.Param.TimeOut.Value);
+                                //ResultValidate(nRetVal);
 
+                                //nRetVal = AbsMove(axis, axis.Param.HomeOffset.Value, EnumTrjType.Normal);
+                                //ResultValidate(nRetVal);
+                                //nRetVal = WaitForAxisMotionDone(axis, axis.Param.TimeOut.Value);
+                                //ResultValidate(nRetVal);
                             }
                             else
                             {
-                                nRetVal = RelMove(axis, posOffset,
-                                                            axis.Param.HommingSpeed.Value,
-                                                            axis.Param.HommingAcceleration.Value);
-                                ResultValidate(nRetVal);
-                                nRetVal = WaitForAxisMotionDone(axis, axis.Param.TimeOut.Value);
-                                ResultValidate(nRetVal);
 
-                                nRetVal = AbsMove(axis, axis.Param.HomeOffset.Value, EnumTrjType.Normal);
-                                ResultValidate(nRetVal);
-                                nRetVal = WaitForAxisMotionDone(axis, axis.Param.TimeOut.Value);
-                                ResultValidate(nRetVal);
                             }
                             // -->
                             axis.Status.Pulse.Ref = axis.DtoP(axis.Param.HomeOffset.Value);
@@ -3956,12 +3970,15 @@ namespace Motion
                 //    }
                 lock (axis)
                 {
-                    if (targetPos + axis.Status.Pulse.Command > axis.DtoP(axis.Param.PosSWLimit.Value))
+                    // 251106 sebas SWLimit 제거
+                    //if (targetPos + axis.Status.Pulse.Command > axis.DtoP(axis.Param.PosSWLimit.Value))
+                    if (false)
                     {
                         LoggerManager.Error($"Positive SW Limit occurred while Relative moving for Axis { axis.Label.Value}, Target = { AxisStatusList[axis.AxisIndex.Value].Pulse.Command + targetPos}, Limit = { axis.Param.PosSWLimit.Value}");
                         return (int)EnumMotionBaseReturnCode.SWPOSLimitError;
                     }
-                    else if (targetPos + axis.Status.Pulse.Command < axis.DtoP(axis.Param.NegSWLimit.Value))
+                    //else if (targetPos + axis.Status.Pulse.Command < axis.DtoP(axis.Param.NegSWLimit.Value))
+                    else if (false)
                     {
                         LoggerManager.Error($"Negative SW Limit occurred while Relative moving for Axis { axis.Label.Value}, Target = { AxisStatusList[axis.AxisIndex.Value].Pulse.Command + targetPos}, Limit = { axis.Param.NegSWLimit.Value}");
                         return (int)EnumMotionBaseReturnCode.SWNEGLimitError;
@@ -4003,8 +4020,34 @@ namespace Motion
                                 //retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, veltopulsecnt, acctopulsecnt, acctopulsecnt, jerktopulsecnt,
                                 //dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
 
-                                retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, 50000, 50000, 50000, 500000,
-                                dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
+                                // <-- 251106 sebas add
+                                if(axis.AxisIndex.Value == 27)  // Ejection Z 축
+                                {
+                                    retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, 10000, 10000, 10000, 100000,
+                                    dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
+                                }
+                                else if(axis.AxisIndex.Value == 13) // Nano Z 축
+                                {
+                                    retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, 4000000, 4000000, 4000000, 40000000,
+                                    dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
+                                }
+                                else if(axis.AxisIndex.Value == 14) // FD Chuck Z축
+                                {
+                                    retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, 10000000, 10000000, 10000000, 100000000,
+                                    dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
+                                }
+                                else if(axis.AxisIndex.Value == 15) // Base X 축
+                                {
+                                    retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, 1000000, 1000000, 1000000, 10000000,
+                                    dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
+                                }
+                                else
+                                {
+                                    retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, 50000, 50000, 50000, 500000,
+                                    dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
+                                }
+                                // -->
+
                                 //((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).Execute = 1;
                                 //((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).Velocity = veltopulsecnt;
                                 //((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).Acceleration = acctopulsecnt;
@@ -4020,6 +4063,7 @@ namespace Motion
                                 // 20251030 LJH 모터 OFF 임시 코드
                                 Thread.Sleep(3000);
                                 ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).PowerOff(MC_BUFFERED_MODE_ENUM.MC_ABORTING_MODE);
+                                Thread.Sleep(1500);
                                 retVal = (int)EnumMotionBaseReturnCode.ReturnCodeOK;
                                 // end
                             }

@@ -89,9 +89,10 @@ namespace Bonder.RotationProcStates
                 bonderModule.RotationCount++;   // 증가 위치 주의
                 SetDoneState();
             }
-            catch
+            catch (Exception err)
             {
-
+                LoggerManager.Exception(err);
+                throw;
             }
         }
     }

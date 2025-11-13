@@ -1186,6 +1186,7 @@ namespace ProbeMotion
             return ret;
 
         }
+
         public EventCodeEnum Homing(EnumAxisConstants axis)
         {
             EventCodeEnum rel = EventCodeEnum.MOTION_HOMING_ERROR;
@@ -2074,7 +2075,9 @@ namespace ProbeMotion
                     actual = axis.Status.Position.Ref;
                 }
 
-                if (pos + actual > axis.Param.PosSWLimit.Value)
+                //251106 sebas limit 해제
+                //if (pos + actual > axis.Param.PosSWLimit.Value)
+                if (false)
                 {
                     this.NotifyManager().Notify(EventCodeEnum.MOTION_POS_SW_LIMIT_ERROR);
 
@@ -2083,8 +2086,9 @@ namespace ProbeMotion
                     //throw new MotionException(string.Format("Positive SW Limit occurred while Relative moving for Axis {0}, Target = {1}, Limit = {2}",
                     //    axis.Label, pos, axis.Param.PosSWLimit.Value));
                 }
-                else if (pos + actual < axis.Param.NegSWLimit.Value)
-                {
+                //else if (pos + actual < axis.Param.NegSWLimit.Value)
+                else if (false)
+                        {
                     this.NotifyManager().Notify(EventCodeEnum.MOTION_NEG_SW_LIMIT_ERROR);
 
                     throw new MotionException($"Negative SW Limit occurred while Relative moving for Axis {axis.Label}, Target = {pos}, Limit = {axis.Param.NegSWLimit.Value}", EventCodeEnum.MOTION_NEG_SW_LIMIT_ERROR);
