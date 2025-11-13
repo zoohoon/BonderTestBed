@@ -1836,54 +1836,6 @@ namespace BVisionTestViewModel
             return ret;
         }
 
-        private RelayCommand<object> _TiltingTestCommand;
-        public ICommand TiltingTestCommand
-        {
-            get
-            {
-                if (null == _TiltingTestCommand) _TiltingTestCommand = new RelayCommand<object>(TiltingTest);
-                return _TiltingTestCommand;
-            }
-        }
-        private void TiltingTest(object noparam)
-        {
-            //Stopwatch stw = new Stopwatch();
-            //stw.Start();
-            //bool run = true;
-            //while (run)
-            //{
-            //    this.StageSupervisor().StageModuleState.ChuckTiltMove(0, -100);
-            //    System.Threading.Thread.Sleep(2000);
-            //    this.StageSupervisor().StageModuleState.ChuckTiltMove(0, 100);
-            //    System.Threading.Thread.Sleep(2000);
-
-
-            //    this.StageSupervisor().StageModuleState.ChuckTiltMove(90, -100);
-            //    System.Threading.Thread.Sleep(2000);
-            //    this.StageSupervisor().StageModuleState.ChuckTiltMove(90, 100);
-            //    System.Threading.Thread.Sleep(2000);
-
-
-            //    this.StageSupervisor().StageModuleState.ChuckTiltMove(180, -100);
-            //    System.Threading.Thread.Sleep(2000);
-            //    this.StageSupervisor().StageModuleState.ChuckTiltMove(180, 100);
-            //    System.Threading.Thread.Sleep(2000);
-
-
-            //    this.StageSupervisor().StageModuleState.ChuckTiltMove(270, -100);
-            //    System.Threading.Thread.Sleep(2000);
-            //    this.StageSupervisor().StageModuleState.ChuckTiltMove(270, 100);
-            //    System.Threading.Thread.Sleep(2000);
-
-            //    if (stw.Elapsed.Minutes > 60)
-            //    {
-            //        run = false;
-            //    }
-
-            //}
-            focusingLoopEnable = false;
-        }
-
         private AsyncCommand _MarkAlignCommand;
         public ICommand MarkAlignCommand
         {
@@ -1894,22 +1846,28 @@ namespace BVisionTestViewModel
             }
         }
 
-        private async Task<EventCodeEnum> DoMarkAlgin()
+        // 20251113 Nick 피두셜 마크 얼라인을 위한 작업
+        /// <summary>
+        /// 1. 피두셜 마크를 FD High/Low Camera 위치로 이동시킨다. (카메라 아직 미정)
+        /// </summary>
+        /// <returns></returns>
+        private async Task<EventCodeEnum> DoMarkAlgin() // 20251113 Nick 피두셜마크로 이동한다.
         {
             EventCodeEnum ret = EventCodeEnum.UNDEFINED;
-
             try
             {
-                this.StageSupervisor.StageModuleState.ZCLEARED();
-                this.StageSupervisor.StageModuleState.SetWaferCamBasePos(true);
-
-                while (TestRepeat)
+                await Task.Run(() =>
                 {
-                    ret = await Task.Run(() => this.MarkAligner().DoMarkAlign());
-                }
+                    //ProbeAxisObject xaxis = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                    //ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+                    //ProbeAxisObject zaxis = this.MotionManager().GetAxis(EnumAxisConstants.Z);
 
-                this.StageSupervisor.StageModuleState.SetWaferCamBasePos(false);
-                this.StageSupervisor.StageModuleState.ZCLEARED();
+
+                    //this.MotionManager().StageMove(0, 0, xaxis.Param.ClearedPosition.Value, 0); // X좌표
+                    //this.MotionManager().StageMove(0, 0, yaxis.Param.ClearedPosition.Value, 0); // Y좌표
+                    //this.MotionManager().StageMove(0, 0, zaxis.Param.ClearedPosition.Value, 0); // Z좌표
+
+                });
             }
             catch (Exception err)
             {
@@ -1918,133 +1876,38 @@ namespace BVisionTestViewModel
 
             return ret;
         }
-        private AsyncCommand _WaferTestCommand;
-        public ICommand WaferTestCommand
+
+        private AsyncCommand _FDChuckCenterMoveCommand;
+        public ICommand FDChuckCenterMoveCommand
         {
             get
             {
-                if (null == _WaferTestCommand) _WaferTestCommand = new AsyncCommand(WaferAlignTestCommandFunc);
-                return _WaferTestCommand;
+                if (null == _FDChuckCenterMoveCommand) _FDChuckCenterMoveCommand = new AsyncCommand(FDChuckCenterMoveCommandFunc);
+                return _FDChuckCenterMoveCommand;
             }
         }
 
-        private async Task<EventCodeEnum> WaferAlignTestCommandFunc()
+        // 20251113 Nick 피두셜 마크 얼라인을 위한 작업
+        /// <summary>
+        /// 2. FD Chuck Center로 이동시킨다. (기구 스펙 위치)
+        /// 3. Live 화면에서 기구 위치 센터와 웨이퍼 위치 센터를 비교한다. (메뉴얼 조그로 움직여서 확인.)
+        /// 4. X, Y Offset 값을 도출해 내면 메뉴얼 조그 UI에 기입해준다.
+        /// </summary>
+        /// <returns></returns>
+        private async Task<EventCodeEnum> FDChuckCenterMoveCommandFunc() // FD Chuck Center 위치로 이동
         {
             EventCodeEnum ret = EventCodeEnum.UNDEFINED;
 
             try
             {
-                bool isError = false;
-                int totalCnt = 0;
-                int maxCnt = 3000;
-
-                while (TestRepeat || (totalCnt > maxCnt))
+                await Task.Run(() =>
                 {
-                    ret = this.PinAligner().DoManualOperation();
+                    //ProbeAxisObject xaxis = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                    //ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
 
-                    if (ret != EventCodeEnum.NONE)
-                    {
-                        TestRepeat = false;
-                        isError = true;
-                        await this.MetroDialogManager().ShowMessageDialog("PinPadMatch Test PinAlign Fail", $"Test TotalCount: {totalCnt}", EnumMessageStyle.Affirmative);
-                        return ret;
-                    }
-
-                    ret = this.WaferAligner().DoManualOperation();
-
-                    if (ret != EventCodeEnum.NONE)
-                    {
-                        TestRepeat = false;
-                        isError = true;
-                        await this.MetroDialogManager().ShowMessageDialog("PinPadMatch Test WaferAlign Fail", $"Test TotalCount: {totalCnt}", EnumMessageStyle.Affirmative);
-                        return ret;
-                    }
-                    int retVal = StageCylinderType.MoveWaferCam.Retract();
-                    if (retVal != 0)
-                    {
-                        TestRepeat = false;
-                        isError = true;
-                        return ret;
-                    }
-
-
-                    var wafer_object = (WaferObject)this.StageSupervisor().WaferObject;
-                    WaferCoordinate wafercoord = new WaferCoordinate();
-                    PinCoordinate pincoord = new PinCoordinate();
-                    //Wafer Center로 갈건지 아니면 PadCenter로 갈건지 계산해야됨.
-                    wafercoord.X.Value = wafer_object.GetSubsInfo().WaferCenter.X.Value;
-                    wafercoord.Y.Value = wafer_object.GetSubsInfo().WaferCenter.Y.Value;
-                    MachineIndex MI = new MachineIndex();
-                    try
-                    {
-                        ret = this.ProbingModule().ProbingSequenceModule().GetFirstSequence(ref MI);
-
-                        if (ret == EventCodeEnum.NONE)
-                        {
-                            var Wafer = this.WaferAligner().MachineIndexConvertToProbingCoord((int)MI.XIndex, (int)MI.YIndex);
-                            wafercoord.X.Value = Wafer.X.Value;
-                            wafercoord.Y.Value = Wafer.Y.Value;
-                            wafercoord.T.Value = Wafer.T.Value;
-                            LoggerManager.Debug($"[Test] Used GetFirstSequence Position");
-                        }
-                        else
-                        {
-                            wafercoord.X.Value = wafer_object.GetSubsInfo().WaferCenter.X.Value;
-                            wafercoord.Y.Value = wafer_object.GetSubsInfo().WaferCenter.Y.Value;
-                            LoggerManager.Debug($"[Test] Used WaferCenter Position");
-                        }
-                    }
-                    catch (Exception err)
-                    {
-                        LoggerManager.Debug($"[SoakingModule] Probing GetFirstSequence() Error. Used WaferCenter Position");
-                        wafercoord.X.Value = wafer_object.GetSubsInfo().WaferCenter.X.Value;
-                        wafercoord.Y.Value = wafer_object.GetSubsInfo().WaferCenter.Y.Value;
-                    }
-
-
-                    wafercoord.Z.Value = this.StageSupervisor().WaferObject.GetSubsInfo().ActualThickness;
-
-                    pincoord.X.Value = this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinCenX;
-                    pincoord.Y.Value = this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinCenY;
-                    pincoord.Z.Value = this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinHeight;
-                    LoggerManager.Debug($"[Test PinPad] PinPadPosition(), wafercoord(X, Y ,Z) = { wafercoord.X.Value}, {wafercoord.Y.Value}, {wafercoord.Z.Value}, ");
-                    LoggerManager.Debug($"[Test PinPad] PinPadPosition(), pincoord(X, Y ,Z) = { pincoord.X.Value}, {pincoord.Y.Value}, {pincoord.Z.Value}");
-                    var zclearance = -10000;
-
-                    LoggerManager.Debug($"[Test PinPad] zclearance= { zclearance}");
-
-
-                    ret = this.StageSupervisor().StageModuleState.MoveToSoaking(wafercoord, pincoord, zclearance);
-
-                    if (ret != EventCodeEnum.NONE)
-                    {
-                        TestRepeat = false;
-                        isError = true;
-                        await this.MetroDialogManager().ShowMessageDialog("PinPadMatch Test MoveToPinPad Fail", $"Test TotalCount: {totalCnt}", EnumMessageStyle.Affirmative);
-                        return ret;
-                    }
-
-
-                    ret = this.StageSupervisor().StageModuleState.ZCLEARED();
-
-                    if (ret != EventCodeEnum.NONE)
-                    {
-                        TestRepeat = false;
-                        isError = true;
-                        await this.MetroDialogManager().ShowMessageDialog("PinPadMatch Test ZCLEARED Fail", $"Test TotalCount: {totalCnt}", EnumMessageStyle.Affirmative);
-                        return ret;
-                    }
-
-
-                    System.Threading.Thread.Sleep(10000);
-
-                    totalCnt++;
-                }
-                if (!isError)
-                {
-                    await this.MetroDialogManager().ShowMessageDialog("WaferAlign Test Success", $"Test TotalCount: {totalCnt}", EnumMessageStyle.Affirmative);
-                }
-
+                    //this.MotionManager().StageMove(0, 0, xaxis.Param.ClearedPosition.Value, 0); // X좌표
+                    //this.MotionManager().StageMove(0, 0, yaxis.Param.ClearedPosition.Value, 0); // Y좌표
+                });
             }
             catch (Exception err)
             {
@@ -2053,6 +1916,198 @@ namespace BVisionTestViewModel
 
             return ret;
         }
+
+        private AsyncCommand _FirstDiePosMoveCommand;
+        public ICommand FirstDiePosMoveCommand
+        {
+            get
+            {
+                if (null == _FirstDiePosMoveCommand) _FirstDiePosMoveCommand = new AsyncCommand(FirstDiePosMoveFunc);
+                return _FirstDiePosMoveCommand;
+            }
+        }
+
+        // 20251113 Nick 피두셜 마크 얼라인을 위한 작업
+        /// <summary>
+        /// 5. 센터다이를 찾았다면, 인덱스값을 기입하여 첫다이 위치로 이동시킨다.
+        /// 6. 첫다이 위치를 찾았다면 해당 위치를 Picker 위치로 이동시킨다.
+        /// </summary>
+        /// <returns></returns>
+        private async Task<EventCodeEnum> FirstDiePosMoveFunc() // 20251113 Nick 첫다이로 이동한다.
+        {
+            EventCodeEnum ret = EventCodeEnum.UNDEFINED;
+            try
+            {
+                await Task.Run(() =>
+                {
+                    //ProbeAxisObject xaxis = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                    //ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+
+                    //// X, Y 인덱스 값을 기입하여 움직인다.
+                    //this.MotionManager().StageMove(0, 0, xaxis.Param.ClearedPosition.Value, 0); // X좌표 이동
+                    //this.MotionManager().StageMove(0, 0, yaxis.Param.ClearedPosition.Value, 0); // Y좌표 이동
+                });
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+            }
+
+            return ret;
+        }
+
+        // 20251113 Nick 피두셜 마크 얼라인을 위한 작업 원본 주석
+        //private async Task<EventCodeEnum> DoMarkAlgin() // 20251113 Nick 피두셜마크로 이동한다.
+        //{
+        //    EventCodeEnum ret = EventCodeEnum.UNDEFINED;
+        //    try
+        //    {
+        //        this.StageSupervisor.StageModuleState.ZCLEARED();
+        //        this.StageSupervisor.StageModuleState.SetWaferCamBasePos(true);
+
+
+        //        while (TestRepeat)
+        //        {
+        //            ret = await Task.Run(() => this.MarkAligner().DoMarkAlign());
+        //        }
+
+        //        this.StageSupervisor.StageModuleState.SetWaferCamBasePos(false);
+        //        this.StageSupervisor.StageModuleState.ZCLEARED();
+        //    }
+        //    catch (Exception err)
+        //    {
+        //        LoggerManager.Exception(err);
+        //    }
+
+        //    return ret;
+        //}
+
+        // 20251113 Nick 피두셜 마크 얼라인을 위한 주석처리
+        //private async Task<EventCodeEnum> WaferAlignTestCommandFunc()
+        //{
+        //    EventCodeEnum ret = EventCodeEnum.UNDEFINED;
+
+        //    try
+        //    {
+        //        bool isError = false;
+        //        int totalCnt = 0;
+        //        int maxCnt = 3000;
+
+        //        while (TestRepeat || (totalCnt > maxCnt))
+        //        {
+        //            ret = this.PinAligner().DoManualOperation();
+
+        //            if (ret != EventCodeEnum.NONE)
+        //            {
+        //                TestRepeat = false;
+        //                isError = true;
+        //                await this.MetroDialogManager().ShowMessageDialog("PinPadMatch Test PinAlign Fail", $"Test TotalCount: {totalCnt}", EnumMessageStyle.Affirmative);
+        //                return ret;
+        //            }
+
+        //            ret = this.WaferAligner().DoManualOperation();
+
+        //            if (ret != EventCodeEnum.NONE)
+        //            {
+        //                TestRepeat = false;
+        //                isError = true;
+        //                await this.MetroDialogManager().ShowMessageDialog("PinPadMatch Test WaferAlign Fail", $"Test TotalCount: {totalCnt}", EnumMessageStyle.Affirmative);
+        //                return ret;
+        //            }
+        //            int retVal = StageCylinderType.MoveWaferCam.Retract();
+        //            if (retVal != 0)
+        //            {
+        //                TestRepeat = false;
+        //                isError = true;
+        //                return ret;
+        //            }
+
+
+        //            var wafer_object = (WaferObject)this.StageSupervisor().WaferObject;
+        //            WaferCoordinate wafercoord = new WaferCoordinate();
+        //            PinCoordinate pincoord = new PinCoordinate();
+        //            //Wafer Center로 갈건지 아니면 PadCenter로 갈건지 계산해야됨.
+        //            wafercoord.X.Value = wafer_object.GetSubsInfo().WaferCenter.X.Value;
+        //            wafercoord.Y.Value = wafer_object.GetSubsInfo().WaferCenter.Y.Value;
+        //            MachineIndex MI = new MachineIndex();
+        //            try
+        //            {
+        //                ret = this.ProbingModule().ProbingSequenceModule().GetFirstSequence(ref MI);
+
+        //                if (ret == EventCodeEnum.NONE)
+        //                {
+        //                    var Wafer = this.WaferAligner().MachineIndexConvertToProbingCoord((int)MI.XIndex, (int)MI.YIndex);
+        //                    wafercoord.X.Value = Wafer.X.Value;
+        //                    wafercoord.Y.Value = Wafer.Y.Value;
+        //                    wafercoord.T.Value = Wafer.T.Value;
+        //                    LoggerManager.Debug($"[Test] Used GetFirstSequence Position");
+        //                }
+        //                else
+        //                {
+        //                    wafercoord.X.Value = wafer_object.GetSubsInfo().WaferCenter.X.Value;
+        //                    wafercoord.Y.Value = wafer_object.GetSubsInfo().WaferCenter.Y.Value;
+        //                    LoggerManager.Debug($"[Test] Used WaferCenter Position");
+        //                }
+        //            }
+        //            catch (Exception err)
+        //            {
+        //                LoggerManager.Debug($"[SoakingModule] Probing GetFirstSequence() Error. Used WaferCenter Position");
+        //                wafercoord.X.Value = wafer_object.GetSubsInfo().WaferCenter.X.Value;
+        //                wafercoord.Y.Value = wafer_object.GetSubsInfo().WaferCenter.Y.Value;
+        //            }
+
+
+        //            wafercoord.Z.Value = this.StageSupervisor().WaferObject.GetSubsInfo().ActualThickness;
+
+        //            pincoord.X.Value = this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinCenX;
+        //            pincoord.Y.Value = this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinCenY;
+        //            pincoord.Z.Value = this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinHeight;
+        //            LoggerManager.Debug($"[Test PinPad] PinPadPosition(), wafercoord(X, Y ,Z) = { wafercoord.X.Value}, {wafercoord.Y.Value}, {wafercoord.Z.Value}, ");
+        //            LoggerManager.Debug($"[Test PinPad] PinPadPosition(), pincoord(X, Y ,Z) = { pincoord.X.Value}, {pincoord.Y.Value}, {pincoord.Z.Value}");
+        //            var zclearance = -10000;
+
+        //            LoggerManager.Debug($"[Test PinPad] zclearance= { zclearance}");
+
+
+        //            ret = this.StageSupervisor().StageModuleState.MoveToSoaking(wafercoord, pincoord, zclearance);
+
+        //            if (ret != EventCodeEnum.NONE)
+        //            {
+        //                TestRepeat = false;
+        //                isError = true;
+        //                await this.MetroDialogManager().ShowMessageDialog("PinPadMatch Test MoveToPinPad Fail", $"Test TotalCount: {totalCnt}", EnumMessageStyle.Affirmative);
+        //                return ret;
+        //            }
+
+
+        //            ret = this.StageSupervisor().StageModuleState.ZCLEARED();
+
+        //            if (ret != EventCodeEnum.NONE)
+        //            {
+        //                TestRepeat = false;
+        //                isError = true;
+        //                await this.MetroDialogManager().ShowMessageDialog("PinPadMatch Test ZCLEARED Fail", $"Test TotalCount: {totalCnt}", EnumMessageStyle.Affirmative);
+        //                return ret;
+        //            }
+
+
+        //            System.Threading.Thread.Sleep(10000);
+
+        //            totalCnt++;
+        //        }
+        //        if (!isError)
+        //        {
+        //            await this.MetroDialogManager().ShowMessageDialog("WaferAlign Test Success", $"Test TotalCount: {totalCnt}", EnumMessageStyle.Affirmative);
+        //        }
+
+        //    }
+        //    catch (Exception err)
+        //    {
+        //        LoggerManager.Exception(err);
+        //    }
+
+        //    return ret;
+        //}
 
         private void MarkAlignCmdFunc(object noparam)
         {

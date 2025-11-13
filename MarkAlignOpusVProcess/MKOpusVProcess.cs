@@ -681,7 +681,25 @@ namespace MarkAlignOpusVProcess
 
             return RetVal;
         }
+        
+        // 20251113 Nick 피두셜마크로 이동해!
+        public EventCodeEnum MoveToMarkFuncP()
+        {
+            EventCodeEnum RetVal = EventCodeEnum.UNDEFINED;
 
+            try
+            {
+                RetVal = this.StageSupervisor().StageModuleState.MoveToMark();
+
+            }
+            catch (Exception err)
+            {
+                System.Diagnostics.Trace.WriteLineIf(LoggerManager.GPTraceSwitch.TraceError, err);
+                RetVal = EventCodeEnum.MOTION_MOVING_ERROR;
+            }
+
+            return RetVal;
+        }
 
         public EventCodeEnum FocusingFunc()
         {
@@ -777,7 +795,7 @@ namespace MarkAlignOpusVProcess
             return retPmResult;
         }
 
-
+        // 20251113 Nick 피두셜마크 얼라인 기능 추가
         public EventCodeEnum DoExecute()
         {
 
@@ -787,441 +805,23 @@ namespace MarkAlignOpusVProcess
             {
                 LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Start);
 
+                LoggerManager.ActionLog(ModuleLogType.MARK_ALIGN, StateLogType.START, $"Mark Align Start", this.LoaderController().GetChuckIndex());
+                // 피두셜 마크 위치로 이동한다.
+                RetVal = MoveToMarkFuncP();
 
-                bool waferCamCylinderExtended = false;
-
-                if ((this.IOManager().IO.Inputs.DIWAFERCAMMIDDLE.Value == false) &&
-                        (this.IOManager().IO.Inputs.DIWAFERCAMREAR.Value == true))
+                if (EventCodeEnum.NONE == RetVal)
                 {
-                    // 접혀 있음
-                    waferCamCylinderExtended = false;
-                }
-                else if ((this.IOManager().IO.Inputs.DIWAFERCAMMIDDLE.Value == true) &&
-                    (this.IOManager().IO.Inputs.DIWAFERCAMREAR.Value == false))
-                {
-                    // 펴져 있음
-                    waferCamCylinderExtended = true;
-                }
-
-                // MarkAlignProcMode가 None도 아니고 OnlyMoveToMark 모드도 아니면 Skip한다.
-                if (EnumMarkAlignProcMode.None != this.MarkAligner().MarkAlignProcMode && EnumMarkAlignProcMode.OnlyMoveToMark != this.MarkAligner().MarkAlignProcMode)
-                {
-                    LoggerManager.Debug($"[Mark Align] {MethodBase.GetCurrentMethod().Name} is skipped. (MarkAlignProcMod : {this.MarkAligner().MarkAlignProcMode})");
-                    RetVal = EventCodeEnum.NONE;
-                }
-                else if (EnumMarkAlignProcMode.OnlyMoveToMark == this.MarkAligner().MarkAlignProcMode) // OnlyMoveToMark 모드면 MoveToMarkFunc1만 하고 return한다.
-                {
-                    // MoveToMarkFunc1에 많은 시퀀스가 섞여있어 ComponentVerification 에서는 Move 동작만 분리해서 사용중. OnlyMoveToMark 모드는 현재 사용되지 않는다.
-                    RetVal = MoveToMarkFunc1();
-
-                    if (EventCodeEnum.NONE == RetVal)
-                    {
-                        this.StageSupervisor().MarkObject.SetAlignState(AlignStateEnum.DONE);
-                        SubModuleState = new SubModuleDoneState(this);
-                    }
-                    else
-                    {
-                        //Move To Mark ERROR
-                        this.NotifyManager().Notify(EventCodeEnum.MARK_ALIGN_MOVE_ERROR);
-                        LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Move_Failure);
-                        LoggerManager.Debug("[MarkAlign] MoveToMark Error.  ErrorCode=" + RetVal);
-                        SubModuleState = new SubModuleErrorState(this);
-                    }
-                    return RetVal;
-                }
-                else
-                {
-                    LoggerManager.ActionLog(ModuleLogType.MARK_ALIGN, StateLogType.START, $"Mark Align Start", this.LoaderController().GetChuckIndex());
-                    RetVal = MoveToMarkFunc1();
-                }
-
-                // MARK_ALIGN_MOVE_ERROR for Testing
-                if (this.MarkAligner().MarkAlignControlItems.MARK_ALIGN_MOVE_ERROR == true)
-                {
-                    RetVal = EventCodeEnum.MARK_ALIGN_MOVE_ERROR;
-                }
-                var param = (MarkAlignParam)this.MarkAligner().MarkAlignParam_IParam;
-
-                if (RetVal == EventCodeEnum.NONE)
-                {
-                    LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Move_OK);
-
-                    if (waferCamCylinderExtended == false || this.MarkAligner().ForceWaferCamCylinderExtended == true)
-                    {
-                        int delayTimeSec = (int)TimeSpan.FromSeconds(this.MarkAligner().GetDelaywaferCamCylinderExtendedBeforeFocusing()).TotalMilliseconds;
-                        Thread.Sleep(delayTimeSec);
-
-                        LoggerManager.Debug($"Wait Before Fosuing, DelaywaferCamCylinderExtendedBeforeFocusing(sec) : {delayTimeSec}");
-                    }
-
-                    // MarkAlignProcMode가 None도 아니고 OnlyFocusing 모드도 아니면 Skip한다.
-                    if (EnumMarkAlignProcMode.None != this.MarkAligner().MarkAlignProcMode && EnumMarkAlignProcMode.OnlyFocusing != this.MarkAligner().MarkAlignProcMode)
-                    {
-                        LoggerManager.Debug($"[Mark Align] {MethodBase.GetCurrentMethod().Name} is skipped. (MarkAlignProcMod : {this.MarkAligner().MarkAlignProcMode})");
-                        RetVal = EventCodeEnum.NONE;
-                    }
-                    else if (EnumMarkAlignProcMode.OnlyFocusing == this.MarkAligner().MarkAlignProcMode) // OnlyFocusing 모드면 MoveToMarkFunc1만 하고 return한다.
-                    {
-                        // OnlyFocusing 모드인 경우 조명이 꺼진상태로 시작되므로 항상 조명을 켜준다.
-                        if (this.MarkAlignParam.MarkPatMatParam.LightParams == null)
-                        {
-                            var phRefLight = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM).SetLight(EnumLightType.AUX, 255);
-                        }
-                        else
-                        {
-                            this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM).SetLight(EnumLightType.AUX, this.MarkAlignParam.MarkPatMatParam.LightParams[0].Value.Value);
-                        }
-
-                        RetVal = FocusingFunc();
-
-                        if (EventCodeEnum.NONE == RetVal)
-                        {
-                            this.StageSupervisor().MarkObject.SetAlignState(AlignStateEnum.DONE);
-                            SubModuleState = new SubModuleDoneState(this);
-                        }
-                        else
-                        {
-                            //Focusing Error
-                            this.NotifyManager().Notify(EventCodeEnum.MARK_ALIGN_FOCUSING_FAILED);
-                            LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Focusing_Failure);
-                            LoggerManager.Debug("[MarkAlign] Focusing Error.  ErrorCode=" + RetVal);
-                            SubModuleState = new SubModuleErrorState(this);
-                        }
-                        return RetVal;
-                    }
-                    else
-                    {
-                        RetVal = FocusingFunc();
-                    }
-
-                    // MARK_ALIGN_FOCUSING_FAILED for Testing
-                    if (this.MarkAligner().MarkAlignControlItems.MARK_ALIGN_FOCUSING_FAILED == true)
-                    {
-                        RetVal = EventCodeEnum.MARK_ALIGN_FOCUSING_FAILED;
-                    }
-
-                    // MarkAlignProcMode가 None도 아니고 OnlyPatternMatching 모드도 아니면 Skip한다.
-                    if (EnumMarkAlignProcMode.None != this.MarkAligner().MarkAlignProcMode && EnumMarkAlignProcMode.OnlyPatternMatching != this.MarkAligner().MarkAlignProcMode)
-                    {
-                        LoggerManager.Debug($"[Mark Align] {MethodBase.GetCurrentMethod().Name} is skipped. (MarkAlignProcMod : {this.MarkAligner().MarkAlignProcMode})");
-
-                        if (RetVal == EventCodeEnum.NONE)
-                        {
-                            LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Focusing_OK);
-                        }
-                        this.StageSupervisor().MarkObject.SetAlignState(AlignStateEnum.DONE);
-                        SubModuleState = new SubModuleDoneState(this);
-                    }
-                    else if (RetVal == EventCodeEnum.NONE)
-                    {
-                        LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Focusing_OK);
-                        PMResult pmRet;
-
-                        // OnlyPatternMatching 모드인 경우 조명이 꺼진상태로 시작되므로 항상 조명을 켜준다.
-                        if (EnumMarkAlignProcMode.OnlyPatternMatching == this.MarkAligner().MarkAlignProcMode)
-                        {
-                            if (this.MarkAlignParam.MarkPatMatParam.LightParams == null)
-                            {
-                                var phRefLight = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM).SetLight(EnumLightType.AUX, 255);
-                            }
-                            else
-                            {
-                                this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM).SetLight(EnumLightType.AUX, this.MarkAlignParam.MarkPatMatParam.LightParams[0].Value.Value);
-                            }
-                        }
-
-                        pmRet = DoPatternMatching();
-
-                        // MARK_Pattern_Failure for Testing
-                        if (this.MarkAligner().MarkAlignControlItems.MARK_Pattern_Failure == true)
-                        {
-                            RetVal = EventCodeEnum.MARK_Pattern_Failure;
-                        }
-
-                        if (pmRet != null && pmRet.ResultParam != null && RetVal != EventCodeEnum.MARK_Pattern_Failure)
-                        {
-                            // MARK_ALGIN_PATTERN_MATCH_FAILED for Testing
-                            if (this.MarkAligner().MarkAlignControlItems.MARK_ALGIN_PATTERN_MATCH_FAILED == true)
-                            {
-                                RetVal = EventCodeEnum.MARK_ALGIN_PATTERN_MATCH_FAILED;
-                            }
-
-                            if (pmRet.ResultParam.Count == 1 && RetVal != EventCodeEnum.MARK_ALGIN_PATTERN_MATCH_FAILED)
-                            {
-                                LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Pattern_OK);
-                                var axisX = this.MotionManager().GetAxis(EnumAxisConstants.X);
-                                var axisY = this.MotionManager().GetAxis(EnumAxisConstants.Y);
-                                double tolX = 150.0;
-                                double tolY = 150.0;
-
-                                tolX = param.MarkDiffTolerance_X.Value;
-                                tolY = param.MarkDiffTolerance_Y.Value;
-
-                                if (tolX < 1.0)
-                                {
-                                    tolX = 1.0;
-                                }
-                                else if (tolX > param.MarkDiffTolerance_X.UpperLimit)
-                                {
-                                    tolX = param.MarkDiffTolerance_X.UpperLimit;
-                                }
-
-                                if (tolY < 1.0)
-                                {
-                                    tolY = 1.0;
-                                }
-                                else if (tolY > param.MarkDiffTolerance_Y.UpperLimit)
-                                {
-                                    tolY = param.MarkDiffTolerance_Y.UpperLimit;
-                                }
-
-                                double actualX = 0;
-                                this.MotionManager().GetRefPos(EnumAxisConstants.X, ref actualX);
-
-                                double offsetX = (pmRet.ResultBuffer.SizeX / 2 - pmRet.ResultParam[0].XPoss) * (this.VisionManager().CameraDescriptor.Cams[0].GetRatioX());
-                                double pattenActualX = actualX + offsetX;
-
-                                double actualY = 0;
-                                this.MotionManager().GetRefPos(EnumAxisConstants.Y, ref actualY);
-
-                                double actualPZ = 0;
-                                this.MotionManager().GetRefPos(EnumAxisConstants.PZ, ref actualPZ);
-
-                                double offsetY = (pmRet.ResultBuffer.SizeY / 2 - pmRet.ResultParam[0].YPoss) * (this.VisionManager().CameraDescriptor.Cams[0].GetRatioY());
-                                double pattenActualY = actualY - offsetY;
-
-                                LoggerManager.Debug($"Mark Shift Ratio X :{this.VisionManager().CameraDescriptor.Cams[0].GetRatioX()}, Ratio Y : {this.VisionManager().CameraDescriptor.Cams[0].GetRatioY()}", isInfo: IsInfo);
-                                LoggerManager.Debug($"Mark Shift Pixel X :{pmRet.ResultParam[0].XPoss}, Pixel Y : {pmRet.ResultParam[0].YPoss}", isInfo: IsInfo);
-                                LoggerManager.Debug($"Mark Shift Offset Pixel X :{(pmRet.ResultBuffer.SizeX / 2 - pmRet.ResultParam[0].XPoss)}, Offset Pixel Y : {(pmRet.ResultBuffer.SizeY / 2 - pmRet.ResultParam[0].YPoss)}", isInfo: IsInfo);
-                                LoggerManager.Debug($"Mark Shift Offset X :{offsetX}, Offset Y : {offsetY}", isInfo: IsInfo);
-
-                                LoggerManager.CompVerifyLog($"Mark Shift Ratio X :{this.VisionManager().CameraDescriptor.Cams[0].GetRatioX()}, Ratio Y : {this.VisionManager().CameraDescriptor.Cams[0].GetRatioY()}");
-                                LoggerManager.CompVerifyLog($"Mark Shift Pixel X :{pmRet.ResultParam[0].XPoss}, Pixel Y : {pmRet.ResultParam[0].YPoss}");
-                                LoggerManager.CompVerifyLog($"Mark Shift Offset Pixel X :{(pmRet.ResultBuffer.SizeX / 2 - pmRet.ResultParam[0].XPoss)}, Offset Pixel Y : {(pmRet.ResultBuffer.SizeY / 2 - pmRet.ResultParam[0].YPoss)}");
-                                LoggerManager.CompVerifyLog($"Mark Shift Offset X :{offsetX}, Offset Y : {offsetY}");
-
-                                if (this.MarkAligner().IsOnDebugMode || this.MarkAligner().IsSaveImageCompVerify)
-                                {
-                                    string pathbase = this.WaferAligner().IsOnDebugImagePathBase;
-                                    var resultImageBuf = pmRet.ResultBuffer.Buffer;
-                                    if (resultImageBuf != null)
-                                    {
-                                        string NowTime = DateTime.Now.ToString("yyMMddHHmmss");
-                                        string path = $"{pathbase}[MA-PM]_XPOS#{pattenActualX}_YPOS#{pattenActualY}_{NowTime}.bmp";
-
-                                        var imgBuffer = new ImageBuffer(
-                                            resultImageBuf, pmRet.ResultBuffer.SizeX, pmRet.ResultBuffer.SizeY,
-                                            pmRet.ResultBuffer.Band, 24);
-
-                                        if (this.MarkAligner().IsOnDebugMode)
-                                        {
-                                            this.VisionManager().SaveImageBuffer(imgBuffer, path, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
-                                        }
-
-                                        if (this.MarkAligner().IsSaveImageCompVerify)
-                                        {
-                                            pathbase = this.MarkAligner().CompVerifyImagePathBase;
-                                            path = $"{pathbase}CompVerify_{NowTime}.bmp";
-                                            this.VisionManager().SaveImageBuffer(imgBuffer, path, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
-                                        }
-
-                                        LoggerManager.Debug($"[Mark Align][PM] result save to {path}");
-                                    }
-                                }
-
-                                if (RetVal != EventCodeEnum.MARK_ALIGN_SHIFT)
-                                {
-                                    this.MotionManager().AbsMove(axisX, pattenActualX);
-                                    this.MotionManager().AbsMove(axisY, pattenActualY);
-
-                                    //double diifMarkPosX = pattenActualX - this.CoordinateManager().StageCoord.MarkEncPos.X.Value;
-                                    //double diifMarkPosY = pattenActualY - this.CoordinateManager().StageCoord.MarkEncPos.Y.Value;
-
-                                    double diifMarkPosX = 0.0;
-                                    double diifMarkPosY = 0.0;
-                                    double diifMarkPosZ = 0.0;
-
-                                    diifMarkPosX = pattenActualX - this.CoordinateManager().StageCoord.RefMarkPos.X.Value;
-                                    diifMarkPosY = pattenActualY - this.CoordinateManager().StageCoord.RefMarkPos.Y.Value;
-                                    diifMarkPosZ = actualPZ - this.CoordinateManager().StageCoord.RefMarkPos.Z.Value;
-
-
-                                    LoggerManager.Debug($"Previous Aligned Mark position : ({this.CoordinateManager().StageCoord.RefMarkPos.X.Value}, {this.CoordinateManager().StageCoord.RefMarkPos.Y.Value}, {this.CoordinateManager().StageCoord.RefMarkPos.Z.Value})", isInfo: IsInfo);
-                                    LoggerManager.ActionLog(ModuleLogType.MARK_ALIGN, StateLogType.DONE, $"Now Aligned Mark position : ({pattenActualX}, {pattenActualY}, {actualPZ})", this.LoaderController().GetChuckIndex());
-                                    LoggerManager.Debug($"Mark position is changed ({diifMarkPosX}, {diifMarkPosY}, {diifMarkPosZ})", isInfo: IsInfo);
-
-                                    LoggerManager.CompVerifyLog($"Previous Aligned Mark position : ({this.CoordinateManager().StageCoord.RefMarkPos.X.Value}, {this.CoordinateManager().StageCoord.RefMarkPos.Y.Value}, {this.CoordinateManager().StageCoord.RefMarkPos.Z.Value})");
-                                    LoggerManager.CompVerifyLog($"Now Aligned Mark position : ({pattenActualX}, {pattenActualY}, {actualPZ})");
-                                    LoggerManager.CompVerifyLog($"Mark position is changed ({diifMarkPosX}, {diifMarkPosY}, {diifMarkPosZ})");
-
-                                    this.CoordinateManager().StageCoord.RefMarkPos.X.Value = pattenActualX;
-                                    this.CoordinateManager().StageCoord.RefMarkPos.Y.Value = pattenActualY;
-                                    this.CoordinateManager().StageCoord.RefMarkPos.Z.Value = actualPZ;
-
-                                    this.MarkAligner().MarkCumulativeChangeValue.X.Value += diifMarkPosX;
-                                    this.MarkAligner().MarkCumulativeChangeValue.Y.Value += diifMarkPosY;
-                                    this.MarkAligner().MarkCumulativeChangeValue.Z.Value += diifMarkPosZ;
-
-                                    this.MarkAligner().DiffMarkPosX = diifMarkPosX;
-                                    this.MarkAligner().DiffMarkPosY = diifMarkPosY;
-
-                                    this.GEMModule().GetPIVContainer().SetMarkChangeValue(diifMarkPosX, diifMarkPosY, diifMarkPosZ);
-
-                                    LoggerManager.Debug($"Updated Aligned Mark position : ({this.CoordinateManager().StageCoord.RefMarkPos.X.Value}, {this.CoordinateManager().StageCoord.RefMarkPos.Y.Value}, {this.CoordinateManager().StageCoord.RefMarkPos.Z.Value})", isInfo: IsInfo);
-
-                                    LoggerManager.Debug($"Mark position cumulative change value : ({this.MarkAligner().MarkCumulativeChangeValue.X.Value}, {this.MarkAligner().MarkCumulativeChangeValue.Y.Value}, {this.MarkAligner().MarkCumulativeChangeValue.Z.Value})", isInfo: IsInfo);
-                                    LoggerManager.CompVerifyLog($"Mark position cumulative change value : ({this.MarkAligner().MarkCumulativeChangeValue.X.Value}, {this.MarkAligner().MarkCumulativeChangeValue.Y.Value}, {this.MarkAligner().MarkCumulativeChangeValue.Z.Value})");
-
-                                    WaferObject wafer = (WaferObject)this.StageSupervisor().WaferObject;
-
-                                    if (this.MarkAligner().UpdatePadCen)
-                                    {
-                                        LoggerManager.Debug($"Shift wafer data... (x : {diifMarkPosX}, y : {offsetY})", isInfo: IsInfo);
-                                        LoggerManager.Debug($"Before Wafer Center (x : {wafer.GetSubsInfo().WaferCenter.X.Value}, y : {wafer.GetSubsInfo().WaferCenter.Y.Value})", isInfo: IsInfo);
-                                        LoggerManager.Debug($"Before RefDieLeftCorner data... (x : {wafer.GetSubsInfo().RefDieLeftCorner.X.Value}, y : {wafer.GetSubsInfo().RefDieLeftCorner.Y.Value})", isInfo: IsInfo);
-
-                                        wafer.GetSubsInfo().WaferCenter.X.Value += diifMarkPosX;
-                                        wafer.GetSubsInfo().WaferCenter.Y.Value += diifMarkPosY;
-
-                                        wafer.GetSubsInfo().RefDieLeftCorner.X.Value += diifMarkPosX;
-                                        wafer.GetSubsInfo().RefDieLeftCorner.Y.Value += diifMarkPosY;
-
-                                        LoggerManager.Debug($"After Wafer Center (x : {wafer.GetSubsInfo().WaferCenter.X.Value}, y : {wafer.GetSubsInfo().WaferCenter.Y.Value})", isInfo: IsInfo);
-                                        LoggerManager.Debug($"After RefDieLeftCorner data... (x : {wafer.GetSubsInfo().RefDieLeftCorner.X.Value}, y : {wafer.GetSubsInfo().RefDieLeftCorner.Y.Value})", isInfo: IsInfo);
-                                    }
-
-                                    string line = string.Format("X: {0,-15:0.000} Y: {1,-15:0.000} PZ: {2,-15:0.000}", pattenActualX, pattenActualY, actualPZ);
-
-                                    var PinAlignParam = (this.PinAligner().PinAlignDevParam as PinAlignDevParameters);
-
-                                    // Update pin position
-                                    if (this.MarkAligner().GetMarkCompensationEnable() || this.MarkAligner().GetPinCompensationEnable())
-                                    {
-                                        if (MarkInitiated)
-                                        {
-                                            this.StageSupervisor().ProbeCardInfo.ShiftPindata((diifMarkPosX * -1), (diifMarkPosY * -1), (diifMarkPosZ * -1));
-
-                                            if (PinAlignParam.UserPinHeight.Value == USERPINHEIGHT.LOWEST)
-                                            {
-                                                this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinHeight = this.StageSupervisor().ProbeCardInfo.CalcLowestPin();
-                                            }
-                                            else if (PinAlignParam.UserPinHeight.Value == USERPINHEIGHT.HIGHEST)
-                                            {
-                                                this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinHeight = this.StageSupervisor().ProbeCardInfo.CalcHighestPin();
-                                            }
-                                            else if (PinAlignParam.UserPinHeight.Value == USERPINHEIGHT.AVERAGE)
-                                            {
-                                                this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinHeight = this.StageSupervisor().ProbeCardInfo.CalcPinAverageHeight(); // this.StageSupervisor().ProbeCardInfo.PinAverageHeight;
-                                            }
-                                            this.StageSupervisor().SaveProberCard();
-                                            LoggerManager.Debug($"pin position updated ({this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinCenX:0.00}, " +
-                                                                $"{this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinCenY:0.00}," +
-                                                                $"{this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinHeight:0.00})", isInfo: IsInfo);
-                                        }
-                                        else
-                                        {
-                                            LoggerManager.Debug($"Initial mark update. Skip pin coordinate updates.", isInfo: IsInfo);
-                                            LoggerManager.Debug($"Preserve pin positions ({this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinCenX:0.00}, " +
-                                                                $"{this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinCenY:0.00}," +
-                                                                $"{this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinHeight:0.00})", isInfo: IsInfo);
-                                            MarkInitiated = true;
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        LoggerManager.Debug("MarkCompensationEnable is False");
-                                    }
-
-                                    if (MarkInitiated)
-                                    {
-                                        // NC 터치센서 위치 업데이트
-                                        this.StageSupervisor().NCObject.SensorPos.Value.X.Value -= diifMarkPosX;
-                                        this.StageSupervisor().NCObject.SensorPos.Value.Y.Value -= diifMarkPosY;
-                                        this.StageSupervisor().NCObject.SensorPos.Value.Z.Value -= diifMarkPosZ;
-                                        this.StageSupervisor().NCObject.SensorFocusedPos.Value.X.Value -= diifMarkPosX;
-                                        this.StageSupervisor().NCObject.SensorFocusedPos.Value.Y.Value -= diifMarkPosY;
-                                        this.StageSupervisor().NCObject.SensorFocusedPos.Value.Z.Value -= diifMarkPosZ;
-                                        this.StageSupervisor().NCObject.SensorBasePos.Value.X.Value -= diifMarkPosX;
-                                        this.StageSupervisor().NCObject.SensorBasePos.Value.Y.Value -= diifMarkPosY;
-                                        this.StageSupervisor().NCObject.SensorBasePos.Value.Z.Value -= diifMarkPosZ;
-                                        this.StageSupervisor().NCObject.SensingPadBasePos.Value.X.Value += diifMarkPosX;
-                                        this.StageSupervisor().NCObject.SensingPadBasePos.Value.Y.Value += diifMarkPosY;
-                                        this.StageSupervisor().NCObject.SensingPadBasePos.Value.Z.Value += diifMarkPosZ;
-                                        LoggerManager.Debug($"Update NC sensor coordinate. ({this.StageSupervisor().NCObject.SensorPos.Value.X.Value:0.00}, {this.StageSupervisor().NCObject.SensorPos.Value.Y.Value:0.00}, {this.StageSupervisor().NCObject.SensorPos.Value.Z.Value:0.00}", isInfo: IsInfo);
-                                    }
-                                    else
-                                    {
-                                        LoggerManager.Debug($"Preserve NC sensor coordinate. ({this.StageSupervisor().NCObject.SensorPos.Value.X.Value:0.00}, {this.StageSupervisor().NCObject.SensorPos.Value.Y.Value:0.00}, {this.StageSupervisor().NCObject.SensorPos.Value.Z.Value:0.00}", isInfo: IsInfo);
-                                    }
-
-                                    if (Math.Abs(this.MarkAligner().DiffMarkPosX) > tolX
-                                        || Math.Abs(this.MarkAligner().DiffMarkPosY) > tolY
-                                        || this.MarkAligner().MarkAlignControlItems.MARK_ALIGN_SHIFT)
-                                    {
-                                        RetVal = EventCodeEnum.MARK_ALIGN_SHIFT;
-                                        LoggerManager.Debug($"MKOpusVProcess.DoExecute(): Diff. = ({this.MarkAligner().DiffMarkPosX}, {this.MarkAligner().DiffMarkPosY}), Tol. = ({tolX:0.0}, {tolY:0.0})", isInfo: IsInfo);
-                                        this.NotifyManager().Notify(RetVal);
-                                        LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_ALIGN_SHIFT);
-                                        LoggerManager.Debug("[MarkAlign] MARK_ALIGN_SHIFT Error.  ErrorCode=MARK_ALIGN_SHIFT");
-                                        SubModuleState = new SubModuleErrorState(this);
-                                    }
-                                    else
-                                    {
-                                        RetVal = EventCodeEnum.NONE;
-                                        this.StageSupervisor().MarkObject.SetAlignState(AlignStateEnum.DONE);
-                                        SubModuleState = new SubModuleDoneState(this);
-                                    }
-                                }
-                                else
-                                {
-                                    RetVal = EventCodeEnum.MARK_ALIGN_SHIFT;
-                                    this.NotifyManager().Notify(RetVal);
-                                    LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_ALIGN_SHIFT);
-                                    LoggerManager.Debug("[MarkAlign] MARK_ALIGN_SHIFT Error.  ErrorCode=MARK_ALIGN_SHIFT");
-                                    SubModuleState = new SubModuleErrorState(this);
-                                }
-                            }
-                            else
-                           {
-                                RetVal = EventCodeEnum.MARK_ALGIN_PATTERN_MATCH_FAILED;
-                                this.NotifyManager().Notify(RetVal);
-                                LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Pattern_Failure);
-                                LoggerManager.Debug("[MarkAlign] PatternMatching Error.  ErrorCode=MARK_ALGIN_PATTERN_MATCH_FAILED");
-                                SubModuleState = new SubModuleErrorState(this);
-                            }
-                        }
-                        else
-                        {
-                            RetVal = EventCodeEnum.MARK_ALGIN_PATTERN_MATCH_FAILED;
-                            this.NotifyManager().Notify(RetVal);
-                            LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Pattern_Failure);
-
-                            SubModuleState = new SubModuleErrorState(this);
-                        }
-
-                        this.VisionManager().StartGrab(MarkAlignParam.MarkPatMatParam.CamType.Value, this);
-                    }
-                    else
-                    {
-                        //Focusing Error
-                        RetVal = EventCodeEnum.MARK_ALIGN_FOCUSING_FAILED;
-                        this.NotifyManager().Notify(RetVal);
-                        LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Focusing_Failure);
-                        LoggerManager.Debug("[MarkAlign] Focusing Error.  ErrorCode=" + RetVal);
-                        SubModuleState = new SubModuleErrorState(this);
-                    }
+                    this.StageSupervisor().MarkObject.SetAlignState(AlignStateEnum.DONE);
+                    SubModuleState = new SubModuleDoneState(this);
                 }
                 else
                 {
                     //Move To Mark ERROR
-                    RetVal = EventCodeEnum.MARK_ALIGN_MOVE_ERROR;
-                    this.NotifyManager().Notify(RetVal);
+                    this.NotifyManager().Notify(EventCodeEnum.MARK_ALIGN_MOVE_ERROR);
                     LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Move_Failure);
                     LoggerManager.Debug("[MarkAlign] MoveToMark Error.  ErrorCode=" + RetVal);
                     SubModuleState = new SubModuleErrorState(this);
                 }
-
             }
             catch (Exception err)
             {
@@ -1238,13 +838,6 @@ namespace MarkAlignOpusVProcess
                     LoggerManager.Debug($"Mark initial update failed.");
                 }
 
-                if (this.MarkAligner().ForceWaferCamCylinderExtended)
-                {
-                    this.MarkAligner().ForceWaferCamCylinderExtended = false;
-                    LoggerManager.Debug($"MarkAligner ForceWaferCamCylinderExtended set to {this.MarkAligner().ForceWaferCamCylinderExtended}");
-                }
-                RestoreLightsForCameras();
-
                 if (RetVal != EventCodeEnum.NONE)
                 {
                     LoggerManager.ActionLog(ModuleLogType.MARK_ALIGN, StateLogType.ERROR, $"Mark Align Fail({RetVal})", this.LoaderController().GetChuckIndex());
@@ -1252,6 +845,482 @@ namespace MarkAlignOpusVProcess
             }
             return RetVal;
         }
+
+        // 20251113 Nick 피두셜마크 얼라인을 위해 전체 주석처리함. 
+        //public EventCodeEnum DoExecute()
+        //{
+
+        //    EventCodeEnum RetVal = EventCodeEnum.UNDEFINED;
+
+        //    try
+        //    {
+        //        LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Start);
+
+
+        //        bool waferCamCylinderExtended = false;
+
+        //        if ((this.IOManager().IO.Inputs.DIWAFERCAMMIDDLE.Value == false) &&
+        //                (this.IOManager().IO.Inputs.DIWAFERCAMREAR.Value == true))
+        //        {
+        //            // 접혀 있음
+        //            waferCamCylinderExtended = false;
+        //        }
+        //        else if ((this.IOManager().IO.Inputs.DIWAFERCAMMIDDLE.Value == true) &&
+        //            (this.IOManager().IO.Inputs.DIWAFERCAMREAR.Value == false))
+        //        {
+        //            // 펴져 있음
+        //            waferCamCylinderExtended = true;
+        //        }
+
+        //        // MarkAlignProcMode가 None도 아니고 OnlyMoveToMark 모드도 아니면 Skip한다.
+        //        if (EnumMarkAlignProcMode.None != this.MarkAligner().MarkAlignProcMode && EnumMarkAlignProcMode.OnlyMoveToMark != this.MarkAligner().MarkAlignProcMode)
+        //        {
+        //            LoggerManager.Debug($"[Mark Align] {MethodBase.GetCurrentMethod().Name} is skipped. (MarkAlignProcMod : {this.MarkAligner().MarkAlignProcMode})");
+        //            RetVal = EventCodeEnum.NONE;
+        //        }
+        //        else if (EnumMarkAlignProcMode.OnlyMoveToMark == this.MarkAligner().MarkAlignProcMode) // OnlyMoveToMark 모드면 MoveToMarkFunc1만 하고 return한다.
+        //        {
+        //            // MoveToMarkFunc1에 많은 시퀀스가 섞여있어 ComponentVerification 에서는 Move 동작만 분리해서 사용중. OnlyMoveToMark 모드는 현재 사용되지 않는다.
+        //            RetVal = MoveToMarkFunc1();
+
+        //            if (EventCodeEnum.NONE == RetVal)
+        //            {
+        //                this.StageSupervisor().MarkObject.SetAlignState(AlignStateEnum.DONE);
+        //                SubModuleState = new SubModuleDoneState(this);
+        //            }
+        //            else
+        //            {
+        //                //Move To Mark ERROR
+        //                this.NotifyManager().Notify(EventCodeEnum.MARK_ALIGN_MOVE_ERROR);
+        //                LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Move_Failure);
+        //                LoggerManager.Debug("[MarkAlign] MoveToMark Error.  ErrorCode=" + RetVal);
+        //                SubModuleState = new SubModuleErrorState(this);
+        //            }
+        //            return RetVal;
+        //        }
+        //        else
+        //        {
+        //            LoggerManager.ActionLog(ModuleLogType.MARK_ALIGN, StateLogType.START, $"Mark Align Start", this.LoaderController().GetChuckIndex());
+        //            RetVal = MoveToMarkFunc1();
+        //        }
+
+        //        // MARK_ALIGN_MOVE_ERROR for Testing
+        //        if (this.MarkAligner().MarkAlignControlItems.MARK_ALIGN_MOVE_ERROR == true)
+        //        {
+        //            RetVal = EventCodeEnum.MARK_ALIGN_MOVE_ERROR;
+        //        }
+        //        var param = (MarkAlignParam)this.MarkAligner().MarkAlignParam_IParam;
+
+        //        if (RetVal == EventCodeEnum.NONE)
+        //        {
+        //            LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Move_OK);
+
+        //            if (waferCamCylinderExtended == false || this.MarkAligner().ForceWaferCamCylinderExtended == true)
+        //            {
+        //                int delayTimeSec = (int)TimeSpan.FromSeconds(this.MarkAligner().GetDelaywaferCamCylinderExtendedBeforeFocusing()).TotalMilliseconds;
+        //                Thread.Sleep(delayTimeSec);
+
+        //                LoggerManager.Debug($"Wait Before Fosuing, DelaywaferCamCylinderExtendedBeforeFocusing(sec) : {delayTimeSec}");
+        //            }
+
+        //            // MarkAlignProcMode가 None도 아니고 OnlyFocusing 모드도 아니면 Skip한다.
+        //            if (EnumMarkAlignProcMode.None != this.MarkAligner().MarkAlignProcMode && EnumMarkAlignProcMode.OnlyFocusing != this.MarkAligner().MarkAlignProcMode)
+        //            {
+        //                LoggerManager.Debug($"[Mark Align] {MethodBase.GetCurrentMethod().Name} is skipped. (MarkAlignProcMod : {this.MarkAligner().MarkAlignProcMode})");
+        //                RetVal = EventCodeEnum.NONE;
+        //            }
+        //            else if (EnumMarkAlignProcMode.OnlyFocusing == this.MarkAligner().MarkAlignProcMode) // OnlyFocusing 모드면 MoveToMarkFunc1만 하고 return한다.
+        //            {
+        //                // OnlyFocusing 모드인 경우 조명이 꺼진상태로 시작되므로 항상 조명을 켜준다.
+        //                if (this.MarkAlignParam.MarkPatMatParam.LightParams == null)
+        //                {
+        //                    var phRefLight = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM).SetLight(EnumLightType.AUX, 255);
+        //                }
+        //                else
+        //                {
+        //                    this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM).SetLight(EnumLightType.AUX, this.MarkAlignParam.MarkPatMatParam.LightParams[0].Value.Value);
+        //                }
+
+        //                RetVal = FocusingFunc();
+
+        //                if (EventCodeEnum.NONE == RetVal)
+        //                {
+        //                    this.StageSupervisor().MarkObject.SetAlignState(AlignStateEnum.DONE);
+        //                    SubModuleState = new SubModuleDoneState(this);
+        //                }
+        //                else
+        //                {
+        //                    //Focusing Error
+        //                    this.NotifyManager().Notify(EventCodeEnum.MARK_ALIGN_FOCUSING_FAILED);
+        //                    LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Focusing_Failure);
+        //                    LoggerManager.Debug("[MarkAlign] Focusing Error.  ErrorCode=" + RetVal);
+        //                    SubModuleState = new SubModuleErrorState(this);
+        //                }
+        //                return RetVal;
+        //            }
+        //            else
+        //            {
+        //                RetVal = FocusingFunc();
+        //            }
+
+        //            // MARK_ALIGN_FOCUSING_FAILED for Testing
+        //            if (this.MarkAligner().MarkAlignControlItems.MARK_ALIGN_FOCUSING_FAILED == true)
+        //            {
+        //                RetVal = EventCodeEnum.MARK_ALIGN_FOCUSING_FAILED;
+        //            }
+
+        //            // MarkAlignProcMode가 None도 아니고 OnlyPatternMatching 모드도 아니면 Skip한다.
+        //            if (EnumMarkAlignProcMode.None != this.MarkAligner().MarkAlignProcMode && EnumMarkAlignProcMode.OnlyPatternMatching != this.MarkAligner().MarkAlignProcMode)
+        //            {
+        //                LoggerManager.Debug($"[Mark Align] {MethodBase.GetCurrentMethod().Name} is skipped. (MarkAlignProcMod : {this.MarkAligner().MarkAlignProcMode})");
+
+        //                if (RetVal == EventCodeEnum.NONE)
+        //                {
+        //                    LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Focusing_OK);
+        //                }
+        //                this.StageSupervisor().MarkObject.SetAlignState(AlignStateEnum.DONE);
+        //                SubModuleState = new SubModuleDoneState(this);
+        //            }
+        //            else if (RetVal == EventCodeEnum.NONE)
+        //            {
+        //                LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Focusing_OK);
+        //                PMResult pmRet;
+
+        //                // OnlyPatternMatching 모드인 경우 조명이 꺼진상태로 시작되므로 항상 조명을 켜준다.
+        //                if (EnumMarkAlignProcMode.OnlyPatternMatching == this.MarkAligner().MarkAlignProcMode)
+        //                {
+        //                    if (this.MarkAlignParam.MarkPatMatParam.LightParams == null)
+        //                    {
+        //                        var phRefLight = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM).SetLight(EnumLightType.AUX, 255);
+        //                    }
+        //                    else
+        //                    {
+        //                        this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM).SetLight(EnumLightType.AUX, this.MarkAlignParam.MarkPatMatParam.LightParams[0].Value.Value);
+        //                    }
+        //                }
+
+        //                pmRet = DoPatternMatching();
+
+        //                // MARK_Pattern_Failure for Testing
+        //                if (this.MarkAligner().MarkAlignControlItems.MARK_Pattern_Failure == true)
+        //                {
+        //                    RetVal = EventCodeEnum.MARK_Pattern_Failure;
+        //                }
+
+        //                if (pmRet != null && pmRet.ResultParam != null && RetVal != EventCodeEnum.MARK_Pattern_Failure)
+        //                {
+        //                    // MARK_ALGIN_PATTERN_MATCH_FAILED for Testing
+        //                    if (this.MarkAligner().MarkAlignControlItems.MARK_ALGIN_PATTERN_MATCH_FAILED == true)
+        //                    {
+        //                        RetVal = EventCodeEnum.MARK_ALGIN_PATTERN_MATCH_FAILED;
+        //                    }
+
+        //                    if (pmRet.ResultParam.Count == 1 && RetVal != EventCodeEnum.MARK_ALGIN_PATTERN_MATCH_FAILED)
+        //                    {
+        //                        LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Pattern_OK);
+        //                        var axisX = this.MotionManager().GetAxis(EnumAxisConstants.X);
+        //                        var axisY = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+        //                        double tolX = 150.0;
+        //                        double tolY = 150.0;
+
+        //                        tolX = param.MarkDiffTolerance_X.Value;
+        //                        tolY = param.MarkDiffTolerance_Y.Value;
+
+        //                        if (tolX < 1.0)
+        //                        {
+        //                            tolX = 1.0;
+        //                        }
+        //                        else if (tolX > param.MarkDiffTolerance_X.UpperLimit)
+        //                        {
+        //                            tolX = param.MarkDiffTolerance_X.UpperLimit;
+        //                        }
+
+        //                        if (tolY < 1.0)
+        //                        {
+        //                            tolY = 1.0;
+        //                        }
+        //                        else if (tolY > param.MarkDiffTolerance_Y.UpperLimit)
+        //                        {
+        //                            tolY = param.MarkDiffTolerance_Y.UpperLimit;
+        //                        }
+
+        //                        double actualX = 0;
+        //                        this.MotionManager().GetRefPos(EnumAxisConstants.X, ref actualX);
+
+        //                        double offsetX = (pmRet.ResultBuffer.SizeX / 2 - pmRet.ResultParam[0].XPoss) * (this.VisionManager().CameraDescriptor.Cams[0].GetRatioX());
+        //                        double pattenActualX = actualX + offsetX;
+
+        //                        double actualY = 0;
+        //                        this.MotionManager().GetRefPos(EnumAxisConstants.Y, ref actualY);
+
+        //                        double actualPZ = 0;
+        //                        this.MotionManager().GetRefPos(EnumAxisConstants.PZ, ref actualPZ);
+
+        //                        double offsetY = (pmRet.ResultBuffer.SizeY / 2 - pmRet.ResultParam[0].YPoss) * (this.VisionManager().CameraDescriptor.Cams[0].GetRatioY());
+        //                        double pattenActualY = actualY - offsetY;
+
+        //                        LoggerManager.Debug($"Mark Shift Ratio X :{this.VisionManager().CameraDescriptor.Cams[0].GetRatioX()}, Ratio Y : {this.VisionManager().CameraDescriptor.Cams[0].GetRatioY()}", isInfo: IsInfo);
+        //                        LoggerManager.Debug($"Mark Shift Pixel X :{pmRet.ResultParam[0].XPoss}, Pixel Y : {pmRet.ResultParam[0].YPoss}", isInfo: IsInfo);
+        //                        LoggerManager.Debug($"Mark Shift Offset Pixel X :{(pmRet.ResultBuffer.SizeX / 2 - pmRet.ResultParam[0].XPoss)}, Offset Pixel Y : {(pmRet.ResultBuffer.SizeY / 2 - pmRet.ResultParam[0].YPoss)}", isInfo: IsInfo);
+        //                        LoggerManager.Debug($"Mark Shift Offset X :{offsetX}, Offset Y : {offsetY}", isInfo: IsInfo);
+
+        //                        LoggerManager.CompVerifyLog($"Mark Shift Ratio X :{this.VisionManager().CameraDescriptor.Cams[0].GetRatioX()}, Ratio Y : {this.VisionManager().CameraDescriptor.Cams[0].GetRatioY()}");
+        //                        LoggerManager.CompVerifyLog($"Mark Shift Pixel X :{pmRet.ResultParam[0].XPoss}, Pixel Y : {pmRet.ResultParam[0].YPoss}");
+        //                        LoggerManager.CompVerifyLog($"Mark Shift Offset Pixel X :{(pmRet.ResultBuffer.SizeX / 2 - pmRet.ResultParam[0].XPoss)}, Offset Pixel Y : {(pmRet.ResultBuffer.SizeY / 2 - pmRet.ResultParam[0].YPoss)}");
+        //                        LoggerManager.CompVerifyLog($"Mark Shift Offset X :{offsetX}, Offset Y : {offsetY}");
+
+        //                        if (this.MarkAligner().IsOnDebugMode || this.MarkAligner().IsSaveImageCompVerify)
+        //                        {
+        //                            string pathbase = this.WaferAligner().IsOnDebugImagePathBase;
+        //                            var resultImageBuf = pmRet.ResultBuffer.Buffer;
+        //                            if (resultImageBuf != null)
+        //                            {
+        //                                string NowTime = DateTime.Now.ToString("yyMMddHHmmss");
+        //                                string path = $"{pathbase}[MA-PM]_XPOS#{pattenActualX}_YPOS#{pattenActualY}_{NowTime}.bmp";
+
+        //                                var imgBuffer = new ImageBuffer(
+        //                                    resultImageBuf, pmRet.ResultBuffer.SizeX, pmRet.ResultBuffer.SizeY,
+        //                                    pmRet.ResultBuffer.Band, 24);
+
+        //                                if (this.MarkAligner().IsOnDebugMode)
+        //                                {
+        //                                    this.VisionManager().SaveImageBuffer(imgBuffer, path, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
+        //                                }
+
+        //                                if (this.MarkAligner().IsSaveImageCompVerify)
+        //                                {
+        //                                    pathbase = this.MarkAligner().CompVerifyImagePathBase;
+        //                                    path = $"{pathbase}CompVerify_{NowTime}.bmp";
+        //                                    this.VisionManager().SaveImageBuffer(imgBuffer, path, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
+        //                                }
+
+        //                                LoggerManager.Debug($"[Mark Align][PM] result save to {path}");
+        //                            }
+        //                        }
+
+        //                        if (RetVal != EventCodeEnum.MARK_ALIGN_SHIFT)
+        //                        {
+        //                            this.MotionManager().AbsMove(axisX, pattenActualX);
+        //                            this.MotionManager().AbsMove(axisY, pattenActualY);
+
+        //                            //double diifMarkPosX = pattenActualX - this.CoordinateManager().StageCoord.MarkEncPos.X.Value;
+        //                            //double diifMarkPosY = pattenActualY - this.CoordinateManager().StageCoord.MarkEncPos.Y.Value;
+
+        //                            double diifMarkPosX = 0.0;
+        //                            double diifMarkPosY = 0.0;
+        //                            double diifMarkPosZ = 0.0;
+
+        //                            diifMarkPosX = pattenActualX - this.CoordinateManager().StageCoord.RefMarkPos.X.Value;
+        //                            diifMarkPosY = pattenActualY - this.CoordinateManager().StageCoord.RefMarkPos.Y.Value;
+        //                            diifMarkPosZ = actualPZ - this.CoordinateManager().StageCoord.RefMarkPos.Z.Value;
+
+
+        //                            LoggerManager.Debug($"Previous Aligned Mark position : ({this.CoordinateManager().StageCoord.RefMarkPos.X.Value}, {this.CoordinateManager().StageCoord.RefMarkPos.Y.Value}, {this.CoordinateManager().StageCoord.RefMarkPos.Z.Value})", isInfo: IsInfo);
+        //                            LoggerManager.ActionLog(ModuleLogType.MARK_ALIGN, StateLogType.DONE, $"Now Aligned Mark position : ({pattenActualX}, {pattenActualY}, {actualPZ})", this.LoaderController().GetChuckIndex());
+        //                            LoggerManager.Debug($"Mark position is changed ({diifMarkPosX}, {diifMarkPosY}, {diifMarkPosZ})", isInfo: IsInfo);
+
+        //                            LoggerManager.CompVerifyLog($"Previous Aligned Mark position : ({this.CoordinateManager().StageCoord.RefMarkPos.X.Value}, {this.CoordinateManager().StageCoord.RefMarkPos.Y.Value}, {this.CoordinateManager().StageCoord.RefMarkPos.Z.Value})");
+        //                            LoggerManager.CompVerifyLog($"Now Aligned Mark position : ({pattenActualX}, {pattenActualY}, {actualPZ})");
+        //                            LoggerManager.CompVerifyLog($"Mark position is changed ({diifMarkPosX}, {diifMarkPosY}, {diifMarkPosZ})");
+
+        //                            this.CoordinateManager().StageCoord.RefMarkPos.X.Value = pattenActualX;
+        //                            this.CoordinateManager().StageCoord.RefMarkPos.Y.Value = pattenActualY;
+        //                            this.CoordinateManager().StageCoord.RefMarkPos.Z.Value = actualPZ;
+
+        //                            this.MarkAligner().MarkCumulativeChangeValue.X.Value += diifMarkPosX;
+        //                            this.MarkAligner().MarkCumulativeChangeValue.Y.Value += diifMarkPosY;
+        //                            this.MarkAligner().MarkCumulativeChangeValue.Z.Value += diifMarkPosZ;
+
+        //                            this.MarkAligner().DiffMarkPosX = diifMarkPosX;
+        //                            this.MarkAligner().DiffMarkPosY = diifMarkPosY;
+
+        //                            this.GEMModule().GetPIVContainer().SetMarkChangeValue(diifMarkPosX, diifMarkPosY, diifMarkPosZ);
+
+        //                            LoggerManager.Debug($"Updated Aligned Mark position : ({this.CoordinateManager().StageCoord.RefMarkPos.X.Value}, {this.CoordinateManager().StageCoord.RefMarkPos.Y.Value}, {this.CoordinateManager().StageCoord.RefMarkPos.Z.Value})", isInfo: IsInfo);
+
+        //                            LoggerManager.Debug($"Mark position cumulative change value : ({this.MarkAligner().MarkCumulativeChangeValue.X.Value}, {this.MarkAligner().MarkCumulativeChangeValue.Y.Value}, {this.MarkAligner().MarkCumulativeChangeValue.Z.Value})", isInfo: IsInfo);
+        //                            LoggerManager.CompVerifyLog($"Mark position cumulative change value : ({this.MarkAligner().MarkCumulativeChangeValue.X.Value}, {this.MarkAligner().MarkCumulativeChangeValue.Y.Value}, {this.MarkAligner().MarkCumulativeChangeValue.Z.Value})");
+
+        //                            WaferObject wafer = (WaferObject)this.StageSupervisor().WaferObject;
+
+        //                            if (this.MarkAligner().UpdatePadCen)
+        //                            {
+        //                                LoggerManager.Debug($"Shift wafer data... (x : {diifMarkPosX}, y : {offsetY})", isInfo: IsInfo);
+        //                                LoggerManager.Debug($"Before Wafer Center (x : {wafer.GetSubsInfo().WaferCenter.X.Value}, y : {wafer.GetSubsInfo().WaferCenter.Y.Value})", isInfo: IsInfo);
+        //                                LoggerManager.Debug($"Before RefDieLeftCorner data... (x : {wafer.GetSubsInfo().RefDieLeftCorner.X.Value}, y : {wafer.GetSubsInfo().RefDieLeftCorner.Y.Value})", isInfo: IsInfo);
+
+        //                                wafer.GetSubsInfo().WaferCenter.X.Value += diifMarkPosX;
+        //                                wafer.GetSubsInfo().WaferCenter.Y.Value += diifMarkPosY;
+
+        //                                wafer.GetSubsInfo().RefDieLeftCorner.X.Value += diifMarkPosX;
+        //                                wafer.GetSubsInfo().RefDieLeftCorner.Y.Value += diifMarkPosY;
+
+        //                                LoggerManager.Debug($"After Wafer Center (x : {wafer.GetSubsInfo().WaferCenter.X.Value}, y : {wafer.GetSubsInfo().WaferCenter.Y.Value})", isInfo: IsInfo);
+        //                                LoggerManager.Debug($"After RefDieLeftCorner data... (x : {wafer.GetSubsInfo().RefDieLeftCorner.X.Value}, y : {wafer.GetSubsInfo().RefDieLeftCorner.Y.Value})", isInfo: IsInfo);
+        //                            }
+
+        //                            string line = string.Format("X: {0,-15:0.000} Y: {1,-15:0.000} PZ: {2,-15:0.000}", pattenActualX, pattenActualY, actualPZ);
+
+        //                            var PinAlignParam = (this.PinAligner().PinAlignDevParam as PinAlignDevParameters);
+
+        //                            // Update pin position
+        //                            if (this.MarkAligner().GetMarkCompensationEnable() || this.MarkAligner().GetPinCompensationEnable())
+        //                            {
+        //                                if (MarkInitiated)
+        //                                {
+        //                                    this.StageSupervisor().ProbeCardInfo.ShiftPindata((diifMarkPosX * -1), (diifMarkPosY * -1), (diifMarkPosZ * -1));
+
+        //                                    if (PinAlignParam.UserPinHeight.Value == USERPINHEIGHT.LOWEST)
+        //                                    {
+        //                                        this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinHeight = this.StageSupervisor().ProbeCardInfo.CalcLowestPin();
+        //                                    }
+        //                                    else if (PinAlignParam.UserPinHeight.Value == USERPINHEIGHT.HIGHEST)
+        //                                    {
+        //                                        this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinHeight = this.StageSupervisor().ProbeCardInfo.CalcHighestPin();
+        //                                    }
+        //                                    else if (PinAlignParam.UserPinHeight.Value == USERPINHEIGHT.AVERAGE)
+        //                                    {
+        //                                        this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinHeight = this.StageSupervisor().ProbeCardInfo.CalcPinAverageHeight(); // this.StageSupervisor().ProbeCardInfo.PinAverageHeight;
+        //                                    }
+        //                                    this.StageSupervisor().SaveProberCard();
+        //                                    LoggerManager.Debug($"pin position updated ({this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinCenX:0.00}, " +
+        //                                                        $"{this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinCenY:0.00}," +
+        //                                                        $"{this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinHeight:0.00})", isInfo: IsInfo);
+        //                                }
+        //                                else
+        //                                {
+        //                                    LoggerManager.Debug($"Initial mark update. Skip pin coordinate updates.", isInfo: IsInfo);
+        //                                    LoggerManager.Debug($"Preserve pin positions ({this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinCenX:0.00}, " +
+        //                                                        $"{this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinCenY:0.00}," +
+        //                                                        $"{this.StageSupervisor().ProbeCardInfo.ProbeCardDevObjectRef.PinHeight:0.00})", isInfo: IsInfo);
+        //                                    MarkInitiated = true;
+        //                                }
+
+        //                            }
+        //                            else
+        //                            {
+        //                                LoggerManager.Debug("MarkCompensationEnable is False");
+        //                            }
+
+        //                            if (MarkInitiated)
+        //                            {
+        //                                // NC 터치센서 위치 업데이트
+        //                                this.StageSupervisor().NCObject.SensorPos.Value.X.Value -= diifMarkPosX;
+        //                                this.StageSupervisor().NCObject.SensorPos.Value.Y.Value -= diifMarkPosY;
+        //                                this.StageSupervisor().NCObject.SensorPos.Value.Z.Value -= diifMarkPosZ;
+        //                                this.StageSupervisor().NCObject.SensorFocusedPos.Value.X.Value -= diifMarkPosX;
+        //                                this.StageSupervisor().NCObject.SensorFocusedPos.Value.Y.Value -= diifMarkPosY;
+        //                                this.StageSupervisor().NCObject.SensorFocusedPos.Value.Z.Value -= diifMarkPosZ;
+        //                                this.StageSupervisor().NCObject.SensorBasePos.Value.X.Value -= diifMarkPosX;
+        //                                this.StageSupervisor().NCObject.SensorBasePos.Value.Y.Value -= diifMarkPosY;
+        //                                this.StageSupervisor().NCObject.SensorBasePos.Value.Z.Value -= diifMarkPosZ;
+        //                                this.StageSupervisor().NCObject.SensingPadBasePos.Value.X.Value += diifMarkPosX;
+        //                                this.StageSupervisor().NCObject.SensingPadBasePos.Value.Y.Value += diifMarkPosY;
+        //                                this.StageSupervisor().NCObject.SensingPadBasePos.Value.Z.Value += diifMarkPosZ;
+        //                                LoggerManager.Debug($"Update NC sensor coordinate. ({this.StageSupervisor().NCObject.SensorPos.Value.X.Value:0.00}, {this.StageSupervisor().NCObject.SensorPos.Value.Y.Value:0.00}, {this.StageSupervisor().NCObject.SensorPos.Value.Z.Value:0.00}", isInfo: IsInfo);
+        //                            }
+        //                            else
+        //                            {
+        //                                LoggerManager.Debug($"Preserve NC sensor coordinate. ({this.StageSupervisor().NCObject.SensorPos.Value.X.Value:0.00}, {this.StageSupervisor().NCObject.SensorPos.Value.Y.Value:0.00}, {this.StageSupervisor().NCObject.SensorPos.Value.Z.Value:0.00}", isInfo: IsInfo);
+        //                            }
+
+        //                            if (Math.Abs(this.MarkAligner().DiffMarkPosX) > tolX
+        //                                || Math.Abs(this.MarkAligner().DiffMarkPosY) > tolY
+        //                                || this.MarkAligner().MarkAlignControlItems.MARK_ALIGN_SHIFT)
+        //                            {
+        //                                RetVal = EventCodeEnum.MARK_ALIGN_SHIFT;
+        //                                LoggerManager.Debug($"MKOpusVProcess.DoExecute(): Diff. = ({this.MarkAligner().DiffMarkPosX}, {this.MarkAligner().DiffMarkPosY}), Tol. = ({tolX:0.0}, {tolY:0.0})", isInfo: IsInfo);
+        //                                this.NotifyManager().Notify(RetVal);
+        //                                LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_ALIGN_SHIFT);
+        //                                LoggerManager.Debug("[MarkAlign] MARK_ALIGN_SHIFT Error.  ErrorCode=MARK_ALIGN_SHIFT");
+        //                                SubModuleState = new SubModuleErrorState(this);
+        //                            }
+        //                            else
+        //                            {
+        //                                RetVal = EventCodeEnum.NONE;
+        //                                this.StageSupervisor().MarkObject.SetAlignState(AlignStateEnum.DONE);
+        //                                SubModuleState = new SubModuleDoneState(this);
+        //                            }
+        //                        }
+        //                        else
+        //                        {
+        //                            RetVal = EventCodeEnum.MARK_ALIGN_SHIFT;
+        //                            this.NotifyManager().Notify(RetVal);
+        //                            LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_ALIGN_SHIFT);
+        //                            LoggerManager.Debug("[MarkAlign] MARK_ALIGN_SHIFT Error.  ErrorCode=MARK_ALIGN_SHIFT");
+        //                            SubModuleState = new SubModuleErrorState(this);
+        //                        }
+        //                    }
+        //                    else
+        //                   {
+        //                        RetVal = EventCodeEnum.MARK_ALGIN_PATTERN_MATCH_FAILED;
+        //                        this.NotifyManager().Notify(RetVal);
+        //                        LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Pattern_Failure);
+        //                        LoggerManager.Debug("[MarkAlign] PatternMatching Error.  ErrorCode=MARK_ALGIN_PATTERN_MATCH_FAILED");
+        //                        SubModuleState = new SubModuleErrorState(this);
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    RetVal = EventCodeEnum.MARK_ALGIN_PATTERN_MATCH_FAILED;
+        //                    this.NotifyManager().Notify(RetVal);
+        //                    LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Pattern_Failure);
+
+        //                    SubModuleState = new SubModuleErrorState(this);
+        //                }
+
+        //                this.VisionManager().StartGrab(MarkAlignParam.MarkPatMatParam.CamType.Value, this);
+        //            }
+        //            else
+        //            {
+        //                //Focusing Error
+        //                RetVal = EventCodeEnum.MARK_ALIGN_FOCUSING_FAILED;
+        //                this.NotifyManager().Notify(RetVal);
+        //                LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Focusing_Failure);
+        //                LoggerManager.Debug("[MarkAlign] Focusing Error.  ErrorCode=" + RetVal);
+        //                SubModuleState = new SubModuleErrorState(this);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            //Move To Mark ERROR
+        //            RetVal = EventCodeEnum.MARK_ALIGN_MOVE_ERROR;
+        //            this.NotifyManager().Notify(RetVal);
+        //            LoggerManager.Prolog(PrologType.OPERRATION_ALARM, EventCodeEnum.MARK_Move_Failure);
+        //            LoggerManager.Debug("[MarkAlign] MoveToMark Error.  ErrorCode=" + RetVal);
+        //            SubModuleState = new SubModuleErrorState(this);
+        //        }
+
+        //    }
+        //    catch (Exception err)
+        //    {
+        //        LoggerManager.Exception(err);
+        //        RetVal = EventCodeEnum.MARK_ALIGN_FAIL;
+        //        this.NotifyManager().Notify(RetVal);
+
+        //        SubModuleState = new SubModuleErrorState(this);
+        //    }
+        //    finally
+        //    {
+        //        if (!MarkInitiated)
+        //        {
+        //            LoggerManager.Debug($"Mark initial update failed.");
+        //        }
+
+        //        if (this.MarkAligner().ForceWaferCamCylinderExtended)
+        //        {
+        //            this.MarkAligner().ForceWaferCamCylinderExtended = false;
+        //            LoggerManager.Debug($"MarkAligner ForceWaferCamCylinderExtended set to {this.MarkAligner().ForceWaferCamCylinderExtended}");
+        //        }
+        //        RestoreLightsForCameras();
+
+        //        if (RetVal != EventCodeEnum.NONE)
+        //        {
+        //            LoggerManager.ActionLog(ModuleLogType.MARK_ALIGN, StateLogType.ERROR, $"Mark Align Fail({RetVal})", this.LoaderController().GetChuckIndex());
+        //        }
+        //    }
+        //    return RetVal;
+        //}
 
         public override Task<EventCodeEnum> PageSwitched(object parameter = null)
         {
