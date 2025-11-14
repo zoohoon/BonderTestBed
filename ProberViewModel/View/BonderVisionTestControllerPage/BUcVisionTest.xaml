@@ -301,11 +301,11 @@
                     Content="ZAxisHoming" Grid.Column="2" Height="48" Command="{Binding ZAxisHomingCommand}"/>
             <Button AutomationProperties.AutomationId="btnProcessing"
                     Content="Processing" Grid.Column="3" Height="48" Command="{Binding ImgProcessing }"/>
-            <Button AutomationProperties.AutomationId="btnTiltingTest"
-                    Content="TiltingTest" Grid.Column="4" Height="48" Command="{Binding TiltingTestCommand}"/>
             <Button AutomationProperties.AutomationId="btnMarkAlign"
-                    Content="MarkAlign" Grid.Column="5" Height="48" Command="{Binding MarkAlignCommand}"/>
-            <Button Content="WaferAlignRepeatTest" Grid.Column="6" Height="48" Command="{Binding WaferTestCommand}"/>
+                    Content="MarkAlign" Grid.Column="4" Height="48" Command="{Binding MarkAlignCommand}"/>
+            <Button Content="FD Chuck Center Move" Grid.Column="5" Height="48" Command="{Binding FDChuckCenterMoveCommand}"/>
+            <Button AutomationProperties.AutomationId="FDChuckCenterMove"
+                    Content="First Die Position Move" Grid.Column="6" Height="48" Command="{Binding FirstDiePosMoveCommand}"/>
             <CheckBox IsChecked="{Binding Path=TestRepeat}" Content="Repeat" Foreground="White" Grid.Column="7"  
                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>

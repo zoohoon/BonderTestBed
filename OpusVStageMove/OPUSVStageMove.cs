@@ -14408,18 +14408,13 @@ namespace OpusVStageMove
 
             return ret;
         }
+        // 20251113 Nick 피두셜마크 얼라인을 위한 코드
         public override EventCodeEnum MoveToMark()
         {
             EventCodeEnum ret = EventCodeEnum.UNDEFINED;
 
             try
             {
-                ret = CheckStage();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                ret = MoveStageSafePos(true, true, false, false); // 안전한위치로 가고, 안전한 위치로 가고, 웨이퍼캠 펴고
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
                 ret = MoveToMarkFunc();
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
@@ -14439,8 +14434,41 @@ namespace OpusVStageMove
             }
 
             return ret;
-
         }
+
+        // 20251113 Nick 원본 코드 주석
+        //public override EventCodeEnum MoveToMark()
+        //{
+        //    EventCodeEnum ret = EventCodeEnum.UNDEFINED;
+
+        //    try
+        //    {
+        //        ret = CheckStage();
+        //        ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+        //        ret = MoveStageSafePos(true, true, false, false); // 안전한위치로 가고, 안전한 위치로 가고, 웨이퍼캠 펴고
+        //        ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+        //        ret = MoveToMarkFunc();
+        //        ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+        //        Module.StageSupervisorStateTransition(new MarkState(Module));
+        //    }
+        //    catch (Exception err)
+        //    {
+        //        try
+        //        {
+        //            LoggerManager.Exception(err);
+        //            ret = ConvertExceptionAndThrow(err, ret);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            System.Diagnostics.Trace.WriteLineIf(LoggerManager.GPTraceSwitch.TraceError, ex);
+        //        }
+        //    }
+
+        //    return ret;
+        //}
 
         public override EventCodeEnum ProbingCoordMoveNCPad(NCCoordinate nccoord, PinCoordinate pincoord, double offsetZ)
         {
