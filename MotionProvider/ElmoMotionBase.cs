@@ -595,6 +595,7 @@ namespace Motion
                         }
                     }
                 }
+                
                 else
                 {
                     // 251106 sebas add homing delay
@@ -612,6 +613,7 @@ namespace Motion
                     }
                     singleAxis.HomeDS402Ex(pos, dlimitvel, daccpulse, highspeed, lowspeed, ot, 2000, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE,
                         nMethodNumber, timeoutLimt, timeoutLimt, 1, sparebyte);
+
                     while (singleAxis.ReadStatus() != VALID_STAND_STILL_MASK)
                     {
                         if (stw.ElapsedMilliseconds > timeoutLimt)
@@ -1627,6 +1629,8 @@ namespace Motion
                         {
                             ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).ResetAsync();
                             WaitforStatus(axis, EnumAxisState.DISABLED);
+                            Thread.Sleep(1000);
+                            ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).PowerOn(MC_BUFFERED_MODE_ENUM.MC_ABORTING_MODE);
                             //((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).ResetAsync();
                             //WaitforStatus(axis, EnumAxisState.DISABLED);
                             retVal = 0;
@@ -3092,6 +3096,9 @@ namespace Motion
                                (float)axis.DtoP(axis.Param.HommingSpeed.Value),
                                (float)axis.DtoP(velocity));
                         SetOperationMode(axis, OPM402.OPM402_CYCLIC_SYNC_POSITION_MODE);
+
+                        nRetVal = ElmoSetPostion(axis, 0);  //251110 ybpark Homing 후 엔코더 값 0 set
+
                         Thread.Sleep(500);
                         double posOffset = 0;
                         if (axis.Param.HomeOffset.Value >= 0)
@@ -3167,8 +3174,9 @@ namespace Motion
                             axis.Status.IsHomeSeted = true;
                             nRetVal = (int)EnumMotionBaseReturnCode.ReturnCodeOK;
                         }
+
                         //251103 yb 초기화전 파워 오프
-                        ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).PowerOff(MC_BUFFERED_MODE_ENUM.MC_ABORTING_MODE);
+                        //((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).PowerOff(MC_BUFFERED_MODE_ENUM.MC_ABORTING_MODE);
                     }
                     else
                     {
@@ -4011,41 +4019,52 @@ namespace Motion
                             if (axis.AxisGroupType.Value == EnumAxisGroupType.SINGEAXIS)
                             {
                                 //20251030 LJH 모터 ON 임시 코드
-                                ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).PowerOn(MC_BUFFERED_MODE_ENUM.MC_ABORTING_MODE);
-                                retVal = (int)EnumMotionBaseReturnCode.ReturnCodeOK;
-                                Thread.Sleep(3000);
+                                //((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).PowerOn(MC_BUFFERED_MODE_ENUM.MC_ABORTING_MODE);
+                                //retVal = (int)EnumMotionBaseReturnCode.ReturnCodeOK;
+                                //Thread.Sleep(3000);
                                 // end
 
                                 //20251030 LJH 모터 임시 코드
-                                //retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, veltopulsecnt, acctopulsecnt, acctopulsecnt, jerktopulsecnt,
-                                //dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
+                                retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, veltopulsecnt, acctopulsecnt, acctopulsecnt, jerktopulsecnt,
+                                dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
+
+                                // <-- 251113 sebas add 단일 move 실행용
+                                //while (((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).ReadStatus() != VALID_STAND_STILL_MASK)
+                                //{
+                                //    if (stw.ElapsedMilliseconds > 180000)   // 최대 3분
+                                //    {
+                                //        LoggerManager.Debug("[Motion]Time Out occured while wait for idle in in DS402HomingProgress");
+                                //        break;
+                                //    }
+                                //}
+                                // -->
 
                                 // <-- 251106 sebas add
-                                if(axis.AxisIndex.Value == 27)  // Ejection Z 축
-                                {
-                                    retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, 10000, 10000, 10000, 100000,
-                                    dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
-                                }
-                                else if(axis.AxisIndex.Value == 13) // Nano Z 축
-                                {
-                                    retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, 4000000, 4000000, 4000000, 40000000,
-                                    dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
-                                }
-                                else if(axis.AxisIndex.Value == 14) // FD Chuck Z축
-                                {
-                                    retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, 10000000, 10000000, 10000000, 100000000,
-                                    dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
-                                }
-                                else if(axis.AxisIndex.Value == 15) // Base X 축
-                                {
-                                    retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, 1000000, 1000000, 1000000, 10000000,
-                                    dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
-                                }
-                                else
-                                {
-                                    retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, 50000, 50000, 50000, 500000,
-                                    dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
-                                }
+                                //if (axis.AxisIndex.Value == 27)  // Ejection Z 축
+                                //{
+                                //    retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, 10000, 10000, 10000, 100000,
+                                //    dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
+                                //}
+                                //else if(axis.AxisIndex.Value == 13) // Nano Z 축
+                                //{
+                                //    retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, 4000000, 4000000, 4000000, 40000000,
+                                //    dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
+                                //}
+                                //else if(axis.AxisIndex.Value == 14) // FD Chuck Z축
+                                //{
+                                //    retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, 10000000, 10000000, 10000000, 100000000,
+                                //    dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
+                                //}
+                                //else if(axis.AxisIndex.Value == 15) // Base X 축
+                                //{
+                                //    retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, 1000000, 1000000, 1000000, 10000000,
+                                //    dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
+                                //}
+                                //else
+                                //{
+                                //    retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, 50000, 50000, 50000, 500000,
+                                //    dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
+                                //}
                                 // -->
 
                                 //((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).Execute = 1;
@@ -4061,10 +4080,10 @@ namespace Motion
                                 AxisStatusList[axis.AxisIndex.Value].Pulse.Command = axis.Status.Pulse.Command;
 
                                 // 20251030 LJH 모터 OFF 임시 코드
-                                Thread.Sleep(3000);
-                                ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).PowerOff(MC_BUFFERED_MODE_ENUM.MC_ABORTING_MODE);
-                                Thread.Sleep(1500);
-                                retVal = (int)EnumMotionBaseReturnCode.ReturnCodeOK;
+                                //Thread.Sleep(3000);
+                                //((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).PowerOff(MC_BUFFERED_MODE_ENUM.MC_ABORTING_MODE);
+                                //Thread.Sleep(1500);
+                                //retVal = (int)EnumMotionBaseReturnCode.ReturnCodeOK;
                                 // end
                             }
                             else
@@ -4082,6 +4101,15 @@ namespace Motion
                                 }
                                 else
                                 {
+                                    // <== 251113 sebas 그룹축 Enable
+                                    int AbleOnce = 0;
+                                    if(AbleOnce == 0)   // 첫 실행때만 켜지도록
+                                    {
+                                        ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).GroupEnable();
+                                        AbleOnce++;
+                                    }
+                                    // ==>
+
                                     ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).TransitionMode = NC_TRANSITION_MODE_ENUM.MC_TM_NONE_MODE;
                                     ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).Execute = 1;
                                     ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).CoordSystem = MC_COORD_SYSTEM_ENUM.MC_ACS_COORD;
@@ -4094,6 +4122,18 @@ namespace Motion
                                     //timeStamp.Add(new KeyValuePair<string, long>(string.Format("Prepare rel move parameters {0}axis: Command issued.", axis.Label.Value), stw.ElapsedMilliseconds));
 
                                     var returnValue = ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).MoveLinearRelativeEx(veltopulsecnt, grouppos, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
+
+                                    // <-- 251113 sebas add 단일 move 실행용
+                                    while (((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).GroupReadStatus() != 1073872896)   // 1073872896 = 그룹축 Stand_Still
+                                    {
+                                        if (stw.ElapsedMilliseconds > 180000)   // 최대 3분
+                                        {
+                                            LoggerManager.Debug("[Motion]Time Out occured while wait for idle in in DS402HomingProgress");
+                                            break;
+                                        }
+                                    }
+                                    // -->
+
                                     //var returnValue = ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).MoveLinearRelative((float)veltopulsecnt, grouppos, MC_BUFFERED_MODE_ENUM.MC_ABORTING_MODE);
                                     retVal = Convert.ToInt32(returnValue);
                                     retVal = 0;
@@ -4127,6 +4167,9 @@ namespace Motion
                 LoggerManager.Debug($"RelMove({axis.Label.Value}): MMCException occurred. Command ID = {err.CommandID}, Err. code = {err.MMCError}, {err.What}");
                 retVal = (int)EnumMotionBaseReturnCode.RelMoveError;
                 LoggerManager.Error($"Motion command failed while Relative moving for Axis =  {axis.Label.Value}, Target = {targetPos}" + err.Message);
+
+                // 251113 sebas fault clear
+                AmpFaultClear(axis);
             }
             catch (Exception err)
             {
