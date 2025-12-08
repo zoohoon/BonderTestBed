@@ -1547,6 +1547,15 @@ namespace Motion
             return retVal;
         }
 
+        public int RelMove_Wating(AxisObject axis, double pos, double vel, double acc)  // 251117 sebas
+        {
+            int retVal = -1;
+
+            retVal = 0;
+
+            return retVal;
+        }
+
         public int RelMove(AxisObject axis, double pos, double vel, double acc, double dcc)
         {
             int retVal = -1;

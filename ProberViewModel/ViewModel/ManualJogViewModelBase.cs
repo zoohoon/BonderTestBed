@@ -66,6 +66,12 @@ namespace ManualJogViewModel
     }
     public class ManualJogViewModelBase : IMainScreenViewModel, IFactoryModule, INotifyPropertyChanged, ISetUpState
     {
+        //251125 ybpark Arm Picker 위치 받아서 index 위치로 이동(Map Die)
+        double FirstDiePos_X = 0.0;
+        double FirstDiePos_Y = 0.0;
+
+        int TestCount = 1;
+
         readonly Guid _ViewModelGUID = new Guid("A9796E36-D6D8-6EA1-349B-6E5E30A90E68");
         public Guid ScreenGUID { get { return _ViewModelGUID; } }
         public ILoaderControllerExtension LoaderController { get; set; }
@@ -1185,6 +1191,44 @@ namespace ManualJogViewModel
             {
                 if (null == _ScNegMoveCommand) _ScNegMoveCommand = new AsyncCommand(ScNegMoveFunc);
                 return _ScNegMoveCommand;
+            }
+        }
+        //251208 ybpark add
+        private AsyncCommand _EPosMoveCommand;
+        public ICommand EPosMoveCommand
+        {
+            get
+            {
+                if (null == _EPosMoveCommand) _EPosMoveCommand = new AsyncCommand(EPosMoveFunc);
+                return _EPosMoveCommand;
+            }
+        }
+        private AsyncCommand _ENegMoveCommand;
+        public ICommand ENegMoveCommand
+        {
+            get
+            {
+                if (null == _ENegMoveCommand) _ENegMoveCommand = new AsyncCommand(ENegMoveFunc);
+                return _ENegMoveCommand;
+            }
+        }
+
+        private AsyncCommand _FVPosMoveCommand;
+        public ICommand FVPosMoveCommand
+        {
+            get
+            {
+                if (null == _FVPosMoveCommand) _FVPosMoveCommand = new AsyncCommand(FVPosMoveFunc);
+                return _EPosMoveCommand;
+            }
+        }
+        private AsyncCommand _FVNegMoveCommand;
+        public ICommand FVNegMoveCommand
+        {
+            get
+            {
+                if (null == _FVNegMoveCommand) _FVNegMoveCommand = new AsyncCommand(FVNegMoveFunc);
+                return _FVNegMoveCommand;
             }
         }
         #endregion
@@ -2347,6 +2391,33 @@ namespace ManualJogViewModel
         }
         #endregion
 
+        //251124 ybpark Test Count Add
+        #region ==> TestCountTextBoxClickCommand
+        private RelayCommand<Object> _TestCountTextBoxClickCommand;
+        public ICommand TestCountTextBoxClickCommand
+        {
+            get
+            {
+                if (null == _TestCountTextBoxClickCommand) _TestCountTextBoxClickCommand = new RelayCommand<Object>(TestCountTextBoxClickCommandFunc);
+                return _TestCountTextBoxClickCommand;
+            }
+        }
+
+        private void TestCountTextBoxClickCommandFunc(Object param)
+        {
+            try
+            {
+                System.Windows.Controls.TextBox tb = (System.Windows.Controls.TextBox)param;
+                tb.Text = VirtualKeyboard.Show(tb.Text, KB_TYPE.DECIMAL, 0, 500);
+                tb.GetBindingExpression(System.Windows.Controls.TextBox.TextProperty).UpdateSource();
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+            }
+        }
+        #endregion
+
         private int _NSZ1TextVal = 0;
 
         public int NSZ1TextVal
@@ -2473,6 +2544,37 @@ namespace ManualJogViewModel
                 }
             }
         }
+        //251208 ybpark add
+        private int _ETextVal = 0;
+
+        public int ETextVal
+        {
+            get { return _ETextVal; }
+            set
+            {
+                if (value != _ETextVal)
+                {
+                    _ETextVal = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+        //251208 ybpark add
+        private int _FVTextVal = 0;
+
+        public int FVTextVal
+        {
+            get { return _FVTextVal; }
+            set
+            {
+                if (value != _FVTextVal)
+                {
+                    _FVTextVal = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         #endregion
         #region ActualVal
         private AxisObject _XAxis;
@@ -2639,6 +2741,37 @@ namespace ManualJogViewModel
                 if (value != _SCAxis)
                 {
                     _SCAxis = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+        //251208 ybpark add
+        private AxisObject _EAxis;
+
+        public AxisObject EAxis
+        {
+            get { return _EAxis; }
+            set
+            {
+                if (value != _EAxis)
+                {
+                    _EAxis = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        //251208 ybpark add
+        private AxisObject _FVAxis;
+
+        public AxisObject FVAxis
+        {
+            get { return _FVAxis; }
+            set
+            {
+                if (value != _FVAxis)
+                {
+                    _FVAxis = value;
                     RaisePropertyChanged();
                 }
             }
@@ -3627,6 +3760,111 @@ namespace ManualJogViewModel
             }
         }
 
+        //251205 ybpark add
+        private async Task EPosMoveFunc()
+        {
+            try
+            {
+
+                axis = this.MotionManager().GetAxis(EnumAxisConstants.E);
+                if (axis == null)
+                {
+
+                }
+                else
+                {
+                    RelMoveStepDist = ETextVal;
+                    Posmove();
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+            }
+            finally
+            {
+
+            }
+        }
+        private async Task ENegMoveFunc()
+        {
+            try
+            {
+
+                axis = this.MotionManager().GetAxis(EnumAxisConstants.E);
+                if (axis == null)
+                {
+
+                }
+                else
+                {
+                    RelMoveStepDist = ETextVal;
+                    Negmove();
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+            }
+            finally
+            {
+
+            }
+        }
+        private async Task FVPosMoveFunc()
+        {
+            try
+            {
+
+                axis = this.MotionManager().GetAxis(EnumAxisConstants.FV);
+                if (axis == null)
+                {
+
+                }
+                else
+                {
+                    RelMoveStepDist = FVTextVal;
+                    Posmove();
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+            }
+            finally
+            {
+
+            }
+        }
+        private async Task FVNegMoveFunc()
+        {
+            try
+            {
+
+                axis = this.MotionManager().GetAxis(EnumAxisConstants.FV);
+                if (axis == null)
+                {
+
+                }
+                else
+                {
+                    RelMoveStepDist = FVTextVal;
+                    Negmove();
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+            }
+            finally
+            {
+
+            }
+        }
         //251029 yb add
         private async Task CX1PosMoveFunc()
         {
@@ -4921,15 +5159,15 @@ namespace ManualJogViewModel
                 apos = axis.Status.RawPosition.Ref;
                 //this.MotionManager().GetActualPos(AxisObject.AxisType.Value, ref apos); //AxisObject.AxisType.Value 축 Enum //  apos : 축위치
                 double pos = Math.Abs(RelMoveStepDist); // 움직일 거리의 절대값
-                if (pos + apos < 1000000.0) // 리밋체크 pos(움직일 거리)와 apos(기존 나의 위치)의 합이 리밋보다 작으면 동작
-                //if (pos + apos < AxisObject.Param.PosSWLimit.Value)
+                if (pos + apos < AxisObject.Param.PosSWLimit.Value) // 리밋체크 pos(움직일 거리)와 apos(기존 나의 위치)의 합이 리밋보다 작으면 동작
                 {
                     EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
                     NegButtonVisibility = false;
                     //20251030 yb 주석처리
                     //retVal = this.StageSupervisor().StageModuleState.ManualRelMove(AxisObject, pos);
 
-                    retVal = this.MotionManager().RelMove(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
+                    retVal = this.MotionManager().RelMove_Wating(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
+                    Thread.Sleep(250);
                 }
                 else
                 {
@@ -4962,12 +5200,12 @@ namespace ManualJogViewModel
 
                 // 251106 sebas limit 해제
                 // if (pos + apos > AxisObject.Param.NegSWLimit.Value)
-                if (true)
+                if (pos + apos > AxisObject.Param.NegSWLimit.Value)
                 {
                     PosButtonVisibility = false;
                     //20251030 yb
                     //this.StageSupervisor().StageModuleState.ManualRelMove(AxisObject, pos);
-                    this.MotionManager().RelMove(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
+                    this.MotionManager().RelMove_Wating(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
                 }
                 else
                 {
@@ -5246,86 +5484,92 @@ namespace ManualJogViewModel
         {
             try
             {
-                //251111 ybpark GetActualPos은 실시간 엔코더 값을 읽어서 pulse 값으로 나타냄. pluse -> mm 단위로 표시하기위해 각 축별 모터 정보를 받아 mm 로 환산 추가
-                IMotionManager Motionmanager = this.MotionManager();
+                await Task.Run(() =>
+                {
+                    //251111 ybpark GetActualPos은 실시간 엔코더 값을 읽어서 pulse 값으로 나타냄. pluse -> mm 단위로 표시하기위해 각 축별 모터 정보를 받아 mm 로 환산 추가
+                    IMotionManager Motionmanager = this.MotionManager();
 
-                double currentPulseValue = 0.0;
+                    double currentPulseValue = 0.0;
 
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref currentPulseValue);
-                XActualVal = currentPulseValue;
+                    double currentPulseValue1 = 0.0;
+                    double currentPulseValue2 = 0.0;
 
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref currentPulseValue);
-                YActualVal = currentPulseValue;
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref currentPulseValue1);
+                    XActualVal = currentPulseValue1;
 
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.C).AxisType.Value, ref currentPulseValue);
-                CActualVal = currentPulseValue;
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.TRI).AxisType.Value, ref currentPulseValue);
-                TRIActualVal = currentPulseValue;
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref currentPulseValue2);
+                    YActualVal = currentPulseValue2;
 
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z0).AxisType.Value, ref currentPulseValue);
-                Z0ActualVal = currentPulseValue;
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z1).AxisType.Value, ref currentPulseValue);
-                Z1ActualVal = currentPulseValue;
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z2).AxisType.Value, ref currentPulseValue);
-                Z2ActualVal = currentPulseValue;
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.C).AxisType.Value, ref currentPulseValue);
+                    CActualVal = currentPulseValue;
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.TRI).AxisType.Value, ref currentPulseValue);
+                    TRIActualVal = currentPulseValue;
 
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ1).AxisType.Value, ref currentPulseValue);
-                NSZ1ActualVal = currentPulseValue;
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z0).AxisType.Value, ref currentPulseValue);
+                    Z0ActualVal = currentPulseValue;
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z1).AxisType.Value, ref currentPulseValue);
+                    Z1ActualVal = currentPulseValue;
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z2).AxisType.Value, ref currentPulseValue);
+                    Z2ActualVal = currentPulseValue;
 
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref currentPulseValue);
-                FDZ1ActualVal = currentPulseValue;
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDT1).AxisType.Value, ref currentPulseValue);
-                FDT1ActualVal = currentPulseValue;
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJX1).AxisType.Value, ref currentPulseValue);
-                EJX1ActualVal = currentPulseValue;
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJY1).AxisType.Value, ref currentPulseValue);
-                EJY1ActualVal = currentPulseValue;
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref currentPulseValue);
-                EJZ1ActualVal = currentPulseValue;
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJPZ1).AxisType.Value, ref currentPulseValue);
-                EJPZ1ActualVal = currentPulseValue;
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ1).AxisType.Value, ref currentPulseValue);
+                    NSZ1ActualVal = currentPulseValue;
 
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NZD1).AxisType.Value, ref currentPulseValue);
-                NZD1ActualVal = currentPulseValue;
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref currentPulseValue);
+                    FDZ1ActualVal = currentPulseValue;
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDT1).AxisType.Value, ref currentPulseValue);
+                    FDT1ActualVal = currentPulseValue;
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJX1).AxisType.Value, ref currentPulseValue);
+                    EJX1ActualVal = currentPulseValue;
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJY1).AxisType.Value, ref currentPulseValue);
+                    EJY1ActualVal = currentPulseValue;
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref currentPulseValue);
+                    EJZ1ActualVal = currentPulseValue;
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJPZ1).AxisType.Value, ref currentPulseValue);
+                    EJPZ1ActualVal = currentPulseValue;
 
-                //기존 주석 처리 되어있었음.
-                //XActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.X).Status.Position.Actual,2);
-                //YActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.Y).Status.Position.Actual, 2);
-                //ZActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.Z).Status.Position.Actual, 2);
-                //CActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.C).Status.Position.Actual, 2);
-                //TriActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.TRI).Status.Position.Actual, 2);
-                //PzActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.PZ).Status.Position.Actual, 2);
-                //AActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.A).Status.Position.Actual, 2);
-                //U1ActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.U2).Status.Position.Actual, 2);
-                //U2ActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.U1).Status.Position.Actual, 2);
-                //WActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.W).Status.Position.Actual, 2);
-                //VActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.V).Status.Position.Actual, 2);
-                //ScActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.SC).Status.Position.Actual, 2);
-                //double Pos = 0;
-                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref Pos);
-                //XActualVal = Pos;
-                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref Pos);
-                //YActualVal = Pos;
-                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref Pos);
-                //ZActualVal = Pos;
-                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.C).AxisType.Value, ref Pos);
-                //CActualVal = Pos;
-                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.TRI).AxisType.Value, ref Pos);
-                //TriActualVal = Pos;
-                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.PZ).AxisType.Value, ref Pos);
-                //PzActualVal = Pos;
-                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.A).AxisType.Value, ref Pos);
-                //AActualVal = Pos;
-                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.U1).AxisType.Value, ref Pos);
-                //U1ActualVal = Pos;
-                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.U2).AxisType.Value, ref Pos);
-                //U2ActualVal = Pos;
-                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.W).AxisType.Value, ref Pos);
-                //WActualVal = Pos;
-                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.V).AxisType.Value, ref Pos);
-                //VActualVal = Pos;
-                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.SC).AxisType.Value, ref Pos);
-                //ScActualVal = Pos;
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NZD1).AxisType.Value, ref currentPulseValue);
+                    NZD1ActualVal = currentPulseValue;
+
+                    //기존 주석 처리 되어있었음.
+                    //XActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.X).Status.Position.Actual,2);
+                    //YActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.Y).Status.Position.Actual, 2);
+                    //ZActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.Z).Status.Position.Actual, 2);
+                    //CActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.C).Status.Position.Actual, 2);
+                    //TriActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.TRI).Status.Position.Actual, 2);
+                    //PzActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.PZ).Status.Position.Actual, 2);
+                    //AActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.A).Status.Position.Actual, 2);
+                    //U1ActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.U2).Status.Position.Actual, 2);
+                    //U2ActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.U1).Status.Position.Actual, 2);
+                    //WActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.W).Status.Position.Actual, 2);
+                    //VActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.V).Status.Position.Actual, 2);
+                    //ScActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.SC).Status.Position.Actual, 2);
+                    //double Pos = 0;
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref Pos);
+                    //XActualVal = Pos;
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref Pos);
+                    //YActualVal = Pos;
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref Pos);
+                    //ZActualVal = Pos;
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.C).AxisType.Value, ref Pos);
+                    //CActualVal = Pos;
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.TRI).AxisType.Value, ref Pos);
+                    //TriActualVal = Pos;
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.PZ).AxisType.Value, ref Pos);
+                    //PzActualVal = Pos;
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.A).AxisType.Value, ref Pos);
+                    //AActualVal = Pos;
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.U1).AxisType.Value, ref Pos);
+                    //U1ActualVal = Pos;
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.U2).AxisType.Value, ref Pos);
+                    //U2ActualVal = Pos;
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.W).AxisType.Value, ref Pos);
+                    //WActualVal = Pos;
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.V).AxisType.Value, ref Pos);
+                    //VActualVal = Pos;
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.SC).AxisType.Value, ref Pos);
+                    //ScActualVal = Pos;
+                });
 
             }
             catch (Exception err)
@@ -5849,7 +6093,8 @@ namespace ManualJogViewModel
 
                 CenterView();
                 IsItDisplayed2RateMagnification = false;
-                this.StageSupervisor().StageModuleState.ManualZDownMove();
+                // 251118 sebas : 매뉴얼조그 진입시 Wait 10초 뜨는거 제거
+                // this.StageSupervisor().StageModuleState.ManualZDownMove();
 
                 retval = EventCodeEnum.NONE;
             }
@@ -7517,7 +7762,7 @@ namespace ManualJogViewModel
         private void Arm_Air1_ON()
         {
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, true); //air on
-            Thread.Sleep(250);
+            Thread.Sleep(100);
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, false);
 
         }
@@ -7614,9 +7859,9 @@ namespace ManualJogViewModel
         private void ARM_BlowON1()
         {
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, true);
-            Thread.Sleep(250);
+            Thread.Sleep(150);
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, false);
-            Thread.Sleep(250);
+            Thread.Sleep(150);
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, true);
         }
 
@@ -7650,7 +7895,7 @@ namespace ManualJogViewModel
         private void ARM_VACON2()
         {
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, true);
-            Thread.Sleep(250);
+            Thread.Sleep(50);
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, false);
         }
 
@@ -7872,6 +8117,187 @@ namespace ManualJogViewModel
         {
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, true);
         }
+
+        //251208 ybpark
+        private RelayCommand _FDHolder3Leg_OFFCommand;
+        public ICommand FDHolder3Leg_OFFCommand
+        {
+            get
+            {
+                if (null == _FDHolder3Leg_OFFCommand) _FDHolder3Leg_OFFCommand = new RelayCommand(FDHolder3Leg_OFF);
+                return _FDHolder3Leg_OFFCommand;
+            }
+        }
+
+        private void FDHolder3Leg_OFF()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, false);
+        }
+
+        private RelayCommand _FDHolder3Leg_ONCommand;
+        public ICommand FDHolder3Leg_ONCommand
+        {
+            get
+            {
+                if (null == _FDHolder3Leg_ONCommand) _FDHolder3Leg_ONCommand = new RelayCommand(FDHolder3Leg_ON);
+                return _FDHolder3Leg_ONCommand;
+            }
+        }
+
+        private void FDHolder3Leg_ON()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, true);
+        }
+
+        private RelayCommand _FDHolder1Leg_OFFCommand;
+        public ICommand FDHolder1Leg_OFFCommand
+        {
+            get
+            {
+                if (null == _FDHolder1Leg_OFFCommand) _FDHolder1Leg_OFFCommand = new RelayCommand(FDHolder1Leg_OFF);
+                return _FDHolder1Leg_OFFCommand;
+            }
+        }
+
+        private void FDHolder1Leg_OFF()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, false);
+        }
+
+        private RelayCommand _FDHolder1Leg_ONCommand;
+        public ICommand FDHolder1Leg_ONCommand
+        {
+            get
+            {
+                if (null == _FDHolder1Leg_ONCommand) _FDHolder1Leg_ONCommand = new RelayCommand(FDHolder1Leg_ON);
+                return _FDHolder1Leg_ONCommand;
+            }
+        }
+
+        private void FDHolder1Leg_ON()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, true);
+        }
+        private RelayCommand _ARM40_OFFCommand;
+        public ICommand ARM40_OFFCommand
+        {
+            get
+            {
+                if (null == _ARM40_OFFCommand) _ARM40_OFFCommand = new RelayCommand(ARM40_OFF);
+                return _ARM40_OFFCommand;
+            }
+        }
+
+        private void ARM40_OFF()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, false);
+        }
+
+        private RelayCommand _ARM40_ONCommand;
+        public ICommand ARM40_ONCommand
+        {
+            get
+            {
+                if (null == _ARM40_ONCommand) _ARM40_ONCommand = new RelayCommand(ARM40_ON);
+                return _ARM40_ONCommand;
+            }
+        }
+
+        private void ARM40_ON()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, true);
+        }
+
+        private RelayCommand _PREVAC_OFFCommand;
+        public ICommand PREVAC_OFFCommand
+        {
+            get
+            {
+                if (null == _PREVAC_OFFCommand) _PREVAC_OFFCommand = new RelayCommand(PREVAC_OFF);
+                return _PREVAC_OFFCommand;
+            }
+        }
+
+        private void PREVAC_OFF()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, false);
+        }
+
+        private RelayCommand _PREVAC_ONCommand;
+        public ICommand PREVAC_ONCommand
+        {
+            get
+            {
+                if (null == _PREVAC_ONCommand) _PREVAC_ONCommand = new RelayCommand(PREVAC_ON);
+                return _PREVAC_ONCommand;
+            }
+        }
+
+        private void PREVAC_ON()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, true);
+        }
+
+        private RelayCommand _ARM1VAC_OFFCommand;
+        public ICommand ARM1VAC_OFFCommand
+        {
+            get
+            {
+                if (null == _ARM1VAC_OFFCommand) _ARM1VAC_OFFCommand = new RelayCommand(ARM1VAC_OFF);
+                return _ARM1VAC_OFFCommand;
+            }
+        }
+
+        private void ARM1VAC_OFF()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, false);
+        }
+
+        private RelayCommand _ARM1VAC_ONCommand;
+        public ICommand ARM1VAC_ONCommand
+        {
+            get
+            {
+                if (null == _ARM1VAC_ONCommand) _ARM1VAC_ONCommand = new RelayCommand(ARM1VAC_ON);
+                return _ARM1VAC_ONCommand;
+            }
+        }
+
+        private void ARM1VAC_ON()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, true);
+        }
+
+        private RelayCommand _ARM2VAC_OFFCommand;
+        public ICommand ARM2VAC_OFFCommand
+        {
+            get
+            {
+                if (null == _ARM2VAC_OFFCommand) _ARM2VAC_OFFCommand = new RelayCommand(ARM2VAC_OFF);
+                return _ARM2VAC_OFFCommand;
+            }
+        }
+
+        private void ARM2VAC_OFF()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, false);
+        }
+
+        private RelayCommand _ARM2VAC_ONCommand;
+        public ICommand ARM2VAC_ONCommand
+        {
+            get
+            {
+                if (null == _ARM2VAC_ONCommand) _ARM2VAC_ONCommand = new RelayCommand(ARM2VAC_ON);
+                return _ARM2VAC_ONCommand;
+            }
+        }
+
+        private void ARM2VAC_ON()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, true);
+        }
+
         #endregion
 
         private AsyncCommand _CAM_HomingCommand;
@@ -7931,11 +8357,10 @@ namespace ManualJogViewModel
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
                 Thread.Sleep(250);
 
-                // Nano Z 위로 이동 (relmove)
-                ProbeAxisObject AxisObjectNSZ1 = axisNSZ1;
-                double pos = 2.86;
-
-                retVal = this.MotionManager().RelMove(AxisObjectNSZ1, pos, AxisObjectNSZ1.Param.Speed.Value, AxisObjectNSZ1.Param.Acceleration.Value);
+                //Nano Z 위로 이동 (relmove) // 251119 기구 수정으로 호밍 후 안올려도 됨 (주석처리)
+                //ProbeAxisObject AxisObjectNSZ1 = axisNSZ1;
+                //double pos = 2500;    // 2.86; //251119 ybpark 기존 2.5 에서 2500으로 수정
+                //retVal = this.MotionManager().RelMove(AxisObjectNSZ1, pos, AxisObjectNSZ1.Param.Speed.Value, AxisObjectNSZ1.Param.Acceleration.Value);
             }
             catch (Exception err)
             {
@@ -7980,8 +8405,10 @@ namespace ManualJogViewModel
 
                 // DD모터 뒤로 이동 (relmove)
                 ProbeAxisObject AxisObjectNZD1 = axisNZD1;
-                double pos = -5.369035;
-                retVal = this.MotionManager().RelMove(AxisObjectNZD1, pos, AxisObjectNZD1.Param.Speed.Value, AxisObjectNZD1.Param.Acceleration.Value);
+
+                // 251125 sebas : Arm 정렬을 위한 DD pos 이동 보정 ( 기존 -5369.035 -> 변경 -5199.095 : 169.94만큼 더함 )
+                double pos = -5699.095; //251119 ybpark 기존 -5.369035에서 -5369.035으로 수정 다음주 : -5569로 Test
+                retVal = this.MotionManager().RelMove_Wating(AxisObjectNZD1, pos, AxisObjectNZD1.Param.Speed.Value, AxisObjectNZD1.Param.Acceleration.Value);
 
                 // 에어 off
                 Thread.Sleep(250);
@@ -8071,7 +8498,7 @@ namespace ManualJogViewModel
 
                 // Ejection Z 위로 이동 (relmove)
                 ProbeAxisObject AxisObjectEJZ1 = axisEJZ1;
-                double pos = 4;
+                double pos = 4000; //251119 ybpark 기존 4에서 4000으로 수정
 
                 retVal = this.MotionManager().RelMove(AxisObjectEJZ1, pos, AxisObjectEJZ1.Param.Speed.Value, AxisObjectEJZ1.Param.Acceleration.Value);
 
@@ -8083,7 +8510,7 @@ namespace ManualJogViewModel
 
                 // FD 척 위로 이동 (relmove)
                 ProbeAxisObject AxisObjectFDZ1 = axisFDZ1;
-                pos = 4.77;
+                pos = 4770; // 20251118 Nick um제어를 위해 (4.77 -> 4770)
 
                 retVal = this.MotionManager().RelMove(AxisObjectFDZ1, pos, AxisObjectFDZ1.Param.Speed.Value, AxisObjectFDZ1.Param.Acceleration.Value);
                 Thread.Sleep(250);
@@ -8095,16 +8522,10 @@ namespace ManualJogViewModel
                     ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
                     ProbeAxisObject axisFDT1 = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
-                    Thread.Sleep(250);
-
-                    ProbeAxisObject AxisObjectFDT1 = axisFDT1;
-                    pos = 10000;
-
-                    retVal = this.MotionManager().RelMove(AxisObjectFDT1, pos, AxisObjectFDT1.Param.Speed.Value, AxisObjectFDT1.Param.Acceleration.Value);
-                    Thread.Sleep(250);
-
                     ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.FDT1);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                    ProbeAxisObject AxisObjectFDT1 = axisFDT1;
+                    pos = 5000;
+                    retVal = this.MotionManager().RelMove(AxisObjectFDT1, pos, AxisObjectFDT1.Param.Speed.Value, AxisObjectFDT1.Param.Acceleration.Value);
                 }
             }
             catch (Exception err)
@@ -8139,12 +8560,12 @@ namespace ManualJogViewModel
 
                 ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.X);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                
+
                 Thread.Sleep(250);
 
                 // X축 중앙으로 이동 (relmove)
                 AxisObject = axis;
-                double pos = 50;
+                double pos = 50000; // 20251118 Nick (um 단위로 변경을 위해 50 -> 50000)
                 retVal = this.MotionManager().RelMove(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
 
                 if (retVal == EventCodeEnum.NONE)
@@ -8162,7 +8583,7 @@ namespace ManualJogViewModel
             {
                 PosRefresh();
             }
-        } 
+        }
 
         //251106 yb 전체 호밍 추가
         private AsyncCommand _TotalModuleHomingCommand;
@@ -8195,7 +8616,7 @@ namespace ManualJogViewModel
                                                         EnumAxisConstants.Z2, EnumAxisConstants.EJPZ1);
             ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-            //// Nano Z 축 아래로 이동
+            // 호밍그룹1
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             var axisEnums = new EnumAxisConstants[]
             {
@@ -8210,25 +8631,25 @@ namespace ManualJogViewModel
                 .Select(axis => this.MotionManager().GetAxis(axis))
                 .ToArray();
 
-            double pos = 15;
+            double pos = 15000; //251119 ybpark 기존 15 에서 15000 이하 밑에 pos부분은 기존 값에서 1000곱한 값임!
 
             for (int i = 0; i < 17; i++)
             {
-                if (i == 13) //X
+                if (i == 13) //X 
                 {
-                    retVal = this.MotionManager().RelMove(axes[i], pos + 150, axes[i].Param.Speed.Value, axes[i].Param.Acceleration.Value);
+                    retVal = this.MotionManager().RelMove(axes[i], pos + 170000, axes[i].Param.Speed.Value * 2, axes[i].Param.Acceleration.Value * 2);
                 }
-                else if(i == 14) //EJZ1
+                else if (i == 14) //EJZ1
                 {
-                    retVal = this.MotionManager().RelMove(axes[i], pos - 5, axes[i].Param.Speed.Value, axes[i].Param.Acceleration.Value);
+                    retVal = this.MotionManager().RelMove(axes[i], pos - 5000, axes[i].Param.Speed.Value, axes[i].Param.Acceleration.Value);
                 }
                 else if (i == 15)//FDZ1
                 {
-                    retVal = this.MotionManager().RelMove(axes[i], pos - 10, axes[i].Param.Speed.Value, axes[i].Param.Acceleration.Value);
+                    retVal = this.MotionManager().RelMove(axes[i], pos - 10000, axes[i].Param.Speed.Value, axes[i].Param.Acceleration.Value);
                 }
                 else if (i == 16)//FDT1
                 {
-                    retVal = this.MotionManager().RelMove(axes[i], pos - 10, axes[i].Param.Speed.Value, axes[i].Param.Acceleration.Value);
+                    retVal = this.MotionManager().RelMove(axes[i], pos - 10000, axes[i].Param.Speed.Value, axes[i].Param.Acceleration.Value);
                 }
                 else
                 {
@@ -8236,12 +8657,416 @@ namespace ManualJogViewModel
                 }
             }
 
-            // air on
+            Arms_Air_On();
 
-            // 나머지 호밍
+            // 호밍그룹2 : Base Y , Nano Z , Eject X, Eject Y
+            ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Y, EnumAxisConstants.NSZ1, EnumAxisConstants.EJX1, EnumAxisConstants.EJY1);
 
-            // air off
+            var axisEnums1 = new EnumAxisConstants[]
+            {
+                EnumAxisConstants.Y, EnumAxisConstants.NSZ1, EnumAxisConstants.NZD1
+            };
 
+            ProbeAxisObject[] axes1 = axisEnums1
+                .Select(axis1 => this.MotionManager().GetAxis(axis1))
+                .ToArray();
+
+            //for (int i = 0; i < 2; i++) // 251119 기구수정으로 호밍 후 나노 z 이동 삭제
+            //{
+            //    if (i == 1) // Nano Z : 2.8 up
+            //    {
+            //        retVal = this.MotionManager().RelMove(axes1[i], pos - 12200, axes1[i].Param.Speed.Value * 3, axes1[i].Param.Acceleration.Value * 3);
+            //    }
+            //}
+
+            // DD motor
+            ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.NZD1);
+
+            pos = -5369.035; //251119 ybpark 기존 -5.369035 에서 -5369.035 수정  
+            retVal = this.MotionManager().RelMove(axes1[2], pos, axes1[2].Param.Speed.Value, axes1[2].Param.Acceleration.Value);
+
+            Thread.Sleep(3000);
+            Arms_Air_Off();
+        }
+
+        //251208 ybpark add
+        private AsyncCommand _A_HomingCommand;
+        public ICommand A_HomingCommand
+        {
+            get
+            {
+                if (null == _A_HomingCommand) _A_HomingCommand = new AsyncCommand(AHoming_Func);
+                return _A_HomingCommand;
+            }
+        }
+
+        private async Task AHoming_Func()
+        {
+            try
+            {
+                EventCodeEnum ret = EventCodeEnum.NODATA;
+                EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+                axis = this.MotionManager().GetAxis(EnumAxisConstants.A);
+
+                ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.A);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                Thread.Sleep(250);
+
+                // X축 중앙으로 이동 (relmove)
+                AxisObject = axis;
+                double pos = 50000; // 20251118 Nick (um 단위로 변경을 위해 50 -> 50000)
+                retVal = this.MotionManager().RelMove(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
+
+                if (retVal == EventCodeEnum.NONE)
+                {
+                    ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Y);
+                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+            }
+            finally
+            {
+                PosRefresh();
+            }
+        }
+
+        private AsyncCommand _E_HomingCommand;
+        public ICommand E_HomingCommand
+        {
+            get
+            {
+                if (null == _E_HomingCommand) _E_HomingCommand = new AsyncCommand(EHoming_Func);
+                return _E_HomingCommand;
+            }
+        }
+
+        private async Task EHoming_Func()
+        {
+            try
+            {
+                EventCodeEnum ret = EventCodeEnum.NODATA;
+                EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+                axis = this.MotionManager().GetAxis(EnumAxisConstants.E);
+
+                ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.E);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                Thread.Sleep(250);
+
+                // X축 중앙으로 이동 (relmove)
+                AxisObject = axis;
+                double pos = 50000; // 20251118 Nick (um 단위로 변경을 위해 50 -> 50000)
+                retVal = this.MotionManager().RelMove(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
+
+                if (retVal == EventCodeEnum.NONE)
+                {
+                    ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Y);
+                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+            }
+            finally
+            {
+                PosRefresh();
+            }
+        }
+
+        private AsyncCommand _W_HomingCommand;
+        public ICommand W_HomingCommand
+        {
+            get
+            {
+                if (null == _W_HomingCommand) _W_HomingCommand = new AsyncCommand(WHoming_Func);
+                return _W_HomingCommand;
+            }
+        }
+
+        private async Task WHoming_Func()
+        {
+            try
+            {
+                EventCodeEnum ret = EventCodeEnum.NODATA;
+                EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+                axis = this.MotionManager().GetAxis(EnumAxisConstants.W);
+
+                ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.W);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                Thread.Sleep(250);
+
+                // X축 중앙으로 이동 (relmove)
+                AxisObject = axis;
+                double pos = 50000; // 20251118 Nick (um 단위로 변경을 위해 50 -> 50000)
+                retVal = this.MotionManager().RelMove(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
+
+                if (retVal == EventCodeEnum.NONE)
+                {
+                    ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Y);
+                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+            }
+            finally
+            {
+                PosRefresh();
+            }
+        }
+
+        private AsyncCommand _FV_HomingCommand;
+        public ICommand FV_HomingCommand
+        {
+            get
+            {
+                if (null == _FV_HomingCommand) _FV_HomingCommand = new AsyncCommand(FVHoming_Func);
+                return _FV_HomingCommand;
+            }
+        }
+
+        private async Task FVHoming_Func()
+        {
+            try
+            {
+                EventCodeEnum ret = EventCodeEnum.NODATA;
+                EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+                axis = this.MotionManager().GetAxis(EnumAxisConstants.FV);
+
+                ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.FV);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                Thread.Sleep(250);
+
+                // X축 중앙으로 이동 (relmove)
+                AxisObject = axis;
+                double pos = 50000; // 20251118 Nick (um 단위로 변경을 위해 50 -> 50000)
+                retVal = this.MotionManager().RelMove(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
+
+                if (retVal == EventCodeEnum.NONE)
+                {
+                    ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Y);
+                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+            }
+            finally
+            {
+                PosRefresh();
+            }
+        }
+
+        private AsyncCommand _U1_HomingCommand;
+        public ICommand U1_HomingCommand
+        {
+            get
+            {
+                if (null == _U1_HomingCommand) _U1_HomingCommand = new AsyncCommand(U1Homing_Func);
+                return _U1_HomingCommand;
+            }
+        }
+
+        private async Task U1Homing_Func()
+        {
+            try
+            {
+                EventCodeEnum ret = EventCodeEnum.NODATA;
+                EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+                axis = this.MotionManager().GetAxis(EnumAxisConstants.U1);
+
+                ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.U1);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                Thread.Sleep(250);
+
+                // X축 중앙으로 이동 (relmove)
+                AxisObject = axis;
+                double pos = 50000; // 20251118 Nick (um 단위로 변경을 위해 50 -> 50000)
+                retVal = this.MotionManager().RelMove(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
+
+                if (retVal == EventCodeEnum.NONE)
+                {
+                    ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Y);
+                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+            }
+            finally
+            {
+                PosRefresh();
+            }
+        }
+
+        private AsyncCommand _U2_HomingCommand;
+        public ICommand U2_HomingCommand
+        {
+            get
+            {
+                if (null == _U2_HomingCommand) _U2_HomingCommand = new AsyncCommand(U2Homing_Func);
+                return _U2_HomingCommand;
+            }
+        }
+
+        private async Task U2Homing_Func()
+        {
+            try
+            {
+                EventCodeEnum ret = EventCodeEnum.NODATA;
+                EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+                axis = this.MotionManager().GetAxis(EnumAxisConstants.U2);
+
+                ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.U2);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                Thread.Sleep(250);
+
+                // X축 중앙으로 이동 (relmove)
+                AxisObject = axis;
+                double pos = 50000; // 20251118 Nick (um 단위로 변경을 위해 50 -> 50000)
+                retVal = this.MotionManager().RelMove(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
+
+                if (retVal == EventCodeEnum.NONE)
+                {
+                    ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Y);
+                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+            }
+            finally
+            {
+                PosRefresh();
+            }
+        }
+
+        private AsyncCommand _LoaderTotalModuleHomingCommand;
+        public ICommand LoaderTotalModuleHomingCommand
+        {
+            get
+            {
+                if (null == _LoaderTotalModuleHomingCommand) _LoaderTotalModuleHomingCommand = new AsyncCommand(LoaderTotalModuleHoming_Func);
+                return _LoaderTotalModuleHomingCommand;
+            }
+        }
+
+        private async Task LoaderTotalModuleHoming_Func()
+        {
+            //CAMH_oming_Func();
+            //NANOHoming_Func();
+            //DDHoming_Func();
+            //WaferHoming_Func();
+            //FDHoming_Func();
+            //XYHoming_Func();
+
+            EventCodeEnum ret = EventCodeEnum.NODATA;
+
+            ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.CX1, EnumAxisConstants.CY1, EnumAxisConstants.CZ1,
+                                                        EnumAxisConstants.CX2, EnumAxisConstants.CY2, EnumAxisConstants.CZ2,
+                                                        EnumAxisConstants.CX3, EnumAxisConstants.CY3, EnumAxisConstants.CZ3,
+                                                        EnumAxisConstants.CX4, EnumAxisConstants.CY4, EnumAxisConstants.CZ4,
+                                                        EnumAxisConstants.CZ5, EnumAxisConstants.X, EnumAxisConstants.EJZ1, EnumAxisConstants.FDZ1, EnumAxisConstants.FDT1,
+                                                        EnumAxisConstants.C, EnumAxisConstants.TRI, EnumAxisConstants.Z0, EnumAxisConstants.Z1,
+                                                        EnumAxisConstants.Z2, EnumAxisConstants.EJPZ1);
+            ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+            // 호밍그룹1
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            var axisEnums = new EnumAxisConstants[]
+            {
+                EnumAxisConstants.CX1, EnumAxisConstants.CY1, EnumAxisConstants.CZ1,
+                EnumAxisConstants.CX2, EnumAxisConstants.CY2, EnumAxisConstants.CZ2,
+                EnumAxisConstants.CX3, EnumAxisConstants.CY3, EnumAxisConstants.CZ3,
+                EnumAxisConstants.CX4, EnumAxisConstants.CY4, EnumAxisConstants.CZ4,
+                EnumAxisConstants.CZ5, EnumAxisConstants.X, EnumAxisConstants.EJZ1, EnumAxisConstants.FDZ1,EnumAxisConstants.FDT1
+            };
+
+            ProbeAxisObject[] axes = axisEnums
+                .Select(axis => this.MotionManager().GetAxis(axis))
+                .ToArray();
+
+            double pos = 15000; //251119 ybpark 기존 15 에서 15000 이하 밑에 pos부분은 기존 값에서 1000곱한 값임!
+
+            for (int i = 0; i < 17; i++)
+            {
+                if (i == 13) //X 
+                {
+                    retVal = this.MotionManager().RelMove(axes[i], pos + 170000, axes[i].Param.Speed.Value * 2, axes[i].Param.Acceleration.Value * 2);
+                }
+                else if (i == 14) //EJZ1
+                {
+                    retVal = this.MotionManager().RelMove(axes[i], pos - 5000, axes[i].Param.Speed.Value, axes[i].Param.Acceleration.Value);
+                }
+                else if (i == 15)//FDZ1
+                {
+                    retVal = this.MotionManager().RelMove(axes[i], pos - 10000, axes[i].Param.Speed.Value, axes[i].Param.Acceleration.Value);
+                }
+                else if (i == 16)//FDT1
+                {
+                    retVal = this.MotionManager().RelMove(axes[i], pos - 10000, axes[i].Param.Speed.Value, axes[i].Param.Acceleration.Value);
+                }
+                else
+                {
+                    retVal = this.MotionManager().RelMove(axes[i], pos, axes[i].Param.Speed.Value, axes[i].Param.Acceleration.Value);
+                }
+            }
+
+            Arms_Air_On();
+
+            // 호밍그룹2 : Base Y , Nano Z , Eject X, Eject Y
+            ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Y, EnumAxisConstants.NSZ1, EnumAxisConstants.EJX1, EnumAxisConstants.EJY1);
+
+            var axisEnums1 = new EnumAxisConstants[]
+            {
+                EnumAxisConstants.Y, EnumAxisConstants.NSZ1, EnumAxisConstants.NZD1
+            };
+
+            ProbeAxisObject[] axes1 = axisEnums1
+                .Select(axis1 => this.MotionManager().GetAxis(axis1))
+                .ToArray();
+
+            //for (int i = 0; i < 2; i++) // 251119 기구수정으로 호밍 후 나노 z 이동 삭제
+            //{
+            //    if (i == 1) // Nano Z : 2.8 up
+            //    {
+            //        retVal = this.MotionManager().RelMove(axes1[i], pos - 12200, axes1[i].Param.Speed.Value * 3, axes1[i].Param.Acceleration.Value * 3);
+            //    }
+            //}
+
+            // DD motor
+            ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.NZD1);
+
+            pos = -5369.035; //251119 ybpark 기존 -5.369035 에서 -5369.035 수정  
+            retVal = this.MotionManager().RelMove(axes1[2], pos, axes1[2].Param.Speed.Value, axes1[2].Param.Acceleration.Value);
+
+            Thread.Sleep(3000);
+            Arms_Air_Off();
         }
 
         // 251112 ybpark 단동 시험 버튼 추가 
@@ -8255,182 +9080,416 @@ namespace ManualJogViewModel
             }
         }
 
+        #region => 251119 sebas sequence add
+        // 20241130 Nick Pick Test
         private async Task AcceptanceCommand_Func()
         {
             try
             {
+                LoggerManager.Debug($"AcceptanceCommand Start");
+
                 // 251112 sebas sequence add
                 EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
 
-                //ProbeAxisObject axisX = this.MotionManager().GetAxis(EnumAxisConstants.X);
-                //ProbeAxisObject axisY = this.MotionManager().GetAxis(EnumAxisConstants.Y);
-                //ProbeAxisObject axisC = this.MotionManager().GetAxis(EnumAxisConstants.C);
-                //ProbeAxisObject axisTRI = this.MotionManager().GetAxis(EnumAxisConstants.TRI);
-                //ProbeAxisObject axisZ0 = this.MotionManager().GetAxis(EnumAxisConstants.Z0);
-                //ProbeAxisObject axisZ1 = this.MotionManager().GetAxis(EnumAxisConstants.Z1);
-                //ProbeAxisObject axisZ2 = this.MotionManager().GetAxis(EnumAxisConstants.Z2);
-
-                //ProbeAxisObject axisNSZ1 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ1);
-
-                //ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
-
-                //ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
-                //ProbeAxisObject axisEJY1 = this.MotionManager().GetAxis(EnumAxisConstants.EJY1);
-                //ProbeAxisObject axisFDT1 = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
                 ProbeAxisObject axisEJPZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJPZ1);
-                //ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
 
-                //ProbeAxisObject axisNZD1 = this.MotionManager().GetAxis(EnumAxisConstants.NZD1);
+                int RotateCount = 1;
+                bool IOCheck = false;
+                bool StartFlag = false;
+                double pos = 0.0;
 
-                //#region Test
-                //retVal = BonderTest();
-                //if (retVal != EventCodeEnum.NONE)
-                //{
-                //    throw new Exception("MovePickPos_SafeZone() Function Error");
-                //}
-                //int breaktemp = 0;
-                //#endregion
+                #region Ready
+                retVal = MovePickPos_SafeZone_First();  // 첫번째 시작 다이를 Pick 아래까지 이동 (FD척, Wafer척)
 
-                #region Pick Process
-                retVal = MovePickPos_SafeZone();  // Pick 아래 안전영역까지 이동
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("MovePickPos_SafeZone() Function Error");
-                }
-
-                // Ejection Pin 나오는 동작 포함
-                retVal = MovePickPos_DangerZone();  // Pick 바로 아래 위험영역까지 Z축 Up
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("MovePickPos_DangerZone() Function Error");
-                }
-
-                Arms_Air_On();  // arm1, arm2 air on
-                Arm1_Vac_On();  // Pick 동작 (Vacuum)
-
-                if(false)    // Pick 단동 테스트할 때 사용. Rotate 안하는 경우
-                {
-                    Arm1_Vac_Off();
-                    Arms_Air_Off(); // arm1, arm2 air off
-                }
-
-                // Ejection Pin 다시 들어감 (복귀)
-
-                double pos = -0.7;    // = -7,000 Ejection Pin Z 축 DtoP = 10000
-                retVal = this.MotionManager().RelMove(axisEJPZ1, pos, axisEJPZ1.Param.Speed.Value, axisEJPZ1.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Ejection Pin Z RelMove Error");
-                }
-
-                // Rotate 해도 괜찮은 위치로 복귀
-                retVal = MovePickPos_SafeZone_AfterPick();  // Ejection, FD Stage Z Down
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("MovePickPos_SafeZone() Function Error");
                 }
                 #endregion
 
+                Arms_Air_On();  // arm1, arm2 air on
 
-                #region Rotate Process
-                // 조건 체크 (Nano Z , Air , Magnetic) 내용 추가 예정
-
-                // Rotate 동작
-                retVal = Rotate_Plus(); // DD모터가 +방향(정면기준 시계 반대방향)으로 회전
+                retVal = Rotate_Plus();
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("Rotate_Plus() Function Error");
                 }
-                #endregion
 
-
-                #region Place Process
-                // Place (Magnet On, air Off)
-                retVal = DoPlace_BeforeWaferUp();
-                if (retVal != EventCodeEnum.NONE)
+                for (TestCount = 1; TestCount <= TestCountActualVal; TestCount++)     // X축만 강제 3회 이동
                 {
-                    throw new Exception("DoPlace_BeforeVacOff() Function Error");
-                }
+                    LoggerManager.Debug($"Sequence Start {TestCount}");
 
-                // Wafer stage Up
-                retVal = Wafer_Chuck_DangerZone();  // Wafer Chuck이 arm 바로 아래까지 Up
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Wafer_Chuck_DangerZone() Function Error");
-                }
+                    #region Pick Process
+                    LoggerManager.Debug($"Arms_Air_On Start");
+                    Arms_Air_On();  // arm1, arm2 air on
+                    LoggerManager.Debug($"Arms_Air_On End");
 
-                // Nano Stage Z Down
-                retVal = DoPlace_Nano_ZDown();
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("DoPlace_Nano_ZDown() Function Error");
-                }
-
-                // Arm1 Vacuum Off 동작 (Place)
-                Arm1_Vac_Off();
-
-                // Nano Stage Z Up
-                retVal = DoPlace_Nano_ZUp();
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("DoPlace_Nano_ZUp() Function Error");
-                }
-
-                // Wafer stage Down
-                retVal = Wafer_Chuck_SafeZone();  // Wafer Chuck이 arm 바로 아래까지 Up
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Wafer_Chuck_SafeZone() Function Error");
-                }
-
-                // Place (Magnetic Off, air On)
-                retVal = DoPlace_AfterWaferDown();
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("DoPlace_AfterWaferDown() Function Error");
-                }
-
-                if (true)    // 1회전 끝
-                {
-                    retVal = Rotate_Minus(); // DD모터가 +방향(정면기준 시계 반대방향)으로 회전
-                    if (retVal != EventCodeEnum.NONE)
+                    if (false == StartFlag)
                     {
-                        throw new Exception("Rotate_Plus() Function Error");
+                        StartFlag = true;
+                    }
+                    else
+                    {
+                        LoggerManager.Debug($"Rotate_Plus(CW) Start");
+                        retVal = Rotate_Plus();
+                        LoggerManager.Debug($"Rotate_Plus(CW) End");
                     }
 
-                    Arms_Air_Off(); // arm1, arm2 air off
+                    //251125 ybpark 첫번째 다이가 아닌 두번째 다이 부터 x,y 
+                    if (TestCount > 1)
+                    {
+                        LoggerManager.Debug($"MovePickPos_SafeZone_Next(이젝션 다음다이로 이동) Start");
+                        retVal = MovePickPos_SafeZone_Next();
+                        LoggerManager.Debug($"MovePickPos_SafeZone_Next(이젝션 다음다이로 이동) End");
+
+                        if (retVal != EventCodeEnum.NONE)
+                        {
+                            throw new Exception("MovePickPos_SafeZone_Next() Function Error");
+                        }
+                    }
+
+                    // Ejection Pin 나오는 동작 포함
+                    LoggerManager.Debug($"MovePickPos_DangerZone Start");
+                    retVal = MovePickPos_DangerZone();  // Pick할 수 있는 위치
+                    LoggerManager.Debug($"MovePickPos_DangerZone End");
+
+                    if (retVal != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("MovePickPos_DangerZone() Function Error");
+                    }
+
+                    // Ejection Pin Down (상대값 이동)
+                    pos = -300;    // = 3,000 Ejection Pin Z 축 DtoP = 10
+                    LoggerManager.Debug($"Ejection Pin Down Start");
+                    retVal = this.MotionManager().RelMove(axisEJPZ1, pos, axisEJPZ1.Param.Speed.Value, axisEJPZ1.Param.Acceleration.Value);
+                    LoggerManager.Debug($"Ejection Pin Down End");
+                    if (retVal != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("Ejection Pin Z RelMove Error");
+                    }
+
+                    // Rotate 해도 괜찮은 위치로 복귀
+                    LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick Start");
+                    retVal = MovePickPos_SafeZone_AfterPick();  // 일단 Ejection Z Down만 Down
+                    LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick End");
+                    if (retVal != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("MovePickPos_SafeZone() Function Error");
+                    }
+                    #endregion
+
+                    #region Rotate Process
+                    //if (IOCheck)
+                    if (true)
+                    {
+                        Thread.Sleep(350);
+                        if (true)
+                        {
+                            LoggerManager.Debug($"Rotate_Plus(CW) Start");
+                            retVal = Rotate_Plus(); // DD모터가 +방향(정면기준 시계 반대방향)으로 회전
+                            LoggerManager.Debug($"Rotate_Plus(CW) End");
+                            if (retVal != EventCodeEnum.NONE)
+                            {
+                                throw new Exception("Rotate_Plus() Function Error");
+                            }
+                        }
+                        else
+                        {
+                            this.MetroDialogManager().ShowMessageDialog("Sequence Error", "Die is not existed on Arm2", EnumMessageStyle.Affirmative);
+                            throw new Exception("Die is not existed on Arm2");
+                        }
+                    }
+                    #endregion
+
+                    #region Place Process
+                    LoggerManager.Debug($"Magnetic_On Start");
+                    retVal = Magnetic_On();
+                    LoggerManager.Debug($"Magnetic_On End");
+                    if (retVal != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("Magnetic_On() Function Error");
+                    }
+
+                    // Wafer stage Up
+                    LoggerManager.Debug($"Wafer_Chuck_DangerZone Start");
+                    retVal = Wafer_Chuck_DangerZone();  // Wafer Chuck이 arm 바로 아래까지 Up
+                    LoggerManager.Debug($"Wafer_Chuck_DangerZone End");
+                    if (retVal != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("Wafer_Chuck_DangerZone() Function Error");
+                    }
+
+                    // Arms air off
+                    LoggerManager.Debug($"Arms_Air_Off Start");
+                    Arms_Air_Off();
+                    LoggerManager.Debug($"Arms_Air_Off End");
+
+                    // Nano Stage Z Down
+                    LoggerManager.Debug($"DoPlace_Nano_ZDown Start");
+                    retVal = DoPlace_Nano_ZDown();
+                    LoggerManager.Debug($"DoPlace_Nano_ZDown End");
+                    if (retVal != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("DoPlace_Nano_ZDown() Function Error");
+                    }
+
+                    // Arm2 Vacuum Off 동작 (Place)
+                    LoggerManager.Debug($"Arm2_Vac_Off Start");
+                    Arm2_Vac_Off();  // Place 동작 (Vacuum)
+                    LoggerManager.Debug($"Arm2_Vac_Off End");
+
+                    // Nano Stage Z Up
+                    LoggerManager.Debug($"DoPlace_Nano_ZUp Start");
+                    retVal = DoPlace_Nano_ZUp();
+                    LoggerManager.Debug($"DoPlace_Nano_ZUp End");
+                    if (retVal != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("DoPlace_Nano_ZUp() Function Error");
+                    }
+
+                    // Wafer stage Down
+                    LoggerManager.Debug($"Wafer_Chuck_SafeZone Start");
+                    retVal = Wafer_Chuck_SafeZone();
+                    LoggerManager.Debug($"Wafer_Chuck_SafeZone End");
+                    if (retVal != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("Wafer_Chuck_SafeZone() Function Error");
+                    }
+
+                    // Place (Magnetic Off)
+                    LoggerManager.Debug($"Magnetic_Off Start");
+                    retVal = Magnetic_Off();
+                    LoggerManager.Debug($"Magnetic_Off End");
+                    if (retVal != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("Magnetic_Off() Function Error");
+                    }
+
+                    LoggerManager.Debug($"Sequence End {TestCount}");
+                    #endregion
                 }
 
-                #endregion
-
-                #region Move to Next Die
-                for (int i = 0; i < 4; i++)
+                retVal = Wafer_Chuck_EndZone();
+                if (retVal != EventCodeEnum.NONE)
                 {
-
+                    throw new Exception("Wafer_Chuck_EndZone() Function Error");
                 }
-                #endregion
+
+                Arm1_Vac_Off();  // Place 동작 (Vacuum)
+                Arm2_Vac_Off();  // Place 동작 (Vacuum)
             }
             catch (Exception err)
             {
                 LoggerManager.Exception(err);
                 throw;
             }
-            finally
-            {
-
-            }
         }
 
-        // <== 251112 sebas sequence add
-        public EventCodeEnum MovePickPos_SafeZone()
+        //private async Task AcceptanceCommand_Func()
+        //{
+        //    try
+        //    {
+        //        LoggerManager.Debug($"AcceptanceCommand Start");
+
+        //        // 251112 sebas sequence add
+        //        EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+        //        ProbeAxisObject axisEJPZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJPZ1);
+
+        //        int RotateCount = 1;
+        //        bool IOCheck = false;
+        //        double pos = 0.0;
+
+        //        #region Ready
+        //        retVal = MovePickPos_SafeZone_First();  // 첫번째 시작 다이를 Pick 아래까지 이동 (FD척, Wafer척)
+
+        //        if (retVal != EventCodeEnum.NONE)
+        //        {
+        //            throw new Exception("MovePickPos_SafeZone() Function Error");
+        //        }
+        //        #endregion
+
+
+        //        for (int i = 0; i < 4; i++)     // X축만 강제 3회 이동
+        //        {
+        //            #region Move Next
+        //            LoggerManager.Debug($"Sequence Start {i}");
+
+        //            if (RotateCount > 1)
+        //            {
+        //                retVal = MovePickPos_SafeZone_Next();
+
+        //                if (retVal != EventCodeEnum.NONE)
+        //                {
+        //                    throw new Exception("MovePickPos_SafeZone_Next() Function Error");
+        //                }
+        //            }
+        //            #endregion
+
+        //            #region Pick Process
+        //            Arms_Air_On();  // arm1, arm2 air on
+
+        //            // Ejection Pin 나오는 동작 포함
+        //            retVal = MovePickPos_DangerZone();  // Pick할 수 있는 위치
+        //            if (retVal != EventCodeEnum.NONE)
+        //            {
+        //                throw new Exception("MovePickPos_DangerZone() Function Error");
+        //            }
+
+        //            if (RotateCount % 2 == 1)    // 홀수면 Arm1
+        //            {
+        //                // Arm1_Vac_On();  // Pick 동작 (Vacuum) , Arm1 사용 불가
+        //                Arm2_Vac_On();  // Pick 동작 (Vacuum)
+        //            }
+        //            else   // 짝수면 Arm2
+        //            {
+        //                Arm2_Vac_On();  // Pick 동작 (Vacuum)
+        //            }
+
+        //            // Ejection Pin Down (상대값 이동)
+        //            pos = 300;    // = 3,000 Ejection Pin Z 축 DtoP = 10
+        //            retVal = this.MotionManager().RelMove_Wating(axisEJPZ1, pos, axisEJPZ1.Param.Speed.Value, axisEJPZ1.Param.Acceleration.Value);
+        //            if (retVal != EventCodeEnum.NONE)
+        //            {
+        //                throw new Exception("Ejection Pin Z RelMove Error");
+        //            }
+
+        //            // Ejection Pin Vacuum Off
+        //            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, false);
+        //            Thread.Sleep(250);
+
+        //            // Rotate 해도 괜찮은 위치로 복귀
+        //            retVal = MovePickPos_SafeZone_AfterPick();  // 일단 Ejection Z Down만 Down
+        //            if (retVal != EventCodeEnum.NONE)
+        //            {
+        //                throw new Exception("MovePickPos_SafeZone() Function Error");
+        //            }
+        //            #endregion
+        //            // 251119 드라이런으로 IO 체크 임시 제거
+        //            // IOCheck = IsCanRotate();     // 조건 체크 : Nano Z , Air , Magnetic  +  FD Chuck Z 높이 추가 예정
+
+        //            #region Rotate Process
+        //            //if (IOCheck)
+        //            if (true)
+        //            {
+        //                // 251119 드라이런으로 IO 체크 임시 제거
+        //                //this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_ARM_VAC_SENSOR2, out IOCheck);      // (Interlock) Arm2 Vacuum On / Off 체크
+
+        //                //if (IOCheck)
+        //                if (true)
+        //                {
+        //                    // Rotate 동작
+        //                    if (RotateCount % 2 == 1)    // 홀수면 +방향
+        //                    {
+        //                        retVal = Rotate_Plus(); // DD모터가 +방향(정면기준 시계 반대방향)으로 회전
+        //                        if (retVal != EventCodeEnum.NONE)
+        //                        {
+        //                            throw new Exception("Rotate_Plus() Function Error");
+        //                        }
+        //                        RotateCount++;
+        //                    }
+        //                    else   // 짝수면 - 방향
+        //                    {
+        //                        retVal = Rotate_Minus(); // DD모터가 -방향(정면기준 시계 방향)으로 회전
+        //                        if (retVal != EventCodeEnum.NONE)
+        //                        {
+        //                            throw new Exception("Rotate_Plus() Function Error");
+        //                        }
+        //                        RotateCount++;
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    this.MetroDialogManager().ShowMessageDialog("Sequence Error", "Die is not existed on Arm2", EnumMessageStyle.Affirmative);
+        //                    throw new Exception("Die is not existed on Arm2");
+        //                }
+        //            }
+        //            #endregion
+
+
+        //            #region Place Process
+        //            retVal = Magnetic_On();
+        //            if (retVal != EventCodeEnum.NONE)
+        //            {
+        //                throw new Exception("Magnetic_On() Function Error");
+        //            }
+
+        //            // Arms air off
+        //            Arms_Air_Off();
+
+        //            // Wafer stage Up
+        //            retVal = Wafer_Chuck_DangerZone();  // Wafer Chuck이 arm 바로 아래까지 Up
+        //            if (retVal != EventCodeEnum.NONE)
+        //            {
+        //                throw new Exception("Wafer_Chuck_DangerZone() Function Error");
+        //            }
+
+        //            // Nano Stage Z Down
+        //            retVal = DoPlace_Nano_ZDown();
+        //            if (retVal != EventCodeEnum.NONE)
+        //            {
+        //                throw new Exception("DoPlace_Nano_ZDown() Function Error");
+        //            }
+
+        //            // Arm1 Vacuum Off 동작 (Place)
+        //            // 위에 Rotate에서 +1 했기 때문에 Pick 때와는 반대
+        //            if (RotateCount % 2 == 1)    // 홀수면 Arm2
+        //            {
+        //                Arm1_Vac_Off();  // Place 동작 (Vacuum)
+        //            }
+        //            else   // 짝수면 Arm1
+        //            {
+        //                Arm2_Vac_Off();  // Place 동작 (Vacuum)
+        //            }
+
+        //            // Nano Stage Z Up
+        //            retVal = DoPlace_Nano_ZUp();
+        //            if (retVal != EventCodeEnum.NONE)
+        //            {
+        //                throw new Exception("DoPlace_Nano_ZUp() Function Error");
+        //            }
+
+        //            // Wafer stage Down
+        //            retVal = Wafer_Chuck_SafeZone();
+        //            if (retVal != EventCodeEnum.NONE)
+        //            {
+        //                throw new Exception("Wafer_Chuck_SafeZone() Function Error");
+        //            }
+
+        //            // Place (Magnetic Off)
+        //            retVal = Magnetic_Off();
+        //            if (retVal != EventCodeEnum.NONE)
+        //            {
+        //                throw new Exception("Magnetic_Off() Function Error");
+        //            }
+
+        //            LoggerManager.Debug($"Sequence End {i}");
+        //            #endregion
+        //        }
+
+        //        Arm1_Vac_Off();  // Place 동작 (Vacuum)
+        //        Arm2_Vac_Off();  // Place 동작 (Vacuum)
+        //    }
+        //    catch (Exception err)
+        //    {
+        //        LoggerManager.Exception(err);
+        //        throw;
+        //    }
+        //}
+
+        // 20251121 Nick Pick Test
+        public EventCodeEnum MovePickPos_SafeZone_First()
         {
-            // Ejection X ,Y ,Z ,FD Z , base X , base Y 모두 움직임
-            // Z축 높이는 Picker 바로 아래가 아니며 X , Y를 움직여도 충돌이 없는 안전영역(대기영역)
+            // Ejection Z , FD Z 축만 움직임. 첫 다이 위치로 가는 X , Y , Ejection X , Ejection Y 이동 값은 수동으로 이동한다.
+            // X , Y를 움직여도 충돌이 없는 안전영역(대기영역)
+            // pos 위치는 Pick을 하기위해 대기하는 위치로 고정좌표 값. 이 후 다음 다이로 이동하는 방법은 인덱스 사용
+
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
                 ProbeAxisObject axisX = this.MotionManager().GetAxis(EnumAxisConstants.X);
                 ProbeAxisObject axisY = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+                ProbeAxisObject axisZ = this.MotionManager().GetAxis(EnumAxisConstants.Z);
                 ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
 
                 ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
@@ -8442,51 +9501,7 @@ namespace ManualJogViewModel
                 double currentPos = 0.0;    // 현재 위치값 읽기
                 double AcualPos = 0;
 
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJX1).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
-                pos = -58;   // = -58,000 , Ejection X 축 DtoP = 1000
-                retVal = this.MotionManager().RelMove(axisEJX1, pos - currentPos, axisEJX1.Param.Speed.Value * 2, axisEJX1.Param.Acceleration.Value * 2);
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("EJX1 RelMove Error");
-                }
-                int retCode = this.MotionManager().WaitForAxisMotionDone(axisEJX1); // 251113 sebas 모션던 실행확인 필요
-                if (retCode != 0)
-                {
-                    throw new Exception("EJX1 RelMove Error");
-                }
-
-                pos = 38.25;    // = 153,000 Ejection Y 축 DtoP = 4000
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJY1).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
-
-                retVal = this.MotionManager().RelMove(axisEJY1, pos - currentPos, axisEJY1.Param.Speed.Value * 2, axisEJY1.Param.Acceleration.Value * 2);
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("EJY1 RelMove Error");
-                }
-
-                pos = 193.005566;    // = 19,763,770 Base X 축 DtoP = 102400
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
-
-                 retVal = this.MotionManager().RelMove(axisX, pos - currentPos, axisX.Param.Speed.Value, axisX.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Base X RelMove Error");
-                }
-
-                pos = -366.708984;    // = -37,551,000 Base Y 축 DtoP = 102400
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
-
-                retVal = this.MotionManager().RelMove(axisY, pos - currentPos, axisY.Param.Speed.Value, axisY.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Base Y RelMove Error");
-                }
-
-                pos = 21.696091;    // = 91,000,000 FD stage Z 축 DtoP = 4194304
+                pos = 20696.091;    // = 91,000,000 FD stage Z 축 DtoP = 4194.304    // 기존 : 21696.091, 변경 : 20696.091 (1mm = 1000)
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -8496,14 +9511,249 @@ namespace ManualJogViewModel
                     throw new Exception("FD stage Z RelMove Error");
                 }
 
-                pos = 31;    // = 155,000 Ejection Z 축 DtoP = 5000
+                pos = 31000;    // = 155,000 Ejection Z 축 DtoP = 5
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
-
-                retVal = this.MotionManager().RelMove(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
+                // 움직임 완료까지 대기하는 동작
+                retVal = this.MotionManager().RelMove_Wating(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("Ejection Z RelMove Error");
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return retVal;
+        }
+
+        //public EventCodeEnum MovePickPos_SafeZone_First()
+        //{
+        //    // Ejection X ,Y ,FD Z , base X , base Y , 3POD 모두 동시에 움직이고 맨 마지막으로 Ejection Z가 완료될 때까지 기다림
+        //    // Z축 높이는 Picker 바로 아래가 아니며 X , Y를 움직여도 충돌이 없는 안전영역(대기영역)
+        //    // pos 위치는 Pick을 하기위해 대기하는 위치로 고정좌표 값. 이 후 다음 다이로 이동하는 방법은 인덱스 사용
+
+        //    EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+        //    try
+        //    {
+        //        ProbeAxisObject axisX = this.MotionManager().GetAxis(EnumAxisConstants.X);
+        //        ProbeAxisObject axisY = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+        //        ProbeAxisObject axisZ = this.MotionManager().GetAxis(EnumAxisConstants.Z);
+        //        ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
+
+        //        ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
+        //        ProbeAxisObject axisEJY1 = this.MotionManager().GetAxis(EnumAxisConstants.EJY1);
+        //        ProbeAxisObject axisFDT1 = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
+        //        ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
+
+        //        double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
+        //        double currentPos = 0.0;    // 현재 위치값 읽기
+        //        double AcualPos = 0;
+
+        //        this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJX1).AxisType.Value, ref AcualPos);
+        //        currentPos = AcualPos;
+        //        pos = -58000;   // = -58,000 , Ejection X 축 DtoP = 1
+        //        retVal = this.MotionManager().RelMove(axisEJX1, pos - currentPos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
+        //        if (retVal != EventCodeEnum.NONE)
+        //        {
+        //            throw new Exception("EJX1 RelMove Error");
+        //        }
+
+        //        pos = 38250;    // = 153,000 Ejection Y 축 DtoP = 4
+        //        this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJY1).AxisType.Value, ref AcualPos);
+        //        currentPos = AcualPos;
+
+        //        retVal = this.MotionManager().RelMove(axisEJY1, pos - currentPos, axisEJY1.Param.Speed.Value, axisEJY1.Param.Acceleration.Value);
+        //        if (retVal != EventCodeEnum.NONE)
+        //        {
+        //            throw new Exception("EJY1 RelMove Error");
+        //        }
+
+        //        pos = 125781.25;    // = 12,880,000 Base X 축 DtoP = 102.400
+        //        this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref AcualPos);
+        //        currentPos = AcualPos;
+
+        //        retVal = this.MotionManager().RelMove(axisX, pos - currentPos, axisX.Param.Speed.Value, axisX.Param.Acceleration.Value);
+        //        if (retVal != EventCodeEnum.NONE)
+        //        {
+        //            throw new Exception("Base X RelMove Error");
+        //        }
+
+        //        pos = -366708.984;    // = -37,551,000 Base Y 축 DtoP = 102.400
+        //        this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref AcualPos);
+        //        currentPos = AcualPos;
+
+        //        retVal = this.MotionManager().RelMove(axisY, pos - currentPos, axisY.Param.Speed.Value, axisY.Param.Acceleration.Value);
+        //        if (retVal != EventCodeEnum.NONE)
+        //        {
+        //            throw new Exception("Base Y RelMove Error");
+        //        }
+
+        //        pos = 21696.091;    // = 91,000,000 FD stage Z 축 DtoP = 4194.304
+        //        this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
+        //        currentPos = AcualPos;
+
+        //        retVal = this.MotionManager().RelMove(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
+        //        if (retVal != EventCodeEnum.NONE)
+        //        {
+        //            throw new Exception("FD stage Z RelMove Error");
+        //        }
+
+        //        retVal = Wafer_Chuck_SafeZone();
+        //        if (retVal != EventCodeEnum.NONE)
+        //        {
+        //            throw new Exception("Wafer_Chuck_SafeZone Error");
+        //        }
+
+        //        pos = 31000;    // = 155,000 Ejection Z 축 DtoP = 5
+        //        this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
+        //        currentPos = AcualPos;
+        //        // 움직임 완료까지 대기하는 동작
+        //        retVal = this.MotionManager().RelMove_Wating(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
+        //        if (retVal != EventCodeEnum.NONE)
+        //        {
+        //            throw new Exception("Ejection Z RelMove Error");
+        //        }
+        //    }
+        //    catch (Exception err)
+        //    {
+        //        LoggerManager.Exception(err);
+        //        throw;
+        //    }
+        //    return retVal;
+        //}
+
+        #region 251125 ybpark Map die Index 함수 추가
+        public static (double X, double Y) GetPos(int index)
+        {
+            if (index < 0 || index > 15)
+                throw new ArgumentOutOfRangeException(nameof(index));
+
+            double[] Xs = { 0, -16.5, -32.5, -49 };
+            double[] Ys = { 0, 16.5, 32.5, 49 };
+
+
+            int[,] map =
+            {
+                { 0, 1, 2, 3 },
+                { 7, 6, 5, 4 },
+                { 8, 9, 10, 11 },
+                { 15, 14, 13, 12 }
+            }; 
+
+            int row = 0, col = 0;
+
+            for(int r = 0; r < 4; r++)
+                for(int c = 0; c < 4; c++)
+                    if(map[r, c] == index)
+                    {
+                        row = r;
+                        col = c;
+                    }
+
+            double X = Xs[row];
+            double Y = Ys[col];
+
+            return (X, Y);
+        }
+
+        public static (double X, double Y) GetPos_EJ(int index)
+        {
+            if (index < 0 || index > 15)
+                throw new ArgumentOutOfRangeException(nameof(index));
+
+            double[] Xs = { 0, 16.5, 32.5, 49 };
+            double[] Ys = { 0, -16.5, -32.5, -49 };
+
+
+            int[,] map =
+            {
+                { 0, 1, 2, 3 },
+                { 7, 6, 5, 4 },
+                { 8, 9, 10, 11 },
+                { 15, 14, 13, 12 }
+            };
+
+            int row = 0, col = 0;
+
+            for (int r = 0; r < 4; r++)
+                for (int c = 0; c < 4; c++)
+                    if (map[r, c] == index)
+                    {
+                        row = r;
+                        col = c;
+                    }
+
+            double EJ_X = Xs[row];
+            double EJ_Y = Ys[col];
+
+            return (EJ_X, EJ_Y);
+        }
+
+        #endregion
+
+        public EventCodeEnum MovePickPos_SafeZone_Next()
+        {
+            // 일단 다이 크기만큼 +X 방향으로 움직임(상대이동)
+
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+            //var IndexPos = GetPos((int)TestCountActualVal);
+            double X = GetPos((int)TestCount -1).X -(GetPos((int)TestCount -2).X);
+            double Y = GetPos((int)TestCount -1).Y - (GetPos((int)TestCount -2).Y);
+
+            double EJ_X = GetPos_EJ((int)TestCount - 1).X - (GetPos_EJ((int)TestCount - 2).X);
+            double EJ_Y = GetPos_EJ((int)TestCount - 1).Y - (GetPos_EJ((int)TestCount - 2).Y);
+
+            try
+            {
+                ProbeAxisObject axisX = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                ProbeAxisObject axisY = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+
+                ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
+                ProbeAxisObject axisEJY1 = this.MotionManager().GetAxis(EnumAxisConstants.EJY1);
+
+                //ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
+                double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
+
+                //pos = -11000;   // 11mm , Ejection X 축 DtoP = 1
+                //retVal = this.MotionManager().RelMove(axisEJX1, pos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
+                //if (retVal != EventCodeEnum.NONE)
+                //{
+                //    throw new Exception("EJX1 RelMove Error");
+                //}
+                //double currentPos = 0.0;
+
+                pos = Y * 1000;    //Y 는 MapDie 좌표계기준이라서 X축 move
+                retVal = this.MotionManager().RelMove_Wating(axisX, pos, axisX.Param.Speed.Value, axisX.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Base X RelMove Error");
+                }
+
+                //251125 ybpark X,Y die index 위치로 이동
+                pos = X * 1000;    //X 는 MapDie 좌표계기준이라서 Y축 move
+                retVal = this.MotionManager().RelMove_Wating(axisY, pos, axisY.Param.Speed.Value, axisY.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Base Y RelMove Error");
+                }
+
+                pos = EJ_Y * 1000;    //Y 는 MapDie 좌표계기준이라서 X축 move
+                retVal = this.MotionManager().RelMove_Wating(axisEJX1, pos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Base EJX RelMove Error");
+                }
+
+                //251125 ybpark X,Y die index 위치로 이동
+                pos = EJ_X * 1000;    //X 는 MapDie 좌표계기준이라서 Y축 move
+                retVal = this.MotionManager().RelMove_Wating(axisEJY1, pos, axisEJY1.Param.Speed.Value, axisEJY1.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Base EJY RelMove Error");
                 }
             }
             catch (Exception err)
@@ -8523,16 +9773,30 @@ namespace ManualJogViewModel
                 ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
 
                 double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
+                double currentPos = 0.0;    // 현재 위치값 읽기
+                double AcualPos = 0;
 
-                pos = -3.0;    // = -15000 Ejection Z 축 DtoP = 5000
-                retVal = this.MotionManager().RelMove(axisEJZ1, pos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
+                // 현재위치에서 상대이동
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                pos = 28549.2;    // = -5,000 Ejection Z 축 DtoP = 5 -> 기존 : -1000, 변경 : -2500 (실제 다이 Pick을 위해서)
+                LoggerManager.Debug($"Ejection Z Down Start");
+                retVal = this.MotionManager().RelMove(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
+                LoggerManager.Debug($"Ejection Z Down End");
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("Ejection Z RelMove Error");
                 }
 
-                pos = -1.2;    // = 5,033,165 FD stage Z 축 DtoP = 4194304
-                retVal = this.MotionManager().RelMove(axisFDZ1, pos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
+                // FD Z Down 추가
+                pos = 19000.00;    // = 91,000,000 FD stage Z 축 DtoP = 4194.304 // 20696.091 -> 20,000.00
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                LoggerManager.Debug($"Ejection FD Z Down Start");
+                retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
+                LoggerManager.Debug($"Ejection FD Z Down End");
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("FD stage Z RelMove Error");
@@ -8549,34 +9813,71 @@ namespace ManualJogViewModel
         public EventCodeEnum MovePickPos_DangerZone()
         {
             // Ejection Z , Ejection Pin 만 움직이며 X , Y 이동시 충돌위험이 있는 위치
+
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
                 ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
                 ProbeAxisObject axisEJPZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJPZ1);
+                ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
 
                 double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
                 double currentPos = 0.0;    // 현재 위치값 읽기
                 double AcualPos = 0;
+                bool IOCheck = false;
 
-                pos = 33.6;    // = 168,000 Ejection Z 축 DtoP = 5000
+                //this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, true);
+                //Thread.Sleep(250);
+
+                // FD Z Up 추가
+                pos = 23696.091;    // = 99,388,609 FD stage Z 축 DtoP = 4194.304
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                LoggerManager.Debug($"MovePickPos_DangerZone FD Z Up Start");
+                retVal = this.MotionManager().RelMove(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
+                LoggerManager.Debug($"MovePickPos_DangerZone FD Z Up End");
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("FD stage Z RelMove Error");
+                }
+
+                // 지금 EJZ1의 경우 현재값 읽지않고 상대 거리이동
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
+                pos = 33500.2;    // = 5000 Ejection Z 축 DtoP = 5 -> 기존 : 33448.2, 변경 : 33420.2 (실제 다이 Pick을 위해서)
+                LoggerManager.Debug($"MovePickPos_DangerZone EJZ Up Start");
                 retVal = this.MotionManager().RelMove(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
+                LoggerManager.Debug($"MovePickPos_DangerZone EJZ Up End");
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("Ejection Z RelMove Error");
                 }
 
-                pos = 0.7;    // = 7,000 Ejection Pin Z 축 DtoP = 10000
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJPZ1).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
+                LoggerManager.Debug($"Arm2_Vac_On Start");
+                Arm2_Vac_On();  // Pick 동작 (Vacuum)
+                LoggerManager.Debug($"Arm2_Vac_On End");
 
-                retVal = this.MotionManager().RelMove(axisEJPZ1, pos - currentPos, axisEJPZ1.Param.Speed.Value, axisEJPZ1.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
+                // 251119 드라이런으로 IO 체크 임시 제거
+                //this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_EJ_VAC_SENSOR, out IOCheck);      // (Interlock) Ejection Pin Vacuum On / Off 체크
+                //if (IOCheck)
+                if (true)
                 {
-                    throw new Exception("Ejection Pin Z RelMove Error");
+                    // Ejection Pin Up (상대값 이동)
+                    pos = 300;    // = 7,000 Ejection Pin Z 축 DtoP = 10
+                    LoggerManager.Debug($"MovePickPos_DangerZone Ejection Pin Up Start");
+                    retVal = this.MotionManager().RelMove_Wating(axisEJPZ1, pos, axisEJPZ1.Param.Speed.Value, axisEJPZ1.Param.Acceleration.Value);
+                    LoggerManager.Debug($"MovePickPos_DangerZone Ejection Pin Up End");
+                    if (retVal != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("Ejection Pin Z RelMove Error");
+                    }
+                }
+                else
+                {
+                    this.MetroDialogManager().ShowMessageDialog("Sequence Error", "Ejection Pin Vacuum Not On", EnumMessageStyle.Affirmative);
+                    throw new Exception("Ejection Pin Z Vacuum Not On");
                 }
             }
             catch (Exception err)
@@ -8594,13 +9895,12 @@ namespace ManualJogViewModel
             {
                 // Arm1 , Arm2 Air On
                 var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, true);
-                Thread.Sleep(250);
+                Thread.Sleep(50);
                 ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, false);
-                Thread.Sleep(250);
+                Thread.Sleep(50);
                 ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, true);
-                Thread.Sleep(250);
+                Thread.Sleep(50);
                 ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, false);
-                Thread.Sleep(250);
             }
             catch (Exception err)
             {
@@ -8616,13 +9916,12 @@ namespace ManualJogViewModel
             {
                 // Arm1 , Arm2 Air Off
                 var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1_OFF, true);
-                Thread.Sleep(250);
+                Thread.Sleep(50);
                 ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1_OFF, false);
-                Thread.Sleep(250);
+                Thread.Sleep(50);
                 ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2_OFF, true);
-                Thread.Sleep(250);
+                Thread.Sleep(50);
                 ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2_OFF, false);
-                Thread.Sleep(250);
             }
             catch (Exception err)
             {
@@ -8639,9 +9938,25 @@ namespace ManualJogViewModel
             {
                 // Arm1 Vacuum On
                 var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, true);
-                Thread.Sleep(250);
+                Thread.Sleep(50);
                 ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, false);
-                Thread.Sleep(250);
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return retVal;
+        }
+        public EventCodeEnum Arm2_Vac_On()
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                // Arm1 Vacuum On
+                var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, true);
+                Thread.Sleep(50);
+                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, false);
             }
             catch (Exception err)
             {
@@ -8657,9 +9972,36 @@ namespace ManualJogViewModel
             {
                 // Arm1 Vacuum Off
                 var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, true);
-                Thread.Sleep(250);
+                Thread.Sleep(150);
                 ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, false);
-                Thread.Sleep(250);
+
+                ARM_BlowON1();
+
+                Thread.Sleep(150);
+
+                ARM_BlowOFF1();
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return retVal;
+        }
+        public EventCodeEnum Arm2_Vac_Off()
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                // Arm2 Vacuum Off
+                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, true);
+                Thread.Sleep(150);
+                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, false);
+                Thread.Sleep(50);
+
+                var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, true);
+                Thread.Sleep(300);
+                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, false);
             }
             catch (Exception err)
             {
@@ -8669,10 +10011,61 @@ namespace ManualJogViewModel
             return retVal;
         }
 
+        public bool IsCanRotate()
+        {
+            // 조건 체크 : Nano Z , Air , Magnetic
+            bool ret = false;
+
+            ProbeAxisObject axisNSZ1 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ1);
+            double AcualPos = 0;
+
+            bool IOCheck1 = false;
+            bool IOCheck2 = false;
+            try
+            {
+                // (Interlock) Air On / Off Check
+                // 일단 지움 (IO 에러)
+                //this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_ARM_FLOW1, out IOCheck1);
+                //this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_ARM_FLOW1, out IOCheck2);
+
+                //if (IOCheck1 == true && IOCheck2 == true)
+                //{
+                    // (Interlock) Magnetic Off
+
+                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_MAGNETIC1, false);
+
+                // (Interlock) Nano Stage Z Position Check
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NZD1).AxisType.Value, ref AcualPos);
+
+                double NanoStageInterlock = -950000 / 4194.304;
+
+                if (AcualPos > NanoStageInterlock)  // (Interlock) 고정값 0 주의
+                {
+                    ret = true;
+                }
+                else
+                {
+                    this.MetroDialogManager().ShowMessageDialog("Sequence Error", "Nano Stage Z position is too low", EnumMessageStyle.Affirmative);
+                    throw new Exception("Nano Stage Z position is too low");
+                }
+
+                //}
+                //else
+                //{
+                //    this.MetroDialogManager().ShowMessageDialog("Sequence Error", "Air Not On", EnumMessageStyle.Affirmative);
+                //    throw new Exception("Air Not On");
+                //}
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return ret;
+        }
+
         public EventCodeEnum Rotate_Plus()
         {
-            // 실행 조건 : Arm1 & Arm2 air on , Magnetic off , Nano stage Z Up
-
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
@@ -8680,13 +10073,15 @@ namespace ManualJogViewModel
 
                 double pos = 0.0;   //이동할 고정값을 넣는 변수 (덮어씌워짐)
 
-                pos = 179.982149;    // = 524,288 DD motor 회전 DtoP = 2913
+                pos = 524288 / 2.913;    // = 524,288 DD motor 회전 DtoP = 2.913
+                LoggerManager.Debug($"DD 회전 Start");
                 retVal = this.MotionManager().RelMove(axisNZD1, pos, axisNZD1.Param.Speed.Value, axisNZD1.Param.Acceleration.Value);
+                LoggerManager.Debug($"DD 회전 End");
+
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("DD motor RelMove Error");
                 }
-
             }
             catch (Exception err)
             {
@@ -8697,8 +10092,6 @@ namespace ManualJogViewModel
         }
         public EventCodeEnum Rotate_Minus()
         {
-            // 실행 조건 : Arm1 & Arm2 air on , Magnetic off , Nano stage Z Up
-
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
@@ -8706,8 +10099,8 @@ namespace ManualJogViewModel
 
                 double pos = 0.0;   //이동할 고정값을 넣는 변수 (덮어씌워짐)
 
-                pos = -179.982149;    // = 524,288 DD motor 회전 DtoP = 2913
-                retVal = this.MotionManager().RelMove(axisNZD1, pos, axisNZD1.Param.Speed.Value, axisNZD1.Param.Acceleration.Value);
+                pos = -524288 / 2.913;    // = 524,288 DD motor 회전 DtoP = 2.913
+                retVal = this.MotionManager().RelMove_Wating(axisNZD1, pos, axisNZD1.Param.Speed.Value, axisNZD1.Param.Acceleration.Value);
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("DD motor RelMove Error");
@@ -8721,19 +10114,13 @@ namespace ManualJogViewModel
             return retVal;
         }
 
-        public EventCodeEnum DoPlace_BeforeWaferUp()
+        public EventCodeEnum Magnetic_On()
         {
-            // Vacuum을 꺼서 다이를 내려놓기 직전까지의 단계
-
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
                 // Magnetic On
                 var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_MAGNETIC1, true);
-                Thread.Sleep(250);
-
-                // Arms air off
-                Arms_Air_Off();
             }
             catch (Exception err)
             {
@@ -8745,15 +10132,21 @@ namespace ManualJogViewModel
 
         public EventCodeEnum Wafer_Chuck_DangerZone()
         {
-            // Z축을 그룹으로 동시에 올려야 함
-
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
                 var axisZ = this.MotionManager().GetAxis(EnumAxisConstants.Z);
 
-                double pos = 150000;   // = 375,000 Z 축 DtoP = 2.5
-                retVal = this.MotionManager().RelMove(axisZ, pos, axisZ.Param.Speed.Value, axisZ.Param.Acceleration.Value);
+                double currentPos = 0.0;    // 현재 위치값 읽기
+                double AcualPos = 0;
+
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                double pos = 140008500;   // = 350,000 Z 축 DtoP = 0.0025
+                LoggerManager.Debug($"Wafer_Chuck_Up Start");
+                retVal = this.MotionManager().RelMove_Wating(axisZ, pos - currentPos, axisZ.Param.Speed.Value, axisZ.Param.Acceleration.Value);
+                LoggerManager.Debug($"Wafer_Chuck_Up End");
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("Stage Z Up RelMove Error");
@@ -8768,15 +10161,50 @@ namespace ManualJogViewModel
         }
         public EventCodeEnum Wafer_Chuck_SafeZone()
         {
-            // Z축을 그룹으로 동시에 내려야 함
-
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
                 var axisZ = this.MotionManager().GetAxis(EnumAxisConstants.Z);
 
-                double pos = -80000;   // = -200,000 Z 축 DtoP = 2.5
-                retVal = this.MotionManager().RelMove(axisZ, pos, axisZ.Param.Speed.Value, axisZ.Param.Acceleration.Value);
+                double currentPos = 0.0;    // 현재 위치값 읽기
+                double AcualPos = 0;
+
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                double pos = 128000000;   // = 320,000 Z 축 DtoP = 0.0025
+                LoggerManager.Debug($"Wafer_Chuck_Down Start");
+                retVal = this.MotionManager().RelMove(axisZ, pos - currentPos, axisZ.Param.Speed.Value, axisZ.Param.Acceleration.Value);
+                LoggerManager.Debug($"Wafer_Chuck_Down End");
+
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Stage Z Up RelMove Error");
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return retVal;
+        }
+
+        public EventCodeEnum Wafer_Chuck_EndZone()
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                var axisZ = this.MotionManager().GetAxis(EnumAxisConstants.Z);
+
+                double currentPos = 0.0;    // 현재 위치값 읽기
+                double AcualPos = 0;
+
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                double pos = 100000000;   // = 320,000 Z 축 DtoP = 0.0025
+                retVal = this.MotionManager().RelMove(axisZ, pos - currentPos, axisZ.Param.Speed.Value, axisZ.Param.Acceleration.Value);
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("Stage Z Up RelMove Error");
@@ -8792,15 +10220,17 @@ namespace ManualJogViewModel
 
         public EventCodeEnum DoPlace_Nano_ZDown()
         {
-            // 나노스테이지 다운
+            // 나노스테이지 다운 ( 고정값이 아닌 상대값 이동 )
 
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
                 ProbeAxisObject axisNSZ1 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ1);
 
-                double pos = -0.238419;   // = -1,000,000 Nano Stage Z 축 DtoP = 4194304
-                retVal = this.MotionManager().RelMove(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
+                double pos = -476.838;   // = -2,000,000 Nano Stage Z 축 DtoP = 4194.304
+                LoggerManager.Debug($"나노스테이지 Z Down Start");
+                retVal = this.MotionManager().RelMove_Wating(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
+                LoggerManager.Debug($"나노스테이지 Z Down End");
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("Nano Stage Z Down RelMove Error");
@@ -8815,15 +10245,18 @@ namespace ManualJogViewModel
         }
         public EventCodeEnum DoPlace_Nano_ZUp()
         {
-            // 나노스테이지 업
+            // 나노스테이지 업 ( 고정값이 아닌 상대값 이동 )
 
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
                 ProbeAxisObject axisNSZ1 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ1);
 
-                double pos = 0.238419;   // = 1,000,000 Nano Stage Z 축 DtoP = 4194304
-                retVal = this.MotionManager().RelMove(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
+                double pos = 476.838;   // = 2,000,000 Nano Stage Z 축 DtoP = 4194.304
+                LoggerManager.Debug($"나노스테이지 Z Up Start");
+                retVal = this.MotionManager().RelMove_Wating(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
+                LoggerManager.Debug($"나노스테이지 Z Up End");
+
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("Nano Stage Z Up RelMove Error");
@@ -8837,19 +10270,15 @@ namespace ManualJogViewModel
             return retVal;
         }
 
-        public EventCodeEnum DoPlace_AfterWaferDown()
+        public EventCodeEnum Magnetic_Off()
         {
-            // Vacuum을 꺼서 다이를 내려놓기 직전까지의 단계
+            // Vacuum 끄고 Place 끝난 후 단계로 다음 순서인 Pick 직전
 
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
                 // Magnetic Off
                 var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_MAGNETIC1, false);
-                Thread.Sleep(250);
-
-                // Arms air off
-                Arms_Air_On();
             }
             catch (Exception err)
             {
@@ -8887,6 +10316,387 @@ namespace ManualJogViewModel
             }
             return retVal;
         }
-        // ==>
+        #endregion
+
+        #region 251124 ybpark Normal, FD Wafer Out 
+        private AsyncCommand _NormalWaferOutCommand;
+        public ICommand NormalWaferOutCommand
+        {
+            get
+            {
+                if (null == _NormalWaferOutCommand) _NormalWaferOutCommand = new AsyncCommand(NormalWaferOutCommand_Func);
+                return _NormalWaferOutCommand;
+            }
+        }
+        private async Task NormalWaferOutCommand_Func()
+        {
+        }
+
+        private AsyncCommand _FDWaferOutCommand;
+        public ICommand FDWaferOutCommand
+        {
+            get
+            {
+                if (null == _FDWaferOutCommand) _FDWaferOutCommand = new AsyncCommand(FDWaferOutCommand_Func);
+                return _FDWaferOutCommand;
+            }
+        }
+        private async Task FDWaferOutCommand_Func()
+        {
+        }
+        #endregion
+
+        #region 251124 ybpark Test Count
+        public double _TestCountActualVal = 0.0;
+        public double TestCountActualVal
+        {
+            get
+            {
+                return _TestCountActualVal;
+            }
+            set
+            {
+                if (_TestCountActualVal != value)
+                {
+                    _TestCountActualVal = value;
+                    RaisePropertyChanged("TestCountActualVal");
+                }
+            }
+        }
+        #endregion
+
+        #region 251124 ybpark vision
+        private AsyncCommand _DiducaialMarkCommand;
+        public ICommand DiducaialMarkCommand
+        {
+            get
+            {
+                if (null == _DiducaialMarkCommand) _DiducaialMarkCommand = new AsyncCommand(DiducaialMarkCommand_Func);
+                return _DiducaialMarkCommand;
+            }
+        }
+        private async Task DiducaialMarkCommand_Func()
+        {
+            // 20251124 Nick 피두셜 마크를 찾아 이동하는 함수
+
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                ProbeAxisObject axisX1 = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                ProbeAxisObject axisY1 = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+                ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
+
+                double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
+                double currentPos = 0.0;    // 현재 위치값 읽기
+                double AcualPos = 0;
+
+                // Base Y
+                pos = -785201;    // 티칭 값
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                retVal = this.MotionManager().RelMove_Wating(axisY1, pos - currentPos, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Base Y RelMove Error");
+                }
+
+                // Base X
+                pos = 105255;   // 티칭 값
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                retVal = this.MotionManager().RelMove_Wating(axisX1, pos - currentPos, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Base X RelMove Error");
+                }
+
+                // FD Z Up (피두셜 마크를 찍기위해)
+                pos = 25990;
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, FDZ1.Param.Speed.Value, FDZ1.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("FD Z RelMove Error");
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+        }
+
+        private AsyncCommand _EjectionCenterCommand;
+        public ICommand EjectionCenterCommand
+        {
+            get
+            {
+                if (null == _EjectionCenterCommand) _EjectionCenterCommand = new AsyncCommand(EjectionCenterCommand_Func);
+                return _EjectionCenterCommand;
+            }
+        }
+        private async Task EjectionCenterCommand_Func()
+        {
+            // 20251124 Nick 이젝션 센터 찾기
+
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
+                ProbeAxisObject axisX1 = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                ProbeAxisObject axisY1 = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+                ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
+
+                double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
+                double currentPos = 0.0;    // 현재 위치값 읽기
+                double AcualPos = 0;
+
+                // FD Z Down (간섭을 피하기 위해 내림)
+                pos = 4770;   // 티칭 값
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("FD Z RelMove Error");
+                }
+
+                // Base X
+                pos = 43763;    // 티칭 값
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                retVal = this.MotionManager().RelMove_Wating(axisX1, pos - currentPos, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Base X RelMove Error");
+                }
+
+                // Base Y
+                pos = -514294;
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                retVal = this.MotionManager().RelMove_Wating(axisY1, pos - currentPos, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Base Y RelMove Error");
+                }
+
+                // Ejection Z Up (이젝션 센터 찾기 위해)
+                pos = 19899;
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                retVal = this.MotionManager().RelMove_Wating(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Ejection Z RelMove Error");
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+        }
+
+        private AsyncCommand _FirstDieCommand;
+        public ICommand FirstDieCommand
+        {
+            get
+            {
+                if (null == _FirstDieCommand) _FirstDieCommand = new AsyncCommand(FirstDieCommand_Func);
+                return _FirstDieCommand;
+            }
+        }
+        private async Task FirstDieCommand_Func()
+        {
+            // 20251124 Nick 첫 다이 찾기
+
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
+                ProbeAxisObject axisX1 = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                ProbeAxisObject axisY1 = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+                ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
+
+                double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
+                double currentPos = 0.0;    // 현재 위치값 읽기
+                double AcualPos = 0;
+
+                // Ejection Z Down (간섭을 피하기 위해 내림)
+                pos = 4770;   // 티칭 값
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                retVal = this.MotionManager().RelMove_Wating(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Ejection Z RelMove Error");
+                }
+
+                // Base X
+                pos = 83405;    // 티칭 값
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                retVal = this.MotionManager().RelMove_Wating(axisX1, pos - currentPos, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Base X RelMove Error");
+                }
+
+                // Base Y
+                pos = -538593;
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                retVal = this.MotionManager().RelMove_Wating(axisY1, pos - currentPos, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Base Y RelMove Error");
+                }
+
+                // FD Z Up (첫 다이 찾기 위해)
+                pos = 17000;
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("FD Z RelMove Error");
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+        }
+
+        private AsyncCommand _EjectionPositionCommand;
+        public ICommand EjectionPositionCommand
+        {
+            get
+            {
+                if (null == _EjectionPositionCommand) _EjectionPositionCommand = new AsyncCommand(EjectionPositionCommand_Func);
+                return _EjectionPositionCommand;
+            }
+        }
+        private async Task EjectionPositionCommand_Func()
+        {
+            // 20251124 Nick 이젝션 위치 보정
+
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
+                ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
+                ProbeAxisObject axisEJY1 = this.MotionManager().GetAxis(EnumAxisConstants.EJY1);
+
+                double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
+                double currentPos = 0.0;    // 현재 위치값 읽기
+                double AcualPos = 0;
+
+                // FD Z Down (간섭을 피하기 위해 내림)
+                pos = 4770;   // 티칭 값
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("FD Z RelMove Error");
+                }
+
+                // EJ X
+                pos = -39642;    // 티칭 값
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJX1).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                retVal = this.MotionManager().RelMove_Wating(axisEJX1, pos - currentPos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("EJ X RelMove Error");
+                }
+
+                // EJ Y
+                pos = 24299;
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJY1).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                retVal = this.MotionManager().RelMove_Wating(axisEJY1, pos - currentPos, axisEJY1.Param.Speed.Value, axisEJY1.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("EJ Y  RelMove Error");
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+        }
+
+        private AsyncCommand _ArmPickerCommand;
+        public ICommand ArmPickerCommand
+        {
+            get
+            {
+                if (null == _ArmPickerCommand) _ArmPickerCommand = new AsyncCommand(ArmPickerCommand_Func);
+                return _ArmPickerCommand;
+            }
+        }
+        private async Task ArmPickerCommand_Func()
+        {
+            // 20251124 Nick Arm Picker 위치로 이동
+
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                ProbeAxisObject axisX1 = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                ProbeAxisObject axisY1 = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+
+                double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
+                double currentPos = 0.0;    // 현재 위치값 읽기
+                double AcualPos = 0;
+
+                // Base X 
+                pos = 19500;   // 티칭 값
+                retVal = this.MotionManager().RelMove_Wating(axisX1, pos, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Base X RelMove Error");
+                }
+
+                // Base Y
+                pos = 196500;    // 티칭 값
+                retVal = this.MotionManager().RelMove_Wating(axisY1, pos, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Base Y RelMove Error");
+                }
+
+                //251125 ybpark Arm Picker 위치 받아서 index 위치로 이동(Map Die)
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref FirstDiePos_X);
+
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref FirstDiePos_Y);
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+        }
+
+        #endregion
     }
 }

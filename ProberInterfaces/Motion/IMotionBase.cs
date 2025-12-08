@@ -506,6 +506,7 @@ namespace ProberInterfaces
         int AbsMove(AxisObject axis, double abspos, double vel, double acc, double dcc);
         int RelMove(AxisObject axis, double pos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1.0);
         int RelMove(AxisObject axis, double pos, double vel, double acc);
+        int RelMove_Wating(AxisObject axis, double pos, double vel, double acc);    // 251117 sebas
         int RelMove(AxisObject axis, double pos, double vel, double acc, double dcc);
         int ConfigCapture(AxisObject axis, EnumMotorDedicatedIn input);
         int DisableCapture(AxisObject axis);

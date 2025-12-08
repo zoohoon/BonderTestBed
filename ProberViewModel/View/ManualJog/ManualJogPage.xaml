@@ -37,7 +37,7 @@
                 <RowDefinition Height="250*"/>
                 <RowDefinition Height="250*"/>
             </Grid.RowDefinitions>
-            <GroupBox Grid.Row="0" BorderBrush="White" BorderThickness="1" Margin="1,1,1,1" FontSize="15" Foreground="White" Header="Opitcs Jog (1 CAM ~ 2 CAM)" Grid.ColumnSpan="2">
+            <GroupBox Grid.Row="0" BorderBrush="White" BorderThickness="1" Margin="1,1,1,1" FontSize="15" Foreground="White" Header="Opitcs Jog (1 CAM ~ 2 CAM) (μm)" Grid.ColumnSpan="2">
                 <GroupBox.Style>
                     <Style BasedOn="{x:Null}"/>
                 </GroupBox.Style>
@@ -100,7 +100,7 @@
                                    Foreground="White" 
                                    FontSize="14" 
                                    Content="{Binding CX1.Status.RawPosition.Ref}" 
-                                   ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"
+                                   ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                             <Label Grid.Row="1"
                                    Width="130" 
@@ -108,7 +108,7 @@
                                    Foreground="White" 
                                    FontSize="14"
                                    Content="{Binding CY1.Status.RawPosition.Ref}" 
-                                   ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"
+                                   ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                             <Label Grid.Row="2"
                                    Width="130" 
@@ -116,7 +116,7 @@
                                    Foreground="White" 
                                    FontSize="14"
                                    Content="{Binding CZ1.Status.RawPosition.Ref}" 
-                                   ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"
+                                   ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                             <Label Grid.Row="3" 
                                    Width="130" 
@@ -124,7 +124,7 @@
                                    Foreground="White" 
                                    FontSize="14" 
                                    Content="{Binding CX2.Status.RawPosition.Ref}" 
-                                   ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"
+                                   ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                             <Label Grid.Row="4"
                                    Width="130" 
@@ -132,7 +132,7 @@
                                    Foreground="White" 
                                    FontSize="14"
                                    Content="{Binding CY2.Status.RawPosition.Ref}" 
-                                   ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"
+                                   ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                             <Label Grid.Row="5"
                                    Width="130" 
@@ -140,25 +140,25 @@
                                    Foreground="White" 
                                    FontSize="14"
                                    Content="{Binding CZ2.Status.RawPosition.Ref}" 
-                                   ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"
+                                   ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                             <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
+                            <Label Content="&lt; 109000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,-10,0" Grid.Column="2" Grid.Row="0"/>
 
                             <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="1"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="1"/>
+                            <Label Content="&lt; 109000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,-10,0" Grid.Column="2" Grid.Row="1"/>
 
                             <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="2"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="2"/>
+                            <Label Content="&lt; 46000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,-10,0" Grid.Column="2" Grid.Row="2"/>
 
                             <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="3"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="3"/>
+                            <Label Content="&lt; 109000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,-10,0" Grid.Column="2" Grid.Row="3"/>
 
                             <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="4"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="4"/>
+                            <Label Content="&lt; 109000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,-10,0" Grid.Column="2" Grid.Row="4"/>
 
                             <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="5"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="5"/>
+                            <Label Content="&lt; 46000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,-10,0" Grid.Column="2" Grid.Row="5"/>
 
                         </Grid>
                     </Grid>
@@ -284,7 +284,7 @@
                     </Grid>
                 </Grid>
             </GroupBox>
-            <GroupBox Grid.Row="1" BorderBrush="White" BorderThickness="1" Margin="1" FontSize="18" Foreground="White" Header="Loader Jog" Grid.ColumnSpan="2">
+            <GroupBox Grid.Row="1" BorderBrush="White" BorderThickness="1" Margin="0" FontSize="18" Foreground="White" Header="Loader Jog" Grid.ColumnSpan="2">
                 <GroupBox.Style>
                     <Style BasedOn="{x:Null}"/>
                 </GroupBox.Style>
@@ -306,28 +306,33 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
-                                <Label Content="A :" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                                <Label Content="A :" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
                             </Grid>
                             <Grid Grid.Row="1">
-                                <Label Content="U1 :" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                                <Label Content="U1 :" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
                             </Grid>
                             <Grid Grid.Row="2">
-                                <Label Content="U2 :" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                                <Label Content="U2 :" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
                             </Grid>
                             <Grid Grid.Row="3">
-                                <Label Content="W :" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                                <Label Content="W :" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
                             </Grid>
                             <Grid Grid.Row="4">
-                                <Label Content="V :" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                                <Label Content="V :" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
                             </Grid>
                             <Grid Grid.Row="5">
-                                <Label Content="SC :" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                                <Label Content="E :" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                            </Grid>
+                            <Grid Grid.Row="6">
+                                <Label Content="FV :" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
                             </Grid>
                         </Grid>
                         <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
@@ -340,34 +345,40 @@
                                 <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0" Content="{Binding AAxis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"/>
-                            <Label Grid.Row="1" Content="{Binding U1Axis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"/>
-                            <Label Grid.Row="2" Content="{Binding U2Axis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"/>
-                            <Label Grid.Row="3" Content="{Binding WAxis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"/>
-                            <Label Grid.Row="4" Content="{Binding VAxis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"/>
-                            <Label Grid.Row="5" Content="{Binding SCAxis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"/>
+                            <Label Grid.Row="0" Content="{Binding AAxis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="11" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"/>
+                            <Label Grid.Row="1" Content="{Binding U1Axis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="11" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"/>
+                            <Label Grid.Row="2" Content="{Binding U2Axis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="11" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"/>
+                            <Label Grid.Row="3" Content="{Binding WAxis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="11" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"/>
+                            <Label Grid.Row="4" Content="{Binding VAxis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="11" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"/>
+                            <Label Grid.Row="5" Content="{Binding EAxis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="11" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"/>
+                            <Label Grid.Row="6" Content="{Binding PzAxis.Status.RawPosition.Actual}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="11" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"/>
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
+                            <Label Content="0 &lt;" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>
+                            <Label Content="&lt; 0" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="1"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="1"/>
+                            <Label Content="0 &lt;" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="1"/>
+                            <Label Content="&lt; 0" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="1"/>
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="2"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="2"/>
+                            <Label Content="0 &lt;" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="2"/>
+                            <Label Content="&lt; 0" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="2"/>
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="3"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="3"/>
+                            <Label Content="0 &lt;" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="3"/>
+                            <Label Content="&lt; 0" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="3"/>
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="4"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="4"/>
+                            <Label Content="0 &lt;" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="4"/>
+                            <Label Content="&lt; 0" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="4"/>
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="5"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="5"/>
+                            <Label Content="0 &lt;" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="5"/>
+                            <Label Content="&lt; 0" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="5"/>
+                            
+                            <Label Content="0 &lt;" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="6"/>
+                            <Label Content="&lt; 0" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="6"/>
+
                         </Grid>
                     </Grid>
                     <Grid Grid.Column="1" Margin="10,0,10,0">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -399,7 +410,7 @@
 
                         </Button>
                         <Button Grid.Column="1" Grid.Row="0" Content=" △ U1+ " FontSize="15"  Foreground="White"
-                                Command="{Binding U1PosMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}" Margin="0,0,1,0"/>
+                                Command="{Binding U1PosMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
                         <TextBox Grid.Column="1" Grid.Row="1" Width="70" Height="40" Margin="0,0,0,0" FontSize="20"                             
                              Text="{Binding U1TextVal}"
                              VerticalAlignment="Center"
@@ -466,10 +477,10 @@
                                 Command="{Binding VNegMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}">
 
                         </Button>
-                        <Button Grid.Column="5" Grid.Row="0" Content=" △ SC+ " FontSize="15"  Foreground="White"
-                                Command="{Binding ScPosMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+                        <Button Grid.Column="5" Grid.Row="0" Content=" △ E+ " FontSize="15"  Foreground="White"
+                                Command="{Binding EPosMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
                         <TextBox Grid.Column="5" Grid.Row="1" Width="70" Height="40" Margin="0,0,0,0" FontSize="20"                             
-                             Text="{Binding ScTextVal}"
+                             Text="{Binding ETextVal}"
                              VerticalAlignment="Center"
                              HorizontalAlignment="Center">
                             <i:Interaction.Triggers>
@@ -479,8 +490,25 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBox>
-                        <Button Grid.Column="5" Grid.Row="2" Content=" ▽ SC- " FontSize="15"  Foreground="White"
-                                Command="{Binding ScNegMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}">
+                        <Button Grid.Column="5" Grid.Row="2" Content=" ▽ FV- " FontSize="15"  Foreground="White"
+                                Command="{Binding ENegMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}">
+
+                        </Button>
+                        <Button Grid.Column="6" Grid.Row="0" Content=" △ FV+ " FontSize="15"  Foreground="White"
+                                Command="{Binding FVPosMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+                        <TextBox Grid.Column="6" Grid.Row="1" Width="70" Height="40" Margin="0,0,0,0" FontSize="20"                             
+                             Text="{Binding PzTextVal}"
+                             VerticalAlignment="Center"
+                             HorizontalAlignment="Center">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TextBoxClickCommand}"
+                                                   CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                        <Button Grid.Column="6" Grid.Row="2" Content=" ▽ FV- " FontSize="15"  Foreground="White"
+                                Command="{Binding FVNegMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}">
 
                         </Button>
                     </Grid>
@@ -511,7 +539,7 @@
                     </Button>
                 </Grid>
             </GroupBox-->
-            <GroupBox Grid.Row="3" BorderBrush="White" BorderThickness="1" Margin="1" FontSize="15" Foreground="White" Header="FD Chuck Jog" Grid.ColumnSpan="2">
+            <GroupBox Grid.Row="3" BorderBrush="White" BorderThickness="1" Margin="1" FontSize="15" Foreground="White" Header="FD Chuck Jog (μm) " Grid.ColumnSpan="2">
                 <GroupBox.Style>
                     <Style BasedOn="{x:Null}"/>
                 </GroupBox.Style>
@@ -541,13 +569,13 @@
                                 <Label Content="FD Chuck Z :" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-20,0"/>
                             </Grid>
                             <Grid Grid.Row="2">
-                                <Label Content="Ejection Base X :" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-20,0"/>
+                                <Label Content="Ejection Base X :" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-23,0"/>
                             </Grid>
                             <Grid Grid.Row="3">
-                                <Label Content="Ejection Base Y :" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-20,0"/>
+                                <Label Content="Ejection Base Y :" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-25,0"/>
                             </Grid>
                             <Grid Grid.Row="4">
-                                <Label Content="Ejection Base Z :" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-20,0"/>
+                                <Label Content="Ejection Base Z :" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-25,0"/>
                             </Grid>
                             <Grid Grid.Row="5">
                                 <Label Content="Ejection Pin Z  :" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-20,0"/>
@@ -574,23 +602,23 @@
                             <Label Grid.Row="4" Content="{Binding EJZ1ActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0" ContentStringFormat="F2" />
                             <Label Grid.Row="5" Content="{Binding EJPZ1ActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0" ContentStringFormat="F2" />
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
+                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-35,0" Grid.Column="0" Grid.Row="0"/>
+                            <Label Content="&lt; check" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="1"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="1"/>
+                            <Label Content="-4000 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-35,0" Grid.Column="0" Grid.Row="1"/>
+                            <Label Content="&lt; 23000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="1"/>
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="2"/>
+                            <Label Content="-141000 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-35,0" Grid.Column="0" Grid.Row="2"/>
                             <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="2"/>
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="3"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="3"/>
+                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-35,0" Grid.Column="0" Grid.Row="3"/>
+                            <Label Content="&lt; 115000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="3"/>
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="4"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="4"/>
+                            <Label Content="-3000 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-35,0" Grid.Column="0" Grid.Row="4"/>
+                            <Label Content="&lt; 20000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="4"/>
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="5"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="5"/>
+                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-35,0" Grid.Column="0" Grid.Row="5"/>
+                            <Label Content="&lt; 700" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="5"/>
                         </Grid>
                     </Grid>
                     <Grid Grid.Column="1" Margin="10,0,10,0">
@@ -702,7 +730,7 @@
                 </Grid>
 
             </GroupBox>
-            <GroupBox Grid.Row="4" BorderBrush="White" BorderThickness="1" Margin="1" FontSize="15" Foreground="White" Header="Chuck Base Jog" Grid.ColumnSpan="2">
+            <GroupBox Grid.Row="4" BorderBrush="White" BorderThickness="1" Margin="1" FontSize="15" Foreground="White" Header="Chuck Base Jog (μm)" Grid.ColumnSpan="2">
                 <GroupBox.Style>
                     <Style BasedOn="{x:Null}"/>
                 </GroupBox.Style>
@@ -738,13 +766,13 @@
                                 <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0" Content="{Binding XActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"/>
-                            <Label Grid.Row="1" Content="{Binding YActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"/>
+                            <Label Grid.Row="0" Content="{Binding XActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"/>
+                            <Label Grid.Row="1" Content="{Binding YActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"/>
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
+                            <Label Content="29000 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-10,0" Grid.Column="0" Grid.Row="0"/>
+                            <Label Content="&lt; 292000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="1"/>
+                            <Label Content="-839000 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-10,0" Grid.Column="0" Grid.Row="1"/>
                             <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="1"/>
                         </Grid>
                     </Grid>
@@ -793,7 +821,7 @@
                 </Grid>
 
             </GroupBox>
-            <GroupBox Grid.Row="5" BorderBrush="White" BorderThickness="1" Margin="1" FontSize="15" Foreground="White" Header="DD Motor Jog" Grid.ColumnSpan="2">
+            <GroupBox Grid.Row="5" BorderBrush="White" BorderThickness="1" Margin="1" FontSize="15" Foreground="White" Header="DD Motor Jog (μm)" Grid.ColumnSpan="2">
                 <GroupBox.Style>
                     <Style BasedOn="{x:Null}"/>
                 </GroupBox.Style>
@@ -826,9 +854,9 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <Label Grid.Row="0" Content="{Binding NZD1ActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"/>
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
+                            <Label Grid.Row="0" Content="{Binding NZD1ActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,5,0"/>
+                            <Label Content="-5000 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-20,0" Grid.Column="0" Grid.Row="0"/>
+                            <Label Content="&lt; 179000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,-20,0" Grid.Column="2" Grid.Row="0"/>
 
                         </Grid>
                     </Grid>
@@ -861,7 +889,7 @@
                 </Grid>
 
             </GroupBox>
-            <GroupBox Grid.Row="6" BorderBrush="White" BorderThickness="1" Margin="1,1,1,1" FontSize="15" Foreground="White" Header="Nano Stage Jog" Grid.ColumnSpan="2">
+            <GroupBox Grid.Row="6" BorderBrush="White" BorderThickness="1" Margin="1,1,1,1" FontSize="15" Foreground="White" Header="Nano Stage Jog (μm)" Grid.ColumnSpan="2">
                 <GroupBox.Style>
                     <Style BasedOn="{x:Null}"/>
                 </GroupBox.Style>
@@ -892,9 +920,9 @@
                                 <ColumnDefinition Width="2*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0" Content="{Binding NSZ1ActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,30,0"/>
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
+                            <Label Grid.Row="0" Content="{Binding NSZ1ActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="14" ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,15,0"/>
+                            <Label Content="-1000 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>
+                            <Label Content="&lt; 3000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
                         </Grid>
                     </Grid>
                     <Grid Grid.Column="1" Margin="10,0,10,0">
@@ -926,7 +954,7 @@
                 </Grid>
 
             </GroupBox>
-            <GroupBox Grid.Row="2" BorderBrush="White" BorderThickness="1" Margin="1,1,1,1" FontSize="15" Foreground="White" Header="Wafer Chuck Jog" Grid.ColumnSpan="2" Grid.RowSpan="1">
+            <GroupBox Grid.Row="2" BorderBrush="White" BorderThickness="1" Margin="1,1,1,1" FontSize="15" Foreground="White" Header="Wafer Chuck Jog (μm)" Grid.ColumnSpan="2" Grid.RowSpan="1">
                 <GroupBox.Style>
                     <Style BasedOn="{x:Null}"/>
                 </GroupBox.Style>
@@ -984,7 +1012,7 @@
                                 Foreground="White" 
                                 FontSize="12" 
                                 Content="{Binding CActualVal}" 
-                                ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"
+                                ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,5,0"
                                    />
                             <Label Grid.Row="1"
                                 Width="130" 
@@ -992,7 +1020,7 @@
                                 Foreground="White" 
                                 FontSize="12"
                                 Content="{Binding TRIActualVal}" 
-                                ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"
+                                ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,5,0"
                                    />
                             <Label Grid.Row="2"
                                 Width="130" 
@@ -1000,7 +1028,7 @@
                                 Foreground="White" 
                                 FontSize="12"
                                 Content="{Binding Z0ActualVal}" 
-                                ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"
+                                ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,5,0"
                                    />
                             <Label Grid.Row="3"
                                 Width="130" 
@@ -1008,7 +1036,7 @@
                                 Foreground="White" 
                                 FontSize="12"
                                 Content="{Binding Z1ActualVal}" 
-                                ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"
+                                ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,5,0"
                                    />
                             <Label Grid.Row="4"
                                 Width="130" 
@@ -1016,26 +1044,23 @@
                                 Foreground="White" 
                                 FontSize="12"
                                 Content="{Binding Z2ActualVal}" 
-                                ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"
+                                ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,5,0"
                                    />
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>
+                            <Label Content="-12000 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-25,0" Grid.Column="0" Grid.Row="0"/>
                             <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="1"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="1"/>
+                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-25,0" Grid.Column="0" Grid.Row="1"/>
+                            <Label Content="&lt; 8000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="1"/>
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="2"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="2"/>
+                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-25,0" Grid.Column="0" Grid.Row="2"/>
+                            <Label Content="&lt; 36000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="2"/>
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="3"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="3"/>
+                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-25,0" Grid.Column="0" Grid.Row="3"/>
+                            <Label Content="&lt; 36000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="3"/>
 
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="4"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="4"/>
-
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="5"/>
-                            <Label Content="&lt; 0" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="5"/>
+                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-25,0" Grid.Column="0" Grid.Row="4"/>
+                            <Label Content="&lt; 36000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="4"/>
                         </Grid>
                     </Grid>
                     <Grid Grid.Column="1" Margin="10,0,0,0">
@@ -1186,7 +1211,7 @@
                     <RowDefinition Height="250*"/>
                     <RowDefinition Height="250*"/>
                 </Grid.RowDefinitions>
-                <GroupBox Grid.Row="0" BorderBrush="White" BorderThickness="1" Margin="1,1,1,1" FontSize="15" Foreground="White" Header="Opitcs Jog (3 CAM ~ 4 CAM, Center CAM)" Grid.ColumnSpan="2">
+                <GroupBox Grid.Row="0" BorderBrush="White" BorderThickness="1" Margin="1,1,1,1" FontSize="15" Foreground="White" Header="Opitcs Jog (3 CAM ~ 4 CAM, Center CAM)(μm)" Grid.ColumnSpan="2">
                     <GroupBox.Style>
                         <Style BasedOn="{x:Null}"/>
                     </GroupBox.Style>
@@ -1254,7 +1279,7 @@
                                     Foreground="White" 
                                     FontSize="11" 
                                     Content="{Binding CX3.Status.RawPosition.Ref}" 
-                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"
+                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                                 <Label Grid.Row="1"
                                     Width="130" 
@@ -1262,7 +1287,7 @@
                                     Foreground="White" 
                                     FontSize="11"
                                     Content="{Binding CY3.Status.RawPosition.Ref}" 
-                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"
+                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                                 <Label Grid.Row="2"
                                     Width="130" 
@@ -1270,7 +1295,7 @@
                                     Foreground="White" 
                                     FontSize="11"
                                     Content="{Binding CZ3.Status.RawPosition.Ref}" 
-                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"
+                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                                 <Label Grid.Row="3" 
                                     Width="130" 
@@ -1278,7 +1303,7 @@
                                     Foreground="White" 
                                     FontSize="11" 
                                     Content="{Binding CX4.Status.RawPosition.Ref}" 
-                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"
+                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                                 <Label Grid.Row="4"
                                     Width="130" 
@@ -1286,7 +1311,7 @@
                                     Foreground="White" 
                                     FontSize="11"
                                     Content="{Binding CY4.Status.RawPosition.Ref}" 
-                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"
+                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                                 <Label Grid.Row="5"
                                     Width="130" 
@@ -1294,7 +1319,7 @@
                                     Foreground="White" 
                                     FontSize="11"
                                     Content="{Binding CZ4.Status.RawPosition.Ref}" 
-                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"
+                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                                 <Label Grid.Row="6"
                                     Width="130" 
@@ -1302,28 +1327,28 @@
                                     Foreground="White" 
                                     FontSize="11"
                                     Content="{Binding CZ5.Status.RawPosition.Ref}" 
-                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0"
+                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                                 <Label Content="0 &lt;" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>
-                                <Label Content="&lt; 0" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
+                                <Label Content="&lt; 109000" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
 
                                 <Label Content="0 &lt;" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="1"/>
-                                <Label Content="&lt; 0" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="1"/>
+                                <Label Content="&lt; 109000" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="1"/>
 
                                 <Label Content="0 &lt;" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="2"/>
-                                <Label Content="&lt; 0" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="2"/>
+                                <Label Content="&lt; 46000" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="2"/>
 
                                 <Label Content="0 &lt;" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="3"/>
-                                <Label Content="&lt; 0" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="3"/>
+                                <Label Content="&lt; 109000" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="3"/>
 
                                 <Label Content="0 &lt;" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="4"/>
-                                <Label Content="&lt; 0" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="4"/>
+                                <Label Content="&lt; 109000" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="4"/>
 
                                 <Label Content="0 &lt;" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="5"/>
-                                <Label Content="&lt; 0" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="5"/>
+                                <Label Content="&lt; 46000" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="5"/>
 
                                 <Label Content="0 &lt;" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="6"/>
-                                <Label Content="&lt; 0" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="6"/>
+                                <Label Content="&lt; 46000" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="6"/>
 
                             </Grid>
                         </Grid>
@@ -1463,6 +1488,8 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="6*"/>
                                 <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="6*"/>
+                                <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
                             <Grid Grid.Column="0" Grid.ColumnSpan="2">
                                 <Grid.RowDefinitions>
@@ -1480,7 +1507,7 @@
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <Grid Grid.Row="0">
-                                    <Border BorderBrush="White" BorderThickness="0,0,0,5">
+                                    <Border BorderBrush="White" BorderThickness="0,0,0,5" Height="105" VerticalAlignment="Bottom">
                                         <Label Content=" Air Blow 1 Sol V/V " FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
                                     </Border>
                                 </Grid>
@@ -1866,6 +1893,224 @@
                                     </ToggleButton>
                                 </Border>
                             </Grid>
+                            <Grid Grid.Column="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Border BorderBrush="White" BorderThickness="0,0,0,5" Height="105" VerticalAlignment="Bottom">
+                                        <Label Content=" FD Holder 3Leg " FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                                    </Border>
+                                </Grid>
+                                <Grid Grid.Row="1">
+                                    <Border BorderBrush="White" BorderThickness="0,0,0,5">
+                                        <Label Content=" FD Holder 1Leg " FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                                    </Border>
+                                </Grid>
+                                <Grid Grid.Row="2">
+                                    <Border BorderBrush="White" BorderThickness="0,0,0,5">
+                                        <Label Content=" ARM 40 IN / OUT " FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                                    </Border>
+                                </Grid>
+                                <Grid Grid.Row="3">
+                                    <Border BorderBrush="White" BorderThickness="0,0,0,5">
+                                        <Label Content=" PRE VAC ON / OFF " FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                                    </Border>
+                                </Grid>
+                                <Grid Grid.Row="4">
+                                    <Border BorderBrush="White" BorderThickness="0,0,0,5">
+                                        <Label Content=" ARM1 VAC ON / OFF " FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                                    </Border>
+                                </Grid>
+                                <Grid Grid.Row="5">
+                                    <Border BorderBrush="White" BorderThickness="0,0,0,5">
+                                        <Label Content=" ARM2 VAC ON / OFF " FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                            <Grid Grid.Column="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Border Grid.Row="0" BorderBrush="White" BorderThickness="0,0,0,5">
+                                    <ToggleButton FontSize="40" FontWeight="Bold" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding FDHolder3Leg_ONCommand}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding FDHolder3Leg_OFFCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <ToggleButton.Style>
+                                            <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
+                                                <Setter Property="Foreground" Value="Red"/>
+                                                <Setter Property="Content" Value="OFF"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter Property="Background" Value="#40FFFFFF"/>
+                                                        <Setter Property="Foreground" Value="Blue"/>
+                                                        <Setter Property="Content" Value="ON" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ToggleButton.Style>
+                                    </ToggleButton>
+                                </Border>
+                                <Border Grid.Row="1" BorderBrush="White" BorderThickness="0,0,0,5">
+                                    <ToggleButton FontSize="40" FontWeight="Bold" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding FDHolder1Leg_ONCommand}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding FDHolder3Leg_OFFCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <ToggleButton.Style>
+                                            <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
+                                                <Setter Property="Foreground" Value="Red"/>
+                                                <Setter Property="Content" Value="OFF"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter Property="Background" Value="#40FFFFFF"/>
+                                                        <Setter Property="Foreground" Value="Blue"/>
+                                                        <Setter Property="Content" Value="ON" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ToggleButton.Style>
+                                    </ToggleButton>
+                                </Border>
+                                <Border Grid.Row="2" BorderBrush="White" BorderThickness="0,0,0,5">
+                                    <ToggleButton FontSize="40" FontWeight="Bold" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding ARM40_ONCommand}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding ARM40_OFFCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <ToggleButton.Style>
+                                            <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
+                                                <Setter Property="Foreground" Value="Red"/>
+                                                <Setter Property="Content" Value="OFF"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter Property="Background" Value="#40FFFFFF"/>
+                                                        <Setter Property="Foreground" Value="Blue"/>
+                                                        <Setter Property="Content" Value="ON" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ToggleButton.Style>
+                                    </ToggleButton>
+                                </Border>
+                                <Border Grid.Row="3" BorderBrush="White" BorderThickness="0,0,0,5">
+                                    <ToggleButton FontSize="40" FontWeight="Bold" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding PREVAC_ONCommand}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding PREVAC_OFFCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <ToggleButton.Style>
+                                            <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
+                                                <Setter Property="Foreground" Value="Red"/>
+                                                <Setter Property="Content" Value="OFF"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter Property="Background" Value="#40FFFFFF"/>
+                                                        <Setter Property="Foreground" Value="Blue"/>
+                                                        <Setter Property="Content" Value="ON" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ToggleButton.Style>
+                                    </ToggleButton>
+                                </Border>
+                                <Border Grid.Row="4" BorderBrush="White" BorderThickness="0,0,0,5">
+                                    <ToggleButton FontSize="40" FontWeight="Bold" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding ARM1VAC_ONCommand}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding ARM1VAC_OFFCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <ToggleButton.Style>
+                                            <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
+                                                <Setter Property="Foreground" Value="Red"/>
+                                                <Setter Property="Content" Value="OFF"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter Property="Background" Value="#40FFFFFF"/>
+                                                        <Setter Property="Foreground" Value="Blue"/>
+                                                        <Setter Property="Content" Value="ON" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ToggleButton.Style>
+                                    </ToggleButton>
+                                </Border>
+                                <Border Grid.Row="5" BorderBrush="White" BorderThickness="0,0,0,5">
+                                    <ToggleButton FontSize="40" FontWeight="Bold" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding ARM2VAC_ONCommand}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding ARM2VAC_OFFCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <ToggleButton.Style>
+                                            <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
+                                                <Setter Property="Foreground" Value="Red"/>
+                                                <Setter Property="Content" Value="OFF"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter Property="Background" Value="#40FFFFFF"/>
+                                                        <Setter Property="Foreground" Value="Blue"/>
+                                                        <Setter Property="Content" Value="ON" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ToggleButton.Style>
+                                    </ToggleButton>
+                                </Border>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </GroupBox>
@@ -1890,7 +2135,7 @@
                             Command="{Binding CAM_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
                         <Button Grid.Column="1" Grid.Row="0" Content=" Nano Stage &#10;   Homing " FontSize="20"  Foreground="White"
                             Command="{Binding NANO_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <Button Grid.Column="2" Grid.Row="0" Content=" DD Module &#10;   Homing " FontSize="20"  Foreground="White"
+                        <Button Grid.Column="2" Grid.Row="0" Content=" DD Module &#10;   Homing " FontSize="20"  Foreground="White" 
                             Command="{Binding DD_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
                         <Button Grid.Column="3" Grid.Row="0" Content=" Wafer Module &#10;     Homing " FontSize="20"  Foreground="White"
                             Command="{Binding Wafer_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
@@ -1898,7 +2143,7 @@
                             Command="{Binding FD_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
                         <Button Grid.Column="5" Grid.Row="0" Content=" Base X,Y &#10; Homing " FontSize="20"  Foreground="White" 
                             Command="{Binding XY_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <Button Grid.Column="0" Grid.Row="2" Content=" Total Module Homing " FontSize="20"  Foreground="White" Grid.ColumnSpan="6"
+                        <Button Grid.Column="0" Grid.Row="2" Content=" Total Module Homing (Stage) " FontSize="20"  Foreground="White" Grid.ColumnSpan="6"
                             Command="{Binding TotalModuleHomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
                     </Grid>
                 </GroupBox>
@@ -1913,9 +2158,136 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Grid.Row="0"  Height="80" Content=" Acceptance TEST START " FontSize="20"  Foreground="White"
+                        <Button Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0"  Height="80" Content=" Acceptance TEST START " FontSize="20"  Foreground="White" Margin="3"
                             Command="{Binding AcceptanceCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+                        <Button Grid.Column="4" Grid.Row="0"  Height="80" Content="   Normal&#10; Wafer Out " FontSize="20"  Foreground="White" Margin="3"
+                            Command="{Binding NormalWaferOutCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+                        <Button Grid.Column="5" Grid.Row="0"  Height="80" Content=" FD Wafer Out " FontSize="20"  Foreground="White" Margin="3"
+                            Command="{Binding FDWaferOutCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+
+                        <Button Grid.Column="0" Grid.Row="1"  Height="80" Content=" Diducaial Mark&#10;      Search " FontSize="20"  Foreground="White" Margin="3"
+                            Command="{Binding DiducaialMarkCommand}" IsEnabled="{Binding StageButtonsVisibility}" Grid.RowSpan="2"/>
+
+                        <Button Grid.Column="1" Grid.Row="1"  Height="80" Content=" Ejection Center " FontSize="20"  Foreground="White" Margin="3"
+                            Command="{Binding EjectionCenterCommand}" IsEnabled="{Binding StageButtonsVisibility}" Grid.RowSpan="2"/>
+
+                        <Button Grid.Column="2" Grid.Row="1"  Height="80" Content=" First Die &#10;  Search " FontSize="20"  Foreground="White" Margin="3"
+                            Command="{Binding FirstDieCommand}" IsEnabled="{Binding StageButtonsVisibility}" Grid.RowSpan="2"/>
+
+                        <Button Grid.Column="3" Grid.Row="1"  Height="80" Content=" Ejection Position&#10;         Edit " FontSize="20"  Foreground="White" Margin="3"
+                            Command="{Binding EjectionPositionCommand}" IsEnabled="{Binding StageButtonsVisibility}" Grid.RowSpan="2"/>
+
+                        <Button Grid.Column="4" Grid.Row="1"  Height="80" Content=" Arm Picker &#10;   Position " FontSize="20"  Foreground="White" Margin="3"
+                            Command="{Binding ArmPickerCommand}" IsEnabled="{Binding StageButtonsVisibility}" Grid.RowSpan="2"/>
+
+                        <TextBox Grid.Column="5" Width="70" Height="40" Margin="0" FontSize="20"  
+                            Text="{Binding TestCountActualVal}"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center" Grid.Row="1" Grid.RowSpan="2">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TestCountTextBoxClickCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TextBox}, Mode=FindAncestor}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Grid.Row="6" BorderBrush="White" BorderThickness="1" FontSize="15" Foreground="White" Header="Acceptance Test" Grid.ColumnSpan="2">
+                    <GroupBox.Style>
+                        <Style BasedOn="{x:Null}"/>
+                    </GroupBox.Style>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Grid.Row="0" Content=" A Axis&#10;Homing " FontSize="20"  Foreground="White"
+                            Command="{Binding A_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+                        
+                        <Button Grid.Column="1" Grid.Row="0" Content=" E Axis &#10;Homing " FontSize="20"  Foreground="White"
+                            Command="{Binding E_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+                        
+                        <Button Grid.Column="2" Grid.Row="0" Content=" W Axis &#10; Homing " FontSize="20"  Foreground="White" 
+                            Command="{Binding W_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+                        
+                        <Button Grid.Column="3" Grid.Row="0" Content=" FV Axis &#10; Homing " FontSize="20"  Foreground="White"
+                            Command="{Binding FV_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+                        
+                        <Button Grid.Column="4" Grid.Row="0" Content=" U1 Axis &#10; Homing " FontSize="20"  Foreground="White"
+                            Command="{Binding U1_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+                        
+                        <Button Grid.Column="5" Grid.Row="0" Content=" U2 Axis &#10; Homing " FontSize="20"  Foreground="White" 
+                            Command="{Binding U2_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+                        
+                        <Button Grid.Column="0" Grid.Row="2" Content=" Total Module Homing (Loader) " FontSize="20"  Foreground="White" Grid.ColumnSpan="6"
+                            Command="{Binding LoaderTotalModuleHomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Grid.Row="5" BorderBrush="White" BorderThickness="1" FontSize="15" Foreground="White" Header="Acceptance Test" Grid.ColumnSpan="2">
+                    <GroupBox.Style>
+                        <Style BasedOn="{x:Null}"/>
+                    </GroupBox.Style>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="0"  Height="80" Content=" Acceptance TEST START " FontSize="20"  Foreground="White" Margin="3"
+                            Command="{Binding AcceptanceCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+                        <Button Grid.Column="4" Grid.Row="0"  Height="80" Content="   Normal&#10; Wafer Out " FontSize="20"  Foreground="White" Margin="3"
+                            Command="{Binding NormalWaferOutCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+                        <Button Grid.Column="5" Grid.Row="0"  Height="80" Content=" FD Wafer Out " FontSize="20"  Foreground="White" Margin="3"
+                            Command="{Binding FDWaferOutCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+
+                        <Button Grid.Column="0" Grid.Row="1"  Height="80" Content=" Diducaial Mark&#10;      Search " FontSize="20"  Foreground="White" Margin="3"
+                            Command="{Binding DiducaialMarkCommand}" IsEnabled="{Binding StageButtonsVisibility}" Grid.RowSpan="2"/>
+
+                        <Button Grid.Column="1" Grid.Row="1"  Height="80" Content=" Ejection Center " FontSize="20"  Foreground="White" Margin="3"
+                            Command="{Binding EjectionCenterCommand}" IsEnabled="{Binding StageButtonsVisibility}" Grid.RowSpan="2"/>
+
+                        <Button Grid.Column="2" Grid.Row="1"  Height="80" Content=" First Die &#10;  Search " FontSize="20"  Foreground="White" Margin="3"
+                            Command="{Binding FirstDieCommand}" IsEnabled="{Binding StageButtonsVisibility}" Grid.RowSpan="2"/>
+
+                        <Button Grid.Column="3" Grid.Row="1"  Height="80" Content=" Ejection Position&#10;         Edit " FontSize="20"  Foreground="White" Margin="3"
+                            Command="{Binding EjectionPositionCommand}" IsEnabled="{Binding StageButtonsVisibility}" Grid.RowSpan="2"/>
+
+                        <Button Grid.Column="4" Grid.Row="1"  Height="80" Content=" Arm Picker &#10;   Position " FontSize="20"  Foreground="White" Margin="3"
+                            Command="{Binding ArmPickerCommand}" IsEnabled="{Binding StageButtonsVisibility}" Grid.RowSpan="2"/>
+
+                        <TextBox Grid.Column="5" Width="70" Height="40" Margin="0" FontSize="20"  
+                            Text="{Binding TestCountActualVal}"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center" Grid.Row="1" Grid.RowSpan="2">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseDown" >
+                                    <i:InvokeCommandAction Command="{Binding TestCountTextBoxClickCommand}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TextBox}, Mode=FindAncestor}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBox>
                     </Grid>
                 </GroupBox>
                 <!--Grid.RowDefinitions>

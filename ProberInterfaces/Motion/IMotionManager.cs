@@ -72,6 +72,7 @@ namespace ProberInterfaces
         EventCodeEnum RelMove(EnumAxisConstants axis, double pos);
         EventCodeEnum RelMove(ProbeAxisObject axis, double pos);
         EventCodeEnum RelMove(ProbeAxisObject axis, double pos, double vel, double acc);
+        EventCodeEnum RelMove_Wating(ProbeAxisObject axis, double pos, double vel, double acc);     // 251117 sebas
         EventCodeEnum RelMove(ProbeAxisObject axis, double pos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
         EventCodeEnum RelMove(ProbeAxisObject axis, double pos, double vel, double acc, double dcc);
 

@@ -1217,6 +1217,36 @@ namespace Motion
 
             return retVal;
         }
+
+        // <-- 251117 sebas
+        public int RelMove_Wating(AxisObject axis, double pos, double vel, double acc)
+        {
+            if (axis.IsLock())
+                return 0;
+
+            int retVal = -1;
+
+            try
+            {
+                retVal = MotionProviders[axis.PortNum.Value].RelMove_Wating(axis, pos, vel, acc);
+                ResultValidate(MethodBase.GetCurrentMethod(), retVal);
+            }
+            catch (MotionException ex)
+            {
+                throw new MotionException("RelMove Error", ex, EnumReturnCodesConverter.ConvertToEventCode(retVal), retVal, this);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RelMove Error in MotionProvider", ex);
+            }
+            finally
+            {
+
+            }
+            return retVal;
+        }
+        // -->
+
         public int RelMove(AxisObject axis, double pos, double vel, double acc, double dcc)
         {
             if (axis.IsLock())

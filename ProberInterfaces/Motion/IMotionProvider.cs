@@ -61,6 +61,7 @@ namespace ProberInterfaces
         int LoadMotionBaseDescriptor(string MotionBaseParamFilePath);
         int Pause(AxisObject axis);
         int RelMove(AxisObject axis, double pos, double vel, double acc);
+        int RelMove_Wating(AxisObject axis, double pos, double vel, double acc);    // 251117 sebas
         int RelMove(AxisObject axis, double pos, double vel, double acc, double dcc);
 
         int RelMove(AxisObject axis, double pos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);

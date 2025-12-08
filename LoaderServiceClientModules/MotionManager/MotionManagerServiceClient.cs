@@ -509,6 +509,10 @@ namespace LoaderServiceClientModules
         {
             throw new NotImplementedException();
         }
+        public EventCodeEnum RelMove_Wating(ProbeAxisObject axis, double pos, double vel, double acc)    // 251117 sebas
+        {
+            throw new NotImplementedException();
+        }
 
         public EventCodeEnum RelMove(ProbeAxisObject axis, double pos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {

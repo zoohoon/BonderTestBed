@@ -454,6 +454,10 @@ namespace EmulMotionModule
         {
             return RelMove(axis, pos);
         }
+        public int RelMove_Wating(AxisObject axis, double pos, double vel, double acc)      // 251117 sebas
+        {
+            return RelMove(axis, pos);
+        }
         public int RelMove(AxisObject axis, double pos, double vel, double acc, double dcc)
         {
             return RelMove(axis, pos);

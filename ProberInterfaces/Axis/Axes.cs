@@ -194,6 +194,7 @@ namespace ProberInterfaces
         EJPZ1 = 46, //이젝션 핀Z
         EJZ1 = 47, //이젝션 Z
         NZD1 = 48, //DD
+        FV = 49, //251208 ybpark
         // -->
 
         MAX_STAGE_AXIS = Z2,

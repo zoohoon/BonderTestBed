@@ -2198,6 +2198,110 @@ namespace ProbeMotion
 
             return ret;
         }
+
+        // <-- 251117 sebas
+        public EventCodeEnum RelMove_Wating(ProbeAxisObject axis, double pos, double vel, double acc)
+        {
+            EventCodeEnum ret = EventCodeEnum.UNDEFINED;
+            Stopwatch stw = new Stopwatch();
+            int retVal = -1;
+
+            stw.Restart();
+            stw.Start();
+            try
+            {
+                if (this.MonitoringManager().IsSystemError == true)
+                {
+                    if (this.MonitoringManager().IsMachineInitDone == true)
+                    {
+
+                    }
+                    else
+                    {
+                        if (this.MonitoringManager().IsMachinInitOn != true)
+                        {
+                            return EventCodeEnum.SYSTEM_ERROR;
+                        }
+                    }
+                }
+                retVal = WaitForAxisMotionDone(axis);
+
+                double cpos = 0;
+
+                var IsEmul = IsEmulMode(axis);
+
+                double actual;
+
+                if (!IsEmul)
+                {
+                    actual = axis.Status.Position.Actual;
+                }
+                else
+                {
+                    actual = axis.Status.Position.Ref;
+                }
+
+                //251106 sebas limit 해제
+                //if (pos + actual > axis.Param.PosSWLimit.Value)
+                if (false)
+                {
+                    this.NotifyManager().Notify(EventCodeEnum.MOTION_POS_SW_LIMIT_ERROR);
+
+                    throw new MotionException($"Positive SW Limit occurred while Relative moving for Axis {axis.Label}, Target = {pos}, Limit = {axis.Param.PosSWLimit.Value}", EventCodeEnum.MOTION_POS_SW_LIMIT_ERROR);
+
+                    //throw new MotionException(string.Format("Positive SW Limit occurred while Relative moving for Axis {0}, Target = {1}, Limit = {2}",
+                    //    axis.Label, pos, axis.Param.PosSWLimit.Value));
+                }
+                //else if (pos + actual < axis.Param.NegSWLimit.Value)
+                else if (false)
+                {
+                    this.NotifyManager().Notify(EventCodeEnum.MOTION_NEG_SW_LIMIT_ERROR);
+
+                    throw new MotionException($"Negative SW Limit occurred while Relative moving for Axis {axis.Label}, Target = {pos}, Limit = {axis.Param.NegSWLimit.Value}", EventCodeEnum.MOTION_NEG_SW_LIMIT_ERROR);
+
+                    //throw new MotionException(string.Format("Negative SW Limit occurred while Relative moving for Axis {0}, Target = {1}, Limit = {2}",
+                    //    axis.Label, pos, axis.Param.NegSWLimit.Value));
+                }
+                else
+                {
+                    retVal = GetCommandPos(axis, ref cpos);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                    axis.Status.RawPosition.Ref = cpos + pos;
+                    axis.Status.Position.Ref += pos;
+
+                    retVal = MotionProvider.RelMove_Wating(axis, pos, vel, acc);
+
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                    retVal = WaitForAxisMotionDone(axis);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                }
+
+                ret = AssociatedAxesWaitForMotionDone(axis);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                ret = EventCodeEnum.NONE;
+            }
+            catch (MotionException ex)
+            {
+
+                throw new MotionException($"RelMove Error Axis:{axis.AxisType.Value}" + ex.Message, ex, ex.ErrorCode, this);
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("RelMove Error in MotionManager" + ex.Message, ex);
+            }
+            finally
+            {
+
+            }
+            stw.Stop();
+
+            return ret;
+        }
+        // -->
+
         public EventCodeEnum RelMove(ProbeAxisObject axis, double pos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {
             EventCodeEnum ret = EventCodeEnum.UNDEFINED;

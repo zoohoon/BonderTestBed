@@ -4101,12 +4101,15 @@ namespace Motion
                                 }
                                 else
                                 {
-                                    // <== 251113 sebas 그룹축 Enable
-                                    int AbleOnce = 0;
-                                    if(AbleOnce == 0)   // 첫 실행때만 켜지도록
+                                    // <== 251118 sebas 그룹축 Enable
+                                    var status = ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).GroupReadStatus();
+                                    bool value = false;
+                                    retVal = IsGroupEnabled(status, ref value);
+                                    ResultValidate(retVal);
+                                    if (value == false)
                                     {
+                                        //((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).GroupDisable();
                                         ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).GroupEnable();
-                                        AbleOnce++;
                                     }
                                     // ==>
 
@@ -4124,14 +4127,14 @@ namespace Motion
                                     var returnValue = ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).MoveLinearRelativeEx(veltopulsecnt, grouppos, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
 
                                     // <-- 251113 sebas add 단일 move 실행용
-                                    while (((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).GroupReadStatus() != 1073872896)   // 1073872896 = 그룹축 Stand_Still
-                                    {
-                                        if (stw.ElapsedMilliseconds > 180000)   // 최대 3분
-                                        {
-                                            LoggerManager.Debug("[Motion]Time Out occured while wait for idle in in DS402HomingProgress");
-                                            break;
-                                        }
-                                    }
+                                    //while (((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).GroupReadStatus() != 1073872896)   // 1073872896 = 그룹축 Stand_Still
+                                    //{
+                                    //    if (stw.ElapsedMilliseconds > 180000)   // 최대 3분
+                                    //    {
+                                    //        LoggerManager.Debug("[Motion]Time Out occured while wait for idle in in DS402HomingProgress");
+                                    //        break;
+                                    //    }
+                                    //}
                                     // -->
 
                                     //var returnValue = ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).MoveLinearRelative((float)veltopulsecnt, grouppos, MC_BUFFERED_MODE_ENUM.MC_ABORTING_MODE);
@@ -4179,6 +4182,165 @@ namespace Motion
             stw.Stop();
             return retVal;
         }
+
+        // <--251117 sebas
+        public int RelMove_Wating(AxisObject axis, double pos, double vel, double acc)
+        {
+            Stopwatch stw = new Stopwatch();
+            List<KeyValuePair<string, long>> timeStamp;
+            timeStamp = new List<KeyValuePair<string, long>>();
+
+            stw.Start();
+
+            int retVal = (int)EnumMotionBaseReturnCode.RelMoveError;
+            double targetPos;
+            short axisIndex = (short)axis.AxisIndex.Value;
+
+            double veltopulsecnt = 0.0;
+            double acctopulsecnt = 0.0;
+            double jerktopulsecnt = 0.0;
+
+            targetPos = axis.DtoP(pos);
+            targetPos = Math.Round(targetPos);
+            veltopulsecnt = (double)axis.DtoP(vel);
+            acctopulsecnt = (double)axis.DtoP(acc);
+            jerktopulsecnt = (double)axis.DtoP(axis.Param.AccelerationJerk.Value);
+
+            try
+            {
+                lock (axis)
+                {
+                    // 251106 sebas SWLimit 제거
+                    //if (targetPos + axis.Status.Pulse.Command > axis.DtoP(axis.Param.PosSWLimit.Value))
+                    if (false)
+                    {
+                        LoggerManager.Error($"Positive SW Limit occurred while Relative moving for Axis { axis.Label.Value}, Target = { AxisStatusList[axis.AxisIndex.Value].Pulse.Command + targetPos}, Limit = { axis.Param.PosSWLimit.Value}");
+                        return (int)EnumMotionBaseReturnCode.SWPOSLimitError;
+                    }
+                    //else if (targetPos + axis.Status.Pulse.Command < axis.DtoP(axis.Param.NegSWLimit.Value))
+                    else if (false)
+                    {
+                        LoggerManager.Error($"Negative SW Limit occurred while Relative moving for Axis { axis.Label.Value}, Target = { AxisStatusList[axis.AxisIndex.Value].Pulse.Command + targetPos}, Limit = { axis.Param.NegSWLimit.Value}");
+                        return (int)EnumMotionBaseReturnCode.SWNEGLimitError;
+                    }
+                    else
+                    {
+                        if (targetPos == 0)
+                        {
+                            LoggerManager.Debug($"RelMove() :skip the same position. axis = {axis.Label.Value}");
+                            retVal = (int)EnumMotionBaseReturnCode.ReturnCodeOK;
+                        }
+                        else
+                        {
+                            MC_DIRECTION_ENUM dir = targetPos >= 0 ?
+                                MC_DIRECTION_ENUM.MC_POSITIVE_DIRECTION : MC_DIRECTION_ENUM.MC_NEGATIVE_DIRECTION;
+
+                            if (axis.AxisGroupType.Value == EnumAxisGroupType.SINGEAXIS)
+                            {
+                                retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, veltopulsecnt, acctopulsecnt, acctopulsecnt, jerktopulsecnt,
+                                dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
+
+                                // <-- 251113 sebas add 단일 move 실행용
+                                while (((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).ReadStatus() != VALID_STAND_STILL_MASK)
+                                {
+                                    if (stw.ElapsedMilliseconds > 180000)   // 최대 3분
+                                    {
+                                        LoggerManager.Debug("[Motion]Time Out occured while wait for axis in in MoveRelativeEx");
+                                        break;
+                                    }
+                                }
+                                // -->
+
+                                axis.Status.Pulse.Command += targetPos;
+                                AxisStatusList[axis.AxisIndex.Value].Pulse.Command = axis.Status.Pulse.Command;
+                            }
+                            else
+                            {
+                                double[] grouppos = new double[axis.GroupMembers.Count];
+
+                                for (int i = 0; i < axis.GroupMembers.Count; i++)
+                                {
+                                    grouppos[i] = targetPos;
+                                }
+
+                                if (targetPos == 0)
+                                {
+                                    retVal = (int)EnumMotionBaseReturnCode.ReturnCodeOK;
+                                }
+                                else
+                                {
+                                    // <== 251118 sebas 그룹축 Enable
+                                    var status = ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).GroupReadStatus();
+                                    bool value = false;
+                                    retVal = IsGroupEnabled(status, ref value);
+                                    ResultValidate(retVal);
+                                    if (value == false)
+                                    {
+                                        //((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).GroupDisable();
+                                        ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).GroupEnable();
+                                    }
+                                    // ==>
+
+                                    ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).TransitionMode = NC_TRANSITION_MODE_ENUM.MC_TM_NONE_MODE;
+                                    ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).Execute = 1;
+                                    ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).CoordSystem = MC_COORD_SYSTEM_ENUM.MC_ACS_COORD;
+                                    ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).Acceleration = acctopulsecnt;
+                                    ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).Deceleration = acctopulsecnt;
+                                    ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).StopDeceleration = (double)axis.DtoP(axis.Param.Acceleration.Value) * 1.5;
+                                    ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).Velocity = veltopulsecnt;
+                                    ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).Jerk = jerktopulsecnt;
+
+                                    var returnValue = ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).MoveLinearRelativeEx(veltopulsecnt, grouppos, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
+
+                                    // <-- 251113 sebas add 단일 move 실행용
+                                    while (((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).GroupReadStatus() != 1073872896)   // 1073872896 = 그룹축 Stand_Still
+                                    {
+                                        if (stw.ElapsedMilliseconds > 180000)   // 최대 3분
+                                        {
+                                            LoggerManager.Debug("[Motion]Time Out occured while wait for group Z in in MoveLinearRelativeEx");
+                                            break;
+                                        }
+                                    }
+                                    // -->
+
+                                    retVal = Convert.ToInt32(returnValue);
+                                    retVal = 0;
+                                    axis.Status.Pulse.Command += targetPos;
+                                    AxisStatusList[axis.AxisIndex.Value].Pulse.Command = axis.Status.Pulse.Command;                                    
+                                }
+
+                            }
+                            if (retVal != 0)
+                            {
+                                retVal = (int)EnumMotionBaseReturnCode.RelMoveError;
+                            }
+                            else
+                            {
+                                retVal = (int)EnumMotionBaseReturnCode.ReturnCodeOK;
+                            }
+
+                        }
+                    }
+                }
+            }
+            catch (MMCException err)
+            {
+                LoggerManager.Debug($"RelMove({axis.Label.Value}): MMCException occurred. Command ID = {err.CommandID}, Err. code = {err.MMCError}, {err.What}");
+                retVal = (int)EnumMotionBaseReturnCode.RelMoveError;
+                LoggerManager.Error($"Motion command failed while Relative moving for Axis =  {axis.Label.Value}, Target = {targetPos}" + err.Message);
+
+                // 251113 sebas fault clear
+                AmpFaultClear(axis);
+            }
+            catch (Exception err)
+            {
+                retVal = (int)EnumMotionBaseReturnCode.RelMoveError;
+                LoggerManager.Error($"Motion command failed while Relative moving for Axis =  {axis.Label.Value}, Target = {targetPos}" + err.Message);
+            }
+            stw.Stop();
+            return retVal;
+        }
+        // -->
 
         public int RelMove(AxisObject axis, double pos, double vel, double acc, double dcc)
         {
