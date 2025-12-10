@@ -76,6 +76,10 @@
       <Project>{176951ef-8006-43a8-87c1-d0e1482ac1d2}</Project>
       <Name>EmulIOModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ENETIO\ENETIO.csproj">
+      <Project>{5e87c103-5db7-4e30-9e9e-330328bff5c7}</Project>
+      <Name>ENETIO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LogModule\LogModule.csproj">
       <Project>{d3b00cca-3c50-42b1-8dca-dfe47c759b57}</Project>
       <Name>LogModule</Name>

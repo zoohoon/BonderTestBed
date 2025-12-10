@@ -18,6 +18,7 @@ using LogModule;
 using System.Runtime.CompilerServices;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
+using ENETIO;
 
 namespace IOServiceProvider
 {
@@ -302,6 +303,10 @@ namespace IOServiceProvider
 
                         IOList.Add(new ECATIOProvider());
                         IOList[devindex].InitIO(this.PMASManager().ConnHndl, channels);
+
+                        // 251013 LJH ENET IO 추가
+                        IOList.Add(new ENETIOProvider());
+                        IOList[devindex].InitIO(0, channels);
                     }
                 }
 

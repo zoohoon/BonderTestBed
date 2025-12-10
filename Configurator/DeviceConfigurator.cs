@@ -785,6 +785,121 @@ namespace Configurator
         }
     }
 
+    // 251210 Nick 
+    [Serializable]
+    public class ENETIODescripter : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
+        }
+
+        public ENETIODescripterParam ENETIODescripterParams { get; set; }
+
+        public class ENETIODescripterParam : INotifyPropertyChanged, ISystemParameterizable
+        {
+            [JsonIgnore, ParamIgnore]
+            public bool IsParamChanged { get; set; }
+            public List<object> Nodes { get; set; }
+
+            public string Genealogy { get; set; }
+            [NonSerialized]
+            private Object _Owner;
+            [XmlIgnore, JsonIgnore, ParamIgnore]
+            public Object Owner
+            {
+                get { return _Owner; }
+                set
+                {
+                    if (_Owner != value)
+                    {
+                        _Owner = value;
+                    }
+                }
+            }
+
+
+            public EventCodeEnum Init()
+            {
+                EventCodeEnum retval = EventCodeEnum.UNDEFINED;
+                try
+                {
+                    retval = EventCodeEnum.NONE;
+                }
+                catch (Exception err)
+                {
+                    LoggerManager.Exception(err);
+
+
+                    retval = EventCodeEnum.PARAM_ERROR;
+                }
+
+                return retval;
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            private void NotifyPropertyChanged(String info)
+            {
+                if (PropertyChanged != null)
+                {
+                    PropertyChanged(this, new PropertyChangedEventArgs(info));
+                }
+            }
+            public string FilePath { get; } = "ENET";
+            public string FileName { get; } = "ENETIODescripter.json";
+            public void SetElementMetaData()
+            {
+
+            }
+            public EventCodeEnum SetEmulParam()
+            {
+                return SetDefaultParam();
+            }
+            public EventCodeEnum SetDefaultParam()
+            {
+                EventCodeEnum RetVal = EventCodeEnum.UNDEFINED;
+                try
+                {
+                    SetDefault_ENetIO();
+
+                    RetVal = EventCodeEnum.NONE;
+                }
+                catch (Exception err)
+                {
+                    LoggerManager.Exception(err);
+                    throw;
+                }
+                return RetVal;
+            }
+
+            ObservableCollection<ENETNodeDefinition> _ENETNodeDefinitions;
+            public ObservableCollection<ENETNodeDefinition> ENETNodeDefinitions
+            {
+                get { return _ENETNodeDefinitions; }
+                set { _ENETNodeDefinitions = value; }
+            }
+
+            private void SetDefault_ENetIO()
+            {
+                try
+                {
+                    ENETNodeDefinitions = new ObservableCollection<ENETNodeDefinition>();
+                    ENETNodeDefinitions.Add(new ENETNodeDefinition());
+                }
+                catch (Exception err)
+                {
+                    LoggerManager.Exception(err);
+                    throw;
+                }
+            }
+        }
+    }
 
     [Serializable]
     public class ECATIODescripter : INotifyPropertyChanged
@@ -1376,6 +1491,48 @@ namespace Configurator
 
         }
     }
+
+    // 251210 Nick NetIO Ãß°¡
+    public class ENETNodeDefinition : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
+        }
+
+        private string _IP;
+        [XmlAttribute("IP")]
+        public string IP
+        {
+            get { return _IP; }
+            set { _IP = value; }
+        }
+
+        [XmlAttribute("InputVariablesCount")]
+        public int InputVariablesCount { get; set; }
+
+        [XmlAttribute("OutputVariablesCount")]
+        public int OutputVariablesCount { get; set; }
+
+        public ENETNodeDefinition()
+        {
+            try
+            {
+                IP = "192.168.0.202";
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+        }
+    }
+
     public class ECATNodeDefinition : INotifyPropertyChanged
     {
 
