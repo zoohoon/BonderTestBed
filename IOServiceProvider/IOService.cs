@@ -512,7 +512,7 @@ namespace IOServiceProvider
                             if (io.Reverse.Value == true)
                             {                                    
                                 retVal = IOList[Outputs[io.ChannelIndex.Value].DevIndex].WriteBit(Outputs[io.ChannelIndex.Value].ChannelIndex, io.PortIndex.Value, !value);
-                                LoggerManager.Debug($"WriteBit({io.ChannelIndex.Value}, {io.PortIndex.Value}) : IO value writed with {value}, io:{io.Key.Value}", isInfo: IsInfo);
+                                //LoggerManager.Debug($"WriteBit({io.ChannelIndex.Value}, {io.PortIndex.Value}) : IO value writed with {value}, io:{io.Key.Value}", isInfo: IsInfo);
                                     
                                 if (retVal == IORet.NO_ERR)
                                     io.Value = !value;
@@ -520,7 +520,7 @@ namespace IOServiceProvider
                             else
                             {                                    
                                 retVal = IOList[Outputs[io.ChannelIndex.Value].DevIndex].WriteBit(Outputs[io.ChannelIndex.Value].ChannelIndex, io.PortIndex.Value, value);
-                                LoggerManager.Debug($"WriteBit({io.ChannelIndex.Value}, {io.PortIndex.Value}) : IO value writed with {value}, io:{io.Key.Value}", isInfo: IsInfo);
+                                //LoggerManager.Debug($"WriteBit({io.ChannelIndex.Value}, {io.PortIndex.Value}) : IO value writed with {value}, io:{io.Key.Value}", isInfo: IsInfo);
                                     
                                 if (retVal == IORet.NO_ERR)
                                     io.Value = value;

@@ -959,7 +959,7 @@ namespace WAEdgeStadnardModule
                     SetNodeSetupState(EnumMoudleSetupState.NOTCOMPLETED);
                 }
 
-                SetEdgePosition();
+                SetEdgePosition_FD();
 
                 this.StageSupervisor().StageModuleState.WaferLowViewMove(EdgePos[0].GetX(), EdgePos[1].GetY(), WaferObject.GetSubsInfo().AveWaferThick);
 
@@ -1188,6 +1188,58 @@ namespace WAEdgeStadnardModule
                         chuck_center_Xoffset = 0;
                         chuck_center_Yoffset = 0;
                     }
+                    EdgePos.Add(new WaferCoordinate(edgepos + chuck_center_Xoffset, edgepos + chuck_center_Yoffset));
+                    EdgePos.Add(new WaferCoordinate(-edgepos + chuck_center_Xoffset, edgepos + chuck_center_Yoffset));
+                    EdgePos.Add(new WaferCoordinate(-edgepos + chuck_center_Xoffset, -edgepos + chuck_center_Yoffset));
+                    EdgePos.Add(new WaferCoordinate(edgepos + chuck_center_Xoffset, -edgepos + chuck_center_Yoffset));
+                }
+                else
+                {
+                    //new setup 에서 manual 해준 경우, recovery 한 경우
+                    LoggerManager.Debug($"SetEdgePosition(): EXIST ManualEdgePos, Count :{ManualEdgePoss.Count}");
+                    foreach (var item in ManualEdgePoss)
+                    {
+                        EdgePos.Add(new WaferCoordinate(item.Coordinate));
+                    }
+                }
+
+                LoggerManager.Debug($"SetEdgePosition Result: EdgePos[0]:({EdgePos[0].GetX():0.00}, {EdgePos[0].GetY():0.00}), EdgePos[1]:({EdgePos[1].GetX():0.00}, {EdgePos[1].GetY():0.00}), EdgePos[2]:({EdgePos[2].GetX():0.00}, {EdgePos[2].GetY():0.00}), EdgePos[3]:({EdgePos[3].GetX():0.00}, {EdgePos[3].GetY():0.00}), ");
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+            }
+        }
+
+        // 260105 sebas add
+        public void SetEdgePosition_FD()
+        {
+            try
+            {
+                EdgePos.Clear();
+
+                if (ManualEdgePoss.Count != 4)
+                {
+                    //new setup 인 경우, new setup 에서 maual 해주지 않고 실패 나서 recovery 들어 온 경우
+
+                    IPhysicalInfo physicalInfo = Wafer.GetPhysInfo();
+                    double wSizeoffset = physicalInfo.WaferSize_Offset_um.Value;
+                    double wSize = physicalInfo.WaferSize_um.Value + (wSizeoffset * 2);
+
+                    double edgepos = 0.0;
+                    edgepos = ((wSize / 2) / Math.Sqrt(2));
+
+                    double chuck_center_Xoffset = this.CoordinateManager().StageCoord.ChuckCenterX.Value;
+                    double chuck_center_Yoffset = this.CoordinateManager().StageCoord.ChuckCenterY.Value;
+
+                    if (chuck_center_Xoffset < this.CoordinateManager().StageCoord.ChuckCenterX.LowerLimit || chuck_center_Xoffset > this.CoordinateManager().StageCoord.ChuckCenterX.UpperLimit
+                        || chuck_center_Yoffset < this.CoordinateManager().StageCoord.ChuckCenterY.LowerLimit || chuck_center_Yoffset > this.CoordinateManager().StageCoord.ChuckCenterY.UpperLimit)
+                    {
+                        LoggerManager.Debug($"SetEdgePosition(): Center offset is out of range. X = {chuck_center_Xoffset:0.00}, y = {chuck_center_Yoffset:0.00}");
+                        chuck_center_Xoffset = 0;
+                        chuck_center_Yoffset = 0;
+                    }
+
                     EdgePos.Add(new WaferCoordinate(edgepos + chuck_center_Xoffset, edgepos + chuck_center_Yoffset));
                     EdgePos.Add(new WaferCoordinate(-edgepos + chuck_center_Xoffset, edgepos + chuck_center_Yoffset));
                     EdgePos.Add(new WaferCoordinate(-edgepos + chuck_center_Xoffset, -edgepos + chuck_center_Yoffset));
