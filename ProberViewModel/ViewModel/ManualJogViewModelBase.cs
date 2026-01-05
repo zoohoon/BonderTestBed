@@ -1,4 +1,4 @@
-using Autofac;
+ï»¿using Autofac;
 using CylType;
 using LogModule;
 using ProberErrorCode;
@@ -23,6 +23,7 @@ using MetroDialogInterfaces;
 using ProberInterfaces.State;
 using ProberViewModel.Data;
 using System.Threading;
+using BVisionTestViewModel;
 //using ProberInterfaces.ThreadSync;
 
 namespace ManualJogViewModel
@@ -66,11 +67,34 @@ namespace ManualJogViewModel
     }
     public class ManualJogViewModelBase : IMainScreenViewModel, IFactoryModule, INotifyPropertyChanged, ISetUpState
     {
-        //251125 ybpark Arm Picker À§Ä¡ ¹Ş¾Æ¼­ index À§Ä¡·Î ÀÌµ¿(Map Die)
+        // í´ë˜ìŠ¤ ì „ì²´ì—ì„œ ê³µìœ ë˜ëŠ” Vision VM
+        private BVisionTestViewModelBase _VisionVM;
+
+        // ì™¸ë¶€ì—ì„œ ì ‘ê·¼ ê°€ëŠ¥í•˜ë„ë¡ ì†ì„±
+        public BVisionTestViewModelBase VisionVM
+        {
+            get => _VisionVM;
+            set
+            {
+                if (_VisionVM != value)
+                {
+                    _VisionVM = value;
+                }
+            }
+        }
+
+        // ê¸°ì¡´ Vision VMì„ ì£¼ì…í•˜ëŠ” static ë©”ì„œë“œ
+        public void Set5Cam(BVisionTestViewModelBase visionVM)
+        {
+            _VisionVM = visionVM;
+        }
+
+        //251125 ybpark Arm Picker ìœ„ì¹˜ ë°›ì•„ì„œ index ìœ„ì¹˜ë¡œ ì´ë™(Map Die)
         double FirstDiePos_X = 0.0;
         double FirstDiePos_Y = 0.0;
 
         int TestCount = 1;
+        public bool ReverseRun = false;    // 251224 sebas : ë°˜ëŒ€ì›€ì§ì„ì„ íŒë‹¨í•  ê¸°ì¤€ ê°’
 
         readonly Guid _ViewModelGUID = new Guid("A9796E36-D6D8-6EA1-349B-6E5E30A90E68");
         public Guid ScreenGUID { get { return _ViewModelGUID; } }
@@ -5157,13 +5181,13 @@ namespace ManualJogViewModel
 
                 AxisObject = axis;
                 apos = axis.Status.RawPosition.Ref;
-                //this.MotionManager().GetActualPos(AxisObject.AxisType.Value, ref apos); //AxisObject.AxisType.Value Ãà Enum //  apos : ÃàÀ§Ä¡
-                double pos = Math.Abs(RelMoveStepDist); // ¿òÁ÷ÀÏ °Å¸®ÀÇ Àı´ë°ª
-                if (pos + apos < AxisObject.Param.PosSWLimit.Value) // ¸®¹ÔÃ¼Å© pos(¿òÁ÷ÀÏ °Å¸®)¿Í apos(±âÁ¸ ³ªÀÇ À§Ä¡)ÀÇ ÇÕÀÌ ¸®¹Ôº¸´Ù ÀÛÀ¸¸é µ¿ÀÛ
+                //this.MotionManager().GetActualPos(AxisObject.AxisType.Value, ref apos); //AxisObject.AxisType.Value ì¶• Enum //  apos : ì¶•ìœ„ì¹˜
+                double pos = Math.Abs(RelMoveStepDist); // ì›€ì§ì¼ ê±°ë¦¬ì˜ ì ˆëŒ€ê°’
+                if (pos + apos < AxisObject.Param.PosSWLimit.Value) // ë¦¬ë°‹ì²´í¬ pos(ì›€ì§ì¼ ê±°ë¦¬)ì™€ apos(ê¸°ì¡´ ë‚˜ì˜ ìœ„ì¹˜)ì˜ í•©ì´ ë¦¬ë°‹ë³´ë‹¤ ì‘ìœ¼ë©´ ë™ì‘
                 {
                     EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
                     NegButtonVisibility = false;
-                    //20251030 yb ÁÖ¼®Ã³¸®
+                    //20251030 yb ì£¼ì„ì²˜ë¦¬
                     //retVal = this.StageSupervisor().StageModuleState.ManualRelMove(AxisObject, pos);
 
                     retVal = this.MotionManager().RelMove_Wating(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
@@ -5198,7 +5222,7 @@ namespace ManualJogViewModel
                 //this.MotionManager().GetActualPos(AxisObject.AxisType.Value, ref apos);
                 double pos = Math.Abs(RelMoveStepDist) * -1;
 
-                // 251106 sebas limit ÇØÁ¦
+                // 251106 sebas limit í•´ì œ
                 // if (pos + apos > AxisObject.Param.NegSWLimit.Value)
                 if (pos + apos > AxisObject.Param.NegSWLimit.Value)
                 {
@@ -5480,13 +5504,13 @@ namespace ManualJogViewModel
                 }
             }
         }
-        private async Task PosRefresh() //½Ç½Ã°£ ¿£ÄÚ´õ °ª ÀĞ¾î¿È 
+        private async Task PosRefresh() //ì‹¤ì‹œê°„ ì—”ì½”ë” ê°’ ì½ì–´ì˜´ 
         {
             try
             {
                 await Task.Run(() =>
                 {
-                    //251111 ybpark GetActualPosÀº ½Ç½Ã°£ ¿£ÄÚ´õ °ªÀ» ÀĞ¾î¼­ pulse °ªÀ¸·Î ³ªÅ¸³¿. pluse -> mm ´ÜÀ§·Î Ç¥½ÃÇÏ±âÀ§ÇØ °¢ Ãàº° ¸ğÅÍ Á¤º¸¸¦ ¹Ş¾Æ mm ·Î È¯»ê Ãß°¡
+                    //251111 ybpark GetActualPosì€ ì‹¤ì‹œê°„ ì—”ì½”ë” ê°’ì„ ì½ì–´ì„œ pulse ê°’ìœ¼ë¡œ ë‚˜íƒ€ëƒ„. pluse -> mm ë‹¨ìœ„ë¡œ í‘œì‹œí•˜ê¸°ìœ„í•´ ê° ì¶•ë³„ ëª¨í„° ì •ë³´ë¥¼ ë°›ì•„ mm ë¡œ í™˜ì‚° ì¶”ê°€
                     IMotionManager Motionmanager = this.MotionManager();
 
                     double currentPulseValue = 0.0;
@@ -5531,7 +5555,7 @@ namespace ManualJogViewModel
                     this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NZD1).AxisType.Value, ref currentPulseValue);
                     NZD1ActualVal = currentPulseValue;
 
-                    //±âÁ¸ ÁÖ¼® Ã³¸® µÇ¾îÀÖ¾úÀ½.
+                    //ê¸°ì¡´ ì£¼ì„ ì²˜ë¦¬ ë˜ì–´ìˆì—ˆìŒ.
                     //XActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.X).Status.Position.Actual,2);
                     //YActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.Y).Status.Position.Actual, 2);
                     //ZActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.Z).Status.Position.Actual, 2);
@@ -5617,9 +5641,9 @@ namespace ManualJogViewModel
                 await Task.Run(() =>
                 {
                     double apos = 0;
-                    this.MotionManager().GetActualPos(AxisObject.AxisType.Value, ref apos); //AxisObject.AxisType.Value Ãà Enum //  apos : ÃàÀ§Ä¡
-                    double pos = Math.Abs(RelMoveStepDist); // ¿òÁ÷ÀÏ °Å¸®ÀÇ Àı´ë°ª
-                    if (pos + apos < AxisObject.Param.PosSWLimit.Value) // ¸®¹ÔÃ¼Å© pos(¿òÁ÷ÀÏ °Å¸®)¿Í apos(±âÁ¸ ³ªÀÇ À§Ä¡)ÀÇ ÇÕÀÌ ¸®¹Ôº¸´Ù ÀÛÀ¸¸é µ¿ÀÛ
+                    this.MotionManager().GetActualPos(AxisObject.AxisType.Value, ref apos); //AxisObject.AxisType.Value ì¶• Enum //  apos : ì¶•ìœ„ì¹˜
+                    double pos = Math.Abs(RelMoveStepDist); // ì›€ì§ì¼ ê±°ë¦¬ì˜ ì ˆëŒ€ê°’
+                    if (pos + apos < AxisObject.Param.PosSWLimit.Value) // ë¦¬ë°‹ì²´í¬ pos(ì›€ì§ì¼ ê±°ë¦¬)ì™€ apos(ê¸°ì¡´ ë‚˜ì˜ ìœ„ì¹˜)ì˜ í•©ì´ ë¦¬ë°‹ë³´ë‹¤ ì‘ìœ¼ë©´ ë™ì‘
                     {
                         NegButtonVisibility = false;
                         this.MotionManager().RelMove(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
@@ -5724,7 +5748,6 @@ namespace ManualJogViewModel
             }
         }
         #endregion
-
 
         public EventCodeEnum InitModule()
         {
@@ -6093,7 +6116,7 @@ namespace ManualJogViewModel
 
                 CenterView();
                 IsItDisplayed2RateMagnification = false;
-                // 251118 sebas : ¸Å´º¾óÁ¶±× ÁøÀÔ½Ã Wait 10ÃÊ ¶ß´Â°Å Á¦°Å
+                // 251118 sebas : ë§¤ë‰´ì–¼ì¡°ê·¸ ì§„ì…ì‹œ Wait 10ì´ˆ ëœ¨ëŠ”ê±° ì œê±°
                 // this.StageSupervisor().StageModuleState.ManualZDownMove();
 
                 retval = EventCodeEnum.NONE;
@@ -6348,11 +6371,11 @@ namespace ManualJogViewModel
 
                 if (ret == EnumMessageDialogResult.AFFIRMATIVE)
                 {
-                    //Ã´ º£Å¨ off
+                    //ì²™ ë² í  off
                 }
                 else
                 {
-                    //Dialog ½îÀÚ
+                    //Dialog ì˜ì
                 }
 
 
@@ -6399,11 +6422,11 @@ namespace ManualJogViewModel
 
                 if (ret == EnumMessageDialogResult.AFFIRMATIVE)
                 {
-                    //Ã´ º£Å¨ On
+                    //ì²™ ë² í  On
                 }
                 else
                 {
-                    //Dialog ½îÀÚ
+                    //Dialog ì˜ì
                 }
 
             }
@@ -6664,13 +6687,13 @@ namespace ManualJogViewModel
                     ProbeAxisObject zaxis = this.MotionManager().GetAxis(EnumAxisConstants.Z);
 
                     this.MotionManager().StageMove(0, 0, zaxis.Param.HomeOffset.Value);
-                    if (LoaderController.LoaderInfo.StateMap.ChuckModules[0].WaferStatus == EnumSubsStatus.EXIST) // Unload ÇØ¾ßÇÏ´Â »óÈ²
+                    if (LoaderController.LoaderInfo.StateMap.ChuckModules[0].WaferStatus == EnumSubsStatus.EXIST) // Unload í•´ì•¼í•˜ëŠ” ìƒí™©
                     {
                         ret = await this.MetroDialogManager().ShowMessageDialog("Wafer Manual Unloading", "Do you want to remove the wafer from the chuck? ", EnumMessageStyle.AffirmativeAndNegative);
 
                         if (ret == EnumMessageDialogResult.AFFIRMATIVE)
                         {
-                            // Size º°·Î º£Å¨ ¼¾¼­ Á¶ÀÛ VAC OFF
+                            // Size ë³„ë¡œ ë² í  ì„¼ì„œ ì¡°ì‘ VAC OFF
                             ChuckVacuum("OFF");
                             ChuckVacuumCheck("OFF");
 
@@ -6696,12 +6719,12 @@ namespace ManualJogViewModel
                             }
                             else
                             {
-                                //Ã´ ¹èÅ¨ ON
+                                //ì²™ ë°°í  ON
                                 ChuckVacuum("ON");
 
                                 this.StageSupervisor().StageModuleState.Handlerrelease(10000);
 
-                                if (LoaderController.LoaderInfo.StateMap.ChuckModules[0].WaferStatus == EnumSubsStatus.EXIST) // Unload ÇØ¾ßÇÏ´Â »óÈ²
+                                if (LoaderController.LoaderInfo.StateMap.ChuckModules[0].WaferStatus == EnumSubsStatus.EXIST) // Unload í•´ì•¼í•˜ëŠ” ìƒí™©
                                 {
                                     await this.MetroDialogManager().ShowMessageDialog("Manual Jog", "The wafer was not removed from the chuck.", EnumMessageStyle.Affirmative);
                                 }
@@ -6720,7 +6743,7 @@ namespace ManualJogViewModel
 
                     }
 
-                    else if (LoaderController.LoaderInfo.StateMap.ChuckModules[0].WaferStatus == EnumSubsStatus.NOT_EXIST)  // Load ÇØ¾ßÇÏ´Â »óÈ²
+                    else if (LoaderController.LoaderInfo.StateMap.ChuckModules[0].WaferStatus == EnumSubsStatus.NOT_EXIST)  // Load í•´ì•¼í•˜ëŠ” ìƒí™©
                     {
                         ret = await this.MetroDialogManager().ShowMessageDialog("Wafer Hand Loading", "Do you want to load the wafer onto Chuck ? ", EnumMessageStyle.AffirmativeAndNegative);
 
@@ -6749,7 +6772,7 @@ namespace ManualJogViewModel
                             }
                             else
                             {
-                                // ÁØºñ ¤¤¤¤
+                                // ì¤€ë¹„ ã„´ã„´
                                 ret = await this.MetroDialogManager().ShowMessageDialog("Wafer Manual Loading", "Cancel the wafer loading? ", EnumMessageStyle.AffirmativeAndNegative);
 
                                 if (ret == EnumMessageDialogResult.AFFIRMATIVE)
@@ -6830,7 +6853,7 @@ namespace ManualJogViewModel
 
                 await Task.Run(async () =>
                 {
-                    if (LoaderController.LoaderInfo.StateMap.PreAlignModules[0].WaferStatus == EnumSubsStatus.EXIST) // Unload ÇØ¾ßÇÏ´Â »óÈ²
+                    if (LoaderController.LoaderInfo.StateMap.PreAlignModules[0].WaferStatus == EnumSubsStatus.EXIST) // Unload í•´ì•¼í•˜ëŠ” ìƒí™©
                     {
 
                         this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DOSUBCHUCKAIRON, true);
@@ -6880,7 +6903,7 @@ namespace ManualJogViewModel
 
                 await Task.Run(async () =>
                 {
-                    if (LoaderController.LoaderInfo.StateMap.ARMModules[0].WaferStatus == EnumSubsStatus.EXIST) // Unload ÇØ¾ßÇÏ´Â »óÈ²
+                    if (LoaderController.LoaderInfo.StateMap.ARMModules[0].WaferStatus == EnumSubsStatus.EXIST) // Unload í•´ì•¼í•˜ëŠ” ìƒí™©
                     {
 
                         this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DOARMAIRON, true);
@@ -6930,7 +6953,7 @@ namespace ManualJogViewModel
 
                 await Task.Run(async () =>
                 {
-                    if (LoaderController.LoaderInfo.StateMap.ARMModules[1].WaferStatus == EnumSubsStatus.EXIST) // Unload ÇØ¾ßÇÏ´Â »óÈ²
+                    if (LoaderController.LoaderInfo.StateMap.ARMModules[1].WaferStatus == EnumSubsStatus.EXIST) // Unload í•´ì•¼í•˜ëŠ” ìƒí™©
                     {
 
                         this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DOARM2AIRON, true);
@@ -7810,7 +7833,7 @@ namespace ManualJogViewModel
         private void ARM_VACOFF1()
         {
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, true);
-            Thread.Sleep(250);
+            Thread.Sleep(10);
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, false);
         }
 
@@ -7827,7 +7850,7 @@ namespace ManualJogViewModel
         private void ARM_VACON1()
         {
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, true);
-            Thread.Sleep(250);
+            Thread.Sleep(5);
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, false);
         }
 
@@ -7878,7 +7901,7 @@ namespace ManualJogViewModel
         private void ARM_VACOFF2()
         {
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, true);
-            Thread.Sleep(250);
+            Thread.Sleep(10);
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, false);
         }
 
@@ -8357,10 +8380,9 @@ namespace ManualJogViewModel
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
                 Thread.Sleep(250);
 
-                //Nano Z À§·Î ÀÌµ¿ (relmove) // 251119 ±â±¸ ¼öÁ¤À¸·Î È£¹Ö ÈÄ ¾È¿Ã·Áµµ µÊ (ÁÖ¼®Ã³¸®)
-                //ProbeAxisObject AxisObjectNSZ1 = axisNSZ1;
-                //double pos = 2500;    // 2.86; //251119 ybpark ±âÁ¸ 2.5 ¿¡¼­ 2500À¸·Î ¼öÁ¤
-                //retVal = this.MotionManager().RelMove(AxisObjectNSZ1, pos, AxisObjectNSZ1.Param.Speed.Value, AxisObjectNSZ1.Param.Acceleration.Value);
+                // Nano Z ì•„ë˜ë¡œ ì´ë™ (ëŒ€ê¸° ìœ„ì¹˜)
+                double pos = -2500;
+                retVal = this.MotionManager().RelMove(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
             }
             catch (Exception err)
             {
@@ -8391,26 +8413,26 @@ namespace ManualJogViewModel
                 EventCodeEnum ret = EventCodeEnum.NODATA;
                 ProbeAxisObject axisNZD1 = this.MotionManager().GetAxis(EnumAxisConstants.NZD1);
 
-                // µ¹¸®±âÀü ¿¡¾î ÄÑ¾ß ÇÔ!!!
+                // ëŒë¦¬ê¸°ì „ ì—ì–´ ì¼œì•¼ í•¨!!!
                 this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, true);
                 Thread.Sleep(250);
                 this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, true);
                 Thread.Sleep(250);
 
-                // ÀüÀÚ¼® off Ã¼Å©
+                // ì „ìì„ off ì²´í¬
 
                 ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.NZD1);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
                 Thread.Sleep(250);
-
-                // DD¸ğÅÍ µÚ·Î ÀÌµ¿ (relmove)
+                 
+                // DDëª¨í„° ë’¤ë¡œ ì´ë™ (relmove)
                 ProbeAxisObject AxisObjectNZD1 = axisNZD1;
 
-                // 251125 sebas : Arm Á¤·ÄÀ» À§ÇÑ DD pos ÀÌµ¿ º¸Á¤ ( ±âÁ¸ -5369.035 -> º¯°æ -5199.095 : 169.94¸¸Å­ ´õÇÔ )
-                double pos = -5699.095; //251119 ybpark ±âÁ¸ -5.369035¿¡¼­ -5369.035À¸·Î ¼öÁ¤ ´ÙÀ½ÁÖ : -5569·Î Test
+                // 251125 sebas : Arm ì •ë ¬ì„ ìœ„í•œ DD pos ì´ë™ ë³´ì •
+                double pos = 81900.0;
                 retVal = this.MotionManager().RelMove_Wating(AxisObjectNZD1, pos, AxisObjectNZD1.Param.Speed.Value, AxisObjectNZD1.Param.Acceleration.Value);
 
-                // ¿¡¾î off
+                // ì—ì–´ off
                 Thread.Sleep(250);
                 this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, false);
                 Thread.Sleep(250);
@@ -8491,33 +8513,33 @@ namespace ManualJogViewModel
 
                 ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
                 Thread.Sleep(250);
-                // Ejection ZÃà
+                // Ejection Zì¶•
                 ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.EJZ1);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
                 Thread.Sleep(250);
 
-                // Ejection Z À§·Î ÀÌµ¿ (relmove)
+                // Ejection Z ìœ„ë¡œ ì´ë™ (relmove)
                 ProbeAxisObject AxisObjectEJZ1 = axisEJZ1;
-                double pos = 4000; //251119 ybpark ±âÁ¸ 4¿¡¼­ 4000À¸·Î ¼öÁ¤
+                double pos = 4000; //251119 ybpark ê¸°ì¡´ 4ì—ì„œ 4000ìœ¼ë¡œ ìˆ˜ì •
 
                 retVal = this.MotionManager().RelMove(AxisObjectEJZ1, pos, AxisObjectEJZ1.Param.Speed.Value, AxisObjectEJZ1.Param.Acceleration.Value);
 
                 ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
-                // FD Ã´ Z Ãà
+                // FD ì²™ Z ì¶•
                 ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.FDZ1);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
                 Thread.Sleep(250);
 
-                // FD Ã´ À§·Î ÀÌµ¿ (relmove)
+                // FD ì²™ ìœ„ë¡œ ì´ë™ (relmove)
                 ProbeAxisObject AxisObjectFDZ1 = axisFDZ1;
-                pos = 4770; // 20251118 Nick umÁ¦¾î¸¦ À§ÇØ (4.77 -> 4770)
+                pos = 4770; // 20251118 Nick umì œì–´ë¥¼ ìœ„í•´ (4.77 -> 4770)
 
                 retVal = this.MotionManager().RelMove(AxisObjectFDZ1, pos, AxisObjectFDZ1.Param.Speed.Value, AxisObjectFDZ1.Param.Acceleration.Value);
                 Thread.Sleep(250);
 
                 if (retVal == EventCodeEnum.NONE)
                 {
-                    // Ejection X, Y ¹× FDÃ´ theta
+                    // Ejection X, Y ë° FDì²™ theta
                     ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.EJX1, EnumAxisConstants.EJY1, EnumAxisConstants.EJPZ1);
                     ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
@@ -8563,9 +8585,9 @@ namespace ManualJogViewModel
 
                 Thread.Sleep(250);
 
-                // XÃà Áß¾ÓÀ¸·Î ÀÌµ¿ (relmove)
+                // Xì¶• ì¤‘ì•™ìœ¼ë¡œ ì´ë™ (relmove)
                 AxisObject = axis;
-                double pos = 50000; // 20251118 Nick (um ´ÜÀ§·Î º¯°æÀ» À§ÇØ 50 -> 50000)
+                double pos = 50000; // 20251118 Nick (um ë‹¨ìœ„ë¡œ ë³€ê²½ì„ ìœ„í•´ 50 -> 50000)
                 retVal = this.MotionManager().RelMove(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
 
                 if (retVal == EventCodeEnum.NONE)
@@ -8585,7 +8607,7 @@ namespace ManualJogViewModel
             }
         }
 
-        //251106 yb ÀüÃ¼ È£¹Ö Ãß°¡
+        //251106 yb ì „ì²´ í˜¸ë° ì¶”ê°€
         private AsyncCommand _TotalModuleHomingCommand;
         public ICommand TotalModuleHomingCommand
         {
@@ -8616,7 +8638,7 @@ namespace ManualJogViewModel
                                                         EnumAxisConstants.Z2, EnumAxisConstants.EJPZ1);
             ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-            // È£¹Ö±×·ì1
+            // í˜¸ë°ê·¸ë£¹1
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             var axisEnums = new EnumAxisConstants[]
             {
@@ -8631,7 +8653,7 @@ namespace ManualJogViewModel
                 .Select(axis => this.MotionManager().GetAxis(axis))
                 .ToArray();
 
-            double pos = 15000; //251119 ybpark ±âÁ¸ 15 ¿¡¼­ 15000 ÀÌÇÏ ¹Ø¿¡ posºÎºĞÀº ±âÁ¸ °ª¿¡¼­ 1000°öÇÑ °ªÀÓ!
+            double pos = 15000; //251119 ybpark ê¸°ì¡´ 15 ì—ì„œ 15000 ì´í•˜ ë°‘ì— posë¶€ë¶„ì€ ê¸°ì¡´ ê°’ì—ì„œ 1000ê³±í•œ ê°’ì„!
 
             for (int i = 0; i < 17; i++)
             {
@@ -8659,7 +8681,7 @@ namespace ManualJogViewModel
 
             Arms_Air_On();
 
-            // È£¹Ö±×·ì2 : Base Y , Nano Z , Eject X, Eject Y
+            // í˜¸ë°ê·¸ë£¹2 : Base Y , Nano Z , Eject X, Eject Y
             ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Y, EnumAxisConstants.NSZ1, EnumAxisConstants.EJX1, EnumAxisConstants.EJY1);
 
             var axisEnums1 = new EnumAxisConstants[]
@@ -8671,7 +8693,7 @@ namespace ManualJogViewModel
                 .Select(axis1 => this.MotionManager().GetAxis(axis1))
                 .ToArray();
 
-            //for (int i = 0; i < 2; i++) // 251119 ±â±¸¼öÁ¤À¸·Î È£¹Ö ÈÄ ³ª³ë z ÀÌµ¿ »èÁ¦
+            //for (int i = 0; i < 2; i++) // 251119 ê¸°êµ¬ìˆ˜ì •ìœ¼ë¡œ í˜¸ë° í›„ ë‚˜ë…¸ z ì´ë™ ì‚­ì œ
             //{
             //    if (i == 1) // Nano Z : 2.8 up
             //    {
@@ -8682,7 +8704,7 @@ namespace ManualJogViewModel
             // DD motor
             ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.NZD1);
 
-            pos = -5369.035; //251119 ybpark ±âÁ¸ -5.369035 ¿¡¼­ -5369.035 ¼öÁ¤  
+            pos = -5369.035; //251119 ybpark ê¸°ì¡´ -5.369035 ì—ì„œ -5369.035 ìˆ˜ì •  
             retVal = this.MotionManager().RelMove(axes1[2], pos, axes1[2].Param.Speed.Value, axes1[2].Param.Acceleration.Value);
 
             Thread.Sleep(3000);
@@ -8711,19 +8733,6 @@ namespace ManualJogViewModel
 
                 ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.A);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                Thread.Sleep(250);
-
-                // XÃà Áß¾ÓÀ¸·Î ÀÌµ¿ (relmove)
-                AxisObject = axis;
-                double pos = 50000; // 20251118 Nick (um ´ÜÀ§·Î º¯°æÀ» À§ÇØ 50 -> 50000)
-                retVal = this.MotionManager().RelMove(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
-
-                if (retVal == EventCodeEnum.NONE)
-                {
-                    ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Y);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
             }
             catch (Exception err)
             {
@@ -8757,19 +8766,6 @@ namespace ManualJogViewModel
 
                 ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.E);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                Thread.Sleep(250);
-
-                // XÃà Áß¾ÓÀ¸·Î ÀÌµ¿ (relmove)
-                AxisObject = axis;
-                double pos = 50000; // 20251118 Nick (um ´ÜÀ§·Î º¯°æÀ» À§ÇØ 50 -> 50000)
-                retVal = this.MotionManager().RelMove(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
-
-                if (retVal == EventCodeEnum.NONE)
-                {
-                    ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Y);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
             }
             catch (Exception err)
             {
@@ -8803,19 +8799,6 @@ namespace ManualJogViewModel
 
                 ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.W);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                Thread.Sleep(250);
-
-                // XÃà Áß¾ÓÀ¸·Î ÀÌµ¿ (relmove)
-                AxisObject = axis;
-                double pos = 50000; // 20251118 Nick (um ´ÜÀ§·Î º¯°æÀ» À§ÇØ 50 -> 50000)
-                retVal = this.MotionManager().RelMove(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
-
-                if (retVal == EventCodeEnum.NONE)
-                {
-                    ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Y);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
             }
             catch (Exception err)
             {
@@ -8849,19 +8832,6 @@ namespace ManualJogViewModel
 
                 ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.FV);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                Thread.Sleep(250);
-
-                // XÃà Áß¾ÓÀ¸·Î ÀÌµ¿ (relmove)
-                AxisObject = axis;
-                double pos = 50000; // 20251118 Nick (um ´ÜÀ§·Î º¯°æÀ» À§ÇØ 50 -> 50000)
-                retVal = this.MotionManager().RelMove(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
-
-                if (retVal == EventCodeEnum.NONE)
-                {
-                    ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Y);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
             }
             catch (Exception err)
             {
@@ -8895,19 +8865,6 @@ namespace ManualJogViewModel
 
                 ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.U1);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                Thread.Sleep(250);
-
-                // XÃà Áß¾ÓÀ¸·Î ÀÌµ¿ (relmove)
-                AxisObject = axis;
-                double pos = 50000; // 20251118 Nick (um ´ÜÀ§·Î º¯°æÀ» À§ÇØ 50 -> 50000)
-                retVal = this.MotionManager().RelMove(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
-
-                if (retVal == EventCodeEnum.NONE)
-                {
-                    ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Y);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
             }
             catch (Exception err)
             {
@@ -8941,19 +8898,6 @@ namespace ManualJogViewModel
 
                 ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.U2);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                Thread.Sleep(250);
-
-                // XÃà Áß¾ÓÀ¸·Î ÀÌµ¿ (relmove)
-                AxisObject = axis;
-                double pos = 50000; // 20251118 Nick (um ´ÜÀ§·Î º¯°æÀ» À§ÇØ 50 -> 50000)
-                retVal = this.MotionManager().RelMove(AxisObject, pos, AxisObject.Param.Speed.Value, AxisObject.Param.Acceleration.Value);
-
-                if (retVal == EventCodeEnum.NONE)
-                {
-                    ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Y);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
             }
             catch (Exception err)
             {
@@ -8996,7 +8940,7 @@ namespace ManualJogViewModel
                                                         EnumAxisConstants.Z2, EnumAxisConstants.EJPZ1);
             ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-            // È£¹Ö±×·ì1
+            // í˜¸ë°ê·¸ë£¹1
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             var axisEnums = new EnumAxisConstants[]
             {
@@ -9011,7 +8955,7 @@ namespace ManualJogViewModel
                 .Select(axis => this.MotionManager().GetAxis(axis))
                 .ToArray();
 
-            double pos = 15000; //251119 ybpark ±âÁ¸ 15 ¿¡¼­ 15000 ÀÌÇÏ ¹Ø¿¡ posºÎºĞÀº ±âÁ¸ °ª¿¡¼­ 1000°öÇÑ °ªÀÓ!
+            double pos = 15000; //251119 ybpark ê¸°ì¡´ 15 ì—ì„œ 15000 ì´í•˜ ë°‘ì— posë¶€ë¶„ì€ ê¸°ì¡´ ê°’ì—ì„œ 1000ê³±í•œ ê°’ì„!
 
             for (int i = 0; i < 17; i++)
             {
@@ -9039,7 +8983,7 @@ namespace ManualJogViewModel
 
             Arms_Air_On();
 
-            // È£¹Ö±×·ì2 : Base Y , Nano Z , Eject X, Eject Y
+            // í˜¸ë°ê·¸ë£¹2 : Base Y , Nano Z , Eject X, Eject Y
             ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Y, EnumAxisConstants.NSZ1, EnumAxisConstants.EJX1, EnumAxisConstants.EJY1);
 
             var axisEnums1 = new EnumAxisConstants[]
@@ -9051,7 +8995,7 @@ namespace ManualJogViewModel
                 .Select(axis1 => this.MotionManager().GetAxis(axis1))
                 .ToArray();
 
-            //for (int i = 0; i < 2; i++) // 251119 ±â±¸¼öÁ¤À¸·Î È£¹Ö ÈÄ ³ª³ë z ÀÌµ¿ »èÁ¦
+            //for (int i = 0; i < 2; i++) // 251119 ê¸°êµ¬ìˆ˜ì •ìœ¼ë¡œ í˜¸ë° í›„ ë‚˜ë…¸ z ì´ë™ ì‚­ì œ
             //{
             //    if (i == 1) // Nano Z : 2.8 up
             //    {
@@ -9062,14 +9006,14 @@ namespace ManualJogViewModel
             // DD motor
             ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.NZD1);
 
-            pos = -5369.035; //251119 ybpark ±âÁ¸ -5.369035 ¿¡¼­ -5369.035 ¼öÁ¤  
+            pos = -5369.035; //251119 ybpark ê¸°ì¡´ -5.369035 ì—ì„œ -5369.035 ìˆ˜ì •  
             retVal = this.MotionManager().RelMove(axes1[2], pos, axes1[2].Param.Speed.Value, axes1[2].Param.Acceleration.Value);
 
             Thread.Sleep(3000);
             Arms_Air_Off();
         }
 
-        // 251112 ybpark ´Üµ¿ ½ÃÇè ¹öÆ° Ãß°¡ 
+        // 251112 ybpark ë‹¨ë™ ì‹œí—˜ ë²„íŠ¼ ì¶”ê°€ 
         private AsyncCommand _AcceptanceCommand;
         public ICommand AcceptanceCommand
         {
@@ -9080,203 +9024,186 @@ namespace ManualJogViewModel
             }
         }
 
+        //// 251112 ybpark ë‹¨ë™ ì‹œí—˜ ë²„íŠ¼ ì¶”ê°€ 
+        //private AsyncCommand _AcceptanceCommand;
+        //public ICommand AcceptanceCommand
+        //{
+        //    get
+        //    {
+        //        if (null == _AcceptanceCommand) _AcceptanceCommand = new AsyncCommand(AcceptanceCommand_Domabam_Func);
+        //        return _AcceptanceCommand;
+        //    }
+        //}
+
         #region => 251119 sebas sequence add
-        // 20241130 Nick Pick Test
         private async Task AcceptanceCommand_Func()
         {
             try
             {
                 LoggerManager.Debug($"AcceptanceCommand Start");
 
-                // 251112 sebas sequence add
                 EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
 
                 ProbeAxisObject axisEJPZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJPZ1);
 
-                int RotateCount = 1;
-                bool IOCheck = false;
-                bool StartFlag = false;
+                bool StartFlag = false;     // false : ARM1 , true : ARM2
                 double pos = 0.0;
 
                 #region Ready
-                retVal = MovePickPos_SafeZone_First();  // Ã¹¹øÂ° ½ÃÀÛ ´ÙÀÌ¸¦ Pick ¾Æ·¡±îÁö ÀÌµ¿ (FDÃ´, WaferÃ´)
-
+                retVal = MovePickPos_SafeZone_First();
                 if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("MovePickPos_SafeZone() Function Error");
-                }
+                    throw new Exception("MovePickPos_SafeZone_First() Function Error");
                 #endregion
 
-                Arms_Air_On();  // arm1, arm2 air on
-
-                retVal = Rotate_Plus();
-                if (retVal != EventCodeEnum.NONE)
+                for (TestCount = 1; TestCount <= TestCountActualVal; TestCount++)
                 {
-                    throw new Exception("Rotate_Plus() Function Error");
-                }
+                    LoggerManager.Event($"Sequence Start {TestCount}");
 
-                for (TestCount = 1; TestCount <= TestCountActualVal; TestCount++)     // XÃà¸¸ °­Á¦ 3È¸ ÀÌµ¿
-                {
-                    LoggerManager.Debug($"Sequence Start {TestCount}");
+                    // ë³‘ë ¬ êµ¬ê°„ì—ì„œ í”ë“¤ë¦¬ì§€ ì•Šê²Œ ì‚¬ì´í´ ì‹œì‘ê°’ ìº¡ì²˜
+                    bool cycleStartFlag = StartFlag;        // cycleStartFlag = false (ARM1) , cycleStartFlag = true (ARM2)
 
-                    #region Pick Process
-                    LoggerManager.Debug($"Arms_Air_On Start");
-                    Arms_Air_On();  // arm1, arm2 air on
-                    LoggerManager.Debug($"Arms_Air_On End");
-
-                    if (false == StartFlag)
+                    // ============================
+                    // 1) Pick Task (ë™ì‹œì— ì‹œì‘)
+                    // ============================
+                    Task pickTask = Task.Run(() =>
                     {
-                        StartFlag = true;
-                    }
-                    else
-                    {
-                        LoggerManager.Debug($"Rotate_Plus(CW) Start");
-                        retVal = Rotate_Plus();
-                        LoggerManager.Debug($"Rotate_Plus(CW) End");
-                    }
+                        double localPos;
+                        LoggerManager.Debug($"Pick Start {TestCount}");
 
-                    //251125 ybpark Ã¹¹øÂ° ´ÙÀÌ°¡ ¾Æ´Ñ µÎ¹øÂ° ´ÙÀÌ ºÎÅÍ x,y 
-                    if (TestCount > 1)
-                    {
-                        LoggerManager.Debug($"MovePickPos_SafeZone_Next(ÀÌÁ§¼Ç ´ÙÀ½´ÙÀÌ·Î ÀÌµ¿) Start");
-                        retVal = MovePickPos_SafeZone_Next();
-                        LoggerManager.Debug($"MovePickPos_SafeZone_Next(ÀÌÁ§¼Ç ´ÙÀ½´ÙÀÌ·Î ÀÌµ¿) End");
-
+                        // Pick ìœ„ì¹˜ (StartFlagì— ë”°ë¼ ë‹¤ë¥¸ ìœ„ì¹˜ë¼ë©´ ìº¡ì²˜ê°’ ì‚¬ìš©)
+                        LoggerManager.Debug($"MovePickPos_DangerZone Start");
+                        retVal = MovePickPos_DangerZone(cycleStartFlag);
+                        LoggerManager.Debug($"MovePickPos_DangerZone End");
                         if (retVal != EventCodeEnum.NONE)
+                            throw new Exception("MovePickPos_DangerZone() Function Error");
+
+                        // Ejection Pin Down
+                        localPos = -300;
+                        LoggerManager.Debug($"Ejection Pin Down Start");
+                        retVal = this.MotionManager().RelMove(axisEJPZ1, localPos, axisEJPZ1.Param.Speed.Value, axisEJPZ1.Param.Acceleration.Value);
+                        LoggerManager.Debug($"Ejection Pin Down End");
+                        if (retVal != EventCodeEnum.NONE)
+                            throw new Exception("Ejection Pin Z RelMove Error");
+
+                        // Rotate í•´ë„ ê´œì°®ì€ ìœ„ì¹˜ë¡œ ë³µê·€
+                        LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick Start");
+                        retVal = MovePickPos_SafeZone_AfterPick();
+                        LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick End");
+                        if (retVal != EventCodeEnum.NONE)
+                            throw new Exception("MovePickPos_SafeZone_AfterPick() Function Error");
+
+                        Thread.Sleep(100);
+
+                        LoggerManager.Debug($"Pick End {TestCount}");
+                    });
+
+                    // ============================
+                    // 2) Place Task (ë™ì‹œì— ì‹œì‘)
+                    // ============================
+                    Task placeTask = Task.Run(() =>
+                    {
+                        LoggerManager.MonitoringLog($"Place Start {TestCount}");
+                        LoggerManager.MonitoringLog($"Magnetic_On Start");
+                        retVal = Magnetic_On();
+                        LoggerManager.MonitoringLog($"Magnetic_On End");
+                        if (retVal != EventCodeEnum.NONE)
+                            throw new Exception("Magnetic_On() Function Error");
+
+                        LoggerManager.MonitoringLog($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Down Start");
+                        retVal = DoPlace_Nano_ZDown();
+                        LoggerManager.MonitoringLog($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Down End");
+                        if (retVal != EventCodeEnum.NONE)
+                            throw new Exception("DoPlace_Nano_ZDown() Function Error");
+
+                        // Vacuum Off (Place) : ìº¡ì²˜í•œ StartFlag ê¸°ì¤€ìœ¼ë¡œ ê²°ì •
+                        if (cycleStartFlag == true)
                         {
-                            throw new Exception("MovePickPos_SafeZone_Next() Function Error");
-                        }
-                    }
-
-                    // Ejection Pin ³ª¿À´Â µ¿ÀÛ Æ÷ÇÔ
-                    LoggerManager.Debug($"MovePickPos_DangerZone Start");
-                    retVal = MovePickPos_DangerZone();  // PickÇÒ ¼ö ÀÖ´Â À§Ä¡
-                    LoggerManager.Debug($"MovePickPos_DangerZone End");
-
-                    if (retVal != EventCodeEnum.NONE)
-                    {
-                        throw new Exception("MovePickPos_DangerZone() Function Error");
-                    }
-
-                    // Ejection Pin Down (»ó´ë°ª ÀÌµ¿)
-                    pos = -300;    // = 3,000 Ejection Pin Z Ãà DtoP = 10
-                    LoggerManager.Debug($"Ejection Pin Down Start");
-                    retVal = this.MotionManager().RelMove(axisEJPZ1, pos, axisEJPZ1.Param.Speed.Value, axisEJPZ1.Param.Acceleration.Value);
-                    LoggerManager.Debug($"Ejection Pin Down End");
-                    if (retVal != EventCodeEnum.NONE)
-                    {
-                        throw new Exception("Ejection Pin Z RelMove Error");
-                    }
-
-                    // Rotate ÇØµµ ±¦ÂúÀº À§Ä¡·Î º¹±Í
-                    LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick Start");
-                    retVal = MovePickPos_SafeZone_AfterPick();  // ÀÏ´Ü Ejection Z Down¸¸ Down
-                    LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick End");
-                    if (retVal != EventCodeEnum.NONE)
-                    {
-                        throw new Exception("MovePickPos_SafeZone() Function Error");
-                    }
-                    #endregion
-
-                    #region Rotate Process
-                    //if (IOCheck)
-                    if (true)
-                    {
-                        Thread.Sleep(350);
-                        if (true)
-                        {
-                            LoggerManager.Debug($"Rotate_Plus(CW) Start");
-                            retVal = Rotate_Plus(); // DD¸ğÅÍ°¡ +¹æÇâ(Á¤¸é±âÁØ ½Ã°è ¹İ´ë¹æÇâ)À¸·Î È¸Àü
-                            LoggerManager.Debug($"Rotate_Plus(CW) End");
-                            if (retVal != EventCodeEnum.NONE)
-                            {
-                                throw new Exception("Rotate_Plus() Function Error");
-                            }
+                            LoggerManager.MonitoringLog($"Arm1_Vac_Off Start");
+                            Arm1_Vac_Off();
+                            LoggerManager.MonitoringLog($"Arm1_Vac_Off End");
                         }
                         else
                         {
-                            this.MetroDialogManager().ShowMessageDialog("Sequence Error", "Die is not existed on Arm2", EnumMessageStyle.Affirmative);
-                            throw new Exception("Die is not existed on Arm2");
+                            LoggerManager.MonitoringLog($"Arm2_Vac_Off Start");
+                            Arm2_Vac_Off();
+                            LoggerManager.MonitoringLog($"Arm2_Vac_Off End");
                         }
-                    }
-                    #endregion
 
-                    #region Place Process
-                    LoggerManager.Debug($"Magnetic_On Start");
-                    retVal = Magnetic_On();
-                    LoggerManager.Debug($"Magnetic_On End");
-                    if (retVal != EventCodeEnum.NONE)
+                        LoggerManager.MonitoringLog($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Up Start");
+                        retVal = DoPlace_Nano_ZUp();
+                        LoggerManager.MonitoringLog($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Up End");
+                        if (retVal != EventCodeEnum.NONE)
+                            throw new Exception("DoPlace_Nano_ZUp() Function Error");
+
+                        LoggerManager.MonitoringLog($"Magnetic_Off Start");
+                        retVal = Magnetic_Off();
+                        LoggerManager.MonitoringLog($"Magnetic_Off End");
+                        if (retVal != EventCodeEnum.NONE)
+                            throw new Exception("Magnetic_Off() Function Error");
+
+                        LoggerManager.MonitoringLog($"Place End {TestCount}");
+                    });
+
+                    // 3) Pick & Place ë‘˜ ë‹¤ ì™„ë£Œë  ë•Œê¹Œì§€ ëŒ€ê¸°
+                    await Task.WhenAll(pickTask, placeTask);
+
+                    // ë§ˆì§€ë§‰ ë‹¤ì´ ë‚´ë ¤ ë†“ê³  ì •ë¦¬
+                    if (16 == TestCount)
                     {
-                        throw new Exception("Magnetic_On() Function Error");
+                        LoggerManager.Event($"Sequence End {TestCount}");
+                        break;
                     }
 
-                    // Wafer stage Up
-                    LoggerManager.Debug($"Wafer_Chuck_DangerZone Start");
-                    retVal = Wafer_Chuck_DangerZone();  // Wafer ChuckÀÌ arm ¹Ù·Î ¾Æ·¡±îÁö Up
-                    LoggerManager.Debug($"Wafer_Chuck_DangerZone End");
-                    if (retVal != EventCodeEnum.NONE)
+                    LoggerManager.Event($"Rotate Start {TestCount}");
+
+                    // Rotate ì‹œê°„ì„ ì¤„ì´ê¸° ìœ„í•´ Placeë¡œ ì˜®ê¹€.
+                    LoggerManager.Event($"Arms_Air_On Start");
+                    Arms_Air_On();
+                    LoggerManager.Event($"Arms_Air_On End");
+
+                    // ë§ˆì§€ë§‰ ë‹¤ì´ ì›€ì§ì¼ í•„ìš” ì—†ìŒ.
+                    if (TestCount < 15)
                     {
-                        throw new Exception("Wafer_Chuck_DangerZone() Function Error");
+                        LoggerManager.Event($"MovePickPos_SafeZone_Next Start");
+                        retVal = MovePickPos_SafeZone_Next();
+                        LoggerManager.Event($"MovePickPos_SafeZone_Next End");
+                        if (retVal != EventCodeEnum.NONE)
+                            throw new Exception("MovePickPos_SafeZone_Next() Function Error");
                     }
 
-                    // Arms air off
-                    LoggerManager.Debug($"Arms_Air_Off Start");
+                    if (cycleStartFlag == false)
+                    {
+                        NanostageUpDownMonitor(cycleStartFlag, 79901.2);  // 2ë„ ì›€ì§ì˜€ì„ë•Œ ë‚˜ë…¸ìŠ¤í…Œì´ì§€ ì—…, ë‹¤ìš´
+
+                        LoggerManager.Event($"Rotate_Minus Start");
+                        retVal = Rotate_Minus();
+                        LoggerManager.Event($"Rotate_Minus End");
+                    }
+                    else
+                    {
+                        NanostageUpDownMonitor(cycleStartFlag, -96081); // 2ë„ ì›€ì§ì˜€ì„ë•Œ ë‚˜ë…¸ìŠ¤í…Œì´ì§€ ì—…, ë‹¤ìš´
+
+                        LoggerManager.Event($"Rotate_Plus Start");
+                        retVal = Rotate_Plus();
+                        LoggerManager.Event($"Rotate_Plus End");
+                    }
+
+                    if (retVal != EventCodeEnum.NONE)
+                        throw new Exception("Rotate Function Error");
+
+                    LoggerManager.Event($"Arms_Air_Off Start");
                     Arms_Air_Off();
-                    LoggerManager.Debug($"Arms_Air_Off End");
+                    LoggerManager.Event($"Arms_Air_Off End");
 
-                    // Nano Stage Z Down
-                    LoggerManager.Debug($"DoPlace_Nano_ZDown Start");
-                    retVal = DoPlace_Nano_ZDown();
-                    LoggerManager.Debug($"DoPlace_Nano_ZDown End");
-                    if (retVal != EventCodeEnum.NONE)
-                    {
-                        throw new Exception("DoPlace_Nano_ZDown() Function Error");
-                    }
-
-                    // Arm2 Vacuum Off µ¿ÀÛ (Place)
-                    LoggerManager.Debug($"Arm2_Vac_Off Start");
-                    Arm2_Vac_Off();  // Place µ¿ÀÛ (Vacuum)
-                    LoggerManager.Debug($"Arm2_Vac_Off End");
-
-                    // Nano Stage Z Up
-                    LoggerManager.Debug($"DoPlace_Nano_ZUp Start");
-                    retVal = DoPlace_Nano_ZUp();
-                    LoggerManager.Debug($"DoPlace_Nano_ZUp End");
-                    if (retVal != EventCodeEnum.NONE)
-                    {
-                        throw new Exception("DoPlace_Nano_ZUp() Function Error");
-                    }
-
-                    // Wafer stage Down
-                    LoggerManager.Debug($"Wafer_Chuck_SafeZone Start");
-                    retVal = Wafer_Chuck_SafeZone();
-                    LoggerManager.Debug($"Wafer_Chuck_SafeZone End");
-                    if (retVal != EventCodeEnum.NONE)
-                    {
-                        throw new Exception("Wafer_Chuck_SafeZone() Function Error");
-                    }
-
-                    // Place (Magnetic Off)
-                    LoggerManager.Debug($"Magnetic_Off Start");
-                    retVal = Magnetic_Off();
-                    LoggerManager.Debug($"Magnetic_Off End");
-                    if (retVal != EventCodeEnum.NONE)
-                    {
-                        throw new Exception("Magnetic_Off() Function Error");
-                    }
-
-                    LoggerManager.Debug($"Sequence End {TestCount}");
-                    #endregion
+                    // 5) ë‹¤ìŒ ì‚¬ì´í´ìš© StartFlag í† ê¸€ (ë³‘ë ¬ êµ¬ê°„ ë°–ì—ì„œ)
+                    StartFlag = !cycleStartFlag;
+                    LoggerManager.Event($"Rotate End {TestCount}");
+                    LoggerManager.Event($"Sequence End {TestCount}");
                 }
 
-                retVal = Wafer_Chuck_EndZone();
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Wafer_Chuck_EndZone() Function Error");
-                }
-
-                Arm1_Vac_Off();  // Place µ¿ÀÛ (Vacuum)
-                Arm2_Vac_Off();  // Place µ¿ÀÛ (Vacuum)
+                Arms_Air_Off();
+                Arm1_Vac_Off();
+                Arm2_Vac_Off();
             }
             catch (Exception err)
             {
@@ -9284,6 +9211,361 @@ namespace ManualJogViewModel
                 throw;
             }
         }
+
+        public bool DomabamFlag = false;
+
+        //private async Task AcceptanceCommand_Domabam_Func()
+        //{
+        //    try
+        //    {
+        //        LoggerManager.Debug($"AcceptanceCommand Start");
+        //        DomabamFlag = true;
+        //        EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+        //        ProbeAxisObject axisEJPZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJPZ1);
+
+        //        bool StartFlag = false;     // false : ARM1 , true : ARM2
+        //        double pos = 0.0;
+
+        //        #region Ready
+        //        retVal = MovePickPos_SafeZone_First();
+        //        if (retVal != EventCodeEnum.NONE)
+        //            throw new Exception("MovePickPos_SafeZone_First() Function Error");
+        //        #endregion
+
+        //        for (TestCount = 1; TestCount <= TestCountActualVal; TestCount++)
+        //        {
+        //            LoggerManager.Event($"Sequence Start {TestCount}");
+
+        //            // ë³‘ë ¬ êµ¬ê°„ì—ì„œ í”ë“¤ë¦¬ì§€ ì•Šê²Œ ì‚¬ì´í´ ì‹œì‘ê°’ ìº¡ì²˜
+        //            bool cycleStartFlag = StartFlag;        // cycleStartFlag = false (ARM1) , cycleStartFlag = true (ARM2)
+
+        //            // ============================
+        //            // 1) Pick Task (ë™ì‹œì— ì‹œì‘)
+        //            // ============================
+        //            Task pickTask = Task.Run(() =>
+        //            {
+        //                double localPos;
+        //                LoggerManager.Debug($"Pick Start {TestCount}");
+
+        //                // Pick ìœ„ì¹˜ (StartFlagì— ë”°ë¼ ë‹¤ë¥¸ ìœ„ì¹˜ë¼ë©´ ìº¡ì²˜ê°’ ì‚¬ìš©)
+        //                LoggerManager.Debug($"MovePickPos_DangerZone Start");
+        //                retVal = MovePickPos_DangerZone(cycleStartFlag);
+        //                LoggerManager.Debug($"MovePickPos_DangerZone End");
+        //                if (retVal != EventCodeEnum.NONE)
+        //                    throw new Exception("MovePickPos_DangerZone() Function Error");
+
+        //                // Rotate í•´ë„ ê´œì°®ì€ ìœ„ì¹˜ë¡œ ë³µê·€
+        //                LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick Start");
+        //                retVal = MovePickPos_SafeZone_AfterPick();
+        //                LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick End");
+        //                if (retVal != EventCodeEnum.NONE)
+        //                    throw new Exception("MovePickPos_SafeZone_AfterPick() Function Error");
+
+        //                Thread.Sleep(100);
+
+        //                LoggerManager.Debug($"Pick End {TestCount}");
+        //            });
+
+        //            // ============================
+        //            // 2) Place Task (ë™ì‹œì— ì‹œì‘)
+        //            // ============================
+        //            Task placeTask = Task.Run(() =>
+        //            {
+        //                LoggerManager.MonitoringLog($"Place Start {TestCount}");
+        //                LoggerManager.MonitoringLog($"Magnetic_On Start");
+        //                retVal = Magnetic_On();
+        //                LoggerManager.MonitoringLog($"Magnetic_On End");
+        //                if (retVal != EventCodeEnum.NONE)
+        //                    throw new Exception("Magnetic_On() Function Error");
+
+        //                LoggerManager.MonitoringLog($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Down Start");
+        //                retVal = DoPlace_Nano_ZDown();
+        //                LoggerManager.MonitoringLog($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Down End");
+        //                if (retVal != EventCodeEnum.NONE)
+        //                    throw new Exception("DoPlace_Nano_ZDown() Function Error");
+
+        //                // Vacuum Off (Place) : ìº¡ì²˜í•œ StartFlag ê¸°ì¤€ìœ¼ë¡œ ê²°ì •
+        //                if (cycleStartFlag == true)
+        //                {
+        //                    LoggerManager.MonitoringLog($"Arm1_Vac_Off Start");
+        //                    Arm1_Vac_Off();
+        //                    LoggerManager.MonitoringLog($"Arm1_Vac_Off End");
+        //                }
+        //                else
+        //                {
+        //                    LoggerManager.MonitoringLog($"Arm2_Vac_Off Start");
+        //                    Arm2_Vac_Off();
+        //                    LoggerManager.MonitoringLog($"Arm2_Vac_Off End");
+        //                }
+
+        //                LoggerManager.MonitoringLog($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Up Start");
+        //                retVal = DoPlace_Nano_ZUp();
+        //                LoggerManager.MonitoringLog($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Up End");
+        //                if (retVal != EventCodeEnum.NONE)
+        //                    throw new Exception("DoPlace_Nano_ZUp() Function Error");
+
+        //                LoggerManager.MonitoringLog($"Magnetic_Off Start");
+        //                retVal = Magnetic_Off();
+        //                LoggerManager.MonitoringLog($"Magnetic_Off End");
+        //                if (retVal != EventCodeEnum.NONE)
+        //                    throw new Exception("Magnetic_Off() Function Error");
+
+        //                LoggerManager.MonitoringLog($"Place End {TestCount}");
+        //            });
+
+        //            // 3) Pick & Place ë‘˜ ë‹¤ ì™„ë£Œë  ë•Œê¹Œì§€ ëŒ€ê¸°
+        //            await Task.WhenAll(pickTask, placeTask);
+
+        //            // ë§ˆì§€ë§‰ ë‹¤ì´ ë‚´ë ¤ ë†“ê³  ì •ë¦¬
+        //            if (16 == TestCount)
+        //            {
+        //                LoggerManager.Event($"Sequence End {TestCount}");
+        //                break;
+        //            }
+
+        //            LoggerManager.Event($"Rotate Start {TestCount}");
+
+        //            // Rotate ì‹œê°„ì„ ì¤„ì´ê¸° ìœ„í•´ Placeë¡œ ì˜®ê¹€.
+        //            LoggerManager.Event($"Arms_Air_On Start");
+        //            Arms_Air_On();
+        //            LoggerManager.Event($"Arms_Air_On End");
+
+        //            // ë§ˆì§€ë§‰ ë‹¤ì´ ì›€ì§ì¼ í•„ìš” ì—†ìŒ.
+        //            if (TestCount < 15)
+        //            {
+        //                LoggerManager.Event($"MovePickPos_SafeZone_Next Start");
+        //                retVal = MovePickPos_SafeZone_Next();
+        //                LoggerManager.Event($"MovePickPos_SafeZone_Next End");
+        //                if (retVal != EventCodeEnum.NONE)
+        //                    throw new Exception("MovePickPos_SafeZone_Next() Function Error");
+        //            }
+
+        //            if (cycleStartFlag == false)
+        //            {
+        //                NanostageUpDownMonitor(cycleStartFlag, 79901.2);  // 2ë„ ì›€ì§ì˜€ì„ë•Œ ë‚˜ë…¸ìŠ¤í…Œì´ì§€ ì—…, ë‹¤ìš´
+
+        //                LoggerManager.Event($"Rotate_Minus Start");
+        //                retVal = Rotate_Minus();
+        //                LoggerManager.Event($"Rotate_Minus End");
+        //            }
+        //            else
+        //            {
+        //                NanostageUpDownMonitor(cycleStartFlag, -96081); // 2ë„ ì›€ì§ì˜€ì„ë•Œ ë‚˜ë…¸ìŠ¤í…Œì´ì§€ ì—…, ë‹¤ìš´
+
+        //                LoggerManager.Event($"Rotate_Plus Start");
+        //                retVal = Rotate_Plus();
+        //                LoggerManager.Event($"Rotate_Plus End");
+        //            }
+
+        //            if (retVal != EventCodeEnum.NONE)
+        //                throw new Exception("Rotate Function Error");
+
+        //            LoggerManager.Event($"Arms_Air_Off Start");
+        //            Arms_Air_Off();
+        //            LoggerManager.Event($"Arms_Air_Off End");
+
+        //            // 5) ë‹¤ìŒ ì‚¬ì´í´ìš© StartFlag í† ê¸€ (ë³‘ë ¬ êµ¬ê°„ ë°–ì—ì„œ)
+        //            StartFlag = !cycleStartFlag;
+        //            LoggerManager.Event($"Rotate End {TestCount}");
+        //            LoggerManager.Event($"Sequence End {TestCount}");
+        //        }
+
+        //        Arms_Air_Off();
+        //        Arm1_Vac_Off();
+        //        Arm2_Vac_Off();
+        //        DomabamFlag = false;
+        //    }
+        //    catch (Exception err)
+        //    {
+        //        LoggerManager.Exception(err);
+        //        throw;
+        //    }
+        //}
+
+        //private async Task AcceptanceCommand_Func()
+        //{
+        //    try
+        //    {
+        //        LoggerManager.Debug($"AcceptanceCommand Start");
+
+        //        // 251112 sebas sequence add
+        //        EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+        //        ProbeAxisObject axisEJPZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJPZ1);
+
+        //        int RotateCount = 1;
+        //        bool IOCheck = false;
+        //        bool StartFlag = false;     // false : ARM1 , true : ARM2
+        //        double pos = 0.0;
+
+        //        #region Ready
+        //        retVal = MovePickPos_SafeZone_First();  // ì²«ë²ˆì§¸ ì‹œì‘ ë‹¤ì´ë¥¼ Pick ì•„ë˜ê¹Œì§€ ì´ë™ (FDì²™, Waferì²™)
+
+        //        if (retVal != EventCodeEnum.NONE)
+        //        {
+        //            throw new Exception("MovePickPos_SafeZone() Function Error");
+        //        }
+        //        #endregion
+
+        //        if (retVal != EventCodeEnum.NONE)
+        //        {
+        //            throw new Exception("Rotate_Edit() Function Error");
+        //        }
+
+        //        for (TestCount = 1; TestCount <= TestCountActualVal; TestCount++)     // Xì¶•ë§Œ ê°•ì œ 3íšŒ ì´ë™
+        //        {
+        //            LoggerManager.Debug($"Sequence Start {TestCount}");
+
+        //            #region Pick Process
+        //            //251125 ybpark ì²«ë²ˆì§¸ ë‹¤ì´ê°€ ì•„ë‹Œ ë‘ë²ˆì§¸ ë‹¤ì´ ë¶€í„° x,y 
+        //            if (TestCount > 1)
+        //            {
+        //                LoggerManager.Debug($"MovePickPos_SafeZone_Next(ì´ì ì…˜ ë‹¤ìŒë‹¤ì´ë¡œ ì´ë™) Start");
+        //                retVal = MovePickPos_SafeZone_Next();
+        //                LoggerManager.Debug($"MovePickPos_SafeZone_Next(ì´ì ì…˜ ë‹¤ìŒë‹¤ì´ë¡œ ì´ë™) End");
+        //                if (retVal != EventCodeEnum.NONE)
+        //                {
+        //                    throw new Exception("MovePickPos_SafeZone_Next() Function Error");
+        //                }
+        //            }
+
+        //            // Ejection Pin ë‚˜ì˜¤ëŠ” ë™ì‘ í¬í•¨
+        //            LoggerManager.Debug($"MovePickPos_DangerZone Start");
+        //            retVal = MovePickPos_DangerZone(StartFlag);  // Pickí•  ìˆ˜ ìˆëŠ” ìœ„ì¹˜
+        //            LoggerManager.Debug($"MovePickPos_DangerZone End");
+        //            if (retVal != EventCodeEnum.NONE)
+        //            {
+        //                throw new Exception("MovePickPos_DangerZone() Function Error");
+        //            }
+
+        //            // Ejection Pin Down (ìƒëŒ€ê°’ ì´ë™)
+        //            pos = -300;    // = 3,000 Ejection Pin Z ì¶• DtoP = 10
+        //            LoggerManager.Debug($"Ejection Pin Down Start");
+        //            retVal = this.MotionManager().RelMove_Wating(axisEJPZ1, pos, axisEJPZ1.Param.Speed.Value, axisEJPZ1.Param.Acceleration.Value);
+        //            LoggerManager.Debug($"Ejection Pin Down End");
+        //            if (retVal != EventCodeEnum.NONE)
+        //            {
+        //                throw new Exception("Ejection Pin Z RelMove Error");
+        //            }
+
+        //            // Rotate í•´ë„ ê´œì°®ì€ ìœ„ì¹˜ë¡œ ë³µê·€
+        //            LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick Start");
+        //            retVal = MovePickPos_SafeZone_AfterPick();  // ì¼ë‹¨ Ejection Z Downë§Œ Down
+        //            LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick End");
+        //            if (retVal != EventCodeEnum.NONE)
+        //            {
+        //                throw new Exception("MovePickPos_SafeZone() Function Error");
+        //            }
+        //            #endregion
+
+        //            #region Rotate Process
+        //            //if (IOCheck)
+        //            if (true)
+        //            {
+        //                LoggerManager.Debug($"Arms_Air_On Start");
+        //                Arms_Air_On();  // arm1, arm2 air on
+        //                LoggerManager.Debug($"Arms_Air_On End");
+
+        //                if (false == StartFlag)
+        //                {
+        //                    LoggerManager.Debug($"Rotate_Minus(CW) Start");
+        //                    retVal = Rotate_Minus(); // DDëª¨í„°ê°€ +ë°©í–¥(ì •ë©´ê¸°ì¤€ ì‹œê³„ ë°˜ëŒ€ë°©í–¥)ìœ¼ë¡œ íšŒì „
+        //                    LoggerManager.Debug($"Rotate_Minus(CW) End");
+        //                    if (retVal != EventCodeEnum.NONE)
+        //                    {
+        //                        throw new Exception("Rotate_Plus() Function Error");
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    LoggerManager.Debug($"Rotate_Plus(CW) Start");
+        //                    retVal = Rotate_Plus(); // DDëª¨í„°ê°€ +ë°©í–¥(ì •ë©´ê¸°ì¤€ ì‹œê³„ ë°˜ëŒ€ë°©í–¥)ìœ¼ë¡œ íšŒì „
+        //                    LoggerManager.Debug($"Rotate_Plus(CW) End");
+        //                    if (retVal != EventCodeEnum.NONE)
+        //                    {
+        //                        throw new Exception("Rotate_Minus() Function Error");
+        //                    }
+        //                }
+        //            }
+        //            #endregion
+
+        //            #region Place Process
+        //            LoggerManager.Debug($"Magnetic_On Start");
+        //            retVal = Magnetic_On();
+        //            LoggerManager.Debug($"Magnetic_On End");
+        //            if (retVal != EventCodeEnum.NONE)
+        //            {
+        //                throw new Exception("Magnetic_On() Function Error");
+        //            }
+
+        //            // Arms air off
+        //            LoggerManager.Debug($"Arms_Air_Off Start");
+        //            Arms_Air_Off();
+        //            LoggerManager.Debug($"Arms_Air_Off End");
+
+        //            // Nano Stage Z Down
+        //            LoggerManager.Debug($"DoPlace_Nano_ZDown Start");
+        //            retVal = DoPlace_Nano_ZDown();
+        //            LoggerManager.Debug($"DoPlace_Nano_ZDown End");
+        //            if (retVal != EventCodeEnum.NONE)
+        //            {
+        //                throw new Exception("DoPlace_Nano_ZDown() Function Error");
+        //            }
+
+        //            // Vacuum Off ë™ì‘ (Place)
+        //            if(false == StartFlag)
+        //            {
+        //                LoggerManager.Debug($"Arm2_Vac_Off Start");
+        //                Arm1_Vac_Off();  // Place ë™ì‘ (Vacuum)
+        //                LoggerManager.Debug($"Arm2_Vac_Off End");
+        //                StartFlag = true;
+        //            }
+        //            else
+        //            {
+        //                LoggerManager.Debug($"Arm2_Vac_Off Start");
+        //                Arm2_Vac_Off();  // Place ë™ì‘ (Vacuum)
+        //                LoggerManager.Debug($"Arm2_Vac_Off End");
+        //                StartFlag = false;
+        //            }
+
+        //            // Nano Stage Z Up
+        //            LoggerManager.Debug($"DoPlace_Nano_ZUp Start");
+        //            retVal = DoPlace_Nano_ZUp();
+        //            LoggerManager.Debug($"DoPlace_Nano_ZUp End");
+        //            if (retVal != EventCodeEnum.NONE)
+        //            {
+        //                throw new Exception("DoPlace_Nano_ZUp() Function Error");
+        //            }
+
+        //            // Place (Magnetic Off)
+        //            LoggerManager.Debug($"Magnetic_Off Start");
+        //            retVal = Magnetic_Off();
+        //            LoggerManager.Debug($"Magnetic_Off End");
+        //            if (retVal != EventCodeEnum.NONE)
+        //            {
+        //                throw new Exception("Magnetic_Off() Function Error");
+        //            }
+
+        //            LoggerManager.Debug($"Sequence End {TestCount}");
+        //            #endregion
+        //        }
+
+        //        //retVal = Wafer_Chuck_EndZone();
+        //        //if (retVal != EventCodeEnum.NONE)
+        //        //{
+        //        //    throw new Exception("Wafer_Chuck_EndZone() Function Error");
+        //        //}
+
+        //        Arm1_Vac_Off();  // Place ë™ì‘ (Vacuum)
+        //        Arm2_Vac_Off();  // Place ë™ì‘ (Vacuum)
+        //    }
+        //    catch (Exception err)
+        //    {
+        //        LoggerManager.Exception(err);
+        //        throw;
+        //    }
+        //}
 
         //private async Task AcceptanceCommand_Func()
         //{
@@ -9301,7 +9583,7 @@ namespace ManualJogViewModel
         //        double pos = 0.0;
 
         //        #region Ready
-        //        retVal = MovePickPos_SafeZone_First();  // Ã¹¹øÂ° ½ÃÀÛ ´ÙÀÌ¸¦ Pick ¾Æ·¡±îÁö ÀÌµ¿ (FDÃ´, WaferÃ´)
+        //        retVal = MovePickPos_SafeZone_First();  // ì²«ë²ˆì§¸ ì‹œì‘ ë‹¤ì´ë¥¼ Pick ì•„ë˜ê¹Œì§€ ì´ë™ (FDì²™, Waferì²™)
 
         //        if (retVal != EventCodeEnum.NONE)
         //        {
@@ -9310,7 +9592,7 @@ namespace ManualJogViewModel
         //        #endregion
 
 
-        //        for (int i = 0; i < 4; i++)     // XÃà¸¸ °­Á¦ 3È¸ ÀÌµ¿
+        //        for (int i = 0; i < 4; i++)     // Xì¶•ë§Œ ê°•ì œ 3íšŒ ì´ë™
         //        {
         //            #region Move Next
         //            LoggerManager.Debug($"Sequence Start {i}");
@@ -9329,25 +9611,25 @@ namespace ManualJogViewModel
         //            #region Pick Process
         //            Arms_Air_On();  // arm1, arm2 air on
 
-        //            // Ejection Pin ³ª¿À´Â µ¿ÀÛ Æ÷ÇÔ
-        //            retVal = MovePickPos_DangerZone();  // PickÇÒ ¼ö ÀÖ´Â À§Ä¡
+        //            // Ejection Pin ë‚˜ì˜¤ëŠ” ë™ì‘ í¬í•¨
+        //            retVal = MovePickPos_DangerZone();  // Pickí•  ìˆ˜ ìˆëŠ” ìœ„ì¹˜
         //            if (retVal != EventCodeEnum.NONE)
         //            {
         //                throw new Exception("MovePickPos_DangerZone() Function Error");
         //            }
 
-        //            if (RotateCount % 2 == 1)    // È¦¼ö¸é Arm1
+        //            if (RotateCount % 2 == 1)    // í™€ìˆ˜ë©´ Arm1
         //            {
-        //                // Arm1_Vac_On();  // Pick µ¿ÀÛ (Vacuum) , Arm1 »ç¿ë ºÒ°¡
-        //                Arm2_Vac_On();  // Pick µ¿ÀÛ (Vacuum)
+        //                // Arm1_Vac_On();  // Pick ë™ì‘ (Vacuum) , Arm1 ì‚¬ìš© ë¶ˆê°€
+        //                Arm2_Vac_On();  // Pick ë™ì‘ (Vacuum)
         //            }
-        //            else   // Â¦¼ö¸é Arm2
+        //            else   // ì§ìˆ˜ë©´ Arm2
         //            {
-        //                Arm2_Vac_On();  // Pick µ¿ÀÛ (Vacuum)
+        //                Arm2_Vac_On();  // Pick ë™ì‘ (Vacuum)
         //            }
 
-        //            // Ejection Pin Down (»ó´ë°ª ÀÌµ¿)
-        //            pos = 300;    // = 3,000 Ejection Pin Z Ãà DtoP = 10
+        //            // Ejection Pin Down (ìƒëŒ€ê°’ ì´ë™)
+        //            pos = 300;    // = 3,000 Ejection Pin Z ì¶• DtoP = 10
         //            retVal = this.MotionManager().RelMove_Wating(axisEJPZ1, pos, axisEJPZ1.Param.Speed.Value, axisEJPZ1.Param.Acceleration.Value);
         //            if (retVal != EventCodeEnum.NONE)
         //            {
@@ -9358,39 +9640,39 @@ namespace ManualJogViewModel
         //            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, false);
         //            Thread.Sleep(250);
 
-        //            // Rotate ÇØµµ ±¦ÂúÀº À§Ä¡·Î º¹±Í
-        //            retVal = MovePickPos_SafeZone_AfterPick();  // ÀÏ´Ü Ejection Z Down¸¸ Down
+        //            // Rotate í•´ë„ ê´œì°®ì€ ìœ„ì¹˜ë¡œ ë³µê·€
+        //            retVal = MovePickPos_SafeZone_AfterPick();  // ì¼ë‹¨ Ejection Z Downë§Œ Down
         //            if (retVal != EventCodeEnum.NONE)
         //            {
         //                throw new Exception("MovePickPos_SafeZone() Function Error");
         //            }
         //            #endregion
-        //            // 251119 µå¶óÀÌ·±À¸·Î IO Ã¼Å© ÀÓ½Ã Á¦°Å
-        //            // IOCheck = IsCanRotate();     // Á¶°Ç Ã¼Å© : Nano Z , Air , Magnetic  +  FD Chuck Z ³ôÀÌ Ãß°¡ ¿¹Á¤
+        //            // 251119 ë“œë¼ì´ëŸ°ìœ¼ë¡œ IO ì²´í¬ ì„ì‹œ ì œê±°
+        //            // IOCheck = IsCanRotate();     // ì¡°ê±´ ì²´í¬ : Nano Z , Air , Magnetic  +  FD Chuck Z ë†’ì´ ì¶”ê°€ ì˜ˆì •
 
         //            #region Rotate Process
         //            //if (IOCheck)
         //            if (true)
         //            {
-        //                // 251119 µå¶óÀÌ·±À¸·Î IO Ã¼Å© ÀÓ½Ã Á¦°Å
-        //                //this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_ARM_VAC_SENSOR2, out IOCheck);      // (Interlock) Arm2 Vacuum On / Off Ã¼Å©
+        //                // 251119 ë“œë¼ì´ëŸ°ìœ¼ë¡œ IO ì²´í¬ ì„ì‹œ ì œê±°
+        //                //this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_ARM_VAC_SENSOR2, out IOCheck);      // (Interlock) Arm2 Vacuum On / Off ì²´í¬
 
         //                //if (IOCheck)
         //                if (true)
         //                {
-        //                    // Rotate µ¿ÀÛ
-        //                    if (RotateCount % 2 == 1)    // È¦¼ö¸é +¹æÇâ
+        //                    // Rotate ë™ì‘
+        //                    if (RotateCount % 2 == 1)    // í™€ìˆ˜ë©´ +ë°©í–¥
         //                    {
-        //                        retVal = Rotate_Plus(); // DD¸ğÅÍ°¡ +¹æÇâ(Á¤¸é±âÁØ ½Ã°è ¹İ´ë¹æÇâ)À¸·Î È¸Àü
+        //                        retVal = Rotate_Plus(); // DDëª¨í„°ê°€ +ë°©í–¥(ì •ë©´ê¸°ì¤€ ì‹œê³„ ë°˜ëŒ€ë°©í–¥)ìœ¼ë¡œ íšŒì „
         //                        if (retVal != EventCodeEnum.NONE)
         //                        {
         //                            throw new Exception("Rotate_Plus() Function Error");
         //                        }
         //                        RotateCount++;
         //                    }
-        //                    else   // Â¦¼ö¸é - ¹æÇâ
+        //                    else   // ì§ìˆ˜ë©´ - ë°©í–¥
         //                    {
-        //                        retVal = Rotate_Minus(); // DD¸ğÅÍ°¡ -¹æÇâ(Á¤¸é±âÁØ ½Ã°è ¹æÇâ)À¸·Î È¸Àü
+        //                        retVal = Rotate_Minus(); // DDëª¨í„°ê°€ -ë°©í–¥(ì •ë©´ê¸°ì¤€ ì‹œê³„ ë°©í–¥)ìœ¼ë¡œ íšŒì „
         //                        if (retVal != EventCodeEnum.NONE)
         //                        {
         //                            throw new Exception("Rotate_Plus() Function Error");
@@ -9418,7 +9700,7 @@ namespace ManualJogViewModel
         //            Arms_Air_Off();
 
         //            // Wafer stage Up
-        //            retVal = Wafer_Chuck_DangerZone();  // Wafer ChuckÀÌ arm ¹Ù·Î ¾Æ·¡±îÁö Up
+        //            retVal = Wafer_Chuck_DangerZone();  // Wafer Chuckì´ arm ë°”ë¡œ ì•„ë˜ê¹Œì§€ Up
         //            if (retVal != EventCodeEnum.NONE)
         //            {
         //                throw new Exception("Wafer_Chuck_DangerZone() Function Error");
@@ -9431,15 +9713,15 @@ namespace ManualJogViewModel
         //                throw new Exception("DoPlace_Nano_ZDown() Function Error");
         //            }
 
-        //            // Arm1 Vacuum Off µ¿ÀÛ (Place)
-        //            // À§¿¡ Rotate¿¡¼­ +1 Çß±â ¶§¹®¿¡ Pick ¶§¿Í´Â ¹İ´ë
-        //            if (RotateCount % 2 == 1)    // È¦¼ö¸é Arm2
+        //            // Arm1 Vacuum Off ë™ì‘ (Place)
+        //            // ìœ„ì— Rotateì—ì„œ +1 í–ˆê¸° ë•Œë¬¸ì— Pick ë•Œì™€ëŠ” ë°˜ëŒ€
+        //            if (RotateCount % 2 == 1)    // í™€ìˆ˜ë©´ Arm2
         //            {
-        //                Arm1_Vac_Off();  // Place µ¿ÀÛ (Vacuum)
+        //                Arm1_Vac_Off();  // Place ë™ì‘ (Vacuum)
         //            }
-        //            else   // Â¦¼ö¸é Arm1
+        //            else   // ì§ìˆ˜ë©´ Arm1
         //            {
-        //                Arm2_Vac_Off();  // Place µ¿ÀÛ (Vacuum)
+        //                Arm2_Vac_Off();  // Place ë™ì‘ (Vacuum)
         //            }
 
         //            // Nano Stage Z Up
@@ -9467,8 +9749,8 @@ namespace ManualJogViewModel
         //            #endregion
         //        }
 
-        //        Arm1_Vac_Off();  // Place µ¿ÀÛ (Vacuum)
-        //        Arm2_Vac_Off();  // Place µ¿ÀÛ (Vacuum)
+        //        Arm1_Vac_Off();  // Place ë™ì‘ (Vacuum)
+        //        Arm2_Vac_Off();  // Place ë™ì‘ (Vacuum)
         //    }
         //    catch (Exception err)
         //    {
@@ -9480,9 +9762,9 @@ namespace ManualJogViewModel
         // 20251121 Nick Pick Test
         public EventCodeEnum MovePickPos_SafeZone_First()
         {
-            // Ejection Z , FD Z Ãà¸¸ ¿òÁ÷ÀÓ. Ã¹ ´ÙÀÌ À§Ä¡·Î °¡´Â X , Y , Ejection X , Ejection Y ÀÌµ¿ °ªÀº ¼öµ¿À¸·Î ÀÌµ¿ÇÑ´Ù.
-            // X , Y¸¦ ¿òÁ÷¿©µµ Ãæµ¹ÀÌ ¾ø´Â ¾ÈÀü¿µ¿ª(´ë±â¿µ¿ª)
-            // pos À§Ä¡´Â PickÀ» ÇÏ±âÀ§ÇØ ´ë±âÇÏ´Â À§Ä¡·Î °íÁ¤ÁÂÇ¥ °ª. ÀÌ ÈÄ ´ÙÀ½ ´ÙÀÌ·Î ÀÌµ¿ÇÏ´Â ¹æ¹ıÀº ÀÎµ¦½º »ç¿ë
+            // Ejection Z , FD Z ì¶•ë§Œ ì›€ì§ì„. ì²« ë‹¤ì´ ìœ„ì¹˜ë¡œ ê°€ëŠ” X , Y , Ejection X , Ejection Y ì´ë™ ê°’ì€ ìˆ˜ë™ìœ¼ë¡œ ì´ë™í•œë‹¤.
+            // X , Yë¥¼ ì›€ì§ì—¬ë„ ì¶©ëŒì´ ì—†ëŠ” ì•ˆì „ì˜ì—­(ëŒ€ê¸°ì˜ì—­)
+            // pos ìœ„ì¹˜ëŠ” Pickì„ í•˜ê¸°ìœ„í•´ ëŒ€ê¸°í•˜ëŠ” ìœ„ì¹˜ë¡œ ê³ ì •ì¢Œí‘œ ê°’. ì´ í›„ ë‹¤ìŒ ë‹¤ì´ë¡œ ì´ë™í•˜ëŠ” ë°©ë²•ì€ ì¸ë±ìŠ¤ ì‚¬ìš©
 
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
@@ -9497,29 +9779,42 @@ namespace ManualJogViewModel
                 ProbeAxisObject axisFDT1 = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
                 ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
 
-                double pos = 0.0;   // ÀÌµ¿ÇÒ °íÁ¤°ªÀ» ³Ö´Â º¯¼ö (µ¤¾î¾º¿öÁü)
-                double currentPos = 0.0;    // ÇöÀç À§Ä¡°ª ÀĞ±â
+                double pos = 0.0;   // ì´ë™í•  ê³ ì •ê°’ì„ ë„£ëŠ” ë³€ìˆ˜ (ë®ì–´ì”Œì›Œì§)
+                double currentPos = 0.0;    // í˜„ì¬ ìœ„ì¹˜ê°’ ì½ê¸°
                 double AcualPos = 0;
 
-                pos = 20696.091;    // = 91,000,000 FD stage Z Ãà DtoP = 4194.304    // ±âÁ¸ : 21696.091, º¯°æ : 20696.091 (1mm = 1000)
+                pos = 20696.091;    // = 91,000,000 FD stage Z ì¶• DtoP = 4194.304    // ê¸°ì¡´ : 21696.091, ë³€ê²½ : 20696.091 (1mm = 1000)
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
-                retVal = this.MotionManager().RelMove(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
+                retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("FD stage Z RelMove Error");
                 }
 
-                pos = 31000;    // = 155,000 Ejection Z Ãà DtoP = 5
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
-                // ¿òÁ÷ÀÓ ¿Ï·á±îÁö ´ë±âÇÏ´Â µ¿ÀÛ
-                retVal = this.MotionManager().RelMove_Wating(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
+                if(false == DomabamFlag)
+                {
+                    pos = 31000;    // = 155,000 Ejection Z ì¶• DtoP = 5
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
+                    currentPos = AcualPos;
+                    // ì›€ì§ì„ ì™„ë£Œê¹Œì§€ ëŒ€ê¸°í•˜ëŠ” ë™ì‘
+                    retVal = this.MotionManager().RelMove_Wating(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
+                    if (retVal != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("Ejection Z RelMove Error");
+                    }
+                }
+
+                // Wafer stage Up
+                LoggerManager.Debug($"Wafer_Chuck_DangerZone Start");
+                retVal = Wafer_Chuck_DangerZone();  // Wafer Chuckì´ arm ë°”ë¡œ ì•„ë˜ê¹Œì§€ Up
+                LoggerManager.Debug($"Wafer_Chuck_DangerZone End");
                 if (retVal != EventCodeEnum.NONE)
                 {
-                    throw new Exception("Ejection Z RelMove Error");
+                    throw new Exception("Wafer_Chuck_DangerZone() Function Error");
                 }
+
             }
             catch (Exception err)
             {
@@ -9531,9 +9826,9 @@ namespace ManualJogViewModel
 
         //public EventCodeEnum MovePickPos_SafeZone_First()
         //{
-        //    // Ejection X ,Y ,FD Z , base X , base Y , 3POD ¸ğµÎ µ¿½Ã¿¡ ¿òÁ÷ÀÌ°í ¸Ç ¸¶Áö¸·À¸·Î Ejection Z°¡ ¿Ï·áµÉ ¶§±îÁö ±â´Ù¸²
-        //    // ZÃà ³ôÀÌ´Â Picker ¹Ù·Î ¾Æ·¡°¡ ¾Æ´Ï¸ç X , Y¸¦ ¿òÁ÷¿©µµ Ãæµ¹ÀÌ ¾ø´Â ¾ÈÀü¿µ¿ª(´ë±â¿µ¿ª)
-        //    // pos À§Ä¡´Â PickÀ» ÇÏ±âÀ§ÇØ ´ë±âÇÏ´Â À§Ä¡·Î °íÁ¤ÁÂÇ¥ °ª. ÀÌ ÈÄ ´ÙÀ½ ´ÙÀÌ·Î ÀÌµ¿ÇÏ´Â ¹æ¹ıÀº ÀÎµ¦½º »ç¿ë
+        //    // Ejection X ,Y ,FD Z , base X , base Y , 3POD ëª¨ë‘ ë™ì‹œì— ì›€ì§ì´ê³  ë§¨ ë§ˆì§€ë§‰ìœ¼ë¡œ Ejection Zê°€ ì™„ë£Œë  ë•Œê¹Œì§€ ê¸°ë‹¤ë¦¼
+        //    // Zì¶• ë†’ì´ëŠ” Picker ë°”ë¡œ ì•„ë˜ê°€ ì•„ë‹ˆë©° X , Yë¥¼ ì›€ì§ì—¬ë„ ì¶©ëŒì´ ì—†ëŠ” ì•ˆì „ì˜ì—­(ëŒ€ê¸°ì˜ì—­)
+        //    // pos ìœ„ì¹˜ëŠ” Pickì„ í•˜ê¸°ìœ„í•´ ëŒ€ê¸°í•˜ëŠ” ìœ„ì¹˜ë¡œ ê³ ì •ì¢Œí‘œ ê°’. ì´ í›„ ë‹¤ìŒ ë‹¤ì´ë¡œ ì´ë™í•˜ëŠ” ë°©ë²•ì€ ì¸ë±ìŠ¤ ì‚¬ìš©
 
         //    EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
         //    try
@@ -9548,20 +9843,20 @@ namespace ManualJogViewModel
         //        ProbeAxisObject axisFDT1 = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
         //        ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
 
-        //        double pos = 0.0;   // ÀÌµ¿ÇÒ °íÁ¤°ªÀ» ³Ö´Â º¯¼ö (µ¤¾î¾º¿öÁü)
-        //        double currentPos = 0.0;    // ÇöÀç À§Ä¡°ª ÀĞ±â
+        //        double pos = 0.0;   // ì´ë™í•  ê³ ì •ê°’ì„ ë„£ëŠ” ë³€ìˆ˜ (ë®ì–´ì”Œì›Œì§)
+        //        double currentPos = 0.0;    // í˜„ì¬ ìœ„ì¹˜ê°’ ì½ê¸°
         //        double AcualPos = 0;
 
         //        this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJX1).AxisType.Value, ref AcualPos);
         //        currentPos = AcualPos;
-        //        pos = -58000;   // = -58,000 , Ejection X Ãà DtoP = 1
+        //        pos = -58000;   // = -58,000 , Ejection X ì¶• DtoP = 1
         //        retVal = this.MotionManager().RelMove(axisEJX1, pos - currentPos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
         //        if (retVal != EventCodeEnum.NONE)
         //        {
         //            throw new Exception("EJX1 RelMove Error");
         //        }
 
-        //        pos = 38250;    // = 153,000 Ejection Y Ãà DtoP = 4
+        //        pos = 38250;    // = 153,000 Ejection Y ì¶• DtoP = 4
         //        this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJY1).AxisType.Value, ref AcualPos);
         //        currentPos = AcualPos;
 
@@ -9571,7 +9866,7 @@ namespace ManualJogViewModel
         //            throw new Exception("EJY1 RelMove Error");
         //        }
 
-        //        pos = 125781.25;    // = 12,880,000 Base X Ãà DtoP = 102.400
+        //        pos = 125781.25;    // = 12,880,000 Base X ì¶• DtoP = 102.400
         //        this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref AcualPos);
         //        currentPos = AcualPos;
 
@@ -9581,7 +9876,7 @@ namespace ManualJogViewModel
         //            throw new Exception("Base X RelMove Error");
         //        }
 
-        //        pos = -366708.984;    // = -37,551,000 Base Y Ãà DtoP = 102.400
+        //        pos = -366708.984;    // = -37,551,000 Base Y ì¶• DtoP = 102.400
         //        this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref AcualPos);
         //        currentPos = AcualPos;
 
@@ -9591,7 +9886,7 @@ namespace ManualJogViewModel
         //            throw new Exception("Base Y RelMove Error");
         //        }
 
-        //        pos = 21696.091;    // = 91,000,000 FD stage Z Ãà DtoP = 4194.304
+        //        pos = 21696.091;    // = 91,000,000 FD stage Z ì¶• DtoP = 4194.304
         //        this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
         //        currentPos = AcualPos;
 
@@ -9607,10 +9902,10 @@ namespace ManualJogViewModel
         //            throw new Exception("Wafer_Chuck_SafeZone Error");
         //        }
 
-        //        pos = 31000;    // = 155,000 Ejection Z Ãà DtoP = 5
+        //        pos = 31000;    // = 155,000 Ejection Z ì¶• DtoP = 5
         //        this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
         //        currentPos = AcualPos;
-        //        // ¿òÁ÷ÀÓ ¿Ï·á±îÁö ´ë±âÇÏ´Â µ¿ÀÛ
+        //        // ì›€ì§ì„ ì™„ë£Œê¹Œì§€ ëŒ€ê¸°í•˜ëŠ” ë™ì‘
         //        retVal = this.MotionManager().RelMove_Wating(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
         //        if (retVal != EventCodeEnum.NONE)
         //        {
@@ -9625,69 +9920,123 @@ namespace ManualJogViewModel
         //    return retVal;
         //}
 
-        #region 251125 ybpark Map die Index ÇÔ¼ö Ãß°¡
+        #region 251125 ybpark Map die Index í•¨ìˆ˜ ì¶”ê°€
+        //public static (double X, double Y) GetPos(int index)
+        //{
+        //    if (index < 0 || index > 15)
+        //        throw new ArgumentOutOfRangeException(nameof(index));
+
+        //    double[] Xs = { 0, -16.5, -32.5, -49 };
+        //    double[] Ys = { 0, 16.5, 32.5, 49 };
+
+
+        //    int[,] map =
+        //    {
+        //        { 0, 1, 2, 3 },
+        //        { 7, 6, 5, 4 },
+        //        { 8, 9, 10, 11 },
+        //        { 15, 14, 13, 12 }
+        //    }; 
+
+        //    int row = 0, col = 0;
+
+        //    for(int r = 0; r < 4; r++)
+        //        for(int c = 0; c < 4; c++)
+        //            if(map[r, c] == index)
+        //            {
+        //                row = r;
+        //                col = c;
+        //            }
+
+        //    double X = Xs[row];
+        //    double Y = Ys[col];
+
+        //    return (X, Y);
+        //}
+
+        //public static (double X, double Y) GetPos_EJ(int index)
+        //{
+        //    if (index < 0 || index > 15)
+        //        throw new ArgumentOutOfRangeException(nameof(index));
+
+        //    double[] Xs = { 0, 16.5, 32.5, 49 };
+        //    double[] Ys = { 0, -16.5, -32.5, -49 };
+
+
+        //    int[,] map =
+        //    {
+        //        { 0, 1, 2, 3 },
+        //        { 7, 6, 5, 4 },
+        //        { 8, 9, 10, 11 },
+        //        { 15, 14, 13, 12 }
+        //    };
+
+        //    int row = 0, col = 0;
+
+        //    for (int r = 0; r < 4; r++)
+        //        for (int c = 0; c < 4; c++)
+        //            if (map[r, c] == index)
+        //            {
+        //                row = r;
+        //                col = c;
+        //            }
+
+        //    double EJ_X = Xs[row];
+        //    double EJ_Y = Ys[col];
+
+        //    return (EJ_X, EJ_Y);
+        //}
+
+        #endregion
+
+        #region 251223 ybpark Map die Index í•¨ìˆ˜ ìˆ˜ì •
         public static (double X, double Y) GetPos(int index)
         {
-            if (index < 0 || index > 15)
+            const int cols = 3;   // X ë°©í–¥ ê°œìˆ˜
+            const int rows = 5;   // Y ë°©í–¥ ê°œìˆ˜
+
+            if (index < 0 || index >= cols * rows)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
-            double[] Xs = { 0, -16.5, -32.5, -49 };
-            double[] Ys = { 0, 16.5, 32.5, 49 };
+            // ì—´ ê³„ì‚° (ì„¸ë¡œ ê¸°ì¤€)
+            int col = index / rows;
 
+            // í–‰ ê³„ì‚° (ì§€ê·¸ì¬ê·¸)
+            int rowInCol = index % rows;
+            int row;
 
-            int[,] map =
-            {
-                { 0, 1, 2, 3 },
-                { 7, 6, 5, 4 },
-                { 8, 9, 10, 11 },
-                { 15, 14, 13, 12 }
-            }; 
+            if (col % 2 == 0)
+                row = rowInCol;                 // ì •ë°©í–¥
+            else
+                row = rows - 1 - rowInCol;      // ì—­ë°©í–¥
 
-            int row = 0, col = 0;
-
-            for(int r = 0; r < 4; r++)
-                for(int c = 0; c < 4; c++)
-                    if(map[r, c] == index)
-                    {
-                        row = r;
-                        col = c;
-                    }
-
-            double X = Xs[row];
-            double Y = Ys[col];
+            double X = -16.5 * col;
+            double Y = 16.5 * row;
 
             return (X, Y);
         }
 
         public static (double X, double Y) GetPos_EJ(int index)
         {
-            if (index < 0 || index > 15)
+            const int cols = 3;
+            const int rows = 5;
+
+            if (index < 0 || index >= cols * rows)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
-            double[] Xs = { 0, 16.5, 32.5, 49 };
-            double[] Ys = { 0, -16.5, -32.5, -49 };
+            int col = index / rows;
 
+            int rowInCol = index % rows;
+            int row;
 
-            int[,] map =
-            {
-                { 0, 1, 2, 3 },
-                { 7, 6, 5, 4 },
-                { 8, 9, 10, 11 },
-                { 15, 14, 13, 12 }
-            };
+            if (col % 2 == 0)
+                row = rowInCol;
+            else
+                row = rows - 1 - rowInCol;
 
-            int row = 0, col = 0;
-
-            for (int r = 0; r < 4; r++)
-                for (int c = 0; c < 4; c++)
-                    if (map[r, c] == index)
-                    {
-                        row = r;
-                        col = c;
-                    }
-
-            double EJ_X = Xs[row];
-            double EJ_Y = Ys[col];
+            //  ë¶€í˜¸ ë°˜ì „
+            double EJ_X = 16.5 * col;   // ê¸°ì¡´ -16.5 â†’ +16.5
+            double EJ_Y = -16.5 * row;   // ê¸°ì¡´ +16.5 â†’ -16.5
 
             return (EJ_X, EJ_Y);
         }
@@ -9696,16 +10045,15 @@ namespace ManualJogViewModel
 
         public EventCodeEnum MovePickPos_SafeZone_Next()
         {
-            // ÀÏ´Ü ´ÙÀÌ Å©±â¸¸Å­ +X ¹æÇâÀ¸·Î ¿òÁ÷ÀÓ(»ó´ëÀÌµ¿)
-
+            // ì¼ë‹¨ ë‹¤ì´ í¬ê¸°ë§Œí¼ +X ë°©í–¥ìœ¼ë¡œ ì›€ì§ì„(ìƒëŒ€ì´ë™)
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
 
             //var IndexPos = GetPos((int)TestCountActualVal);
-            double X = GetPos((int)TestCount -1).X -(GetPos((int)TestCount -2).X);
-            double Y = GetPos((int)TestCount -1).Y - (GetPos((int)TestCount -2).Y);
+            double X = GetPos((int)TestCount).X - (GetPos((int)TestCount - 1).X);
+            double Y = GetPos((int)TestCount).Y - (GetPos((int)TestCount - 1).Y);
 
-            double EJ_X = GetPos_EJ((int)TestCount - 1).X - (GetPos_EJ((int)TestCount - 2).X);
-            double EJ_Y = GetPos_EJ((int)TestCount - 1).Y - (GetPos_EJ((int)TestCount - 2).Y);
+            double EJ_X = GetPos_EJ((int)TestCount).X - (GetPos_EJ((int)TestCount - 1).X);
+            double EJ_Y = GetPos_EJ((int)TestCount).Y - (GetPos_EJ((int)TestCount - 1).Y);
 
             try
             {
@@ -9716,9 +10064,9 @@ namespace ManualJogViewModel
                 ProbeAxisObject axisEJY1 = this.MotionManager().GetAxis(EnumAxisConstants.EJY1);
 
                 //ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
-                double pos = 0.0;   // ÀÌµ¿ÇÒ °íÁ¤°ªÀ» ³Ö´Â º¯¼ö (µ¤¾î¾º¿öÁü)
+                double pos = 0.0;   // ì´ë™í•  ê³ ì •ê°’ì„ ë„£ëŠ” ë³€ìˆ˜ (ë®ì–´ì”Œì›Œì§)
 
-                //pos = -11000;   // 11mm , Ejection X Ãà DtoP = 1
+                //pos = -11000;   // 11mm , Ejection X ì¶• DtoP = 1
                 //retVal = this.MotionManager().RelMove(axisEJX1, pos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
                 //if (retVal != EventCodeEnum.NONE)
                 //{
@@ -9726,34 +10074,131 @@ namespace ManualJogViewModel
                 //}
                 //double currentPos = 0.0;
 
-                pos = Y * 1000;    //Y ´Â MapDie ÁÂÇ¥°è±âÁØÀÌ¶ó¼­ XÃà move
-                retVal = this.MotionManager().RelMove_Wating(axisX, pos, axisX.Param.Speed.Value, axisX.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Base X RelMove Error");
-                }
+                pos = EJ_Y * 1000;    //Y ëŠ” MapDie ì¢Œí‘œê³„ê¸°ì¤€ì´ë¼ì„œ Xì¶• move
+                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base EJ X Move) Start");
+                retVal = this.MotionManager().RelMove(axisEJX1, pos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
+                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base EJ X Move) End");
 
-                //251125 ybpark X,Y die index À§Ä¡·Î ÀÌµ¿
-                pos = X * 1000;    //X ´Â MapDie ÁÂÇ¥°è±âÁØÀÌ¶ó¼­ YÃà move
-                retVal = this.MotionManager().RelMove_Wating(axisY, pos, axisY.Param.Speed.Value, axisY.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Base Y RelMove Error");
-                }
-
-                pos = EJ_Y * 1000;    //Y ´Â MapDie ÁÂÇ¥°è±âÁØÀÌ¶ó¼­ XÃà move
-                retVal = this.MotionManager().RelMove_Wating(axisEJX1, pos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("Base EJX RelMove Error");
                 }
 
-                //251125 ybpark X,Y die index À§Ä¡·Î ÀÌµ¿
-                pos = EJ_X * 1000;    //X ´Â MapDie ÁÂÇ¥°è±âÁØÀÌ¶ó¼­ YÃà move
-                retVal = this.MotionManager().RelMove_Wating(axisEJY1, pos, axisEJY1.Param.Speed.Value, axisEJY1.Param.Acceleration.Value);
+                //251125 ybpark X,Y die index ìœ„ì¹˜ë¡œ ì´ë™
+                pos = EJ_X * 1000;    //X ëŠ” MapDie ì¢Œí‘œê³„ê¸°ì¤€ì´ë¼ì„œ Yì¶• move
+                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base EJ Y Move) Start");
+                retVal = this.MotionManager().RelMove(axisEJY1, pos, axisEJY1.Param.Speed.Value, axisEJY1.Param.Acceleration.Value);
+                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base EJ Y Move) End");
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("Base EJY RelMove Error");
+                }
+
+                pos = Y * 1000;    //Y ëŠ” MapDie ì¢Œí‘œê³„ê¸°ì¤€ì´ë¼ì„œ Xì¶• move
+                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) Start");
+                retVal = this.MotionManager().RelMove(axisX, pos, axisX.Param.Speed.Value, axisX.Param.Acceleration.Value);
+                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) End");
+
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Base X RelMove Error");
+                }
+
+                //251125 ybpark X,Y die index ìœ„ì¹˜ë¡œ ì´ë™
+                pos = X * 1000;    //X ëŠ” MapDie ì¢Œí‘œê³„ê¸°ì¤€ì´ë¼ì„œ Yì¶• move
+                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) Start");
+                retVal = this.MotionManager().RelMove(axisY, pos, axisY.Param.Speed.Value, axisY.Param.Acceleration.Value);
+                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
+
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Base Y RelMove Error");
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return retVal;
+        }
+
+        // 251224 sebas : dryrunìš©
+        public EventCodeEnum MovePickPos_SafeZone_NextReverse()
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+            double X = 0;
+            double Y = 0;
+            double EJ_X = 0;
+            double EJ_Y = 0;
+
+            if (ReverseRun == false) // ì •ë°©í–¥
+            {
+                X = GetPos((int)TestCount).X - (GetPos((int)TestCount - 1).X);
+                Y = GetPos((int)TestCount).Y - (GetPos((int)TestCount - 1).Y);
+
+                EJ_X = GetPos_EJ((int)TestCount).X - (GetPos_EJ((int)TestCount - 1).X);
+                EJ_Y = GetPos_EJ((int)TestCount).Y - (GetPos_EJ((int)TestCount - 1).Y);
+            }
+            else  // ì—­ë°©í–¥ : ì¶œë ¥ê°’ì— - ì”Œì›€
+            {
+                X = -(GetPos((int)TestCount).X - (GetPos((int)TestCount - 1).X));
+                Y = -(GetPos((int)TestCount).Y - (GetPos((int)TestCount - 1).Y));
+
+                EJ_X = -(GetPos_EJ((int)TestCount).X - (GetPos_EJ((int)TestCount - 1).X));
+                EJ_Y = -(GetPos_EJ((int)TestCount).Y - (GetPos_EJ((int)TestCount - 1).Y));
+            }
+
+            try
+            {
+                ProbeAxisObject axisX = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                ProbeAxisObject axisY = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+
+                ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
+                ProbeAxisObject axisEJY1 = this.MotionManager().GetAxis(EnumAxisConstants.EJY1);
+
+                double pos = 0.0;   // ì´ë™í•  ê³ ì •ê°’ì„ ë„£ëŠ” ë³€ìˆ˜ (ë®ì–´ì”Œì›Œì§)
+
+                pos = EJ_Y * 1000;    //Y ëŠ” MapDie ì¢Œí‘œê³„ê¸°ì¤€ì´ë¼ì„œ Xì¶• move
+                LoggerManager.Debug($"MovePickPos_SafeZone_Next(Base EJ X Move) Start");
+                retVal = this.MotionManager().RelMove(axisEJX1, pos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
+                LoggerManager.Debug($"MovePickPos_SafeZone_Next(Base EJ X Move) End");
+
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Base EJX RelMove Error");
+                }
+
+                //251125 ybpark X,Y die index ìœ„ì¹˜ë¡œ ì´ë™
+                pos = EJ_X * 1000;    //X ëŠ” MapDie ì¢Œí‘œê³„ê¸°ì¤€ì´ë¼ì„œ Yì¶• move
+                LoggerManager.Debug($"MovePickPos_SafeZone_Next(Base EJ Y Move) Start");
+                retVal = this.MotionManager().RelMove(axisEJY1, pos, axisEJY1.Param.Speed.Value, axisEJY1.Param.Acceleration.Value);
+                LoggerManager.Debug($"MovePickPos_SafeZone_Next(Base EJ Y Move) End");
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Base EJY RelMove Error");
+                }
+
+                pos = Y * 1000;    //Y ëŠ” MapDie ì¢Œí‘œê³„ê¸°ì¤€ì´ë¼ì„œ Xì¶• move
+                LoggerManager.Debug($"MovePickPos_SafeZone_Next(Base X Move) Start");
+                retVal = this.MotionManager().RelMove(axisX, pos, axisX.Param.Speed.Value, axisX.Param.Acceleration.Value);
+                LoggerManager.Debug($"MovePickPos_SafeZone_Next(Base X Move) End");
+
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Base X RelMove Error");
+                }
+
+                //251125 ybpark X,Y die index ìœ„ì¹˜ë¡œ ì´ë™
+                pos = X * 1000;    //X ëŠ” MapDie ì¢Œí‘œê³„ê¸°ì¤€ì´ë¼ì„œ Yì¶• move
+                LoggerManager.Debug($"MovePickPos_SafeZone_Next(Base Y Move) Start");
+                retVal = this.MotionManager().RelMove(axisY, pos, axisY.Param.Speed.Value, axisY.Param.Acceleration.Value);
+                LoggerManager.Debug($"MovePickPos_SafeZone_Next(Base Y Move) End");
+
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Base Y RelMove Error");
                 }
             }
             catch (Exception err)
@@ -9772,15 +10217,15 @@ namespace ManualJogViewModel
                 ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
                 ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
 
-                double pos = 0.0;   // ÀÌµ¿ÇÒ °íÁ¤°ªÀ» ³Ö´Â º¯¼ö (µ¤¾î¾º¿öÁü)
-                double currentPos = 0.0;    // ÇöÀç À§Ä¡°ª ÀĞ±â
+                double pos = 0.0;   // ì´ë™í•  ê³ ì •ê°’ì„ ë„£ëŠ” ë³€ìˆ˜ (ë®ì–´ì”Œì›Œì§)
+                double currentPos = 0.0;    // í˜„ì¬ ìœ„ì¹˜ê°’ ì½ê¸°
                 double AcualPos = 0;
 
-                // ÇöÀçÀ§Ä¡¿¡¼­ »ó´ëÀÌµ¿
+                // í˜„ì¬ìœ„ì¹˜ì—ì„œ ìƒëŒ€ì´ë™
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
-                pos = 28549.2;    // = -5,000 Ejection Z Ãà DtoP = 5 -> ±âÁ¸ : -1000, º¯°æ : -2500 (½ÇÁ¦ ´ÙÀÌ PickÀ» À§ÇØ¼­)
+                pos = 32000.2;    // = -5,000 Ejection Z ì¶• DtoP = 5 -> ê¸°ì¡´ : -1000, ë³€ê²½ : -2500 (ì‹¤ì œ ë‹¤ì´ Pickì„ ìœ„í•´ì„œ)
                 LoggerManager.Debug($"Ejection Z Down Start");
                 retVal = this.MotionManager().RelMove(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
                 LoggerManager.Debug($"Ejection Z Down End");
@@ -9789,13 +10234,13 @@ namespace ManualJogViewModel
                     throw new Exception("Ejection Z RelMove Error");
                 }
 
-                // FD Z Down Ãß°¡
-                pos = 19000.00;    // = 91,000,000 FD stage Z Ãà DtoP = 4194.304 // 20696.091 -> 20,000.00
+                // FD Z Down ì¶”ê°€
+                pos = 24000.00;    // = 91,000,000 FD stage Z ì¶• DtoP = 4194.304 // 20696.091 -> 20,000.00
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
                 LoggerManager.Debug($"Ejection FD Z Down Start");
-                retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
+                retVal = this.MotionManager().RelMove(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
                 LoggerManager.Debug($"Ejection FD Z Down End");
                 if (retVal != EventCodeEnum.NONE)
                 {
@@ -9810,9 +10255,9 @@ namespace ManualJogViewModel
             return retVal;
         }
 
-        public EventCodeEnum MovePickPos_DangerZone()
+        public EventCodeEnum MovePickPos_DangerZone(bool armFlag)
         {
-            // Ejection Z , Ejection Pin ¸¸ ¿òÁ÷ÀÌ¸ç X , Y ÀÌµ¿½Ã Ãæµ¹À§ÇèÀÌ ÀÖ´Â À§Ä¡
+            // Ejection Z , Ejection Pin ë§Œ ì›€ì§ì´ë©° X , Y ì´ë™ì‹œ ì¶©ëŒìœ„í—˜ì´ ìˆëŠ” ìœ„ì¹˜
 
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
@@ -9821,58 +10266,80 @@ namespace ManualJogViewModel
                 ProbeAxisObject axisEJPZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJPZ1);
                 ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
 
-                double pos = 0.0;   // ÀÌµ¿ÇÒ °íÁ¤°ªÀ» ³Ö´Â º¯¼ö (µ¤¾î¾º¿öÁü)
-                double currentPos = 0.0;    // ÇöÀç À§Ä¡°ª ÀĞ±â
+                double pos = 0.0;   // ì´ë™í•  ê³ ì •ê°’ì„ ë„£ëŠ” ë³€ìˆ˜ (ë®ì–´ì”Œì›Œì§)
+                double currentPos = 0.0;    // í˜„ì¬ ìœ„ì¹˜ê°’ ì½ê¸°
                 double AcualPos = 0;
                 bool IOCheck = false;
 
                 //this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, true);
                 //Thread.Sleep(250);
 
-                // FD Z Up Ãß°¡
-                pos = 23696.091;    // = 99,388,609 FD stage Z Ãà DtoP = 4194.304
+                if(false == DomabamFlag)
+                {
+                    // ì§€ê¸ˆ EJZ1ì˜ ê²½ìš° í˜„ì¬ê°’ ì½ì§€ì•Šê³  ìƒëŒ€ ê±°ë¦¬ì´ë™
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
+                    currentPos = AcualPos;
+
+                    pos = 36100.2;    // = 5000 Ejection Z ì¶• DtoP = 5 -> ê¸°ì¡´ : 33448.2, ë³€ê²½ : 33420.2 (ì‹¤ì œ ë‹¤ì´ Pickì„ ìœ„í•´ì„œ)
+                    LoggerManager.Debug($"MovePickPos_DangerZone EJZ Up Start");
+                    retVal = this.MotionManager().RelMove(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
+                    LoggerManager.Debug($"MovePickPos_DangerZone EJZ Up End");
+                    if (retVal != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("Ejection Z RelMove Error");
+                    }
+
+                    // Ejection Pin Up (ìƒëŒ€ê°’ ì´ë™)
+                    pos = 300;    // = 7,000 Ejection Pin Z ì¶• DtoP = 106
+                    LoggerManager.Debug($"MovePickPos_DangerZone Ejection Pin Up Start");
+                    retVal = this.MotionManager().RelMove(axisEJPZ1, pos, axisEJPZ1.Param.Speed.Value, axisEJPZ1.Param.Acceleration.Value);
+                    LoggerManager.Debug($"MovePickPos_DangerZone Ejection Pin Up End");
+                    if (retVal != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("Ejection Pin Z RelMove Error");
+                    }
+                }
+
+                if (false == armFlag)
+                {
+                    LoggerManager.Debug($"Arm1_Vac_On Start");
+                    Arm1_Vac_On();  // Pick ë™ì‘ (Vacuum)
+                    LoggerManager.Debug($"Arm1_Vac_On End");
+                }
+                else
+                {
+                    LoggerManager.Debug($"Arm2_Vac_On Start");
+                    Arm2_Vac_On();  // Pick ë™ì‘ (Vacuum)
+                    LoggerManager.Debug($"Arm2_Vac_On End");
+                }
+
+                // FD Z Up ì¶”ê°€
+                pos = 26800.0;    // = 99,388,609 FD stage Z ì¶• DtoP = 4194.304 // ê¸°ì¡´ : 26800.0 , ë„ë§ˆë±€ : 29800.0
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
                 LoggerManager.Debug($"MovePickPos_DangerZone FD Z Up Start");
-                retVal = this.MotionManager().RelMove(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
+                retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
                 LoggerManager.Debug($"MovePickPos_DangerZone FD Z Up End");
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("FD stage Z RelMove Error");
                 }
 
-                // Áö±İ EJZ1ÀÇ °æ¿ì ÇöÀç°ª ÀĞÁö¾Ê°í »ó´ë °Å¸®ÀÌµ¿
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
-
-                pos = 33500.2;    // = 5000 Ejection Z Ãà DtoP = 5 -> ±âÁ¸ : 33448.2, º¯°æ : 33420.2 (½ÇÁ¦ ´ÙÀÌ PickÀ» À§ÇØ¼­)
-                LoggerManager.Debug($"MovePickPos_DangerZone EJZ Up Start");
-                retVal = this.MotionManager().RelMove(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
-                LoggerManager.Debug($"MovePickPos_DangerZone EJZ Up End");
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Ejection Z RelMove Error");
-                }
-
-                LoggerManager.Debug($"Arm2_Vac_On Start");
-                Arm2_Vac_On();  // Pick µ¿ÀÛ (Vacuum)
-                LoggerManager.Debug($"Arm2_Vac_On End");
-
-                // 251119 µå¶óÀÌ·±À¸·Î IO Ã¼Å© ÀÓ½Ã Á¦°Å
-                //this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_EJ_VAC_SENSOR, out IOCheck);      // (Interlock) Ejection Pin Vacuum On / Off Ã¼Å©
+                // 251119 ë“œë¼ì´ëŸ°ìœ¼ë¡œ IO ì²´í¬ ì„ì‹œ ì œê±°
+                //this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_EJ_VAC_SENSOR, out IOCheck);      // (Interlock) Ejection Pin Vacuum On / Off ì²´í¬
                 //if (IOCheck)
                 if (true)
                 {
-                    // Ejection Pin Up (»ó´ë°ª ÀÌµ¿)
-                    pos = 300;    // = 7,000 Ejection Pin Z Ãà DtoP = 10
-                    LoggerManager.Debug($"MovePickPos_DangerZone Ejection Pin Up Start");
-                    retVal = this.MotionManager().RelMove_Wating(axisEJPZ1, pos, axisEJPZ1.Param.Speed.Value, axisEJPZ1.Param.Acceleration.Value);
-                    LoggerManager.Debug($"MovePickPos_DangerZone Ejection Pin Up End");
-                    if (retVal != EventCodeEnum.NONE)
-                    {
-                        throw new Exception("Ejection Pin Z RelMove Error");
-                    }
+                    // Ejection Pin Up (ìƒëŒ€ê°’ ì´ë™)
+                    //pos = 300;    // = 7,000 Ejection Pin Z ì¶• DtoP = 10
+                    //LoggerManager.Debug($"MovePickPos_DangerZone Ejection Pin Up Start");
+                    //retVal = this.MotionManager().RelMove_Wating(axisEJPZ1, pos, axisEJPZ1.Param.Speed.Value, axisEJPZ1.Param.Acceleration.Value);
+                    //LoggerManager.Debug($"MovePickPos_DangerZone Ejection Pin Up End");
+                    //if (retVal != EventCodeEnum.NONE)
+                    //{
+                    //    throw new Exception("Ejection Pin Z RelMove Error");
+                    //}
                 }
                 else
                 {
@@ -9895,11 +10362,11 @@ namespace ManualJogViewModel
             {
                 // Arm1 , Arm2 Air On
                 var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, true);
-                Thread.Sleep(50);
+                Thread.Sleep(5);
                 ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, false);
-                Thread.Sleep(50);
+                Thread.Sleep(5);
                 ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, true);
-                Thread.Sleep(50);
+                Thread.Sleep(5);
                 ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, false);
             }
             catch (Exception err)
@@ -9916,11 +10383,11 @@ namespace ManualJogViewModel
             {
                 // Arm1 , Arm2 Air Off
                 var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1_OFF, true);
-                Thread.Sleep(50);
+                Thread.Sleep(5);
                 ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1_OFF, false);
-                Thread.Sleep(50);
+                Thread.Sleep(5);
                 ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2_OFF, true);
-                Thread.Sleep(50);
+                Thread.Sleep(5);
                 ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2_OFF, false);
             }
             catch (Exception err)
@@ -9937,9 +10404,12 @@ namespace ManualJogViewModel
             try
             {
                 // Arm1 Vacuum On
-                var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, true);
-                Thread.Sleep(50);
-                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, false);
+                if(DryRepeat == false)  // 251223 sebas : Dryrun repeat ì¼ ë•ŒëŠ” arm vac on/off ì•ˆí•˜ê¸° ë•Œë¬¸
+                {
+                    var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, true);
+                    Thread.Sleep(50);
+                    ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, false);
+                }
             }
             catch (Exception err)
             {
@@ -9954,9 +10424,12 @@ namespace ManualJogViewModel
             try
             {
                 // Arm1 Vacuum On
-                var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, true);
-                Thread.Sleep(50);
-                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, false);
+                if (DryRepeat == false)  // 251223 sebas : Dryrun repeat ì¼ ë•ŒëŠ” arm vac on/off ì•ˆí•˜ê¸° ë•Œë¬¸
+                {
+                    var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, true);
+                    Thread.Sleep(50);
+                    ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, false);
+                }
             }
             catch (Exception err)
             {
@@ -9965,21 +10438,48 @@ namespace ManualJogViewModel
             }
             return retVal;
         }
+
+        public EventCodeEnum Arm1_Arm2_Vac_Off(bool ArmFlag)
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                IORet ioret = IORet.UNKNOWN;
+
+                if (false == ArmFlag)
+                {
+                    ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, false);
+                }
+                else
+                {
+                    ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, false);
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return retVal;
+        }
+
         public EventCodeEnum Arm1_Vac_Off()
         {
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
                 // Arm1 Vacuum Off
-                var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, true);
-                Thread.Sleep(150);
-                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, false);
+                //this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, true);
+                //Thread.Sleep(1);
+                //this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, false);
+                //Thread.Sleep(1);
 
-                ARM_BlowON1();
-
-                Thread.Sleep(150);
-
-                ARM_BlowOFF1();
+                if (DryRepeat == false)  // 251223 sebas : Dryrun repeat ì¼ ë•ŒëŠ” arm vac on/off ì•ˆí•˜ê¸° ë•Œë¬¸
+                {
+                    var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, true);
+                    Thread.Sleep(50);
+                    ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, false);
+                }
             }
             catch (Exception err)
             {
@@ -9994,14 +10494,27 @@ namespace ManualJogViewModel
             try
             {
                 // Arm2 Vacuum Off
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, true);
-                Thread.Sleep(150);
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, false);
-                Thread.Sleep(50);
+                //this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, true);
+                //Thread.Sleep(1);
+                //this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, false);
+                //Thread.Sleep(1);
 
-                var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, true);
-                Thread.Sleep(300);
-                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, false);
+                if (DryRepeat == false)  // 251223 sebas : Dryrun repeat ì¼ ë•ŒëŠ” arm vac on/off ì•ˆí•˜ê¸° ë•Œë¬¸
+                {
+                    var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, true);
+                    Thread.Sleep(50);
+                    ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, false);
+                }
+
+                // ë‹¤ì´í…ŒìŠ¤íŠ¸ Sleep ê¸°ë¡ìš© 
+                //this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, true);
+                //Thread.Sleep(150);
+                //this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, false);
+                //Thread.Sleep(50);
+
+                //var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, true);
+                //Thread.Sleep(300);
+                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, false);
             }
             catch (Exception err)
             {
@@ -10013,48 +10526,39 @@ namespace ManualJogViewModel
 
         public bool IsCanRotate()
         {
-            // Á¶°Ç Ã¼Å© : Nano Z , Air , Magnetic
+            // ì¡°ê±´ ì²´í¬ : Nano Z , Air , Magnetic
             bool ret = false;
+            double AcualPos = 0.0;
 
-            ProbeAxisObject axisNSZ1 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ1);
-            double AcualPos = 0;
-
-            bool IOCheck1 = false;
-            bool IOCheck2 = false;
             try
             {
+                // (Interlock) Nano Stage Z Position Check
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ1).AxisType.Value, ref AcualPos);
+
+                double NanoStagePosCheck = -3200.0;
+
+                if (AcualPos < NanoStagePosCheck)
+                {
+                    this.MetroDialogManager().ShowMessageDialog("Sequence Error", "Nano Stage Z position is too low", EnumMessageStyle.Affirmative);
+                    return ret;
+                }
+                else
+                {
+                    ret = true;
+                }
+
+                #region Test Code
+                //this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_MAGNETIC1, false);
+
                 // (Interlock) Air On / Off Check
-                // ÀÏ´Ü Áö¿ò (IO ¿¡·¯)
+                // ì¼ë‹¨ ì§€ì›€ (IO ì—ëŸ¬)
                 //this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_ARM_FLOW1, out IOCheck1);
                 //this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_ARM_FLOW1, out IOCheck2);
 
                 //if (IOCheck1 == true && IOCheck2 == true)
                 //{
-                    // (Interlock) Magnetic Off
-
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_MAGNETIC1, false);
-
-                // (Interlock) Nano Stage Z Position Check
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NZD1).AxisType.Value, ref AcualPos);
-
-                double NanoStageInterlock = -950000 / 4194.304;
-
-                if (AcualPos > NanoStageInterlock)  // (Interlock) °íÁ¤°ª 0 ÁÖÀÇ
-                {
-                    ret = true;
-                }
-                else
-                {
-                    this.MetroDialogManager().ShowMessageDialog("Sequence Error", "Nano Stage Z position is too low", EnumMessageStyle.Affirmative);
-                    throw new Exception("Nano Stage Z position is too low");
-                }
-
-                //}
-                //else
-                //{
-                //    this.MetroDialogManager().ShowMessageDialog("Sequence Error", "Air Not On", EnumMessageStyle.Affirmative);
-                //    throw new Exception("Air Not On");
-                //}
+                // (Interlock) Magnetic Off
+                #endregion
             }
             catch (Exception err)
             {
@@ -10064,6 +10568,33 @@ namespace ManualJogViewModel
             return ret;
         }
 
+        public EventCodeEnum Rotate_Edit()
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                ProbeAxisObject axisNZD1 = this.MotionManager().GetAxis(EnumAxisConstants.NZD1);
+
+                double pos = 0.0;   //ì´ë™í•  ê³ ì •ê°’ì„ ë„£ëŠ” ë³€ìˆ˜ (ë®ì–´ì”Œì›Œì§)
+
+                pos = 16748 / 2.913;    // = 524,288 DD motor íšŒì „ DtoP = 2.913
+                LoggerManager.Debug($"DD íšŒì „ Start");
+                retVal = this.MotionManager().RelMove_Wating(axisNZD1, pos, axisNZD1.Param.Speed.Value, axisNZD1.Param.Acceleration.Value);
+                LoggerManager.Debug($"DD íšŒì „ End");
+
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("DD motor RelMove Error");
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return retVal;
+        }
+
         public EventCodeEnum Rotate_Plus()
         {
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
@@ -10071,12 +10602,12 @@ namespace ManualJogViewModel
             {
                 ProbeAxisObject axisNZD1 = this.MotionManager().GetAxis(EnumAxisConstants.NZD1);
 
-                double pos = 0.0;   //ÀÌµ¿ÇÒ °íÁ¤°ªÀ» ³Ö´Â º¯¼ö (µ¤¾î¾º¿öÁü)
+                double pos = 0.0;   //ì´ë™í•  ê³ ì •ê°’ì„ ë„£ëŠ” ë³€ìˆ˜ (ë®ì–´ì”Œì›Œì§)
 
-                pos = 524288 / 2.913;    // = 524,288 DD motor È¸Àü DtoP = 2.913
-                LoggerManager.Debug($"DD È¸Àü Start");
-                retVal = this.MotionManager().RelMove(axisNZD1, pos, axisNZD1.Param.Speed.Value, axisNZD1.Param.Acceleration.Value);
-                LoggerManager.Debug($"DD È¸Àü End");
+                pos = 524288 / 2.913;    // = 524,288 DD motor íšŒì „ DtoP = 2.913
+                LoggerManager.Debug($"DD íšŒì „ Start");
+                retVal = this.MotionManager().RelMove_Wating(axisNZD1, pos, axisNZD1.Param.Speed.Value, axisNZD1.Param.Acceleration.Value);
+                LoggerManager.Debug($"DD íšŒì „ End");
 
                 if (retVal != EventCodeEnum.NONE)
                 {
@@ -10097,9 +10628,9 @@ namespace ManualJogViewModel
             {
                 ProbeAxisObject axisNZD1 = this.MotionManager().GetAxis(EnumAxisConstants.NZD1);
 
-                double pos = 0.0;   //ÀÌµ¿ÇÒ °íÁ¤°ªÀ» ³Ö´Â º¯¼ö (µ¤¾î¾º¿öÁü)
+                double pos = 0.0;   //ì´ë™í•  ê³ ì •ê°’ì„ ë„£ëŠ” ë³€ìˆ˜ (ë®ì–´ì”Œì›Œì§)
 
-                pos = -524288 / 2.913;    // = 524,288 DD motor È¸Àü DtoP = 2.913
+                pos = -524288 / 2.913;    // = 524,288 DD motor íšŒì „ DtoP = 2.913// 524288
                 retVal = this.MotionManager().RelMove_Wating(axisNZD1, pos, axisNZD1.Param.Speed.Value, axisNZD1.Param.Acceleration.Value);
                 if (retVal != EventCodeEnum.NONE)
                 {
@@ -10137,13 +10668,13 @@ namespace ManualJogViewModel
             {
                 var axisZ = this.MotionManager().GetAxis(EnumAxisConstants.Z);
 
-                double currentPos = 0.0;    // ÇöÀç À§Ä¡°ª ÀĞ±â
+                double currentPos = 0.0;    // í˜„ì¬ ìœ„ì¹˜ê°’ ì½ê¸°
                 double AcualPos = 0;
 
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
-                double pos = 140008500;   // = 350,000 Z Ãà DtoP = 0.0025
+                double pos = 140022000;   // = 350,000 Z ì¶• DtoP = 0.0025
                 LoggerManager.Debug($"Wafer_Chuck_Up Start");
                 retVal = this.MotionManager().RelMove_Wating(axisZ, pos - currentPos, axisZ.Param.Speed.Value, axisZ.Param.Acceleration.Value);
                 LoggerManager.Debug($"Wafer_Chuck_Up End");
@@ -10166,15 +10697,15 @@ namespace ManualJogViewModel
             {
                 var axisZ = this.MotionManager().GetAxis(EnumAxisConstants.Z);
 
-                double currentPos = 0.0;    // ÇöÀç À§Ä¡°ª ÀĞ±â
+                double currentPos = 0.0;    // í˜„ì¬ ìœ„ì¹˜ê°’ ì½ê¸°
                 double AcualPos = 0;
 
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
-                double pos = 128000000;   // = 320,000 Z Ãà DtoP = 0.0025
+                double pos = 128000000;   // = 320,000 Z ì¶• DtoP = 0.0025
                 LoggerManager.Debug($"Wafer_Chuck_Down Start");
-                retVal = this.MotionManager().RelMove(axisZ, pos - currentPos, axisZ.Param.Speed.Value, axisZ.Param.Acceleration.Value);
+                retVal = this.MotionManager().RelMove_Wating(axisZ, pos - currentPos, axisZ.Param.Speed.Value, axisZ.Param.Acceleration.Value);
                 LoggerManager.Debug($"Wafer_Chuck_Down End");
 
                 if (retVal != EventCodeEnum.NONE)
@@ -10197,13 +10728,13 @@ namespace ManualJogViewModel
             {
                 var axisZ = this.MotionManager().GetAxis(EnumAxisConstants.Z);
 
-                double currentPos = 0.0;    // ÇöÀç À§Ä¡°ª ÀĞ±â
+                double currentPos = 0.0;    // í˜„ì¬ ìœ„ì¹˜ê°’ ì½ê¸°
                 double AcualPos = 0;
 
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
-                double pos = 100000000;   // = 320,000 Z Ãà DtoP = 0.0025
+                double pos = 100000000;   // = 320,000 Z ì¶• DtoP = 0.0025
                 retVal = this.MotionManager().RelMove(axisZ, pos - currentPos, axisZ.Param.Speed.Value, axisZ.Param.Acceleration.Value);
                 if (retVal != EventCodeEnum.NONE)
                 {
@@ -10220,17 +10751,17 @@ namespace ManualJogViewModel
 
         public EventCodeEnum DoPlace_Nano_ZDown()
         {
-            // ³ª³ë½ºÅ×ÀÌÁö ´Ù¿î ( °íÁ¤°ªÀÌ ¾Æ´Ñ »ó´ë°ª ÀÌµ¿ )
+            // ë‚˜ë…¸ìŠ¤í…Œì´ì§€ ë‹¤ìš´ ( ê³ ì •ê°’ì´ ì•„ë‹Œ ìƒëŒ€ê°’ ì´ë™ )
 
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
                 ProbeAxisObject axisNSZ1 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ1);
 
-                double pos = -476.838;   // = -2,000,000 Nano Stage Z Ãà DtoP = 4194.304
-                LoggerManager.Debug($"³ª³ë½ºÅ×ÀÌÁö Z Down Start");
+                double pos = -2000;   // = -2,000,000 Nano Stage Z ì¶• DtoP = 4194.304 (ê¸°ì¡´) -476.838 -> (ë³€ê²½) -8388.608 ë‚˜ë…¸ìŠ¤í…Œì´ì§€ 2mm ë‹¤ìš´
+                //LoggerManager.Debug($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Down Start");
                 retVal = this.MotionManager().RelMove_Wating(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
-                LoggerManager.Debug($"³ª³ë½ºÅ×ÀÌÁö Z Down End");
+                //LoggerManager.Debug($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Down End");
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("Nano Stage Z Down RelMove Error");
@@ -10245,17 +10776,17 @@ namespace ManualJogViewModel
         }
         public EventCodeEnum DoPlace_Nano_ZUp()
         {
-            // ³ª³ë½ºÅ×ÀÌÁö ¾÷ ( °íÁ¤°ªÀÌ ¾Æ´Ñ »ó´ë°ª ÀÌµ¿ )
+            // ë‚˜ë…¸ìŠ¤í…Œì´ì§€ ì—… ( ê³ ì •ê°’ì´ ì•„ë‹Œ ìƒëŒ€ê°’ ì´ë™ )
 
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
                 ProbeAxisObject axisNSZ1 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ1);
 
-                double pos = 476.838;   // = 2,000,000 Nano Stage Z Ãà DtoP = 4194.304
-                LoggerManager.Debug($"³ª³ë½ºÅ×ÀÌÁö Z Up Start");
+                double pos = 2000;   // = 2,000,000 Nano Stage Z ì¶• DtoP = 4194.304 (ê¸°ì¡´) 476.838 -> (ë³€ê²½) 8388.608 ë‚˜ë…¸ìŠ¤í…Œì´ì§€ 2mm ì—…
+                //LoggerManager.Debug($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Up Start");
                 retVal = this.MotionManager().RelMove_Wating(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
-                LoggerManager.Debug($"³ª³ë½ºÅ×ÀÌÁö Z Up End");
+                //LoggerManager.Debug($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Up End");
 
                 if (retVal != EventCodeEnum.NONE)
                 {
@@ -10272,7 +10803,7 @@ namespace ManualJogViewModel
 
         public EventCodeEnum Magnetic_Off()
         {
-            // Vacuum ²ô°í Place ³¡³­ ÈÄ ´Ü°è·Î ´ÙÀ½ ¼ø¼­ÀÎ Pick Á÷Àü
+            // Vacuum ë„ê³  Place ëë‚œ í›„ ë‹¨ê³„ë¡œ ë‹¤ìŒ ìˆœì„œì¸ Pick ì§ì „
 
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
@@ -10294,10 +10825,10 @@ namespace ManualJogViewModel
             {
                 var axisZ = this.MotionManager().GetAxis(EnumAxisConstants.Z);
 
-                double currentPos = 0.0;    // ÇöÀç À§Ä¡°ª ÀĞ±â
+                double currentPos = 0.0;    // í˜„ì¬ ìœ„ì¹˜ê°’ ì½ê¸°
                 double AcualPos = 0;
 
-                double pos = 10000;   // Z Ãà DtoP = 2.5
+                double pos = 10000;   // Z ì¶• DtoP = 2.5
 
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
@@ -10319,30 +10850,502 @@ namespace ManualJogViewModel
         #endregion
 
         #region 251124 ybpark Normal, FD Wafer Out 
-        private AsyncCommand _NormalWaferOutCommand;
-        public ICommand NormalWaferOutCommand
+        private AsyncCommand _DryRunRepeatCommand;
+        public ICommand DryRunRepeatCommand
         {
             get
             {
-                if (null == _NormalWaferOutCommand) _NormalWaferOutCommand = new AsyncCommand(NormalWaferOutCommand_Func);
-                return _NormalWaferOutCommand;
+                if (null == _DryRunRepeatCommand) _DryRunRepeatCommand = new AsyncCommand(DryRunRepeatCommand_Func);
+                return _DryRunRepeatCommand;
             }
-        }
-        private async Task NormalWaferOutCommand_Func()
-        {
         }
 
-        private AsyncCommand _FDWaferOutCommand;
-        public ICommand FDWaferOutCommand
+        public bool DryRepeat = false;  // 251223 sebas add : falseì¼ ë•ŒëŠ” vac ì‹¤í–‰, trueì¼ ë•ŒëŠ” vac ì•ˆí•¨
+        private async Task DryRunRepeatCommand_Func()
+        {
+            try
+            {
+                LoggerManager.Debug($"AcceptanceCommand Start");
+
+                EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+                ProbeAxisObject axisEJPZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJPZ1);
+
+                bool StartFlag = false;     // false : ARM1 , true : ARM2
+                double pos = 0.0;
+
+                #region Ready
+                retVal = MovePickPos_SafeZone_First();
+                if (retVal != EventCodeEnum.NONE)
+                    throw new Exception("MovePickPos_SafeZone_First() Function Error");
+                #endregion
+
+                int repeatNum = 1;  // 251224 sebas í™€ìˆ˜ = ì •ë°©í–¥ , ì§ìˆ˜ = ì—­ë°©í–¥
+                int maxNum = 1000;   // ë¬´í•œë°˜ë³µì´ì§€ë§Œ, ì¼ë‹¨ ìµœëŒ€ì¹˜ ì„¤ì •í•´ ë†“ìŒ
+
+                DryRepeat = true;
+                while (repeatNum < maxNum)   // 251224 sebas : while ì¶”ê°€
+                {
+                    if (repeatNum % 2 == 0)
+                    {
+                        ReverseRun = true;
+                    }
+                    else
+                    {
+                        ReverseRun = false;
+                    }
+                    repeatNum++;
+
+                    for (TestCount = 1; TestCount <= 15; TestCount++)
+                    {
+                        LoggerManager.Debug($"Sequence Start {TestCount}");
+
+                        // ë³‘ë ¬ êµ¬ê°„ì—ì„œ í”ë“¤ë¦¬ì§€ ì•Šê²Œ ì‚¬ì´í´ ì‹œì‘ê°’ ìº¡ì²˜
+                        bool cycleStartFlag = StartFlag;        // cycleStartFlag = false (ARM1) , cycleStartFlag = true (ARM2)
+
+                        // ============================
+                        // 1) Pick Task (ë™ì‹œì— ì‹œì‘)
+                        // ============================
+                        Task pickTask = Task.Run(() =>
+                        {
+                            double localPos;
+                            LoggerManager.Debug($"Pick Start {TestCount}");
+
+                            // Pick ìœ„ì¹˜ (StartFlagì— ë”°ë¼ ë‹¤ë¥¸ ìœ„ì¹˜ë¼ë©´ ìº¡ì²˜ê°’ ì‚¬ìš©)
+                            LoggerManager.Debug($"MovePickPos_DangerZone Start");
+                            retVal = MovePickPos_DangerZone(cycleStartFlag);
+                            LoggerManager.Debug($"MovePickPos_DangerZone End");
+                            if (retVal != EventCodeEnum.NONE)
+                                throw new Exception("MovePickPos_DangerZone() Function Error");
+
+                            // Ejection Pin Down
+                            localPos = -300;
+                            LoggerManager.Debug($"Ejection Pin Down Start");
+                            retVal = this.MotionManager().RelMove(axisEJPZ1, localPos, axisEJPZ1.Param.Speed.Value, axisEJPZ1.Param.Acceleration.Value);
+                            LoggerManager.Debug($"Ejection Pin Down End");
+                            if (retVal != EventCodeEnum.NONE)
+                                throw new Exception("Ejection Pin Z RelMove Error");
+
+                            // Rotate í•´ë„ ê´œì°®ì€ ìœ„ì¹˜ë¡œ ë³µê·€
+                            LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick Start");
+                            retVal = MovePickPos_SafeZone_AfterPick();
+                            LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick End");
+                            if (retVal != EventCodeEnum.NONE)
+                                throw new Exception("MovePickPos_SafeZone_AfterPick() Function Error");
+
+                            Thread.Sleep(100);
+
+                            LoggerManager.Debug($"Pick End {TestCount}");
+                        });
+
+                        // ============================
+                        // 2) Place Task (ë™ì‹œì— ì‹œì‘)
+                        // ============================
+                        Task placeTask = Task.Run(() =>
+                        {
+                            LoggerManager.Debug($"Place Start {TestCount}");
+                            LoggerManager.Debug($"Magnetic_On Start");
+                            retVal = Magnetic_On();
+                            LoggerManager.Debug($"Magnetic_On End");
+                            if (retVal != EventCodeEnum.NONE)
+                                throw new Exception("Magnetic_On() Function Error");
+
+                            LoggerManager.Debug($"DoPlace_Nano_ZDown Start");
+                            retVal = DoPlace_Nano_ZDown();
+                            LoggerManager.Debug($"DoPlace_Nano_ZDown End");
+                            if (retVal != EventCodeEnum.NONE)
+                                throw new Exception("DoPlace_Nano_ZDown() Function Error");
+
+                            // Vacuum Off (Place) : ìº¡ì²˜í•œ StartFlag ê¸°ì¤€ìœ¼ë¡œ ê²°ì •
+                            if (cycleStartFlag == true)
+                            {
+                                LoggerManager.Debug($"Arm1_Vac_Off Start");
+                                Arm1_Vac_Off();
+                                LoggerManager.Debug($"Arm1_Vac_Off End");
+                            }
+                            else
+                            {
+                                LoggerManager.Debug($"Arm2_Vac_Off Start");
+                                Arm2_Vac_Off();
+                                LoggerManager.Debug($"Arm2_Vac_Off End");
+                            }
+
+                            LoggerManager.Debug($"DoPlace_Nano_ZUp Start");
+                            retVal = DoPlace_Nano_ZUp();
+                            LoggerManager.Debug($"DoPlace_Nano_ZUp End");
+                            if (retVal != EventCodeEnum.NONE)
+                                throw new Exception("DoPlace_Nano_ZUp() Function Error");
+
+                            LoggerManager.Debug($"Magnetic_Off Start");
+                            retVal = Magnetic_Off();
+                            LoggerManager.Debug($"Magnetic_Off End");
+                            if (retVal != EventCodeEnum.NONE)
+                                throw new Exception("Magnetic_Off() Function Error");
+
+                            LoggerManager.Debug($"Place End {TestCount}");
+                        });
+
+                        // 3) Pick & Place ë‘˜ ë‹¤ ì™„ë£Œë  ë•Œê¹Œì§€ ëŒ€ê¸°
+                        await Task.WhenAll(pickTask, placeTask);
+
+                        // ë§ˆì§€ë§‰ ë‹¤ì´ ë‚´ë ¤ ë†“ê³  ì •ë¦¬
+                        //if (16 == TestCount)
+                        //    break;
+
+                        LoggerManager.Debug($"Rotate Start {TestCount}");
+
+                        // ë§ˆì§€ë§‰ ë‹¤ì´ ì›€ì§ì¼ í•„ìš” ì—†ìŒ.
+                        if (TestCount < 15)
+                        {
+                            LoggerManager.Debug($"MovePickPos_SafeZone_Next Start");
+                            retVal = MovePickPos_SafeZone_NextReverse();
+                            LoggerManager.Debug($"MovePickPos_SafeZone_Next End");
+                            if (retVal != EventCodeEnum.NONE)
+                                throw new Exception("MovePickPos_SafeZone_Next() Function Error");
+                        }
+
+                        // 4) ë‘˜ ë‹¤ ëë‚˜ë©´ Rotate ìˆ˜í–‰
+                        LoggerManager.Debug($"Arms_Air_On Start");
+                        Arms_Air_On();
+                        LoggerManager.Debug($"Arms_Air_On End");
+
+                        if (cycleStartFlag == false)
+                        {
+                            NanostageUpDownMonitor(cycleStartFlag, 79901.2);  // 2ë„ ì›€ì§ì˜€ì„ë•Œ ë‚˜ë…¸ìŠ¤í…Œì´ì§€ ì—…, ë‹¤ìš´
+
+                            LoggerManager.Debug($"Rotate_Minus Start");
+                            retVal = Rotate_Minus();
+                            LoggerManager.Debug($"Rotate_Minus End");
+                        }
+                        else
+                        {
+                            NanostageUpDownMonitor(cycleStartFlag, -96081); // 2ë„ ì›€ì§ì˜€ì„ë•Œ ë‚˜ë…¸ìŠ¤í…Œì´ì§€ ì—…, ë‹¤ìš´
+
+                            LoggerManager.Debug($"Rotate_Plus Start");
+                            retVal = Rotate_Plus();
+                            LoggerManager.Debug($"Rotate_Plus End");
+                        }
+
+                        if (retVal != EventCodeEnum.NONE)
+                            throw new Exception("Rotate Function Error");
+
+                        LoggerManager.Debug($"Arms_Air_Off Start");
+                        Arms_Air_Off();
+                        LoggerManager.Debug($"Arms_Air_Off End");
+
+                        // 5) ë‹¤ìŒ ì‚¬ì´í´ìš© StartFlag í† ê¸€ (ë³‘ë ¬ êµ¬ê°„ ë°–ì—ì„œ)
+                        StartFlag = !cycleStartFlag;
+
+                        if (dryRunStop == true)
+                            break;  // dryrun fisnish
+
+                        LoggerManager.Debug($"Rotate End {TestCount}");
+                        LoggerManager.Debug($"Sequence End {TestCount}");
+                    }
+                }
+
+                Arms_Air_Off();
+
+                DryRepeat = false;
+                dryRunStop = false;
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+        }
+
+        private AsyncCommand _RotateAndCaptureCommand;
+        public ICommand RotateAndCaptureCommand
         {
             get
             {
-                if (null == _FDWaferOutCommand) _FDWaferOutCommand = new AsyncCommand(FDWaferOutCommand_Func);
-                return _FDWaferOutCommand;
+                if (null == _RotateAndCaptureCommand) _RotateAndCaptureCommand = new AsyncCommand(RotateAndCapture_Func);
+                return _RotateAndCaptureCommand;
             }
         }
-        private async Task FDWaferOutCommand_Func()
+
+        private double GetNZD1Pulse()
         {
+            double pulse = 0.0;
+            var axis = this.MotionManager().GetAxis(EnumAxisConstants.NZD1);
+            this.MotionManager().GetActualPos(axis.AxisType.Value, ref pulse);
+            return pulse;
+        }
+
+        //private double GetNZD1Pulse_NoWait()
+        //{
+        //    double pulse = 0.0;
+        //    var axis = this.MotionManager().GetAxis(EnumAxisConstants.NZD1);
+        //    this.MotionManager().GetActualPosition_NoWait(axis.AxisType.Value, ref pulse);
+
+        //    return pulse;
+        //}
+
+        private CancellationTokenSource _capCts;
+        private Task _capTask;
+        /// <summary>
+        /// rotateFlag = false; ì¼ë•Œ ì •ë°©í–¥ íšŒì „ (ì„ê³„ê°’ ì•„ë˜->ìœ„ í†µê³¼ ì‹œ ìº¡ì²˜)
+        /// rotateFlag = true;  ì¼ë•Œ ì—­ë°©í–¥ íšŒì „ (ì„ê³„ê°’ ìœ„->ì•„ë˜ í†µê³¼ ì‹œ ìº¡ì²˜)
+        /// </summary>
+        private void StartCaptureMonitor(bool rotateFlag, double threshold)
+        {
+            // ì´ì „ ê°ì‹œ ì¢…ë£Œ
+            StopCaptureMonitor();
+
+            _capCts = new CancellationTokenSource();
+            var ct = _capCts.Token;
+
+            _capTask = Task.Run(async () =>
+            {
+                try
+                {
+                    double prev = GetNZD1Pulse();
+
+                    while (!ct.IsCancellationRequested)
+                    {
+                        await Task.Delay(4, ct); // í´ë§ ì£¼ê¸°(í•„ìš”ì‹œ ì¡°ì ˆ)
+                        double curr = GetNZD1Pulse();
+
+                        // "í†µê³¼" ìˆœê°„ì— NanoStage Down/Up
+                        if(false == rotateFlag)
+                        {
+                            if (curr > threshold)
+                            {
+                                LoggerManager.Debug("(P) Camera Capture Start");
+                                _VisionVM.CaptureCamera(0);
+                                LoggerManager.Debug("(P) Camera Capture End");
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if (curr < threshold)
+                            {
+                                LoggerManager.Debug("(R) Camera Capture Start");
+                                _VisionVM.CaptureCamera(0);
+                                LoggerManager.Debug("(R) Camera Capture End");
+                                break;
+                            }
+                        }
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    // ì •ìƒ ì·¨ì†Œ
+                }
+                catch (Exception ex)
+                {
+                    LoggerManager.Exception(ex);
+                }
+            }, ct);
+        }
+
+        private void NanostageUpDownMonitor(bool rotateFlag, double threshold)
+        {
+            EventCodeEnum rv = EventCodeEnum.NONE;
+
+            // ì´ì „ ê°ì‹œ ì¢…ë£Œ
+            StopNanoMonitor();
+
+            _capCts = new CancellationTokenSource();
+            var ct = _capCts.Token;
+
+            _capTask = Task.Run(async () =>
+            {
+                try
+                {
+                    double prev = GetNZD1Pulse();
+
+                    while (!ct.IsCancellationRequested)
+                    {
+                        await Task.Delay(15, ct); // í´ë§ ì£¼ê¸°(í•„ìš”ì‹œ ì¡°ì ˆ)
+                        double curr = GetNZD1Pulse();
+
+                        // "í†µê³¼" ìˆœê°„ì— NanoStage Down/Up
+                        if (false == rotateFlag)
+                        {
+                            if (curr < threshold)
+                            {
+                                LoggerManager.Event($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Down Start");
+                                rv = DoPlace_Nano_ZDown();
+                                LoggerManager.Event($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Down End");
+                                if (rv != EventCodeEnum.NONE)
+                                    throw new Exception("DoPlace_Nano_ZDown() Function Error");
+
+                                LoggerManager.Event($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Up Start");
+                                rv = DoPlace_Nano_ZUp();
+                                LoggerManager.Event($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Up End");
+                                if (rv != EventCodeEnum.NONE)
+                                    throw new Exception("DoPlace_Nano_ZUp() Function Error");
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if (curr > threshold)
+                            {
+                                LoggerManager.Event($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Down Start");
+                                rv = DoPlace_Nano_ZDown();
+                                LoggerManager.Event($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Down End");
+                                if (rv != EventCodeEnum.NONE)
+                                    throw new Exception("DoPlace_Nano_ZDown() Function Error");
+
+                                LoggerManager.Event($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Up Start");
+                                rv = DoPlace_Nano_ZUp();
+                                LoggerManager.Event($"ë‚˜ë…¸ìŠ¤í…Œì´ì§€ Z Up End");
+                                if (rv != EventCodeEnum.NONE)
+                                    throw new Exception("DoPlace_Nano_ZUp() Function Error");
+                                break;
+                            }
+                        }
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    // ì •ìƒ ì·¨ì†Œ
+                }
+                catch (Exception ex)
+                {
+                    LoggerManager.Exception(ex);
+                }
+            }, ct);
+        }
+
+        private void StopNanoMonitor()
+        {
+            try
+            {
+                if (_capCts != null && !_capCts.IsCancellationRequested)
+                    _capCts.Cancel();
+            }
+            catch { }
+            finally
+            {
+                _capCts?.Dispose();
+                _capCts = null;
+                _capTask = null;
+            }
+        }
+
+        private void StopCaptureMonitor()
+        {
+            try
+            {
+                if (_capCts != null && !_capCts.IsCancellationRequested)
+                    _capCts.Cancel();
+            }
+            catch { }
+            finally
+            {
+                _capCts?.Dispose();
+                _capCts = null;
+                _capTask = null;
+            }
+        }
+
+        public bool dryRunStop = false;    // 251224 sebas
+        private async Task RotateAndCapture_Func()
+        {
+            dryRunStop = true;  // 251224 sebas
+
+            //EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            //try
+            //{
+            //    // NanoStage ì¸í„°ë½
+            //    bool NanoInterlock = IsCanRotate();
+            //    if (false == NanoInterlock)
+            //        return;
+
+            //    // Air On
+            //    Arms_Air_On();  // arm1, arm2 air on
+
+            //    // íšŒì „
+            //    if (false == RotateFlag)
+            //    {
+            //        // íšŒì „ ì‹œì‘ ì „ì— ê°ì‹œ ì‹œì‘
+            //        StartCaptureMonitor(RotateFlag, threshold: 10000.0);
+
+            //        LoggerManager.Debug($"Rotate_Plus(CW) Start");
+            //        retVal = Rotate_Plus(); // DDëª¨í„°ê°€ +ë°©í–¥(ì •ë©´ê¸°ì¤€ ì‹œê³„ ë°˜ëŒ€ë°©í–¥)ìœ¼ë¡œ íšŒì „
+            //        LoggerManager.Debug($"Rotate_Plus(CW) End");
+
+            //        // íšŒì „ ëë‚˜ë©´ ê°ì‹œ ì¢…ë£Œ
+            //        StopCaptureMonitor();
+
+            //        if (retVal != EventCodeEnum.NONE)
+            //        {
+            //            throw new Exception("Rotate_Plus() Function Error");
+            //        }
+
+            //        RotateFlag = true;
+            //    }
+            //    else
+            //    {
+            //        // íšŒì „ ì‹œì‘ ì „ì— ê°ì‹œ ì‹œì‘
+            //        StartCaptureMonitor(RotateFlag, threshold: 70000.0);
+
+            //        LoggerManager.Debug($"Rotate_Minus(CW) Start");
+            //        retVal = Rotate_Minus(); // DDëª¨í„°ê°€ -ë°©í–¥ìœ¼ë¡œ íšŒì „(ì£¼ì„ì€ ì‹¤ì œì™€ ë§ê²Œ ìˆ˜ì • ê¶Œì¥)
+            //        LoggerManager.Debug($"Rotate_Minus(CW) End");
+
+            //        // íšŒì „ ëë‚˜ë©´ ê°ì‹œ ì¢…ë£Œ
+            //        StopCaptureMonitor();
+
+            //        if (retVal != EventCodeEnum.NONE)
+            //            throw new Exception("Rotate_Minus() Function Error");
+
+            //        RotateFlag = false;
+            //    }
+
+            //    // Air Off
+            //    Arms_Air_Off();
+
+            //    // Magnet On
+            //    LoggerManager.Debug($"Magnetic_On Start");
+            //    retVal = Magnetic_On();
+            //    LoggerManager.Debug($"Magnetic_On End");
+            //    if (retVal != EventCodeEnum.NONE)
+            //    {
+            //        throw new Exception("Magnetic_On() Function Error");
+            //    }
+
+            //    // Nano Stage Z Down
+            //    LoggerManager.Debug($"DoPlace_Nano_ZDown Start");
+            //    retVal = DoPlace_Nano_ZDown();
+            //    LoggerManager.Debug($"DoPlace_Nano_ZDown End");
+            //    if (retVal != EventCodeEnum.NONE)
+            //    {
+            //        throw new Exception("DoPlace_Nano_ZDown() Function Error");
+            //    }
+
+            //    // Nano Stage Z Up
+            //    LoggerManager.Debug($"DoPlace_Nano_ZUp Start");
+            //    retVal = DoPlace_Nano_ZUp();
+            //    LoggerManager.Debug($"DoPlace_Nano_ZUp End");
+            //    if (retVal != EventCodeEnum.NONE)
+            //    {
+            //        throw new Exception("DoPlace_Nano_ZUp() Function Error");
+            //    }
+
+            //    // Magnet Off
+            //    LoggerManager.Debug($"Magnetic_Off Start");
+            //    retVal = Magnetic_Off();
+            //    LoggerManager.Debug($"Magnetic_Off End");
+            //    if (retVal != EventCodeEnum.NONE)
+            //    {
+            //        throw new Exception("Magnetic_Off() Function Error");
+            //    }
+            //}
+            //catch (Exception err)
+            //{
+            //    // í˜¹ì‹œ ì˜ˆì™¸ë¡œ ë¹ ì ¸ë„ ê°ì‹œ Task ì •ë¦¬
+            //    StopCaptureMonitor();
+
+            //    LoggerManager.Exception(err);
+            //    throw;
+            //}
         }
         #endregion
 
@@ -10377,7 +11380,7 @@ namespace ManualJogViewModel
         }
         private async Task DiducaialMarkCommand_Func()
         {
-            // 20251124 Nick ÇÇµÎ¼È ¸¶Å©¸¦ Ã£¾Æ ÀÌµ¿ÇÏ´Â ÇÔ¼ö
+            // 20251124 Nick í”¼ë‘ì…œ ë§ˆí¬ë¥¼ ì°¾ì•„ ì´ë™í•˜ëŠ” í•¨ìˆ˜
 
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
@@ -10386,12 +11389,12 @@ namespace ManualJogViewModel
                 ProbeAxisObject axisY1 = this.MotionManager().GetAxis(EnumAxisConstants.Y);
                 ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
 
-                double pos = 0.0;   // ÀÌµ¿ÇÒ °íÁ¤°ªÀ» ³Ö´Â º¯¼ö (µ¤¾î¾º¿öÁü)
-                double currentPos = 0.0;    // ÇöÀç À§Ä¡°ª ÀĞ±â
+                double pos = 0.0;   // ì´ë™í•  ê³ ì •ê°’ì„ ë„£ëŠ” ë³€ìˆ˜ (ë®ì–´ì”Œì›Œì§)
+                double currentPos = 0.0;    // í˜„ì¬ ìœ„ì¹˜ê°’ ì½ê¸°
                 double AcualPos = 0;
 
                 // Base Y
-                pos = -785201;    // Æ¼Äª °ª
+                pos = -785201;    // í‹°ì¹­ ê°’
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -10402,7 +11405,7 @@ namespace ManualJogViewModel
                 }
 
                 // Base X
-                pos = 105255;   // Æ¼Äª °ª
+                pos = 105255;   // í‹°ì¹­ ê°’
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -10412,7 +11415,7 @@ namespace ManualJogViewModel
                     throw new Exception("Base X RelMove Error");
                 }
 
-                // FD Z Up (ÇÇµÎ¼È ¸¶Å©¸¦ Âï±âÀ§ÇØ)
+                // FD Z Up (í”¼ë‘ì…œ ë§ˆí¬ë¥¼ ì°ê¸°ìœ„í•´)
                 pos = 25990;
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
@@ -10441,7 +11444,7 @@ namespace ManualJogViewModel
         }
         private async Task EjectionCenterCommand_Func()
         {
-            // 20251124 Nick ÀÌÁ§¼Ç ¼¾ÅÍ Ã£±â
+            // 20251124 Nick ì´ì ì…˜ ì„¼í„° ì°¾ê¸°
 
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
@@ -10451,12 +11454,12 @@ namespace ManualJogViewModel
                 ProbeAxisObject axisY1 = this.MotionManager().GetAxis(EnumAxisConstants.Y);
                 ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
 
-                double pos = 0.0;   // ÀÌµ¿ÇÒ °íÁ¤°ªÀ» ³Ö´Â º¯¼ö (µ¤¾î¾º¿öÁü)
-                double currentPos = 0.0;    // ÇöÀç À§Ä¡°ª ÀĞ±â
+                double pos = 0.0;   // ì´ë™í•  ê³ ì •ê°’ì„ ë„£ëŠ” ë³€ìˆ˜ (ë®ì–´ì”Œì›Œì§)
+                double currentPos = 0.0;    // í˜„ì¬ ìœ„ì¹˜ê°’ ì½ê¸°
                 double AcualPos = 0;
 
-                // FD Z Down (°£¼·À» ÇÇÇÏ±â À§ÇØ ³»¸²)
-                pos = 4770;   // Æ¼Äª °ª
+                // FD Z Down (ê°„ì„­ì„ í”¼í•˜ê¸° ìœ„í•´ ë‚´ë¦¼)
+                pos = 4770;   // í‹°ì¹­ ê°’
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -10467,7 +11470,7 @@ namespace ManualJogViewModel
                 }
 
                 // Base X
-                pos = 43763;    // Æ¼Äª °ª
+                pos = 43763;    // í‹°ì¹­ ê°’
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -10488,7 +11491,7 @@ namespace ManualJogViewModel
                     throw new Exception("Base Y RelMove Error");
                 }
 
-                // Ejection Z Up (ÀÌÁ§¼Ç ¼¾ÅÍ Ã£±â À§ÇØ)
+                // Ejection Z Up (ì´ì ì…˜ ì„¼í„° ì°¾ê¸° ìœ„í•´)
                 pos = 19899;
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
@@ -10517,7 +11520,7 @@ namespace ManualJogViewModel
         }
         private async Task FirstDieCommand_Func()
         {
-            // 20251124 Nick Ã¹ ´ÙÀÌ Ã£±â
+            // 20251124 Nick ì²« ë‹¤ì´ ì°¾ê¸°
 
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
@@ -10527,12 +11530,12 @@ namespace ManualJogViewModel
                 ProbeAxisObject axisY1 = this.MotionManager().GetAxis(EnumAxisConstants.Y);
                 ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
 
-                double pos = 0.0;   // ÀÌµ¿ÇÒ °íÁ¤°ªÀ» ³Ö´Â º¯¼ö (µ¤¾î¾º¿öÁü)
-                double currentPos = 0.0;    // ÇöÀç À§Ä¡°ª ÀĞ±â
+                double pos = 0.0;   // ì´ë™í•  ê³ ì •ê°’ì„ ë„£ëŠ” ë³€ìˆ˜ (ë®ì–´ì”Œì›Œì§)
+                double currentPos = 0.0;    // í˜„ì¬ ìœ„ì¹˜ê°’ ì½ê¸°
                 double AcualPos = 0;
 
-                // Ejection Z Down (°£¼·À» ÇÇÇÏ±â À§ÇØ ³»¸²)
-                pos = 4770;   // Æ¼Äª °ª
+                // Ejection Z Down (ê°„ì„­ì„ í”¼í•˜ê¸° ìœ„í•´ ë‚´ë¦¼)
+                pos = 4770;   // í‹°ì¹­ ê°’
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -10543,7 +11546,7 @@ namespace ManualJogViewModel
                 }
 
                 // Base X
-                pos = 83405;    // Æ¼Äª °ª
+                pos = 83405;    // í‹°ì¹­ ê°’
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -10564,7 +11567,7 @@ namespace ManualJogViewModel
                     throw new Exception("Base Y RelMove Error");
                 }
 
-                // FD Z Up (Ã¹ ´ÙÀÌ Ã£±â À§ÇØ)
+                // FD Z Up (ì²« ë‹¤ì´ ì°¾ê¸° ìœ„í•´)
                 pos = 17000;
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
@@ -10593,7 +11596,7 @@ namespace ManualJogViewModel
         }
         private async Task EjectionPositionCommand_Func()
         {
-            // 20251124 Nick ÀÌÁ§¼Ç À§Ä¡ º¸Á¤
+            // 20251124 Nick ì´ì ì…˜ ìœ„ì¹˜ ë³´ì •
 
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
@@ -10602,12 +11605,12 @@ namespace ManualJogViewModel
                 ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
                 ProbeAxisObject axisEJY1 = this.MotionManager().GetAxis(EnumAxisConstants.EJY1);
 
-                double pos = 0.0;   // ÀÌµ¿ÇÒ °íÁ¤°ªÀ» ³Ö´Â º¯¼ö (µ¤¾î¾º¿öÁü)
-                double currentPos = 0.0;    // ÇöÀç À§Ä¡°ª ÀĞ±â
+                double pos = 0.0;   // ì´ë™í•  ê³ ì •ê°’ì„ ë„£ëŠ” ë³€ìˆ˜ (ë®ì–´ì”Œì›Œì§)
+                double currentPos = 0.0;    // í˜„ì¬ ìœ„ì¹˜ê°’ ì½ê¸°
                 double AcualPos = 0;
 
-                // FD Z Down (°£¼·À» ÇÇÇÏ±â À§ÇØ ³»¸²)
-                pos = 4770;   // Æ¼Äª °ª
+                // FD Z Down (ê°„ì„­ì„ í”¼í•˜ê¸° ìœ„í•´ ë‚´ë¦¼)
+                pos = 4770;   // í‹°ì¹­ ê°’
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -10618,7 +11621,7 @@ namespace ManualJogViewModel
                 }
 
                 // EJ X
-                pos = -39642;    // Æ¼Äª °ª
+                pos = -39642;    // í‹°ì¹­ ê°’
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJX1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -10657,7 +11660,7 @@ namespace ManualJogViewModel
         }
         private async Task ArmPickerCommand_Func()
         {
-            // 20251124 Nick Arm Picker À§Ä¡·Î ÀÌµ¿
+            // 20251124 Nick Arm Picker ìœ„ì¹˜ë¡œ ì´ë™
 
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
@@ -10665,12 +11668,12 @@ namespace ManualJogViewModel
                 ProbeAxisObject axisX1 = this.MotionManager().GetAxis(EnumAxisConstants.X);
                 ProbeAxisObject axisY1 = this.MotionManager().GetAxis(EnumAxisConstants.Y);
 
-                double pos = 0.0;   // ÀÌµ¿ÇÒ °íÁ¤°ªÀ» ³Ö´Â º¯¼ö (µ¤¾î¾º¿öÁü)
-                double currentPos = 0.0;    // ÇöÀç À§Ä¡°ª ÀĞ±â
+                double pos = 0.0;   // ì´ë™í•  ê³ ì •ê°’ì„ ë„£ëŠ” ë³€ìˆ˜ (ë®ì–´ì”Œì›Œì§)
+                double currentPos = 0.0;    // í˜„ì¬ ìœ„ì¹˜ê°’ ì½ê¸°
                 double AcualPos = 0;
 
                 // Base X 
-                pos = 19500;   // Æ¼Äª °ª
+                pos = 19500;   // í‹°ì¹­ ê°’
                 retVal = this.MotionManager().RelMove_Wating(axisX1, pos, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
                 if (retVal != EventCodeEnum.NONE)
                 {
@@ -10678,14 +11681,14 @@ namespace ManualJogViewModel
                 }
 
                 // Base Y
-                pos = 196500;    // Æ¼Äª °ª
+                pos = 196500;    // í‹°ì¹­ ê°’
                 retVal = this.MotionManager().RelMove_Wating(axisY1, pos, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("Base Y RelMove Error");
                 }
 
-                //251125 ybpark Arm Picker À§Ä¡ ¹Ş¾Æ¼­ index À§Ä¡·Î ÀÌµ¿(Map Die)
+                //251125 ybpark Arm Picker ìœ„ì¹˜ ë°›ì•„ì„œ index ìœ„ì¹˜ë¡œ ì´ë™(Map Die)
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref FirstDiePos_X);
 
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref FirstDiePos_Y);

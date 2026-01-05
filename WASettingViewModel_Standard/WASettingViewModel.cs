@@ -180,9 +180,11 @@ namespace WASettingViewModel_Standard
             try
             {
 
-                if (System.AppDomain.CurrentDomain.FriendlyName == "ProberSystem.exe")
+                if (System.AppDomain.CurrentDomain.FriendlyName == "BonderSystem.exe")  // 260102 sebas
+                // if (System.AppDomain.CurrentDomain.FriendlyName == "ProberSystem.exe")
                 {
-                    if (await this.WaferAligner().CheckPossibleSetup())
+                    if (true)   // 260102 sebas : 척 위에 웨이퍼 체크 안함
+                    //if (await this.WaferAligner().CheckPossibleSetup())
                     {
                         Guid viewguid = new Guid();
                         List<Guid> pnpsteps = new List<Guid>();

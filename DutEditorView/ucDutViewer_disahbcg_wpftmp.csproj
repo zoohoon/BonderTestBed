@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0E8EB5F9-EE95-4E4D-A896-B6074B1F05E1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ucDutViewer</RootNamespace>
+    <AssemblyName>ucDutViewer</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DutViewControl.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ucDUTviewer.xaml.cs">
+      <DependentUpon>ucDUTviewer.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoordinateSyStem\CoordinateSystem.csproj">
+      <Project>{6b81b682-ee9b-4356-a746-30d0d5006529}</Project>
+      <Name>CoordinateSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CUIService\CUIService.csproj">
+      <Project>{822FAB06-827F-4CDE-87DA-469AACAD3660}</Project>
+      <Name>CUIService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DXControlBase\DXControlBase.csproj">
+      <Project>{a34f896c-885d-4af5-a641-9c3721a1483f}</Project>
+      <Name>DXControlBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{d3b00cca-3c50-42b1-8dca-dfe47c759b57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{edba3295-ff2a-4368-a217-6495941a8bf5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RelayCommandBase\RelayCommandBase.csproj">
+      <Project>{348522C5-8377-4D66-96F3-5D7DA3D7762B}</Project>
+      <Name>RelayCommandBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SubstrateObjects\SubstrateObjects.csproj">
+      <Project>{efb47aa8-b3c8-439c-8a01-d26db8522710}</Project>
+      <Name>SubstrateObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ValueConverters\ValueConverters.csproj">
+      <Project>{90e38e59-8fea-4da7-937f-888390b913c3}</Project>
+      <Name>ValueConverters</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ReferencePath Include="D:\NPOS\bin\x64\Debug\CoordinateSystem.dll" />
+    <ReferencePath Include="D:\NPOS\bin\x64\Debug\CUIService.dll" />
+    <ReferencePath Include="D:\NPOS\bin\x64\Debug\DXControlBase.dll" />
+    <ReferencePath Include="D:\NPOS\bin\x64\Debug\LogModule.dll" />
+    <ReferencePath Include="D:\NPOS\packages\MaterialDesignColors.1.2.2\lib\net45\MaterialDesignColors.dll" />
+    <ReferencePath Include="D:\NPOS\packages\MaterialDesignThemes.2.6.0\lib\net45\MaterialDesignThemes.Wpf.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Microsoft.CSharp.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\mscorlib.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\PresentationCore.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\PresentationFramework.dll" />
+    <ReferencePath Include="D:\NPOS\bin\x64\Debug\ProberErrorCode.dll" />
+    <ReferencePath Include="D:\NPOS\bin\x64\Debug\ProberInterfaces.dll" />
+    <ReferencePath Include="D:\NPOS\bin\x64\Debug\RelayCommandBase.dll" />
+    <ReferencePath Include="D:\NPOS\packages\SharpDX.Direct2D1.4.2.0\lib\net45\SharpDX.Direct2D1.dll" />
+    <ReferencePath Include="D:\NPOS\packages\SharpDX.Direct3D11.4.2.0\lib\net45\SharpDX.Direct3D11.dll" />
+    <ReferencePath Include="D:\NPOS\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll" />
+    <ReferencePath Include="D:\NPOS\packages\SharpDX.DXGI.4.2.0\lib\net45\SharpDX.DXGI.dll" />
+    <ReferencePath Include="D:\NPOS\bin\x64\Debug\SubstrateObjects.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Configuration.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Core.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Data.DataSetExtensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Data.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Drawing.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.IO.Compression.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Net.Http.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Runtime.Serialization.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.ServiceModel.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Transactions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Windows.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Windows.Forms.dll" />
+    <ReferencePath Include="D:\NPOS\CommonDLL\DLL\System.Windows.Interactivity.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xaml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xml.Linq.dll" />
+    <ReferencePath Include="D:\NPOS\bin\x64\Debug\ValueConverters.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\WindowsBase.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\netstandard.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="D:\NPOS\DutEditorView\obj\x64\Debug\ucDUTviewer.g.cs" />
+    <Compile Include="D:\NPOS\DutEditorView\obj\x64\Debug\GeneratedInternalTypeHelper.g.cs" />
+  </ItemGroup>
+</Project>

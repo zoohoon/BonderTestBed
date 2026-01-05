@@ -6659,17 +6659,19 @@ namespace OpusVStageMove
 
                 mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack(wfcoord);
 
-                double curPZ = 0;
-                curPZ = axispz.Status.Position.Ref;
+                // <-- 260102 sebas : PZ 축 조건체크 제외
+                //double curPZ = 0;
+                //curPZ = axispz.Status.Position.Ref;
 
-                ret = Module.CheckHardwareInterference(mccoord.X.Value, mccoord.Y.Value, mccoord.Z.Value, curPZ);
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //ret = Module.CheckHardwareInterference(mccoord.X.Value, mccoord.Y.Value, mccoord.Z.Value, curPZ);
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                ret = SwitchThreeLegFunc(false);
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //ret = SwitchThreeLegFunc(false);
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                ret = MoveToPZClearance();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //ret = MoveToPZClearance();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // -->
 
                 if (curZpos > mccoord.Z.Value)
                 {
@@ -14252,19 +14254,21 @@ namespace OpusVStageMove
 
             try
             {
-                ret = CheckStage();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // <-- 260102 sebas : 인터락 체크 조건 일단 패싱
+                //ret = CheckStage();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                var stagesupervisor = Module.StageSupervisor();
+                //var stagesupervisor = Module.StageSupervisor();
 
-                if (zpos < stagesupervisor.WaferRegRange)
-                {
-                    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
+                //if (zpos < stagesupervisor.WaferRegRange)
+                //{
+                //    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
 
-                ret = MoveStageSafePos(true, true, false); // 안전한위치로 가고, 안전한 위치로 가고, 웨이퍼캠 펴고
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //ret = MoveStageSafePos(true, true, false); // 안전한위치로 가고, 안전한 위치로 가고, 웨이퍼캠 펴고
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // -->
 
                 ret = WaferLowViewMoveFunc(xpos, ypos, zpos, NotUseHeightProfile, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);

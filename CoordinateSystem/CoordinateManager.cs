@@ -453,7 +453,8 @@ namespace CoordinateSystem
             {
                 while (bStopUpdateThread == false)
                 {
-                    PositionUpdated();
+                    // 20251212 Nick 필요없는 스레드라고 판단
+                    //PositionUpdated();
                     //minskim// GC 호출 및 CPU 사용률 절감을 위해 기존 timer+resetevent로 thread 제어하던 로직을 제거 하고 sleep으로 대체함, sleep시간은 기존 timer interval 주기 값으로 설정함
                     System.Threading.Thread.Sleep(MonitoringInterValInms);
 

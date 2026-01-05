@@ -27,6 +27,7 @@ namespace ProberInterfaces
         double GetAccel(AxisObject axis, EnumTrjType trjtype, double ovrd = 1);
         // int GetActPosition(AxisObject axis, ref double actpos);
         int GetActualPosition(AxisObject axis, ref double pos);
+        //int GetActualPosition_NoWait(AxisObject axis, ref double pos);
         int GetActualPulse(AxisObject axis, ref int pos);
         int GetAlarmCode(AxisObject axis, ref ushort alarmcode);
         int GetAxisInputs(AxisObject axis, ref uint instatus);

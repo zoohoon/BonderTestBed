@@ -1564,7 +1564,10 @@ namespace ProberSystem.UserControls.VisionMapping
                 bool waf = false;
                 this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DIWAFERONCHUCK, out waf);
                 LockWafer.IsChecked = waf;
-                PZValue = this.MotionManager().GetAxis(EnumAxisConstants.PZ).Status.Position.Command;
+                // 20251212 Nick 주석처리 후 추가 (PZ 안씀)
+                PZValue = 0;
+                //PZValue = this.MotionManager().GetAxis(EnumAxisConstants.PZ).Status.Position.Command;
+                //end Nick
 
                 Initialized = true;
                 MachineSquareness.Text = this.CoordinateManager().StageCoord.MachineSequareness.ToString();

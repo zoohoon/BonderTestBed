@@ -577,6 +577,30 @@ namespace Motion
 
             return retVal;
         }
+
+        //public int GetActualPosition_NoWait(AxisObject axis, ref double pos)
+        //{
+        //    int retVal = -1;
+
+        //    try
+        //    {
+        //        retVal = MotionProviders[axis.PortNum.Value].GetActualPosition_NoWait(axis, ref pos);
+        //        ResultValidate(MethodBase.GetCurrentMethod(), retVal);
+        //    }
+
+        //    catch (MotionException ex)
+        //    {
+        //        throw new MotionException("GetActualPosition Error", ex, EnumReturnCodesConverter.ConvertToEventCode(retVal), retVal, this);
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw new Exception("GetActualPosition Error in MotionProvider", ex);
+        //    }
+
+        //    return retVal;
+        //}
+
         public int GetActualPulse(AxisObject axis, ref int pos)
         {
             int retVal = -1;

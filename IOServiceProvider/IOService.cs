@@ -304,9 +304,9 @@ namespace IOServiceProvider
                         IOList.Add(new ECATIOProvider());
                         IOList[devindex].InitIO(this.PMASManager().ConnHndl, channels);
 
-                        // 251013 LJH ENET IO 추가
-                        IOList.Add(new ENETIOProvider());
-                        IOList[devindex].InitIO(0, channels);
+                        // 251210 Nick ENET IO 추가
+                        //IOList.Add(new ENETIOProvider());
+                        //IOList[devindex].InitIO(0, channels);
                     }
                 }
 

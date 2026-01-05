@@ -22,6 +22,7 @@ using ProberInterfaces.LoaderController;
 using System.Runtime.CompilerServices;
 using ProberInterfaces.NeedleClean;
 using BVisionTestViewModel;
+using ManualJogViewModel;
 
 namespace LotScreenViewModel
 {
@@ -235,22 +236,32 @@ namespace LotScreenViewModel
         {
             try
             {
-                // 1) VisionTestViewModel 생성(또는 재사용)
                 if (_visionVM == null)
                 {
                     _visionVM = new BVisionTestViewModelBase();
 
-                    // InitModule은 '해당 VM 인스턴스'에서 호출해야 바인딩 대상 컬렉션이 그 VM에 채워집니다.
                     _visionVM.InitModule();
-
                     _visionVM.InitViewModel();
                 }
 
-                // 2) View 생성 + 정확한 VM을 DataContext로
                 var view = new BVisionTestView.BUcVisionTest
                 {
                     DataContext = _visionVM
                 };
+
+                Guid _ViewModelGUID = new Guid("A9796E36-D6D8-6EA1-349B-6E5E30A90E68");
+                var vm = ViewModelManager.GetViewModelFromGuid(_ViewModelGUID);
+
+                // 안전하게 ManualJogViewModelBase로 캐스팅
+                if (vm is ManualJogViewModelBase manualJogVM)
+                {
+                    manualJogVM.Set5Cam(this._visionVM); // 이제 Set5Cam 호출 가능
+                }
+                else
+                {
+                    LoggerManager.Debug("ManualJogViewModelBase 인스턴스를 찾을 수 없습니다.");
+                }
+
 
                 // 동일한 테마/리소스 적용용 Window 생성
                 var win = new Window

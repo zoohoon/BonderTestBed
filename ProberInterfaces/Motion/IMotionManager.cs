@@ -27,6 +27,7 @@ namespace ProberInterfaces
         [OperationContract]
         ProbeAxisObject GetAxis(EnumAxisConstants axis);
         int GetActualPos(EnumAxisConstants axisType, ref double pos);
+        //int GetActualPosition_NoWait(EnumAxisConstants axisType, ref double pos);
         int GetRefPos(EnumAxisConstants axisType, ref double pos);
         int GetRefPos(ref double xpos, ref double ypos, ref double zpos, ref double tpos);
         int GetActualPoss(ref double xpos, ref double ypos, ref double zpos, ref double tpos);

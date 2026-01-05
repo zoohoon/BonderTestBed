@@ -548,6 +548,8 @@ namespace ProberInterfaces
         bool HasAlarm(AxisObject axis);
         int GetAlarmCode(AxisObject axis, ref ushort alarmcode);
         int GetActualPosition(AxisObject axis, ref double pos);
+        //int GetActualPosition_NoWait(AxisObject axis, ref double pos);
+
         int GetCommandPosition(AxisObject axis, ref double pos);
         int GetActualPulse(AxisObject axis, ref int pos);
         int GetCommandPulse(AxisObject axis, ref int pos);

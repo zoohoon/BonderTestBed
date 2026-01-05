@@ -438,8 +438,7 @@ namespace BVisionTestViewModel
         private bool CanCaptureCamera(object param)
         {
             if (param == null) return false;
-            int slot;
-            if (!int.TryParse(param.ToString(), out slot)) return false;
+            if (!int.TryParse(param.ToString(), out int slot)) return false;
             return GetBitmap(slot) != null;
         }
 
@@ -448,12 +447,26 @@ namespace BVisionTestViewModel
             try
             {
                 int slot = Convert.ToInt32(param);
-                var bmp = GetBitmap(slot);
-                if (bmp == null) return;
+                CaptureCamera(slot);   // ⭐ 핵심
+            }
+            catch (Exception ex)
+            {
+                LoggerManager.Exception(ex);
+            }
+        }
 
-                string camName = (slot >= 0 && slot < MAX_CAM) ? _camDisplayName[slot] : ("CAM" + (slot + 1));
+        public bool CaptureCamera(int slot)
+        {
+            var bmp = GetBitmap(slot);  // 카메라에서 Bitmap 얻음
+            if (bmp == null) return false;
 
-                // 날짜별 폴더 구조 생성
+            // UI 스레드에서 Bitmap 관련 작업 처리
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                string camName = (slot >= 0 && slot < MAX_CAM)
+                    ? _camDisplayName[slot]
+                    : ("CAM" + (slot + 1));
+
                 string root = @"D:\Capture";
                 string folder = Path.Combine(root,
                     DateTime.Now.ToString("yyyy"),
@@ -462,23 +475,20 @@ namespace BVisionTestViewModel
 
                 Directory.CreateDirectory(folder);
 
-                // 저장 파일명
                 string fileName = $"{camName}_{DateTime.Now:yyyyMMdd_HHmmss_fff}.png";
                 string path = Path.Combine(folder, fileName);
 
-                // PNG 저장
                 var encoder = new PngBitmapEncoder();
                 encoder.Frames.Add(BitmapFrame.Create(bmp));
-                using (var fs = new FileStream(path, FileMode.Create, FileAccess.Write))
+                using (var fs = new FileStream(path, FileMode.Create))
                 {
                     encoder.Save(fs);
                 }
-            }
-            catch (Exception ex)
-            {
-                LoggerManager.Exception(ex);
-            }
+            });
+
+            return true;
         }
+
 
         private void OnOpenCamera(object param)
         {

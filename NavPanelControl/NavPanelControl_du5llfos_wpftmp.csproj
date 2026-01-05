@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FCA3CB85-30F8-4E4F-8A1A-C506DD6DDE22}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NavPanelControl</RootNamespace>
+    <AssemblyName>NavPanelControl</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)Configurations.targets" />
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlNavPanel.xaml.cs">
+      <DependentUpon>UserControlNavPanel.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CUIService\CUIService.csproj">
+      <Project>{822FAB06-827F-4CDE-87DA-469AACAD3660}</Project>
+      <Name>CUIService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogModule\LogModule.csproj">
+      <Project>{D3B00CCA-3C50-42B1-8DCA-DFE47C759B57}</Project>
+      <Name>LogModule</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MetroDialogInterfaces\MetroDialogInterfaces.csproj">
+      <Project>{2C3114E3-137B-44ED-A9C2-BA5F2198A672}</Project>
+      <Name>MetroDialogInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberErrorCode\ProberErrorCode.csproj">
+      <Project>{EDBA3295-FF2A-4368-A217-6495941A8BF5}</Project>
+      <Name>ProberErrorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProberInterfaces\ProberInterfaces.csproj">
+      <Project>{20cf2683-ef4e-4455-b151-310f937b3adf}</Project>
+      <Name>ProberInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ValueConverters\ValueConverters.csproj">
+      <Project>{90e38e59-8fea-4da7-937f-888390b913c3}</Project>
+      <Name>ValueConverters</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Module_Notyet_backup.png" />
+    <None Include="Resources\Module_Notyet_backup.bmp" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ReferencePath Include="D:\NPOS\packages\Autofac.4.6.2\lib\net45\Autofac.dll" />
+    <ReferencePath Include="D:\NPOS\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll" />
+    <ReferencePath Include="D:\NPOS\bin\x64\Debug\CUIService.dll" />
+    <ReferencePath Include="D:\NPOS\bin\x64\Debug\LogModule.dll" />
+    <ReferencePath Include="D:\NPOS\packages\MahApps.Metro.1.6.5\lib\net47\MahApps.Metro.dll" />
+    <ReferencePath Include="D:\NPOS\bin\x64\Debug\MetroDialogInterfaces.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Microsoft.CSharp.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\mscorlib.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\PresentationCore.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\PresentationFramework.dll" />
+    <ReferencePath Include="D:\NPOS\bin\x64\Debug\ProberErrorCode.dll" />
+    <ReferencePath Include="D:\NPOS\bin\x64\Debug\ProberInterfaces.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Core.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Data.DataSetExtensions.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Data.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Drawing.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.IO.Compression.FileSystem.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Net.Http.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Numerics.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Runtime.Serialization.dll" />
+    <ReferencePath Include="D:\NPOS\CommonDLL\DLL\System.Windows.Interactivity.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xaml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xml.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xml.Linq.dll" />
+    <ReferencePath Include="D:\NPOS\bin\x64\Debug\ValueConverters.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\WindowsBase.dll" />
+    <ReferencePath Include="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Facades\netstandard.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="D:\NPOS\NavPanelControl\obj\x64\Debug\UserControlNavPanel.g.cs" />
+    <Compile Include="D:\NPOS\NavPanelControl\obj\x64\Debug\GeneratedInternalTypeHelper.g.cs" />
+  </ItemGroup>
+</Project>

@@ -463,9 +463,30 @@ namespace ProbeMotion
             }
 
             return retVal;
-
         }
 
+        //public int GetActualPosition_NoWait(EnumAxisConstants axisType, ref double pos)
+        //{
+        //    int retVal = -1;
+        //    ProbeAxisObject axis = GetAxis(axisType);
+        //    try
+        //    {
+        //        retVal = MotionProvider.GetActualPosition_NoWait(axis, ref pos);
+        //        ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+        //    }
+        //    catch (MotionException ex)
+        //    {
+        //        throw new MotionException("GetActualPos Error " + ex.Message, ex, ex.ErrorCode, this);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception("GetActualPos Error in MotionManager " + ex.Message, ex);
+        //    }
+
+        //    return retVal;
+
+        //}
+        
         public IMotionProvider GetMotionProvider()
         {
             IMotionProvider motionprovider = null;

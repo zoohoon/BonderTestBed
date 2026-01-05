@@ -1934,6 +1934,37 @@ namespace Motion
             return retVal;
         }
 
+        //public int GetActualPosition_NoWait(AxisObject axis, ref double pos)
+        //{
+        //    //axis to node number
+        //    double actpospulse = 0;
+        //    int retVal = -1;
+        //    try
+        //    {
+        //        if (axis.AxisGroupType.Value == EnumAxisGroupType.GROUPAXIS)
+        //        {
+        //            actpospulse = (int)stReadBulkReadData[axis.AxisIndex.Value].aPos;
+        //            pos = axis.PtoD(actpospulse);
+        //        }
+        //        else
+        //        {
+        //            actpospulse = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).GetActualPosition();
+        //            //actpospulse = (int)stReadBulkReadData[axis.AxisIndex.Value].aPos;
+        //            pos = axis.PtoD(actpospulse);
+        //        }
+        //        retVal = (int)EnumMotionBaseReturnCode.ReturnCodeOK;
+        //    }
+        //    catch (MMCException err)
+        //    {
+        //        LoggerManager.Debug($"GetActualPosition({axis.Label.Value}): MMCException occurred. Command ID = {err.CommandID}, Err. code = {err.MMCError}, {err.What}");
+
+        //        retVal = (int)EnumMotionBaseReturnCode.GetActualPositionError;
+        //        LoggerManager.Exception(err);
+        //    }
+
+        //    return retVal;
+        //}
+
         public int GetActualPulse(AxisObject axis, ref int pos)
         {
             //axis to node number
@@ -3070,7 +3101,16 @@ namespace Motion
                     if (axis.AxisGroupType.Value == EnumAxisGroupType.SINGEAXIS)
                     {
                         int nodeNum = GetNodeNum(axis.AxisIndex.Value);
-                        if (axis.Label.Value == "EJX1" || axis.Label.Value == "EJY1" || axis.Label.Value == "FDT1" || axis.Label.Value == "EJPZ1" || axis.Label.Value == "EJZ1" || axis.Label.Value == "NZD")
+                        if (axis.Label.Value == "EJX1" ||
+                            axis.Label.Value == "EJY1" ||
+                            axis.Label.Value == "FDT1" ||
+                            axis.Label.Value == "EJPZ1"||
+                            axis.Label.Value == "EJZ1" ||
+                            axis.Label.Value == "NZD"  ||
+                            axis.Label.Value == "W"    ||
+                            axis.Label.Value == "V"    ||
+                            axis.Label.Value == "U1"   ||
+                            axis.Label.Value == "U2")
                         {
 
                         }

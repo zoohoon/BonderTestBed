@@ -297,9 +297,7 @@ namespace PnpServiceManager
 
                     PnpMotionJog = new HexagonJogViewModel();
 
-                    // LJH
-                    // 250908 LJH
-                    // DisplayPort = new DisplayPort() { GUID = new Guid("34EA361B-3487-4DBC-BF5C-72040A09F73D") };
+                    DisplayPort = new DisplayPort() { GUID = new Guid("34EA361B-3487-4DBC-BF5C-72040A09F73D") };
                     foreach (var cam in this.VisionManager().GetCameras())
                     {
                         this.VisionManager().SetDisplayChannel(cam, DisplayPort);

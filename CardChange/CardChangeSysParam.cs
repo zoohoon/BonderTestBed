@@ -1576,8 +1576,14 @@ namespace CardChange
                 PinBaseFiducialMarkParameter fidInfo = new PinBaseFiducialMarkParameter();
 
                 var mpccZ = this.CoordinateManager().StageCoord.MarkPosInChuckCoord.Z.Value;
-                var zNegLim = this.MotionManager().GetAxis(EnumAxisConstants.PZ).Param.NegSWLimit.Value;
+
+                //20251212 Nick 주석처리 후 추가(PZ 안씀)
+                var zNegLim = 0;
                 fidInfo.FiducialMarkPos = new PinCoordinate(-42000, -335000, zNegLim + mpccZ);
+                //var zNegLim = this.MotionManager().GetAxis(EnumAxisConstants.PZ).Param.NegSWLimit.Value;
+                //fidInfo.FiducialMarkPos = new PinCoordinate(-42000, -335000, zNegLim + mpccZ);
+                // end Nick
+
                 fidInfo.CardCenterOffset = new PinCoordinate(50000, -151000, 0);
                 PinBaseFiducialMarkInfos.Add(fidInfo);
 
