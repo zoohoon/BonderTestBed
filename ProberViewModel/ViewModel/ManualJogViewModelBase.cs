@@ -9104,10 +9104,8 @@ namespace ManualJogViewModel
                     {
                         LoggerManager.MonitoringLog($"Place Start {TestCount}");
                         LoggerManager.MonitoringLog($"Magnetic_On Start");
-                        retVal = Magnetic_On();
+                        Magnetic_On_NoWating();
                         LoggerManager.MonitoringLog($"Magnetic_On End");
-                        if (retVal != EventCodeEnum.NONE)
-                            throw new Exception("Magnetic_On() Function Error");
 
                         LoggerManager.MonitoringLog($"나노스테이지 Z Down Start");
                         retVal = DoPlace_Nano_ZDown();
@@ -9119,13 +9117,13 @@ namespace ManualJogViewModel
                         if (cycleStartFlag == true)
                         {
                             LoggerManager.MonitoringLog($"Arm1_Vac_Off Start");
-                            Arm1_Vac_Off();
+                            Arm1_Vac_Off_NoWating();
                             LoggerManager.MonitoringLog($"Arm1_Vac_Off End");
                         }
                         else
                         {
                             LoggerManager.MonitoringLog($"Arm2_Vac_Off Start");
-                            Arm2_Vac_Off();
+                            Arm2_Vac_Off_NoWating();
                             LoggerManager.MonitoringLog($"Arm2_Vac_Off End");
                         }
 
@@ -9136,10 +9134,8 @@ namespace ManualJogViewModel
                             throw new Exception("DoPlace_Nano_ZUp() Function Error");
 
                         LoggerManager.MonitoringLog($"Magnetic_Off Start");
-                        retVal = Magnetic_Off();
+                        Magnetic_Off_NoWating();
                         LoggerManager.MonitoringLog($"Magnetic_Off End");
-                        if (retVal != EventCodeEnum.NONE)
-                            throw new Exception("Magnetic_Off() Function Error");
 
                         LoggerManager.MonitoringLog($"Place End {TestCount}");
                     });
@@ -9158,7 +9154,7 @@ namespace ManualJogViewModel
 
                     // Rotate 시간을 줄이기 위해 Place로 옮김.
                     LoggerManager.Event($"Arms_Air_On Start");
-                    Arms_Air_On();
+                    Arms_Air_On_NoWating();
                     LoggerManager.Event($"Arms_Air_On End");
 
                     // 마지막 다이 움직일 필요 없음.
@@ -9192,7 +9188,7 @@ namespace ManualJogViewModel
                         throw new Exception("Rotate Function Error");
 
                     LoggerManager.Event($"Arms_Air_Off Start");
-                    Arms_Air_Off();
+                    Arms_Air_Off_NoWating();
                     LoggerManager.Event($"Arms_Air_Off End");
 
                     // 5) 다음 사이클용 StartFlag 토글 (병렬 구간 밖에서)
@@ -10303,13 +10299,13 @@ namespace ManualJogViewModel
                 if (false == armFlag)
                 {
                     LoggerManager.Debug($"Arm1_Vac_On Start");
-                    Arm1_Vac_On();  // Pick 동작 (Vacuum)
+                    Arm1_Vac_On_NoWating();  // Pick 동작 (Vacuum)
                     LoggerManager.Debug($"Arm1_Vac_On End");
                 }
                 else
                 {
                     LoggerManager.Debug($"Arm2_Vac_On Start");
-                    Arm2_Vac_On();  // Pick 동작 (Vacuum)
+                    Arm2_Vac_On_NoWating();  // Pick 동작 (Vacuum)
                     LoggerManager.Debug($"Arm2_Vac_On End");
                 }
 
@@ -10396,6 +10392,51 @@ namespace ManualJogViewModel
                 throw;
             }
             return retVal;
+        }
+        public void Arms_Air_On_NoWating()
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    // Arm1 , Arm2 Air On
+                    var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, true);
+                    Thread.Sleep(5);
+                    ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, false);
+                    Thread.Sleep(5);
+                    ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, true);
+                    Thread.Sleep(5);
+                    ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, false);
+                }
+                catch (Exception err)
+                {
+                    LoggerManager.Exception(err);
+                    throw;
+                }
+            });
+        }
+
+        public void Arms_Air_Off_NoWating()
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1_OFF, true);
+                    Thread.Sleep(5);
+                    this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1_OFF, false);
+
+                    Thread.Sleep(5);
+
+                    this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2_OFF, true);
+                    Thread.Sleep(5);
+                    this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2_OFF, false);
+                }
+                catch (Exception ex)
+                {
+                    LoggerManager.Exception(ex);
+                }
+            });
         }
 
         public EventCodeEnum Arm1_Vac_On()
@@ -10488,6 +10529,7 @@ namespace ManualJogViewModel
             }
             return retVal;
         }
+
         public EventCodeEnum Arm2_Vac_Off()
         {
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
@@ -10505,16 +10547,6 @@ namespace ManualJogViewModel
                     Thread.Sleep(50);
                     ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, false);
                 }
-
-                // 다이테스트 Sleep 기록용 
-                //this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, true);
-                //Thread.Sleep(150);
-                //this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, false);
-                //Thread.Sleep(50);
-
-                //var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, true);
-                //Thread.Sleep(300);
-                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, false);
             }
             catch (Exception err)
             {
@@ -10522,6 +10554,90 @@ namespace ManualJogViewModel
                 throw;
             }
             return retVal;
+        }
+        public void Arm1_Vac_Off_NoWating()
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    if (DryRepeat == false)  // 251223 sebas : Dryrun repeat 일 때는 arm vac on/off 안하기 때문
+                    {
+                        var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, true);
+                        Thread.Sleep(50);
+                        ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, false);
+                    }
+                }
+                catch (Exception err)
+                {
+                    LoggerManager.Exception(err);
+                    throw;
+                }
+            });
+        }
+
+        public void Arm2_Vac_Off_NoWating()
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    if (DryRepeat == false)  // 251223 sebas : Dryrun repeat 일 때는 arm vac on/off 안하기 때문
+                    {
+                        var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, true);
+                        Thread.Sleep(50);
+                        ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, false);
+                    }
+                }
+                catch (Exception err)
+                {
+                    LoggerManager.Exception(err);
+                    throw;
+                }
+            });
+        }
+
+        public void Arm1_Vac_On_NoWating()
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    // Arm1 Vacuum On
+                    if (DryRepeat == false)  // 251223 sebas : Dryrun repeat 일 때는 arm vac on/off 안하기 때문
+                    {
+                        var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, true);
+                        Thread.Sleep(50);
+                        ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, false);
+                    }
+                }
+                catch (Exception err)
+                {
+                    LoggerManager.Exception(err);
+                    throw;
+                }
+            });
+        }
+        public void Arm2_Vac_On_NoWating()
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    // Arm1 Vacuum On
+                    if (DryRepeat == false)  // 251223 sebas : Dryrun repeat 일 때는 arm vac on/off 안하기 때문
+                    {
+                        var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, true);
+                        Thread.Sleep(50);
+                        ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, false);
+                    }
+                }
+                catch (Exception err)
+                {
+                    LoggerManager.Exception(err);
+                    throw;
+                }
+            });
         }
 
         public bool IsCanRotate()
@@ -10659,6 +10775,59 @@ namespace ManualJogViewModel
                 throw;
             }
             return retVal = EventCodeEnum.NONE;
+        }
+
+        public EventCodeEnum Magnetic_Off()
+        {
+            // Vacuum 끄고 Place 끝난 후 단계로 다음 순서인 Pick 직전
+
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                // Magnetic Off
+                var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_MAGNETIC1, false);
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return retVal = EventCodeEnum.NONE;
+        }
+
+        public void Magnetic_On_NoWating()
+        {
+            Task.Run(() =>
+            {
+                try
+                {
+                    // Magnetic On
+                    var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_MAGNETIC1, true);
+                }
+                catch (Exception err)
+                {
+                    LoggerManager.Exception(err);
+                    throw;
+                }
+            });
+        }
+
+        public void Magnetic_Off_NoWating()
+        {
+            // Vacuum 끄고 Place 끝난 후 단계로 다음 순서인 Pick 직전
+            Task.Run(() =>
+            {
+                try
+                {
+                    // Magnetic Off
+                    var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_MAGNETIC1, false);
+                }
+                catch (Exception err)
+                {
+                    LoggerManager.Exception(err);
+                    throw;
+                }
+            });
         }
 
         public EventCodeEnum Wafer_Chuck_DangerZone()
@@ -10801,23 +10970,6 @@ namespace ManualJogViewModel
             return retVal;
         }
 
-        public EventCodeEnum Magnetic_Off()
-        {
-            // Vacuum 끄고 Place 끝난 후 단계로 다음 순서인 Pick 직전
-
-            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
-            try
-            {
-                // Magnetic Off
-                var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_MAGNETIC1, false);
-            }
-            catch (Exception err)
-            {
-                LoggerManager.Exception(err);
-                throw;
-            }
-            return retVal = EventCodeEnum.NONE;
-        }
         public EventCodeEnum BonderTest()
         {
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
@@ -10945,10 +11097,8 @@ namespace ManualJogViewModel
                         {
                             LoggerManager.Debug($"Place Start {TestCount}");
                             LoggerManager.Debug($"Magnetic_On Start");
-                            retVal = Magnetic_On();
+                            Magnetic_On_NoWating();
                             LoggerManager.Debug($"Magnetic_On End");
-                            if (retVal != EventCodeEnum.NONE)
-                                throw new Exception("Magnetic_On() Function Error");
 
                             LoggerManager.Debug($"DoPlace_Nano_ZDown Start");
                             retVal = DoPlace_Nano_ZDown();
@@ -10977,10 +11127,8 @@ namespace ManualJogViewModel
                                 throw new Exception("DoPlace_Nano_ZUp() Function Error");
 
                             LoggerManager.Debug($"Magnetic_Off Start");
-                            retVal = Magnetic_Off();
+                            Magnetic_Off_NoWating();
                             LoggerManager.Debug($"Magnetic_Off End");
-                            if (retVal != EventCodeEnum.NONE)
-                                throw new Exception("Magnetic_Off() Function Error");
 
                             LoggerManager.Debug($"Place End {TestCount}");
                         });
@@ -11074,15 +11222,6 @@ namespace ManualJogViewModel
             return pulse;
         }
 
-        //private double GetNZD1Pulse_NoWait()
-        //{
-        //    double pulse = 0.0;
-        //    var axis = this.MotionManager().GetAxis(EnumAxisConstants.NZD1);
-        //    this.MotionManager().GetActualPosition_NoWait(axis.AxisType.Value, ref pulse);
-
-        //    return pulse;
-        //}
-
         private CancellationTokenSource _capCts;
         private Task _capTask;
         /// <summary>
@@ -11142,17 +11281,23 @@ namespace ManualJogViewModel
             }, ct);
         }
 
+        private CancellationTokenSource _nanoCts;
+        private Task _nanoMonitorTask;
+        private int _nanoTriggered = 0;
+
+        /// <summary>
+        /// NanoStage Z Up/Down 트리거 감시 시작
+        /// </summary>
         private void NanostageUpDownMonitor(bool rotateFlag, double threshold)
         {
-            EventCodeEnum rv = EventCodeEnum.NONE;
-
             // 이전 감시 종료
             StopNanoMonitor();
 
-            _capCts = new CancellationTokenSource();
-            var ct = _capCts.Token;
+            _nanoTriggered = 0;
+            _nanoCts = new CancellationTokenSource();
+            var ct = _nanoCts.Token;
 
-            _capTask = Task.Run(async () =>
+            _nanoMonitorTask = Task.Run(async () =>
             {
                 try
                 {
@@ -11160,46 +11305,36 @@ namespace ManualJogViewModel
 
                     while (!ct.IsCancellationRequested)
                     {
-                        await Task.Delay(15, ct); // 폴링 주기(필요시 조절)
+                        await Task.Delay(15, ct);   // 폴링 주기
                         double curr = GetNZD1Pulse();
 
-                        // "통과" 순간에 NanoStage Down/Up
-                        if (false == rotateFlag)
-                        {
-                            if (curr < threshold)
-                            {
-                                LoggerManager.Event($"나노스테이지 Z Down Start");
-                                rv = DoPlace_Nano_ZDown();
-                                LoggerManager.Event($"나노스테이지 Z Down End");
-                                if (rv != EventCodeEnum.NONE)
-                                    throw new Exception("DoPlace_Nano_ZDown() Function Error");
+                        bool crossed = false;
 
-                                LoggerManager.Event($"나노스테이지 Z Up Start");
-                                rv = DoPlace_Nano_ZUp();
-                                LoggerManager.Event($"나노스테이지 Z Up End");
-                                if (rv != EventCodeEnum.NONE)
-                                    throw new Exception("DoPlace_Nano_ZUp() Function Error");
-                                break;
-                            }
+                        if (!rotateFlag)
+                        {
+                            // 내려가면서 threshold 통과
+                            if (prev >= threshold && curr < threshold)
+                                crossed = true;
                         }
                         else
                         {
-                            if (curr > threshold)
-                            {
-                                LoggerManager.Event($"나노스테이지 Z Down Start");
-                                rv = DoPlace_Nano_ZDown();
-                                LoggerManager.Event($"나노스테이지 Z Down End");
-                                if (rv != EventCodeEnum.NONE)
-                                    throw new Exception("DoPlace_Nano_ZDown() Function Error");
-
-                                LoggerManager.Event($"나노스테이지 Z Up Start");
-                                rv = DoPlace_Nano_ZUp();
-                                LoggerManager.Event($"나노스테이지 Z Up End");
-                                if (rv != EventCodeEnum.NONE)
-                                    throw new Exception("DoPlace_Nano_ZUp() Function Error");
-                                break;
-                            }
+                            // 올라가면서 threshold 통과
+                            if (prev <= threshold && curr > threshold)
+                                crossed = true;
                         }
+
+                        if (crossed)
+                        {
+                            // 1회만 트리거
+                            if (Interlocked.Exchange(ref _nanoTriggered, 1) == 0)
+                            {
+                                LoggerManager.Event("NanoStage Threshold Crossed");
+                                OnNanoThresholdCrossed();
+                            }
+                            break;
+                        }
+
+                        prev = curr;
                     }
                 }
                 catch (OperationCanceledException)
@@ -11213,19 +11348,49 @@ namespace ManualJogViewModel
             }, ct);
         }
 
+        /// <summary>
+        /// NanoStage 감시 종료
+        /// </summary>
         private void StopNanoMonitor()
         {
             try
             {
-                if (_capCts != null && !_capCts.IsCancellationRequested)
-                    _capCts.Cancel();
+                if (_nanoCts != null)
+                {
+                    _nanoCts.Cancel();
+                    _nanoCts.Dispose();
+                    _nanoCts = null;
+                }
             }
             catch { }
-            finally
+        }
+
+        /// <summary>
+        /// Threshold 통과 시 호출 (메인 시퀀스 컨텍스트)
+        /// </summary>
+        private void OnNanoThresholdCrossed()
+        {
+            try
             {
-                _capCts?.Dispose();
-                _capCts = null;
-                _capTask = null;
+                EventCodeEnum rv;
+
+                LoggerManager.Event("NanoStage Z Down Start");
+                rv = DoPlace_Nano_ZDown();
+                LoggerManager.Event("NanoStage Z Down End");
+
+                if (rv != EventCodeEnum.NONE)
+                    throw new Exception("DoPlace_Nano_ZDown() Function Error");
+
+                LoggerManager.Event("NanoStage Z Up Start");
+                rv = DoPlace_Nano_ZUp();
+                LoggerManager.Event("NanoStage Z Up End");
+
+                if (rv != EventCodeEnum.NONE)
+                    throw new Exception("DoPlace_Nano_ZUp() Function Error");
+            }
+            catch (Exception ex)
+            {
+                LoggerManager.Exception(ex);
             }
         }
 
