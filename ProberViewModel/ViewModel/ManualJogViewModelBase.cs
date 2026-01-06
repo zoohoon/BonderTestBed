@@ -25,6 +25,7 @@ using ProberInterfaces.State;
 using ProberViewModel.Data;
 using System.Threading;
 using BVisionTestViewModel;
+using System.Diagnostics;
 //using ProberInterfaces.ThreadSync;
 
 namespace ManualJogViewModel
@@ -9183,7 +9184,7 @@ namespace ManualJogViewModel
                     // =========================
                     if (cycleStartFlag == false)
                     {
-                        // 2도 (예: 81901에서 -98081로 가는 방향 기준)
+                        // 1도 (81901에서 -98081로 가는 방향 기준)
                         NanostageUpDownMonitor(false, 80901);
 
                         LoggerManager.Event($"Rotate_Minus Start");
@@ -9192,6 +9193,7 @@ namespace ManualJogViewModel
                     }
                     else
                     {
+                        // 1도 (-98081에서 81901로 가는 방향 기준)
                         NanostageUpDownMonitor(true, -97081);
 
                         LoggerManager.Event($"Rotate_Plus Start");
@@ -11361,63 +11363,85 @@ namespace ManualJogViewModel
 
         private CancellationTokenSource _nanoCts;
         private Task _nanoMonitorTask;
-        private int _nanoTriggered = 0;
+        private int _nanoTriggered;
 
+        private readonly ConcurrentQueue<long> _nanoEventQueue = new ConcurrentQueue<long>();
+        private int _nanoWorkerRunning;
+
+        // 20260106 Nick Test
         // =========================
         // Nano Monitor (GetNZD1Pulse 1회/loop 버전)
         // =========================
-        private void NanostageUpDownMonitor(bool rotateFlag, double threshold)
+        private void NanostageUpDownMonitor(bool rotateFlag, double threshold, int pollMs = 2)
         {
-            // 이전 감시 종료
             StopNanoMonitor();
 
             _nanoTriggered = 0;
             _nanoCts = new CancellationTokenSource();
             var ct = _nanoCts.Token;
 
-            _nanoMonitorTask = Task.Run(async () =>
+            _nanoMonitorTask = Task.Run(() =>
             {
                 try
                 {
+                    // 스케줄링 지터 완화
+                    Thread.CurrentThread.Priority = ThreadPriority.Highest;
+
+                    // pollMs 기반 주기 (Stopwatch tick 단위)
+                    long intervalTicks = (long)(Stopwatch.Frequency * (pollMs / 1000.0));
+                    if (intervalTicks <= 0) intervalTicks = 1;
+
+                    long nextTick = Stopwatch.GetTimestamp();
+
                     while (!ct.IsCancellationRequested)
                     {
-                        await Task.Delay(10, ct);   // 폴링 주기
+                        // 다음 tick까지 대기 (가능하면 Sleep/Delay, 부족하면 Spin)
+                        nextTick += intervalTicks;
+
+                        while (true)
+                        {
+                            long now = Stopwatch.GetTimestamp();
+                            long remain = nextTick - now;
+
+                            if (remain <= 0)
+                                break;
+
+                            // 남은 시간이 충분하면 Sleep으로 양보 (CPU 절약)
+                            double remainMs = remain * 1000.0 / Stopwatch.Frequency;
+
+                            if (remainMs >= 1.0)
+                            {
+                                // C# 7.3 / .NET Framework에서도 동작
+                                Thread.Sleep(1);
+                            }
+                            else
+                            {
+                                // 1ms 미만은 스핀으로 정밀하게 맞춤 (지터 감소)
+                                Thread.SpinWait(50);
+                            }
+                        }
 
                         double curr = GetNZD1Pulse();   // ★ 1회만 호출
 
-                        bool trigger = false;
+                        bool trigger = !rotateFlag
+                            ? curr <= threshold   // Minus 방향
+                            : curr >= threshold;  // Plus 방향
 
-                        if (!rotateFlag)
+                        if (!trigger)
+                            continue;
+
+                        // 1회 트리거 보장
+                        if (Interlocked.Exchange(ref _nanoTriggered, 1) == 0)
                         {
-                            // Minus 방향: threshold 이하 도달
-                            if (curr < threshold)
-                                trigger = true;
-                        }
-                        else
-                        {
-                            // Plus 방향: threshold 이상 도달
-                            if (curr > threshold)
-                                trigger = true;
+                            FireNanoThresholdEventFast();
                         }
 
-                        if (trigger)
-                        {
-                            // 1회만 트리거
-                            if (Interlocked.Exchange(ref _nanoTriggered, 1) == 0)
-                            {
-                                LoggerManager.Event("NanoStage Threshold Reached");
-                                OnNanoThresholdCrossed();
-                            }
-                            break;
-                        }
+                        break;
                     }
-                }
-                catch (OperationCanceledException)
-                {
-                    // 정상 취소
                 }
                 catch (Exception ex)
                 {
+                    // 취소 예외도 여기로 올 수 있어 그냥 Exception으로 묶어도 됨
                     LoggerManager.Exception(ex);
                 }
             }, ct);
@@ -11435,6 +11459,32 @@ namespace ManualJogViewModel
                 }
             }
             catch { }
+        }
+
+        private void FireNanoThresholdEventFast()
+        {
+            // 감지 시각 기록 (정밀)
+            _nanoEventQueue.Enqueue(Stopwatch.GetTimestamp());
+
+            // Worker 중복 실행 방지
+            if (Interlocked.Exchange(ref _nanoWorkerRunning, 1) == 0)
+            {
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        while (_nanoEventQueue.TryDequeue(out var ts))
+                        {
+                            LoggerManager.Event("NanoStage Threshold Reached");
+                            OnNanoThresholdCrossed(); // 실제 처리 (여기서 오래 걸려도 감지엔 영향 최소)
+                        }
+                    }
+                    finally
+                    {
+                        Interlocked.Exchange(ref _nanoWorkerRunning, 0);
+                    }
+                });
+            }
         }
 
         private void OnNanoThresholdCrossed()
