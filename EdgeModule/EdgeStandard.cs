@@ -1240,9 +1240,19 @@ namespace WAEdgeStadnardModule
                         chuck_center_Yoffset = 0;
                     }
 
-                    EdgePos.Add(new WaferCoordinate(edgepos + chuck_center_Xoffset, edgepos + chuck_center_Yoffset));
-                    EdgePos.Add(new WaferCoordinate(-edgepos + chuck_center_Xoffset, edgepos + chuck_center_Yoffset));
+                    // 260105 sebas : 엣지 좌표 계산값을 FD척에 맞게 변경
+                    // 1번 엣지 (3사분면)
                     EdgePos.Add(new WaferCoordinate(-edgepos + chuck_center_Xoffset, -edgepos + chuck_center_Yoffset));
+
+                    // 2번 엣지 (30도 CCW 회전)
+                    var rotated30 = RotatePoint(-edgepos + chuck_center_Xoffset, -edgepos + chuck_center_Yoffset, Math.PI * 30 / 180);
+                    EdgePos.Add(new WaferCoordinate(rotated30.x, rotated30.y));
+
+                    // 3번 엣지 (60도 CCW 회전)
+                    var rotated60 = RotatePoint(-edgepos + chuck_center_Xoffset, -edgepos + chuck_center_Yoffset, Math.PI * 60 / 180);
+                    EdgePos.Add(new WaferCoordinate(rotated60.x, rotated60.y));
+
+                    // 4번 엣지
                     EdgePos.Add(new WaferCoordinate(edgepos + chuck_center_Xoffset, -edgepos + chuck_center_Yoffset));
                 }
                 else
@@ -1261,6 +1271,19 @@ namespace WAEdgeStadnardModule
             {
                 LoggerManager.Exception(err);
             }
+        }
+        // 260105 sebas add
+        public (double x, double y) RotatePoint(double x, double y, double angle)
+        {
+            // 점 (x,y)를 원의 중심(0,0)을 기준으로 회전
+            double cosTheta = Math.Cos(angle);
+            double sinTheta = Math.Sin(angle);
+
+            // 회전 공식 적용
+            double x_rotated = x * cosTheta - y * sinTheta;
+            double y_rotated = x * sinTheta + y * cosTheta;
+
+            return (x_rotated, y_rotated);
         }
         private EventCodeEnum Processing()
         {
@@ -1295,7 +1318,7 @@ namespace WAEdgeStadnardModule
                 this.VisionManager().StartGrab(EnumProberCam.WAFER_LOW_CAM, this);
 
 
-                SetEdgePosition();
+                SetEdgePosition_FD();  // 260105 sebas : SetEdgePosition();
 
                 var axisX = this.MotionManager().GetAxis(EnumAxisConstants.X);
                 var axisY = this.MotionManager().GetAxis(EnumAxisConstants.Y);
