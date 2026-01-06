@@ -9165,7 +9165,7 @@ namespace ManualJogViewModel
                     LoggerManager.Event($"Rotate Start {TestCount}");
 
                     LoggerManager.Event($"Arms_Air_On Start");
-                    Arms_Air_On_NoWating();
+                    Arms_Air_On();
                     LoggerManager.Event($"Arms_Air_On End");
 
                     // 마지막 다이 움직일 필요 없음.
@@ -9183,7 +9183,7 @@ namespace ManualJogViewModel
                     // =========================
                     if (cycleStartFlag == false)
                     {
-                        // 2도 (예: 81901에서 -98081로 가는 방향 기준)
+                        // 1도 (예: 81901에서 -98081로 가는 방향 기준)
                         NanostageUpDownMonitor(false, 80901);
 
                         LoggerManager.Event($"Rotate_Minus Start");
@@ -10921,7 +10921,7 @@ namespace ManualJogViewModel
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
-                double pos = 130022000;   // = 350,000 Z 축 DtoP = 0.0025
+                double pos = 154022000;   // = 350,000 Z 축 DtoP = 0.0025
                 LoggerManager.Debug($"Wafer_Chuck_Up Start");
                 retVal = this.MotionManager().RelMove_Wating(axisZ, pos - currentPos, axisZ.Param.Speed.Value, axisZ.Param.Acceleration.Value);
                 LoggerManager.Debug($"Wafer_Chuck_Up End");

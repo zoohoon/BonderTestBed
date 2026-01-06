@@ -14271,7 +14271,7 @@ namespace OpusVStageMove
                 // -->
 
                 ret = WaferLowViewMoveFunc(xpos, ypos, zpos, NotUseHeightProfile, trjtype, ovrd);
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);     // 여기서 에러발생할 수도 있음
 
                 Module.StageSupervisorStateTransition(new WaferLowViewState(Module));
             }
