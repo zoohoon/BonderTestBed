@@ -9169,6 +9169,14 @@ namespace ManualJogViewModel
                     Arms_Air_On_NoWating();
                     LoggerManager.Event($"Arms_Air_On End");
 
+                    // 나노스테이지 위치 인터락
+                    bool RotateIntorlock = IsCanRotate();
+                    if(false == RotateIntorlock)
+                    {
+                        LoggerManager.Event($"회전 할 수 없는 상태(나노스테이지 확인 필요)");
+                        return;
+                    }
+
                     // 마지막 다이 움직일 필요 없음.
                     if (TestCount < 15)
                     {
@@ -10722,39 +10730,32 @@ namespace ManualJogViewModel
 
         public bool IsCanRotate()
         {
-            // 조건 체크 : Nano Z , Air , Magnetic
+            // 조건 체크 : Nano Z
             bool ret = false;
             double AcualPos = 0.0;
+            double NanoStagePosCheck = -3000.0;         // 나노스테이지 Z축 안전 위치
 
             try
             {
                 // (Interlock) Nano Stage Z Position Check
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ1).AxisType.Value, ref AcualPos);
-
-                double NanoStagePosCheck = -3200.0;
-
-                if (AcualPos < NanoStagePosCheck)
+                for(long i = 1; i < 4; i++)
                 {
-                    this.MetroDialogManager().ShowMessageDialog("Sequence Error", "Nano Stage Z position is too low", EnumMessageStyle.Affirmative);
-                    return ret;
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ1).AxisType.Value, ref AcualPos);
+
+                    if (AcualPos < NanoStagePosCheck)
+                    {
+                        if (i > 3)
+                        {
+                            LoggerManager.Event($"회전 할 수 없는 상태 (나노스테이지 확인 필요) : 재확인 {i} / 3");
+                            ret = false;
+                            return ret;
+                        }
+                    }
+                    else
+                    {
+                        ret = true;
+                    }
                 }
-                else
-                {
-                    ret = true;
-                }
-
-                #region Test Code
-                //this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_MAGNETIC1, false);
-
-                // (Interlock) Air On / Off Check
-                // 일단 지움 (IO 에러)
-                //this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_ARM_FLOW1, out IOCheck1);
-                //this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_ARM_FLOW1, out IOCheck2);
-
-                //if (IOCheck1 == true && IOCheck2 == true)
-                //{
-                // (Interlock) Magnetic Off
-                #endregion
             }
             catch (Exception err)
             {
