@@ -1507,7 +1507,7 @@
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <Grid Grid.Row="0">
-                                    <Border BorderBrush="White" BorderThickness="0,0,0,5" Height="105" VerticalAlignment="Bottom">
+                                    <Border BorderBrush="White" BorderThickness="0,0,0,5">
                                         <Label Content=" Air Blow 1 Sol V/V " FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
                                     </Border>
                                 </Grid>
@@ -1909,7 +1909,7 @@
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <Grid Grid.Row="0">
-                                    <Border BorderBrush="White" BorderThickness="0,0,0,5" Height="105" VerticalAlignment="Bottom">
+                                    <Border BorderBrush="White" BorderThickness="0,0,0,5">
                                         <Label Content=" FD Holder 3Leg " FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
                                     </Border>
                                 </Grid>
