@@ -9142,11 +9142,11 @@ namespace ManualJogViewModel
                 {
                     LoggerManager.Event($"Sequence Start {TestCount}");
 
-                    // 병렬 구간에서 흔들리지 않게 사이클 시작값 캡처
+                    // 병렬 구간에서 흔들리지 않게 사이클 시작값
                     bool cycleStartFlag = startFlag;
 
                     // =========================
-                    // 1) Pick & Place 병렬 (최소화)
+                    // Pick & Place 병렬
                     // =========================
                     Task pickTask = PickAsync(axisEJPZ1, cycleStartFlag, TestCount);
                     Task placeTask = PlaceAsync(cycleStartFlag, TestCount);
@@ -9222,10 +9222,6 @@ namespace ManualJogViewModel
                     LoggerManager.Event($"Rotate End {TestCount}");
                     LoggerManager.Event($"Sequence End {TestCount}");
                 }
-
-                //Arms_Air_Off();
-                //Arm1_Vac_Off();
-                //Arm2_Vac_Off();
             }
             catch (Exception err)
             {
@@ -10431,23 +10427,6 @@ namespace ManualJogViewModel
                 // 251119 드라이런으로 IO 체크 임시 제거
                 //this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_EJ_VAC_SENSOR, out IOCheck);      // (Interlock) Ejection Pin Vacuum On / Off 체크
                 //if (IOCheck)
-                if (true)
-                {
-                    // Ejection Pin Up (상대값 이동)
-                    //pos = 300;    // = 7,000 Ejection Pin Z 축 DtoP = 10
-                    //LoggerManager.Debug($"MovePickPos_DangerZone Ejection Pin Up Start");
-                    //retVal = this.MotionManager().RelMove_Wating(axisEJPZ1, pos, axisEJPZ1.Param.Speed.Value, axisEJPZ1.Param.Acceleration.Value);
-                    //LoggerManager.Debug($"MovePickPos_DangerZone Ejection Pin Up End");
-                    //if (retVal != EventCodeEnum.NONE)
-                    //{
-                    //    throw new Exception("Ejection Pin Z RelMove Error");
-                    //}
-                }
-                else
-                {
-                    this.MetroDialogManager().ShowMessageDialog("Sequence Error", "Ejection Pin Vacuum Not On", EnumMessageStyle.Affirmative);
-                    throw new Exception("Ejection Pin Z Vacuum Not On");
-                }
             }
             catch (Exception err)
             {
@@ -11054,36 +11033,6 @@ namespace ManualJogViewModel
             }
             return retVal;
         }
-
-        public EventCodeEnum BonderTest()
-        {
-            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
-            try
-            {
-                var axisZ = this.MotionManager().GetAxis(EnumAxisConstants.Z);
-
-                double currentPos = 0.0;    // 현재 위치값 읽기
-                double AcualPos = 0;
-
-                double pos = 10000;   // Z 축 DtoP = 2.5
-
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
-
-                retVal = this.MotionManager().RelMove(axisZ, pos - currentPos, axisZ.Param.Speed.Value, axisZ.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Stage Z Up RelMove Error");
-                }
-
-            }
-            catch (Exception err)
-            {
-                LoggerManager.Exception(err);
-                throw;
-            }
-            return retVal;
-        }
         #endregion
 
         #region 251124 ybpark Normal, FD Wafer Out 
@@ -11137,95 +11086,25 @@ namespace ManualJogViewModel
                     {
                         LoggerManager.Debug($"Sequence Start {TestCount}");
 
-                        // 병렬 구간에서 흔들리지 않게 사이클 시작값 캡처
+                        // 병렬 구간에서 흔들리지 않게 사이클 시작값
                         bool cycleStartFlag = StartFlag;        // cycleStartFlag = false (ARM1) , cycleStartFlag = true (ARM2)
 
-                        // ============================
-                        // 1) Pick Task (동시에 시작)
-                        // ============================
-                        Task pickTask = Task.Run(() =>
-                        {
-                            double localPos;
-                            LoggerManager.Debug($"Pick Start {TestCount}");
+                        // =========================
+                        // Pick & Place 병렬 (최소화)
+                        // =========================
+                        Task pickTask = PickAsync(axisEJPZ1, cycleStartFlag, TestCount);
+                        Task placeTask = PlaceAsync(cycleStartFlag, TestCount);
 
-                            // Pick 위치 (StartFlag에 따라 다른 위치라면 캡처값 사용)
-                            LoggerManager.Debug($"MovePickPos_DangerZone Start");
-                            retVal = MovePickPos_DangerZone(cycleStartFlag);
-                            LoggerManager.Debug($"MovePickPos_DangerZone End");
-                            if (retVal != EventCodeEnum.NONE)
-                                throw new Exception("MovePickPos_DangerZone() Function Error");
-
-                            // Ejection Pin Down
-                            localPos = -300;
-                            LoggerManager.Debug($"Ejection Pin Down Start");
-                            retVal = this.MotionManager().RelMove(axisEJPZ1, localPos, axisEJPZ1.Param.Speed.Value, axisEJPZ1.Param.Acceleration.Value);
-                            LoggerManager.Debug($"Ejection Pin Down End");
-                            if (retVal != EventCodeEnum.NONE)
-                                throw new Exception("Ejection Pin Z RelMove Error");
-
-                            // Rotate 해도 괜찮은 위치로 복귀
-                            LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick Start");
-                            retVal = MovePickPos_SafeZone_AfterPick();
-                            LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick End");
-                            if (retVal != EventCodeEnum.NONE)
-                                throw new Exception("MovePickPos_SafeZone_AfterPick() Function Error");
-
-                            Thread.Sleep(100);
-
-                            LoggerManager.Debug($"Pick End {TestCount}");
-                        });
-
-                        // ============================
-                        // 2) Place Task (동시에 시작)
-                        // ============================
-                        Task placeTask = Task.Run(() =>
-                        {
-                            LoggerManager.Debug($"Place Start {TestCount}");
-                            LoggerManager.Debug($"Magnetic_On Start");
-                            Magnetic_On_NoWating();
-                            LoggerManager.Debug($"Magnetic_On End");
-
-                            LoggerManager.Debug($"DoPlace_Nano_ZDown Start");
-                            retVal = DoPlace_Nano_ZDown();
-                            LoggerManager.Debug($"DoPlace_Nano_ZDown End");
-                            if (retVal != EventCodeEnum.NONE)
-                                throw new Exception("DoPlace_Nano_ZDown() Function Error");
-
-                            // Vacuum Off (Place) : 캡처한 StartFlag 기준으로 결정
-                            if (cycleStartFlag == true)
-                            {
-                                LoggerManager.Debug($"Arm1_Vac_Off Start");
-                                Arm1_Vac_Off();
-                                LoggerManager.Debug($"Arm1_Vac_Off End");
-                            }
-                            else
-                            {
-                                LoggerManager.Debug($"Arm2_Vac_Off Start");
-                                Arm2_Vac_Off();
-                                LoggerManager.Debug($"Arm2_Vac_Off End");
-                            }
-
-                            LoggerManager.Debug($"DoPlace_Nano_ZUp Start");
-                            retVal = DoPlace_Nano_ZUp();
-                            LoggerManager.Debug($"DoPlace_Nano_ZUp End");
-                            if (retVal != EventCodeEnum.NONE)
-                                throw new Exception("DoPlace_Nano_ZUp() Function Error");
-
-                            LoggerManager.Debug($"Magnetic_Off Start");
-                            Magnetic_Off_NoWating();
-                            LoggerManager.Debug($"Magnetic_Off End");
-
-                            LoggerManager.Debug($"Place End {TestCount}");
-                        });
-
-                        // 3) Pick & Place 둘 다 완료될 때까지 대기
                         await Task.WhenAll(pickTask, placeTask);
 
-                        // 마지막 다이 내려 놓고 정리
-                        //if (16 == TestCount)
-                        //    break;
-
+                        // =========================
+                        // Rotate 준비
+                        // =========================
                         LoggerManager.Debug($"Rotate Start {TestCount}");
+
+                        LoggerManager.Event($"Arms_Air_On Start");
+                        Arms_Air_On_NoWating();
+                        LoggerManager.Event($"Arms_Air_On End");
 
                         // 마지막 다이 움직일 필요 없음.
                         if (TestCount < 15)
@@ -11237,36 +11116,39 @@ namespace ManualJogViewModel
                                 throw new Exception("MovePickPos_SafeZone_Next() Function Error");
                         }
 
-                        // 4) 둘 다 끝나면 Rotate 수행
-                        LoggerManager.Debug($"Arms_Air_On Start");
-                        Arms_Air_On();
-                        LoggerManager.Debug($"Arms_Air_On End");
-
-                        if (cycleStartFlag == false)
+                        try
                         {
-                            NanostageUpDownMonitor(cycleStartFlag, 79901.2);  // 2도 움직였을때 나노스테이지 업, 다운
+                            if (cycleStartFlag == false)
+                            {
+                                NanostageUpDownMonitor(cycleStartFlag, 80901);  // 1도 (81901에서 -98081로 가는 방향 기준)
 
-                            LoggerManager.Debug($"Rotate_Minus Start");
-                            retVal = Rotate_Minus();
-                            LoggerManager.Debug($"Rotate_Minus End");
+                                LoggerManager.Debug($"Rotate_Minus Start");
+                                retVal = Rotate_Minus();
+                                LoggerManager.Debug($"Rotate_Minus End");
+                            }
+                            else
+                            {
+                                NanostageUpDownMonitor(cycleStartFlag, -97081); // 1도 (-98081에서 81901로 가는 방향 기준)
+
+                                LoggerManager.Debug($"Rotate_Plus Start");
+                                retVal = Rotate_Plus();
+                                LoggerManager.Debug($"Rotate_Plus End");
+                            }
                         }
-                        else
+                        finally
                         {
-                            NanostageUpDownMonitor(cycleStartFlag, -96081); // 2도 움직였을때 나노스테이지 업, 다운
-
-                            LoggerManager.Debug($"Rotate_Plus Start");
-                            retVal = Rotate_Plus();
-                            LoggerManager.Debug($"Rotate_Plus End");
+                            // Rotate 끝났으면 모니터 즉시 종료(중첩/누적 방지)
+                            StopNanoMonitor();
                         }
 
                         if (retVal != EventCodeEnum.NONE)
                             throw new Exception("Rotate Function Error");
 
-                        LoggerManager.Debug($"Arms_Air_Off Start");
-                        Arms_Air_Off();
-                        LoggerManager.Debug($"Arms_Air_Off End");
+                        LoggerManager.Event($"Arms_Air_Off Start");
+                        Arms_Air_Off_NoWating();
+                        LoggerManager.Event($"Arms_Air_Off End");
 
-                        // 5) 다음 사이클용 StartFlag 토글 (병렬 구간 밖에서)
+                        // 다음 사이클용 StartFlag 토글 (병렬 구간 밖에서)
                         StartFlag = !cycleStartFlag;
 
                         if (dryRunStop == true)
@@ -11276,8 +11158,6 @@ namespace ManualJogViewModel
                         LoggerManager.Debug($"Sequence End {TestCount}");
                     }
                 }
-
-                Arms_Air_Off();
 
                 DryRepeat = false;
                 dryRunStop = false;
