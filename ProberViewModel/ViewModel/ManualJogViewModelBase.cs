@@ -9166,7 +9166,7 @@ namespace ManualJogViewModel
                     LoggerManager.Event($"Rotate Start {TestCount}");
 
                     LoggerManager.Event($"Arms_Air_On Start");
-                    Arms_Air_On_NoWating();
+                    Arms_Air_On_NoWaiting();
                     LoggerManager.Event($"Arms_Air_On End");
 
                     // 마지막 다이 움직일 필요 없음.
@@ -10478,58 +10478,61 @@ namespace ManualJogViewModel
             }
             return retVal;
         }
-        public void Arms_Air_On_NoWating()
+        public void Arms_Air_On_NoWaiting()
         {
-            // Arm1 Air ON 즉시
             _ecatIo.Post(() =>
             {
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, true);
+                var io = this.IOManager().IOServ;
+
+                io.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, true);
+
+                _ecatIo.PostAfter(() =>
+                {
+                    io.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, false);
+
+                    _ecatIo.PostAfter(() =>
+                    {
+                        io.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, true);
+
+                        _ecatIo.PostAfter(() =>
+                        {
+                            io.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, false);
+                        }, 5);
+
+                    }, 5);
+
+                }, 5);
             });
-
-            // Arm1 Air OFF (5ms 후)
-            _ecatIo.PostAfter(() =>
-            {
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, false);
-            }, 5);
-
-            // Arm2 Air ON (Arm1 OFF 이후 5ms)
-            _ecatIo.PostAfter(() =>
-            {
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, true);
-            }, 10);
-
-            // Arm2 Air OFF (Arm2 ON 이후 5ms)
-            _ecatIo.PostAfter(() =>
-            {
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, false);
-            }, 15);
         }
-
         public void Arms_Air_Off_NoWating()
         {
-            // Arm1 Air OFF ON 즉시
             _ecatIo.Post(() =>
             {
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1_OFF, true);
+                var io = this.IOManager().IOServ;
+
+                // Arm1 Air OFF ON
+                io.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1_OFF, true);
+
+                // 5ms 후 Arm2 Air OFF ON
+                _ecatIo.PostAfter(() =>
+                {
+                    io.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2_OFF, true);
+
+                    // 5ms 후 Arm1 Air OFF OFF
+                    _ecatIo.PostAfter(() =>
+                    {
+                        io.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1_OFF, false);
+
+                        // 5ms 후 Arm2 Air OFF OFF
+                        _ecatIo.PostAfter(() =>
+                        {
+                            io.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2_OFF, false);
+                        }, 5);
+
+                    }, 5);
+
+                }, 5);
             });
-
-            // Arm1 Air OFF OFF (5ms 후)
-            _ecatIo.PostAfter(() =>
-            {
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1_OFF, false);
-            }, 5);
-
-            // Arm2 Air OFF ON (Arm1 OFF 이후 5ms)
-            _ecatIo.PostAfter(() =>
-            {
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2_OFF, true);
-            }, 10);
-
-            // Arm2 Air OFF OFF (Arm2 ON 이후 5ms)
-            _ecatIo.PostAfter(() =>
-            {
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2_OFF, false);
-            }, 15);
         }
 
         public EventCodeEnum Arm1_Vac_On()
@@ -11103,7 +11106,7 @@ namespace ManualJogViewModel
                         LoggerManager.Debug($"Rotate Start {TestCount}");
 
                         LoggerManager.Event($"Arms_Air_On Start");
-                        Arms_Air_On_NoWating();
+                        Arms_Air_On_NoWaiting();
                         LoggerManager.Event($"Arms_Air_On End");
 
                         // 마지막 다이 움직일 필요 없음.

@@ -2363,12 +2363,12 @@ namespace WAEdgeStadnardModule
             try
             {
 
-
-                if (this.StageSupervisor().MarkObject.GetAlignState() != AlignStateEnum.DONE)
-                {
-                    await this.MetroDialogManager().ShowMessageDialog("Error Message", "Markalign can not behave as a failure. Please check Mark .", EnumMessageStyle.Affirmative);
-                    return retVal;
-                }
+                // 260107 sebas : 마크얼라인 제외
+                //if (this.StageSupervisor().MarkObject.GetAlignState() != AlignStateEnum.DONE)
+                //{
+                //    await this.MetroDialogManager().ShowMessageDialog("Error Message", "Markalign can not behave as a failure. Please check Mark .", EnumMessageStyle.Affirmative);
+                //    return retVal;
+                //}
 
                 switch (ModifyCondition)
                 {
