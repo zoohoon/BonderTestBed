@@ -299,10 +299,11 @@ namespace HexagonJogControl
         }
         private void SingleAxisMove(EnumAxisConstants axisType, ProbeAxisObject axis, double relPos)
         {
-            if (this.MotionManager().CheckSWLimit(axisType, this.MotionManager().GetAxis(axisType).Status.Position.Ref + relPos) != ProberErrorCode.EventCodeEnum.NONE)
-            {
-                return;
-            }
+            //260106 sebas : 리미트 임시 제거
+            //if (this.MotionManager().CheckSWLimit(axisType, this.MotionManager().GetAxis(axisType).Status.Position.Ref + relPos) != ProberErrorCode.EventCodeEnum.NONE)
+            //{
+            //    return;
+            //}
             this.StageSupervisor().StageModuleState.StageRelMove(axis, relPos);
         }
         #endregion

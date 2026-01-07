@@ -2358,18 +2358,19 @@ namespace ProbeMotion
                 double cpos = 0;
                 GetCommandPos(axis, ref cpos);
 
-                if (cpos + pos > axis.Param.PosSWLimit.Value)
-                {
-                    this.NotifyManager().Notify(EventCodeEnum.MOTION_POS_SW_LIMIT_ERROR);
-                    ret = EventCodeEnum.MOTION_POS_SW_LIMIT_ERROR;
-                    return ret;
-                }
-                else if (cpos + pos < axis.Param.NegSWLimit.Value)
-                {
-                    this.NotifyManager().Notify(EventCodeEnum.MOTION_NEG_SW_LIMIT_ERROR);
-                    ret = EventCodeEnum.MOTION_NEG_SW_LIMIT_ERROR;
-                    return ret;
-                }
+                // 260106 sebas : 조건 주석처리
+                //if (cpos + pos > axis.Param.PosSWLimit.Value)
+                //{
+                //    this.NotifyManager().Notify(EventCodeEnum.MOTION_POS_SW_LIMIT_ERROR);
+                //    ret = EventCodeEnum.MOTION_POS_SW_LIMIT_ERROR;
+                //    return ret;
+                //}
+                //else if (cpos + pos < axis.Param.NegSWLimit.Value)
+                //{
+                //    this.NotifyManager().Notify(EventCodeEnum.MOTION_NEG_SW_LIMIT_ERROR);
+                //    ret = EventCodeEnum.MOTION_NEG_SW_LIMIT_ERROR;
+                //    return ret;
+                //}
 
                 axis.Status.RawPosition.Ref = cpos + pos;
                 axis.Status.Position.Ref += pos;
@@ -2384,7 +2385,6 @@ namespace ProbeMotion
                     ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
                     timeStamp.Add(new KeyValuePair<string, long>("Calc. Error", stw.ElapsedMilliseconds));
-
 
                     //==> 다른 축들도 움직여야 한다.??
                     foreach (ProbeAxisObject compAxis in axis.ErrorModule.AssociatedAxes)
@@ -2402,13 +2402,12 @@ namespace ProbeMotion
                         }
                         timeStamp.Add(new KeyValuePair<string, long>(string.Format("Move {0}axis", compAxis.Label), stw.ElapsedMilliseconds));
                     }
-                    foreach (ProbeAxisObject compAxis in ErrorManager.AssociatedAxes)
-                    {
-                        retVal = MotionProvider.WaitForAxisMotionDone(compAxis, 0);
-                        ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
-
-
-                    }
+                    // 260106 sebas 
+                    //foreach (ProbeAxisObject compAxis in ErrorManager.AssociatedAxes)
+                    //{
+                    //    retVal = MotionProvider.WaitForAxisMotionDone(compAxis, 0);
+                    //    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                    //}
                 }
                 else
                 {

@@ -9166,7 +9166,7 @@ namespace ManualJogViewModel
                     LoggerManager.Event($"Rotate Start {TestCount}");
 
                     LoggerManager.Event($"Arms_Air_On Start");
-                    Arms_Air_On();
+                    Arms_Air_On_NoWating();
                     LoggerManager.Event($"Arms_Air_On End");
 
                     // 마지막 다이 움직일 필요 없음.
@@ -9182,27 +9182,32 @@ namespace ManualJogViewModel
                     // =========================
                     // Rotate + Nano Monitor
                     // =========================
-                    if (cycleStartFlag == false)
+                    try
                     {
-                        // 1도 (81901에서 -98081로 가는 방향 기준)
-                        NanostageUpDownMonitor(false, 80901);
+                        if (cycleStartFlag == false)
+                        {
+                            // 1도 (81901에서 -98081로 가는 방향 기준)
+                            NanostageUpDownMonitor(false, 80901);
 
-                        LoggerManager.Event($"Rotate_Minus Start");
-                        ret = Rotate_Minus();
-                        LoggerManager.Event($"Rotate_Minus End");
+                            LoggerManager.Event($"Rotate_Minus Start");
+                            ret = Rotate_Minus();
+                            LoggerManager.Event($"Rotate_Minus End");
+                        }
+                        else
+                        {
+                            // 1도 (-98081에서 81901로 가는 방향 기준)
+                            NanostageUpDownMonitor(true, -97081);
+
+                            LoggerManager.Event($"Rotate_Plus Start");
+                            ret = Rotate_Plus();
+                            LoggerManager.Event($"Rotate_Plus End");
+                        }
                     }
-                    else
+                    finally
                     {
-                        // 1도 (-98081에서 81901로 가는 방향 기준)
-                        NanostageUpDownMonitor(true, -97081);
-
-                        LoggerManager.Event($"Rotate_Plus Start");
-                        ret = Rotate_Plus();
-                        LoggerManager.Event($"Rotate_Plus End");
+                        // Rotate 끝났으면 모니터 즉시 종료(중첩/누적 방지)
+                        StopNanoMonitor();
                     }
-
-                    // Rotate 끝났으면 모니터 즉시 종료(중첩/누적 방지)
-                    StopNanoMonitor();
 
                     if (ret != EventCodeEnum.NONE)
                         throw new Exception("Rotate Function Error");
@@ -9218,9 +9223,9 @@ namespace ManualJogViewModel
                     LoggerManager.Event($"Sequence End {TestCount}");
                 }
 
-                Arms_Air_Off_NoWating();
-                Arm1_Vac_Off_NoWating();
-                Arm2_Vac_Off_NoWating();
+                //Arms_Air_Off();
+                //Arm1_Vac_Off();
+                //Arm2_Vac_Off();
             }
             catch (Exception err)
             {
@@ -9880,7 +9885,7 @@ namespace ManualJogViewModel
                 double currentPos = 0.0;    // 현재 위치값 읽기
                 double AcualPos = 0;
 
-                pos = 20696.091;    // = 91,000,000 FD stage Z 축 DtoP = 4194.304    // 기존 : 21696.091, 변경 : 20696.091 (1mm = 1000)
+                pos = 24000.00;    // = 91,000,000 FD stage Z 축 DtoP = 4194.304    // 기존 : 21696.091, 변경 : 20696.091 (1mm = 1000)
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -9892,7 +9897,7 @@ namespace ManualJogViewModel
 
                 if(false == DomabamFlag)
                 {
-                    pos = 31000;    // = 155,000 Ejection Z 축 DtoP = 5
+                    pos = 32000.2;    // = 155,000 Ejection Z 축 DtoP = 5
                     this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
                     currentPos = AcualPos;
                     // 움직임 완료까지 대기하는 동작

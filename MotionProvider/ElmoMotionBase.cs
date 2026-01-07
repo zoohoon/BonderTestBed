@@ -1042,7 +1042,9 @@ namespace Motion
                 {
                     retVal = GetVelocity(axis, trjtype, ref velocity, ovrd);
                     ResultValidate(retVal);
+
                     retVal = AbsMove(axis, abspos, velocity, axis.Param.Acceleration.Value);
+
                     ResultValidate(retVal);
                 }
             }
@@ -1140,13 +1142,15 @@ namespace Motion
                         return (int)EnumMotionBaseReturnCode.SWPOSLimitError;
                     }
 
-                    if (abspos > axis.Param.PosSWLimit.Value)
+                    if (false)   // 260106 sebas : 조건제거
+                    // if (abspos > axis.Param.PosSWLimit.Value)
                     {
                         targetPos = abspos;
                         LoggerManager.Error($"Positive SW Limit occurred while AbsMove moving for Axis {axis.Label.Value}, Target = {targetPos}, Limit = {axis.Param.PosSWLimit.Value}");
                         return (int)EnumMotionBaseReturnCode.SWPOSLimitError;
                     }
-                    else if (abspos < axis.Param.NegSWLimit.Value)
+                    else if (false)   // 260106 sebas : 조건제거
+                    //else if (abspos < axis.Param.NegSWLimit.Value)
                     {
                         targetPos = abspos;
                         LoggerManager.Error($"Negative SW Limit occurred while AbsMove moving for Axis {axis.Label.Value}, Target = {targetPos}, Limit = {axis.Param.NegSWLimit.Value}");
@@ -1175,6 +1179,17 @@ namespace Motion
                                     targetPos, veltopulsecnt, acctopulsecnt, acctopulsecnt, jerktopulsecnt,
                                     Direction, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
                                 //timeStamp.Add(new KeyValuePair<string, long>(string.Format("Rel Move Start {0}axis", axis.Label), stw.ElapsedMilliseconds));
+
+                                // <-- 260106 sebas add 단일 move 실행용
+                                while (((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).ReadStatus() != VALID_STAND_STILL_MASK)
+                                {
+                                    if(false)
+                                    {
+
+                                    }
+                                }
+                                // -->
+
                                 if (retVal != 0)
                                 {
                                     LoggerManager.Debug($"AbsMove() :AbsMoveFail axis = {axis.Label.Value}");

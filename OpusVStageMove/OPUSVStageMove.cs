@@ -3535,7 +3535,6 @@ namespace OpusVStageMove
         public override EventCodeEnum StageRelMove(ProbeAxisObject axis, double pos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {
             LoggerManager.Error($"StageRelMove: Error occurred while Move to StageRelMove.");
-
             return EventCodeEnum.STAGEMOVE_NOTIMPLEMENT_ERROR;
         }
         public override EventCodeEnum StageVMove(ProbeAxisObject axis, double vel, EnumTrjType trjtype)
@@ -6675,8 +6674,9 @@ namespace OpusVStageMove
 
                 if (curZpos > mccoord.Z.Value)
                 {
-                    ret = Module.MotionManager().AbsMove(axisz, mccoord.Z.Value, trjtype, ovrd);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                    // 260106 sebas : Z축을 FD Z축으로 바꺼야함
+                    //ret = Module.MotionManager().AbsMove(axisz, mccoord.Z.Value, trjtype, ovrd);
+                    //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
                     ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, trjtype, ovrd);
                     ResultValidate(MethodBase.GetCurrentMethod(), ret);
@@ -6686,8 +6686,9 @@ namespace OpusVStageMove
                     ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, trjtype, ovrd);
                     ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                    ret = Module.MotionManager().AbsMove(axisz, mccoord.Z.Value, trjtype, ovrd);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                    // 260106 sebas : Z축을 FD Z축으로 바꺼야함
+                    //ret = Module.MotionManager().AbsMove(axisz, mccoord.Z.Value, trjtype, ovrd);
+                    //ResultValidate(MethodBase.GetCurrentMethod(), ret);
                 }
 
                 LoggerManager.Debug($"WaferLowViewMoveFunc() : xpos = {xpos}, ypos = {ypos}, zpos = {zpos}, heightzpos = {heightzpos}", isInfo: IsInfo);
@@ -12370,34 +12371,35 @@ namespace OpusVStageMove
                 curX = axisx.Status.Position.Ref;
                 curY = axisy.Status.Position.Ref;
                 curZ = axisz.Status.Position.Ref;
-                curPZ = axispz.Status.Position.Ref;
+                // curPZ = axispz.Status.Position.Ref;  // 260106 sebas : PZ축 제거
 
-                if (axis.AxisType.Value == EnumAxisConstants.X)
-                {
-                    x = pos;
-                    ret = Module.CheckHardwareInterference(curX + x, curY, curZ, curPZ);
-                }
-                else if (axis.AxisType.Value == EnumAxisConstants.Y)
-                {
-                    y = pos;
-                    ret = Module.CheckHardwareInterference(curX, curY + y, curZ, curPZ);
-                }
-                else if (axis.AxisType.Value == EnumAxisConstants.Z)
-                {
-                    z = pos;
-                    ret = Module.CheckHardwareInterference(curX, curY, curZ + z, curPZ);
-                }
-                else if (axis.AxisType.Value == EnumAxisConstants.PZ)
-                {
-                    pz = pos;
-                    ret = Module.CheckHardwareInterference(curX, curY, curZ, curPZ + pz);
-                }
-                else
-                {
-                    ret = EventCodeEnum.NONE;
-                }
+                // 260106 sebas : 아래 인터락 조건 주석처리
+                //if (axis.AxisType.Value == EnumAxisConstants.X)
+                //{
+                //    x = pos;
+                //    ret = Module.CheckHardwareInterference(curX + x, curY, curZ, curPZ);
+                //}
+                //else if (axis.AxisType.Value == EnumAxisConstants.Y)
+                //{
+                //    y = pos;
+                //    ret = Module.CheckHardwareInterference(curX, curY + y, curZ, curPZ);
+                //}
+                //else if (axis.AxisType.Value == EnumAxisConstants.Z)
+                //{
+                //    z = pos;
+                //    ret = Module.CheckHardwareInterference(curX, curY, curZ + z, curPZ);
+                //}
+                //else if (axis.AxisType.Value == EnumAxisConstants.PZ)
+                //{
+                //    pz = pos;
+                //    ret = Module.CheckHardwareInterference(curX, curY, curZ, curPZ + pz);
+                //}
+                //else
+                //{
+                //    ret = EventCodeEnum.NONE;
+                //}
 
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
                 ret = Module.MotionManager().RelMove(axis, pos, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
@@ -19060,8 +19062,9 @@ namespace OpusVStageMove
 
             try
             {
-                ret = CheckStage();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // 260106 sebas : 조건 제거
+                //ret = CheckStage();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
                 WaferCoordinate wlcoord = new WaferCoordinate();
                 wlcoord = Module.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
