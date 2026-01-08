@@ -2564,12 +2564,12 @@ namespace PnPControl
                         }
                         if ((EventCodeEnum)parameter == EventCodeEnum.NONE)
                         {
-                            this.StageSupervisor().StageModuleState.ZCLEARED();
+                            // this.StageSupervisor().StageModuleState.ZCLEARED();  // 260108 sebas : 반응없음 제거
                             if (CurCam != null)
                             {
                                 this.VisionManager().StopGrab(CurCam.GetChannelType());
                             }
-                            StageCylinderType.MoveWaferCam.Retract();
+                            // StageCylinderType.MoveWaferCam.Retract();  // 260108 sebas : 반응없음 제거
                             return (EventCodeEnum)parameter;
                         }
                     }

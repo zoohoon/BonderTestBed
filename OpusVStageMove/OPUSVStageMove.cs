@@ -12021,7 +12021,7 @@ namespace OpusVStageMove
                             LoggerManager.Debug($"WaferCamBridge Retract is skipped");
                         }
                         else
-                        {
+                        {   // 얼라인 화면에서 벗어날 때 웨이퍼캠 움직이게 하는 위치
                             retVal = StageCylinderType.MoveWaferCam.Retract();
                             CylResultValidate(MethodBase.GetCurrentMethod(), retVal);
                             Module.WaferCamCylinderExtended = false;

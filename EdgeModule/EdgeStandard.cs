@@ -643,7 +643,7 @@ namespace WAEdgeStadnardModule
                         }
                     }
                     else
-                    {
+                    {   // 이상없이 다음 위치로 이동할 좌표값
                         this.StageSupervisor().StageModuleState.WaferLowViewMove
                             (EdgePos[_CurEdgeIndex].GetX(),
                             EdgePos[_CurEdgeIndex].GetY(),
@@ -812,7 +812,7 @@ namespace WAEdgeStadnardModule
                     RetVal = EventCodeEnum.SUB_RECOVERY;
 
                 if (RetVal == EventCodeEnum.NONE)
-                {
+                {   // 엣지 계산 끝내고 센터위치로 이동함
                     //======================= Test Code
                     (this).StageSupervisor().StageModuleState.WaferLowViewMove(
                             Wafer.GetSubsInfo().WaferCenter.X.Value,
@@ -2328,7 +2328,9 @@ namespace WAEdgeStadnardModule
                 }
                 finally
                 {
-                    //ProcessDialog.CloseDialg(this);
+                    // 260108 sebas : 센터값 로그 찍기
+                    LoggerManager.Debug($"(sebas) WaferCenter.X:{Wafer.GetSubsInfo().WaferCenter.X.Value}", isInfo: true);
+                    LoggerManager.Debug($"(sebas) WaferCenter.Y:{Wafer.GetSubsInfo().WaferCenter.Y.Value}", isInfo: true);
                 }
 
             }
@@ -2367,12 +2369,13 @@ namespace WAEdgeStadnardModule
             }
         }
 
+        int ApplyCount = 0; // 260108 sebas
         public async Task<EventCodeEnum> Modify()
         {
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
-
+                ApplyCount++;
                 // 260107 sebas : 마크얼라인 제외
                 //if (this.StageSupervisor().MarkObject.GetAlignState() != AlignStateEnum.DONE)
                 //{
@@ -2380,45 +2383,64 @@ namespace WAEdgeStadnardModule
                 //    return retVal;
                 //}
 
-                // <--260107 sebas : 기존내용 주석 후 새로 작성
-                switch (ModifyCondition)
-                {
-                    case WAEdgeSetupFunction.MANAUALEDGE:
-                        {
-                            MovingState.Moving();
-                            if (await RegisteManualEdgePos())
-                                await NextEdge();
-                            MovingState.Stop();
-                        }
-                        break;
-                    case WAEdgeSetupFunction.APPLY:
-                        {
-
-                            Wafer.GetSubsInfo().WaferCenter.Z.Value = Wafer.GetPhysInfo().Thickness.Value;
-                            //ClearData();
-                            retVal = Execute();
-                            if (retVal != EventCodeEnum.NONE)
-                            {
-                                var ret = await this.MetroDialogManager().ShowMessageDialog(
-                                    Properties.Resources.ErrorMessageTitle, Properties.Resources.EdgeFailMessage, EnumMessageStyle.Affirmative);
-                                //ManualEdge
-                                InitPnpEdgeManualUI();
-                            }
-                            else
-                            {
-                                var ret = await this.MetroDialogManager().ShowMessageDialog(
-                                    Properties.Resources.InfoMessageTitle, Properties.Resources.EdgeSuccessMessage, EnumMessageStyle.Affirmative);
-                            }
-                        }
-                        break;
-                }
+                // <--260107 sebas
+                //switch (ModifyCondition)
+                //{
+                //    case WAEdgeSetupFunction.MANAUALEDGE:
+                //        {
+                //            MovingState.Moving();
+                //            if (await RegisteManualEdgePos())
+                //                await NextEdge();
+                //            MovingState.Stop();
+                //        }
+                //        break;
+                //    case WAEdgeSetupFunction.APPLY:
+                //        {
+                //            Wafer.GetSubsInfo().WaferCenter.Z.Value = Wafer.GetPhysInfo().Thickness.Value;
+                //            //ClearData();
+                //            retVal = Execute();
+                //            if (retVal != EventCodeEnum.NONE)
+                //            {
+                //                var ret = await this.MetroDialogManager().ShowMessageDialog(
+                //                    Properties.Resources.ErrorMessageTitle, Properties.Resources.EdgeFailMessage, EnumMessageStyle.Affirmative);
+                //                //ManualEdge
+                //                InitPnpEdgeManualUI();
+                //            }
+                //            else
+                //            {
+                //                var ret = await this.MetroDialogManager().ShowMessageDialog(
+                //                    Properties.Resources.InfoMessageTitle, Properties.Resources.EdgeSuccessMessage, EnumMessageStyle.Affirmative);
+                //            }
+                //        }
+                //        break;
+                //}
                 // -->
 
                 // <--260107 sebas 항상 매뉴얼 등록하도록 수정
-                //MovingState.Moving();
-                //if (await RegisteManualEdgePos())
-                //    await NextEdge();
-                //MovingState.Stop();
+                if (ApplyCount != 4)
+                {
+                    MovingState.Moving();
+                    if (await RegisteManualEdgePos())
+                        await NextEdge();
+                    MovingState.Stop();
+                }
+                else
+                {
+                    Wafer.GetSubsInfo().WaferCenter.Z.Value = Wafer.GetPhysInfo().Thickness.Value;
+                    retVal = Execute();
+                    if (retVal != EventCodeEnum.NONE)
+                    {
+                        var ret = await this.MetroDialogManager().ShowMessageDialog(
+                            Properties.Resources.ErrorMessageTitle, Properties.Resources.EdgeFailMessage, EnumMessageStyle.Affirmative);
+                        InitPnpEdgeManualUI();
+                    }
+                    else
+                    {
+                        var ret = await this.MetroDialogManager().ShowMessageDialog(
+                            Properties.Resources.InfoMessageTitle, Properties.Resources.EdgeSuccessMessage, EnumMessageStyle.Affirmative);
+                    }
+                    ApplyCount = 0;
+                }
                 // -->
 
                 if (IsParameterChanged())
@@ -2467,28 +2489,26 @@ namespace WAEdgeStadnardModule
                     mapparamindex = 0;
                     idx = EdgeMapParams[mapparamindex].Index;
                     // index = ManualEdgePoss.FindIndex(pos => pos.Coordinate.GetX() > 0 & pos.Coordinate.GetY() > 0);  // 260107 sebas 주석
-                    index = 0;
                 }
                 else if (RegistCount == 2) // 260107 sebas : coordinate.GetX() < 0 & coordinate.GetY() > 0
                 {  
                     mapparamindex = 1;
                     idx = EdgeMapParams[mapparamindex].Index;
                     // index = ManualEdgePoss.FindIndex(pos => pos.Coordinate.GetX() < 0 & pos.Coordinate.GetY() > 0);  // 260107 sebas 주석
-                    index = 1;
                 }
                 else if (RegistCount == 3)// 260107 sebas : coordinate.GetX() < 0 & coordinate.GetY() < 0
                 {  
                     mapparamindex = 2;
                     idx = EdgeMapParams[mapparamindex].Index;
                     // index = ManualEdgePoss.FindIndex(pos => pos.Coordinate.GetX() < 0 & pos.Coordinate.GetY() < 0);  // 260107 sebas 주석
-                    index = 2;
                 }
                 else if (RegistCount == 4)// 260107 sebas : coordinate.GetX() > 0 & coordinate.GetY() < 0
                 { 
                     mapparamindex = 3;
                     idx = EdgeMapParams[mapparamindex].Index;
                     // index = ManualEdgePoss.FindIndex(pos => pos.Coordinate.GetX() > 0 & pos.Coordinate.GetY() < 0);  // 260107 sebas 주석
-                    index = 3;
+
+                    RegistCount = 0;
                 }
 
                 if (idx != null)
