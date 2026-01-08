@@ -3207,6 +3207,8 @@ namespace ProbeMotion
             ProbeAxisObject yaxis = GetAxis(EnumAxisConstants.Y);
             ProbeAxisObject zaxis = GetAxis(EnumAxisConstants.Z);
             ProbeAxisObject caxis = GetAxis(EnumAxisConstants.C);
+            ProbeAxisObject FDT1axis = GetAxis(EnumAxisConstants.FDT1); // 260108 sebas add
+            ProbeAxisObject FDZ1axis = GetAxis(EnumAxisConstants.FDZ1); // 260108 sebas add
 
 
             if (xpos > xaxis.Param.PosSWLimit.Value)
@@ -3251,9 +3253,11 @@ namespace ProbeMotion
                 retVal = MotionProvider.AbsMove(yaxis, yaxis.Status.RawPosition.Ref, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
-                // 260106 sebas : FD 회전으로 변경필요
+                // 260106 sebas : FD 회전으로 변경
                 //retVal = MotionProvider.AbsMove(caxis, caxis.Status.RawPosition.Ref, trjtype, ovrd);
                 //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                retVal = MotionProvider.AbsMove(FDT1axis, FDT1axis.Status.RawPosition.Ref, trjtype, ovrd);
+                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
                 retVal = WaitForAxisMotionDone(xaxis);
                 ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
@@ -3262,14 +3266,18 @@ namespace ProbeMotion
                 ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
                 //retVal = WaitForAxisMotionDone(caxis);
-                //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                retVal = WaitForAxisMotionDone(FDT1axis);
+                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
-                // 260106 sebas : FD Z 움직임으로 변경필요
+                // 260106 sebas : FD Z 움직임으로 변경
                 //retVal = MotionProvider.AbsMove(zaxis, zaxis.Status.RawPosition.Ref, trjtype, ovrd);
                 //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
-
                 //retVal = WaitForAxisMotionDone(zaxis);
                 //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                retVal = MotionProvider.AbsMove(FDZ1axis, FDZ1axis.Status.RawPosition.Ref, trjtype, ovrd);
+                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                retVal = WaitForAxisMotionDone(FDZ1axis);
+                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
                 ret = EventCodeEnum.NONE;
             }
