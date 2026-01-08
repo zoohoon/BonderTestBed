@@ -231,11 +231,18 @@ namespace HexagonJogControl
                     }
                     else
                     {
-                        if (this.MotionManager().GetAxis(EnumAxisConstants.Z).Status.AxisBusy == false)
+                        // <-- 260108 sebas : Z축 -> FD Z축 변경
+                        //if (this.MotionManager().GetAxis(EnumAxisConstants.Z).Status.AxisBusy == false)
+                        //{
+                        //    if (this.MotionManager().CheckSWLimit(EnumAxisConstants.Z, this.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref - zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return;
+                        //    this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.Z), -(zAxisRelPos));
+                        //}
+                        if (this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).Status.AxisBusy == false)
                         {
-                            if (this.MotionManager().CheckSWLimit(EnumAxisConstants.Z, this.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref - zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return;
-                            this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.Z), -(zAxisRelPos));
+                            if (this.MotionManager().CheckSWLimit(EnumAxisConstants.FDZ1, this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).Status.Position.Ref - zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return;
+                            this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1), -(zAxisRelPos));
                         }
+                        // -->
                     }
                 }
                 else if (camtype == EnumProberCam.WAFER_HIGH_CAM)
@@ -257,11 +264,18 @@ namespace HexagonJogControl
                     }
                     else
                     {
-                        if (this.MotionManager().GetAxis(EnumAxisConstants.Z).Status.AxisBusy == false)
+                        // <-- 260108 sebas : Z축 -> FD Z축 변경
+                        //if (this.MotionManager().GetAxis(EnumAxisConstants.Z).Status.AxisBusy == false)
+                        //{
+                        //    if (this.MotionManager().CheckSWLimit(EnumAxisConstants.Z, this.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref - zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return;
+                        //    this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.Z), -(zAxisRelPos));
+                        //}
+                        if (this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).Status.AxisBusy == false)
                         {
-                            if (this.MotionManager().CheckSWLimit(EnumAxisConstants.Z, this.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref - zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return;
-                            this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.Z), -(zAxisRelPos));
+                            if (this.MotionManager().CheckSWLimit(EnumAxisConstants.FDZ1, this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).Status.Position.Ref - zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return;
+                            this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1), -(zAxisRelPos));
                         }
+                        // -->
                     }
                 }
                 else if (camtype == EnumProberCam.MAP_REF_CAM)
