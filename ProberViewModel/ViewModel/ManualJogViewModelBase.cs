@@ -10917,7 +10917,7 @@ namespace ManualJogViewModel
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
-                double pos = 154022000;   // = 350,000 Z 축 DtoP = 0.0025
+                double pos = 144000000;   // = 350,000 Z 축 DtoP = 0.0025    (상판부터 척까지 높이 20.8)
                 LoggerManager.Debug($"Wafer_Chuck_Up Start");
                 retVal = this.MotionManager().RelMove_Wating(axisZ, pos - currentPos, axisZ.Param.Speed.Value, axisZ.Param.Acceleration.Value);
                 LoggerManager.Debug($"Wafer_Chuck_Up End");

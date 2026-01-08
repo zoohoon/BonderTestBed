@@ -581,75 +581,93 @@ namespace WAEdgeStadnardModule
         {
             try
             {
+                // <-- 260108 sebas remove
+                //if (_CurEdgeIndex + 1 < EdgePos.Count)
+                //{
+                //    _CurEdgeIndex++;
+                //    if (ExistManualEdge(_CurEdgeIndex))
+                //    {
+                //        if (CurCam.GetChannelType() == EnumProberCam.WAFER_LOW_CAM)
+                //        {
+                //            this.StageSupervisor().StageModuleState.WaferLowViewMove
+                //                (ManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
+                //                + WaferObject.GetSubsInfo().WaferCenter.GetX(),
+                //                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
+                //                + WaferObject.GetSubsInfo().WaferCenter.GetY(),
+                //                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
+                //                + WaferObject.GetSubsInfo().WaferCenter.GetZ());
+                //        }
+                //        else
+                //        {
+                //            this.StageSupervisor().StageModuleState.WaferHighViewMove
+                //                (ManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
+                //                + WaferObject.GetSubsInfo().WaferCenter.GetX(),
+                //                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
+                //                + WaferObject.GetSubsInfo().WaferCenter.GetY(),
+                //                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
+                //                + WaferObject.GetSubsInfo().WaferCenter.GetZ());
+                //        }
+                //    }
+                //    else
+                //    {
+                //        this.StageSupervisor().StageModuleState.WaferLowViewMove
+                //            (EdgePos[_CurEdgeIndex].GetX(),
+                //            EdgePos[_CurEdgeIndex].GetY(),
+                //            EdgePos[_CurEdgeIndex].GetZ());
+                //    }
+                //}
+                //else if (_CurEdgeIndex + 1 == EdgePos.Count)
+                //{
+                //    _CurEdgeIndex = 0;
+                //    if (ExistManualEdge(_CurEdgeIndex))
+                //    {
+                //        if (CurCam.GetChannelType() == EnumProberCam.WAFER_LOW_CAM)
+                //        {
+                //            this.StageSupervisor().StageModuleState.WaferLowViewMove
+                //                (ManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
+                //                + WaferObject.GetSubsInfo().WaferCenter.GetX(),
+                //                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
+                //                + WaferObject.GetSubsInfo().WaferCenter.GetY(),
+                //                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
+                //                + WaferObject.GetSubsInfo().WaferCenter.GetZ());
+                //        }
+                //        else
+                //        {
+                //            this.StageSupervisor().StageModuleState.WaferHighViewMove
+                //                (ManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
+                //                + WaferObject.GetSubsInfo().WaferCenter.GetX(),
+                //                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
+                //                + WaferObject.GetSubsInfo().WaferCenter.GetY(),
+                //                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
+                //                + WaferObject.GetSubsInfo().WaferCenter.GetZ());
+                //        }
+                //    }
+                //    else
+                //    {   // 이상없이 다음 위치로 이동할 좌표값
+                //        this.StageSupervisor().StageModuleState.WaferLowViewMove
+                //            (EdgePos[_CurEdgeIndex].GetX(),
+                //            EdgePos[_CurEdgeIndex].GetY(),
+                //            EdgePos[_CurEdgeIndex].GetZ());
+                //    }
+                //}
+                // -->
 
-                if (_CurEdgeIndex + 1 < EdgePos.Count)
+                // <-- 260108 sebas add
+                if (ApplyCount != 0)
                 {
-                    _CurEdgeIndex++;
-                    if (ExistManualEdge(_CurEdgeIndex))
-                    {
-                        if (CurCam.GetChannelType() == EnumProberCam.WAFER_LOW_CAM)
-                        {
-                            this.StageSupervisor().StageModuleState.WaferLowViewMove
-                                (ManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
-                                + WaferObject.GetSubsInfo().WaferCenter.GetX(),
-                                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
-                                + WaferObject.GetSubsInfo().WaferCenter.GetY(),
-                                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
-                                + WaferObject.GetSubsInfo().WaferCenter.GetZ());
-                        }
-                        else
-                        {
-                            this.StageSupervisor().StageModuleState.WaferHighViewMove
-                                (ManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
-                                + WaferObject.GetSubsInfo().WaferCenter.GetX(),
-                                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
-                                + WaferObject.GetSubsInfo().WaferCenter.GetY(),
-                                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
-                                + WaferObject.GetSubsInfo().WaferCenter.GetZ());
-                        }
-                    }
-                    else
+                    if (ApplyCount < 4)  // 정상인 상황 = ApplyCount은 1 ~ 3 값
                     {
                         this.StageSupervisor().StageModuleState.WaferLowViewMove
-                            (EdgePos[_CurEdgeIndex].GetX(),
-                            EdgePos[_CurEdgeIndex].GetY(),
-                            EdgePos[_CurEdgeIndex].GetZ());
+                            (EdgePos[ApplyCount].GetX(),
+                            EdgePos[ApplyCount].GetY(),
+                            EdgePos[ApplyCount].GetZ());
                     }
                 }
-                else if (_CurEdgeIndex + 1 == EdgePos.Count)
+                else
                 {
-                    _CurEdgeIndex = 0;
-                    if (ExistManualEdge(_CurEdgeIndex))
-                    {
-                        if (CurCam.GetChannelType() == EnumProberCam.WAFER_LOW_CAM)
-                        {
-                            this.StageSupervisor().StageModuleState.WaferLowViewMove
-                                (ManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
-                                + WaferObject.GetSubsInfo().WaferCenter.GetX(),
-                                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
-                                + WaferObject.GetSubsInfo().WaferCenter.GetY(),
-                                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
-                                + WaferObject.GetSubsInfo().WaferCenter.GetZ());
-                        }
-                        else
-                        {
-                            this.StageSupervisor().StageModuleState.WaferHighViewMove
-                                (ManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
-                                + WaferObject.GetSubsInfo().WaferCenter.GetX(),
-                                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
-                                + WaferObject.GetSubsInfo().WaferCenter.GetY(),
-                                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
-                                + WaferObject.GetSubsInfo().WaferCenter.GetZ());
-                        }
-                    }
-                    else
-                    {   // 이상없이 다음 위치로 이동할 좌표값
-                        this.StageSupervisor().StageModuleState.WaferLowViewMove
-                            (EdgePos[_CurEdgeIndex].GetX(),
-                            EdgePos[_CurEdgeIndex].GetY(),
-                            EdgePos[_CurEdgeIndex].GetZ());
-                    }
+
                 }
+                // -->
             }
             catch (Exception err)
             {
@@ -970,6 +988,8 @@ namespace WAEdgeStadnardModule
                     MachineIndex edgeindex = this.CoordinateManager().GetCurMachineIndex(pos);
                     EdgeMapParams.Add(new EdgeMapParam(edgeindex, Wafer.GetSubsInfo().DIEs[edgeindex.XIndex, edgeindex.YIndex].DieType.Value));
                 }
+                ApplyCount = 0; // 나갔다가 들어오면 0으로 초기화
+                RegistCount = 0; // 나갔다가 들어오면 0으로 초기화
                 // -->
 
                 if (this.WaferAligner().IsNewSetup)
@@ -1107,7 +1127,7 @@ namespace WAEdgeStadnardModule
 
                 PadJogSelect.IsEnabled = true;
 
-                this.StageSupervisor().StageModuleState.WaferLowViewMove(EdgePos[0].GetX(), EdgePos[1].GetY(), WaferObject.GetSubsInfo().AveWaferThick);
+                this.StageSupervisor().StageModuleState.WaferLowViewMove(EdgePos[0].GetX(), EdgePos[0].GetY(), WaferObject.GetSubsInfo().AveWaferThick);    // 260108 sebas : EdgePos[1].GetY()
 
                 foreach (var pos in EdgePos)
                 {
@@ -2217,7 +2237,7 @@ namespace WAEdgeStadnardModule
                     a = 2 * (procresults[2].ResultPos.X.Value - procresults[1].ResultPos.X.Value);
                     b = 2 * (procresults[2].ResultPos.Y.Value - procresults[1].ResultPos.Y.Value);
                     c = Math.Pow(procresults[2].ResultPos.X.Value, 2.0) - Math.Pow(procresults[1].ResultPos.X.Value, 2.0) +
-                        Math.Pow(procresults[2].ResultPos.X.Value, 2.0) - Math.Pow(procresults[1].ResultPos.Y.Value, 2.0);
+                        Math.Pow(procresults[2].ResultPos.Y.Value, 2.0) - Math.Pow(procresults[1].ResultPos.Y.Value, 2.0);  // 260108 sebas : Math.Pow(procresults[2].ResultPos.X.Value, 2.0) - Math.Pow(procresults[1].ResultPos.Y.Value, 2.0);
                     d = 2 * (procresults[3].ResultPos.X.Value - procresults[1].ResultPos.X.Value);
                     e = 2 * (procresults[3].ResultPos.Y.Value - procresults[1].ResultPos.Y.Value);
                     f = Math.Pow(procresults[3].ResultPos.X.Value, 2.0) - Math.Pow(procresults[1].ResultPos.X.Value, 2.0) +
@@ -2303,22 +2323,34 @@ namespace WAEdgeStadnardModule
                         LoggerManager.Debug($"Distance Q3 : {CLength[2]}", isInfo: true);
                         LoggerManager.Debug($"Distance Q4 : {CLength[3]}", isInfo: true);
 
-                        if ((CLengthRDiff[0] < EdgeStandardParam_Clone.gIntEdgeDetectProcToleranceRad.Value) &&
-                            (CLengthRDiff[1] < EdgeStandardParam_Clone.gIntEdgeDetectProcToleranceRad.Value) &&
-                            (CLengthRDiff[2] < EdgeStandardParam_Clone.gIntEdgeDetectProcToleranceRad.Value) &&
-                            (CLengthRDiff[3] < EdgeStandardParam_Clone.gIntEdgeDetectProcToleranceRad.Value))
-                        {
-                            Wafer.GetSubsInfo().WaferCenter.X.Value = chuckzeroAveXpos;
-                            Wafer.GetSubsInfo().WaferCenter.Y.Value = chuckzeroAveYpos;
+                        // <-- 260108 sebas : 오차 조건 제거
+                        //if ((CLengthRDiff[0] < EdgeStandardParam_Clone.gIntEdgeDetectProcToleranceRad.Value) &&
+                        //    (CLengthRDiff[1] < EdgeStandardParam_Clone.gIntEdgeDetectProcToleranceRad.Value) &&
+                        //    (CLengthRDiff[2] < EdgeStandardParam_Clone.gIntEdgeDetectProcToleranceRad.Value) &&
+                        //    (CLengthRDiff[3] < EdgeStandardParam_Clone.gIntEdgeDetectProcToleranceRad.Value))
+                        //{
+                        //    Wafer.GetSubsInfo().WaferCenter.X.Value = chuckzeroAveXpos;
+                        //    Wafer.GetSubsInfo().WaferCenter.Y.Value = chuckzeroAveYpos;
 
-                            Wafer.GetSubsInfo().WaferCenterOriginatEdge.X.Value = chuckzeroAveXpos;
-                            Wafer.GetSubsInfo().WaferCenterOriginatEdge.Y.Value = chuckzeroAveYpos;
+                        //    Wafer.GetSubsInfo().WaferCenterOriginatEdge.X.Value = chuckzeroAveXpos;
+                        //    Wafer.GetSubsInfo().WaferCenterOriginatEdge.Y.Value = chuckzeroAveYpos;
 
-                            WaferCoordinate coordinate =
-                                this.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
+                        //    WaferCoordinate coordinate =
+                        //        this.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
 
-                            RetVal = EventCodeEnum.NONE;
-                        }
+                        //    RetVal = EventCodeEnum.NONE;
+                        //}
+
+                        Wafer.GetSubsInfo().WaferCenter.X.Value = chuckzeroAveXpos;
+                        Wafer.GetSubsInfo().WaferCenter.Y.Value = chuckzeroAveYpos;
+
+                        Wafer.GetSubsInfo().WaferCenterOriginatEdge.X.Value = chuckzeroAveXpos;
+                        Wafer.GetSubsInfo().WaferCenterOriginatEdge.Y.Value = chuckzeroAveYpos;
+
+                        WaferCoordinate coordinate = this.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
+
+                        RetVal = EventCodeEnum.NONE;
+                        // --> 
                     }
                 }
                 catch (Exception err)
@@ -2417,7 +2449,7 @@ namespace WAEdgeStadnardModule
                 // -->
 
                 // <--260107 sebas 항상 매뉴얼 등록하도록 수정
-                if (ApplyCount != 4)
+                if (ApplyCount < 5)
                 {
                     MovingState.Moving();
                     if (await RegisteManualEdgePos())
@@ -2426,6 +2458,8 @@ namespace WAEdgeStadnardModule
                 }
                 else
                 {
+                    IsManualMode = true;
+
                     Wafer.GetSubsInfo().WaferCenter.Z.Value = Wafer.GetPhysInfo().Thickness.Value;
                     retVal = Execute();
                     if (retVal != EventCodeEnum.NONE)

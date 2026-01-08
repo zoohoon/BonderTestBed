@@ -3219,9 +3219,16 @@ namespace ProbeMotion
             }
             else if (xpos < xaxis.Param.NegSWLimit.Value)
             {
-                this.NotifyManager().Notify(EventCodeEnum.MOTION_NEG_SW_LIMIT_ERROR);
-                ret = EventCodeEnum.MOTION_NEG_SW_LIMIT_ERROR;
-                return ret;
+                if(xpos > -4500)
+                {
+
+                }
+                else
+                {
+                    this.NotifyManager().Notify(EventCodeEnum.MOTION_NEG_SW_LIMIT_ERROR);
+                    ret = EventCodeEnum.MOTION_NEG_SW_LIMIT_ERROR;
+                    return ret;
+                }
             }
 
             if (ypos > yaxis.Param.PosSWLimit.Value)
@@ -3256,7 +3263,7 @@ namespace ProbeMotion
                 // 260106 sebas : FD 회전으로 변경
                 //retVal = MotionProvider.AbsMove(caxis, caxis.Status.RawPosition.Ref, trjtype, ovrd);
                 //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
-                retVal = MotionProvider.AbsMove(FDT1axis, FDT1axis.Status.RawPosition.Ref, trjtype, ovrd);
+                retVal = MotionProvider.AbsMove(FDT1axis, 0, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
                 retVal = WaitForAxisMotionDone(xaxis);
