@@ -3209,7 +3209,6 @@ namespace ProbeMotion
             ProbeAxisObject caxis = GetAxis(EnumAxisConstants.C);
 
 
-
             if (xpos > xaxis.Param.PosSWLimit.Value)
             {
                 this.NotifyManager().Notify(EventCodeEnum.MOTION_POS_SW_LIMIT_ERROR);

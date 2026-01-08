@@ -1040,10 +1040,10 @@ namespace BVisionTestViewModel
                     
                     for (int i = 0; i < MAX_CAM; i++)
                     {
-                        _slotToDevice[0] = 1;   // CX 4
-                        _slotToDevice[1] = 4;   // CX 1
-                        _slotToDevice[2] = 3;   // CX 5
-                        _slotToDevice[3] = 0;   // CX 3
+                        _slotToDevice[0] = 0;   // CX 4
+                        _slotToDevice[1] = 3;   // CX 1
+                        _slotToDevice[2] = 4;   // CX 5
+                        _slotToDevice[3] = 1;   // CX 3
                         _slotToDevice[4] = 2;   // CX 2
                     }
 

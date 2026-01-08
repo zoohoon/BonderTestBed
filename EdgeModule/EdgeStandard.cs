@@ -961,7 +961,16 @@ namespace WAEdgeStadnardModule
 
                 SetEdgePosition_FD();
 
-                this.StageSupervisor().StageModuleState.WaferLowViewMove(EdgePos[0].GetX(), EdgePos[1].GetY(), WaferObject.GetSubsInfo().AveWaferThick);
+                this.StageSupervisor().StageModuleState.WaferLowViewMove(EdgePos[0].GetX(), EdgePos[0].GetY(), WaferObject.GetSubsInfo().AveWaferThick);    // 260107 sebas 아래에서 수정
+                //this.StageSupervisor().StageModuleState.WaferLowViewMove(EdgePos[0].GetX(), EdgePos[1].GetY(), WaferObject.GetSubsInfo().AveWaferThick);
+
+                // <--260107 sebas : 매뉴얼 엣지 등록을 위해 추가
+                foreach (var pos in EdgePos)
+                {
+                    MachineIndex edgeindex = this.CoordinateManager().GetCurMachineIndex(pos);
+                    EdgeMapParams.Add(new EdgeMapParam(edgeindex, Wafer.GetSubsInfo().DIEs[edgeindex.XIndex, edgeindex.YIndex].DieType.Value));
+                }
+                // -->
 
                 if (this.WaferAligner().IsNewSetup)
                 {
@@ -1002,7 +1011,7 @@ namespace WAEdgeStadnardModule
                 }
                 else
                 {
-                    EdgeStandardParam_Clone.DefaultLightValue = 200;
+                    EdgeStandardParam_Clone.DefaultLightValue = 45;    // 260107 sebas : 너무 밝아서 내림 (200)
                     for (int index = 0; index < CurCam.LightsChannels.Count; index++)
                     {
                         CurCam.SetLight(CurCam.LightsChannels[index].Type.Value,
@@ -1245,15 +1254,16 @@ namespace WAEdgeStadnardModule
                     EdgePos.Add(new WaferCoordinate(-edgepos + chuck_center_Xoffset, -edgepos + chuck_center_Yoffset));
 
                     // 2번 엣지 (30도 CCW 회전)
-                    var rotated30 = RotatePoint(-edgepos + chuck_center_Xoffset, -edgepos + chuck_center_Yoffset, Math.PI * 30 / 180);
-                    EdgePos.Add(new WaferCoordinate(rotated30.x, rotated30.y));
+                    var rotated30 = RotatePoint(-edgepos, -edgepos, Math.PI * 30 / 180);
+                    EdgePos.Add(new WaferCoordinate(rotated30.x + chuck_center_Xoffset, rotated30.y + chuck_center_Yoffset));
 
                     // 3번 엣지 (60도 CCW 회전)
-                    var rotated60 = RotatePoint(-edgepos + chuck_center_Xoffset, -edgepos + chuck_center_Yoffset, Math.PI * 60 / 180);
-                    EdgePos.Add(new WaferCoordinate(rotated60.x, rotated60.y));
+                    var rotated60 = RotatePoint(-edgepos, -edgepos, Math.PI * 60 / 180);
+                    EdgePos.Add(new WaferCoordinate(rotated60.x + chuck_center_Xoffset, rotated60.y + chuck_center_Yoffset));
 
                     // 4번 엣지
-                    EdgePos.Add(new WaferCoordinate(edgepos + chuck_center_Xoffset, -edgepos + chuck_center_Yoffset));
+                    var rotated90 = RotatePoint(-edgepos, -edgepos, Math.PI * 90 / 180);
+                    EdgePos.Add(new WaferCoordinate(rotated90.x + chuck_center_Xoffset, rotated90.y + chuck_center_Yoffset));
                 }
                 else
                 {
@@ -2370,6 +2380,7 @@ namespace WAEdgeStadnardModule
                 //    return retVal;
                 //}
 
+                // <--260107 sebas : 기존내용 주석 후 새로 작성
                 switch (ModifyCondition)
                 {
                     case WAEdgeSetupFunction.MANAUALEDGE:
@@ -2401,6 +2412,14 @@ namespace WAEdgeStadnardModule
                         }
                         break;
                 }
+                // -->
+
+                // <--260107 sebas 항상 매뉴얼 등록하도록 수정
+                //MovingState.Moving();
+                //if (await RegisteManualEdgePos())
+                //    await NextEdge();
+                //MovingState.Stop();
+                // -->
 
                 if (IsParameterChanged())
                     SaveDevParameter();
@@ -2419,6 +2438,7 @@ namespace WAEdgeStadnardModule
             return retVal;
         }
 
+        int RegistCount = 0;    // 260107 sebas
         private Task<bool> RegisteManualEdgePos()
         {
             bool retVal = false;
@@ -2439,34 +2459,36 @@ namespace WAEdgeStadnardModule
 
                 int index = -1;
                 int mapparamindex = -1;
+                RegistCount++;
+
                 MachineIndex idx = new MachineIndex();
-                if (coordinate.GetX() > 0 & coordinate.GetY() > 0)
-                {   //right upper
-                    //idx = EdgeMapParams.Find(dev => dev.Index.XIndex > 0 & dev.Index.YIndex > 0).Index;
+                if (RegistCount == 1)  // 260107 sebas : coordinate.GetX() > 0 & coordinate.GetY() > 0
+                { 
                     mapparamindex = 0;
                     idx = EdgeMapParams[mapparamindex].Index;
-                    index = ManualEdgePoss.FindIndex(pos => pos.Coordinate.GetX() > 0 & pos.Coordinate.GetY() > 0);
+                    // index = ManualEdgePoss.FindIndex(pos => pos.Coordinate.GetX() > 0 & pos.Coordinate.GetY() > 0);  // 260107 sebas 주석
+                    index = 0;
                 }
-                else if (coordinate.GetX() < 0 & coordinate.GetY() > 0)
-                {   //left upper
-                    //idx = EdgeMapParams.Find(dev => dev.Index.XIndex < 0 & dev.Index.YIndex > 0).Index;
+                else if (RegistCount == 2) // 260107 sebas : coordinate.GetX() < 0 & coordinate.GetY() > 0
+                {  
                     mapparamindex = 1;
                     idx = EdgeMapParams[mapparamindex].Index;
-                    index = ManualEdgePoss.FindIndex(pos => pos.Coordinate.GetX() < 0 & pos.Coordinate.GetY() > 0);
+                    // index = ManualEdgePoss.FindIndex(pos => pos.Coordinate.GetX() < 0 & pos.Coordinate.GetY() > 0);  // 260107 sebas 주석
+                    index = 1;
                 }
-                else if (coordinate.GetX() < 0 & coordinate.GetY() < 0)
-                {   //left lower
-                    //idx = EdgeMapParams.Find(dev => dev.Index.XIndex < 0 & dev.Index.YIndex < 0).Index;
+                else if (RegistCount == 3)// 260107 sebas : coordinate.GetX() < 0 & coordinate.GetY() < 0
+                {  
                     mapparamindex = 2;
                     idx = EdgeMapParams[mapparamindex].Index;
-                    index = ManualEdgePoss.FindIndex(pos => pos.Coordinate.GetX() < 0 & pos.Coordinate.GetY() < 0);
+                    // index = ManualEdgePoss.FindIndex(pos => pos.Coordinate.GetX() < 0 & pos.Coordinate.GetY() < 0);  // 260107 sebas 주석
+                    index = 2;
                 }
-                else if (coordinate.GetX() > 0 & coordinate.GetY() < 0)
-                {   //right lower
-                    //idx = EdgeMapParams.Find(dev => dev.Index.XIndex > 0 & dev.Index.YIndex < 0).Index;
+                else if (RegistCount == 4)// 260107 sebas : coordinate.GetX() > 0 & coordinate.GetY() < 0
+                { 
                     mapparamindex = 3;
                     idx = EdgeMapParams[mapparamindex].Index;
-                    index = ManualEdgePoss.FindIndex(pos => pos.Coordinate.GetX() > 0 & pos.Coordinate.GetY() < 0);
+                    // index = ManualEdgePoss.FindIndex(pos => pos.Coordinate.GetX() > 0 & pos.Coordinate.GetY() < 0);  // 260107 sebas 주석
+                    index = 3;
                 }
 
                 if (idx != null)
@@ -2482,25 +2504,6 @@ namespace WAEdgeStadnardModule
                     {
                         ManualEdgePoss.Add(new EdgeMapParam(coordinate, curidx, WaferObject.GetSubsInfo().DIEs[curidx.XIndex, curidx.YIndex].DieType.Value));
                     }
-                    //ManualEdgePoss.Add(coordinate);
-
-                    //WaferObject.GetSubsInfo().Devices.ToList<DeviceObject>().Find(item => item.DieIndexM.XIndex == idx.XIndex
-                    //     && item.DieIndexM.YIndex == idx.YIndex)
-                    //     .DieType.Value = DieTypeEnum.MODIFY_DIE;
-
-                    // 아래가 결과맵에 영향을 줌.
-                    //if (curidx.XIndex == idx.XIndex & curidx.YIndex == idx.YIndex)
-                    //{//기존의 EdgePos 와 같은 Index면
-                    //    WaferObject.GetSubsInfo().DIEs[idx.XIndex, idx.YIndex].DieType.Value = DieTypeEnum.MODIFY_DIE;
-                    //}
-                    //else
-                    //{
-                    //    WaferObject.GetSubsInfo().DIEs[idx.XIndex, idx.YIndex].DieType.Value = EdgeMapParams[mapparamindex].DieType;
-                    //    WaferObject.GetSubsInfo().DIEs[curidx.XIndex, curidx.YIndex].DieType.Value = DieTypeEnum.MODIFY_DIE;
-                    //}
-
-
-
                 }
 
                 if (index == -1)

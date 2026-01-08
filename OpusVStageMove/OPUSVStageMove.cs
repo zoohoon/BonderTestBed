@@ -18708,8 +18708,9 @@ namespace OpusVStageMove
 
             try
             {
-                ret = CheckStage();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // 260107 sebas : 조건 제거
+                //ret = CheckStage();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
                 var stagesupervisor = Module.StageSupervisor();
 

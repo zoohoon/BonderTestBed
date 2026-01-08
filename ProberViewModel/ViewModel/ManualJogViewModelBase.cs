@@ -9170,12 +9170,12 @@ namespace ManualJogViewModel
                     LoggerManager.Event($"Arms_Air_On End");
 
                     // 나노스테이지 위치 인터락
-                    bool RotateIntorlock = IsCanRotate();
-                    if(false == RotateIntorlock)
-                    {
-                        LoggerManager.Event($"회전 할 수 없는 상태(나노스테이지 확인 필요)");
-                        return;
-                    }
+                    //bool RotateIntorlock = IsCanRotate();
+                    //if(false == RotateIntorlock)
+                    //{
+                    //    LoggerManager.Event($"회전 할 수 없는 상태(나노스테이지 확인 필요)");
+                    //    return;
+                    //}
 
                     // 마지막 다이 움직일 필요 없음.
                     if (TestCount < 15)
@@ -9287,6 +9287,10 @@ namespace ManualJogViewModel
             LoggerManager.MonitoringLog($"나노스테이지 Z Down End");
             if (ret != EventCodeEnum.NONE)
                 throw new Exception("DoPlace_Nano_ZDown() Function Error");
+
+            // 이미지 촬영
+            //_VisionVM.CaptureCamera(0);
+            //
 
             // Vacuum Off (Place)
             if (cycleStartFlag == true)
@@ -10747,9 +10751,10 @@ namespace ManualJogViewModel
 
                     if (AcualPos < NanoStagePosCheck)
                     {
+                        LoggerManager.Event($"현재 나노스테이지 Z축 간섭 위치, 현재위치 : {AcualPos}, {i} / 3");
                         if (i > 3)
                         {
-                            LoggerManager.Event($"회전 할 수 없는 상태 (나노스테이지 확인 필요) : 재확인 {i} / 3");
+                            LoggerManager.Event($"회전 할 수 없는 상태 (나노스테이지 확인 필요)");
                             ret = false;
                             return ret;
                         }
@@ -10757,6 +10762,7 @@ namespace ManualJogViewModel
                     else
                     {
                         ret = true;
+                        return ret;
                     }
                 }
             }
@@ -11056,7 +11062,7 @@ namespace ManualJogViewModel
             try
             {
                 LoggerManager.Debug($"AcceptanceCommand Start");
-
+                
                 EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
 
                 ProbeAxisObject axisEJPZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJPZ1);
@@ -11109,6 +11115,14 @@ namespace ManualJogViewModel
                         LoggerManager.Event($"Arms_Air_On Start");
                         Arms_Air_On_NoWaiting();
                         LoggerManager.Event($"Arms_Air_On End");
+
+                        // 나노스테이지 위치 인터락
+                        bool RotateIntorlock = IsCanRotate();
+                        if(false == RotateIntorlock)
+                        {
+                            LoggerManager.Event($"회전 할 수 없는 상태(나노스테이지 확인 필요)");
+                            return;
+                        }
 
                         // 마지막 다이 움직일 필요 없음.
                         if (TestCount < 15)
@@ -11197,58 +11211,58 @@ namespace ManualJogViewModel
         /// rotateFlag = false; 일때 정방향 회전 (임계값 아래->위 통과 시 캡처)
         /// rotateFlag = true;  일때 역방향 회전 (임계값 위->아래 통과 시 캡처)
         /// </summary>
-        //private void StartCaptureMonitor(bool rotateFlag, double threshold)
-        //{
-        //    // 이전 감시 종료
-        //    StopCaptureMonitor();
+        private void StartCaptureMonitor(bool rotateFlag, double threshold)
+        {
+            // 이전 감시 종료
+            //StopCaptureMonitor();
 
-        //    _capCts = new CancellationTokenSource();
-        //    var ct = _capCts.Token;
+            _capCts = new CancellationTokenSource();
+            var ct = _capCts.Token;
 
-        //    _capTask = Task.Run(async () =>
-        //    {
-        //        try
-        //        {
-        //            double prev = GetNZD1Pulse();
+            _capTask = Task.Run(async () =>
+            {
+                try
+                {
+                    double prev = GetNZD1Pulse();
 
-        //            while (!ct.IsCancellationRequested)
-        //            {
-        //                await Task.Delay(4, ct); // 폴링 주기(필요시 조절)
-        //                double curr = GetNZD1Pulse();
+                    while (!ct.IsCancellationRequested)
+                    {
+                        await Task.Delay(4, ct); // 폴링 주기(필요시 조절)
+                        double curr = GetNZD1Pulse();
 
-        //                // "통과" 순간에 NanoStage Down/Up
-        //                if(false == rotateFlag)
-        //                {
-        //                    if (curr > threshold)
-        //                    {
-        //                        LoggerManager.Debug("(P) Camera Capture Start");
-        //                        _VisionVM.CaptureCamera(0);
-        //                        LoggerManager.Debug("(P) Camera Capture End");
-        //                        break;
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    if (curr < threshold)
-        //                    {
-        //                        LoggerManager.Debug("(R) Camera Capture Start");
-        //                        _VisionVM.CaptureCamera(0);
-        //                        LoggerManager.Debug("(R) Camera Capture End");
-        //                        break;
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        catch (OperationCanceledException)
-        //        {
-        //            // 정상 취소
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            LoggerManager.Exception(ex);
-        //        }
-        //    }, ct);
-        //}
+                        // "통과" 순간에 NanoStage Down/Up
+                        if(false == rotateFlag)
+                        {
+                            if (curr > threshold)
+                            {
+                                LoggerManager.Debug("(P) Camera Capture Start");
+                                _VisionVM.CaptureCamera(0);
+                                LoggerManager.Debug("(P) Camera Capture End");
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            if (curr < threshold)
+                            {
+                                LoggerManager.Debug("(R) Camera Capture Start");
+                                _VisionVM.CaptureCamera(0);
+                                LoggerManager.Debug("(R) Camera Capture End");
+                                break;
+                            }
+                        }
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    // 정상 취소
+                }
+                catch (Exception ex)
+                {
+                    LoggerManager.Exception(ex);
+                }
+            }, ct);
+        }
 
         private CancellationTokenSource _nanoCts;
         private Task _nanoMonitorTask;
@@ -11387,6 +11401,10 @@ namespace ManualJogViewModel
                 LoggerManager.Event($"나노스테이지 Z Down End");
                 if (rv != EventCodeEnum.NONE)
                     throw new Exception("DoPlace_Nano_ZDown() Function Error");
+
+                // 이미지 촬영
+                //_VisionVM.CaptureCamera(0);
+                //
 
                 LoggerManager.Event($"나노스테이지 Z Up Start");
                 rv = DoPlace_Nano_ZUp();
