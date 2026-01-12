@@ -6949,17 +6949,18 @@ namespace OpusVStageMove
                 double curZ = 0;
                 double curPZ = 0;
                 curZ = axisz.Status.Position.Ref;
-                curPZ = axispz.Status.Position.Ref;
+                // <-- 260112 sebas : PZ축 관련 주석
+                //curPZ = axispz.Status.Position.Ref;
 
-                ret = Module.CheckHardwareInterference(mccoord.X.Value, mccoord.Y.Value, curZ, curPZ);
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //ret = Module.CheckHardwareInterference(mccoord.X.Value, mccoord.Y.Value, curZ, curPZ);
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                ret = SwitchThreeLegFunc(false);
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //ret = SwitchThreeLegFunc(false);
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                ret = MoveToPZClearance();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
+                //ret = MoveToPZClearance();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // -->
                 ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
@@ -18738,8 +18739,9 @@ namespace OpusVStageMove
 
             try
             {
-                ret = CheckStage();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // 260112 sebas : 체크 제거
+                //ret = CheckStage();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
                 var stagesupervisor = Module.StageSupervisor();
 

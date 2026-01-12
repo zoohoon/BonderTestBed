@@ -1112,7 +1112,7 @@ namespace WALowStandardModule
 
                 CurCam = this.VisionManager().GetCam(LowStandardParam_Clone.CamType);
 
-                ushort defaultlightvalue = 85;
+                ushort defaultlightvalue = 25;  // 260112 sebas : 로우캠 조명값 낮춤 (85 -> 25)
                 for (int lightindex = 0; lightindex < CurCam.LightsChannels.Count; lightindex++)
                 {
                     CurCam.SetLight(CurCam.LightsChannels[lightindex].Type.Value, defaultlightvalue);

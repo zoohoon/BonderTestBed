@@ -871,7 +871,7 @@ namespace WAHighStandardModule
 
                 CurCam = this.VisionManager().GetCam(HighStandardParam_Clone.CamType);
 
-                ushort defaultlightvalue = 85;
+                ushort defaultlightvalue = 25;  // 260112 sebas : 조명 너무 밝아서 내림 (85 -> 25)
                 for (int lightindex = 0; lightindex < CurCam.LightsChannels.Count; lightindex++)
                 {
                     CurCam.SetLight(CurCam.LightsChannels[lightindex].Type.Value, defaultlightvalue);

@@ -811,7 +811,7 @@ namespace Vision.ProcessingModule
                     this.MotionManager().GetRefPos(EnumAxisConstants.X, ref encoderxpos);
                     this.MotionManager().GetRefPos(EnumAxisConstants.Y, ref encoderypos);
                     this.MotionManager().GetRefPos(EnumAxisConstants.Z, ref encoderzpos);
-                    this.MotionManager().GetRefPos(EnumAxisConstants.PZ, ref encoderpzpos);
+                    // this.MotionManager().GetRefPos(EnumAxisConstants.PZ, ref encoderpzpos); // 260112 sebas : pz축 주석
 
                     pmparam.MachineCoordPos = new MachineCoordinate(encoderxpos, encoderypos, encoderzpos, encoderpzpos, 0.0);
 

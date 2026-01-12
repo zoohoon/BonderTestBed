@@ -237,11 +237,8 @@ namespace HexagonJogControl
                         //    if (this.MotionManager().CheckSWLimit(EnumAxisConstants.Z, this.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref - zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return;
                         //    this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.Z), -(zAxisRelPos));
                         //}
-                        if (this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).Status.AxisBusy == false)
-                        {
-                            if (this.MotionManager().CheckSWLimit(EnumAxisConstants.FDZ1, this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).Status.Position.Ref - zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return;
-                            this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1), -(zAxisRelPos));
-                        }
+                        if (this.MotionManager().CheckSWLimit(EnumAxisConstants.FDZ1, this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).Status.Position.Ref - zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return;
+                        this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1), (zAxisRelPos * 10));
                         // -->
                     }
                 }
@@ -270,11 +267,8 @@ namespace HexagonJogControl
                         //    if (this.MotionManager().CheckSWLimit(EnumAxisConstants.Z, this.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref - zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return;
                         //    this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.Z), -(zAxisRelPos));
                         //}
-                        if (this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).Status.AxisBusy == false)
-                        {
-                            if (this.MotionManager().CheckSWLimit(EnumAxisConstants.FDZ1, this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).Status.Position.Ref - zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return;
-                            this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1), -(zAxisRelPos));
-                        }
+                        if (this.MotionManager().CheckSWLimit(EnumAxisConstants.FDZ1, this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).Status.Position.Ref - zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return;
+                        this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1), -(zAxisRelPos * 10));
                         // -->
                     }
                 }

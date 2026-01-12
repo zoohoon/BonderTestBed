@@ -9138,7 +9138,7 @@ namespace ManualJogViewModel
                 if (ret != EventCodeEnum.NONE)
                     throw new Exception("MovePickPos_SafeZone_First() Error");
 
-                for (TestCount = 1; TestCount <= 15; TestCount++)
+                for (TestCount = 1; TestCount <= TestCountActualVal; TestCount++)
                 {
                     LoggerManager.Event($"Sequence Start {TestCount}");
 
@@ -9236,6 +9236,9 @@ namespace ManualJogViewModel
                 LoggerManager.Exception(err);
                 throw;
             }
+
+            Arm1_Vac_Off_NoWating();
+            Arm2_Vac_Off_NoWating();
         }
 
         // =========================
@@ -10424,7 +10427,7 @@ namespace ManualJogViewModel
                 }
 
                 // FD Z Up 추가
-                pos = 26800.0;    // = 99,388,609 FD stage Z 축 DtoP = 4194.304 // 기존 : 26800.0 , 도마뱀 : 29800.0
+                pos = 26800.0;    // = 99,388,609 FD stage Z 축 DtoP = 4194.304 // 기존 : 26800.0 , 도마뱀 : 28500.0
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -10665,8 +10668,8 @@ namespace ManualJogViewModel
         }
         public void Arm1_Vac_Off_NoWating()
         {
-            if (DryRepeat)
-                return;
+            //if (DryRepeat)
+            //    return;
 
             // ON 즉시 실행
             _ecatIo.Post(() =>
@@ -10683,8 +10686,8 @@ namespace ManualJogViewModel
 
         public void Arm2_Vac_Off_NoWating()
         {
-            if (DryRepeat)
-                return;
+            //if (DryRepeat)
+            //    return;
 
             // ON 즉시 실행
             _ecatIo.Post(() =>
@@ -10701,8 +10704,8 @@ namespace ManualJogViewModel
 
         public void Arm1_Vac_On_NoWating()
         {
-            if (DryRepeat)
-                return;
+            //if (DryRepeat)
+            //    return;
 
             // ON 즉시
             _ecatIo.Post(() =>
@@ -10719,8 +10722,8 @@ namespace ManualJogViewModel
 
         public void Arm2_Vac_On_NoWating()
         {
-            if (DryRepeat)
-                return;
+            //if (DryRepeat)
+            //    return;
 
             // ON 즉시
             _ecatIo.Post(() =>
@@ -10917,7 +10920,7 @@ namespace ManualJogViewModel
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
-                double pos = 144000000;   // = 350,000 Z 축 DtoP = 0.0025    (상판부터 척까지 높이 20.8)
+                double pos = 1450000000;   // = 350,000 Z 축 DtoP = 0.0025    (상판부터 척까지 높이 20.8) // 기존 144,000,000 -> 도마뱀테스트 
                 LoggerManager.Debug($"Wafer_Chuck_Up Start");
                 retVal = this.MotionManager().RelMove_Wating(axisZ, pos - currentPos, axisZ.Param.Speed.Value, axisZ.Param.Acceleration.Value);
                 LoggerManager.Debug($"Wafer_Chuck_Up End");

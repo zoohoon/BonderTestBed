@@ -1540,13 +1540,14 @@ namespace ThetaAlignStandatdModule
                 {
                     if (movecountx != 0)
                     {
-                        if (movex > minlimit | this.MotionManager().CheckSWLimit(EnumAxisConstants.X, movex) != EventCodeEnum.NONE)
-                        {
-                            LoggerManager.Debug($"FindJumpindex - [MINLIMIT_OVERFLOW] | Ver,Hor :{jumpdirecion} , Direciont : {direction}, MoveX : {movecountx}, MoveY : {movecounty}", isInfo: IsInfo);
-                            LoggerManager.Debug($"FindJumpindex - [MINLIMIT_OVERFLOW] | MovePosX : {movex} , MovePosY : {movey}, MinLimit : {minlimit}", isInfo: IsInfo);
+                        // 260112 sebas : 좌표계 차이로 일단 리미트 제거
+                        //if (movex > minlimit | this.MotionManager().CheckSWLimit(EnumAxisConstants.X, movex) != EventCodeEnum.NONE)
+                        //{
+                        //    LoggerManager.Debug($"FindJumpindex - [MINLIMIT_OVERFLOW] | Ver,Hor :{jumpdirecion} , Direciont : {direction}, MoveX : {movecountx}, MoveY : {movecounty}", isInfo: IsInfo);
+                        //    LoggerManager.Debug($"FindJumpindex - [MINLIMIT_OVERFLOW] | MovePosX : {movex} , MovePosY : {movey}, MinLimit : {minlimit}", isInfo: IsInfo);
 
-                            return ThetaAlignEventCodeEnum.MINLIMIT_OVERFLOW;
-                        }
+                        //    return ThetaAlignEventCodeEnum.MINLIMIT_OVERFLOW;
+                        //}
                     }
                     else if (movecounty != 0)
                     {
@@ -1562,6 +1563,9 @@ namespace ThetaAlignStandatdModule
 
                 if (ptinfo.CamType.Value == EnumProberCam.WAFER_LOW_CAM)
                 {
+                    // 260112 sebas : 인덱스 이동위치 값 보정
+                    movex = movex - 640;
+                    movey = movey + 320;
                     this.StageSupervisor().StageModuleState.WaferLowViewMove(movex, movey);
                 }
                 else if (ptinfo.CamType.Value == EnumProberCam.WAFER_HIGH_CAM)
