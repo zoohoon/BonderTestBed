@@ -1517,13 +1517,14 @@ namespace ThetaAlignStandatdModule
                 {
                     if (movecountx != 0)
                     {
-                        if (movex < minlimit | this.MotionManager().CheckSWLimit(EnumAxisConstants.X, movex) != EventCodeEnum.NONE)
-                        {
-                            LoggerManager.Debug($"FindJumpindex - [MAXLIMIT_OVERFOLW] | Ver,Hor :{jumpdirecion} , Direciont : {direction}, MoveX : {movecountx}, MoveY : {movecounty}", isInfo: IsInfo);
-                            LoggerManager.Debug($"FindJumpindex - [MAXLIMIT_OVERFOLW] | MovePosX : {movex} , MovePosY : {movey}, MinLimit : {minlimit}", isInfo: IsInfo);
+                        // 260112 sebas : 좌표 문제로 리미트 제거
+                        //if (movex < minlimit | this.MotionManager().CheckSWLimit(EnumAxisConstants.X, movex) != EventCodeEnum.NONE)
+                        //{
+                        //    LoggerManager.Debug($"FindJumpindex - [MAXLIMIT_OVERFOLW] | Ver,Hor :{jumpdirecion} , Direciont : {direction}, MoveX : {movecountx}, MoveY : {movecounty}", isInfo: IsInfo);
+                        //    LoggerManager.Debug($"FindJumpindex - [MAXLIMIT_OVERFOLW] | MovePosX : {movex} , MovePosY : {movey}, MinLimit : {minlimit}", isInfo: IsInfo);
 
-                            return ThetaAlignEventCodeEnum.MAXLIMIT_OVERFOLW;
-                        }
+                        //    return ThetaAlignEventCodeEnum.MAXLIMIT_OVERFOLW;
+                        //}
                     }
                     else if (movecounty != 0)
                     {
@@ -1563,9 +1564,6 @@ namespace ThetaAlignStandatdModule
 
                 if (ptinfo.CamType.Value == EnumProberCam.WAFER_LOW_CAM)
                 {
-                    // 260112 sebas : 인덱스 이동위치 값 보정
-                    movex = movex - 640;
-                    movey = movey + 320;
                     this.StageSupervisor().StageModuleState.WaferLowViewMove(movex, movey);
                 }
                 else if (ptinfo.CamType.Value == EnumProberCam.WAFER_HIGH_CAM)
@@ -1648,7 +1646,7 @@ namespace ThetaAlignStandatdModule
         private EventCodeEnum Processing(WAStandardPTInfomation ptinfo, ObservableCollection<StandardJumpIndexParam> indexparam, ref List<WaferProcResult> procresults, bool doAlign, object assembly = null, bool retry = true, bool revisionwc = true)
         {
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
-
+            // LowAlign에서 APPLY 누르면 들어오는 함수
             try
             {
                 double zoffset = 0;
@@ -2787,18 +2785,31 @@ namespace ThetaAlignStandatdModule
 
                     rotateangle = Math.Round(rotateangle, 6);
 
-                    var axisC = this.MotionManager().GetAxis(EnumAxisConstants.C);
+                    // <-- 260113 sebas : FDT1로 변경
+                    //var axisC = this.MotionManager().GetAxis(EnumAxisConstants.C);
+                    var axisC = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
 
                     LoggerManager.Debug($"RevisionAngle : {rotateangle}°.", isInfo: IsInfo);
 
                     double curTheta = 0.0;
-                    this.MotionManager().GetRefPos(EnumAxisConstants.C, ref curTheta);
+                    //this.MotionManager().GetRefPos(EnumAxisConstants.C, ref curTheta);
+                    //double prevTheta = curTheta;
+                    //this.StageSupervisor().StageModuleState.StageRelMove(axisC, (rotateangle * 10000d));
+                    //this.MotionManager().GetRefPos(EnumAxisConstants.C, ref curTheta);
+                    this.MotionManager().GetRefPos(EnumAxisConstants.FDT1, ref curTheta);
                     double prevTheta = curTheta;
-
-                    this.StageSupervisor().StageModuleState.StageRelMove(axisC, (rotateangle * 10000d));
+                    if(rotateangle < 2 || rotateangle > -2)
+                    {
+                        // 계산 각도가 좀 의심스러운데
+                        double tempRotate = Math.Abs(rotateangle) * 9025 * 2 * 1000;  // sebas : 1mm당 9025 , DtoP = 0.001
+                        this.StageSupervisor().StageModuleState.StageRelMove(axisC, tempRotate);
+                    }
 
                     this.MotionManager().GetRefPos(EnumAxisConstants.C, ref curTheta);
-                    this.WaferAligner().WaferAlignInfo.AlignAngle = curTheta / 10000d;
+
+                    // this.WaferAligner().WaferAlignInfo.AlignAngle = curTheta / 10000d;
+                    this.WaferAligner().WaferAlignInfo.AlignAngle = curTheta;
+                    // -->
 
                     LoggerManager.Debug($"WaferAlign Angle : {this.WaferAligner().WaferAlignInfo.AlignAngle}°.", isInfo: IsInfo);
                     LoggerManager.Debug($"WaferAlign Theta beforeMove : {prevTheta}, afterMove : {curTheta}, offset : {curTheta - prevTheta}", isInfo: IsInfo);

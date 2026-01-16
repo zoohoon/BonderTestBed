@@ -623,7 +623,7 @@ namespace BVisionTestViewModel
                 while (_isWorking[camIndex])
                 {
                     // 너무 바쁘면 CPU 100% 방지
-                    Thread.Sleep(1);
+                    Thread.Sleep(10);
 
                     var handle = _grabber[camIndex].GrabDone;
                     if (handle == null) continue;
@@ -1040,11 +1040,11 @@ namespace BVisionTestViewModel
                     
                     for (int i = 0; i < MAX_CAM; i++)
                     {
-                        _slotToDevice[0] = 0;   // CX 4
-                        _slotToDevice[1] = 3;   // CX 1
+                        _slotToDevice[0] = 3;   // CX 4
+                        _slotToDevice[1] = 0;   // CX 1
                         _slotToDevice[2] = 4;   // CX 5
-                        _slotToDevice[3] = 1;   // CX 3
-                        _slotToDevice[4] = 2;   // CX 2
+                        _slotToDevice[3] = 2;   // CX 3
+                        _slotToDevice[4] = 1;   // CX 2
                     }
 
                     Initialized = true;

@@ -3263,7 +3263,7 @@ namespace ProbeMotion
                 // 260106 sebas : FD 회전으로 변경
                 //retVal = MotionProvider.AbsMove(caxis, caxis.Status.RawPosition.Ref, trjtype, ovrd);
                 //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
-                retVal = MotionProvider.AbsMove(FDT1axis, 0, trjtype, ovrd);
+                retVal = MotionProvider.AbsMove(FDT1axis, FDT1axis.Status.RawPosition.Ref, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
                 retVal = WaitForAxisMotionDone(xaxis);
@@ -3521,8 +3521,9 @@ namespace ProbeMotion
                 retVal = MotionProvider.AbsMove(yaxis, yaxis.Status.RawPosition.Ref, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
-                retVal = MotionProvider.AbsMove(caxis, caxis.Status.RawPosition.Ref, trjtype, ovrd);
-                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                // 260114 sebas : FD T로 바꿀 예정
+                //retVal = MotionProvider.AbsMove(caxis, caxis.Status.RawPosition.Ref, trjtype, ovrd);
+                //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
                 retVal = WaitForAxisMotionDone(xaxis);
                 ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
@@ -3530,39 +3531,16 @@ namespace ProbeMotion
                 retVal = WaitForAxisMotionDone(yaxis);
                 ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
-                retVal = WaitForAxisMotionDone(caxis);
-                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                //retVal = WaitForAxisMotionDone(caxis);
+                //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
+                // 260114 sebas : FD Z로 바꿀 예정
+                //retVal = MotionProvider.AbsMove(zaxis, zaxis.Status.RawPosition.Ref, trjtype, ovrd);
+                //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
-                retVal = MotionProvider.AbsMove(zaxis, zaxis.Status.RawPosition.Ref, trjtype, ovrd);
-                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                //retVal = WaitForAxisMotionDone(zaxis);
+                //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
-                retVal = WaitForAxisMotionDone(zaxis);
-                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
-
-
-                // return EventCodeEnum.NONE;
-                //return EventCodeEnum.MOTION_MOVING_ERROR;
-
-                // }
-                //if (retVal != 0)
-                //{
-                //    return EventCodeEnum.MOTION_MOVING_ERROR;
-                //}
-
-
-                //foreach (ProbeAxisObject compAxis in ErrorManager.AssociatedAxes)
-                //{
-                //    retVal = MotionProvider.AbsMove(compAxis, compAxis.Status.RawPosition.Ref, trjtype, ovrd);
-                //    ResultValidate(MethodBase.GetCurrentMethod(), retVal);
-
-                //}
-                //foreach (ProbeAxisObject axis in ErrorManager.AssociatedAxes)
-                //{
-                //    retVal = WaitForAxisMotionDone(axis, 0);
-                //    ResultValidate(MethodBase.GetCurrentMethod(), retVal);
-
-                //}
                 ret = EventCodeEnum.NONE;
             }
             catch (MotionException ex)

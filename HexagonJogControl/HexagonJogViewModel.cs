@@ -268,7 +268,7 @@ namespace HexagonJogControl
                         //    this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.Z), -(zAxisRelPos));
                         //}
                         if (this.MotionManager().CheckSWLimit(EnumAxisConstants.FDZ1, this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).Status.Position.Ref - zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return;
-                        this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1), -(zAxisRelPos * 10));
+                        this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1), (zAxisRelPos * 10));
                         // -->
                     }
                 }

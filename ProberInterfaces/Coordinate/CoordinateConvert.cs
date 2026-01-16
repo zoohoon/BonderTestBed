@@ -70,7 +70,7 @@ namespace ProberInterfaces
                 {
                     mccoord.X.Value =
                             CoordinateManager.StageCoord.RefMarkPos.X.Value
-                        + CoordinateManager.StageCoord.MarkPosInChuckCoord.X.Value
+                        + CoordinateManager.StageCoord.MarkPosInChuckCoord.X.Value + 39000  // 260114 sebas : 로우-하이캠 하드웨어 간격 추가 (39000)
                         - coord.X.Value;
 
                     mccoord.Y.Value =

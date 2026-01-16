@@ -6517,21 +6517,24 @@ namespace OpusVStageMove
                 mccoord = Module.CoordinateManager().WaferHighChuckConvert.ConvertBack(wfcoord);
 
                 double curPZ = 0;
-                curPZ = axispz.Status.Position.Ref;
+                // <-- 260114 sebas : PZ 조건제거
+                //curPZ = axispz.Status.Position.Ref;
 
-                ret = Module.CheckHardwareInterference(mccoord.X.Value, mccoord.Y.Value, mccoord.Z.Value, curPZ);
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //ret = Module.CheckHardwareInterference(mccoord.X.Value, mccoord.Y.Value, mccoord.Z.Value, curPZ);
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                ret = SwitchThreeLegFunc(false);
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //ret = SwitchThreeLegFunc(false);
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                ret = MoveToPZClearance();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //ret = MoveToPZClearance();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // -->
 
                 if (curZpos > mccoord.Z.Value)
                 {
-                    ret = Module.MotionManager().AbsMove(axisz, mccoord.Z.Value, trjtype, ovrd);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                    // 260114 sebas : Z 조건제거
+                    //ret = Module.MotionManager().AbsMove(axisz, mccoord.Z.Value, trjtype, ovrd);
+                    //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
                     ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, mccoord.Z.Value, trjtype, ovrd);
                     ResultValidate(MethodBase.GetCurrentMethod(), ret);
@@ -6541,8 +6544,9 @@ namespace OpusVStageMove
                     ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, curZpos, trjtype, ovrd);
                     ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                    ret = Module.MotionManager().AbsMove(axisz, mccoord.Z.Value, trjtype, ovrd);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                    // 260114 sebas : Z 조건제거
+                    //ret = Module.MotionManager().AbsMove(axisz, mccoord.Z.Value, trjtype, ovrd);
+                    //ResultValidate(MethodBase.GetCurrentMethod(), ret);
                 }
 
                 LoggerManager.Debug($"WaferHighViewMoveFunc() : xpos = {xpos}, ypos = {ypos}, zpos = {zpos}, heightzpos = {heightzpos})", isInfo: IsInfo);
@@ -6903,16 +6907,16 @@ namespace OpusVStageMove
                 double curZ = 0;
                 double curPZ = 0;
                 curZ = axisz.Status.Position.Ref;
-                curPZ = axispz.Status.Position.Ref;
+                // <-- 260114 sebas : 조건제거
+                //curPZ = axispz.Status.Position.Ref;
+                //ret = Module.CheckHardwareInterference(mccoord.X.Value, mccoord.Y.Value, curZ, curPZ);
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                ret = Module.CheckHardwareInterference(mccoord.X.Value, mccoord.Y.Value, curZ, curPZ);
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                ret = SwitchThreeLegFunc(false);
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                ret = MoveToPZClearance();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
+                //ret = SwitchThreeLegFunc(false);
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //ret = MoveToPZClearance();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // --> 
                 ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
@@ -17739,8 +17743,9 @@ namespace OpusVStageMove
 
             try
             {
-                ret = CheckStage();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // 260114 sebas : 조건제거
+                //ret = CheckStage();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
                 var stagesupervisor = Module.StageSupervisor();
 
@@ -17767,8 +17772,9 @@ namespace OpusVStageMove
 
             try
             {
-                ret = CheckStage();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // 260114 sebas : 조건 제거
+                //ret = CheckStage();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
                 var stagesupervisor = Module.StageSupervisor();
 
@@ -17798,8 +17804,9 @@ namespace OpusVStageMove
 
             try
             {
-                ret = CheckStage();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // 260114 sebas : 조건제거
+                //ret = CheckStage();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
                 var stagesupervisor = Module.StageSupervisor();
 
@@ -18156,8 +18163,9 @@ namespace OpusVStageMove
 
             try
             {
-                ret = CheckStage();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // 260114 sebas : 조건 제거
+                //ret = CheckStage();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
                 WaferCoordinate whcoord = new WaferCoordinate();
                 whcoord = Module.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert();
@@ -18679,8 +18687,9 @@ namespace OpusVStageMove
 
             try
             {
-                ret = CheckStage();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // 260114 sebas : 조건 제거
+                //ret = CheckStage();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
                 var stagesupervisor = Module.StageSupervisor();
 
