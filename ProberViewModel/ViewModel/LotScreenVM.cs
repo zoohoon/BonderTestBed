@@ -230,16 +230,23 @@ namespace LotScreenViewModel
             }
         }
 
+        private Window _visionTestWindow;
+
         private BVisionTestViewModelBase _visionVM;
 
         private void FunVisionSetUpViewCommand(object obj)
         {
             try
             {
+                if (_visionTestWindow != null && _visionTestWindow.IsVisible)
+                {
+                    _visionTestWindow.Activate();
+                    return;
+                }
+
                 if (_visionVM == null)
                 {
                     _visionVM = new BVisionTestViewModelBase();
-
                     _visionVM.InitModule();
                     _visionVM.InitViewModel();
                 }
@@ -252,19 +259,16 @@ namespace LotScreenViewModel
                 Guid _ViewModelGUID = new Guid("A9796E36-D6D8-6EA1-349B-6E5E30A90E68");
                 var vm = ViewModelManager.GetViewModelFromGuid(_ViewModelGUID);
 
-                // 안전하게 ManualJogViewModelBase로 캐스팅
                 if (vm is ManualJogViewModelBase manualJogVM)
                 {
-                    manualJogVM.Set5Cam(this._visionVM); // 이제 Set5Cam 호출 가능
+                    manualJogVM.Set5Cam(this._visionVM);
                 }
                 else
                 {
-                    LoggerManager.Debug("ManualJogViewModelBase 인스턴스를 찾을 수 없습니다.");
+                    LoggerManager.Debug("BVisionTestViewModelBase 인스턴스를 찾을 수 없습니다.");
                 }
 
-
-                // 동일한 테마/리소스 적용용 Window 생성
-                var win = new Window
+                _visionTestWindow = new Window
                 {
                     Title = "Vision Test",
                     Content = view,
@@ -272,21 +276,45 @@ namespace LotScreenViewModel
                     Width = 1280,
                     Height = 940,
                     WindowStartupLocation = WindowStartupLocation.CenterOwner,
-
-                    // 기존과 동일한 배경 지정 (예: 어두운 테마)
-                    Background = System.Windows.Media.Brushes.Black
+                    Background = System.Windows.Media.Brushes.Black,
+                    ShowInTaskbar = false,
+                    Topmost = false
                 };
 
-                // 기존 App.xaml에 있는 테마/리소스 복사
                 foreach (var dict in Application.Current.Resources.MergedDictionaries)
                 {
-                    win.Resources.MergedDictionaries.Add(dict);
+                    _visionTestWindow.Resources.MergedDictionaries.Add(dict);
                 }
 
-                // 창을 도구창처럼 유지하고 여러 번 안 뜨게 관리
-                win.ShowInTaskbar = false;
-                win.Topmost = false;
-                win.Show(); // 모덜리스
+                // 창 닫힐 때: View/VM/리소스 완전 정리
+                _visionTestWindow.Closed += async (s, e) =>
+                {
+                    try
+                    {
+                        var w = (Window)s;
+
+                        if (w.Content is FrameworkElement fe)
+                            fe.DataContext = null;
+                        w.Content = null;
+
+                        if (_visionVM != null)
+                        {
+                            try { await _visionVM.DeInitViewModel(); } catch { }
+                            try { _visionVM.DeInitModule(); } catch { }
+                            _visionVM = null;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LoggerManager.Exception(ex);
+                    }
+                    finally
+                    {
+                        _visionTestWindow = null;
+                    }
+                };
+
+                _visionTestWindow.Show();
             }
             catch (Exception err)
             {

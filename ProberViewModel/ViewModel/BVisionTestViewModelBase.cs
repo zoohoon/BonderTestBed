@@ -413,16 +413,19 @@ namespace BVisionTestViewModel
             }
         }
 
-        private ICommand _StartCameraCommand;
-        public ICommand StartCameraCommand
+        private ICommand _StartStopCameraCommand;
+        public ICommand StartStopCameraCommand
         {
             get
             {
-                if (_StartCameraCommand == null)
-                    _StartCameraCommand = new RelayCommand<object>(OnStartCamera);
-                return _StartCameraCommand;
+                if (_StartStopCameraCommand == null)
+                    _StartStopCameraCommand = new RelayCommand<object>(OnStartStopCamera);
+                return _StartStopCameraCommand;
             }
         }
+
+        private readonly string[] _startStopButtonText = new string[MAX_CAM];
+        public string[] StartStopButtonText => _startStopButtonText;
 
         private ICommand _CaptureCameraCommand;
         public ICommand CaptureCameraCommand
@@ -515,7 +518,7 @@ namespace BVisionTestViewModel
             }
         }
 
-        private void OnStartCamera(object param)
+        private void OnStartStopCamera(object param)
         {
             try
             {
@@ -524,17 +527,25 @@ namespace BVisionTestViewModel
                 if (_grabber[slot] == null)
                     OpenCameraInternal(slot);
 
+                // ===== Stop =====
                 if (_isWorking[slot])
                 {
                     StopThread(slot);
                     try { _grabber[slot].Stop(); } catch { }
+
+                    _isWorking[slot] = false;
+                    UpdateStartStopButtonText(slot);   // 버튼 글자 Start로
+
                     return;
                 }
 
+                // 중복 Start 방지
                 if (_displayThread[slot] != null && _displayThread[slot].IsAlive)
                     return;
 
+                // ===== Start =====
                 _isWorking[slot] = true;
+                UpdateStartStopButtonText(slot);       // 버튼 글자 Stop으로
 
                 // FPS 윈도우 리셋
                 _frameCounter[slot] = 0;
@@ -553,6 +564,8 @@ namespace BVisionTestViewModel
                 catch (Exception ex)
                 {
                     _isWorking[slot] = false;
+                    UpdateStartStopButtonText(slot);   // 실패 시 버튼 글자 복구(Start)
+
                     LoggerManager.Exception(ex);
                     StopThread(slot);
                     throw;
@@ -564,6 +577,12 @@ namespace BVisionTestViewModel
             }
         }
 
+        private void UpdateStartStopButtonText(int slot)
+        {
+            _startStopButtonText[slot] = _isWorking[slot] ? "Stop" : "Start";
+
+            RaisePropertyChanged(nameof(StartStopButtonText));
+        }
         #endregion
 
         #region Open/Display/Close
@@ -851,7 +870,6 @@ namespace BVisionTestViewModel
         #endregion
 
 
-
         private ObservableCollection<AxisObjectVM> _StageAxisObjectVmList
             = new ObservableCollection<AxisObjectVM>();
         public ObservableCollection<AxisObjectVM> StageAxisObjectVmList
@@ -914,12 +932,30 @@ namespace BVisionTestViewModel
             {
                 LoggerManager.Debug($"DeinitModule() in {this.GetType().Name}");
 
+                // 1) 동작중이면 전부 Stop
+                for (int i = 0; i < MAX_CAM; i++)
+                {
+                    try { StopThread(i); } catch { }        // 스레드 종료 + _isWorking false
+                    try { _grabber[i]?.Stop(); } catch { }  // 그랩 중지
+                }
+
+                // 2) 카메라/그랩버 해제
+                try { CloseAllCameras(); } catch { }    
+
+                // 3) Start/Stop 버튼 상태 초기화
+                for (int i = 0; i < MAX_CAM; i++)
+                {
+                    _isWorking[i] = false;
+                    _startStopButtonText[i] = "Start";
+                }
+                RaisePropertyChanged(nameof(StartStopButtonText));
             }
             catch (Exception err)
             {
                 LoggerManager.Exception(err);
             }
         }
+
         public Task<EventCodeEnum> DeInitViewModel(object parameter = null)
         {
             EventCodeEnum retval = EventCodeEnum.UNDEFINED;
@@ -928,6 +964,10 @@ namespace BVisionTestViewModel
             {
                 LoggerManager.Debug($"DeInitViewModel() in {GetType().Name}");
 
+                try { StageAxisObjectVmList?.Clear(); } catch { }
+                try { StageCamList?.Clear(); } catch { }
+                try { PosList?.Clear(); } catch { }
+
                 retval = EventCodeEnum.NONE;
             }
             catch (Exception err)
@@ -935,8 +975,9 @@ namespace BVisionTestViewModel
                 LoggerManager.Exception(err);
             }
 
-            return Task.FromResult<EventCodeEnum>(retval);
+            return Task.FromResult(retval);
         }
+
         private bool _TestRepeat;
         public bool TestRepeat
         {
@@ -1046,6 +1087,13 @@ namespace BVisionTestViewModel
                         _slotToDevice[3] = 2;   // CX 3
                         _slotToDevice[4] = 1;   // CX 2
                     }
+
+                    for (int i = 0; i < MAX_CAM; i++)
+                    {
+                        _isWorking[i] = false;
+                        _startStopButtonText[i] = "Start";
+                    }
+                    RaisePropertyChanged(nameof(StartStopButtonText));
 
                     Initialized = true;
 
