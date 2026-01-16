@@ -10923,7 +10923,7 @@ namespace ManualJogViewModel
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
-                double pos = 1460000000;   // = 350,000 Z 축 DtoP = 0.0025    (상판부터 척까지 높이 20.8) // 기존 144,000,000 -> 도마뱀테스트 
+                double pos = 146000000;   // = 350,000 Z 축 DtoP = 0.0025    (상판부터 척까지 높이 20.8) // 기존 144,000,000 -> 도마뱀테스트 
                 LoggerManager.Debug($"Wafer_Chuck_Up Start");
                 retVal = this.MotionManager().RelMove_Wating(axisZ, pos - currentPos, axisZ.Param.Speed.Value, axisZ.Param.Acceleration.Value);
                 LoggerManager.Debug($"Wafer_Chuck_Up End");

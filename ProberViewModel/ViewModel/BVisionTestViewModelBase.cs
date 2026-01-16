@@ -1925,36 +1925,243 @@ namespace BVisionTestViewModel
             return ret;
         }
 
-        private AsyncCommand _FirstDiePosMoveCommand;
-        public ICommand FirstDiePosMoveCommand
+        private AsyncCommand _CamFocusMove10Command;
+        public ICommand CamFocusMove10Command
         {
             get
             {
-                if (null == _FirstDiePosMoveCommand) _FirstDiePosMoveCommand = new AsyncCommand(FirstDiePosMoveFunc);
-                return _FirstDiePosMoveCommand;
+                if (null == _CamFocusMove10Command) _CamFocusMove10Command = new AsyncCommand(CamFocusMove10Func);
+                return _CamFocusMove10Command;
             }
         }
 
-        // 20251113 Nick 피두셜 마크 얼라인을 위한 작업
+        // 20260116 10X10 5 Cam Position 티칭 값으로 이동
         /// <summary>
-        /// 5. 센터다이를 찾았다면, 인덱스값을 기입하여 첫다이 위치로 이동시킨다.
-        /// 6. 첫다이 위치를 찾았다면 해당 위치를 Picker 위치로 이동시킨다.
         /// </summary>
         /// <returns></returns>
-        private async Task<EventCodeEnum> FirstDiePosMoveFunc() // 20251113 Nick 첫다이로 이동한다.
+        private async Task<EventCodeEnum> CamFocusMove10Func() // 20260116 10X10 5 Cam Position 티칭 값으로 이동
         {
             EventCodeEnum ret = EventCodeEnum.UNDEFINED;
             try
             {
                 await Task.Run(() =>
                 {
-                    // 20251113 Nick
-                    ProbeAxisObject xaxis = this.MotionManager().GetAxis(EnumAxisConstants.X);
-                    ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+                    // 20260116 Nick Wafer Chuck
+                    #region Wafer Chuck Z
+                    ProbeAxisObject zaxis = this.MotionManager().GetAxis(EnumAxisConstants.Z);
+                    double currentPos = 0.0;    // 현재 위치값 읽기
+                    double AcualPos = 0;
 
-                    // X, Y 인덱스 값을 기입하여 움직인다.
-                    this.MotionManager().RelMove(xaxis, 0); // X좌표 이동
-                    this.MotionManager().RelMove(yaxis, 0); // Y좌표 이동
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
+                    currentPos = AcualPos;
+
+                    double pos = 144000000;                  
+                    LoggerManager.Debug($"Wafer_Chuck_Up TC Start");
+                    ret = this.MotionManager().RelMove_Wating(zaxis, pos - currentPos, zaxis.Param.Speed.Value, zaxis.Param.Acceleration.Value);
+                    LoggerManager.Debug($"Wafer_Chuck_Up TC End");
+                    if (ret != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("Stage Z Up RelMove Error");
+                    }
+                    #endregion
+
+                    // 20260116 Nick 대물렌즈 Z
+                    #region 대물렌즈 Z
+                    ProbeAxisObject Nszaxis = this.MotionManager().GetAxis(EnumAxisConstants.NSZ1);
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ1).AxisType.Value, ref AcualPos);
+                    currentPos = AcualPos;
+
+                    pos = -6495;
+                    LoggerManager.Debug($"대물렌즈 Z Down Start");
+                    ret = this.MotionManager().RelMove_Wating(Nszaxis, pos - currentPos, Nszaxis.Param.Speed.Value, Nszaxis.Param.Acceleration.Value);
+                    LoggerManager.Debug($"대물렌즈 Z Down End");
+                    if (ret != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("대물렌즈 Z Down RelMove Error");
+                    }
+                    #endregion
+
+                    // 20260116 Nick 5Cam
+                    #region 5 Cam CX1
+                    ProbeAxisObject Cx1axis = this.MotionManager().GetAxis(EnumAxisConstants.CX1);
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CX1).AxisType.Value, ref AcualPos);
+                    currentPos = AcualPos;
+
+                    pos = 111000.0;
+                    LoggerManager.Debug($"5 Cam CX1 Move Start");
+                    ret = this.MotionManager().RelMove_Wating(Cx1axis, pos - currentPos, Cx1axis.Param.Speed.Value, Cx1axis.Param.Acceleration.Value);
+                    LoggerManager.Debug($"5 Cam CX1 Move End");
+                    if (ret != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("5 Cam CX1 RelMove Error");
+                    }
+
+                    ProbeAxisObject Cy1axis = this.MotionManager().GetAxis(EnumAxisConstants.CY1);
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CY1).AxisType.Value, ref AcualPos);
+                    currentPos = AcualPos;
+
+                    pos = 112000.0;
+                    LoggerManager.Debug($"5 Cam CY1 Move Start");
+                    ret = this.MotionManager().RelMove_Wating(Cy1axis, pos - currentPos, Cy1axis.Param.Speed.Value, Cy1axis.Param.Acceleration.Value);
+                    LoggerManager.Debug($"5 Cam CY1 Move End");
+                    if (ret != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("5 Cam CY1 RelMove Error");
+                    }
+
+                    ProbeAxisObject Cz1axis = this.MotionManager().GetAxis(EnumAxisConstants.CZ1);
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CZ1).AxisType.Value, ref AcualPos);
+                    currentPos = AcualPos;
+
+                    pos = 8000.0;
+                    LoggerManager.Debug($"5 Cam CZ1 Move Start");
+                    ret = this.MotionManager().RelMove_Wating(Cz1axis, pos - currentPos, Cz1axis.Param.Speed.Value, Cz1axis.Param.Acceleration.Value);
+                    LoggerManager.Debug($"5 Cam CZ1 Move End");
+                    if (ret != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("5 Cam CZ1 RelMove Error");
+                    }
+                    #endregion
+
+                    #region 5 Cam CX2
+                    ProbeAxisObject Cx2axis = this.MotionManager().GetAxis(EnumAxisConstants.CX2);
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CX2).AxisType.Value, ref AcualPos);
+                    currentPos = AcualPos;
+
+                    pos = 110000.0;
+                    LoggerManager.Debug($"5 Cam CX2 Move Start");
+                    ret = this.MotionManager().RelMove_Wating(Cx2axis, pos - currentPos, Cx2axis.Param.Speed.Value, Cx2axis.Param.Acceleration.Value);
+                    LoggerManager.Debug($"5 Cam CX2 Move End");
+                    if (ret != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("5 Cam CX2 RelMove Error");
+                    }
+
+                    ProbeAxisObject Cy2axis = this.MotionManager().GetAxis(EnumAxisConstants.CY2);
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CY2).AxisType.Value, ref AcualPos);
+                    currentPos = AcualPos;
+
+                    pos = 112000.0;
+                    LoggerManager.Debug($"5 Cam CY2 Move Start");
+                    ret = this.MotionManager().RelMove_Wating(Cy2axis, pos - currentPos, Cy2axis.Param.Speed.Value, Cy2axis.Param.Acceleration.Value);
+                    LoggerManager.Debug($"5 Cam CY2 Move End");
+                    if (ret != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("5 Cam CY2 RelMove Error");
+                    }
+
+                    ProbeAxisObject Cz2axis = this.MotionManager().GetAxis(EnumAxisConstants.CZ2);
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CZ2).AxisType.Value, ref AcualPos);
+                    currentPos = AcualPos;
+
+                    pos = 8000.0;
+                    LoggerManager.Debug($"5 Cam CZ2 Move Start");
+                    ret = this.MotionManager().RelMove_Wating(Cz2axis, pos - currentPos, Cz2axis.Param.Speed.Value, Cz2axis.Param.Acceleration.Value);
+                    LoggerManager.Debug($"5 Cam CZ2 Move End");
+                    if (ret != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("5 Cam CZ2 RelMove Error");
+                    }
+                    #endregion
+
+                    #region 5 Cam CX3
+                    ProbeAxisObject Cx3axis = this.MotionManager().GetAxis(EnumAxisConstants.CX3);
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CX3).AxisType.Value, ref AcualPos);
+                    currentPos = AcualPos;
+
+                    pos = 111500.0;
+                    LoggerManager.Debug($"5 Cam CX3 Move Start");
+                    ret = this.MotionManager().RelMove_Wating(Cx3axis, pos - currentPos, Cx3axis.Param.Speed.Value, Cx3axis.Param.Acceleration.Value);
+                    LoggerManager.Debug($"5 Cam CX3 Move End");
+                    if (ret != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("5 Cam CX3 RelMove Error");
+                    }
+
+
+                    ProbeAxisObject Cy3axis = this.MotionManager().GetAxis(EnumAxisConstants.CY3);
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CY3).AxisType.Value, ref AcualPos);
+                    currentPos = AcualPos;
+
+                    pos = 109000.0;
+                    LoggerManager.Debug($"5 Cam CY3 Move Start");
+                    ret = this.MotionManager().RelMove_Wating(Cy3axis, pos - currentPos, Cy3axis.Param.Speed.Value, Cy3axis.Param.Acceleration.Value);
+                    LoggerManager.Debug($"5 Cam CY3 Move End");
+                    if (ret != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("5 Cam CY3 RelMove Error");
+                    }
+
+
+                    ProbeAxisObject Cz3axis = this.MotionManager().GetAxis(EnumAxisConstants.CZ3);
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CZ3).AxisType.Value, ref AcualPos);
+                    currentPos = AcualPos;
+
+                    pos = 8000.0;
+                    LoggerManager.Debug($"5 Cam CZ3 Move Start");
+                    ret = this.MotionManager().RelMove_Wating(Cz3axis, pos - currentPos, Cz3axis.Param.Speed.Value, Cz3axis.Param.Acceleration.Value);
+                    LoggerManager.Debug($"5 Cam CZ3 Move End");
+                    if (ret != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("5 Cam CZ3 RelMove Error");
+                    }
+                    #endregion
+
+                    #region 5 Cam CX4
+                    ProbeAxisObject Cx4axis = this.MotionManager().GetAxis(EnumAxisConstants.CX4);
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CX4).AxisType.Value, ref AcualPos);
+                    currentPos = AcualPos;
+
+                    pos = 112000.0;
+                    LoggerManager.Debug($"5 Cam CX4 Move Start");
+                    ret = this.MotionManager().RelMove_Wating(Cx4axis, pos - currentPos, Cx4axis.Param.Speed.Value, Cx4axis.Param.Acceleration.Value);
+                    LoggerManager.Debug($"5 Cam CX4 Move End");
+                    if (ret != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("5 Cam CX4 RelMove Error");
+                    }
+
+                    ProbeAxisObject Cy4axis = this.MotionManager().GetAxis(EnumAxisConstants.CY4);
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CY4).AxisType.Value, ref AcualPos);
+                    currentPos = AcualPos;
+
+                    pos = 113500.0;
+                    LoggerManager.Debug($"5 Cam CY4 Move Start");
+                    ret = this.MotionManager().RelMove_Wating(Cy4axis, pos - currentPos, Cy4axis.Param.Speed.Value, Cy4axis.Param.Acceleration.Value);
+                    LoggerManager.Debug($"5 Cam CY4 Move End");
+                    if (ret != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("5 Cam CY4 RelMove Error");
+                    }
+
+                    ProbeAxisObject Cz4axis = this.MotionManager().GetAxis(EnumAxisConstants.CZ4);
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CZ4).AxisType.Value, ref AcualPos);
+                    currentPos = AcualPos;
+
+                    pos = 8000.0;
+                    LoggerManager.Debug($"5 Cam CZ4 Move Start");
+                    ret = this.MotionManager().RelMove_Wating(Cz4axis, pos - currentPos, Cz4axis.Param.Speed.Value, Cz4axis.Param.Acceleration.Value);
+                    LoggerManager.Debug($"5 Cam CZ4 Move End");
+                    if (ret != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("5 Cam CZ4 RelMove Error");
+                    }
+                    #endregion
+
+                    #region 5 Cam CX5
+                    ProbeAxisObject Cz5axis = this.MotionManager().GetAxis(EnumAxisConstants.CZ5);
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CZ5).AxisType.Value, ref AcualPos);
+                    currentPos = AcualPos;
+
+                    pos = 500.0;
+                    LoggerManager.Debug($"5 Cam CZ5 Move Start");
+                    ret = this.MotionManager().RelMove_Wating(Cz5axis, pos - currentPos, Cz5axis.Param.Speed.Value, Cz5axis.Param.Acceleration.Value);
+                    LoggerManager.Debug($"5 Cam CZ5 Move End");
+                    if (ret != EventCodeEnum.NONE)
+                    {
+                        throw new Exception("5 Cam CZ5 RelMove Error");
+                    }
+                    #endregion
                 });
             }
             catch (Exception err)

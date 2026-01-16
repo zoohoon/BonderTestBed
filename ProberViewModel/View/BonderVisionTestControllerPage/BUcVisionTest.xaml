@@ -305,7 +305,7 @@
                     Content="MarkAlign" Grid.Column="4" Height="48" Command="{Binding MarkAlignCommand}"/>
             <Button Content="FD Chuck Center Move" Grid.Column="5" Height="48" Command="{Binding FDChuckCenterMoveCommand}"/>
             <Button AutomationProperties.AutomationId="FDChuckCenterMove"
-                    Content="First Die Position Move" Grid.Column="6" Height="48" Command="{Binding FirstDiePosMoveCommand}"/>
+                    Content="5 Cam Focus Move (10X10)" Grid.Column="6" Height="48" Command="{Binding CamFocusMove10Command}"/>
             <CheckBox IsChecked="{Binding Path=TestRepeat}" Content="Repeat" Foreground="White" Grid.Column="7"  
                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
