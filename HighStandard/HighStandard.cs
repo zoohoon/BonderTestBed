@@ -3168,6 +3168,7 @@ namespace WAHighStandardModule
                 else
                 {
                     retVal = EventCodeEnum.WAFER_JUMPINDEX_NOT_FOUND;
+                    retVal = EventCodeEnum.NONE;    // 260116 sebas : 강제 패스
                 }
             }
 

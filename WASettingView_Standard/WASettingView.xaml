@@ -30,7 +30,7 @@
                                     Height="52" Width="Auto"
                                     Command="{Binding WaferAlignSetupCommand}" 
                                     CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
-                                    Content="Setup Start(NEW)"/>
+                                    Content="Setup Start(NEW)&#10; (FD)"/>
 
                         <cui:Button AutomationProperties.AutomationId="WaferAlignSubStepSetupbtn"
                                     GUID="0FA740C6-FEC8-1C7F-BAB0-A1725716BD62" Style="{DynamicResource NormalTypeCUIButtonStyle}" 

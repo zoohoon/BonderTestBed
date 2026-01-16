@@ -94,6 +94,7 @@ namespace AutoLightModule
 
         public bool SetGrayLevel(EnumProberCam camType, int grayLevel)
         {
+            // ´«»ÍÇÏ´Â ÇÔ¼öÀÓ
             Dictionary<int, int> graylevelTable = new Dictionary<int, int>();
             try
             {

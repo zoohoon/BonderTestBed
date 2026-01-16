@@ -1528,13 +1528,14 @@ namespace ThetaAlignStandatdModule
                     }
                     else if (movecounty != 0)
                     {
-                        if (movey < minlimit | this.MotionManager().CheckSWLimit(EnumAxisConstants.Y, movey) != EventCodeEnum.NONE)
-                        {
-                            LoggerManager.Debug($"FindJumpindex - [MAXLIMIT_OVERFOLW] | Ver,Hor :{jumpdirecion} , Direciont : {direction}, MoveX : {movecountx}, MoveY : {movecounty}", isInfo: IsInfo);
-                            LoggerManager.Debug($"FindJumpindex - [MAXLIMIT_OVERFOLW] | MovePosX : {movex} , MovePosY : {movey}, MinLimit : {minlimit}", isInfo: IsInfo);
+                        // 260115 sebas : 리미트 제거
+                        //if (movey < minlimit | this.MotionManager().CheckSWLimit(EnumAxisConstants.Y, movey) != EventCodeEnum.NONE)
+                        //{
+                        //    LoggerManager.Debug($"FindJumpindex - [MAXLIMIT_OVERFOLW] | Ver,Hor :{jumpdirecion} , Direciont : {direction}, MoveX : {movecountx}, MoveY : {movecounty}", isInfo: IsInfo);
+                        //    LoggerManager.Debug($"FindJumpindex - [MAXLIMIT_OVERFOLW] | MovePosX : {movex} , MovePosY : {movey}, MinLimit : {minlimit}", isInfo: IsInfo);
 
-                            return ThetaAlignEventCodeEnum.MAXLIMIT_OVERFOLW;
-                        }
+                        //    return ThetaAlignEventCodeEnum.MAXLIMIT_OVERFOLW;
+                        //}
                     }
                 }
                 else

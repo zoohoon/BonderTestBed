@@ -210,7 +210,8 @@ namespace UcDisplayPort
                     AxisYPos = MotionManager.GetAxis(EnumAxisConstants.Y);
                     AxisZPos = MotionManager.GetAxis(EnumAxisConstants.Z);
                     AxisTPos = MotionManager.GetAxis(EnumAxisConstants.C);
-                    AxisPZPos = MotionManager.GetAxis(EnumAxisConstants.PZ);
+                    AxisFDZ1Pos = MotionManager.GetAxis(EnumAxisConstants.FDZ1);    // 260116 sebas
+                    //AxisPZPos = MotionManager.GetAxis(EnumAxisConstants.PZ);
                 }
                 //}
 
@@ -1094,6 +1095,17 @@ namespace UcDisplayPort
             set { this.SetValue(AxisZPosProperty, value); }
         }
 
+        // 260116 sebas add
+        public static readonly DependencyProperty AxisFDZ1PosProperty =
+DependencyProperty.Register("AxisFDZ1Pos"
+, typeof(ProbeAxisObject),
+typeof(DisplayPort), null);
+        public ProbeAxisObject AxisFDZ1Pos
+        {
+            get { return (ProbeAxisObject)this.GetValue(AxisFDZ1PosProperty); }
+            set { this.SetValue(AxisFDZ1PosProperty, value); }
+        }
+
         public static readonly DependencyProperty AxisPZPosProperty =
 DependencyProperty.Register("AxisPZPos"
 , typeof(ProbeAxisObject),
@@ -1197,11 +1209,16 @@ typeof(DisplayPort), null);
                 {
                     _MarkerEnable = value;
 
+                    //MarkerSetPos.SetCoordinates(AxisXPos.Status.Position.Ref,
+                    //                            AxisYPos.Status.Position.Ref,
+                    //                            AxisZPos.Status.Position.Ref,
+                    //                            AxisTPos.Status.Position.Ref,
+                    //                            AxisPZPos.Status.Position.Ref);
+
                     MarkerSetPos.SetCoordinates(AxisXPos.Status.Position.Ref,
                                                 AxisYPos.Status.Position.Ref,
-                                                AxisZPos.Status.Position.Ref,
-                                                AxisTPos.Status.Position.Ref,
-                                                AxisPZPos.Status.Position.Ref);
+                                                AxisFDZ1Pos.Status.Position.Ref,
+                                                AxisTPos.Status.Position.Ref);
 
                     RaisePropertyChanged();
                 }
@@ -2468,6 +2485,8 @@ typeof(DisplayPort), null);
             AxisTPos = MotionManager.GetAxis(EnumAxisConstants.C);
             //if (AxisPZPos == null)
             AxisPZPos = MotionManager.GetAxis(EnumAxisConstants.PZ);
+
+            AxisFDZ1Pos = MotionManager.GetAxis(EnumAxisConstants.FDZ1);    // 260116 sebas add
         }
     }
 

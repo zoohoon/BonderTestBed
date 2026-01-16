@@ -321,15 +321,23 @@
                        ContentStringFormat="{}{0:0.0}"  
                        Grid.Column="1" Grid.Row="2" Style="{StaticResource OSDLabelStyle}" Width="80" HorizontalContentAlignment="Right"/>
 
+                        <!-- 260116 sebas : Z축 대신 FD Z축으로 표시
                         <Label Content="Z : " Grid.Row="3" Style="{StaticResource OSDLabelStyle}"/>
                         <Label x:Name="lb_posz" Content="{Binding AxisZPos.Status.Position.Ref , ElementName=ucwindow}" AutomationProperties.AutomationId="lbAxisZPos"
                        ContentStringFormat="{}{0:0.0}"  
                        Grid.Column="1" Grid.Row="3" Style="{StaticResource OSDLabelStyle}" Width="80" HorizontalContentAlignment="Right"/>
-                        
+                        -->
+                        <Label Content="FDZ : " Grid.Row="3" Style="{StaticResource OSDLabelStyle}"/>
+                        <Label x:Name="lb_posz" Content="{Binding AxisFDZ1Pos.Status.Position.Ref , ElementName=ucwindow}" AutomationProperties.AutomationId="lbAxisZPos"
+                       ContentStringFormat="{}{0:0.0}"  
+                       Grid.Column="1" Grid.Row="3" Style="{StaticResource OSDLabelStyle}" Width="80" HorizontalContentAlignment="Right"/>
+
+                        <!-- 260116 sebas : PZ축 표시 삭제
                         <Label Content="PZ : " Grid.Row="4" Style="{StaticResource OSDLabelStyle}"/>
                         <Label x:Name="lb_pospz" Content="{Binding AxisPZPos.Status.Position.Ref , ElementName=ucwindow}" AutomationProperties.AutomationId="lbAxisPZPos"
                        ContentStringFormat="{}{0:0.0}"  
                        Grid.Column="1" Grid.Row="4" Style="{StaticResource OSDLabelStyle}" Width="80" HorizontalContentAlignment="Right"/>
+                        -->
                         
                         <Label Content="T : " Grid.Row="5" Style="{StaticResource OSDLabelStyle}" />
                         <Label x:Name="lb_post"  Content="{Binding AxisTPos.Status.Position.Ref, ElementName=ucwindow}" AutomationProperties.AutomationId="lbAxisTPos"

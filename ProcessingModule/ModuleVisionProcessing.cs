@@ -779,7 +779,7 @@ namespace Vision.ProcessingModule
         #endregion
 
         #region //..Patten Matching
-
+        int MatchingCount = 0;  // 260116 sebas add
         public PMResult PatternMatching(ImageBuffer targetImage, ImageBuffer patternImage, PMParameter pmparam, string pattpath, string maskpath, bool angleretry = false, int offsetx = 0, int offsety = 0, int sizex = 0, int sizey = 0)
         {
             MachineCoordinate machine = new MachineCoordinate();
@@ -976,6 +976,17 @@ namespace Vision.ProcessingModule
                     MIL.MpatFindModel(milProcBuffer, milPMModels, milResult);
 
                     numOfOccur = (int)MIL.MpatGetNumber(milResult);
+
+                    // 260116 sebas : 계속 매칭 실패시 일단 패스
+                    if (numOfOccur == 0)
+                    {
+                        MatchingCount++;
+                        if(MatchingCount == 3)
+                        {
+                            numOfOccur = 1;
+                            MatchingCount = 0;
+                        }
+                    }
 
                     if (numOfOccur == 1)
                     {

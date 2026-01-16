@@ -204,6 +204,22 @@ namespace ProberInterfaces.Param
             }
         }
 
+        // 260116 sebas add
+        private Element<double> _FDZ1 = new Element<double>();
+        [DataMember]
+        public Element<double> FDZ1
+        {
+            get { return _FDZ1; }
+            set
+            {
+                if (value != _FDZ1)
+                {
+                    _FDZ1 = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         private Element<double> _T = new Element<double>();
         [DataMember]
         public Element<double> T
@@ -218,6 +234,23 @@ namespace ProberInterfaces.Param
                 }
             }
         }
+
+        // 260116 sebas
+        private Element<double> _FDT1 = new Element<double>();
+        [DataMember]
+        public Element<double> FDT1
+        {
+            get { return _FDT1; }
+            set
+            {
+                if (value != _FDT1)
+                {
+                    _FDT1 = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         private Element<double> _PZ = new Element<double>();
         [DataMember]
         public Element<double> PZ
@@ -254,6 +287,15 @@ namespace ProberInterfaces.Param
             this.Z.Value = z;
             this.T.Value = t;
             this.PZ.Value = pz;
+        }
+
+        // 260116 sebas add
+        public void SetCoordinates_FD(double x, double y, double fdz, double fdt)
+        {
+            this.X.Value = x;
+            this.Y.Value = y;
+            this.FDZ1.Value = fdz;
+            this.T.Value = fdt;
         }
 
         public static CatCoordinates operator +(CatCoordinates b, CatCoordinates c)
