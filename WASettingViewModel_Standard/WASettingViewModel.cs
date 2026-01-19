@@ -226,6 +226,40 @@ namespace WASettingViewModel_Standard
 
         }
 
+        // <-- 260118 sebas
+        private AsyncCommand<CUI.Button> _FDWaferAlignSetupCommand;
+        public ICommand FDWaferAlignSetupCommand
+        {
+            get
+            {
+                if (null == _FDWaferAlignSetupCommand) _FDWaferAlignSetupCommand = new AsyncCommand<CUI.Button>(FDWaferAlignSetup);
+                return _FDWaferAlignSetupCommand;
+            }
+        }
+        private async Task FDWaferAlignSetup(CUI.Button cuiparam)
+        {
+            try
+            {
+                Guid viewguid = new Guid();
+                List<Guid> pnpsteps = new List<Guid>();
+                this.WaferAligner().IsNewSetup = true;
+                this.PnPManager().GetCuiBtnParam(this.WaferAligner(), cuiparam.GUID, out viewguid, out pnpsteps);
+                if (pnpsteps.Count != 0)
+                {
+                    this.WaferAligner().ClearState();
+                    this.WaferAligner().SetSetupState();
+                    this.PnPManager().SetNavListToGUIDs(this.WaferAligner(), pnpsteps);
+                    await this.ViewModelManager().ViewTransitionAsync(viewguid);
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+            }
+
+        }
+        // -->
+
         private AsyncCommand<CUI.Button> _WaferAlignRecoveryCommand;
         public ICommand WaferAlignRecoveryCommand
         {

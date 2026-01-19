@@ -30,7 +30,7 @@
                                     Height="52" Width="Auto"
                                     Command="{Binding WaferAlignSetupCommand}" 
                                     CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
-                                    Content="Setup Start(NEW)&#10; (FD)"/>
+                                    Content="Setup Start(NEW)&#10; (FD)" VerticalAlignment="Bottom"/>
 
                         <cui:Button AutomationProperties.AutomationId="WaferAlignSubStepSetupbtn"
                                     GUID="0FA740C6-FEC8-1C7F-BAB0-A1725716BD62" Style="{DynamicResource NormalTypeCUIButtonStyle}" 
@@ -68,6 +68,15 @@
                                     Command="{Binding WaferAlignRecoveryCommand}" 
                                     CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
                                     Content="Recovery Setup"/>
+
+                        <cui:Button AutomationProperties.AutomationId="FDWaferAlignSetupbtn"
+                                    Grid.Column="0"
+                                    GUID="a05a34bf-e63f-41ee-9819-285274faef1b" Style="{DynamicResource NormalTypeCUIButtonStyle}" 
+                                    HorizontalAlignment="Stretch" 
+                                    Height="52" Width="Auto"
+                                    Command="{Binding FDWaferAlignSetupCommand}" 
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                    Content="Setup Start(NEW)&#10; (Wafer)"/>
                     </UniformGrid>
                 </Grid>
                 
