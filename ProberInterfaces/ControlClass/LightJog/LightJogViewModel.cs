@@ -678,7 +678,7 @@ namespace ProberInterfaces.LightJog
 
                             if (this.MotionManager().CheckSWLimit(EnumAxisConstants.X, this.MotionManager().GetAxis(EnumAxisConstants.X).Status.Position.Ref + xAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return true;
                             if (this.MotionManager().CheckSWLimit(EnumAxisConstants.Y, this.MotionManager().GetAxis(EnumAxisConstants.Y).Status.Position.Ref + yAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return true;
-                            if (this.MotionManager().CheckSWLimit(StageSupervisor.StageModuleState.PinViewAxis, this.MotionManager().GetAxis(StageSupervisor.StageModuleState.PinViewAxis).Status.Position.Ref + zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return true;
+                            //if (this.MotionManager().CheckSWLimit(StageSupervisor.StageModuleState.PinViewAxis, this.MotionManager().GetAxis(StageSupervisor.StageModuleState.PinViewAxis).Status.Position.Ref + zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return true;   // 260119 sebas : pz 제외
                             break;
 
                         case EnumProberCam.PIN_HIGH_CAM://==> 현재 Camera가 PL로 가정하고 PH로 이동
@@ -688,7 +688,7 @@ namespace ProberInterfaces.LightJog
 
                             if (this.MotionManager().CheckSWLimit(EnumAxisConstants.X, this.MotionManager().GetAxis(EnumAxisConstants.X).Status.Position.Ref + xAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return true;
                             if (this.MotionManager().CheckSWLimit(EnumAxisConstants.Y, this.MotionManager().GetAxis(EnumAxisConstants.Y).Status.Position.Ref + yAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return true;
-                            if (this.MotionManager().CheckSWLimit(StageSupervisor.StageModuleState.PinViewAxis, this.MotionManager().GetAxis(StageSupervisor.StageModuleState.PinViewAxis).Status.Position.Ref + zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return true;
+                            //if (this.MotionManager().CheckSWLimit(StageSupervisor.StageModuleState.PinViewAxis, this.MotionManager().GetAxis(StageSupervisor.StageModuleState.PinViewAxis).Status.Position.Ref + zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return true; // 260119 sebas : pz 제외
 
                             break;
                     }

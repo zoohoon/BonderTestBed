@@ -249,7 +249,11 @@ namespace WASettingViewModel_Standard
                     this.WaferAligner().ClearState();
                     this.WaferAligner().SetSetupState();
                     this.PnPManager().SetNavListToGUIDs(this.WaferAligner(), pnpsteps);
+
+                    WAEdgeStadnardModule.EdgeStandard.IsWaferEdge = true;  // 260119 sebas : Wafer edge 시작
+
                     await this.ViewModelManager().ViewTransitionAsync(viewguid);
+
                 }
             }
             catch (Exception err)
@@ -257,6 +261,7 @@ namespace WASettingViewModel_Standard
                 LoggerManager.Exception(err);
             }
 
+            WAEdgeStadnardModule.EdgeStandard.IsWaferEdge = false;  // 260119 sebas : Wafer edge 끝
         }
         // -->
 

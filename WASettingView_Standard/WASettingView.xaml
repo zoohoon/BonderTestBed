@@ -71,7 +71,7 @@
 
                         <cui:Button AutomationProperties.AutomationId="FDWaferAlignSetupbtn"
                                     Grid.Column="0"
-                                    GUID="a05a34bf-e63f-41ee-9819-285274faef1b" Style="{DynamicResource NormalTypeCUIButtonStyle}" 
+                                    GUID="a05a34bf-e63f-41ee-9819-285274faef1a" Style="{DynamicResource NormalTypeCUIButtonStyle}" 
                                     HorizontalAlignment="Stretch" 
                                     Height="52" Width="Auto"
                                     Command="{Binding FDWaferAlignSetupCommand}" 

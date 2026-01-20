@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,12 +38,12 @@ namespace WAEdgeStadnardModule
     using System.Reflection;
 
     [Serializable, DataContract]
-    public class EdgeStandard : PNPSetupBase, ISetup, IRecovery, IProcessingModule, IParamNode, INotifyPropertyChanged, IHasDevParameterizable, ILotReadyAble, IPackagable, IWaferEdgeProcModule, IHasAdvancedSetup
+    public class FDEdgeStandard : PNPSetupBase, ISetup, IRecovery, IProcessingModule, IParamNode, INotifyPropertyChanged, IHasDevParameterizable, ILotReadyAble, IPackagable, IWaferEdgeProcModule, IHasAdvancedSetup
     {
         public override bool Initialized { get; set; } = false;
 
         [DataMember]
-        public override Guid ScreenGUID { get; } = new Guid("5B98472E-6F6D-CDA3-20E1-53EF541856F4");
+        public override Guid ScreenGUID { get; } = new Guid("5B98472E-6F6D-CDA3-20E1-53EF541856F5");
         enum WAEdgeSetupFunction
         {
             UNDIFINE = -1,
@@ -165,43 +165,41 @@ namespace WAEdgeStadnardModule
 
         private bool IsManualMode { get; set; } = false;
 
-        private List<EdgeMapParam> _ManualEdgePoss
-             = new List<EdgeMapParam>();
+        private List<FDEdgeMapParam> _FDManualEdgePoss
+             = new List<FDEdgeMapParam>();
         [DataMember]
-        public List<EdgeMapParam> ManualEdgePoss
+        public List<FDEdgeMapParam> FDManualEdgePoss
         {
-            get { return _ManualEdgePoss; }
-            set { _ManualEdgePoss = value; }
+            get { return _FDManualEdgePoss; }
+            set { _FDManualEdgePoss = value; }
         }
 
         //private List<WaferCoordinate> ManualEdgePoss = new List<WaferCoordinate>();
-        private List<EdgeMapParam> EdgeMapParams = new List<EdgeMapParam>();
+        private List<FDEdgeMapParam> FDEdgeMapParams = new List<FDEdgeMapParam>();
 
 
         private void SetWaferMap()
         {
             try
             {
-                //if (!IsManualMode)
-                //{
-                foreach (var edgeparam in EdgeMapParams)
+                foreach (var edgeparam in FDEdgeMapParams)
                 {
-                    if (WaferObject.GetSubsInfo().DIEs[edgeparam.Index.XIndex, edgeparam.Index.YIndex] != null)
-                        WaferObject.GetSubsInfo().DIEs[edgeparam.Index.XIndex, edgeparam.Index.YIndex].DieType.Value = edgeparam.DieType;
+                    if (WaferObject.GetSubsInfo().DIEs[edgeparam.FDIndex.XIndex, edgeparam.FDIndex.YIndex] != null)
+                        WaferObject.GetSubsInfo().DIEs[edgeparam.FDIndex.XIndex, edgeparam.FDIndex.YIndex].DieType.Value = edgeparam.DieType;
                 }
-                foreach (var edgeparam in ManualEdgePoss)
+                foreach (var edgeparam in FDManualEdgePoss)
                 {
-                    var existedge = EdgeMapParams.Find(
-                        index => index.Index.XIndex == edgeparam.Index.XIndex & index.Index.YIndex == edgeparam.Index.YIndex);
+                    var existedge = FDEdgeMapParams.Find(
+                        FDindex => FDindex.FDIndex.XIndex == edgeparam.FDIndex.XIndex & FDindex.FDIndex.YIndex == edgeparam.FDIndex.YIndex);
                     if (existedge != null)
                     {
-                        if (WaferObject.GetSubsInfo().DIEs[edgeparam.Index.XIndex, edgeparam.Index.YIndex] != null)
-                            WaferObject.GetSubsInfo().DIEs[edgeparam.Index.XIndex, edgeparam.Index.YIndex].DieType.Value = existedge.DieType;
+                        if (WaferObject.GetSubsInfo().DIEs[edgeparam.FDIndex.XIndex, edgeparam.FDIndex.YIndex] != null)
+                            WaferObject.GetSubsInfo().DIEs[edgeparam.FDIndex.XIndex, edgeparam.FDIndex.YIndex].DieType.Value = existedge.DieType;
                     }
                     else
                     {
-                        if (WaferObject.GetSubsInfo().DIEs[edgeparam.Index.XIndex, edgeparam.Index.YIndex] != null)
-                            WaferObject.GetSubsInfo().DIEs[edgeparam.Index.XIndex, edgeparam.Index.YIndex].DieType.Value = edgeparam.DieType;
+                        if (WaferObject.GetSubsInfo().DIEs[edgeparam.FDIndex.XIndex, edgeparam.FDIndex.YIndex] != null)
+                            WaferObject.GetSubsInfo().DIEs[edgeparam.FDIndex.XIndex, edgeparam.FDIndex.YIndex].DieType.Value = edgeparam.DieType;
                     }
                 }
 
@@ -230,7 +228,7 @@ namespace WAEdgeStadnardModule
         }
 
 
-        public EdgeStandard()
+        public FDEdgeStandard()
         {
 
         }
@@ -325,21 +323,6 @@ namespace WAEdgeStadnardModule
                     return retVal;
                 }
                 retVal = await base.Cleanup(parameter);
-
-                //if (retVal == EventCodeEnum.NONE)
-                //{
-                //    //if (this.WaferAligner().GetWAInnerStateEnum() == ProberInterfaces.Align.WaferAlignInnerStateEnum.RECOVERY)
-                //    if(IsManualMode)
-                //    {
-                //        foreach (var device in EdgeMapParams)
-                //        {
-                //            Wafer.GetSubsInfo().Devices.ToList<DeviceObject>().Find(item => item.DieIndexM.XIndex == device.Index.XIndex
-                //                && item.DieIndexM.YIndex == device.Index.YIndex)
-                //                             .State.Value = device.DeviceState;
-                //        }
-                //    }
-
-                //}
             }
             catch (Exception err)
             {
@@ -438,17 +421,17 @@ namespace WAEdgeStadnardModule
             SubModuleState = new SubModuleIdleState(this);
         }
 
-        private bool ExistManualEdge(int index)
+        private bool ExistManualEdge(int FDindex)
         {
             bool retVal = false;
             try
             {
-                switch (index)
+                switch (FDindex)
                 {
                     case (int)EnumEdgeDirection.RIGHTUPPER:
-                        if (ManualEdgePoss.Count != 0)
+                        if (FDManualEdgePoss.Count != 0)
                         {
-                            foreach (var pos in ManualEdgePoss)
+                            foreach (var pos in FDManualEdgePoss)
                             {
                                 if (pos.Coordinate.GetX() > 0 & pos.Coordinate.GetY() > 0)
                                     retVal = true;
@@ -456,9 +439,9 @@ namespace WAEdgeStadnardModule
                         }
                         break;
                     case (int)EnumEdgeDirection.LEFTUPPER:
-                        if (ManualEdgePoss.Count != 0)
+                        if (FDManualEdgePoss.Count != 0)
                         {
-                            foreach (var pos in ManualEdgePoss)
+                            foreach (var pos in FDManualEdgePoss)
                             {
                                 if (pos.Coordinate.GetX() < 0 & pos.Coordinate.GetY() > 0)
                                     retVal = true;
@@ -466,9 +449,9 @@ namespace WAEdgeStadnardModule
                         }
                         break;
                     case (int)EnumEdgeDirection.LEFTLOWER:
-                        if (ManualEdgePoss.Count != 0)
+                        if (FDManualEdgePoss.Count != 0)
                         {
-                            foreach (var pos in ManualEdgePoss)
+                            foreach (var pos in FDManualEdgePoss)
                             {
                                 if (pos.Coordinate.GetX() < 0 & pos.Coordinate.GetY() < 0)
                                     retVal = true;
@@ -476,9 +459,9 @@ namespace WAEdgeStadnardModule
                         }
                         break;
                     case (int)EnumEdgeDirection.RIGHTLOWER:
-                        if (ManualEdgePoss.Count != 0)
+                        if (FDManualEdgePoss.Count != 0)
                         {
-                            foreach (var pos in ManualEdgePoss)
+                            foreach (var pos in FDManualEdgePoss)
                             {
                                 if (pos.Coordinate.GetX() > 0 & pos.Coordinate.GetY() < 0)
                                     retVal = true;
@@ -506,21 +489,21 @@ namespace WAEdgeStadnardModule
                         if (CurCam.GetChannelType() == EnumProberCam.WAFER_LOW_CAM)
                         {
                             this.StageSupervisor().StageModuleState.WaferLowViewMove
-                                (ManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
+                                (FDManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
                                 + WaferObject.GetSubsInfo().WaferCenter.GetX(),
-                                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
+                                FDManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
                                 + WaferObject.GetSubsInfo().WaferCenter.GetY(),
-                                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
+                                FDManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
                                 + WaferObject.GetSubsInfo().WaferCenter.GetZ());
                         }
                         else
                         {
                             this.StageSupervisor().StageModuleState.WaferHighViewMove
-                                (ManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
+                                (FDManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
                                 + WaferObject.GetSubsInfo().WaferCenter.GetX(),
-                                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
+                                FDManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
                                 + WaferObject.GetSubsInfo().WaferCenter.GetY(),
-                                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
+                                FDManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
                                 + WaferObject.GetSubsInfo().WaferCenter.GetZ());
                         }
                     }
@@ -540,21 +523,21 @@ namespace WAEdgeStadnardModule
                         if (CurCam.GetChannelType() == EnumProberCam.WAFER_LOW_CAM)
                         {
                             this.StageSupervisor().StageModuleState.WaferLowViewMove
-                                (ManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
+                                (FDManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
                                 + WaferObject.GetSubsInfo().WaferCenter.GetX(),
-                                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
+                                FDManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
                                 + WaferObject.GetSubsInfo().WaferCenter.GetY(),
-                                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
+                                FDManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
                                 + WaferObject.GetSubsInfo().WaferCenter.GetZ());
                         }
                         else
                         {
                             this.StageSupervisor().StageModuleState.WaferHighViewMove
-                                (ManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
+                                (FDManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
                                 + WaferObject.GetSubsInfo().WaferCenter.GetX(),
-                                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
+                                FDManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
                                 + WaferObject.GetSubsInfo().WaferCenter.GetY(),
-                                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
+                                FDManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
                                 + WaferObject.GetSubsInfo().WaferCenter.GetZ());
                         }
                     }
@@ -581,77 +564,6 @@ namespace WAEdgeStadnardModule
         {
             try
             {
-                // <-- 260108 sebas remove
-                //if (_CurEdgeIndex + 1 < EdgePos.Count)
-                //{
-                //    _CurEdgeIndex++;
-                //    if (ExistManualEdge(_CurEdgeIndex))
-                //    {
-                //        if (CurCam.GetChannelType() == EnumProberCam.WAFER_LOW_CAM)
-                //        {
-                //            this.StageSupervisor().StageModuleState.WaferLowViewMove
-                //                (ManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
-                //                + WaferObject.GetSubsInfo().WaferCenter.GetX(),
-                //                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
-                //                + WaferObject.GetSubsInfo().WaferCenter.GetY(),
-                //                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
-                //                + WaferObject.GetSubsInfo().WaferCenter.GetZ());
-                //        }
-                //        else
-                //        {
-                //            this.StageSupervisor().StageModuleState.WaferHighViewMove
-                //                (ManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
-                //                + WaferObject.GetSubsInfo().WaferCenter.GetX(),
-                //                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
-                //                + WaferObject.GetSubsInfo().WaferCenter.GetY(),
-                //                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
-                //                + WaferObject.GetSubsInfo().WaferCenter.GetZ());
-                //        }
-                //    }
-                //    else
-                //    {
-                //        this.StageSupervisor().StageModuleState.WaferLowViewMove
-                //            (EdgePos[_CurEdgeIndex].GetX(),
-                //            EdgePos[_CurEdgeIndex].GetY(),
-                //            EdgePos[_CurEdgeIndex].GetZ());
-                //    }
-                //}
-                //else if (_CurEdgeIndex + 1 == EdgePos.Count)
-                //{
-                //    _CurEdgeIndex = 0;
-                //    if (ExistManualEdge(_CurEdgeIndex))
-                //    {
-                //        if (CurCam.GetChannelType() == EnumProberCam.WAFER_LOW_CAM)
-                //        {
-                //            this.StageSupervisor().StageModuleState.WaferLowViewMove
-                //                (ManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
-                //                + WaferObject.GetSubsInfo().WaferCenter.GetX(),
-                //                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
-                //                + WaferObject.GetSubsInfo().WaferCenter.GetY(),
-                //                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
-                //                + WaferObject.GetSubsInfo().WaferCenter.GetZ());
-                //        }
-                //        else
-                //        {
-                //            this.StageSupervisor().StageModuleState.WaferHighViewMove
-                //                (ManualEdgePoss[_CurEdgeIndex].Coordinate.GetX()
-                //                + WaferObject.GetSubsInfo().WaferCenter.GetX(),
-                //                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetY()
-                //                + WaferObject.GetSubsInfo().WaferCenter.GetY(),
-                //                ManualEdgePoss[_CurEdgeIndex].Coordinate.GetZ()
-                //                + WaferObject.GetSubsInfo().WaferCenter.GetZ());
-                //        }
-                //    }
-                //    else
-                //    {   // 이상없이 다음 위치로 이동할 좌표값
-                //        this.StageSupervisor().StageModuleState.WaferLowViewMove
-                //            (EdgePos[_CurEdgeIndex].GetX(),
-                //            EdgePos[_CurEdgeIndex].GetY(),
-                //            EdgePos[_CurEdgeIndex].GetZ());
-                //    }
-                //}
-                // -->
-
                 // <-- 260108 sebas add
                 if (ApplyCount != 0)
                 {
@@ -686,11 +598,11 @@ namespace WAEdgeStadnardModule
             try
             {
                 EdgeStandardParam_Clone.LightParams = new ObservableCollection<LightValueParam>();
-                for (int index = 0; index < CurCam.LightsChannels.Count; index++)
+                for (int FDindex = 0; FDindex < CurCam.LightsChannels.Count; FDindex++)
                 {
                     EdgeStandardParam_Clone.LightParams.Add(
-                        new LightValueParam(CurCam.LightsChannels[index].Type.Value,
-                        (ushort)CurCam.GetLight(CurCam.LightsChannels[index].Type.Value)));
+                        new LightValueParam(CurCam.LightsChannels[FDindex].Type.Value,
+                        (ushort)CurCam.GetLight(CurCam.LightsChannels[FDindex].Type.Value)));
                 }
 
                 Edge_IParam = EdgeStandardParam_Clone;
@@ -723,7 +635,7 @@ namespace WAEdgeStadnardModule
                     Wafer.GetSubsInfo().WaferCenter = new WaferCoordinate();
                 }
 
-                if (Wafer.GetSubsInfo().WaferCenterOriginatEdge == null) 
+                if (Wafer.GetSubsInfo().WaferCenterOriginatEdge == null)
                 {
                     Wafer.GetSubsInfo().WaferCenterOriginatEdge = new WaferCoordinate();
                 }
@@ -766,7 +678,7 @@ namespace WAEdgeStadnardModule
                         else
                         {
                             procresults.Clear();
-                            foreach (var manuledgepos in ManualEdgePoss)
+                            foreach (var manuledgepos in FDManualEdgePoss)
                             {
                                 procresults.Add(new WaferProcResult(manuledgepos.Coordinate));
                             }
@@ -776,7 +688,7 @@ namespace WAEdgeStadnardModule
 
                 }
                 else
-                { 
+                {
                     if (this.WaferAligner().GetWAInnerStateEnum() == ProberInterfaces.Align.WaferAlignInnerStateEnum.SETUP && this.WaferAligner().IsNewSetup == true)
                     {
                         if (!IsManualMode)
@@ -785,7 +697,7 @@ namespace WAEdgeStadnardModule
                         }
                         else
                         {
-                            if (ManualEdgePoss.Count != 4)
+                            if (FDManualEdgePoss.Count != 4)
                             {
                                 var mret = this.MetroDialogManager().ShowMessageDialog
                                     (Properties.Resources.ErrorMessageTitle, Properties.Resources.NotEnoughManualEdgeCountMessage, EnumMessageStyle.Affirmative).Result;
@@ -793,7 +705,7 @@ namespace WAEdgeStadnardModule
                             else
                             {
                                 procresults.Clear();
-                                foreach (var manuledgepos in ManualEdgePoss)
+                                foreach (var manuledgepos in FDManualEdgePoss)
                                 {
                                     procresults.Add(new WaferProcResult(manuledgepos.Coordinate));
                                 }
@@ -804,7 +716,7 @@ namespace WAEdgeStadnardModule
                     else
                     {
                         //this.WaferAligner().IsNewSetup == false -> recovery.
-                        if ((!IsManualMode) || ManualEdgePoss.Count < 4)
+                        if ((!IsManualMode) || FDManualEdgePoss.Count < 4)
                         {
                             //if (GetState() == SubModuleStateEnum.DONE
                             //    || GetState() == SubModuleStateEnum.IDLE)
@@ -815,7 +727,7 @@ namespace WAEdgeStadnardModule
                         else
                         {
                             procresults.Clear();
-                            foreach (var manuledgepos in ManualEdgePoss)
+                            foreach (var manuledgepos in FDManualEdgePoss)
                             {
                                 procresults.Add(new WaferProcResult(manuledgepos.Coordinate));
                             }
@@ -935,7 +847,7 @@ namespace WAEdgeStadnardModule
             {
                 IsManualMode = false;
                 //ManualEdgePoss.Clear(); ISSD-4260 clearsettingdata 호출 시점 확인 필요 clear 해주는게 맞는 것인가? wafer obj idle 되는 경우 초기화
-                EdgeMapParams.Clear();
+                FDEdgeMapParams.Clear();
                 EdgeStandardParam_Clone = Edge_IParam as WA_EdgeParam_Standard;
                 SetNodeSetupState(EnumMoudleSetupState.NOTCOMPLETED);
 
@@ -954,8 +866,6 @@ namespace WAEdgeStadnardModule
             return retVal;
         }
 
-        public static bool IsWaferEdge = false;   // 260119 sebas
-
         public override async Task<EventCodeEnum> PageSwitched(object parameter = null)
         {
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
@@ -964,11 +874,12 @@ namespace WAEdgeStadnardModule
                 PackagableParams.Clear();
                 PackagableParams.Add(SerializeManager.SerializeToByte(Edge_IParam));
                 MiniViewTarget = this.StageSupervisor().WaferObject;
+
                 this.VisionManager().SetDisplayChannelStageCameras(DisplayPort);
                 InitStateUI();
 
                 IsManualMode = false;
-                ManualEdgePoss.Clear();
+                FDManualEdgePoss.Clear();
 
                 if ((Edge_IParam as WA_EdgeParam_Standard).EdgeMovement.Value == EnumWASubModuleEnable.DISABLE)
                 {
@@ -979,61 +890,34 @@ namespace WAEdgeStadnardModule
                     SetNodeSetupState(EnumMoudleSetupState.NOTCOMPLETED);
                 }
 
-                // <-- 260119 sebas : FD / Wafer 엣지 구분
-                if(IsWaferEdge == true)
+                SetEdgePosition_FD();
+
+                this.StageSupervisor().StageModuleState.WaferLowViewMove(EdgePos[0].GetX(), EdgePos[0].GetY(), WaferObject.GetSubsInfo().AveWaferThick);    // 260107 sebas 아래에서 수정
+                //this.StageSupervisor().StageModuleState.WaferLowViewMove(EdgePos[0].GetX(), EdgePos[1].GetY(), WaferObject.GetSubsInfo().AveWaferThick);
+
+                // <--260107 sebas : 매뉴얼 엣지 등록을 위해 추가
+                foreach (var pos in EdgePos)
                 {
-                    SetEdgePosition_Wafer();
-                    this.StageSupervisor().StageModuleState.WaferLowViewMove_Wafer(EdgePos[0].GetX(), EdgePos[0].GetY(), WaferObject.GetSubsInfo().AveWaferThick);
+                    MachineIndex edgeindex = this.CoordinateManager().GetCurMachineIndex(pos);
+                    FDEdgeMapParams.Add(new FDEdgeMapParam(edgeindex, Wafer.GetSubsInfo().DIEs[edgeindex.XIndex, edgeindex.YIndex].DieType.Value));
+                }
+                ApplyCount = 0; // 나갔다가 들어오면 0으로 초기화
+                RegistCount = 0; // 나갔다가 들어오면 0으로 초기화
 
-                    foreach (var pos in EdgePos)
-                    {
-                        MachineIndex edgeindex = this.CoordinateManager().GetCurMachineIndex(pos);
-                        EdgeMapParams.Add(new EdgeMapParam(edgeindex, Wafer.GetSubsInfo().DIEs[edgeindex.XIndex, edgeindex.YIndex].DieType.Value));
-                    }
-                    ApplyCount = 0; // 나갔다가 들어오면 0으로 초기화
-                    RegistCount = 0; // 나갔다가 들어오면 0으로 초기화
+                var FDT1axis = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
+                FDT1axis.Status.RawPosition.Ref = 5000; // 나갔다 들어오면 FD 회전 초기화
+                // -->
 
-                    // Wafer 회전 초기화?
-
-                    if (this.WaferAligner().IsNewSetup)
-                    {
-                        retVal = await InitSetup();
-                    }
-                    else
-                    {
-                        retVal = await InitRecovery();
-                    }
-                    this.CurCam = VisionManager.GetCam(EnumProberCam.PIN_LOW_CAM);
-                    InitLightJog(this);
+                if (this.WaferAligner().IsNewSetup)
+                {
+                    retVal = await InitSetup();
                 }
                 else
                 {
-                    SetEdgePosition_FD();
-
-                    this.StageSupervisor().StageModuleState.WaferLowViewMove(EdgePos[0].GetX(), EdgePos[0].GetY(), WaferObject.GetSubsInfo().AveWaferThick);    // 260107 sebas 아래에서 수정
-
-                    foreach (var pos in EdgePos)
-                    {
-                        MachineIndex edgeindex = this.CoordinateManager().GetCurMachineIndex(pos);
-                        EdgeMapParams.Add(new EdgeMapParam(edgeindex, Wafer.GetSubsInfo().DIEs[edgeindex.XIndex, edgeindex.YIndex].DieType.Value));
-                    }
-                    ApplyCount = 0; // 나갔다가 들어오면 0으로 초기화
-                    RegistCount = 0; // 나갔다가 들어오면 0으로 초기화
-
-                    var FDT1axis = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
-                    FDT1axis.Status.RawPosition.Ref = 5000; // 나갔다 들어오면 FD 회전 초기화
-
-                    if (this.WaferAligner().IsNewSetup)
-                    {
-                        retVal = await InitSetup();
-                    }
-                    else
-                    {
-                        retVal = await InitRecovery();
-                    }
-                    InitLightJog(this);
+                    retVal = await InitRecovery();
                 }
-                // -->
+
+                InitLightJog(this);
             }
             catch (Exception err)
             {
@@ -1051,55 +935,36 @@ namespace WAEdgeStadnardModule
 
             try
             {
-                if(IsWaferEdge == true) // 260119 sebas : 카메라 조명 관련?
-                {
-                    CurCam = this.VisionManager().GetCam(EnumProberCam.PIN_LOW_CAM);
-                }
-                else
-                {
-                    CurCam = this.VisionManager().GetCam(EdgeStandardParam_Clone.CamType);
-                }
+                CurCam = this.VisionManager().GetCam(EdgeStandardParam_Clone.CamType);
                 if (EdgeStandardParam_Clone.LightParams.Count != 0)
                 {
-                    for (int index = 0; index < EdgeStandardParam_Clone.LightParams.Count; index++)
+                    for (int FDindex = 0; FDindex < EdgeStandardParam_Clone.LightParams.Count; FDindex++)
                     {
-                        CurCam.SetLight(EdgeStandardParam_Clone.LightParams[index].Type.Value,
-                            EdgeStandardParam_Clone.LightParams[index].Value.Value);
+                        CurCam.SetLight(EdgeStandardParam_Clone.LightParams[FDindex].Type.Value,
+                            EdgeStandardParam_Clone.LightParams[FDindex].Value.Value);
 
                     }
                 }
                 else
                 {
                     EdgeStandardParam_Clone.DefaultLightValue = 45;    // 260107 sebas : 너무 밝아서 내림 (200)
-                    for (int index = 0; index < CurCam.LightsChannels.Count; index++)
+                    for (int FDindex = 0; FDindex < CurCam.LightsChannels.Count; FDindex++)
                     {
-                        CurCam.SetLight(CurCam.LightsChannels[index].Type.Value,
+                        CurCam.SetLight(CurCam.LightsChannels[FDindex].Type.Value,
                             EdgeStandardParam_Clone.DefaultLightValue);
                     }
                 }
 
                 procresults = new List<WaferProcResult>(EdgePos.Count());
 
-                // <-- 260119 sebas : 추가수정
-                if(IsWaferEdge == true)
-                {
-                    this.VisionManager().StartGrab(EnumProberCam.PIN_LOW_CAM, this);
+                //this.VisionManager().StartGrab(EdgeStandardParam_Clone.CamType, this);
+                this.VisionManager().StartGrab(EnumProberCam.PIN_LOW_CAM, this);   // 260119 sebas : FD용 카메라 변경
 
-                    UseUserControl = UserControlFucEnum.DEFAULT;
+                UseUserControl = UserControlFucEnum.DEFAULT;
 
-                    MainViewTarget = DisplayPort;
-                    MiniViewTarget = this.VisionManager().GetCam(EnumProberCam.PIN_LOW_CAM);
-                }
-                else
-                {
-                    this.VisionManager().StartGrab(EdgeStandardParam_Clone.CamType, this);
-
-                    UseUserControl = UserControlFucEnum.DEFAULT;
-
-                    MainViewTarget = DisplayPort;
-                    MiniViewTarget = this.StageSupervisor().WaferObject;
-                }
-                // -->
+                MainViewTarget = DisplayPort;
+                MiniViewTarget = this.StageSupervisor().WaferObject;
+                MiniViewTarget = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM);   // 260119 sebas : 그냥 바꺼봄
 
                 InitPNPSetupUI();
 
@@ -1186,7 +1051,7 @@ namespace WAEdgeStadnardModule
                 {
                     MachineIndex edgeindex = this.CoordinateManager().GetCurMachineIndex(pos);
 
-                    EdgeMapParams.Add(new EdgeMapParam(edgeindex, Wafer.GetSubsInfo().DIEs[edgeindex.XIndex, edgeindex.YIndex].DieType.Value));
+                    FDEdgeMapParams.Add(new FDEdgeMapParam(edgeindex, Wafer.GetSubsInfo().DIEs[edgeindex.XIndex, edgeindex.YIndex].DieType.Value));
                     //Wafer.GetSubsInfo().DIEs[edgeindex.XIndex, edgeindex.YIndex].DieType.Value = DieTypeEnum.CHANGEMARK_DIE;
                     //Wafer.GetSubsInfo().Devices.ToList<DeviceObject>().Find(item => item.DieIndexM.XIndex == edgeindex.XIndex
                     //     && item.DieIndexM.YIndex == edgeindex.YIndex)
@@ -1209,18 +1074,18 @@ namespace WAEdgeStadnardModule
 
                 if (EdgeStandardParam_Clone.LightParams.Count != 0)
                 {
-                    for (int index = 0; index < EdgeStandardParam_Clone.LightParams.Count; index++)
+                    for (int FDindex = 0; FDindex < EdgeStandardParam_Clone.LightParams.Count; FDindex++)
                     {
-                        CurCam.SetLight(EdgeStandardParam_Clone.LightParams[index].Type.Value,
-                            EdgeStandardParam_Clone.LightParams[index].Value.Value);
+                        CurCam.SetLight(EdgeStandardParam_Clone.LightParams[FDindex].Type.Value,
+                            EdgeStandardParam_Clone.LightParams[FDindex].Value.Value);
                     }
                 }
                 else
                 {
                     EdgeStandardParam_Clone.DefaultLightValue = 200;
-                    for (int index = 0; index < CurCam.LightsChannels.Count; index++)
+                    for (int FDindex = 0; FDindex < CurCam.LightsChannels.Count; FDindex++)
                     {
-                        CurCam.SetLight(CurCam.LightsChannels[index].Type.Value,
+                        CurCam.SetLight(CurCam.LightsChannels[FDindex].Type.Value,
                             EdgeStandardParam_Clone.DefaultLightValue);
                     }
                 }
@@ -1249,7 +1114,7 @@ namespace WAEdgeStadnardModule
             {
                 EdgePos.Clear();
 
-                if (ManualEdgePoss.Count != 4)
+                if (FDManualEdgePoss.Count != 4)
                 {
                     //new setup 인 경우, new setup 에서 maual 해주지 않고 실패 나서 recovery 들어 온 경우
 
@@ -1278,8 +1143,8 @@ namespace WAEdgeStadnardModule
                 else
                 {
                     //new setup 에서 manual 해준 경우, recovery 한 경우
-                    LoggerManager.Debug($"SetEdgePosition(): EXIST ManualEdgePos, Count :{ManualEdgePoss.Count}");
-                    foreach (var item in ManualEdgePoss)
+                    LoggerManager.Debug($"SetEdgePosition(): EXIST ManualEdgePos, Count :{FDManualEdgePoss.Count}");
+                    foreach (var item in FDManualEdgePoss)
                     {
                         EdgePos.Add(new WaferCoordinate(item.Coordinate));
                     }
@@ -1300,7 +1165,7 @@ namespace WAEdgeStadnardModule
             {
                 EdgePos.Clear();
 
-                if (ManualEdgePoss.Count != 4)
+                if (FDManualEdgePoss.Count != 4)
                 {
                     //new setup 인 경우, new setup 에서 maual 해주지 않고 실패 나서 recovery 들어 온 경우
 
@@ -1341,8 +1206,8 @@ namespace WAEdgeStadnardModule
                 else
                 {
                     //new setup 에서 manual 해준 경우, recovery 한 경우
-                    LoggerManager.Debug($"SetEdgePosition(): EXIST ManualEdgePos, Count :{ManualEdgePoss.Count}");
-                    foreach (var item in ManualEdgePoss)
+                    LoggerManager.Debug($"SetEdgePosition(): EXIST ManualEdgePos, Count :{FDManualEdgePoss.Count}");
+                    foreach (var item in FDManualEdgePoss)
                     {
                         EdgePos.Add(new WaferCoordinate(item.Coordinate));
                     }
@@ -1367,69 +1232,6 @@ namespace WAEdgeStadnardModule
             double y_rotated = x * sinTheta + y * cosTheta;
 
             return (x_rotated, y_rotated);
-        }
-
-        // 260119 sebas : Wafer Edge
-        public void SetEdgePosition_Wafer()
-        {
-            try
-            {
-                EdgePos.Clear();
-
-                if (ManualEdgePoss.Count != 4)
-                {
-                    //new setup 인 경우, new setup 에서 maual 해주지 않고 실패 나서 recovery 들어 온 경우
-
-                    IPhysicalInfo physicalInfo = Wafer.GetPhysInfo();
-                    double wSizeoffset = physicalInfo.WaferSize_Offset_um.Value;
-                    double wSize = physicalInfo.WaferSize_um.Value + (wSizeoffset * 2);
-
-                    double edgepos = 0.0;
-                    edgepos = ((wSize / 2) / Math.Sqrt(2));
-
-                    // 260119 sebas : Offset은 FD쪽 카메라가 마크를 보는 위치이므로 변경 안함 
-                    double chuck_center_Xoffset = this.CoordinateManager().StageCoord.ChuckCenterX.Value;
-                    double chuck_center_Yoffset = this.CoordinateManager().StageCoord.ChuckCenterY.Value;
-
-                    if (chuck_center_Xoffset < this.CoordinateManager().StageCoord.ChuckCenterX.LowerLimit || chuck_center_Xoffset > this.CoordinateManager().StageCoord.ChuckCenterX.UpperLimit
-                        || chuck_center_Yoffset < this.CoordinateManager().StageCoord.ChuckCenterY.LowerLimit || chuck_center_Yoffset > this.CoordinateManager().StageCoord.ChuckCenterY.UpperLimit)
-                    {
-                        LoggerManager.Debug($"SetEdgePosition(): Center offset is out of range. X = {chuck_center_Xoffset:0.00}, y = {chuck_center_Yoffset:0.00}");
-                        chuck_center_Xoffset = 0;
-                        chuck_center_Yoffset = 0;
-                    }
-
-                    // 1번 엣지 (1사분면)
-                    EdgePos.Add(new WaferCoordinate(-edgepos + chuck_center_Xoffset, -edgepos + chuck_center_Yoffset));
-
-                    // 2번 엣지 (30도 CCW 회전)
-                    var rotated30 = RotatePoint(-edgepos, -edgepos, Math.PI * 30 / 180);
-                    EdgePos.Add(new WaferCoordinate(rotated30.x + chuck_center_Xoffset, rotated30.y + chuck_center_Yoffset));
-
-                    // 3번 엣지 (60도 CCW 회전)
-                    var rotated60 = RotatePoint(-edgepos, -edgepos, Math.PI * 60 / 180);
-                    EdgePos.Add(new WaferCoordinate(rotated60.x + chuck_center_Xoffset, rotated60.y + chuck_center_Yoffset));
-
-                    // 4번 엣지
-                    var rotated90 = RotatePoint(-edgepos, -edgepos, Math.PI * 90 / 180);
-                    EdgePos.Add(new WaferCoordinate(rotated90.x + chuck_center_Xoffset, rotated90.y + chuck_center_Yoffset));
-                }
-                else
-                {
-                    //new setup 에서 manual 해준 경우, recovery 한 경우
-                    LoggerManager.Debug($"SetEdgePosition(): EXIST ManualEdgePos, Count :{ManualEdgePoss.Count}");
-                    foreach (var item in ManualEdgePoss)
-                    {
-                        EdgePos.Add(new WaferCoordinate(item.Coordinate));
-                    }
-                }
-
-                LoggerManager.Debug($"SetEdgePosition Result: EdgePos[0]:({EdgePos[0].GetX():0.00}, {EdgePos[0].GetY():0.00}), EdgePos[1]:({EdgePos[1].GetX():0.00}, {EdgePos[1].GetY():0.00}), EdgePos[2]:({EdgePos[2].GetX():0.00}, {EdgePos[2].GetY():0.00}), EdgePos[3]:({EdgePos[3].GetX():0.00}, {EdgePos[3].GetY():0.00}), ");
-            }
-            catch (Exception err)
-            {
-                LoggerManager.Exception(err);
-            }
         }
         private EventCodeEnum Processing()
         {
@@ -1478,12 +1280,12 @@ namespace WAEdgeStadnardModule
                     || IsManualMode == true)
                 {
                     EdgeStandardParam_Clone.LightParams.Clear();
-                    for (int index = 0; index < CurCam.LightsChannels.Count; index++)
+                    for (int FDindex = 0; FDindex < CurCam.LightsChannels.Count; FDindex++)
                     {
 
                         EdgeStandardParam_Clone.LightParams.Add(
-                            new LightValueParam(CurCam.LightsChannels[index].Type.Value,
-                            (ushort)CurCam.GetLight(CurCam.LightsChannels[index].Type.Value)));
+                            new LightValueParam(CurCam.LightsChannels[FDindex].Type.Value,
+                            (ushort)CurCam.GetLight(CurCam.LightsChannels[FDindex].Type.Value)));
                     }
 
                 }
@@ -1498,9 +1300,9 @@ namespace WAEdgeStadnardModule
 
                 this.VisionManager().StopGrab(CurCam.GetChannelType());
 
-                for (int index = 0; index < EdgePos.Count; index++)
+                for (int FDindex = 0; FDindex < EdgePos.Count; FDindex++)
                 {
-                    RetVal = this.StageSupervisor().StageModuleState.WaferLowViewMove(EdgePos[index].X.Value, EdgePos[index].Y.Value, Wafer.GetPhysInfo().Thickness.Value);
+                    RetVal = this.StageSupervisor().StageModuleState.WaferLowViewMove(EdgePos[FDindex].X.Value, EdgePos[FDindex].Y.Value, Wafer.GetPhysInfo().Thickness.Value);
                     if (RetVal != EventCodeEnum.NONE)
                     {
                         LoggerManager.Debug("WaferLowViewMove fail");
@@ -1509,20 +1311,20 @@ namespace WAEdgeStadnardModule
 
                     if (this.VisionManager().ConfirmDigitizerEmulMode(CurCam.GetChannelType()))
                     {
-                        this.VisionManager().LoadImageFromFileToGrabber(@"C:\ProberSystem\EmulImages\WaferAlign\Edge\Edge" + index + ".bmp", CurCam.GetChannelType());
+                        this.VisionManager().LoadImageFromFileToGrabber(@"C:\ProberSystem\EmulImages\WaferAlign\Edge\Edge" + FDindex + ".bmp", CurCam.GetChannelType());
                     }
 
-                    EdgeBuffer[index] = this.VisionManager().SingleGrab(CurCam.GetChannelType(), this);
+                    EdgeBuffer[FDindex] = this.VisionManager().SingleGrab(CurCam.GetChannelType(), this);
 
                     if (!this.VisionManager().ConfirmDigitizerEmulMode(CurCam.GetChannelType()))
                     {
                         this.VisionManager().StartGrab(CurCam.GetChannelType(), this);
                     }
 
-                    string SaveBasePath = this.FileManager().GetImageSaveFullPath(EnumProberModule.WAFERALIGNER, IMAGE_SAVE_TYPE.BMP, false, "\\EDGE", $"\\Edge + {index}");
-                    this.VisionManager().SaveImageBuffer(EdgeBuffer[index], SaveBasePath, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
+                    string SaveBasePath = this.FileManager().GetImageSaveFullPath(EnumProberModule.WAFERALIGNER, IMAGE_SAVE_TYPE.BMP, false, "\\EDGE", $"\\Edge + {FDindex}");
+                    this.VisionManager().SaveImageBuffer(EdgeBuffer[FDindex], SaveBasePath, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
 
-                    EdgeLineBuffer[index] = this.VisionManager().Line_Equalization(EdgeBuffer[index], index);
+                    EdgeLineBuffer[FDindex] = this.VisionManager().Line_Equalization(EdgeBuffer[FDindex], FDindex);
                 }
                 RetVal = Edgedetection(EdgeBuffer, EdgeLineBuffer, axisX, axisY);
             }
@@ -1537,12 +1339,12 @@ namespace WAEdgeStadnardModule
                 {
                     string outputPath = this.FileManager().GetImageSavePath(EnumProberModule.WAFERALIGNER, true, "\\WaferEdge\\Debug");
 
-                    for (int index = 0; index < EdgePos.Count; index++)
+                    for (int FDindex = 0; FDindex < EdgePos.Count; FDindex++)
                     {
                         string dt = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-                        var fullpath = Path.Combine(outputPath, $"{dt}_" + index.ToString()) + ".bmp";
+                        var fullpath = Path.Combine(outputPath, $"{dt}_" + FDindex.ToString()) + ".bmp";
 
-                        this.VisionManager().SaveImageBuffer(EdgeBuffer[index], fullpath, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
+                        this.VisionManager().SaveImageBuffer(EdgeBuffer[FDindex], fullpath, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
                     }
                 }
 
@@ -1562,8 +1364,8 @@ namespace WAEdgeStadnardModule
             return RetVal;
         }
 
-        
-        public EventCodeEnum Edgedetection(ImageBuffer[] EdgeBuffer, ImageBuffer[] EdgeLineBuffer, ProbeAxisObject axisX = null, ProbeAxisObject axisY = null) 
+
+        public EventCodeEnum Edgedetection(ImageBuffer[] EdgeBuffer, ImageBuffer[] EdgeLineBuffer, ProbeAxisObject axisX = null, ProbeAxisObject axisY = null)
         {
             EventCodeEnum RetVal = EventCodeEnum.NONE;
             WaferCoordinate wafercoord = null;
@@ -1759,7 +1561,7 @@ namespace WAEdgeStadnardModule
                         ret_Edge0_count > 0 && ret_Edge1_count > 0 && ret_Edge2_count > 0 && ret_Edge3_count > 0
                         && Math.Abs(wSizeoffset) > 0)
                     {
-                        LoggerManager.Debug("The first index candidate has been used.");
+                        LoggerManager.Debug("The first FDindex candidate has been used.");
 
                         Real_Pos[0, Real_Count].X = ret_Edge0[0].X;
                         Real_Pos[0, Real_Count].Y = ret_Edge0[0].Y;
@@ -1801,7 +1603,7 @@ namespace WAEdgeStadnardModule
                                 offsetx *= CurCam.GetRatioX();
                                 offsety *= CurCam.GetRatioY();
 
-                                if (axisX != null && axisY != null) 
+                                if (axisX != null && axisY != null)
                                 {
                                     this.MotionManager().SetSettlingTime(axisX, 0.00001);
                                     this.MotionManager().SetSettlingTime(axisY, 0.00001);
@@ -1916,7 +1718,7 @@ namespace WAEdgeStadnardModule
                 Point[] ret_Edge2 = new Point[rsize];
                 Point[] ret_Edge3 = new Point[rsize];
 
-                 
+
                 double P_RSum = 0;
                 double P_LSum = 0;
                 double P_RAvg = 0;
@@ -2268,16 +2070,16 @@ namespace WAEdgeStadnardModule
         {
             try
             {
-                for (int index = 0; index < EdgeBuffer.Length; index++)
+                for (int FDindex = 0; FDindex < EdgeBuffer.Length; FDindex++)
                 {
-                    string path = this.FileManager().GetImageSaveFullPath(EnumProberModule.WAFERALIGNER, IMAGE_SAVE_TYPE.BMP, true, "WaferEdge", "FailImage", $"Edge_[{index}]");
-                    this.VisionManager().SaveImageBuffer(EdgeBuffer[index], path, IMAGE_LOG_TYPE.FAIL, EventCodeEnum.NONE);
+                    string path = this.FileManager().GetImageSaveFullPath(EnumProberModule.WAFERALIGNER, IMAGE_SAVE_TYPE.BMP, true, "WaferEdge", "FailImage", $"Edge_[{FDindex}]");
+                    this.VisionManager().SaveImageBuffer(EdgeBuffer[FDindex], path, IMAGE_LOG_TYPE.FAIL, EventCodeEnum.NONE);
                 }
 
-                for (int index = 0; index < EdgeLineBuffer.Length; index++)
+                for (int FDindex = 0; FDindex < EdgeLineBuffer.Length; FDindex++)
                 {
-                    string path = this.FileManager().GetImageSaveFullPath(EnumProberModule.WAFERALIGNER, IMAGE_SAVE_TYPE.BMP, true, "WaferEdge", "FailImage", $"EdgeLine_[{index}]");
-                    this.VisionManager().SaveImageBuffer(EdgeLineBuffer[index], path, IMAGE_LOG_TYPE.FAIL, EventCodeEnum.NONE);
+                    string path = this.FileManager().GetImageSaveFullPath(EnumProberModule.WAFERALIGNER, IMAGE_SAVE_TYPE.BMP, true, "WaferEdge", "FailImage", $"EdgeLine_[{FDindex}]");
+                    this.VisionManager().SaveImageBuffer(EdgeLineBuffer[FDindex], path, IMAGE_LOG_TYPE.FAIL, EventCodeEnum.NONE);
                 }
             }
             catch (Exception err)
@@ -2393,28 +2195,6 @@ namespace WAEdgeStadnardModule
                     CEN_CHECK_FLAG[0] = true;
                     CEN_CHECK_FLAG[1] = true;
 
-                    //if ((Math.Abs(tmpGCPWaferCen[0].X - tmpGCPWaferCen[1].X) > EdgeStandardParam.gIntEdgeDetectProcTolerance.Value) ||
-                    //    (Math.Abs(tmpGCPWaferCen[0].X - tmpGCPWaferCen[2].X) > EdgeStandardParam.gIntEdgeDetectProcTolerance.Value) ||
-                    //    (Math.Abs(tmpGCPWaferCen[0].X - tmpGCPWaferCen[3].X) > EdgeStandardParam.gIntEdgeDetectProcTolerance.Value) ||
-                    //    (Math.Abs(tmpGCPWaferCen[1].X - tmpGCPWaferCen[2].X) > EdgeStandardParam.gIntEdgeDetectProcTolerance.Value) ||
-                    //    (Math.Abs(tmpGCPWaferCen[1].X - tmpGCPWaferCen[3].X) > EdgeStandardParam.gIntEdgeDetectProcTolerance.Value) ||
-                    //    (Math.Abs(tmpGCPWaferCen[2].X - tmpGCPWaferCen[3].X) > EdgeStandardParam.gIntEdgeDetectProcTolerance.Value)
-                    //    )
-                    //{
-                    //    CEN_CHECK_FLAG[0] = false;
-                    //}
-
-                    //if ((Math.Abs(tmpGCPWaferCen[0].Y - tmpGCPWaferCen[1].Y) > EdgeStandardParam.gIntEdgeDetectProcTolerance.Value) ||
-                    //    (Math.Abs(tmpGCPWaferCen[0].Y - tmpGCPWaferCen[2].Y) > EdgeStandardParam.gIntEdgeDetectProcTolerance.Value) ||
-                    //    (Math.Abs(tmpGCPWaferCen[0].Y - tmpGCPWaferCen[3].Y) > EdgeStandardParam.gIntEdgeDetectProcTolerance.Value) ||
-                    //    (Math.Abs(tmpGCPWaferCen[1].Y - tmpGCPWaferCen[2].Y) > EdgeStandardParam.gIntEdgeDetectProcTolerance.Value) ||
-                    //    (Math.Abs(tmpGCPWaferCen[1].Y - tmpGCPWaferCen[3].Y) > EdgeStandardParam.gIntEdgeDetectProcTolerance.Value) ||
-                    //    (Math.Abs(tmpGCPWaferCen[2].Y - tmpGCPWaferCen[3].Y) > EdgeStandardParam.gIntEdgeDetectProcTolerance.Value)
-                    //    )
-                    //{
-                    //    CEN_CHECK_FLAG[1] = false;
-                    //}
-
                     if ((CEN_CHECK_FLAG[0] == true) && (CEN_CHECK_FLAG[1] == true))
                     {
                         chuckzeroAveXpos = (tmpGCPWaferCen[0].X + tmpGCPWaferCen[1].X + tmpGCPWaferCen[2].X + tmpGCPWaferCen[3].X) / 4;
@@ -2438,24 +2218,6 @@ namespace WAEdgeStadnardModule
                         LoggerManager.Debug($"Distance Q2 : {CLength[1]}", isInfo: true);
                         LoggerManager.Debug($"Distance Q3 : {CLength[2]}", isInfo: true);
                         LoggerManager.Debug($"Distance Q4 : {CLength[3]}", isInfo: true);
-
-                        // <-- 260108 sebas : 오차 조건 제거
-                        //if ((CLengthRDiff[0] < EdgeStandardParam_Clone.gIntEdgeDetectProcToleranceRad.Value) &&
-                        //    (CLengthRDiff[1] < EdgeStandardParam_Clone.gIntEdgeDetectProcToleranceRad.Value) &&
-                        //    (CLengthRDiff[2] < EdgeStandardParam_Clone.gIntEdgeDetectProcToleranceRad.Value) &&
-                        //    (CLengthRDiff[3] < EdgeStandardParam_Clone.gIntEdgeDetectProcToleranceRad.Value))
-                        //{
-                        //    Wafer.GetSubsInfo().WaferCenter.X.Value = chuckzeroAveXpos;
-                        //    Wafer.GetSubsInfo().WaferCenter.Y.Value = chuckzeroAveYpos;
-
-                        //    Wafer.GetSubsInfo().WaferCenterOriginatEdge.X.Value = chuckzeroAveXpos;
-                        //    Wafer.GetSubsInfo().WaferCenterOriginatEdge.Y.Value = chuckzeroAveYpos;
-
-                        //    WaferCoordinate coordinate =
-                        //        this.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
-
-                        //    RetVal = EventCodeEnum.NONE;
-                        //}
 
                         Wafer.GetSubsInfo().WaferCenter.X.Value = chuckzeroAveXpos;
                         Wafer.GetSubsInfo().WaferCenter.Y.Value = chuckzeroAveYpos;
@@ -2524,45 +2286,6 @@ namespace WAEdgeStadnardModule
             try
             {
                 ApplyCount++;
-                // 260107 sebas : 마크얼라인 제외
-                //if (this.StageSupervisor().MarkObject.GetAlignState() != AlignStateEnum.DONE)
-                //{
-                //    await this.MetroDialogManager().ShowMessageDialog("Error Message", "Markalign can not behave as a failure. Please check Mark .", EnumMessageStyle.Affirmative);
-                //    return retVal;
-                //}
-
-                // <--260107 sebas
-                //switch (ModifyCondition)
-                //{
-                //    case WAEdgeSetupFunction.MANAUALEDGE:
-                //        {
-                //            MovingState.Moving();
-                //            if (await RegisteManualEdgePos())
-                //                await NextEdge();
-                //            MovingState.Stop();
-                //        }
-                //        break;
-                //    case WAEdgeSetupFunction.APPLY:
-                //        {
-                //            Wafer.GetSubsInfo().WaferCenter.Z.Value = Wafer.GetPhysInfo().Thickness.Value;
-                //            //ClearData();
-                //            retVal = Execute();
-                //            if (retVal != EventCodeEnum.NONE)
-                //            {
-                //                var ret = await this.MetroDialogManager().ShowMessageDialog(
-                //                    Properties.Resources.ErrorMessageTitle, Properties.Resources.EdgeFailMessage, EnumMessageStyle.Affirmative);
-                //                //ManualEdge
-                //                InitPnpEdgeManualUI();
-                //            }
-                //            else
-                //            {
-                //                var ret = await this.MetroDialogManager().ShowMessageDialog(
-                //                    Properties.Resources.InfoMessageTitle, Properties.Resources.EdgeSuccessMessage, EnumMessageStyle.Affirmative);
-                //            }
-                //        }
-                //        break;
-                //}
-                // -->
 
                 // <--260107 sebas 항상 매뉴얼 등록하도록 수정
                 if (ApplyCount < 5)
@@ -2620,14 +2343,6 @@ namespace WAEdgeStadnardModule
                     Task.FromResult<bool>(retVal);
                 WaferCoordinate coordinate = this.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
                 MachineIndex curidx = CurCam.GetCurCoordMachineIndex();
-                //if (!(WaferObject.GetSubsInfo().DIEs[curidx.XIndex,curidx.YIndex].DieType.Value == DieTypeEnum.MARK_DIE
-                //     | WaferObject.GetSubsInfo().DIEs[curidx.XIndex, curidx.YIndex].DieType.Value == DieTypeEnum.CHANGEMARK_DIE
-                //     | WaferObject.GetSubsInfo().DIEs[curidx.XIndex, curidx.YIndex].DieType.Value == DieTypeEnum.MODIFY_DIE))
-                //{
-                //    await this.MetroDialogManager().ShowMessageDialog(Properties.Resources.ErrorMessageTitle,
-                //        Properties.Resources.RegisterPosNotMarkDieErrorMessage, EnumMessageStyle.Affirmative);
-                //    return retVal;
-                //}
 
                 int index = -1;
                 int mapparamindex = -1;
@@ -2635,27 +2350,27 @@ namespace WAEdgeStadnardModule
 
                 MachineIndex idx = new MachineIndex();
                 if (RegistCount == 1)  // 260107 sebas : coordinate.GetX() > 0 & coordinate.GetY() > 0
-                { 
+                {
                     mapparamindex = 0;
-                    idx = EdgeMapParams[mapparamindex].Index;
+                    idx = FDEdgeMapParams[mapparamindex].FDIndex;
                     // index = ManualEdgePoss.FindIndex(pos => pos.Coordinate.GetX() > 0 & pos.Coordinate.GetY() > 0);  // 260107 sebas 주석
                 }
                 else if (RegistCount == 2) // 260107 sebas : coordinate.GetX() < 0 & coordinate.GetY() > 0
-                {  
+                {
                     mapparamindex = 1;
-                    idx = EdgeMapParams[mapparamindex].Index;
+                    idx = FDEdgeMapParams[mapparamindex].FDIndex;
                     // index = ManualEdgePoss.FindIndex(pos => pos.Coordinate.GetX() < 0 & pos.Coordinate.GetY() > 0);  // 260107 sebas 주석
                 }
                 else if (RegistCount == 3)// 260107 sebas : coordinate.GetX() < 0 & coordinate.GetY() < 0
-                {  
+                {
                     mapparamindex = 2;
-                    idx = EdgeMapParams[mapparamindex].Index;
+                    idx = FDEdgeMapParams[mapparamindex].FDIndex;
                     // index = ManualEdgePoss.FindIndex(pos => pos.Coordinate.GetX() < 0 & pos.Coordinate.GetY() < 0);  // 260107 sebas 주석
                 }
                 else if (RegistCount == 4)// 260107 sebas : coordinate.GetX() > 0 & coordinate.GetY() < 0
-                { 
+                {
                     mapparamindex = 3;
-                    idx = EdgeMapParams[mapparamindex].Index;
+                    idx = FDEdgeMapParams[mapparamindex].FDIndex;
                     // index = ManualEdgePoss.FindIndex(pos => pos.Coordinate.GetX() > 0 & pos.Coordinate.GetY() < 0);  // 260107 sebas 주석
 
                     RegistCount = 0;
@@ -2665,20 +2380,20 @@ namespace WAEdgeStadnardModule
                 {
                     if (index != -1)
                     {
-                        ManualEdgePoss[index].Coordinate = coordinate;
-                        ManualEdgePoss[index].DieType = WaferObject.GetSubsInfo().DIEs[curidx.XIndex, curidx.YIndex].DieType.Value;
-                        ManualEdgePoss[index].DieType = DieTypeEnum.UNKNOWN;
+                        FDManualEdgePoss[index].Coordinate = coordinate;
+                        FDManualEdgePoss[index].DieType = WaferObject.GetSubsInfo().DIEs[curidx.XIndex, curidx.YIndex].DieType.Value;
+                        FDManualEdgePoss[index].DieType = DieTypeEnum.UNKNOWN;
                     }
                     //ManualEdgePoss[index] = coordinate;
                     else
                     {
-                        ManualEdgePoss.Add(new EdgeMapParam(coordinate, curidx, WaferObject.GetSubsInfo().DIEs[curidx.XIndex, curidx.YIndex].DieType.Value));
+                        FDManualEdgePoss.Add(new FDEdgeMapParam(coordinate, curidx, WaferObject.GetSubsInfo().DIEs[curidx.XIndex, curidx.YIndex].DieType.Value));
                     }
                 }
 
                 if (index == -1)
                 {
-                    if (ManualEdgePoss.Count == 4)
+                    if (FDManualEdgePoss.Count == 4)
                     {
                         PadJogSelect.IsEnabled = true;
                     }
@@ -2771,18 +2486,6 @@ namespace WAEdgeStadnardModule
             {
                 if (Edge_IParam != null)
                 {
-                    //if(PnpManager.SeletedStep?.Header == this.Header & CurCam != null)
-                    //{
-                    //    EdgeStandardParam_Clone.LightParams = new ObservableCollection<LightValueParam>();
-                    //    for (int index = 0; index < CurCam.LightsChannels.Count; index++)
-                    //    {
-                    //        EdgeStandardParam_Clone.LightParams.Add(
-                    //            new LightValueParam(CurCam.LightsChannels[index].Type.Value,
-                    //            (ushort)CurCam.GetLight(CurCam.LightsChannels[index].Type.Value)));
-                    //    }
-
-                    //    Edge_IParam = EdgeStandardParam_Clone;
-                    //}
                     Edge_IParam = EdgeStandardParam_Clone;
                     RetVal = this.SaveParameter(Edge_IParam);
                     IsParamChanged = false;
@@ -2846,7 +2549,7 @@ namespace WAEdgeStadnardModule
         {
             try
             {
-                this.ManualEdgePoss.Clear();
+                this.FDManualEdgePoss.Clear();
 
                 LoggerManager.Debug($"[{this.GetType().Name}] DoClearRecoveryData() : Clear Data Done");
             }
@@ -2906,8 +2609,7 @@ namespace WAEdgeStadnardModule
                     this.PnPManager().SetNavListToGUIDs(this.WaferAligner(), pnpsteps);
                     this.ViewModelManager().ViewTransitionAsync(viewguid);
                 }
-                //this.PnPManager().GetPnpSteps(this.WaferAligner());
-                //this.ViewModelManager().ViewTransitionType(this.PnPManager());
+
                 RetVal = EventCodeEnum.NONE;
             }
             catch (Exception err)
@@ -2954,30 +2656,6 @@ namespace WAEdgeStadnardModule
                     if (!(PnpManager.SelectedPnpStep as ICategoryNodeItem).Header.Equals(Header))
                         return retVal;
                 }
-
-                //if (EdgeStandardParam_Clone.LightParams != null & EdgeStandardParam_Clone.LightParams.Count != 0)
-                //{
-                //    foreach (var light in EdgeStandardParam_Clone.LightParams)
-                //    {
-                //        if (IsParamChanged)
-                //            break;
-                //        foreach (var camlight in CurCam.LightsChannels)
-                //        {
-                //            if (light.Type.Value == camlight.Type.Value)
-                //            {
-                //                if (light.Value.Value != CurCam.GetLight(camlight.Type.Value))
-                //                    IsParamChanged = true;
-                //                else
-                //                    IsParamChanged = false;
-                //                break;
-                //            }
-                //        }
-                //    }
-                //}
-                //else
-                //{
-                //    IsParamChanged = true;
-                //}
 
                 IsParamChanged = true;
                 EventCodeEnum ret = Extensions_IParam.ElementStateDefaultValidation(Edge_IParam);
@@ -3051,26 +2729,10 @@ namespace WAEdgeStadnardModule
                 LoggerManager.Exception(err);
             }
         }
-
-        //internal static class ResourceAccessor
-        //{
-        //    public static ImageSource Get(System.Drawing.Bitmap bitmap)
-        //    {
-        //        MemoryStream ms = new MemoryStream();
-        //        (bitmap).Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-        //        BitmapImage image = new BitmapImage();
-        //        image.BeginInit();
-        //        ms.Seek(0, SeekOrigin.Begin);
-        //        image.StreamSource = ms;
-        //        image.EndInit();
-
-        //        return image;
-        //    }
-        //}
     }
 
     [Serializable]
-    public class EdgeMapParam
+    public class FDEdgeMapParam
     {
         private WaferCoordinate _Coordinate;
 
@@ -3081,12 +2743,12 @@ namespace WAEdgeStadnardModule
         }
 
 
-        private MachineIndex _Index;
+        private MachineIndex _FDIndex;
 
-        public MachineIndex Index
+        public MachineIndex FDIndex
         {
-            get { return _Index; }
-            set { _Index = value; }
+            get { return _FDIndex; }
+            set { _FDIndex = value; }
         }
 
         private DieTypeEnum _DieType;
@@ -3098,15 +2760,15 @@ namespace WAEdgeStadnardModule
         }
 
 
-        public EdgeMapParam()
+        public FDEdgeMapParam()
         {
 
         }
-        public EdgeMapParam(MachineIndex index, DieTypeEnum dieType)
+        public FDEdgeMapParam(MachineIndex FDindex, DieTypeEnum dieType)
         {
             try
             {
-                Index = index;
+                FDIndex = FDindex;
                 DieType = dieType;
             }
             catch (Exception err)
@@ -3115,12 +2777,12 @@ namespace WAEdgeStadnardModule
                 throw;
             }
         }
-        public EdgeMapParam(WaferCoordinate coordinate, MachineIndex index, DieTypeEnum dieType)
+        public FDEdgeMapParam(WaferCoordinate coordinate, MachineIndex FDindex, DieTypeEnum dieType)
         {
             try
             {
                 Coordinate = coordinate;
-                Index = index;
+                FDIndex = FDindex;
                 DieType = dieType;
             }
             catch (Exception err)

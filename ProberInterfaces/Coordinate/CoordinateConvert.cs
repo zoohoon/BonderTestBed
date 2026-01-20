@@ -10,6 +10,7 @@ namespace ProberInterfaces
 
         public abstract T Convert(MachineCoordinate machinecoord);
         public abstract MachineCoordinate ConvertBack(T coord);
+        public abstract MachineCoordinate ConvertBack_Wafer(T coord);   // 260119 sabas
         public abstract T CurrentPosConvert();
         public EnumAxisConstants ProberPinAxis;
 
@@ -82,6 +83,24 @@ namespace ProberInterfaces
                           CoordinateManager.StageCoord.RefMarkPos.Z.Value
                         + CoordinateManager.StageCoord.MarkPosInChuckCoord.Z.Value
                         - coord.Z.Value;
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return mccoord;
+        }
+        public override MachineCoordinate ConvertBack_Wafer(WaferCoordinate coord)
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+                ICoordinateManager CoordinateManager = this.CoordinateManager();
+                if (CoordinateManager.StageCoord != null)
+                {
+                    // void
                 }
             }
             catch (Exception err)
@@ -281,6 +300,37 @@ namespace ProberInterfaces
             }
             return mccoord;
         }
+        // 260119 sebas
+        public override MachineCoordinate ConvertBack_Wafer(WaferCoordinate coord)
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+                mccoord.X.Value =
+                    this.CoordinateManager().StageCoord.RefMarkPos.X.Value
+                    + 0     // 마크 - Wafer 센터 물리적 값
+                    + (-38703)  // 원래 WLCAMFromWH 값
+                    - coord.X.Value;
+
+                mccoord.Y.Value =
+                     this.CoordinateManager().StageCoord.RefMarkPos.Y.Value
+                    + 347500    // 마크 - Wafer 센터 물리적 값
+                    + 451   // 원래 WLCAMFromWH 값
+                    - coord.Y.Value;
+
+                mccoord.Z.Value =
+                     this.CoordinateManager().StageCoord.RefMarkPos.Z.Value
+                    + this.CoordinateManager().StageCoord.MarkPosInChuckCoord.Z.Value
+                    + this.CoordinateManager().StageCoord.WLCAMFromWH.Z.Value
+                    - coord.Z.Value;
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return mccoord;
+        }
 
         public override WaferCoordinate CurrentPosConvert()
         {
@@ -426,7 +476,21 @@ namespace ProberInterfaces
             }
             return mccoord;
         }
-
+        // 260119 sebas
+        public override MachineCoordinate ConvertBack_Wafer(PinCoordinate coord)
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+                // 260119 void
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return mccoord;
+        }
         public override PinCoordinate CurrentPosConvert()
         {
             try
@@ -436,7 +500,8 @@ namespace ProberInterfaces
 
                 double actualposx = this.MotionManager().GetAxis(EnumAxisConstants.X).Status.Position.Ref;
                 double actualposy = this.MotionManager().GetAxis(EnumAxisConstants.Y).Status.Position.Ref;
-                double actualposz = this.MotionManager().GetAxis(ProberPinAxis).Status.Position.Ref;
+                //double actualposz = this.MotionManager().GetAxis(ProberPinAxis).Status.Position.Ref;        // 260119 sebas : pz축 제외
+                double actualposz = 0;
 
                 macCoord = ConvertBack(new PinCoordinate(0, 0, 0));
                 //coordinate = Convert(macCoord);
@@ -578,6 +643,21 @@ namespace ProberInterfaces
             }
             return mccoord;
         }
+        // 260119 sebas
+        public override MachineCoordinate ConvertBack_Wafer(PinCoordinate coord)
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+                // void
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return mccoord;
+        }
 
         public override PinCoordinate CurrentPosConvert()
         {
@@ -589,7 +669,8 @@ namespace ProberInterfaces
 
                 double actualposx = this.MotionManager().GetAxis(EnumAxisConstants.X).Status.Position.Ref;
                 double actualposy = this.MotionManager().GetAxis(EnumAxisConstants.Y).Status.Position.Ref;
-                double actualposz = this.MotionManager().GetAxis(ProberPinAxis).Status.Position.Ref;
+                //double actualposz = this.MotionManager().GetAxis(ProberPinAxis).Status.Position.Ref;    // 260119 sebas : pz 제거
+                double actualposz = 0;
 
                 macCoord = ConvertBack(new PinCoordinate(0, 0, 0));
                 //coordinate = Convert(macCoord);
@@ -710,6 +791,21 @@ namespace ProberInterfaces
                     + (this.CoordinateManager().StageCoord.MarkPosInDiskPosCoord.Z.Value)
                     - (coord.Z.Value);
 
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return mccoord;
+        }
+        // 260119 sebas
+        public override MachineCoordinate ConvertBack_Wafer(NCCoordinate coord)
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+                // void
             }
             catch (Exception err)
             {
@@ -908,6 +1004,21 @@ namespace ProberInterfaces
                     + this.CoordinateManager().StageCoord.WLCAMFromWH.Z.Value
                     - coord.Z.Value;
 
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return mccoord;
+        }
+        // 260119 sebas
+        public override MachineCoordinate ConvertBack_Wafer(NCCoordinate coord)
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+                // void
             }
             catch (Exception err)
             {
