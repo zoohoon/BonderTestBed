@@ -657,10 +657,20 @@ namespace WAEdgeStadnardModule
                 {
                     if (ApplyCount < 4)  // 정상인 상황 = ApplyCount은 1 ~ 3 값
                     {
-                        this.StageSupervisor().StageModuleState.WaferLowViewMove
-                            (EdgePos[ApplyCount].GetX(),
-                            EdgePos[ApplyCount].GetY(),
-                            EdgePos[ApplyCount].GetZ());
+                        if(IsWaferEdge == true)
+                        {
+                            this.StageSupervisor().StageModuleState.WaferLowViewMove_Wafer
+                                (EdgePos[ApplyCount].GetX(),
+                                EdgePos[ApplyCount].GetY(),
+                                EdgePos[ApplyCount].GetZ());
+                        }
+                        else
+                        {
+                            this.StageSupervisor().StageModuleState.WaferLowViewMove
+                                (EdgePos[ApplyCount].GetX(),
+                                EdgePos[ApplyCount].GetY(),
+                                EdgePos[ApplyCount].GetZ());
+                        }
                     }
                 }
                 else
@@ -1400,18 +1410,18 @@ namespace WAEdgeStadnardModule
                     }
 
                     // 1번 엣지 (1사분면)
-                    EdgePos.Add(new WaferCoordinate(-edgepos + chuck_center_Xoffset, -edgepos + chuck_center_Yoffset));
+                    EdgePos.Add(new WaferCoordinate(edgepos + chuck_center_Xoffset, edgepos + chuck_center_Yoffset));
 
                     // 2번 엣지 (30도 CCW 회전)
-                    var rotated30 = RotatePoint(-edgepos, -edgepos, Math.PI * 30 / 180);
+                    var rotated30 = RotatePoint(edgepos, edgepos, Math.PI * 30 / 180);
                     EdgePos.Add(new WaferCoordinate(rotated30.x + chuck_center_Xoffset, rotated30.y + chuck_center_Yoffset));
 
                     // 3번 엣지 (60도 CCW 회전)
-                    var rotated60 = RotatePoint(-edgepos, -edgepos, Math.PI * 60 / 180);
+                    var rotated60 = RotatePoint(edgepos, edgepos, Math.PI * 60 / 180);
                     EdgePos.Add(new WaferCoordinate(rotated60.x + chuck_center_Xoffset, rotated60.y + chuck_center_Yoffset));
 
                     // 4번 엣지
-                    var rotated90 = RotatePoint(-edgepos, -edgepos, Math.PI * 90 / 180);
+                    var rotated90 = RotatePoint(edgepos, edgepos, Math.PI * 90 / 180);
                     EdgePos.Add(new WaferCoordinate(rotated90.x + chuck_center_Xoffset, rotated90.y + chuck_center_Yoffset));
                 }
                 else
@@ -2672,6 +2682,7 @@ namespace WAEdgeStadnardModule
                     //ManualEdgePoss[index] = coordinate;
                     else
                     {
+                        // index > 64면 에러
                         ManualEdgePoss.Add(new EdgeMapParam(coordinate, curidx, WaferObject.GetSubsInfo().DIEs[curidx.XIndex, curidx.YIndex].DieType.Value));
                     }
                 }

@@ -179,6 +179,7 @@ namespace WASettingViewModel_Standard
         {
             try
             {
+                WAEdgeStadnardModule.EdgeStandard.IsWaferEdge = false;  // 260119 sebas : Wafer edge 끝
 
                 if (System.AppDomain.CurrentDomain.FriendlyName == "BonderSystem.exe")  // 260102 sebas
                 // if (System.AppDomain.CurrentDomain.FriendlyName == "ProberSystem.exe")
@@ -260,8 +261,6 @@ namespace WASettingViewModel_Standard
             {
                 LoggerManager.Exception(err);
             }
-
-            WAEdgeStadnardModule.EdgeStandard.IsWaferEdge = false;  // 260119 sebas : Wafer edge 끝
         }
         // -->
 

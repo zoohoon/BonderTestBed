@@ -306,22 +306,22 @@ namespace ProberInterfaces
             MachineCoordinate mccoord = new MachineCoordinate();
             try
             {
-                mccoord.X.Value =
-                    this.CoordinateManager().StageCoord.RefMarkPos.X.Value
-                    + 0     // 마크 - Wafer 센터 물리적 값
-                    + (-38703)  // 원래 WLCAMFromWH 값
+                mccoord.X.Value = this.CoordinateManager().StageCoord.RefMarkPos.X.Value
+                    + this.CoordinateManager().StageCoord.WHOffset.X.Value
+                    + this.CoordinateManager().StageCoord.PHOffset.X.Value
+                    + this.CoordinateManager().StageCoord.PLCAMFromPH.X.Value
                     - coord.X.Value;
 
-                mccoord.Y.Value =
-                     this.CoordinateManager().StageCoord.RefMarkPos.Y.Value
-                    + 347500    // 마크 - Wafer 센터 물리적 값
-                    + 451   // 원래 WLCAMFromWH 값
+                mccoord.Y.Value = this.CoordinateManager().StageCoord.RefMarkPos.Y.Value
+                    + this.CoordinateManager().StageCoord.WHOffset.Y.Value
+                    + this.CoordinateManager().StageCoord.PHOffset.Y.Value
+                    + this.CoordinateManager().StageCoord.PLCAMFromPH.Y.Value
                     - coord.Y.Value;
 
-                mccoord.Z.Value =
-                     this.CoordinateManager().StageCoord.RefMarkPos.Z.Value
-                    + this.CoordinateManager().StageCoord.MarkPosInChuckCoord.Z.Value
-                    + this.CoordinateManager().StageCoord.WLCAMFromWH.Z.Value
+                mccoord.Z.Value = this.CoordinateManager().StageCoord.RefMarkPos.Z.Value
+                    + this.CoordinateManager().StageCoord.WHOffset.Z.Value
+                    + this.CoordinateManager().StageCoord.PHOffset.Z.Value
+                    + this.CoordinateManager().StageCoord.PLCAMFromPH.Z.Value
                     - coord.Z.Value;
             }
             catch (Exception err)
@@ -453,21 +453,39 @@ namespace ProberInterfaces
             try
             {
 
-                mccoord.X.Value = 1d * (this.CoordinateManager().StageCoord.RefMarkPos.X.Value
-                        - this.CoordinateManager().StageCoord.WHOffset.X.Value
-                        - this.CoordinateManager().StageCoord.PHOffset.X.Value
-                        + coord.X.Value);
+                //mccoord.X.Value = 1d * (this.CoordinateManager().StageCoord.RefMarkPos.X.Value
+                //        - this.CoordinateManager().StageCoord.WHOffset.X.Value
+                //        - this.CoordinateManager().StageCoord.PHOffset.X.Value
+                //        + coord.X.Value);
 
-                mccoord.Y.Value = 1d * (this.CoordinateManager().StageCoord.RefMarkPos.Y.Value
-                        - this.CoordinateManager().StageCoord.WHOffset.Y.Value
-                        - this.CoordinateManager().StageCoord.PHOffset.Y.Value
-                        + coord.Y.Value);
+                //mccoord.Y.Value = 1d * (this.CoordinateManager().StageCoord.RefMarkPos.Y.Value
+                //        - this.CoordinateManager().StageCoord.WHOffset.Y.Value
+                //        - this.CoordinateManager().StageCoord.PHOffset.Y.Value
+                //        + coord.Y.Value);
 
-                mccoord.Z.Value = (this.CoordinateManager().StageCoord.RefMarkPos.Z.Value
-                        - this.CoordinateManager().StageCoord.WHOffset.Z.Value
-                        - this.CoordinateManager().StageCoord.PHOffset.Z.Value
-                        + coord.Z.Value);
+                //mccoord.Z.Value = (this.CoordinateManager().StageCoord.RefMarkPos.Z.Value
+                //        - this.CoordinateManager().StageCoord.WHOffset.Z.Value
+                //        - this.CoordinateManager().StageCoord.PHOffset.Z.Value
+                //        + coord.Z.Value);
 
+                // 260120 sebas
+                mccoord.X.Value = this.CoordinateManager().StageCoord.RefMarkPos.X.Value
+                    + this.CoordinateManager().StageCoord.WHOffset.X.Value
+                    + this.CoordinateManager().StageCoord.PHOffset.X.Value
+                    + this.CoordinateManager().StageCoord.PLCAMFromPH.X.Value
+                    - coord.X.Value;
+
+                mccoord.Y.Value = this.CoordinateManager().StageCoord.RefMarkPos.Y.Value
+                    + this.CoordinateManager().StageCoord.WHOffset.Y.Value
+                    + this.CoordinateManager().StageCoord.PHOffset.Y.Value
+                    + this.CoordinateManager().StageCoord.PLCAMFromPH.Y.Value
+                    - coord.Y.Value;
+
+                mccoord.Z.Value = this.CoordinateManager().StageCoord.RefMarkPos.Z.Value
+                    + this.CoordinateManager().StageCoord.WHOffset.Z.Value
+                    + this.CoordinateManager().StageCoord.PHOffset.Z.Value
+                    + this.CoordinateManager().StageCoord.PLCAMFromPH.Z.Value
+                    - coord.Z.Value;
             }
             catch (Exception err)
             {
@@ -505,9 +523,9 @@ namespace ProberInterfaces
 
                 macCoord = ConvertBack(new PinCoordinate(0, 0, 0));
                 //coordinate = Convert(macCoord);
-                coordinate.X.Value = (macCoord.GetX() - actualposx) * -1d;
-                coordinate.Y.Value = (macCoord.GetY() - actualposy) * -1d;
-                coordinate.Z.Value = (macCoord.GetZ() - actualposz) * -1d;
+                coordinate.X.Value = (macCoord.GetX() - actualposx) * 1d;  // 260120 sebas : -1d => 1d (FD쪽과 동일하게 변경)
+                coordinate.Y.Value = (macCoord.GetY() - actualposy) * 1d;  // 260120 sebas : -1d => 1d (FD쪽과 동일하게 변경)
+                coordinate.Z.Value = (macCoord.GetZ() - actualposz) * 1d;  // 260120 sebas : -1d => 1d (FD쪽과 동일하게 변경)
 
                 return coordinate;
 
@@ -617,23 +635,42 @@ namespace ProberInterfaces
             try
             {
 
+                //mccoord.X.Value = this.CoordinateManager().StageCoord.RefMarkPos.X.Value
+                //    - this.CoordinateManager().StageCoord.WHOffset.X.Value
+                //    - this.CoordinateManager().StageCoord.PHOffset.X.Value
+                //    - this.CoordinateManager().StageCoord.PLCAMFromPH.X.Value
+                //    + coord.X.Value;
+
+                //mccoord.Y.Value = this.CoordinateManager().StageCoord.RefMarkPos.Y.Value
+                //    - this.CoordinateManager().StageCoord.WHOffset.Y.Value
+                //    - this.CoordinateManager().StageCoord.PHOffset.Y.Value
+                //    - this.CoordinateManager().StageCoord.PLCAMFromPH.Y.Value
+                //    + coord.Y.Value;
+
+                //mccoord.Z.Value = this.CoordinateManager().StageCoord.RefMarkPos.Z.Value
+                //    - this.CoordinateManager().StageCoord.WHOffset.Z.Value
+                //    - this.CoordinateManager().StageCoord.PHOffset.Z.Value
+                //    - this.CoordinateManager().StageCoord.PLCAMFromPH.Z.Value
+                //    + coord.Z.Value;
+
+                // 260120 sebas
                 mccoord.X.Value = this.CoordinateManager().StageCoord.RefMarkPos.X.Value
-                    - this.CoordinateManager().StageCoord.WHOffset.X.Value
-                    - this.CoordinateManager().StageCoord.PHOffset.X.Value
-                    - this.CoordinateManager().StageCoord.PLCAMFromPH.X.Value
-                    + coord.X.Value;
+                    + this.CoordinateManager().StageCoord.WHOffset.X.Value
+                    + this.CoordinateManager().StageCoord.PHOffset.X.Value
+                    + this.CoordinateManager().StageCoord.PLCAMFromPH.X.Value
+                    - coord.X.Value;
 
                 mccoord.Y.Value = this.CoordinateManager().StageCoord.RefMarkPos.Y.Value
-                    - this.CoordinateManager().StageCoord.WHOffset.Y.Value
-                    - this.CoordinateManager().StageCoord.PHOffset.Y.Value
-                    - this.CoordinateManager().StageCoord.PLCAMFromPH.Y.Value
-                    + coord.Y.Value;
+                    + this.CoordinateManager().StageCoord.WHOffset.Y.Value
+                    + this.CoordinateManager().StageCoord.PHOffset.Y.Value
+                    + this.CoordinateManager().StageCoord.PLCAMFromPH.Y.Value
+                    - coord.Y.Value;
 
                 mccoord.Z.Value = this.CoordinateManager().StageCoord.RefMarkPos.Z.Value
-                    - this.CoordinateManager().StageCoord.WHOffset.Z.Value
-                    - this.CoordinateManager().StageCoord.PHOffset.Z.Value
-                    - this.CoordinateManager().StageCoord.PLCAMFromPH.Z.Value
-                    + coord.Z.Value;
+                    + this.CoordinateManager().StageCoord.WHOffset.Z.Value
+                    + this.CoordinateManager().StageCoord.PHOffset.Z.Value
+                    + this.CoordinateManager().StageCoord.PLCAMFromPH.Z.Value
+                    - coord.Z.Value;
 
             }
             catch (Exception err)
@@ -674,9 +711,9 @@ namespace ProberInterfaces
 
                 macCoord = ConvertBack(new PinCoordinate(0, 0, 0));
                 //coordinate = Convert(macCoord);
-                coordinate.X.Value = (macCoord.GetX() - actualposx) * -1d;
-                coordinate.Y.Value = (macCoord.GetY() - actualposy) * -1d;
-                coordinate.Z.Value = (macCoord.GetZ() - actualposz) * -1d;
+                coordinate.X.Value = (macCoord.GetX() - actualposx) * 1d;  // 260120 sebas : -1d => 1d (FD쪽과 동일하게 변경)
+                coordinate.Y.Value = (macCoord.GetY() - actualposy) * 1d;  // 260120 sebas : -1d => 1d (FD쪽과 동일하게 변경)
+                coordinate.Z.Value = (macCoord.GetZ() - actualposz) * 1d;  // 260120 sebas : -1d => 1d (FD쪽과 동일하게 변경)
                 return coordinate;
 
                 //PinCoordinate coordinate = new PinCoordinate();

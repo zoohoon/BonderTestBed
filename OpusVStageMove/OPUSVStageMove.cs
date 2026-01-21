@@ -18856,6 +18856,34 @@ namespace OpusVStageMove
             return ret;
 
         }
+        // 260120 sebas
+        public override EventCodeEnum WaferLowViewMove_Wafer(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            EventCodeEnum ret = EventCodeEnum.NODATA;
+
+            try
+            {
+                var stagesupervisor = Module.StageSupervisor();
+
+                if (zpos < stagesupervisor.WaferRegRange)
+                {
+                    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
+                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                }
+
+                ret = WaferLowViewMoveFunc_Wafer(xpos, ypos, zpos, NotUseHeightProfile, trjtype, ovrd);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                ret = ConvertExceptionAndThrow(err, ret);
+            }
+
+            return ret;
+
+        }
+
         public override EventCodeEnum WaferLowViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {
             EventCodeEnum ret = EventCodeEnum.NODATA;

@@ -228,7 +228,7 @@
                                 <DockPanel LastChildFill="False">
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                                         <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="1" Margin="0,0,6,0"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="{Binding StartStopButtonText[1]}" Command="{Binding StartCameraCommand}" CommandParameter="1" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="{Binding StartStopButtonText[1]}" Command="{Binding StartStopCameraCommand}" CommandParameter="1" Margin="0,0,6,0"/>
                                         <Button Style="{StaticResource CtlButton}" Content="Capture" Command="{Binding CaptureCameraCommand}" CommandParameter="1"/>
                                     </StackPanel>
                                 </DockPanel>
@@ -268,7 +268,7 @@
                                 <DockPanel LastChildFill="False">
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                                         <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="2" Margin="0,0,6,0"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="{Binding StartStopButtonText[2]}" Command="{Binding StartCameraCommand}" CommandParameter="2" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="{Binding StartStopButtonText[2]}" Command="{Binding StartStopCameraCommand}" CommandParameter="2" Margin="0,0,6,0"/>
                                         <Button Style="{StaticResource CtlButton}" Content="Capture" Command="{Binding CaptureCameraCommand}" CommandParameter="2"/>
                                     </StackPanel>
                                 </DockPanel>
@@ -308,7 +308,7 @@
                                 <DockPanel LastChildFill="False">
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                                         <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="3" Margin="0,0,6,0"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="{Binding StartStopButtonText[3]}" Command="{Binding StartCameraCommand}" CommandParameter="3" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="{Binding StartStopButtonText[3]}" Command="{Binding StartStopCameraCommand}" CommandParameter="3" Margin="0,0,6,0"/>
                                         <Button Style="{StaticResource CtlButton}" Content="Capture" Command="{Binding CaptureCameraCommand}" CommandParameter="3"/>
                                     </StackPanel>
                                 </DockPanel>
@@ -348,7 +348,7 @@
                                 <DockPanel LastChildFill="False">
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
                                         <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="4" Margin="0,0,6,0"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="{Binding StartStopButtonText[4]}" Command="{Binding StartCameraCommand}" CommandParameter="4" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="{Binding StartStopButtonText[4]}" Command="{Binding StartStopCameraCommand}" CommandParameter="4" Margin="0,0,6,0"/>
                                         <Button Style="{StaticResource CtlButton}" Content="Capture" Command="{Binding CaptureCameraCommand}" CommandParameter="4"/>
                                     </StackPanel>
                                 </DockPanel>
