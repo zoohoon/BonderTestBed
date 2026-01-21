@@ -262,6 +262,7 @@ namespace BVisionTestViewModel
         private string _rawRoot = @"D:\CaptureRaw";   // 저장 루트 폴더
 
         // ===== "다음 프레임 1장 저장" 요청 플래그 =====
+        private AutoResetEvent[] _nextFrameCopiedAck = new AutoResetEvent[MAX_CAM]; // cam별 Ack
         private int[] _saveNextFrameReq = new int[MAX_CAM]; // 0/1
         private int[] _saveSeq = new int[MAX_CAM];          // 파일명 구분용
 
@@ -282,6 +283,9 @@ namespace BVisionTestViewModel
         private volatile bool _saveWorkerRunning;
         private Thread _saveWorkerThread;
         private int _saveBacklogCount = 0;
+        private long[] _reqStartMs = new long[MAX_CAM];   // 요청 시각
+        private long[] _reqSeq = new long[MAX_CAM];       // 요청 번호(로그 구분용, 옵션)
+
         #endregion
 
         #region Properties (Binding)
@@ -331,6 +335,13 @@ namespace BVisionTestViewModel
             if (!string.IsNullOrEmpty(rootFolder))
                 _rawRoot = rootFolder;
 
+            // Ack 이벤트 초기화 (한 번만)
+            for (int i = 0; i < MAX_CAM; i++)
+            {
+                if (_nextFrameCopiedAck[i] == null)
+                    _nextFrameCopiedAck[i] = new AutoResetEvent(false);
+            }
+
             if (_saveWorkerRunning) return;
 
             _saveWorkerRunning = true;
@@ -346,7 +357,7 @@ namespace BVisionTestViewModel
         public void StopRawSaveWorker()
         {
             _saveWorkerRunning = false;
-            _saveSignal.Set(); // 대기중이면 깨워서 종료
+            _saveSignal.Set();
 
             try
             {
@@ -355,7 +366,6 @@ namespace BVisionTestViewModel
             }
             catch { }
 
-            // 남은 큐 정리(원하면 유지)
             try
             {
                 SaveJob job;
@@ -363,6 +373,13 @@ namespace BVisionTestViewModel
                     Interlocked.Decrement(ref _saveBacklogCount);
             }
             catch { }
+
+            // Ack 이벤트 정리(선택)
+            for (int i = 0; i < MAX_CAM; i++)
+            {
+                try { _nextFrameCopiedAck[i]?.Close(); } catch { }
+                _nextFrameCopiedAck[i] = null;
+            }
         }
 
         // 20260121 Nick Raw Image 저장 관련 작업
@@ -444,7 +461,30 @@ namespace BVisionTestViewModel
         public void RequestSaveNextFrameRaw(int camIndex)
         {
             if (camIndex < 0 || camIndex >= MAX_CAM) return;
+
+            // 이전 Ack 남아있으면 비우기(중요)
+            var ack = _nextFrameCopiedAck[camIndex];
+            if (ack != null) ack.WaitOne(0);
+
+            // 요청 시각 기록
+            long seq = Interlocked.Increment(ref _reqSeq[camIndex]);
+            Interlocked.Exchange(ref _reqStartMs[camIndex], NowMs());
+
+            LoggerManager.Debug($"[CAP-REQ] cam={camIndex} seq={seq} t={_reqStartMs[camIndex]}");
+
+            // 다음 프레임 1장 저장 요청
             Interlocked.Exchange(ref _saveNextFrameReq[camIndex], 1);
+        }
+
+        // 20260121 Nick Raw Image 저장 관련 작업
+        public bool WaitNextFrameCopiedAck(int camIndex, int timeoutMs)
+        {
+            if (camIndex < 0 || camIndex >= MAX_CAM) return false;
+
+            var ack = _nextFrameCopiedAck[camIndex];
+            if (ack == null) return false;
+
+            return ack.WaitOne(timeoutMs);
         }
 
         public void InitBitmap(int camIndex, int width, int height, bool isColor)
@@ -795,6 +835,22 @@ namespace BVisionTestViewModel
                     var handle = _grabber[camIndex].GrabDone;
                     if (handle == null) continue;
                     if (!handle.WaitOne(WAIT_TIMEOUT_MS)) continue;
+
+                    // [LOG] Request -> GrabDone 지연 측정 포인트(GrabDone 받은 직후)
+                    long grabDoneMs = NowMs();
+
+                    long start = Interlocked.Read(ref _reqStartMs[camIndex]);
+                    if (start != 0)
+                    {
+                        long seq = Interlocked.Read(ref _reqSeq[camIndex]);
+                        long dt = grabDoneMs - start;
+
+                        LoggerManager.Debug($"[CAP-REQ→GRABDONE] cam={camIndex} seq={seq} dtMs={dt}");
+
+                        // 같은 요청에 대해 로그가 반복 출력되는 것 방지(한 번만)
+                        Interlocked.Exchange(ref _reqStartMs[camIndex], 0);
+                    }
+
                     if (!_isWorking[camIndex]) break;
 
                     // 버퍼
@@ -805,19 +861,22 @@ namespace BVisionTestViewModel
                     int h = GetHeight(camIndex);
                     bool isColor = _isColor[camIndex];
 
-                    // ===== (핵심) 다음 프레임 1장 RAW 저장 요청 처리: 복사 + 큐 enqueue만 =====
+                    // ===== 다음 프레임 1장 RAW 저장 요청 처리: 복사 + 큐 enqueue + Ack =====
                     if (Interlocked.CompareExchange(ref _saveNextFrameReq[camIndex], 0, 1) == 1)
                     {
                         int backlog = Interlocked.Increment(ref _saveBacklogCount);
                         if (backlog > MAX_SAVE_BACKLOG)
                         {
-                            // 큐 폭주면 드랍(요청은 소비됨)
+                            // 큐 폭주면 드랍: Ack를 주지 않으면 공정에서 timeout으로 감지됨(권장)
                             Interlocked.Decrement(ref _saveBacklogCount);
                             LoggerManager.Debug($"RAW save backlog overflow. Drop frame. backlog={backlog}");
+
+                            // (선택) 공정 지연을 줄이려면 Ack를 주고 진행하게 할 수도 있음
+                            // _nextFrameCopiedAck[camIndex]?.Set();
                         }
                         else
                         {
-                            // grabber 버퍼는 재사용될 수 있으니 반드시 복사
+                            // grabber 버퍼 재사용 방지: 반드시 복사
                             byte[] copy = new byte[src.Length];
                             Buffer.BlockCopy(src, 0, copy, 0, src.Length);
 
@@ -836,7 +895,11 @@ namespace BVisionTestViewModel
                                 TimestampMs = NowMs()
                             });
 
-                            _saveSignal.Set(); // 저장 스레드 깨우기
+                            // 여기서 Ack: "프레임 복사 완료"
+                            _nextFrameCopiedAck[camIndex]?.Set();
+
+                            // 저장 스레드 깨우기
+                            _saveSignal.Set();
                         }
                     }
 
@@ -1281,7 +1344,7 @@ namespace BVisionTestViewModel
                     RaisePropertyChanged(nameof(StartStopButtonText));
 
                     // 20260121 Nick Raw Image 저장 관련 작업
-                    StartRawSaveWorker();
+                    StartRawSaveWorker(_rawRoot);
 
                     Initialized = true;
 

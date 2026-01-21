@@ -9206,6 +9206,13 @@ namespace ManualJogViewModel
                         // 이미지 촬영
                         _VisionVM.RequestSaveNextFrameRaw(4);
 
+                        // 저장 완료가 아니라 "프레임 복사 완료"만 최대 50ms 대기
+                        bool pass = _VisionVM.WaitNextFrameCopiedAck(4, 50);
+                        if (!pass)
+                        {
+                            LoggerManager.Debug("Next frame copy ACK timeout (<=50ms). Continue Z Up.");
+                        }
+
                         LoggerManager.Event($"나노스테이지 Z Up Start");
                         rv = DoPlace_Nano_ZUp();
                         LoggerManager.Event($"나노스테이지 Z Up End");
