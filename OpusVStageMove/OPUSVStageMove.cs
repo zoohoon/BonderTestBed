@@ -19223,17 +19223,19 @@ namespace OpusVStageMove
                 WaferCoordinate wlcoord = new WaferCoordinate();
                 wlcoord = Module.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
 
-                if (wlcoord.Z.Value < Module.StageSupervisor().WaferRegRange)
-                {
-                    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
+                // <-- 260121 sebas : WaferRegRange = 3000으로 되있는 조건 일단 제외
+                //if (wlcoord.Z.Value < Module.StageSupervisor().WaferRegRange)
+                //{
+                //    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
 
-                if (axis.AxisType.Value == EnumAxisConstants.Z && pos < Module.StageSupervisor().WaferRegRange)
-                {
-                    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
+                //if (axis.AxisType.Value == EnumAxisConstants.Z && pos < Module.StageSupervisor().WaferRegRange)
+                //{
+                //    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
+                // -->
 
                 ret = WaferStageRelMoveFunc(axis, pos, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);

@@ -964,7 +964,18 @@ namespace WAEdgeStadnardModule
             return retVal;
         }
 
-        public static bool IsWaferEdge = false;   // 260119 sebas
+        public static bool _IsWaferEdge;   // 260119 sebas
+        public static bool IsWaferEdge
+        {
+            get { return _IsWaferEdge; }
+            set
+            {
+                if (value != _IsWaferEdge)
+                {
+                    _IsWaferEdge = value;
+                }
+            }
+        }
 
         public override async Task<EventCodeEnum> PageSwitched(object parameter = null)
         {
@@ -997,6 +1008,7 @@ namespace WAEdgeStadnardModule
 
                     foreach (var pos in EdgePos)
                     {
+                        // Wafer Align 반복 실행하면 XIndex와 YIndex가 증가되어 에러발생?
                         MachineIndex edgeindex = this.CoordinateManager().GetCurMachineIndex(pos);
                         EdgeMapParams.Add(new EdgeMapParam(edgeindex, Wafer.GetSubsInfo().DIEs[edgeindex.XIndex, edgeindex.YIndex].DieType.Value));
                     }
@@ -2682,7 +2694,7 @@ namespace WAEdgeStadnardModule
                     //ManualEdgePoss[index] = coordinate;
                     else
                     {
-                        // index > 64면 에러
+                        // indey > 64면 에러
                         ManualEdgePoss.Add(new EdgeMapParam(coordinate, curidx, WaferObject.GetSubsInfo().DIEs[curidx.XIndex, curidx.YIndex].DieType.Value));
                     }
                 }

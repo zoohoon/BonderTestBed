@@ -523,9 +523,9 @@ namespace ProberInterfaces
 
                 macCoord = ConvertBack(new PinCoordinate(0, 0, 0));
                 //coordinate = Convert(macCoord);
-                coordinate.X.Value = (macCoord.GetX() - actualposx) * 1d;  // 260120 sebas : -1d => 1d (FD쪽과 동일하게 변경)
-                coordinate.Y.Value = (macCoord.GetY() - actualposy) * 1d;  // 260120 sebas : -1d => 1d (FD쪽과 동일하게 변경)
-                coordinate.Z.Value = (macCoord.GetZ() - actualposz) * 1d;  // 260120 sebas : -1d => 1d (FD쪽과 동일하게 변경)
+                coordinate.X.Value = (macCoord.GetX() - actualposx) * 0.95d;  // 260120 sebas : -1d => 0.95d
+                coordinate.Y.Value = (macCoord.GetY() - actualposy) * 0.95d;  // 260120 sebas : -1d => 0.95d
+                coordinate.Z.Value = (macCoord.GetZ() - actualposz) * 0.95d;  // 260120 sebas : -1d => 0.95d
 
                 return coordinate;
 
@@ -711,9 +711,9 @@ namespace ProberInterfaces
 
                 macCoord = ConvertBack(new PinCoordinate(0, 0, 0));
                 //coordinate = Convert(macCoord);
-                coordinate.X.Value = (macCoord.GetX() - actualposx) * 1d;  // 260120 sebas : -1d => 1d (FD쪽과 동일하게 변경)
-                coordinate.Y.Value = (macCoord.GetY() - actualposy) * 1d;  // 260120 sebas : -1d => 1d (FD쪽과 동일하게 변경)
-                coordinate.Z.Value = (macCoord.GetZ() - actualposz) * 1d;  // 260120 sebas : -1d => 1d (FD쪽과 동일하게 변경)
+                coordinate.X.Value = (macCoord.GetX() - actualposx) * 0.95d;  // 260120 sebas : -1d => 0.95d
+                coordinate.Y.Value = (macCoord.GetY() - actualposy) * 0.95d;  // 260120 sebas : -1d => 0.95d
+                coordinate.Z.Value = (macCoord.GetZ() - actualposz) * 0.95d;  // 260120 sebas : -1d => 0.95d
                 return coordinate;
 
                 //PinCoordinate coordinate = new PinCoordinate();

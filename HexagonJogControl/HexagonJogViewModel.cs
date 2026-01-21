@@ -286,10 +286,14 @@ namespace HexagonJogControl
                 }
                 else
                 {
-                    if (this.MotionManager().GetAxis(EnumAxisConstants.Z).Status.AxisBusy == false)
-                    {
-                        this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(this.StageSupervisor().StageModuleState.PinViewAxis), zAxisRelPos);
-                    }
+                    // 260121 sebas : Pin Cam일 때 Z축 이동으로 변경
+                    //if (this.MotionManager().GetAxis(EnumAxisConstants.Z).Status.AxisBusy == false)
+                    //{
+                    //    this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(this.StageSupervisor().StageModuleState.PinViewAxis), zAxisRelPos);
+                    //}
+                    zAxisRelPos = zAxisRelPos * 1000;   // Z축 DtoP가 0.0025이므로 1000배 보정, 조작 방향값 변경
+                    if (this.MotionManager().CheckSWLimit(EnumAxisConstants.Z, this.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref - zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return;
+                    this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.Z), zAxisRelPos);
                 }
             }
         }
