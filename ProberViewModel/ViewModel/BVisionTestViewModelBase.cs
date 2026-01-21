@@ -14,7 +14,9 @@ using ProberViewModel.Data;
 using RelayCommandBase;
 using SubstrateObjects;
 using System;
+using System.Text;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -255,6 +257,31 @@ namespace BVisionTestViewModel
         // SOFT/RAW
         private bool[] _soft = new bool[MAX_CAM];
 
+        // ===== 설정 =====
+        private const int MAX_SAVE_BACKLOG = 200;     // 저장 큐 최대 적재(환경 맞게 조절)
+        private string _rawRoot = @"D:\CaptureRaw";   // 저장 루트 폴더
+
+        // ===== "다음 프레임 1장 저장" 요청 플래그 =====
+        private int[] _saveNextFrameReq = new int[MAX_CAM]; // 0/1
+        private int[] _saveSeq = new int[MAX_CAM];          // 파일명 구분용
+
+        // ===== 저장 큐 / 워커 =====
+        private sealed class SaveJob
+        {
+            public int CamIndex;
+            public string CamName;
+            public byte[] Data;
+            public int Width;
+            public int Height;
+            public bool IsColor;
+            public long TimestampMs;
+        }
+
+        private readonly ConcurrentQueue<SaveJob> _saveQueue = new ConcurrentQueue<SaveJob>();
+        private readonly AutoResetEvent _saveSignal = new AutoResetEvent(false);
+        private volatile bool _saveWorkerRunning;
+        private Thread _saveWorkerThread;
+        private int _saveBacklogCount = 0;
         #endregion
 
         #region Properties (Binding)
@@ -298,6 +325,127 @@ namespace BVisionTestViewModel
         #endregion
 
         #region Helpers
+        // 20260121 Nick Raw Image 저장 관련 작업
+        public void StartRawSaveWorker(string rootFolder = null)
+        {
+            if (!string.IsNullOrEmpty(rootFolder))
+                _rawRoot = rootFolder;
+
+            if (_saveWorkerRunning) return;
+
+            _saveWorkerRunning = true;
+            _saveWorkerThread = new Thread(SaveWorkerProc)
+            {
+                IsBackground = true,
+                Name = "RawSaveWorker"
+            };
+            _saveWorkerThread.Start();
+        }
+
+        // 20260121 Nick Raw Image 저장 관련 작업
+        public void StopRawSaveWorker()
+        {
+            _saveWorkerRunning = false;
+            _saveSignal.Set(); // 대기중이면 깨워서 종료
+
+            try
+            {
+                if (_saveWorkerThread != null && _saveWorkerThread.IsAlive)
+                    _saveWorkerThread.Join(1000);
+            }
+            catch { }
+
+            // 남은 큐 정리(원하면 유지)
+            try
+            {
+                SaveJob job;
+                while (_saveQueue.TryDequeue(out job))
+                    Interlocked.Decrement(ref _saveBacklogCount);
+            }
+            catch { }
+        }
+
+        // 20260121 Nick Raw Image 저장 관련 작업
+        private void SaveWorkerProc()
+        {
+            while (_saveWorkerRunning)
+            {
+                try
+                {
+                    if (_saveQueue.IsEmpty)
+                    {
+                        _saveSignal.WaitOne(200);
+                        continue;
+                    }
+
+                    SaveJob job;
+                    while (_saveQueue.TryDequeue(out job))
+                    {
+                        // backlog 감소
+                        Interlocked.Decrement(ref _saveBacklogCount);
+
+                        try
+                        {
+                            SaveRawAndMeta(job);
+                        }
+                        catch (Exception ex)
+                        {
+                            LoggerManager.Exception(ex);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LoggerManager.Exception(ex);
+                }
+            }
+        }
+
+        // 20260121 Nick Raw Image 저장 관련 작업
+        private void SaveRawAndMeta(SaveJob job)
+        {
+            // 날짜 폴더
+            string folder = Path.Combine(_rawRoot,
+                DateTime.Now.ToString("yyyy"),
+                DateTime.Now.ToString("MM"),
+                DateTime.Now.ToString("dd"));
+            Directory.CreateDirectory(folder);
+
+            int seq = Interlocked.Increment(ref _saveSeq[job.CamIndex]);
+
+            string baseName = $"{job.CamName}_{DateTime.Now:yyyyMMdd_HHmmss_fff}_{seq:D4}";
+            string rawPath = Path.Combine(folder, baseName + ".raw");
+            string metaPath = Path.Combine(folder, baseName + ".txt");
+
+            // RAW 저장(헤더 없는 픽셀 덤프)
+            File.WriteAllBytes(rawPath, job.Data);
+
+            // 메타 저장(복원용)
+            // ※ 네 코드가 WritePixels stride=width*bpp 를 쓰므로 연속 버퍼 가정
+            int bpp = job.IsColor ? 3 : 1;
+            int stride = job.Width * bpp;
+
+            var sb = new StringBuilder();
+            sb.AppendLine("RAW DUMP META");
+            sb.AppendLine("------------");
+            sb.AppendLine("Format=" + (job.IsColor ? "RGB24" : "GRAY8"));
+            sb.AppendLine("Width=" + job.Width);
+            sb.AppendLine("Height=" + job.Height);
+            sb.AppendLine("BytesPerPixel=" + bpp);
+            sb.AppendLine("StrideBytes=" + stride);
+            sb.AppendLine("DataLength=" + (job.Data != null ? job.Data.Length : 0));
+            sb.AppendLine("TimestampMs=" + job.TimestampMs);
+            sb.AppendLine("Note=Headerless raw pixel dump. Use meta to reconstruct.");
+
+            File.WriteAllText(metaPath, sb.ToString());
+        }
+
+        // 20260121 Nick Raw Image 저장 관련 작업
+        public void RequestSaveNextFrameRaw(int camIndex)
+        {
+            if (camIndex < 0 || camIndex >= MAX_CAM) return;
+            Interlocked.Exchange(ref _saveNextFrameReq[camIndex], 1);
+        }
 
         public void InitBitmap(int camIndex, int width, int height, bool isColor)
         {
@@ -657,6 +805,41 @@ namespace BVisionTestViewModel
                     int h = GetHeight(camIndex);
                     bool isColor = _isColor[camIndex];
 
+                    // ===== (핵심) 다음 프레임 1장 RAW 저장 요청 처리: 복사 + 큐 enqueue만 =====
+                    if (Interlocked.CompareExchange(ref _saveNextFrameReq[camIndex], 0, 1) == 1)
+                    {
+                        int backlog = Interlocked.Increment(ref _saveBacklogCount);
+                        if (backlog > MAX_SAVE_BACKLOG)
+                        {
+                            // 큐 폭주면 드랍(요청은 소비됨)
+                            Interlocked.Decrement(ref _saveBacklogCount);
+                            LoggerManager.Debug($"RAW save backlog overflow. Drop frame. backlog={backlog}");
+                        }
+                        else
+                        {
+                            // grabber 버퍼는 재사용될 수 있으니 반드시 복사
+                            byte[] copy = new byte[src.Length];
+                            Buffer.BlockCopy(src, 0, copy, 0, src.Length);
+
+                            string camName = (camIndex >= 0 && camIndex < MAX_CAM)
+                                ? _camDisplayName[camIndex]
+                                : ("CAM" + (camIndex + 1));
+
+                            _saveQueue.Enqueue(new SaveJob
+                            {
+                                CamIndex = camIndex,
+                                CamName = camName,
+                                Data = copy,
+                                Width = w,
+                                Height = h,
+                                IsColor = isColor,
+                                TimestampMs = NowMs()
+                            });
+
+                            _saveSignal.Set(); // 저장 스레드 깨우기
+                        }
+                    }
+
                     // UI 갱신
                     SafeUpdateFrame(camIndex, src, w, h, isColor);
 
@@ -949,6 +1132,8 @@ namespace BVisionTestViewModel
                     _startStopButtonText[i] = "Start";
                 }
                 RaisePropertyChanged(nameof(StartStopButtonText));
+
+                StopRawSaveWorker();
             }
             catch (Exception err)
             {
@@ -1094,6 +1279,9 @@ namespace BVisionTestViewModel
                         _startStopButtonText[i] = "Start";
                     }
                     RaisePropertyChanged(nameof(StartStopButtonText));
+
+                    // 20260121 Nick Raw Image 저장 관련 작업
+                    StartRawSaveWorker();
 
                     Initialized = true;
 

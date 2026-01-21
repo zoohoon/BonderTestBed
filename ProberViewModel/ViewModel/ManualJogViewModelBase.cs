@@ -9157,7 +9157,7 @@ namespace ManualJogViewModel
                     await Task.WhenAll(pickTask, placeTask);
 
                     // 마지막 다이 내려 놓고 정리
-                    if (TestCount == 5)
+                    if (TestCount == 16)
                     {
                         LoggerManager.Event($"Sequence End {TestCount}");
                         break;
@@ -9181,7 +9181,7 @@ namespace ManualJogViewModel
                     //}
 
                     // 마지막 다이 움직일 필요 없음.
-                    if (TestCount < 5)
+                    if (TestCount < 15)
                     {
                         LoggerManager.Event($"MovePickPos_SafeZone_Next Start");
                         ret = MovePickPos_SafeZone_Next();
@@ -9195,29 +9195,46 @@ namespace ManualJogViewModel
                     // =========================
                     try
                     {
-                        if (cycleStartFlag == false)
-                        {
-                            // 1도 (81901에서 -98081로 가는 방향 기준)
-                            NanostageUpDownMonitor(false, 80901);
+                        EventCodeEnum rv;
 
-                            LoggerManager.Event($"Rotate_Minus Start");
-                            ret = Rotate_Minus();
-                            LoggerManager.Event($"Rotate_Minus End");
-                        }
-                        else
-                        {
-                            // 1도 (-98081에서 81901로 가는 방향 기준)
-                            NanostageUpDownMonitor(true, -97081);
+                        LoggerManager.Event($"나노스테이지 Z Down Start");
+                        rv = DoPlace_Nano_ZDown();
+                        LoggerManager.Event($"나노스테이지 Z Down End");
+                        if (rv != EventCodeEnum.NONE)
+                            throw new Exception("DoPlace_Nano_ZDown() Function Error");
 
-                            LoggerManager.Event($"Rotate_Plus Start");
-                            ret = Rotate_Plus();
-                            LoggerManager.Event($"Rotate_Plus End");
-                        }
+                        // 이미지 촬영
+                        _VisionVM.RequestSaveNextFrameRaw(4);
+
+                        LoggerManager.Event($"나노스테이지 Z Up Start");
+                        rv = DoPlace_Nano_ZUp();
+                        LoggerManager.Event($"나노스테이지 Z Up End");
+                        if (rv != EventCodeEnum.NONE)
+                            throw new Exception("DoPlace_Nano_ZUp() Function Error");
+                        
+                        //if (cycleStartFlag == false)
+                        //{
+                        //    // 1도 (81901에서 -98081로 가는 방향 기준)
+                        //    NanostageUpDownMonitor(false, 80901);
+
+                        //    LoggerManager.Event($"Rotate_Minus Start");
+                        //    ret = Rotate_Minus();
+                        //    LoggerManager.Event($"Rotate_Minus End");
+                        //}
+                        //else
+                        //{
+                        //    // 1도 (-98081에서 81901로 가는 방향 기준)
+                        //    NanostageUpDownMonitor(true, -97081);
+
+                        //    LoggerManager.Event($"Rotate_Plus Start");
+                        //    ret = Rotate_Plus();
+                        //    LoggerManager.Event($"Rotate_Plus End");
+                        //}
                     }
                     finally
                     {
                         // Rotate 끝났으면 모니터 즉시 종료(중첩/누적 방지)
-                        StopNanoMonitor();
+                        //StopNanoMonitor();
                     }
 
                     if (ret != EventCodeEnum.NONE)
@@ -9295,8 +9312,8 @@ namespace ManualJogViewModel
                 throw new Exception("DoPlace_Nano_ZDown() Function Error");
 
             // 이미지 촬영
-            //_VisionVM.CaptureCamera(0);
-            //
+            //_VisionVM.CaptureCamera(4);
+            
 
             // Vacuum Off (Place)
             if (cycleStartFlag == true)
@@ -10923,7 +10940,7 @@ namespace ManualJogViewModel
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
-                double pos = 146000000;   // = 350,000 Z 축 DtoP = 0.0025    (상판부터 척까지 높이 20.8) // 기존 144,000,000 -> 도마뱀테스트 
+                double pos = 144000000;   // = 350,000 Z 축 DtoP = 0.0025    (상판부터 척까지 높이 20.8) // 기존 144,000,000 -> 도마뱀테스트 
                 LoggerManager.Debug($"Wafer_Chuck_Up Start");
                 retVal = this.MotionManager().RelMove_Wating(axisZ, pos - currentPos, axisZ.Param.Speed.Value, axisZ.Param.Acceleration.Value);
                 LoggerManager.Debug($"Wafer_Chuck_Up End");
@@ -11007,7 +11024,7 @@ namespace ManualJogViewModel
             {
                 ProbeAxisObject axisNSZ1 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ1);
 
-                double pos = -2000;   // = -2,000,000 Nano Stage Z 축 DtoP = 4194.304 (기존) -476.838 -> (변경) -8388.608 나노스테이지 2mm 다운
+                double pos = -3995;   // = -2,000,000 Nano Stage Z 축 DtoP = 4194.304 (기존) -2000.0 -> (변경) -3995, 초점을 맞추기 위함 (Wafer)
                 //LoggerManager.Debug($"나노스테이지 Z Down Start");
                 retVal = this.MotionManager().RelMove_Wating(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
                 //LoggerManager.Debug($"나노스테이지 Z Down End");
@@ -11032,7 +11049,7 @@ namespace ManualJogViewModel
             {
                 ProbeAxisObject axisNSZ1 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ1);
 
-                double pos = 2000;   // = 2,000,000 Nano Stage Z 축 DtoP = 4194.304 (기존) 476.838 -> (변경) 8388.608 나노스테이지 2mm 업
+                double pos = 3995;   // = 2,000,000 Nano Stage Z 축 DtoP = 4194.304 (기존) 2000.0 -> (변경) 3995 (Wafer) 초점을 맞추기 위함
                 //LoggerManager.Debug($"나노스테이지 Z Up Start");
                 retVal = this.MotionManager().RelMove_Wating(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
                 //LoggerManager.Debug($"나노스테이지 Z Up End");
@@ -11409,8 +11426,7 @@ namespace ManualJogViewModel
                     throw new Exception("DoPlace_Nano_ZDown() Function Error");
 
                 // 이미지 촬영
-                //_VisionVM.CaptureCamera(0);
-                //
+                _VisionVM.CaptureCamera(4);
 
                 LoggerManager.Event($"나노스테이지 Z Up Start");
                 rv = DoPlace_Nano_ZUp();
