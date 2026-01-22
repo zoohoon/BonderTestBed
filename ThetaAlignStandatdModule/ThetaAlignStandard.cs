@@ -1507,8 +1507,20 @@ namespace ThetaAlignStandatdModule
                 this.MotionManager().SetSettlingTime(axisY, settling);
                 this.MotionManager().SetSettlingTime(axisZ, settling);
 
-                double wafercenterx = Wafer.GetSubsInfo().WaferCenter.GetX();
-                double wafercentery = Wafer.GetSubsInfo().WaferCenter.GetY();
+                double wafercenterx = 0;
+                double wafercentery = 0;
+
+                // 260121 sebas : FD / Wafer 구분
+                if (WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)
+                {
+                    wafercenterx = Wafer.GetSubsInfo().WaferCenter_WF.GetX();
+                    wafercentery = Wafer.GetSubsInfo().WaferCenter_WF.GetY();
+                }
+                else
+                {
+                    wafercenterx = Wafer.GetSubsInfo().WaferCenter.GetX();
+                    wafercentery = Wafer.GetSubsInfo().WaferCenter.GetY();
+                }
 
                 double movex = (ptinfo.GetX() + wafercenterx) + ((movecountx * Wafer.GetSubsInfo().ActualDieSize.Width.Value) * direction);
                 double movey = ptinfo.GetY() + wafercentery + ((movecounty * Wafer.GetSubsInfo().ActualDieSize.Height.Value) * direction);
@@ -1570,6 +1582,14 @@ namespace ThetaAlignStandatdModule
                 else if (ptinfo.CamType.Value == EnumProberCam.WAFER_HIGH_CAM)
                 {
                     this.StageSupervisor().StageModuleState.WaferHighViewMove(movex, movey);
+                }
+                else if (ptinfo.CamType.Value == EnumProberCam.PIN_LOW_CAM) // 260121 sebas : Pin Cam 추가
+                {
+                    this.StageSupervisor().StageModuleState.WaferLowViewMove_Wafer(movex, movey);
+                }
+                else if (ptinfo.CamType.Value == EnumProberCam.PIN_HIGH_CAM)
+                {
+
                 }
 
                 Thread.Sleep(250);
@@ -1711,8 +1731,16 @@ namespace ThetaAlignStandatdModule
                         {
                             retVal = this.StageSupervisor().StageModuleState.WaferHighViewMove(movex, movey, movez);
                         }
+                        else if (ptinfo.CamType.Value == EnumProberCam.PIN_LOW_CAM)  // 260121 sebas : Pin cam 추가
+                        {
+                            retVal = this.StageSupervisor().StageModuleState.WaferLowViewMove_Wafer(movex, movey, movez);
+                        }
+                        else if (ptinfo.CamType.Value == EnumProberCam.PIN_HIGH_CAM)
+                        {
 
-                        if (retVal != EventCodeEnum.NONE)
+                        }
+
+                            if (retVal != EventCodeEnum.NONE)
                         {
                             return retVal;
                         }

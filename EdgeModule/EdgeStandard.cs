@@ -837,17 +837,26 @@ namespace WAEdgeStadnardModule
                 CreateHeightProfilingStandard();
 
                 if (this.WaferAligner().WaferAlignControItems.EdgeFail)
-                    RetVal = EventCodeEnum.SUB_RECOVERY;
+                    RetVal = EventCodeEnum.SUB_RECOVERY; 
 
                 if (RetVal == EventCodeEnum.NONE)
-                {   // 엣지 계산 끝내고 센터위치로 이동함
-                    //======================= Test Code
-                    (this).StageSupervisor().StageModuleState.WaferLowViewMove(
-                            Wafer.GetSubsInfo().WaferCenter.X.Value,
-                            Wafer.GetSubsInfo().WaferCenter.Y.Value,
-                            Wafer.GetSubsInfo().WaferCenter.Z.Value);
-
-                    //======================
+                {   // 260121 sebas 엣지 계산 끝내고 센터위치로 이동함
+                    if(IsWaferEdge == true)
+                    {
+                        (this).StageSupervisor().StageModuleState.WaferLowViewMove_Wafer(
+                                Wafer.GetSubsInfo().WaferCenter_WF.X.Value,
+                                Wafer.GetSubsInfo().WaferCenter_WF.Y.Value,
+                                Wafer.GetSubsInfo().WaferCenter_WF.Z.Value);
+                    }
+                    else
+                    {
+                        //======================= Test Code
+                        (this).StageSupervisor().StageModuleState.WaferLowViewMove(
+                                Wafer.GetSubsInfo().WaferCenter.X.Value,
+                                Wafer.GetSubsInfo().WaferCenter.Y.Value,
+                                Wafer.GetSubsInfo().WaferCenter.Z.Value);
+                        //======================
+                    }
                     ProcessingType = EnumSetupProgressState.DONE;
                 }
 
@@ -2479,11 +2488,25 @@ namespace WAEdgeStadnardModule
                         //    RetVal = EventCodeEnum.NONE;
                         //}
 
-                        Wafer.GetSubsInfo().WaferCenter.X.Value = chuckzeroAveXpos;
-                        Wafer.GetSubsInfo().WaferCenter.Y.Value = chuckzeroAveYpos;
+                        // 260121 sebas 센터 저장위치 추가
+                        if(IsWaferEdge == true)
+                        {
+                            Wafer.GetSubsInfo().WaferCenter_WF.X.Value = chuckzeroAveXpos;
+                            Wafer.GetSubsInfo().WaferCenter_WF.Y.Value = chuckzeroAveYpos;
 
-                        Wafer.GetSubsInfo().WaferCenterOriginatEdge.X.Value = chuckzeroAveXpos;
-                        Wafer.GetSubsInfo().WaferCenterOriginatEdge.Y.Value = chuckzeroAveYpos;
+                            Wafer.GetSubsInfo().WaferCenterOriginatEdge_WF.X.Value = chuckzeroAveXpos;
+                            Wafer.GetSubsInfo().WaferCenterOriginatEdge_WF.Y.Value = chuckzeroAveYpos;
+
+                        }
+                        else
+                        {
+                            Wafer.GetSubsInfo().WaferCenter.X.Value = chuckzeroAveXpos;
+                            Wafer.GetSubsInfo().WaferCenter.Y.Value = chuckzeroAveYpos;
+
+                            Wafer.GetSubsInfo().WaferCenterOriginatEdge.X.Value = chuckzeroAveXpos;
+                            Wafer.GetSubsInfo().WaferCenterOriginatEdge.Y.Value = chuckzeroAveYpos;
+
+                        }
 
                         WaferCoordinate coordinate = this.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
 
@@ -2498,9 +2521,7 @@ namespace WAEdgeStadnardModule
                 }
                 finally
                 {
-                    // 260108 sebas : 센터값 로그 찍기
-                    LoggerManager.Debug($"(sebas) WaferCenter.X:{Wafer.GetSubsInfo().WaferCenter.X.Value}", isInfo: true);
-                    LoggerManager.Debug($"(sebas) WaferCenter.Y:{Wafer.GetSubsInfo().WaferCenter.Y.Value}", isInfo: true);
+
                 }
 
             }

@@ -1769,13 +1769,13 @@ namespace WALowStandardModule
 
                 WaferCoordinate wcd = this.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
 
-                ///Camera 확인.
-                if (CurCam.GetChannelType() != LowStandardParam_Clone.CamType)
-                {
-                    await this.MetroDialogManager().ShowMessageDialog("Pattern Register Error.", "To register the Low pattern, please view the screen with Low camera and register again.", EnumMessageStyle.Affirmative);
+                //Camera 확인.    // 260121 sebas : 카메라 겸용하기 때문에 체크 제거
+                //if (CurCam.GetChannelType() != LowStandardParam_Clone.CamType)
+                //{
+                //    await this.MetroDialogManager().ShowMessageDialog("Pattern Register Error.", "To register the Low pattern, please view the screen with Low camera and register again.", EnumMessageStyle.Affirmative);
 
-                    return retVal;
-                }
+                //    return retVal;
+                //}
 
                 ///PatternSize
                 RegisteImageBufferParam patternparam = GetDisplayPortRectInfo();

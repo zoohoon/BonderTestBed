@@ -62,6 +62,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EdgeModule\EdgeStandardModule.csproj">
+      <Project>{1d61ac88-9b89-4795-a10d-32db9f855b19}</Project>
+      <Name>EdgeStandardModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Focusing\Focusing.csproj">
       <Project>{E59F4F23-CFF5-414A-AB35-C0F547CA0299}</Project>
       <Name>Focusing</Name>

@@ -101,6 +101,10 @@
       <Project>{c4cb1c3d-84fb-4ce0-8882-d755c1f0c6ab}</Project>
       <Name>WABoundaryStandardModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EdgeModule\EdgeStandardModule.csproj">
+      <Project>{1d61ac88-9b89-4795-a10d-32db9f855b19}</Project>
+      <Name>EdgeStandardModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Focusing\Focusing.csproj">
       <Project>{e59f4f23-cff5-414a-ab35-c0f547ca0299}</Project>
       <Name>Focusing</Name>

@@ -464,6 +464,7 @@ namespace ProberInterfaces
         EventCodeEnum WaferHighViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
         [OperationContract(Name = "waferlowviewmove_2pos")]
         EventCodeEnum WaferLowViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
+        EventCodeEnum WaferLowViewMove_Wafer(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);    // 260121 sebas add
         [OperationContract(Name = "pinhighviewmove_2pos")]
         EventCodeEnum PinHighViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
         [OperationContract(Name = "pinlowviewmove_2pos")]
@@ -699,6 +700,7 @@ namespace ProberInterfaces
         public abstract EventCodeEnum PinLowViewMove(double xpos, double ypos, double zpos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
         public abstract EventCodeEnum WaferHighViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
         public abstract EventCodeEnum WaferLowViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
+        public abstract EventCodeEnum WaferLowViewMove_Wafer(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);    // 260116 sebas add
         public abstract EventCodeEnum PinHighViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
         public abstract EventCodeEnum PinLowViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
         public abstract EventCodeEnum WaferHighViewMove(ProbeAxisObject axis, double pos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);

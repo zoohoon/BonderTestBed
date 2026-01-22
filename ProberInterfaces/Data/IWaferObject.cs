@@ -417,9 +417,11 @@ namespace ProberInterfaces
         Element<double> MachineSequareness { get; set; }
         WaferCoordinate RefDieLeftCorner { get; set; }
         WaferCoordinate WaferCenter { get; set; }
+        WaferCoordinate WaferCenter_WF { get; set; }    // 260121 sebas WF변수추가
         WaferCoordinate WaferCenterOffset { get; set; }
         Element<double> WaferSequareness { get; set; }
         WaferCoordinate WaferCenterOriginatEdge { get; set; }
+        WaferCoordinate WaferCenterOriginatEdge_WF { get; set; }    // 260121 sebas WF변수추가
         PadGroup Pads { get; set; }
         double DutCenX { get; set; }
         double DutCenY { get; set; }

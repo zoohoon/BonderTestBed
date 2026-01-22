@@ -84,6 +84,41 @@ namespace SubstrateObjects
             }
         }
 
+        // <-- 260121 sebas 변수추가
+        [NonSerialized]
+        private WaferCoordinate _WaferCenter_WF = new WaferCoordinate();
+        [XmlIgnore, JsonIgnore]
+        //[ParamIgnore]
+        public WaferCoordinate WaferCenter_WF
+        {
+            get { return _WaferCenter_WF; }
+            set
+            {
+                if (value != _WaferCenter_WF)
+                {
+                    _WaferCenter_WF = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        [NonSerialized]
+        private WaferCoordinate _WaferCenterOriginatEdge_WF = new WaferCoordinate();
+        [XmlIgnore, JsonIgnore]
+        public WaferCoordinate WaferCenterOriginatEdge_WF
+        {
+            get { return _WaferCenterOriginatEdge_WF; }
+            set
+            {
+                if (value != _WaferCenterOriginatEdge_WF)
+                {
+                    _WaferCenterOriginatEdge_WF = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+        // -->
+
         /// <summary>
         /// Edge 를 통해 구한 Center 값 ( Edge align 을 할때 업데이트 됨 )
         /// </summary>
