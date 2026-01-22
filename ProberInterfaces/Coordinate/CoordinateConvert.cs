@@ -12,6 +12,7 @@ namespace ProberInterfaces
         public abstract MachineCoordinate ConvertBack(T coord);
         public abstract MachineCoordinate ConvertBack_Wafer(T coord);   // 260119 sabas
         public abstract T CurrentPosConvert();
+        public abstract T CurrentPosConvert_Wafer();    // 260122 sebas
         public EnumAxisConstants ProberPinAxis;
 
     }
@@ -136,6 +137,31 @@ namespace ProberInterfaces
                 resultWaferCoord.Y.Value = (wcenInMac.GetY() - actualposy) * 1d;
                 resultWaferCoord.Z.Value = (wcenInMac.GetZ() - actualposz) * 1d;
 
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return resultWaferCoord;
+        }
+        // 260122 sebas add
+        public override WaferCoordinate CurrentPosConvert_Wafer()
+        {
+            WaferCoordinate resultWaferCoord = new WaferCoordinate();
+            try
+            {
+                double actualposx = this.MotionManager().GetAxis(EnumAxisConstants.X).Status.Position.Ref;
+                double actualposy = this.MotionManager().GetAxis(EnumAxisConstants.Y).Status.Position.Ref;
+                double actualposz = this.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref;
+
+
+                MachineCoordinate wcenInMac = new MachineCoordinate();
+                wcenInMac = ConvertBack_Wafer(new WaferCoordinate(0, 0, 0));
+
+                resultWaferCoord.X.Value = (wcenInMac.GetX() - actualposx) * 1d;
+                resultWaferCoord.Y.Value = (wcenInMac.GetY() - actualposy) * 1d;
+                resultWaferCoord.Z.Value = (wcenInMac.GetZ() - actualposz) * 1d;
             }
             catch (Exception err)
             {
@@ -372,6 +398,31 @@ namespace ProberInterfaces
             }
             return wafercoord;
         }
+        // 260122 sebas add
+        public override WaferCoordinate CurrentPosConvert_Wafer()
+        {
+            WaferCoordinate wafercoord = new WaferCoordinate();
+            try
+            {
+                MachineCoordinate macCoord = new MachineCoordinate();
+                double actualposx = this.MotionManager().GetAxis(EnumAxisConstants.X).Status.Position.Ref;
+
+                double actualposy = this.MotionManager().GetAxis(EnumAxisConstants.Y).Status.Position.Ref;
+                double actualposz = this.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref;
+
+                macCoord = ConvertBack_Wafer(new WaferCoordinate(0, 0, 0));
+                //wafercoord = Convert(macCoord);
+                wafercoord.X.Value = (macCoord.GetX() - actualposx) * 1d;
+                wafercoord.Y.Value = (macCoord.GetY() - actualposy) * 1d;
+                wafercoord.Z.Value = (macCoord.GetZ() - actualposz) * 1d;
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return wafercoord;
+        }
     }
 
     public class PinHighPinCoordConvert : CoordinateConvertBase<PinCoordinate>
@@ -551,6 +602,31 @@ namespace ProberInterfaces
                 throw;
             }
             //return coordinate;
+        }
+        // 260122 sebas add
+        public override PinCoordinate CurrentPosConvert_Wafer()
+        {
+            try
+            {
+                PinCoordinate coordinate = new PinCoordinate();
+                MachineCoordinate macCoord = new MachineCoordinate();
+
+                double actualposx = this.MotionManager().GetAxis(EnumAxisConstants.X).Status.Position.Ref;
+                double actualposy = this.MotionManager().GetAxis(EnumAxisConstants.Y).Status.Position.Ref;
+                double actualposz = 0;
+
+                macCoord = ConvertBack(new PinCoordinate(0, 0, 0));
+                coordinate.X.Value = (macCoord.GetX() - actualposx) * 0.95d;  // 260120 sebas : -1d => 0.95d
+                coordinate.Y.Value = (macCoord.GetY() - actualposy) * 0.95d;  // 260120 sebas : -1d => 0.95d
+                coordinate.Z.Value = (macCoord.GetZ() - actualposz) * 0.95d;  // 260120 sebas : -1d => 0.95d
+
+                return coordinate;
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
         }
     }
 
@@ -748,6 +824,30 @@ namespace ProberInterfaces
             }
             //return coordinate;
         }
+        // 260122 sebas add
+        public override PinCoordinate CurrentPosConvert_Wafer()
+        {
+            try
+            {
+                PinCoordinate coordinate = new PinCoordinate();
+                MachineCoordinate macCoord = new MachineCoordinate();
+
+                double actualposx = this.MotionManager().GetAxis(EnumAxisConstants.X).Status.Position.Ref;
+                double actualposy = this.MotionManager().GetAxis(EnumAxisConstants.Y).Status.Position.Ref;
+                double actualposz = 0;
+
+                macCoord = ConvertBack(new PinCoordinate(0, 0, 0));
+                coordinate.X.Value = (macCoord.GetX() - actualposx) * 0.95d;  // 260120 sebas : -1d => 0.95d
+                coordinate.Y.Value = (macCoord.GetY() - actualposy) * 0.95d;  // 260120 sebas : -1d => 0.95d
+                coordinate.Z.Value = (macCoord.GetZ() - actualposz) * 0.95d;  // 260120 sebas : -1d => 0.95d
+                return coordinate;
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+        }
     }
 
     public class WaferHighNCPadCoordConvert : CoordinateConvertBase<NCCoordinate>
@@ -852,6 +952,39 @@ namespace ProberInterfaces
             return mccoord;
         }
         public override NCCoordinate CurrentPosConvert()
+        {
+            // (*) 주의!! 이건 웨이퍼 카메라 좌표계를 기준으로 현재 위치를 반환함.
+            // 프로빙 좌표계가 아님
+
+            NCCoordinate nccoord = new NCCoordinate();
+            try
+            {
+                double actualposx = this.MotionManager().GetAxis(EnumAxisConstants.X).Status.Position.Ref;
+                double actualposy = this.MotionManager().GetAxis(EnumAxisConstants.Y).Status.Position.Ref;
+                double actualposz = this.MotionManager().GetAxis(this.NeedleCleaner().NCAxis.AxisType.Value).Status.Position.Ref;
+
+                nccoord.X.Value = -actualposx
+                    + (this.CoordinateManager().StageCoord.RefMarkPos.X.Value)
+                    + (this.CoordinateManager().StageCoord.MarkPosInDiskPosCoord.X.Value);
+
+                nccoord.Y.Value = -actualposy
+                    + (this.CoordinateManager().StageCoord.RefMarkPos.Y.Value)
+                    + (this.CoordinateManager().StageCoord.MarkPosInDiskPosCoord.Y.Value);
+
+                nccoord.Z.Value = -actualposz
+                    + (this.CoordinateManager().StageCoord.RefMarkPos.Z.Value)
+                    + (this.CoordinateManager().StageCoord.MarkPosInDiskPosCoord.Z.Value);
+
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return nccoord;
+        }
+        // 260122 sebas add
+        public override NCCoordinate CurrentPosConvert_Wafer()
         {
             // (*) 주의!! 이건 웨이퍼 카메라 좌표계를 기준으로 현재 위치를 반환함.
             // 프로빙 좌표계가 아님
@@ -1066,6 +1199,39 @@ namespace ProberInterfaces
         }
 
         public override NCCoordinate CurrentPosConvert()
+        {
+            NCCoordinate nccoord = new NCCoordinate();
+            try
+            {
+                double actualposx = this.MotionManager().GetAxis(EnumAxisConstants.X).Status.Position.Ref;
+                double actualposy = this.MotionManager().GetAxis(EnumAxisConstants.Y).Status.Position.Ref;
+                double actualposz = this.MotionManager().GetAxis(this.NeedleCleaner().NCAxis.AxisType.Value).Status.Position.Ref;
+
+                nccoord.X.Value = -actualposx
+                    + (this.CoordinateManager().StageCoord.RefMarkPos.X.Value)
+                    + (this.CoordinateManager().StageCoord.MarkPosInDiskPosCoord.X.Value)
+                    + (this.CoordinateManager().StageCoord.WLCAMFromWH.X.Value);
+
+                nccoord.Y.Value = -actualposy
+                    + (this.CoordinateManager().StageCoord.RefMarkPos.Y.Value)
+                    + (this.CoordinateManager().StageCoord.MarkPosInDiskPosCoord.Y.Value)
+                    + (this.CoordinateManager().StageCoord.WLCAMFromWH.Y.Value);
+
+                nccoord.Z.Value = -actualposz
+                    + (this.CoordinateManager().StageCoord.RefMarkPos.Z.Value)
+                    + (this.CoordinateManager().StageCoord.MarkPosInDiskPosCoord.Z.Value)
+                    + (this.CoordinateManager().StageCoord.WLCAMFromWH.Z.Value);
+
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return nccoord;
+        }
+        // 260126 sebas add
+        public override NCCoordinate CurrentPosConvert_Wafer()
         {
             NCCoordinate nccoord = new NCCoordinate();
             try

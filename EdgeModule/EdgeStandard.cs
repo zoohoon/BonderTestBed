@@ -2661,7 +2661,17 @@ namespace WAEdgeStadnardModule
             {
                 if (CurCam.GetChannelType() != EnumProberCam.WAFER_LOW_CAM)
                     Task.FromResult<bool>(retVal);
-                WaferCoordinate coordinate = this.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
+
+                WaferCoordinate coordinate; // 260122 sebas : 얼라인구분
+                if (IsWaferEdge == true)
+                {
+                    coordinate = this.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert_Wafer();
+                }
+                else
+                {
+                    coordinate = this.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
+                }
+
                 MachineIndex curidx = CurCam.GetCurCoordMachineIndex();
                 //if (!(WaferObject.GetSubsInfo().DIEs[curidx.XIndex,curidx.YIndex].DieType.Value == DieTypeEnum.MARK_DIE
                 //     | WaferObject.GetSubsInfo().DIEs[curidx.XIndex, curidx.YIndex].DieType.Value == DieTypeEnum.CHANGEMARK_DIE

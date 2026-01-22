@@ -9203,11 +9203,14 @@ namespace ManualJogViewModel
                             if (ret != EventCodeEnum.NONE)
                                 throw new Exception("MovePickPos_SafeZone_Next() Error");
 
+                            // 이미지 초점을 위한
+                            Thread.Sleep(20);
+
                             // 이미지 촬영
-                            _VisionVM.RequestSaveNextFrameRaw(4);
+                            _VisionVM.RequestSaveNextFrameRaw(2);
 
                             // 저장 완료가 아니라 "프레임 복사 완료"만 최대 50ms 대기
-                            bool pass = _VisionVM.WaitNextFrameCopiedAck(4, 50);
+                            bool pass = _VisionVM.WaitNextFrameCopiedAck(2, 50);
                             if (!pass)
                             {
                                 LoggerManager.Debug("Next frame copy ACK timeout (<=50ms). Continue Z Up.");
@@ -9313,15 +9316,14 @@ namespace ManualJogViewModel
             Magnetic_On_NoWating();
             LoggerManager.MonitoringLog($"Magnetic_On End");
 
-            LoggerManager.MonitoringLog($"나노스테이지 Z Down Start");
-            var ret = DoPlace_Nano_ZDown();
-            LoggerManager.MonitoringLog($"나노스테이지 Z Down End");
-            if (ret != EventCodeEnum.NONE)
-                throw new Exception("DoPlace_Nano_ZDown() Function Error");
+            //LoggerManager.MonitoringLog($"나노스테이지 Z Down Start");
+            //var ret = DoPlace_Nano_ZDown();
+            //LoggerManager.MonitoringLog($"나노스테이지 Z Down End");
+            //if (ret != EventCodeEnum.NONE)
+            //    throw new Exception("DoPlace_Nano_ZDown() Function Error");
 
             // 이미지 촬영
             //_VisionVM.CaptureCamera(4);
-            
 
             // Vacuum Off (Place)
             if (cycleStartFlag == true)
@@ -9337,11 +9339,11 @@ namespace ManualJogViewModel
                 LoggerManager.MonitoringLog($"Arm2_Vac_Off End");
             }
 
-            LoggerManager.MonitoringLog($"나노스테이지 Z Up Start");
-            ret = DoPlace_Nano_ZUp();
-            LoggerManager.MonitoringLog($"나노스테이지 Z Up End");
-            if (ret != EventCodeEnum.NONE)
-                throw new Exception("DoPlace_Nano_ZUp() Function Error");
+            //LoggerManager.MonitoringLog($"나노스테이지 Z Up Start");
+            //ret = DoPlace_Nano_ZUp();
+            //LoggerManager.MonitoringLog($"나노스테이지 Z Up End");
+            //if (ret != EventCodeEnum.NONE)
+            //    throw new Exception("DoPlace_Nano_ZUp() Function Error");
 
             LoggerManager.MonitoringLog($"Magnetic_Off Start");
             Magnetic_Off_NoWating();
@@ -10131,36 +10133,90 @@ namespace ManualJogViewModel
         #endregion
 
         #region 251223 ybpark Map die Index 함수 수정
+        //public static (double X, double Y) GetPos(int index)
+        //{
+        //    const int cols = 3;   // X 방향 개수
+        //    const int rows = 5;   // Y 방향 개수
+
+        //    if (index < 0 || index >= cols * rows)
+        //        throw new ArgumentOutOfRangeException(nameof(index));
+
+        //    // 열 계산 (세로 기준)
+        //    int col = index / rows;
+
+        //    // 행 계산 (지그재그)
+        //    int rowInCol = index % rows;
+        //    int row;
+
+        //    if (col % 2 == 0)
+        //        row = rowInCol;                 // 정방향
+        //    else
+        //        row = rows - 1 - rowInCol;      // 역방향
+
+        //    double X = -16.5 * col;
+        //    double Y = 16.5 * row;
+
+        //    return (X, Y);
+        //}
+
+        //public static (double X, double Y) GetPos_EJ(int index)
+        //{
+        //    const int cols = 3;
+        //    const int rows = 5;
+
+        //    if (index < 0 || index >= cols * rows)
+        //        throw new ArgumentOutOfRangeException(nameof(index));
+
+        //    int col = index / rows;
+
+        //    int rowInCol = index % rows;
+        //    int row;
+
+        //    if (col % 2 == 0)
+        //        row = rowInCol;
+        //    else
+        //        row = rows - 1 - rowInCol;
+
+        //    //  부호 반전
+        //    double EJ_X = 16.5 * col;   // 기존 -16.5 → +16.5
+        //    double EJ_Y = -16.5 * row;   // 기존 +16.5 → -16.5
+
+        //    return (EJ_X, EJ_Y);
+        //}
+
+        //260121 ybpark 주훈님 수정 사항 
         public static (double X, double Y) GetPos(int index)
         {
-            const int cols = 3;   // X 방향 개수
-            const int rows = 5;   // Y 방향 개수
+            const int cols = 3;          // X 방향 개수
+            const int rows = 5;          // Y 방향 개수
+            const double pitch = 10.08;  // Die pitch (mm)
 
             if (index < 0 || index >= cols * rows)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
-            // 열 계산 (세로 기준)
+            // column 계산 (세로 기준)
             int col = index / rows;
 
-            // 행 계산 (지그재그)
+            // row 계산 (serpentine)
             int rowInCol = index % rows;
             int row;
 
             if (col % 2 == 0)
-                row = rowInCol;                 // 정방향
+                row = rowInCol;                // 정방향
             else
-                row = rows - 1 - rowInCol;      // 역방향
+                row = rows - 1 - rowInCol;     // 역방향
 
-            double X = -16.5 * col;
-            double Y = 16.5 * row;
+            double x = -pitch * col;
+            double y = pitch * row;
 
-            return (X, Y);
+            return (x, y);
         }
 
         public static (double X, double Y) GetPos_EJ(int index)
         {
             const int cols = 3;
             const int rows = 5;
+            const double pitch = 10.08;
 
             if (index < 0 || index >= cols * rows)
                 throw new ArgumentOutOfRangeException(nameof(index));
@@ -10175,13 +10231,12 @@ namespace ManualJogViewModel
             else
                 row = rows - 1 - rowInCol;
 
-            //  부호 반전
-            double EJ_X = 16.5 * col;   // 기존 -16.5 → +16.5
-            double EJ_Y = -16.5 * row;   // 기존 +16.5 → -16.5
+            // 부호 반전
+            double x = pitch * col;   // (- → +)
+            double y = -pitch * row;   // (+ → -)
 
-            return (EJ_X, EJ_Y);
+            return (x, y);
         }
-
         #endregion
 
         public EventCodeEnum MovePickPos_SafeZone_Next()
@@ -10193,19 +10248,20 @@ namespace ManualJogViewModel
             double X = GetPos((int)TestCount).X - (GetPos((int)TestCount - 1).X);
             double Y = GetPos((int)TestCount).Y - (GetPos((int)TestCount - 1).Y);
 
-            double EJ_X = GetPos_EJ((int)TestCount).X - (GetPos_EJ((int)TestCount - 1).X);
-            double EJ_Y = GetPos_EJ((int)TestCount).Y - (GetPos_EJ((int)TestCount - 1).Y);
+            //double EJ_X = GetPos_EJ((int)TestCount).X - (GetPos_EJ((int)TestCount - 1).X);
+            //double EJ_Y = GetPos_EJ((int)TestCount).Y - (GetPos_EJ((int)TestCount - 1).Y);
 
             try
             {
                 ProbeAxisObject axisX = this.MotionManager().GetAxis(EnumAxisConstants.X);
                 ProbeAxisObject axisY = this.MotionManager().GetAxis(EnumAxisConstants.Y);
 
-                ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
-                ProbeAxisObject axisEJY1 = this.MotionManager().GetAxis(EnumAxisConstants.EJY1);
+                //ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
+                //ProbeAxisObject axisEJY1 = this.MotionManager().GetAxis(EnumAxisConstants.EJY1);
 
                 //ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
-                double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
+                double posX = 0.0;   // 이동할 고정값을 넣는 변수
+                double posY = 0.0;   // 이동할 고정값을 넣는 변수
 
                 //pos = -11000;   // 11mm , Ejection X 축 DtoP = 1
                 //retVal = this.MotionManager().RelMove(axisEJX1, pos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
@@ -10215,45 +10271,50 @@ namespace ManualJogViewModel
                 //}
                 //double currentPos = 0.0;
 
-                pos = EJ_Y * 1000;    //Y 는 MapDie 좌표계기준이라서 X축 move
-                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base EJ X Move) Start");
-                retVal = this.MotionManager().RelMove(axisEJX1, pos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
-                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base EJ X Move) End");
+                //pos = EJ_Y * 1000;    //Y 는 MapDie 좌표계기준이라서 X축 move
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base EJ X Move) Start");
+                //retVal = this.MotionManager().RelMove(axisEJX1, pos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base EJ X Move) End");
 
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Base EJX RelMove Error");
-                }
+                //if (retVal != EventCodeEnum.NONE)
+                //{
+                //    throw new Exception("Base EJX RelMove Error");
+                //}
 
-                //251125 ybpark X,Y die index 위치로 이동
-                pos = EJ_X * 1000;    //X 는 MapDie 좌표계기준이라서 Y축 move
-                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base EJ Y Move) Start");
-                retVal = this.MotionManager().RelMove(axisEJY1, pos, axisEJY1.Param.Speed.Value, axisEJY1.Param.Acceleration.Value);
-                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base EJ Y Move) End");
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Base EJY RelMove Error");
-                }
+                ////251125 ybpark X,Y die index 위치로 이동
+                //pos = EJ_X * 1000;    //X 는 MapDie 좌표계기준이라서 Y축 move
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base EJ Y Move) Start");
+                //retVal = this.MotionManager().RelMove(axisEJY1, pos, axisEJY1.Param.Speed.Value, axisEJY1.Param.Acceleration.Value);
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base EJ Y Move) End");
+                //if (retVal != EventCodeEnum.NONE)
+                //{
+                //    throw new Exception("Base EJY RelMove Error");
+                //}
 
-                pos = Y * 1000;    //Y 는 MapDie 좌표계기준이라서 X축 move
-                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) Start");
-                retVal = this.MotionManager().RelMove(axisX, pos, axisX.Param.Speed.Value, axisX.Param.Acceleration.Value);
-                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) End");
-
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Base X RelMove Error");
-                }
 
                 //251125 ybpark X,Y die index 위치로 이동
-                pos = X * 1000;    //X 는 MapDie 좌표계기준이라서 Y축 move
-                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) Start");
-                retVal = this.MotionManager().RelMove(axisY, pos, axisY.Param.Speed.Value, axisY.Param.Acceleration.Value);
-                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
+                posX = Y * 1000;    //Y 는 MapDie 좌표계기준이라서 X축 move
+                posY = X * 1000;    //X 는 MapDie 좌표계기준이라서 Y축 move
 
-                if (retVal != EventCodeEnum.NONE)
+                if (posX != 0)
                 {
-                    throw new Exception("Base Y RelMove Error");
+                    LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) Start");
+                    retVal = this.MotionManager().RelMove(axisY, posY, axisY.Param.Speed.Value, axisY.Param.Acceleration.Value);
+                    LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
+
+                    LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) Start");
+                    retVal = this.MotionManager().RelMove_Wating(axisX, posX, axisX.Param.Speed.Value, axisX.Param.Acceleration.Value);
+                    LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) End");
+                }
+                else
+                {
+                    LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) Start");
+                    retVal = this.MotionManager().RelMove(axisX, posX, axisX.Param.Speed.Value, axisX.Param.Acceleration.Value);
+                    LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) End");
+
+                    LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) Start");
+                    retVal = this.MotionManager().RelMove_Wating(axisY, posY, axisY.Param.Speed.Value, axisY.Param.Acceleration.Value);
+                    LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
                 }
             }
             catch (Exception err)

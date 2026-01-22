@@ -3254,21 +3254,21 @@ namespace ProbeMotion
             {
                 retVal = ErrorManager.CalcErrorComp();
 
-                retVal = MotionProvider.AbsMove(xaxis, xaxis.Status.RawPosition.Ref, trjtype, ovrd);
-                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
-
-                retVal = MotionProvider.AbsMove(yaxis, yaxis.Status.RawPosition.Ref, trjtype, ovrd);
-                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
-
-                retVal = WaitForAxisMotionDone(xaxis);
-                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
-
-                retVal = WaitForAxisMotionDone(yaxis);
-                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
-
                 if(ovrd == -1)  // 260121 sebas : -1이면 Wafer척 움직임
                 {
                     ovrd = 1;
+
+                    retVal = MotionProvider.AbsMove(xaxis, xaxis.Status.RawPosition.Ref, trjtype, ovrd);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                    retVal = MotionProvider.AbsMove(yaxis, yaxis.Status.RawPosition.Ref, trjtype, ovrd);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                    retVal = WaitForAxisMotionDone(xaxis);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                    retVal = WaitForAxisMotionDone(yaxis);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
                     retVal = MotionProvider.AbsMove(caxis, caxis.Status.RawPosition.Ref, trjtype, ovrd);
                     ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
@@ -3281,6 +3281,18 @@ namespace ProbeMotion
                 }
                 else
                 {
+                    retVal = MotionProvider.AbsMove(xaxis, xaxis.Status.RawPosition.Ref, trjtype, ovrd);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                    retVal = MotionProvider.AbsMove(yaxis, yaxis.Status.RawPosition.Ref, trjtype, ovrd);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                    retVal = WaitForAxisMotionDone(xaxis);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                    retVal = WaitForAxisMotionDone(yaxis);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
                     // 260106 sebas : FD 회전으로 변경
                     retVal = MotionProvider.AbsMove(FDT1axis, FDT1axis.Status.RawPosition.Ref, trjtype, ovrd);
                     ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
