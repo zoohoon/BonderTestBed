@@ -12562,8 +12562,21 @@ namespace OpusVStageMove
 
                 //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                ret = Module.MotionManager().RelMove(axis, pos, trjtype, ovrd);
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // 260122 sebas : Z축 AbsMove로 하되 얼라인 진입시 1회만 하도록
+                if(ovrd == -1)
+                {
+                    ovrd = 1;
+                    if (axis.AxisType.Value == EnumAxisConstants.Z)
+                    {
+                        ret = Module.MotionManager().AbsMove(axis, pos, trjtype, ovrd);
+                        ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                    }
+                }
+                else
+                {
+                    ret = Module.MotionManager().RelMove(axis, pos, trjtype, ovrd);
+                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                }
 
                 ret = EventCodeEnum.NONE;
 

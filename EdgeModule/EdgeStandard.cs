@@ -973,7 +973,7 @@ namespace WAEdgeStadnardModule
             return retVal;
         }
 
-        public static bool _IsWaferEdge;   // 260119 sebas
+        private static bool _IsWaferEdge;   // 260119 sebas
         public static bool IsWaferEdge
         {
             get { return _IsWaferEdge; }
@@ -1025,6 +1025,16 @@ namespace WAEdgeStadnardModule
                     RegistCount = 0; // 나갔다가 들어오면 0으로 초기화
 
                     // Wafer 회전 초기화?
+
+                    // 260122 sebas : Z 높이 설정 (고정값)
+                    double zAxisRelPos = 140000 * 1000; // DtoP = 0.0025으로 1000배 보정 (최종 카운트 = 350000)
+                    double AcualPos = 0;
+                    double currentPos = 0;
+
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);  // AcualPos 값 못읽어오는듯
+                    currentPos = AcualPos;
+
+                    this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.Z), zAxisRelPos - currentPos, EnumTrjType.Normal, -1);  // -1로 1회 실행구분
 
                     if (this.WaferAligner().IsNewSetup)
                     {

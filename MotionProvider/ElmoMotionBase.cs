@@ -1230,6 +1230,16 @@ namespace Motion
                                 }
                                 else
                                 {
+                                    // <== 260122 sebas 그룹축 Enable
+                                    var status = ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).GroupReadStatus();
+                                    bool value = false;
+                                    retVal = IsGroupEnabled(status, ref value);
+                                    ResultValidate(retVal);
+                                    if (value == false)
+                                    {
+                                        ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).GroupEnable();
+                                    }
+                                    // ==>
                                     ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).TransitionMode = NC_TRANSITION_MODE_ENUM.MC_TM_NONE_MODE;
                                     ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).Execute = 1;
                                     ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).CoordSystem = MC_COORD_SYSTEM_ENUM.MC_ACS_COORD;
@@ -1240,6 +1250,15 @@ namespace Motion
                                     ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).Jerk = jerktopulsecnt;
 
                                     returnValue = ((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).MoveLinearAbsoluteEx(veltopulsecnt, grouppos, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
+                                    // <-- 260122 sebas add 그룹 move 실행용
+                                    while (((MMCGroupAxis)MMCAxes[axis.AxisIndex.Value]).GroupReadStatus() != 1073872896)   // 1073872896 = 그룹축 Stand_Still
+                                    {
+                                        if (true)
+                                        {
+
+                                        }
+                                    }
+                                    // -->
                                     if (axis.GroupMembers.Count == 3)
                                     {
                                         LoggerManager.Debug($"Group axis comp. values = {axis.GroupMembers[0].Status.CompValue}, {axis.GroupMembers[1].Status.CompValue}, {axis.GroupMembers[2].Status.CompValue}");
