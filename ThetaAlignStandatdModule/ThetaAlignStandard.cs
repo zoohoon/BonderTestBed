@@ -1589,7 +1589,7 @@ namespace ThetaAlignStandatdModule
                 }
                 else if (ptinfo.CamType.Value == EnumProberCam.PIN_HIGH_CAM)
                 {
-
+                    this.StageSupervisor().StageModuleState.WaferHighViewMove_Wafer(movex, movey);
                 }
 
                 Thread.Sleep(250);
@@ -3029,7 +3029,15 @@ namespace ThetaAlignStandatdModule
                     {
                         wcd = (WaferCoordinate)this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert();
                     }
-
+                    else if (pmresult.ResultBuffer.CamType == EnumProberCam.PIN_LOW_CAM)    // 260123 sebas Pin Cam add
+                    {
+                        wcd = (WaferCoordinate)this.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert_Wafer();
+                    }
+                    else if (pmresult.ResultBuffer.CamType == EnumProberCam.PIN_HIGH_CAM)
+                    {
+                        wcd = (WaferCoordinate)this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert_Wafer();
+                    }
+  
                     double ptxpos = pmresult.ResultParam[0].XPoss;
                     double ptypos = pmresult.ResultParam[0].YPoss;
 
@@ -3065,7 +3073,15 @@ namespace ThetaAlignStandatdModule
                         {
                             mcPos = this.CoordinateManager().WaferHighChuckConvert.ConvertBack(procwcd);
                         }
-
+                        if (pmresult.ResultBuffer.CamType == EnumProberCam.PIN_LOW_CAM) // 260123 sebas Pin cam add
+                        {
+                            mcPos = this.CoordinateManager().WaferLowChuckConvert.ConvertBack_Wafer(procwcd);
+                        }
+                        else if (pmresult.ResultBuffer.CamType == EnumProberCam.PIN_HIGH_CAM)
+                        {
+                            mcPos = this.CoordinateManager().WaferHighChuckConvert.ConvertBack_Wafer(procwcd);
+                        }
+                        
                         LoggerManager.Debug($"[{this.GetType().Name}], ChangedLocationFormPT() : Machine Coord X : {curEnX}, Y : {curEnY}", isInfo: true);
                         LoggerManager.Debug($"[{this.GetType().Name}], ChangedLocationFormPT() : Pattern Pos Machine Coord X : {mcPos.X.Value:0.00}, Y : {mcPos.Y.Value:0.00}", isInfo: true);
                     }
@@ -3167,14 +3183,21 @@ namespace ThetaAlignStandatdModule
                 if (ptinfo.CamType.Value == EnumProberCam.WAFER_HIGH_CAM)
                 {
                     this.StageSupervisor().StageModuleState.WaferHighViewMove(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY() + ptinfo.GetY());
-
                 }
                 else if (ptinfo.CamType.Value == EnumProberCam.WAFER_LOW_CAM)
                 {
                     this.StageSupervisor().StageModuleState.WaferLowViewMove(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY() + ptinfo.GetY());
                 }
+                else if (ptinfo.CamType.Value == EnumProberCam.PIN_LOW_CAM)
+                {
+                    this.StageSupervisor().StageModuleState.WaferLowViewMove_Wafer(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter_WF.GetX(), Wafer.GetSubsInfo().WaferCenter_WF.GetY() + ptinfo.GetY());
+                }
+                else if (ptinfo.CamType.Value == EnumProberCam.PIN_HIGH_CAM)
+                {
+                    this.StageSupervisor().StageModuleState.WaferHighViewMove_Wafer(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter_WF.GetX(), Wafer.GetSubsInfo().WaferCenter_WF.GetY() + ptinfo.GetY());
+                }
 
-                retVal = this.VisionManager().PatternMatching(ptinfo, this).RetValue;
+                    retVal = this.VisionManager().PatternMatching(ptinfo, this).RetValue;
 
                 if (retVal != EventCodeEnum.NONE)
                 {
