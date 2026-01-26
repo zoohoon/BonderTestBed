@@ -2814,7 +2814,21 @@ namespace ThetaAlignStandatdModule
                         LoggerManager.Debug($"RevisionAngle : {rotateangle}°.", isInfo: IsInfo);
                         this.MotionManager().GetRefPos(EnumAxisConstants.C, ref curTheta);
                         prevTheta = curTheta;
-                        this.StageSupervisor().StageModuleState.StageRelMove(axisC, (rotateangle * 10000d));
+
+                        if(Math.Abs(rotateangle * 10000d) < 100000)
+                        {
+                            if(rotateangle > 0)
+                            {
+                                rotateangle = -rotateangle;     // C 호밍 후 -만 이동가능..일단은
+                            }
+
+                            this.StageSupervisor().StageModuleState.StageRelMove(axisC, (rotateangle * 10000d), EnumTrjType.Normal, -1);
+                        }
+                        else
+                        {
+                            retVal = EventCodeEnum.WAFER_ALIGN_FAIL_MARK_DIFF_TOLERANCE;
+                            return retVal;
+                        }
 
                         this.MotionManager().GetRefPos(EnumAxisConstants.C, ref curTheta);
                         this.WaferAligner().WaferAlignInfo.AlignAngle_WF = curTheta / 10000d;

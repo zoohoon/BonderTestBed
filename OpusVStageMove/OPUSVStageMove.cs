@@ -12631,6 +12631,11 @@ namespace OpusVStageMove
                         ret = Module.MotionManager().AbsMove(axis, pos, trjtype, ovrd);
                         ResultValidate(MethodBase.GetCurrentMethod(), ret);
                     }
+                    else if(axis.AxisType.Value == EnumAxisConstants.C)
+                    {
+                        ret = Module.MotionManager().RelMove(axis, pos, trjtype, -1);
+                        ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                    }
                 }
                 else
                 {
@@ -19003,11 +19008,12 @@ namespace OpusVStageMove
 
                 var stagesupervisor = Module.StageSupervisor();
 
-                if (zpos < stagesupervisor.WaferRegRange)
-                {
-                    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
+                // 260126 sebas : 조건제거 
+                //if (zpos < stagesupervisor.WaferRegRange)
+                //{
+                //    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
 
                 ret = WaferLowViewMoveFunc(xpos, ypos, zpos, NotUseHeightProfile, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
@@ -19408,7 +19414,14 @@ namespace OpusVStageMove
 
                 WaferCoordinate wlcoord = new WaferCoordinate();
 
-                wlcoord = Module.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
+                if(ovrd == -1)
+                {
+                    wlcoord = Module.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert_Wafer();
+                }
+                else
+                {
+                    wlcoord = Module.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
+                }
 
                 // <-- 260121 sebas : WaferRegRange = 3000으로 되있는 조건 일단 제외
                 //if (wlcoord.Z.Value < Module.StageSupervisor().WaferRegRange)

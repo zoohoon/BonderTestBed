@@ -2384,28 +2384,38 @@ namespace ProbeMotion
 
                     timeStamp.Add(new KeyValuePair<string, long>("Calc. Error", stw.ElapsedMilliseconds));
 
-                    //==> 다른 축들도 움직여야 한다.??
-                    foreach (ProbeAxisObject compAxis in axis.ErrorModule.AssociatedAxes)
+                    if( ovrd == -1) // 260126 sebas : C만 움직이는 경우 추가
                     {
-                        if (compAxis == axis)
-                        {
-                            retVal = MotionProvider.AbsMove(compAxis, compAxis.Status.RawPosition.Ref, trjtype, ovrd);
-                            ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                        ovrd = 1;
 
-                        }
-                        else
-                        {
-                            retVal = MotionProvider.AbsMove(compAxis, compAxis.Status.RawPosition.Ref, compAxis.Param.Speed.Value, compAxis.Param.Acceleration.Value);
-                            ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
-                        }
-                        timeStamp.Add(new KeyValuePair<string, long>(string.Format("Move {0}axis", compAxis.Label), stw.ElapsedMilliseconds));
+                        retVal = MotionProvider.RelMove(axis, pos, trjtype, ovrd);
+                        ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
                     }
-                    // 260106 sebas 
-                    //foreach (ProbeAxisObject compAxis in ErrorManager.AssociatedAxes)
-                    //{
-                    //    retVal = MotionProvider.WaitForAxisMotionDone(compAxis, 0);
-                    //    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
-                    //}
+                    else
+                    {
+                        //==> 다른 축들도 움직여야 한다.??
+                        foreach (ProbeAxisObject compAxis in axis.ErrorModule.AssociatedAxes)
+                        {
+                            if (compAxis == axis)
+                            {
+                                retVal = MotionProvider.AbsMove(compAxis, compAxis.Status.RawPosition.Ref, trjtype, ovrd);
+                                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                            }
+                            else
+                            {
+                                retVal = MotionProvider.AbsMove(compAxis, compAxis.Status.RawPosition.Ref, compAxis.Param.Speed.Value, compAxis.Param.Acceleration.Value);
+                                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                            }
+                            timeStamp.Add(new KeyValuePair<string, long>(string.Format("Move {0}axis", compAxis.Label), stw.ElapsedMilliseconds));
+                        }
+                        // 260106 sebas 
+                        //foreach (ProbeAxisObject compAxis in ErrorManager.AssociatedAxes)
+                        //{
+                        //    retVal = MotionProvider.WaitForAxisMotionDone(compAxis, 0);
+                        //    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                        //}
+                    }
                 }
                 else
                 {

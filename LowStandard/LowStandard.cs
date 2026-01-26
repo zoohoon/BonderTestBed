@@ -2066,7 +2066,15 @@ namespace WALowStandardModule
                                         this.WaferAligner().WaferAlignInfo.AlignProcResult.Add(result);
                                     }
 
-                                    this.StageSupervisor().StageModuleState.WaferLowViewMove(patterninfo.GetX() + patterninfo.WaferCenter.GetX(), patterninfo.GetY() + patterninfo.WaferCenter.GetY(), patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                                    // 260126 sebas : 마지막 센터로 이동 구분
+                                    if(WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)
+                                    {
+                                        StageSupervisor.StageModuleState.WaferLowViewMove_Wafer(patterninfo.GetX() + Wafer.GetSubsInfo().WaferCenter_WF.GetX(), patterninfo.GetY() + Wafer.GetSubsInfo().WaferCenter_WF.GetY(), patterninfo.GetZ() + Wafer.GetSubsInfo().WaferCenter_WF.GetZ(), false, EnumTrjType.Normal, -1);
+                                    }
+                                    else
+                                    {
+                                        this.StageSupervisor().StageModuleState.WaferLowViewMove(patterninfo.GetX() + patterninfo.WaferCenter.GetX(), patterninfo.GetY() + patterninfo.WaferCenter.GetY(), patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                                    }
 
                                     PMResult pmresult = this.VisionManager().PatternMatching(patterninfo, this);
 
