@@ -2377,8 +2377,6 @@ namespace ProbeMotion
 
                 timeStamp.Add(new KeyValuePair<string, long>("Position update", stw.ElapsedMilliseconds));
 
-
-
                 if (axis.ErrorModule != null && axis.ErrorModule.CompensationModule.Enable1D == true && IsAssociatedAxes(axis) && axis.AxisType.Value != EnumAxisConstants.Z)
                 {
                     retVal = ErrorManager.CalcErrorComp();
@@ -2459,6 +2457,81 @@ namespace ProbeMotion
 
             return ret;
         }
+
+        // 260126 sebas add
+        public EventCodeEnum RelMove_Wafer(ProbeAxisObject axis, double pos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            EventCodeEnum ret = EventCodeEnum.UNDEFINED;
+            Stopwatch stw = new Stopwatch();
+            List<KeyValuePair<string, long>> timeStamp;
+            timeStamp = new List<KeyValuePair<string, long>>();
+            int retVal = -1;
+            stw.Restart();
+            stw.Start();
+
+            try
+            {
+                if (this.MonitoringManager().IsSystemError == true)
+                {
+                    if (this.MonitoringManager().IsMachineInitDone == true)
+                    {
+
+                    }
+                    else
+                    {
+                        if (this.MonitoringManager().IsMachinInitOn != true)
+                        {
+                            return EventCodeEnum.SYSTEM_ERROR;
+                        }
+                    }
+                }
+                timeStamp.Add(new KeyValuePair<string, long>("Pre-WaitForMotion", stw.ElapsedMilliseconds));
+                ret = AssociatedAxesWaitForMotionDone(axis);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                timeStamp.Add(new KeyValuePair<string, long>("WaitForMotion", stw.ElapsedMilliseconds));
+
+                double cpos = 0;
+                GetCommandPos(axis, ref cpos);
+
+                axis.Status.RawPosition.Ref = cpos + pos;
+                axis.Status.Position.Ref += pos;
+
+                timeStamp.Add(new KeyValuePair<string, long>("Position update", stw.ElapsedMilliseconds));
+                timeStamp.Add(new KeyValuePair<string, long>("RelMove Start", stw.ElapsedMilliseconds));
+
+                retVal = MotionProvider.RelMove(axis, pos, trjtype, ovrd);
+                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                timeStamp.Add(new KeyValuePair<string, long>("RelMove End", stw.ElapsedMilliseconds));
+
+                retVal = WaitForAxisMotionDone(axis, 0);
+                //Log.Debug($"MotionManger.WaitForAxisMotionDone() : axis={axis.AxisType.Value}");
+
+                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                timeStamp.Add(new KeyValuePair<string, long>(string.Format("Entering wait for axes done."), stw.ElapsedMilliseconds));
+
+                ret = AssociatedAxesWaitForMotionDone(axis);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                timeStamp.Add(new KeyValuePair<string, long>(string.Format("Motion done"), stw.ElapsedMilliseconds));
+
+                ret = EventCodeEnum.NONE;
+            }
+            catch (MotionException ex)
+            {
+                throw new MotionException($"RelMove Error Axis{axis.AxisType.Value}" + ex.Message, ex, ex.ErrorCode, this);
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("RelMove Error in MotionManager" + ex.Message, ex);
+            }
+
+            stw.Stop();
+
+            return ret;
+        }
+
         public EventCodeEnum RelMove(ProbeAxisObject axis, double pos, double vel, double acc, double dcc)
         {
             EventCodeEnum ret = EventCodeEnum.UNDEFINED;

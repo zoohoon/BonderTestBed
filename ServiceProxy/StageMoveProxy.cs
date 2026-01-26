@@ -1115,6 +1115,16 @@ namespace ServiceProxy
             }
             return retVal;
         }
+        // 260123 sebas add
+        public EventCodeEnum WaferHighViewMove_Wafer(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            if (IsOpened())
+            {
+                retVal = Channel.WaferHighViewMove_Wafer(xpos, ypos, trjtype, ovrd);
+            }
+            return retVal;
+        }
 
         public EventCodeEnum WaferHighViewMove(ProbeAxisObject axis, double pos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {

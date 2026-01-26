@@ -7177,7 +7177,7 @@ namespace OpusVStageMove
 
             try
             {
-                mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack(wfcoord);
+                mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack_Wafer(wfcoord);
 
                 double curZ = 0;
                 curZ = axisz.Status.Position.Ref;
@@ -12650,6 +12650,7 @@ namespace OpusVStageMove
 
             return ret;
         }
+
         protected EventCodeEnum PinStageRelMoveFunc(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {
             EventCodeEnum ret = EventCodeEnum.UNDEFINED;
@@ -19029,12 +19030,6 @@ namespace OpusVStageMove
             {
                 var stagesupervisor = Module.StageSupervisor();
 
-                if (zpos < stagesupervisor.WaferRegRange)
-                {
-                    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
-
                 ret = WaferLowViewMoveFunc_Wafer(xpos, ypos, zpos, NotUseHeightProfile, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
             }
@@ -19090,13 +19085,13 @@ namespace OpusVStageMove
                 var stagesupervisor = Module.StageSupervisor();
 
                 WaferCoordinate curwafcoord = new WaferCoordinate();
-                curwafcoord = Module.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
+                curwafcoord = Module.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert_Wafer();
 
-                if (curwafcoord.Z.Value < stagesupervisor.WaferRegRange)
-                {
-                    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
+                //if (curwafcoord.Z.Value < stagesupervisor.WaferRegRange)
+                //{
+                //    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
 
                 ret = WaferLowViewMoveFunc_Wafer(xpos, ypos, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
@@ -19412,6 +19407,7 @@ namespace OpusVStageMove
                 //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
                 WaferCoordinate wlcoord = new WaferCoordinate();
+
                 wlcoord = Module.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
 
                 // <-- 260121 sebas : WaferRegRange = 3000으로 되있는 조건 일단 제외

@@ -190,7 +190,20 @@
                 }
             }
         }
-
+        // 260126 sabas add
+        private double _AlignAngle_WF;
+        public double AlignAngle_WF
+        {
+            get { return _AlignAngle_WF; }
+            set
+            {
+                if (value != _AlignAngle_WF)
+                {
+                    _AlignAngle_WF = value;
+                    NotifyPropertyChanged("AlignAngle_WF");
+                }
+            }
+        }
 
         private double _VerifyAngle;
         public double VerifyAngle

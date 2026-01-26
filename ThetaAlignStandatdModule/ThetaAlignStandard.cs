@@ -1509,18 +1509,9 @@ namespace ThetaAlignStandatdModule
 
                 double wafercenterx = 0;
                 double wafercentery = 0;
-
-                // 260121 sebas : FD / Wafer 구분
-                if (WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)
-                {
-                    wafercenterx = Wafer.GetSubsInfo().WaferCenter_WF.GetX();
-                    wafercentery = Wafer.GetSubsInfo().WaferCenter_WF.GetY();
-                }
-                else
-                {
+                
                     wafercenterx = Wafer.GetSubsInfo().WaferCenter.GetX();
                     wafercentery = Wafer.GetSubsInfo().WaferCenter.GetY();
-                }
 
                 double movex = (ptinfo.GetX() + wafercenterx) + ((movecountx * Wafer.GetSubsInfo().ActualDieSize.Width.Value) * direction);
                 double movey = ptinfo.GetY() + wafercentery + ((movecounty * Wafer.GetSubsInfo().ActualDieSize.Height.Value) * direction);
@@ -1672,8 +1663,8 @@ namespace ThetaAlignStandatdModule
             {
                 double zoffset = 0;
 
-                double wafercenterx = Wafer.GetSubsInfo().WaferCenter.GetX();
-                double wafercentery = Wafer.GetSubsInfo().WaferCenter.GetY();
+                double wafercenterx = Wafer.GetSubsInfo().WaferCenter.GetX(); ;
+                double wafercentery = Wafer.GetSubsInfo().WaferCenter.GetY(); ;
 
                 double indexwidth = Wafer.GetSubsInfo().ActualDieSize.Width.Value;
                 double indexheight = Wafer.GetSubsInfo().ActualDieSize.Height.Value;
@@ -2814,30 +2805,34 @@ namespace ThetaAlignStandatdModule
 
                     rotateangle = Math.Round(rotateangle, 6);
 
-                    // <-- 260113 sebas : FDT1로 변경
-                    //var axisC = this.MotionManager().GetAxis(EnumAxisConstants.C);
-                    var axisC = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
-
-                    LoggerManager.Debug($"RevisionAngle : {rotateangle}°.", isInfo: IsInfo);
-
-                    double curTheta = 0.0;
-                    //this.MotionManager().GetRefPos(EnumAxisConstants.C, ref curTheta);
-                    //double prevTheta = curTheta;
-                    //this.StageSupervisor().StageModuleState.StageRelMove(axisC, (rotateangle * 10000d));
-                    //this.MotionManager().GetRefPos(EnumAxisConstants.C, ref curTheta);
-                    this.MotionManager().GetRefPos(EnumAxisConstants.FDT1, ref curTheta);
-                    double prevTheta = curTheta;
-                    if(rotateangle < 2 || rotateangle > -2)
+                    // <-- 260126 sebas : 쎄타회전 FD/Wafer 구분
+                    double curTheta = 0;
+                    double prevTheta = 0;
+                    if (WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)  // Wafer척
                     {
-                        // 계산 각도가 좀 의심스러운데
-                        double tempRotate = Math.Abs(rotateangle) * 9025 * 2 * 1000;  // sebas : 1mm당 9025 , DtoP = 0.001
-                        this.StageSupervisor().StageModuleState.StageRelMove(axisC, tempRotate);
+                        var axisC = this.MotionManager().GetAxis(EnumAxisConstants.C);
+                        LoggerManager.Debug($"RevisionAngle : {rotateangle}°.", isInfo: IsInfo);
+                        this.MotionManager().GetRefPos(EnumAxisConstants.C, ref curTheta);
+                        prevTheta = curTheta;
+                        this.StageSupervisor().StageModuleState.StageRelMove(axisC, (rotateangle * 10000d));
+
+                        this.MotionManager().GetRefPos(EnumAxisConstants.C, ref curTheta);
+                        this.WaferAligner().WaferAlignInfo.AlignAngle_WF = curTheta / 10000d;
                     }
+                    else  // FD척
+                    {
+                        var axisFD = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
+                        LoggerManager.Debug($"RevisionAngle : {rotateangle}°.", isInfo: IsInfo);
+                        this.MotionManager().GetRefPos(EnumAxisConstants.FDT1, ref curTheta);
+                        prevTheta = curTheta;
+                        if (rotateangle < 2 || rotateangle > -2)
+                        {
+                            double tempRotate = Math.Abs(rotateangle) * 9025 * 2 * 1000;  // sebas : 1mm당 9025 , DtoP = 0.001
+                            this.StageSupervisor().StageModuleState.StageRelMove(axisFD, tempRotate);
+                        }
 
-                    this.MotionManager().GetRefPos(EnumAxisConstants.C, ref curTheta);
-
-                    // this.WaferAligner().WaferAlignInfo.AlignAngle = curTheta / 10000d;
-                    this.WaferAligner().WaferAlignInfo.AlignAngle = curTheta;
+                        this.WaferAligner().WaferAlignInfo.AlignAngle = curTheta;
+                    }
                     // -->
 
                     LoggerManager.Debug($"WaferAlign Angle : {this.WaferAligner().WaferAlignInfo.AlignAngle}°.", isInfo: IsInfo);
@@ -3190,11 +3185,11 @@ namespace ThetaAlignStandatdModule
                 }
                 else if (ptinfo.CamType.Value == EnumProberCam.PIN_LOW_CAM)
                 {
-                    this.StageSupervisor().StageModuleState.WaferLowViewMove_Wafer(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter_WF.GetX(), Wafer.GetSubsInfo().WaferCenter_WF.GetY() + ptinfo.GetY());
+                    this.StageSupervisor().StageModuleState.WaferLowViewMove_Wafer(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY() + ptinfo.GetY());
                 }
                 else if (ptinfo.CamType.Value == EnumProberCam.PIN_HIGH_CAM)
                 {
-                    this.StageSupervisor().StageModuleState.WaferHighViewMove_Wafer(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter_WF.GetX(), Wafer.GetSubsInfo().WaferCenter_WF.GetY() + ptinfo.GetY());
+                    this.StageSupervisor().StageModuleState.WaferHighViewMove_Wafer(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY() + ptinfo.GetY());
                 }
 
                     retVal = this.VisionManager().PatternMatching(ptinfo, this).RetValue;

@@ -1804,6 +1804,24 @@ namespace LoaderServiceClientModules
             }
             return retVal;
         }
+        // 260123 sebas add
+        public EventCodeEnum WaferHighViewMove_Wafer(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                if (StageMove != null)
+                {
+                    retVal = StageMove.WaferHighViewMove_Wafer(xpos, ypos, trjtype, ovrd);
+                }
+            }
+            catch (Exception err)
+            {
+                retVal = EventCodeEnum.UNKNOWN_EXCEPTION;
+                LoggerManager.Debug($"StageMoveServiceClient.WaferHighViewMove(xpos, ypos, trjtype, ovrd) err={err}");
+            }
+            return retVal;
+        }
 
         public EventCodeEnum WaferHighViewMove(ProbeAxisObject axis, double pos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {

@@ -1110,7 +1110,14 @@ namespace WALowStandardModule
 
                 LoggerManager.Debug($"[{this.GetType().Name}], InitSetup() : ActualDieSize = (Width : {SubsInfo.ActualDieSize.Width.Value:0.00}, Height : {SubsInfo.ActualDieSize.Height.Value:0.00})");
 
-                CurCam = this.VisionManager().GetCam(LowStandardParam_Clone.CamType);
+                if(WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)   // 260126 sebas : 로우캠 FD/Wafer 구분
+                {
+                    CurCam = this.VisionManager().GetCam(EnumProberCam.PIN_LOW_CAM);
+                }
+                else
+                {
+                    CurCam = this.VisionManager().GetCam(LowStandardParam_Clone.CamType);
+                }
 
                 ushort defaultlightvalue = 25;  // 260112 sebas : 로우캠 조명값 낮춤 (85 -> 25)
                 for (int lightindex = 0; lightindex < CurCam.LightsChannels.Count; lightindex++)
@@ -1144,7 +1151,14 @@ namespace WALowStandardModule
 
                 MoveFirstPattern();
 
-                this.VisionManager().StartGrab(LowStandardParam_Clone.CamType, this);
+                if (WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)   // 260126 sebas : 로우캠 FD/Wafer 구분
+                {
+                    this.VisionManager().StartGrab(EnumProberCam.PIN_LOW_CAM, this);
+                }
+                else
+                {
+                    this.VisionManager().StartGrab(LowStandardParam_Clone.CamType, this);
+                }
             }
             catch (Exception err)
             {
@@ -1290,7 +1304,14 @@ namespace WALowStandardModule
                     {
                         WAStandardPTInfomation ptinfo = LowStandardParam_Clone.Patterns.Value[0];
 
-                        StageSupervisor.StageModuleState.WaferLowViewMove(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter.GetY(), ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter.GetZ());
+                        if (WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)   // 260123 sebas : FD/Wafer 구분
+                        {
+                            StageSupervisor.StageModuleState.WaferLowViewMove_Wafer(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter_WF.GetX(), ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter_WF.GetY(), ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter_WF.GetZ());
+                        }
+                        else
+                        {
+                            StageSupervisor.StageModuleState.WaferLowViewMove(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter.GetY(), ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter.GetZ());
+                        }
 
                         UpdatePatternSize(ptinfo, 0);
 
@@ -1301,8 +1322,15 @@ namespace WALowStandardModule
                         patternCount = 0;
                         CurPatternIndex = 0;
 
-                        this.StageSupervisor().StageModuleState.WaferLowViewMove(Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY(), Wafer.GetSubsInfo().ActualThickness);
-
+                        if (WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)   // 260123 sebas : FD/Wafer 구분
+                        {
+                            this.StageSupervisor().StageModuleState.WaferLowViewMove_Wafer(Wafer.GetSubsInfo().WaferCenter_WF.GetX(), Wafer.GetSubsInfo().WaferCenter_WF.GetY(), Wafer.GetSubsInfo().ActualThickness);
+                        }
+                        else
+                        {
+                            this.StageSupervisor().StageModuleState.WaferLowViewMove(Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY(), Wafer.GetSubsInfo().ActualThickness);
+                        }
+                        
                         double curtpos = 0.0;
                         ProbeAxisObject axist = this.MotionManager().GetAxis(EnumAxisConstants.C);
                         this.MotionManager().GetActualPos(EnumAxisConstants.C, ref curtpos);
@@ -1767,7 +1795,15 @@ namespace WALowStandardModule
                 bool isFindJumpIndex = true;
                 _OperCancelTokenSource = new CancellationTokenSource();
 
-                WaferCoordinate wcd = this.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
+                WaferCoordinate wcd;
+                if (WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)  // 260126 sebas : FD/Wafer 로우구분
+                {
+                    wcd = this.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert_Wafer();
+                }
+                else
+                {
+                    wcd = this.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
+                }
 
                 //Camera 확인.    // 260121 sebas : 카메라 겸용하기 때문에 체크 제거
                 //if (CurCam.GetChannelType() != LowStandardParam_Clone.CamType)
@@ -1900,7 +1936,14 @@ namespace WALowStandardModule
                     }
                     else
                     {
-                        wcd = (WaferCoordinate)this.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
+                        if(WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)
+                        {
+                            wcd = (WaferCoordinate)this.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert_Wafer();
+                        }
+                        else
+                        {
+                            wcd = (WaferCoordinate)this.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
+                        }
 
                         patterninfo.Z.Value = (wcd.Z.Value - patterninfo.WaferCenter.GetZ());
                         patterninfo.ProcDirection.Value = EnumWAProcDirection.HORIZONTAL;
