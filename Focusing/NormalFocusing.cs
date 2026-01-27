@@ -839,7 +839,7 @@ namespace Focusing
             ProbeAxisObject axis = this.MotionManager().GetAxis(focusparam.FocusingAxis.Value);
 
             EventCodeEnum focusingResult = EventCodeEnum.UNDEFINED;
-            return EventCodeEnum.NONE;  // 260116 sebas : Focusing_Retry 하지않음
+            return EventCodeEnum.NONE;  // 260116 sebas*** : Focusing_Retry 하지않음
 
             int setGralLevelValue = TargetGrayLevel;
 

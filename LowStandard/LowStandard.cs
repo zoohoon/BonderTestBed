@@ -1306,7 +1306,7 @@ namespace WALowStandardModule
 
                         if (WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)   // 260123 sebas : FD/Wafer 구분
                         {
-                            StageSupervisor.StageModuleState.WaferLowViewMove_Wafer(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter_WF.GetX(), ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter_WF.GetY(), ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter_WF.GetZ());
+                            StageSupervisor.StageModuleState.WaferLowViewMove_Wafer( Wafer.GetSubsInfo().WaferCenter_WF.GetX(),Wafer.GetSubsInfo().WaferCenter_WF.GetY(),Wafer.GetSubsInfo().WaferCenter_WF.GetZ());
                         }
                         else
                         {

@@ -933,7 +933,15 @@ namespace WAHighStandardModule
 
                 MoveFirstPattern();
 
-                this.VisionManager().StartGrab(HighStandardParam_Clone.CamType, this);
+                // 260127 sebas high
+                if(EdgeStandard.IsWaferEdge == true)
+                {
+                    this.VisionManager().StartGrab(EnumProberCam.PIN_HIGH_CAM, this);
+                }
+                else
+                {
+                    this.VisionManager().StartGrab(HighStandardParam_Clone.CamType, this);
+                }
             }
             catch (Exception err)
             {
@@ -1000,7 +1008,7 @@ namespace WAHighStandardModule
                         // 260127 sebas : 하이얼라인 FD/Wafer 구분
                         if(EdgeStandard.IsWaferEdge == true)
                         {
-                            StageSupervisor.StageModuleState.WaferHighViewMove_Wafer(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.X.Value, ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter.Y.Value, ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter.Z.Value);
+                            StageSupervisor.StageModuleState.WaferHighViewMove_Wafer(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter_WF.X.Value, ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter_WF.Y.Value, ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter_WF.Z.Value);
                         }
                         else
                         {
@@ -1018,7 +1026,16 @@ namespace WAHighStandardModule
 
                         if (this.WaferAligner().WaferAlignInfo.LowFirstPatternPosition != null)
                         {
-                            this.StageSupervisor().StageModuleState.WaferHighViewMove(Wafer.GetSubsInfo().WaferCenter.X.Value + this.WaferAligner().WaferAlignInfo.LowFirstPatternPosition.GetX(), Wafer.GetSubsInfo().WaferCenter.Y.Value + this.WaferAligner().WaferAlignInfo.LowFirstPatternPosition.GetY(), Wafer.GetSubsInfo().ActualThickness);
+
+                            // 260127 sebas : 하이얼라인 FD/Wafer 구분
+                            if (EdgeStandard.IsWaferEdge == true)
+                            {
+                                StageSupervisor.StageModuleState.WaferHighViewMove_Wafer(Wafer.GetSubsInfo().WaferCenter_WF.X.Value, Wafer.GetSubsInfo().WaferCenter_WF.Y.Value, Wafer.GetSubsInfo().WaferCenter_WF.Z.Value);
+                            }
+                            else
+                            {
+                                this.StageSupervisor().StageModuleState.WaferHighViewMove(Wafer.GetSubsInfo().WaferCenter.X.Value + this.WaferAligner().WaferAlignInfo.LowFirstPatternPosition.GetX(), Wafer.GetSubsInfo().WaferCenter.Y.Value + this.WaferAligner().WaferAlignInfo.LowFirstPatternPosition.GetY(), Wafer.GetSubsInfo().ActualThickness);
+                            }                               
                         }
                     }
                 }
@@ -1963,17 +1980,26 @@ namespace WAHighStandardModule
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
+                // 260127 sebas : 카메라 조건 제거
+                ////==========================
+                //if (CurCam.GetChannelType() != HighStandardParam_Clone.CamType)
+                //{
+                //    await this.MetroDialogManager().ShowMessageDialog("Pattern Register Error.",
+                //        "To register the Low pattern, please view the screen with Low camera and register again.",
+                //        EnumMessageStyle.Affirmative);
+                //    return retVal;
+                //}
 
-                //==========================
-                if (CurCam.GetChannelType() != HighStandardParam_Clone.CamType)
+                // 260127 sebas high
+                WaferCoordinate wcd;
+                if (EdgeStandard.IsWaferEdge == true)
                 {
-                    await this.MetroDialogManager().ShowMessageDialog("Pattern Register Error.",
-                        "To register the Low pattern, please view the screen with Low camera and register again.",
-                        EnumMessageStyle.Affirmative);
-                    return retVal;
+                    wcd = this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert_Wafer();
                 }
-
-                WaferCoordinate wcd = this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert();
+                else
+                {
+                    wcd = this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert();
+                }
 
 
                 //Modify 일때만
@@ -2061,9 +2087,18 @@ namespace WAHighStandardModule
                     //    //this.Wafer.GetSubsInfo().WaferCenter.CopyTo(patterninfo.WaferCenter);
                     //}
                     patterninfo.WaferCenter = new WaferCoordinate();
-                    this.Wafer.GetSubsInfo().WaferCenter.CopyTo(patterninfo.WaferCenter);
 
-                    wcd = (WaferCoordinate)this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert();
+                    // 260127 sebas high
+                    if(EdgeStandard.IsWaferEdge == true)
+                    {
+                        this.Wafer.GetSubsInfo().WaferCenter_WF.CopyTo(patterninfo.WaferCenter);
+                        wcd = (WaferCoordinate)this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert_Wafer();
+                    }
+                    else
+                    {
+                        this.Wafer.GetSubsInfo().WaferCenter.CopyTo(patterninfo.WaferCenter);
+                        wcd = (WaferCoordinate)this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert();
+                    }
 
                     patterninfo.X.Value = (wcd.X.Value - patterninfo.WaferCenter.GetX());
                     patterninfo.Y.Value = (wcd.Y.Value - patterninfo.WaferCenter.GetY());
@@ -2086,7 +2121,15 @@ namespace WAHighStandardModule
                     }
                     else
                     {
-                        wcd = (WaferCoordinate)this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert();
+                        // 260127 sebas high
+                        if(EdgeStandard.IsWaferEdge == true)
+                        {
+                            wcd = (WaferCoordinate)this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert_Wafer();
+                        }
+                        else
+                        {
+                            wcd = (WaferCoordinate)this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert();
+                        }
                         patterninfo.Z.Value = (wcd.Z.Value - patterninfo.WaferCenter.GetZ());
 
                         List<WAStandardPTInfomation> registPTInfo = new List<WAStandardPTInfomation>();
@@ -2228,13 +2271,22 @@ namespace WAHighStandardModule
 
                             patterninfo.EnablePostJumpindex = HighStandardParam_Clone.EnablePostJumpindex;
 
-                            this.StageSupervisor().StageModuleState.WaferHighViewMove(patterninfo.GetX() + patterninfo.WaferCenter.GetX(), patterninfo.GetY() + patterninfo.WaferCenter.GetY(), patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                            // 260127 sebas : 웨이퍼 하이 끝나고 센터 이동
+                            if(EdgeStandard.IsWaferEdge == true)
+                            {
+                                this.StageSupervisor().StageModuleState.WaferHighViewMove_Wafer(patterninfo.GetX() + patterninfo.WaferCenter.GetX(), patterninfo.GetY() + patterninfo.WaferCenter.GetY(), patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                            }
+                            else
+                            {
+                                this.StageSupervisor().StageModuleState.WaferHighViewMove(patterninfo.GetX() + patterninfo.WaferCenter.GetX(), patterninfo.GetY() + patterninfo.WaferCenter.GetY(), patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                            }
 
                             PMResult pmresult = this.VisionManager().PatternMatching(patterninfo, this);
 
                             this.VisionManager().StartGrab(patterninfo.CamType.Value, this);
 
-                            retVal = pmresult.RetValue;
+                            // 260127 sebas***  : 패턴매칭 강제 패스
+                            //retVal = pmresult.RetValue;
 
                             if (retVal == EventCodeEnum.THETA_ALIGN_USER_CANCEL)
                             {
@@ -2250,11 +2302,21 @@ namespace WAHighStandardModule
                                 patterninfo.Y.Value = wcoord.GetY() - patterninfo.WaferCenter.GetY();
                                 patterninfo.Z.Value = wcoord.GetZ() - patterninfo.WaferCenter.GetZ();
 
-                                this.StageSupervisor().StageModuleState.WaferHighViewMove(
-                                    patterninfo.GetX() + patterninfo.WaferCenter.GetX(),
-                                    patterninfo.GetY() + patterninfo.WaferCenter.GetY(),
-                                    patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
-
+                                // 260127 sebas : 웨이퍼하이 끝나고 센터 이동
+                                if(EdgeStandard.IsWaferEdge == true)
+                                {
+                                    this.StageSupervisor().StageModuleState.WaferHighViewMove_Wafer(
+                                        patterninfo.GetX() + patterninfo.WaferCenter.GetX(),
+                                        patterninfo.GetY() + patterninfo.WaferCenter.GetY(),
+                                        patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                                }
+                                else
+                                {
+                                    this.StageSupervisor().StageModuleState.WaferHighViewMove(
+                                        patterninfo.GetX() + patterninfo.WaferCenter.GetX(),
+                                        patterninfo.GetY() + patterninfo.WaferCenter.GetY(),
+                                        patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                                }
                             }
                             else
                             {
@@ -2270,10 +2332,21 @@ namespace WAHighStandardModule
                                 patterninfo.Y.Value = wcoord.GetY() - patterninfo.WaferCenter.GetY();
                                 patterninfo.Z.Value = wcoord.GetZ() - patterninfo.WaferCenter.GetZ();
 
-                                this.StageSupervisor().StageModuleState.WaferHighViewMove(
-                                    patterninfo.GetX() + patterninfo.WaferCenter.GetX(),
-                                    patterninfo.GetY() + patterninfo.WaferCenter.GetY(),
-                                    patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                                // 260127 sebas : 웨이퍼 하이 이후 센터이동
+                                if(EdgeStandard.IsWaferEdge == true)
+                                {
+                                    this.StageSupervisor().StageModuleState.WaferHighViewMove_Wafer(
+                                        patterninfo.GetX() + patterninfo.WaferCenter.GetX(),
+                                        patterninfo.GetY() + patterninfo.WaferCenter.GetY(),
+                                        patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                                }
+                                else
+                                {
+                                    this.StageSupervisor().StageModuleState.WaferHighViewMove(
+                                        patterninfo.GetX() + patterninfo.WaferCenter.GetX(),
+                                        patterninfo.GetY() + patterninfo.WaferCenter.GetY(),
+                                        patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                                }
                             }
 
                             patterninfo.MIndex = this.CoordinateManager().GetCurMachineIndex
@@ -3128,13 +3201,22 @@ namespace WAHighStandardModule
                 {
                     retVal = patterninfo.ErrorCode;
 
-                    this.StageSupervisor().StageModuleState.WaferHighViewMove(patterninfo.GetX() + patterninfo.WaferCenter.GetX(), patterninfo.GetY() + patterninfo.WaferCenter.GetY(), patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                    // 260127 sebas high
+                    if(EdgeStandard.IsWaferEdge == true)
+                    {
+                        this.StageSupervisor().StageModuleState.WaferHighViewMove_Wafer(patterninfo.GetX() + patterninfo.WaferCenter.GetX(), patterninfo.GetY() + patterninfo.WaferCenter.GetY(), patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                    }
+                    else
+                    {
+                        this.StageSupervisor().StageModuleState.WaferHighViewMove(patterninfo.GetX() + patterninfo.WaferCenter.GetX(), patterninfo.GetY() + patterninfo.WaferCenter.GetY(), patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                    }
 
                     PMResult pmresult = this.VisionManager().PatternMatching(patterninfo, this);
 
                     this.VisionManager().StartGrab(patterninfo.CamType.Value, this);
 
-                    retVal = pmresult.RetValue;
+                    // 260127 sebas*** : 패턴매칭 임시 패스
+                    //retVal = pmresult.RetValue;
 
                     if (retVal == EventCodeEnum.THETA_ALIGN_USER_CANCEL)
                         return retVal;
@@ -3148,11 +3230,21 @@ namespace WAHighStandardModule
                         patterninfo.Y.Value = wcoord.GetY() - patterninfo.WaferCenter.GetY();
                         patterninfo.Z.Value = wcoord.GetZ() - patterninfo.WaferCenter.GetZ();
 
-                        this.StageSupervisor().StageModuleState.WaferHighViewMove(
-                            patterninfo.GetX() + patterninfo.WaferCenter.GetX(),
-                            patterninfo.GetY() + patterninfo.WaferCenter.GetY(),
-                            patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
-
+                        // 260127 sebas high    : 웨이퍼 하이 얼라인 끝나고 센터 이동
+                        if(EdgeStandard.IsWaferEdge == true)
+                        {
+                            this.StageSupervisor().StageModuleState.WaferHighViewMove_Wafer(
+                                patterninfo.GetX() + patterninfo.WaferCenter.GetX(),
+                                patterninfo.GetY() + patterninfo.WaferCenter.GetY(),
+                                patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                        }
+                        else
+                        {
+                            this.StageSupervisor().StageModuleState.WaferHighViewMove(
+                                patterninfo.GetX() + patterninfo.WaferCenter.GetX(),
+                                patterninfo.GetY() + patterninfo.WaferCenter.GetY(),
+                                patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                        }
                     }
                     else
                     {
@@ -3168,10 +3260,21 @@ namespace WAHighStandardModule
                         patterninfo.Y.Value = wcoord.GetY() - patterninfo.WaferCenter.GetY();
                         patterninfo.Z.Value = wcoord.GetZ() - patterninfo.WaferCenter.GetZ();
 
-                        this.StageSupervisor().StageModuleState.WaferHighViewMove(
-                            patterninfo.GetX() + patterninfo.WaferCenter.GetX(),
-                            patterninfo.GetY() + patterninfo.WaferCenter.GetY(),
-                            patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                        // 260127 sebas high    : 하이얼라인 실패시 센터로 이동
+                        if(EdgeStandard.IsWaferEdge == true)
+                        {
+                            this.StageSupervisor().StageModuleState.WaferHighViewMove_Wafer(
+                                patterninfo.GetX() + patterninfo.WaferCenter.GetX(),
+                                patterninfo.GetY() + patterninfo.WaferCenter.GetY(),
+                                patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                        }
+                        else
+                        {
+                            this.StageSupervisor().StageModuleState.WaferHighViewMove(
+                                patterninfo.GetX() + patterninfo.WaferCenter.GetX(),
+                                patterninfo.GetY() + patterninfo.WaferCenter.GetY(),
+                                patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                        }
                     }
                 }
                 if (retVal == EventCodeEnum.NONE)
@@ -3576,6 +3679,10 @@ namespace WAHighStandardModule
         public EventCodeEnum ApplyHeightProfiling(int index = -1)
         {
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+            // 260127 sebas*** : 높이측정 임시 패스
+            retVal = EventCodeEnum.NONE;
+            return retVal;
 
             try
             {

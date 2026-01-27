@@ -18121,6 +18121,30 @@ namespace OpusVStageMove
             return ret;
 
         }
+        // 260127 sebas
+        public override EventCodeEnum WaferLowViewMove_Wafer(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            EventCodeEnum ret = EventCodeEnum.NODATA;
+
+            try
+            {
+                var stagesupervisor = Module.StageSupervisor();
+
+                ret = WaferLowViewMoveFunc_Wafer(xpos, ypos, zpos, NotUseHeightProfile, trjtype, -1);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                Module.StageSupervisorStateTransition(new WaferLowViewState(Module));
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                ret = ConvertExceptionAndThrow(err, ret);
+            }
+
+            return ret;
+
+        }
+
         public override EventCodeEnum WaferHighViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {
             EventCodeEnum ret = EventCodeEnum.NODATA;
@@ -18164,12 +18188,6 @@ namespace OpusVStageMove
 
                 WaferCoordinate curwafcoord = new WaferCoordinate();
                 curwafcoord = Module.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert_Wafer();
-
-                if (curwafcoord.Z.Value < Module.StageSupervisor().WaferRegRange)
-                {
-                    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
 
                 ret = WaferHighViewMoveFunc_Wafer(xpos, ypos, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
@@ -18522,17 +18540,17 @@ namespace OpusVStageMove
                 WaferCoordinate whcoord = new WaferCoordinate();
                 whcoord = Module.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert();
 
-                if (whcoord.Z.Value < Module.StageSupervisor().WaferRegRange)
-                {
-                    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
+                //if (whcoord.Z.Value < Module.StageSupervisor().WaferRegRange)
+                //{
+                //    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
 
-                if (axis.AxisType.Value == EnumAxisConstants.Z && pos < Module.StageSupervisor().WaferRegRange)
-                {
-                    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
+                //if (axis.AxisType.Value == EnumAxisConstants.Z && pos < Module.StageSupervisor().WaferRegRange)
+                //{
+                //    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
 
                 ret = WaferStageRelMoveFunc(axis, pos, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
@@ -19062,6 +19080,27 @@ namespace OpusVStageMove
                 ret = ConvertExceptionAndThrow(err, ret);
             }
 
+            return ret;
+        }
+        // 260127 sebas high
+        public override EventCodeEnum WaferHighViewMove_Wafer(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            EventCodeEnum ret = EventCodeEnum.NODATA;
+
+            try
+            {
+                var stagesupervisor = Module.StageSupervisor();
+
+                ret = WaferHighViewMoveFunc(xpos, ypos, zpos, NotUseHeightProfile, trjtype, -1);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                Module.StageSupervisorStateTransition(new WaferHighViewState(Module));
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                ret = ConvertExceptionAndThrow(err, ret);
+            }
             return ret;
         }
         public override EventCodeEnum WaferLowViewMove(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)

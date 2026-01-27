@@ -1629,6 +1629,7 @@ namespace ThetaAlignStandatdModule
 
                     this.VisionManager().StartGrab(ptinfo.CamType.Value, this);
 
+                    pmresult.RetValue = EventCodeEnum.NONE;     // 260127 sebas*** : 패턴 강제 통과
                     if (pmresult.RetValue == EventCodeEnum.NONE)
                     {
                         WaferCoordinate wcoord = ChangedLocationFormPT(pmresult);
@@ -1728,7 +1729,7 @@ namespace ThetaAlignStandatdModule
                         }
                         else if (ptinfo.CamType.Value == EnumProberCam.PIN_HIGH_CAM)
                         {
-
+                            retVal = this.StageSupervisor().StageModuleState.WaferHighViewMove_Wafer(movex, movey, movez);
                         }
 
                             if (retVal != EventCodeEnum.NONE)
@@ -2823,7 +2824,7 @@ namespace ThetaAlignStandatdModule
                             }
 
                             //this.StageSupervisor().StageModuleState.StageRelMove(axisC, (rotateangle * 10000d), EnumTrjType.Normal, -1);
-                            this.StageSupervisor().StageModuleState.StageRelMove(axisC, (rotateangle * 10000d / 30.244), EnumTrjType.Normal, -1);  // 30.244 는 DtoP보정
+                            this.StageSupervisor().StageModuleState.StageRelMove(axisC, (rotateangle * 10000d / 30.244 * 3), EnumTrjType.Normal, -1);  // 30.244 는 DtoP보정 , x3는 기구 보정값
                         }
                         else
                         {
@@ -2832,6 +2833,7 @@ namespace ThetaAlignStandatdModule
                         }
 
                         this.MotionManager().GetRefPos(EnumAxisConstants.C, ref curTheta);
+                        axisC.Status.RawPosition.Ref = curTheta;
                         this.WaferAligner().WaferAlignInfo.AlignAngle_WF = curTheta / 10000d;
                     }
                     else  // FD척
