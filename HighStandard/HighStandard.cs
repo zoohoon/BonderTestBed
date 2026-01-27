@@ -1973,8 +1973,16 @@ namespace WAHighStandardModule
                     return retVal;
                 }
 
-                WaferCoordinate wcd = this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert();
-
+                // 260127 sebas high
+                WaferCoordinate wcd;
+                if (EdgeStandard.IsWaferEdge == true)
+                {
+                    wcd = this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert_Wafer();
+                }
+                else
+                {
+                    wcd = this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert();
+                }
 
                 //Modify 일때만
                 //if (!this.WaferAligner().IsNewSetup & this.WaferAligner().GetWAInnerStateEnum() != WaferAlignInnerStateEnum.IDLE)
@@ -2063,7 +2071,15 @@ namespace WAHighStandardModule
                     patterninfo.WaferCenter = new WaferCoordinate();
                     this.Wafer.GetSubsInfo().WaferCenter.CopyTo(patterninfo.WaferCenter);
 
-                    wcd = (WaferCoordinate)this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert();
+                    // 260127 sebas high
+                    if(EdgeStandard.IsWaferEdge == true)
+                    {
+                        wcd = (WaferCoordinate)this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert_Wafer();
+                    }
+                    else
+                    {
+                        wcd = (WaferCoordinate)this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert();
+                    }
 
                     patterninfo.X.Value = (wcd.X.Value - patterninfo.WaferCenter.GetX());
                     patterninfo.Y.Value = (wcd.Y.Value - patterninfo.WaferCenter.GetY());
@@ -2086,7 +2102,16 @@ namespace WAHighStandardModule
                     }
                     else
                     {
-                        wcd = (WaferCoordinate)this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert();
+                        // 260127 sebas high
+                        if (EdgeStandard.IsWaferEdge == true)
+                        {
+                            wcd = (WaferCoordinate)this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert_Wafer();
+                        }
+                        else
+                        {
+                            wcd = (WaferCoordinate)this.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert();
+                        }
+
                         patterninfo.Z.Value = (wcd.Z.Value - patterninfo.WaferCenter.GetZ());
 
                         List<WAStandardPTInfomation> registPTInfo = new List<WAStandardPTInfomation>();
