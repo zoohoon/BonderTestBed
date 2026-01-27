@@ -2822,7 +2822,8 @@ namespace ThetaAlignStandatdModule
                                 rotateangle = -rotateangle;     // C 호밍 후 -만 이동가능..일단은
                             }
 
-                            this.StageSupervisor().StageModuleState.StageRelMove(axisC, (rotateangle * 10000d), EnumTrjType.Normal, -1);
+                            //this.StageSupervisor().StageModuleState.StageRelMove(axisC, (rotateangle * 10000d), EnumTrjType.Normal, -1);
+                            this.StageSupervisor().StageModuleState.StageRelMove(axisC, (rotateangle * 10000d / 30.244), EnumTrjType.Normal, -1);  // 30.244 는 DtoP보정
                         }
                         else
                         {

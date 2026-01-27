@@ -1865,9 +1865,18 @@ namespace WALowStandardModule
                         return EventCodeEnum.THETA_ALIGN_USER_CANCEL;
                     }
 
-                    retVal = this.StageSupervisor().StageModuleState.WaferLowViewMove(axist, 0);
-
-                    int ret = this.MotionManager().WaitForAxisMotionDone(axist, 60000);
+                    // 260127 sebas : 시작전 C 초기화 구분
+                    if(WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)
+                    {
+                        retVal = this.StageSupervisor().StageModuleState.WaferLowViewMove(axist, 0, EnumTrjType.Normal, -1);
+                        int ret = this.MotionManager().WaitForAxisMotionDone(axist, 60000);
+                    }
+                    else
+                    {
+                        // FD축의 경우 패스
+                        //retVal = this.StageSupervisor().StageModuleState.WaferLowViewMove(axist, 0);
+                        //int ret = this.MotionManager().WaitForAxisMotionDone(axist, 60000);
+                    }
                 }
 
                 this.WaferAligner().WaferAlignInfo.AlignAngle = 0;
@@ -2066,10 +2075,11 @@ namespace WALowStandardModule
                                         this.WaferAligner().WaferAlignInfo.AlignProcResult.Add(result);
                                     }
 
-                                    // 260126 sebas : 마지막 센터로 이동 구분
+                                    // 260126 sebas : 마지막 센터로 이동 구분1
                                     if(WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)
                                     {
-                                        StageSupervisor.StageModuleState.WaferLowViewMove_Wafer(patterninfo.GetX() + Wafer.GetSubsInfo().WaferCenter_WF.GetX(), patterninfo.GetY() + Wafer.GetSubsInfo().WaferCenter_WF.GetY(), patterninfo.GetZ() + Wafer.GetSubsInfo().WaferCenter_WF.GetZ(), false, EnumTrjType.Normal, -1);
+                                        //StageSupervisor.StageModuleState.WaferLowViewMove_Wafer(patterninfo.GetX() + Wafer.GetSubsInfo().WaferCenter_WF.GetX(), patterninfo.GetY() + Wafer.GetSubsInfo().WaferCenter_WF.GetY(), patterninfo.GetZ() + Wafer.GetSubsInfo().WaferCenter_WF.GetZ(), false, EnumTrjType.Normal, -1);
+                                        StageSupervisor.StageModuleState.WaferLowViewMove_Wafer(patterninfo.GetX() + patterninfo.WaferCenter.GetX(), patterninfo.GetY() + patterninfo.WaferCenter.GetY(), patterninfo.GetZ() + patterninfo.WaferCenter.GetZ(), false, EnumTrjType.Normal, -1);
                                     }
                                     else
                                     {
@@ -2090,7 +2100,15 @@ namespace WALowStandardModule
                                         patterninfo.Y.Value = wcoord.GetY() - patterninfo.WaferCenter.GetY();
                                         patterninfo.Z.Value = wcoord.GetZ() - patterninfo.WaferCenter.GetZ();
 
-                                        this.StageSupervisor().StageModuleState.WaferLowViewMove(patterninfo.GetX() + patterninfo.WaferCenter.GetX(), patterninfo.GetY() + patterninfo.WaferCenter.GetY(), patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                                        // 260127 sebas : 마지막 센터로 이동 구분2
+                                        if (WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)
+                                        {
+                                            StageSupervisor.StageModuleState.WaferLowViewMove_Wafer(patterninfo.GetX() + patterninfo.WaferCenter.GetX(), patterninfo.GetY() + patterninfo.WaferCenter.GetY(), patterninfo.GetZ() + patterninfo.WaferCenter.GetZ(), false, EnumTrjType.Normal, -1);
+                                        }
+                                        else
+                                        {
+                                            this.StageSupervisor().StageModuleState.WaferLowViewMove(patterninfo.GetX() + patterninfo.WaferCenter.GetX(), patterninfo.GetY() + patterninfo.WaferCenter.GetY(), patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                                        }
                                     }
                                     else
                                     {
@@ -2136,7 +2154,16 @@ namespace WALowStandardModule
                                     patterninfo.X.Value = wcoord.GetX() - patterninfo.WaferCenter.GetX();
                                     patterninfo.Y.Value = wcoord.GetY() - patterninfo.WaferCenter.GetY();
 
-                                    retVal = this.StageSupervisor().StageModuleState.WaferLowViewMove(patterninfo.GetX() + patterninfo.WaferCenter.GetX(), patterninfo.GetY() + patterninfo.WaferCenter.GetY(), patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                                    // 260127 sebas : 마지막 센터로 이동 구분3
+                                    if (WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)
+                                    {
+//                                        retVal = StageSupervisor.StageModuleState.WaferLowViewMove_Wafer(patterninfo.GetX() + Wafer.GetSubsInfo().WaferCenter_WF.GetX(), patterninfo.GetY() + Wafer.GetSubsInfo().WaferCenter_WF.GetY(), patterninfo.GetZ() + Wafer.GetSubsInfo().WaferCenter_WF.GetZ(), false, EnumTrjType.Normal, -1);
+                                        retVal = StageSupervisor.StageModuleState.WaferLowViewMove_Wafer(Wafer.GetSubsInfo().WaferCenter_WF.GetX(),Wafer.GetSubsInfo().WaferCenter_WF.GetY(), patterninfo.GetZ() + Wafer.GetSubsInfo().WaferCenter_WF.GetZ(), false, EnumTrjType.Normal, -1);
+                                    }
+                                    else
+                                    {
+                                        retVal = this.StageSupervisor().StageModuleState.WaferLowViewMove(patterninfo.GetX() + patterninfo.WaferCenter.GetX(), patterninfo.GetY() + patterninfo.WaferCenter.GetY(), patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
+                                    }
 
                                     EnumMessageDialogResult ret = await this.MetroDialogManager().ShowMessageDialog("Low Pattern Register Error", "This pattern is not valid for Align. Please register the pattern in another location.", EnumMessageStyle.Affirmative);
                                 }

@@ -7744,68 +7744,81 @@ namespace OpusVStageMove
 
             try
             {
-                ret = MoveToPZClearance();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // 260127 sebas : PZ 조건제거
+                //ret = MoveToPZClearance();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                switch (axis.AxisType.Value)
+                if(ovrd == -1)  // Wafer 로우얼라인 C 초기화
                 {
-                    case EnumAxisConstants.X:
-                        wfcoord.X.Value = pos * -1;
-                        mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack(wfcoord);
+                    ovrd = 1;
+                    wfcoord.T.Value = pos * 10000d;
+                    mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack_Wafer(wfcoord);
 
-                        curY = axisy.Status.Position.Ref;
-                        curZ = axisz.Status.Position.Ref;
-                        curPZ = axispz.Status.Position.Ref;
+                    ret = Module.MotionManager().AbsMove(axis, mccoord.T.Value, trjtype, ovrd);
+                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                }
+                else
+                {   // 원래 코드
+                    switch (axis.AxisType.Value)
+                    {
+                        case EnumAxisConstants.X:
+                            wfcoord.X.Value = pos * -1;
+                            mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack(wfcoord);
 
-                        ret = Module.CheckHardwareInterference(mccoord.X.Value, curY, curZ, curPZ);
-                        ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                            curY = axisy.Status.Position.Ref;
+                            curZ = axisz.Status.Position.Ref;
+                            curPZ = axispz.Status.Position.Ref;
 
-                        ret = Module.MotionManager().AbsMove(axis, mccoord.X.Value, trjtype, ovrd);
-                        ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                            ret = Module.CheckHardwareInterference(mccoord.X.Value, curY, curZ, curPZ);
+                            ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                        break;
-                    case EnumAxisConstants.Y:
-                        wfcoord.Y.Value = pos * -1;
-                        mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack(wfcoord);
+                            ret = Module.MotionManager().AbsMove(axis, mccoord.X.Value, trjtype, ovrd);
+                            ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                        curX = axisx.Status.Position.Ref;
-                        curZ = axisz.Status.Position.Ref;
-                        curPZ = axispz.Status.Position.Ref;
+                            break;
+                        case EnumAxisConstants.Y:
+                            wfcoord.Y.Value = pos * -1;
+                            mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack(wfcoord);
 
-                        ret = Module.CheckHardwareInterference(curX, mccoord.Y.Value, curZ, curPZ);
-                        ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                            curX = axisx.Status.Position.Ref;
+                            curZ = axisz.Status.Position.Ref;
+                            curPZ = axispz.Status.Position.Ref;
 
-                        ret = Module.MotionManager().AbsMove(axis, mccoord.Y.Value, trjtype, ovrd);
-                        ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                            ret = Module.CheckHardwareInterference(curX, mccoord.Y.Value, curZ, curPZ);
+                            ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                        break;
-                    case EnumAxisConstants.Z:
+                            ret = Module.MotionManager().AbsMove(axis, mccoord.Y.Value, trjtype, ovrd);
+                            ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                        wfcoord = Module.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
-                        wfcoord.Z.Value = pos;
-                        mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack(wfcoord);
+                            break;
+                        case EnumAxisConstants.Z:
 
-                        curX = axisx.Status.Position.Ref;
-                        curY = axisy.Status.Position.Ref;
-                        curPZ = axispz.Status.Position.Ref;
+                            wfcoord = Module.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
+                            wfcoord.Z.Value = pos;
+                            mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack(wfcoord);
 
-                        ret = Module.CheckHardwareInterference(curX, curY, mccoord.Z.Value, curPZ);
-                        ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                            curX = axisx.Status.Position.Ref;
+                            curY = axisy.Status.Position.Ref;
+                            curPZ = axispz.Status.Position.Ref;
 
-                        ret = Module.MotionManager().AbsMove(axis, mccoord.Z.Value, trjtype, ovrd);
-                        ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                            ret = Module.CheckHardwareInterference(curX, curY, mccoord.Z.Value, curPZ);
+                            ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                        break;
-                    case EnumAxisConstants.C:
-                        wfcoord.T.Value = pos * 10000d;
-                        mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack(wfcoord);
+                            ret = Module.MotionManager().AbsMove(axis, mccoord.Z.Value, trjtype, ovrd);
+                            ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                        ret = Module.MotionManager().AbsMove(axis, mccoord.T.Value, trjtype, ovrd);
-                        ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                        break;
-                    default:
-                        ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                        break;
+                            break;
+                        case EnumAxisConstants.C:
+                            wfcoord.T.Value = pos * 10000d;
+                            mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack(wfcoord);
+
+                            ret = Module.MotionManager().AbsMove(axis, mccoord.T.Value, trjtype, ovrd);
+                            ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                            break;
+                        default:
+                            ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                            break;
+                    }
                 }
 
                 LoggerManager.Debug($"WaferLowViewMoveFunc() : axis = {axis.Label} pos = {pos}", isInfo: IsInfo);
@@ -19115,23 +19128,33 @@ namespace OpusVStageMove
 
             try
             {
-                ret = CheckStage();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // 260127 sebas : 조건제거
+                //ret = CheckStage();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
                 WaferCoordinate curwafcoord = new WaferCoordinate();
-                curwafcoord = Module.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
 
-                if (curwafcoord.Z.Value < Module.StageSupervisor().WaferRegRange)
+                // 260127 sebas : Wafer/FD 구분
+                if(ovrd == -1)
                 {
-                    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                    curwafcoord = Module.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert_Wafer();
+                }
+                else
+                {
+                    curwafcoord = Module.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
                 }
 
-                if (axis.AxisType.Value == EnumAxisConstants.Z && pos < Module.StageSupervisor().WaferRegRange)
-                {
-                    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
+                //if (curwafcoord.Z.Value < Module.StageSupervisor().WaferRegRange)
+                //{
+                //    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
+
+                //if (axis.AxisType.Value == EnumAxisConstants.Z && pos < Module.StageSupervisor().WaferRegRange)
+                //{
+                //    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
 
                 ret = WaferLowViewMoveFunc(axis, pos, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
