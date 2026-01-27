@@ -1786,6 +1786,24 @@ namespace LoaderServiceClientModules
             }
             return retVal;
         }
+        //260127 sebas
+        public EventCodeEnum WaferHighViewMove_Wafer(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                if (StageMove != null)
+                {
+                    retVal = StageMove.WaferHighViewMove(xpos, ypos, zpos, NotUseHeightProfile, trjtype, ovrd);
+                }
+            }
+            catch (Exception err)
+            {
+                retVal = EventCodeEnum.UNKNOWN_EXCEPTION;
+                LoggerManager.Debug($"StageMoveServiceClient.WaferHighViewMove(xpos, ypos, zpos, NotUseHeightProfile, trjtype, ovrd) err={err}");
+            }
+            return retVal;
+        }
 
         public EventCodeEnum WaferHighViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {

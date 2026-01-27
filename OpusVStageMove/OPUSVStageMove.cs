@@ -523,6 +523,25 @@ namespace OpusVStageMove
 
             return retval;
         }
+        //260127 sebas : 하이캠추가
+        public EventCodeEnum WaferHighViewMove_Wafer(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            EventCodeEnum retval = EventCodeEnum.UNDEFINED;
+
+            try
+            {
+                LoggerManager.Debug($"[{this.GetType().Name}], WaferHighViewMove() called in a [{StageMove.GetState()}] state.");
+
+                retval = StageMove.WaferHighViewMove_Wafer(xpos, ypos, zpos, NotUseHeightProfile, trjtype, ovrd);
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                retval = ExceptionHandler(err);
+            }
+
+            return retval;
+        }
 
         public EventCodeEnum WaferLowViewMove(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {
@@ -2868,6 +2887,13 @@ namespace OpusVStageMove
             return EventCodeEnum.STAGEMOVE_NOTIMPLEMENT_ERROR;
         }
         public override EventCodeEnum WaferHighViewMove(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            LoggerManager.Error($"StageStateBase: Error occurred while Move to WaferHighViewMove(xpos,ypos,zpos).");
+
+            return EventCodeEnum.STAGEMOVE_NOTIMPLEMENT_ERROR;
+        }
+        //260127 sebas
+        public override EventCodeEnum WaferHighViewMove_Wafer(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {
             LoggerManager.Error($"StageStateBase: Error occurred while Move to WaferHighViewMove(xpos,ypos,zpos).");
 
@@ -6589,7 +6615,15 @@ namespace OpusVStageMove
             {
                 curZpos = axisz.Status.Position.Ref;
 
-                mccoord = Module.CoordinateManager().WaferHighChuckConvert.ConvertBack(wfcoord);
+                if(ovrd == -1)
+                {
+                    ovrd = 1;
+                    mccoord = Module.CoordinateManager().WaferHighChuckConvert.ConvertBack_Wafer(wfcoord);
+                }
+                else
+                {
+                    mccoord = Module.CoordinateManager().WaferHighChuckConvert.ConvertBack(wfcoord);
+                }
 
                 double curPZ = 0;
                 // <-- 260114 sebas : PZ 조건제거
@@ -18024,6 +18058,27 @@ namespace OpusVStageMove
                 }
 
                 ret = WaferHighViewMoveFunc(xpos, ypos, zpos, NotUseHeightProfile, trjtype, ovrd);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                ret = ConvertExceptionAndThrow(err, ret);
+            }
+
+            return ret;
+        }
+        //260127 sebas
+        public override EventCodeEnum WaferHighViewMove_Wafer(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            EventCodeEnum ret = EventCodeEnum.NODATA;
+
+            try
+            {
+
+                var stagesupervisor = Module.StageSupervisor();
+
+                ret = WaferHighViewMoveFunc(xpos, ypos, zpos, NotUseHeightProfile, trjtype, -1);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
             }
             catch (Exception err)

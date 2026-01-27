@@ -98,11 +98,23 @@ namespace ProberInterfaces
             MachineCoordinate mccoord = new MachineCoordinate();
             try
             {
-                ICoordinateManager CoordinateManager = this.CoordinateManager();
-                if (CoordinateManager.StageCoord != null)
-                {
-                    // void
-                }
+                mccoord.X.Value = this.CoordinateManager().StageCoord.RefMarkPos.X.Value
+                    + this.CoordinateManager().StageCoord.WHOffset.X.Value
+                    + this.CoordinateManager().StageCoord.PHOffset.X.Value - 39000  // 260127 sebas : 로우-하이캠 하드웨어 간격 추가 (39000)
+                    + this.CoordinateManager().StageCoord.PLCAMFromPH.X.Value
+                    - coord.X.Value;
+
+                mccoord.Y.Value = this.CoordinateManager().StageCoord.RefMarkPos.Y.Value
+                    + this.CoordinateManager().StageCoord.WHOffset.Y.Value
+                    + this.CoordinateManager().StageCoord.PHOffset.Y.Value
+                    + this.CoordinateManager().StageCoord.PLCAMFromPH.Y.Value
+                    - coord.Y.Value;
+
+                mccoord.Z.Value = this.CoordinateManager().StageCoord.RefMarkPos.Z.Value
+                    + this.CoordinateManager().StageCoord.WHOffset.Z.Value
+                    + this.CoordinateManager().StageCoord.PHOffset.Z.Value
+                    + this.CoordinateManager().StageCoord.PLCAMFromPH.Z.Value
+                    - coord.Z.Value;
             }
             catch (Exception err)
             {

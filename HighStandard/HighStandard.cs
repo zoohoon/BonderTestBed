@@ -29,6 +29,7 @@ namespace WAHighStandardModule
     using System.Xml.Serialization;
     using ThetaAlignStandatdModule;
     using WA_HighMagParameter_Standard;
+    using WAEdgeStadnardModule;
 
     public class HighStandard : ThetaAlignStandard, ISetup, IRecovery, IParamNode, IProcessingModule, IHasDevParameterizable, ILotReadyAble, IPackagable, IWaferHighProcModule
     {
@@ -860,16 +861,34 @@ namespace WAHighStandardModule
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
-                CurCam = this.VisionManager().GetCam(HighStandardParam_Clone.CamType);
-
-                if (CurCam != null)
+                // <-- 260127 sebas : 웨이퍼하이캠
+                if(EdgeStandard.IsWaferEdge == true)
                 {
-                    FocusParam.FocusingCam.Value = CurCam.GetChannelType();
+                    CurCam = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM);
+
+                    if (CurCam != null)
+                    {
+                        FocusParam.FocusingCam.Value = CurCam.GetChannelType();
+                    }
+
+                    retVal = InitLightJog(this, EnumProberCam.PIN_HIGH_CAM);
+
+                    CurCam = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM);
                 }
+                else
+                {
+                    CurCam = this.VisionManager().GetCam(HighStandardParam_Clone.CamType);
 
-                retVal = InitLightJog(this, HighStandardParam_Clone.CamType);
+                    if (CurCam != null)
+                    {
+                        FocusParam.FocusingCam.Value = CurCam.GetChannelType();
+                    }
 
-                CurCam = this.VisionManager().GetCam(HighStandardParam_Clone.CamType);
+                    retVal = InitLightJog(this, HighStandardParam_Clone.CamType);
+
+                    CurCam = this.VisionManager().GetCam(HighStandardParam_Clone.CamType);
+                }
+                // -->
 
                 ushort defaultlightvalue = 25;  // 260112 sebas : 조명 너무 밝아서 내림 (85 -> 25)
                 for (int lightindex = 0; lightindex < CurCam.LightsChannels.Count; lightindex++)
@@ -978,7 +997,15 @@ namespace WAHighStandardModule
                     {
                         WAStandardPTInfomation ptinfo = HighStandardParam_Clone.Patterns.Value[0];
 
-                        StageSupervisor.StageModuleState.WaferHighViewMove(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.X.Value, ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter.Y.Value, ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter.Z.Value);
+                        // 260127 sebas : 하이얼라인 FD/Wafer 구분
+                        if(EdgeStandard.IsWaferEdge == true)
+                        {
+                            StageSupervisor.StageModuleState.WaferHighViewMove_Wafer(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.X.Value, ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter.Y.Value, ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter.Z.Value);
+                        }
+                        else
+                        {
+                            StageSupervisor.StageModuleState.WaferHighViewMove(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.X.Value, ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter.Y.Value, ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter.Z.Value);
+                        }
 
                         UpdatePatternSize(ptinfo, 0);
 
