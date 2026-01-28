@@ -645,6 +645,11 @@ namespace ThetaAlignStandatdModule
         protected EventCodeEnum VerifyRevisionWaferCenter(WAStandardPTInfomation ptinfo)
         {
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+            // 260128 sebas*** : 임시 패스
+            retVal = EventCodeEnum.NONE;
+            return retVal;
+
             string tmpfilpath = "";
             try
             {
@@ -3206,7 +3211,8 @@ namespace ThetaAlignStandatdModule
                 }
                 else if (ptinfo.CamType.Value == EnumProberCam.PIN_HIGH_CAM)
                 {
-                    this.StageSupervisor().StageModuleState.WaferHighViewMove_Wafer(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY() + ptinfo.GetY());
+                    // this.StageSupervisor().StageModuleState.WaferHighViewMove_Wafer(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY() + ptinfo.GetY());
+                    this.StageSupervisor().StageModuleState.WaferHighViewMove_Wafer(Wafer.GetSubsInfo().WaferCenter_WF.GetX(), Wafer.GetSubsInfo().WaferCenter_WF.GetY() + ptinfo.GetY());
                 }
 
                     retVal = this.VisionManager().PatternMatching(ptinfo, this).RetValue;

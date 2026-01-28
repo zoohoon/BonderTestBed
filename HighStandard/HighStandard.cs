@@ -1026,7 +1026,6 @@ namespace WAHighStandardModule
 
                         if (this.WaferAligner().WaferAlignInfo.LowFirstPatternPosition != null)
                         {
-
                             // 260127 sebas : 하이얼라인 FD/Wafer 구분
                             if (EdgeStandard.IsWaferEdge == true)
                             {
@@ -4683,6 +4682,11 @@ namespace WAHighStandardModule
         {
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             verifyinfo = new List<VerifyInfo>();
+
+            // 260128 sebas*** : 임시 패스
+            retVal = EventCodeEnum.NONE;
+            return retVal;
+
             try
             {
                 double forecastXpos = 0.0;

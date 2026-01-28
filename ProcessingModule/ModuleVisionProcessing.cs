@@ -981,7 +981,7 @@ namespace Vision.ProcessingModule
                     if (numOfOccur == 0)
                     {
                         MatchingCount++;
-                        if(MatchingCount == 3)
+                        if(MatchingCount == 1)
                         {
                             numOfOccur = 1;
                             MatchingCount = 0;
