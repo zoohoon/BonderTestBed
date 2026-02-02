@@ -382,7 +382,7 @@ namespace BVisionTestViewModel
             }
         }
 
-        // 20260121 Nick Raw Image 저장 관련 작업
+        // 20260123 Nick 5 Cam Image Grab 관련 작업
         private void SaveWorkerProc()
         {
             while (_saveWorkerRunning)
@@ -457,12 +457,12 @@ namespace BVisionTestViewModel
             File.WriteAllText(metaPath, sb.ToString());
         }
 
-        // 20260121 Nick Raw Image 저장 관련 작업
+        // 20260123 Nick 5 Cam Image Grab 관련 작업
         public void RequestSaveNextFrameRaw(int camIndex)
         {
             if (camIndex < 0 || camIndex >= MAX_CAM) return;
 
-            // 이전 Ack 남아있으면 비우기(중요)
+            // 이전 Ack 남아있으면 비우기
             var ack = _nextFrameCopiedAck[camIndex];
             if (ack != null) ack.WaitOne(0);
 
@@ -476,7 +476,7 @@ namespace BVisionTestViewModel
             Interlocked.Exchange(ref _saveNextFrameReq[camIndex], 1);
         }
 
-        // 20260121 Nick Raw Image 저장 관련 작업
+        // 20260123 Nick 5 Cam Image Grab 관련 작업
         public bool WaitNextFrameCopiedAck(int camIndex, int timeoutMs)
         {
             if (camIndex < 0 || camIndex >= MAX_CAM) return false;
@@ -880,6 +880,22 @@ namespace BVisionTestViewModel
                             byte[] copy = new byte[src.Length];
                             Buffer.BlockCopy(src, 0, copy, 0, src.Length);
 
+                            // 여기서 copy에 "초록색 크로스헤어"를 픽셀로 직접 그린다
+                            // 중심: 화면 정중앙, 길이: 크게(예: 300), 두께: 1
+                            DrawCrosshairInPlace(
+                                data: copy,
+                                w: w,
+                                h: h,
+                                isColor: isColor,
+                                cx: w / 2,
+                                cy: h / 2,
+                                halfLen: 300,
+                                thickness: 1,
+                                r: 0, g: 255, b: 0,      // 초록색
+                                gray: 255,
+                                rgbOrder: true           // 색이 이상하면 false로 바꿔봐 (BGR일 수 있음)
+                            );
+
                             string camName = (camIndex >= 0 && camIndex < MAX_CAM)
                                 ? _camDisplayName[camIndex]
                                 : ("CAM" + (camIndex + 1));
@@ -1020,6 +1036,76 @@ namespace BVisionTestViewModel
         private int GetDeviceIndexForSlot(int slot)
         {
             return _slotToDevice[slot];
+        }
+
+        private static void DrawCrosshairInPlace(
+        byte[] data, int w, int h, bool isColor,
+        int cx, int cy,
+        int halfLen = 300, int thickness = 1,
+        byte r = 0, byte g = 255, byte b = 0, byte gray = 255,
+        bool rgbOrder = true // true: RGB, false: BGR
+        )
+
+        {
+            if (data == null || data.Length == 0) return;
+            if (w <= 0 || h <= 0) return;
+
+            // 중심 clamp
+            if (cx < 0) cx = 0; if (cx >= w) cx = w - 1;
+            if (cy < 0) cy = 0; if (cy >= h) cy = h - 1;
+
+            int bpp = isColor ? 3 : 1;
+
+            // Pitch(Stride) 없는 경우(=연속 배열) 전제
+            // 만약 저장된 이미지가 깨지면 stride가 있을 수 있음 -> 그 때는 grabber에서 stride를 받아야 함
+
+            void SetPixel(int x, int y)
+            {
+                if ((uint)x >= (uint)w || (uint)y >= (uint)h) return;
+
+                int idx = (y * w + x) * bpp;
+                if (idx < 0 || idx + bpp > data.Length) return;
+
+                if (!isColor)
+                {
+                    data[idx] = gray; // Gray8
+                }
+                else
+                {
+                    if (rgbOrder)
+                    {
+                        data[idx + 0] = r;
+                        data[idx + 1] = g;
+                        data[idx + 2] = b;
+                    }
+                    else
+                    {
+                        data[idx + 0] = b;
+                        data[idx + 1] = g;
+                        data[idx + 2] = r;
+                    }
+                }
+            }
+
+            int t = Math.Max(1, thickness);
+
+            // 가로선
+            for (int dy = -(t / 2); dy <= (t - 1) / 2; dy++)
+            {
+                int y = cy + dy;
+                int x0 = Math.Max(0, cx - halfLen);
+                int x1 = Math.Min(w - 1, cx + halfLen);
+                for (int x = x0; x <= x1; x++) SetPixel(x, y);
+            }
+
+            // 세로선
+            for (int dx = -(t / 2); dx <= (t - 1) / 2; dx++)
+            {
+                int x = cx + dx;
+                int y0 = Math.Max(0, cy - halfLen);
+                int y1 = Math.Min(h - 1, cy + halfLen);
+                for (int y = y0; y <= y1; y++) SetPixel(x, y);
+            }
         }
 
         #endregion
