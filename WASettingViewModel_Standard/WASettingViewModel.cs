@@ -179,6 +179,7 @@ namespace WASettingViewModel_Standard
         {
             try
             {
+                LoggerManager.PinLog("FD Align Setup button click.");
                 WAEdgeStadnardModule.EdgeStandard.IsWaferEdge = false;  // 260119 sebas : Wafer edge 끝
 
                 if (System.AppDomain.CurrentDomain.FriendlyName == "BonderSystem.exe")  // 260102 sebas
@@ -241,6 +242,8 @@ namespace WASettingViewModel_Standard
         {
             try
             {
+                LoggerManager.PinLog("Wafer Align Setup button click.");
+
                 Guid viewguid = new Guid();
                 List<Guid> pnpsteps = new List<Guid>();
                 this.WaferAligner().IsNewSetup = true;

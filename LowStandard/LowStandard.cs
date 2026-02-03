@@ -1112,10 +1112,12 @@ namespace WALowStandardModule
 
                 if(WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)   // 260126 sebas : 로우캠 FD/Wafer 구분
                 {
+                    LoggerManager.PinLog("Wafer low align start");
                     CurCam = this.VisionManager().GetCam(EnumProberCam.PIN_LOW_CAM);
                 }
                 else
                 {
+                    LoggerManager.PinLog("FD Wafer low align start");
                     CurCam = this.VisionManager().GetCam(LowStandardParam_Clone.CamType);
                 }
 
@@ -1324,11 +1326,14 @@ namespace WALowStandardModule
 
                         if (WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)   // 260123 sebas : FD/Wafer 구분
                         {
+                            LoggerManager.PinLog("Move to Wafer first low pattern");
                             this.StageSupervisor().StageModuleState.WaferLowViewMove_Wafer(Wafer.GetSubsInfo().WaferCenter_WF.GetX(), Wafer.GetSubsInfo().WaferCenter_WF.GetY(), Wafer.GetSubsInfo().ActualThickness);
                         }
                         else
                         {
-                            this.StageSupervisor().StageModuleState.WaferLowViewMove(Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY(), Wafer.GetSubsInfo().ActualThickness);
+                            LoggerManager.PinLog("Move to FD Wafer first low pattern");
+                            // 위치 주의
+                            //this.StageSupervisor().StageModuleState.WaferLowViewMove(Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY(), Wafer.GetSubsInfo().ActualThickness);
                         }
                         
                         double curtpos = 0.0;
@@ -2075,7 +2080,7 @@ namespace WALowStandardModule
                                         this.WaferAligner().WaferAlignInfo.AlignProcResult.Add(result);
                                     }
 
-                                    // 260126 sebas : 마지막 센터로 이동 구분1
+                                    // 260126 sebas : 마지막 센터로 이동 구분1    => ***** 개조 후 위치 변경 필요
                                     if(WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)
                                     {
                                         //StageSupervisor.StageModuleState.WaferLowViewMove_Wafer(patterninfo.GetX() + Wafer.GetSubsInfo().WaferCenter_WF.GetX(), patterninfo.GetY() + Wafer.GetSubsInfo().WaferCenter_WF.GetY(), patterninfo.GetZ() + Wafer.GetSubsInfo().WaferCenter_WF.GetZ(), false, EnumTrjType.Normal, -1);
@@ -2100,7 +2105,7 @@ namespace WALowStandardModule
                                         patterninfo.Y.Value = wcoord.GetY() - patterninfo.WaferCenter.GetY();
                                         patterninfo.Z.Value = wcoord.GetZ() - patterninfo.WaferCenter.GetZ();
 
-                                        // 260127 sebas : 마지막 센터로 이동 구분2
+                                        // 260127 sebas : 마지막 센터로 이동 구분2    => ***** 개조 후 위치 변경 필요
                                         if (WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)
                                         {
                                             StageSupervisor.StageModuleState.WaferLowViewMove_Wafer(patterninfo.GetX() + patterninfo.WaferCenter.GetX(), patterninfo.GetY() + patterninfo.WaferCenter.GetY(), patterninfo.GetZ() + patterninfo.WaferCenter.GetZ(), false, EnumTrjType.Normal, -1);
@@ -2154,7 +2159,7 @@ namespace WALowStandardModule
                                     patterninfo.X.Value = wcoord.GetX() - patterninfo.WaferCenter.GetX();
                                     patterninfo.Y.Value = wcoord.GetY() - patterninfo.WaferCenter.GetY();
 
-                                    // 260127 sebas : 마지막 센터로 이동 구분3
+                                    // 260127 sebas : 마지막 센터로 이동 구분3    => ***** 개조 후 위치 변경 필요
                                     if (WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)
                                     {
 //                                        retVal = StageSupervisor.StageModuleState.WaferLowViewMove_Wafer(patterninfo.GetX() + Wafer.GetSubsInfo().WaferCenter_WF.GetX(), patterninfo.GetY() + Wafer.GetSubsInfo().WaferCenter_WF.GetY(), patterninfo.GetZ() + Wafer.GetSubsInfo().WaferCenter_WF.GetZ(), false, EnumTrjType.Normal, -1);

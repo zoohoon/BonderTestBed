@@ -865,7 +865,7 @@ namespace WAHighStandardModule
                 if(EdgeStandard.IsWaferEdge == true)
                 {
                     CurCam = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM);
-
+                    LoggerManager.PinLog("Wafer High align start");
                     if (CurCam != null)
                     {
                         FocusParam.FocusingCam.Value = CurCam.GetChannelType();
@@ -878,7 +878,7 @@ namespace WAHighStandardModule
                 else
                 {
                     CurCam = this.VisionManager().GetCam(HighStandardParam_Clone.CamType);
-
+                    LoggerManager.PinLog("FD Wafer High align start");
                     if (CurCam != null)
                     {
                         FocusParam.FocusingCam.Value = CurCam.GetChannelType();
@@ -1008,10 +1008,12 @@ namespace WAHighStandardModule
                         // 260127 sebas : 하이얼라인 FD/Wafer 구분
                         if(EdgeStandard.IsWaferEdge == true)
                         {
+                            LoggerManager.PinLog("Move to FD Wafer first high pattern");
                             StageSupervisor.StageModuleState.WaferHighViewMove_Wafer(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter_WF.X.Value, ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter_WF.Y.Value, ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter_WF.Z.Value);
                         }
                         else
                         {
+                            LoggerManager.PinLog("Move to Wafer first high pattern");
                             StageSupervisor.StageModuleState.WaferHighViewMove(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.X.Value, ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter.Y.Value, ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter.Z.Value);
                         }
 
@@ -2205,6 +2207,8 @@ namespace WAHighStandardModule
                         {
                             patterninfo.PostProcDirection.Value = EnumWAProcDirection.HORIZONTAL;
                             patterninfo.PostHorDirection.Value = EnumHorDirection.RIGHTLEFT;
+
+                            LoggerManager.PinLog("FindJumpIndex : short length");
                             retVal = FindJumpIndex(ref patterninfo, ref rotateangle, patternparam,
                             ShortMiniumumLength, ShortOptimumLength, ShortMaximumLength, true, true);
 
@@ -2224,6 +2228,7 @@ namespace WAHighStandardModule
                                 patterninfo.AcceptFocusing.Value = true;
                                 //patterninfo.FocusingModel = FocusingModule;
 
+                                LoggerManager.PinLog("FindJumpIndex : long length");
                                 retVal = FindJumpIndex(ref patterninfo, ref rotateangle, patternparam,
                                     MinimumLength, OptimumLength, MaximumLength, false, false);
 
@@ -3208,6 +3213,7 @@ namespace WAHighStandardModule
                     }
                     else
                     {
+                        // *****센터 위치 수정 필요
                         this.StageSupervisor().StageModuleState.WaferHighViewMove(patterninfo.GetX() + patterninfo.WaferCenter.GetX(), patterninfo.GetY() + patterninfo.WaferCenter.GetY(), patterninfo.GetZ() + patterninfo.WaferCenter.GetZ());
                     }
 

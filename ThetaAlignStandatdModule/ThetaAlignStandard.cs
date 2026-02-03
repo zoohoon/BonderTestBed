@@ -836,6 +836,7 @@ namespace ThetaAlignStandatdModule
             // direction : 이동 방향
             // -1 : 왼쪽
             //  1 : 오른쪽
+            LoggerManager.PinLog("SearchHorJumpIndex start");
             int direction = 0;
 
             double indexwidth = Wafer.GetSubsInfo().ActualDieSize.Width.Value;
@@ -875,11 +876,15 @@ namespace ThetaAlignStandatdModule
                     {
                         if (remainlength >= acoptimumlength / 2)
                         {
-                            leftmoveindex = Calc(1, indexwidth, -((acoptimumlength / 2) + Math.Abs(movex)), movex);
+                            // 260203 sebas : 개조후 인덱스 변경
+                            leftmoveindex = Calc_FD(-1, indexwidth, -((acoptimumlength / 2) + Math.Abs(movex)), movex);
+                            //leftmoveindex = Calc(1, indexwidth, -((acoptimumlength / 2) + Math.Abs(movex)), movex);
                         }
                         else
                         {
-                            leftmoveindex = Calc(1, indexwidth, -((acminimumlength / 2) + Math.Abs(movex)), movex);
+                            // 260203 sebas : 개조후 인덱스 변경
+                            leftmoveindex = Calc_FD(-1, indexwidth, -((acoptimumlength / 2) + Math.Abs(movex)), movex);
+                            //leftmoveindex = Calc(1, indexwidth, -((acminimumlength / 2) + Math.Abs(movex)), movex);
                         }
 
                         rightmoveindex = leftmoveindex;
@@ -900,11 +905,15 @@ namespace ThetaAlignStandatdModule
 
                             if (remainlength >= acoptimumlength)
                             {
-                                rightmoveindex = Calc(1, indexwidth, (movex + acoptimumlength), movex);
+                                // 260203 sebas : 개조후 인덱스 변경
+                                rightmoveindex = Calc_FD(1, indexwidth, (movex + acoptimumlength), movex);
+                                //rightmoveindex = Calc(1, indexwidth, (movex + acoptimumlength), movex);
                             }
                             else
                             {
-                                rightmoveindex = Calc(1, indexwidth, (movex + acminimumlength), movex);
+                                // 260203 sebas : 개조후 인덱스 변경
+                                rightmoveindex = Calc_FD(1, indexwidth, (movex + acoptimumlength), movex);
+                                //rightmoveindex = Calc(1, indexwidth, (movex + acminimumlength), movex);
                             }
 
                             leftJumpIndexMaxlimit = movex;
@@ -928,11 +937,15 @@ namespace ThetaAlignStandatdModule
                     {
                         if (remainlength >= acoptimumlength / 2)
                         {
-                            rightmoveindex = Calc(1, indexwidth, (movex + (acoptimumlength / 2)), movex);
+                            // 260203 sebas : 개조후 인덱스 변경
+                            rightmoveindex = Calc_FD(1, indexwidth, (movex + (acoptimumlength / 2)), movex);
+                            //rightmoveindex = Calc(1, indexwidth, (movex + (acoptimumlength / 2)), movex);
                         }
                         else
                         {
-                            rightmoveindex = Calc(1, indexwidth, (movex + (acminimumlength / 2)), movex);
+                            // 260203 sebas : 개조후 인덱스 변경
+                            rightmoveindex = Calc_FD(1, indexwidth, (movex + (acminimumlength / 2)), movex);
+                            //rightmoveindex = Calc(1, indexwidth, (movex + (acminimumlength / 2)), movex);
                         }
 
                         leftmoveindex = rightmoveindex;
@@ -951,11 +964,15 @@ namespace ThetaAlignStandatdModule
                         {
                             if (remainlength >= acoptimumlength)
                             {
-                                leftmoveindex = Calc(1, indexwidth, -((acoptimumlength / 2) + Math.Abs(movex)), movex);
+                                // 260203 sebas : 개조후 인덱스 변경
+                                leftmoveindex = Calc_FD(-1, indexwidth, -((acoptimumlength / 2) + Math.Abs(movex)), movex);
+                                //leftmoveindex = Calc(1, indexwidth, -((acoptimumlength / 2) + Math.Abs(movex)), movex);
                             }
                             else
                             {
-                                leftmoveindex = Calc(1, indexwidth, -((acminimumlength / 2) + Math.Abs(movex)), movex);
+                                // 260203 sebas : 개조후 인덱스 변경
+                                leftmoveindex = Calc_FD(-1, indexwidth, -((acminimumlength / 2) + Math.Abs(movex)), movex);
+                                //leftmoveindex = Calc(1, indexwidth, -((acminimumlength / 2) + Math.Abs(movex)), movex);
                             }
 
                             rightmoveindex = 0;
@@ -1496,7 +1513,7 @@ namespace ThetaAlignStandatdModule
             int movecountx, int movecounty, int direction, double minlimit, double maxlimit, bool isfocusing = false)
         {
             ThetaAlignEventCodeEnum retval = ThetaAlignEventCodeEnum.UNDEFIND;
-
+            LoggerManager.PinLog("FindJumpIndex start");
             try
             {
                 axisX = this.MotionManager().GetAxis(EnumAxisConstants.X);
@@ -1566,20 +1583,26 @@ namespace ThetaAlignStandatdModule
                     }
                 }
 
+                // sebas***** : jumpindex 위치로 이동하는 부분. 개조 후 y축 offset 거리를 넣어줘야 함
                 if (ptinfo.CamType.Value == EnumProberCam.WAFER_LOW_CAM)
                 {
+                    movey = movey + ((2 * Wafer.GetSubsInfo().ActualDieSize.Height.Value) * 1);     // 2 = index count , 1 = direction
+                    LoggerManager.PinLog($"FD chuck jumpindex만큼 Low 이동 : X = {movex}, Y = {movey}");
                     this.StageSupervisor().StageModuleState.WaferLowViewMove(movex, movey);
                 }
                 else if (ptinfo.CamType.Value == EnumProberCam.WAFER_HIGH_CAM)
                 {
+                    LoggerManager.PinLog($"FD chuck jumpindex만큼 High 이동 : X = {movex}, Y = {movey}");
                     this.StageSupervisor().StageModuleState.WaferHighViewMove(movex, movey);
                 }
                 else if (ptinfo.CamType.Value == EnumProberCam.PIN_LOW_CAM) // 260121 sebas : Pin Cam 추가
                 {
+                    LoggerManager.PinLog($"Wafer chuck jumpindex만큼 Low 이동 : X = {movex}, Y = {movey}");
                     this.StageSupervisor().StageModuleState.WaferLowViewMove_Wafer(movex, movey);
                 }
                 else if (ptinfo.CamType.Value == EnumProberCam.PIN_HIGH_CAM)
                 {
+                    LoggerManager.PinLog($"Wafer chuck jumpindex만큼 High 이동 : X = {movex}, Y = {movey}");
                     this.StageSupervisor().StageModuleState.WaferHighViewMove_Wafer(movex, movey);
                 }
 
@@ -1629,7 +1652,9 @@ namespace ThetaAlignStandatdModule
 
                     this.VisionManager().StartGrab(ptinfo.CamType.Value, this);
 
+                    LoggerManager.PinLog("FindJumpIndex : 패턴매칭 실패. 강제 패스");
                     pmresult.RetValue = EventCodeEnum.NONE;     // 260127 sebas*** : 패턴 강제 통과
+
                     if (pmresult.RetValue == EventCodeEnum.NONE)
                     {
                         WaferCoordinate wcoord = ChangedLocationFormPT(pmresult);
@@ -1660,6 +1685,7 @@ namespace ThetaAlignStandatdModule
         {
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             // LowAlign에서 APPLY 누르면 들어오는 함수
+            LoggerManager.PinLog("Align Processing start");
             try
             {
                 double zoffset = 0;
@@ -1715,20 +1741,25 @@ namespace ThetaAlignStandatdModule
                             continue;
                         }
 
+                        // 260203 sebas***** : 개조 후 y축 offset 추가해야 함
                         if (ptinfo.CamType.Value == EnumProberCam.WAFER_LOW_CAM)
                         {
+                            LoggerManager.PinLog($"Processing : FD chuck jumpindex만큼 Low 이동 X = {movex}, Y = {movey}, Z = {movez}");
                             retVal = this.StageSupervisor().StageModuleState.WaferLowViewMove(movex, movey, movez);
                         }
                         else if (ptinfo.CamType.Value == EnumProberCam.WAFER_HIGH_CAM)
                         {
+                            LoggerManager.PinLog($"Processing : FD chuck jumpindex만큼 High 이동 X = {movex}, Y = {movey}, Z = {movez}");
                             retVal = this.StageSupervisor().StageModuleState.WaferHighViewMove(movex, movey, movez);
                         }
                         else if (ptinfo.CamType.Value == EnumProberCam.PIN_LOW_CAM)  // 260121 sebas : Pin cam 추가
                         {
+                            LoggerManager.PinLog($"Processing : Wafer chuck jumpindex만큼 Low 이동 X = {movex}, Y = {movey}, Z = {movez}");
                             retVal = this.StageSupervisor().StageModuleState.WaferLowViewMove_Wafer(movex, movey, movez);
                         }
                         else if (ptinfo.CamType.Value == EnumProberCam.PIN_HIGH_CAM)
                         {
+                            LoggerManager.PinLog($"Processing : Wafer chuck jumpindex만큼 High 이동 X = {movex}, Y = {movey}, Z = {movez}");
                             retVal = this.StageSupervisor().StageModuleState.WaferHighViewMove_Wafer(movex, movey, movez);
                         }
 
@@ -2753,7 +2784,7 @@ namespace ThetaAlignStandatdModule
         private EventCodeEnum RevisionHorizontal(WAStandardPTInfomation ptinfo, List<WaferProcResult> procresults, ref double rotateangle, bool revisionwc = true)
         {
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
-
+            LoggerManager.PinLog("RevisionHorizontal start");
             try
             {
                 if (procresults != null && procresults.Count > 0)
@@ -2786,6 +2817,7 @@ namespace ThetaAlignStandatdModule
                     double angle = this.CoordinateManager().CalcP2PAngle(tmpresults[tmpresults.Count() - 1].ResultPos.GetX(), tmpresults[tmpresults.Count() - 1].ResultPos.GetY(), tmpresults[0].ResultPos.GetX(), tmpresults[0].ResultPos.GetY());
 
                     angle = Math.Round(angle, 6);
+                    LoggerManager.PinLog($"CalcP2PAngle = {angle}");
 
                     if (angle <= -1 && angle >= -89)
                     {
@@ -2824,6 +2856,7 @@ namespace ThetaAlignStandatdModule
                             }
 
                             //this.StageSupervisor().StageModuleState.StageRelMove(axisC, (rotateangle * 10000d), EnumTrjType.Normal, -1);
+                            LoggerManager.PinLog($"Wafer Chuck : 회전각 = {rotateangle}");
                             this.StageSupervisor().StageModuleState.StageRelMove(axisC, (rotateangle * 10000d / 30.244 * 3), EnumTrjType.Normal, -1);  // 30.244 는 DtoP보정 , x3는 기구 보정값
                         }
                         else
@@ -2845,6 +2878,7 @@ namespace ThetaAlignStandatdModule
                         if (rotateangle < 2 || rotateangle > -2)
                         {
                             double tempRotate = Math.Abs(rotateangle) * 9025 * 2 * 1000;  // sebas : 1mm당 9025 , DtoP = 0.001
+                            LoggerManager.PinLog($"FD Chuck : 회전각 = {tempRotate}");
                             this.StageSupervisor().StageModuleState.StageRelMove(axisFD, tempRotate);
                         }
 
@@ -3114,6 +3148,8 @@ namespace ThetaAlignStandatdModule
 
         public int Calc(int jumpindex, double unitdistance, double targetdistance, double initialpos)
         {
+            LoggerManager.PinLog($"기존 함수 Calc({jumpindex}, {unitdistance}, {targetdistance}, {initialpos})");
+
             int curindex = 0;
             double preVal = 0;
             double calcVal = 0.0;
@@ -3186,6 +3222,26 @@ namespace ThetaAlignStandatdModule
             }
         }
 
+        // 260202 sebas
+        public int Calc_FD(int jumpindex, double unitdistance, double targetdistance, double initialpos)
+        {
+            // 어자피 다이 위치는 고정이므로 걍 고정값 반환해도 무방할듯. Wafer, FD 공용
+            // jumpindex = direction로 사용. -1 : 왼쪽 , 1 : 오른쪽
+            LoggerManager.PinLog($"Wafer/FD 공용 = Calc_FD({jumpindex}, {unitdistance}, {targetdistance}, {initialpos})");
+            int curindex = 5;
+
+            if(jumpindex == -1)
+            {
+
+            }
+            else
+            {
+                curindex = -curindex;
+            }
+            LoggerManager.PinLog($"Calc_FD : jumpindex = {jumpindex} 반환");
+            return curindex;
+        }
+
         public EventCodeEnum ValidationTesting(PatternInfomation ptinfo, IFocusing focusmodel = null, IFocusParameter parameter = null)
         {
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
@@ -3194,18 +3250,22 @@ namespace ThetaAlignStandatdModule
             {
                 if (ptinfo.CamType.Value == EnumProberCam.WAFER_HIGH_CAM)
                 {
+                    LoggerManager.PinLog("Wafer high 기준 패턴 등록");
                     this.StageSupervisor().StageModuleState.WaferHighViewMove(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY() + ptinfo.GetY());
                 }
                 else if (ptinfo.CamType.Value == EnumProberCam.WAFER_LOW_CAM)
                 {
+                    LoggerManager.PinLog("Wafer low 기준 패턴 등록");
                     this.StageSupervisor().StageModuleState.WaferLowViewMove(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY() + ptinfo.GetY());
                 }
                 else if (ptinfo.CamType.Value == EnumProberCam.PIN_LOW_CAM)
                 {
+                    LoggerManager.PinLog("FD Wafer low 기준 패턴 등록");
                     this.StageSupervisor().StageModuleState.WaferLowViewMove_Wafer(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY() + ptinfo.GetY());
                 }
                 else if (ptinfo.CamType.Value == EnumProberCam.PIN_HIGH_CAM)
                 {
+                    LoggerManager.PinLog("FD Wafer high 기준 패턴 등록");
                     this.StageSupervisor().StageModuleState.WaferHighViewMove_Wafer(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY() + ptinfo.GetY());
                 }
 

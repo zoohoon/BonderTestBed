@@ -843,6 +843,7 @@ namespace WAEdgeStadnardModule
                 {   // 260121 sebas 엣지 계산 끝내고 센터위치로 이동함
                     if(IsWaferEdge == true)
                     {
+                        LoggerManager.PinLog("Move to Wafer Center");
                         (this).StageSupervisor().StageModuleState.WaferLowViewMove_Wafer(
                                 Wafer.GetSubsInfo().WaferCenter_WF.X.Value,
                                 Wafer.GetSubsInfo().WaferCenter_WF.Y.Value,
@@ -850,12 +851,14 @@ namespace WAEdgeStadnardModule
                     }
                     else
                     {
-                        //======================= Test Code
-                        (this).StageSupervisor().StageModuleState.WaferLowViewMove(
-                                Wafer.GetSubsInfo().WaferCenter.X.Value,
-                                Wafer.GetSubsInfo().WaferCenter.Y.Value,
-                                Wafer.GetSubsInfo().WaferCenter.Z.Value);
-                        //======================
+                        LoggerManager.PinLog("Move to FD Wafer Center");
+
+                        // 에릭손2 후 스트로크 때문에 센터로 이동 불가 => Y축에 offset을 추가하여 센터위치에서 좀 뺴줘야 함
+                        LoggerManager.PinLog("개조 후 FD척 센터를 카메라로 못보기 때문에 ~값만큼 Y축 이동");
+                        //(this).StageSupervisor().StageModuleState.WaferLowViewMove(
+                        //        Wafer.GetSubsInfo().WaferCenter.X.Value,
+                        //        Wafer.GetSubsInfo().WaferCenter.Y.Value,
+                        //        Wafer.GetSubsInfo().WaferCenter.Z.Value);
                     }
                     ProcessingType = EnumSetupProgressState.DONE;
                 }
@@ -1012,7 +1015,11 @@ namespace WAEdgeStadnardModule
                 // <-- 260119 sebas : FD / Wafer 엣지 구분
                 if(IsWaferEdge == true)
                 {
+                    LoggerManager.PinLog("Wafer Edge Detection Start.");
+
                     SetEdgePosition_Wafer();
+
+                    LoggerManager.PinLog($"Move to first wafer edge : X = {EdgePos[0].GetX()} , Y = {EdgePos[0].GetY()}");
                     this.StageSupervisor().StageModuleState.WaferLowViewMove_Wafer(EdgePos[0].GetX(), EdgePos[0].GetY(), WaferObject.GetSubsInfo().AveWaferThick);
 
                     foreach (var pos in EdgePos)
@@ -1049,8 +1056,12 @@ namespace WAEdgeStadnardModule
                 }
                 else
                 {
+                    LoggerManager.PinLog("FD Wafer Edge Detection Start.");
+
+                    LoggerManager.PinLog("FD Wafer edge 계산 : SetEdgePosition_FD()");
                     SetEdgePosition_FD();
 
+                    LoggerManager.PinLog($"Move to first FD wafer edge : X = {EdgePos[0].GetX()} , Y = {EdgePos[0].GetY()}");
                     this.StageSupervisor().StageModuleState.WaferLowViewMove(EdgePos[0].GetX(), EdgePos[0].GetY(), WaferObject.GetSubsInfo().AveWaferThick);    // 260107 sebas 아래에서 수정
 
                     foreach (var pos in EdgePos)
@@ -1415,6 +1426,7 @@ namespace WAEdgeStadnardModule
         {
             try
             {
+                LoggerManager.PinLog("Wafer edge 계산 : SetEdgePosition_Wafer()");
                 EdgePos.Clear();
 
                 if (ManualEdgePoss.Count != 4)
@@ -2353,7 +2365,7 @@ namespace WAEdgeStadnardModule
             EventCodeEnum RetVal = EventCodeEnum.UNDEFINED;
             try
             {
-
+                LoggerManager.PinLog("Calculate Center");
                 try
                 {
                     double a = 0.0;
@@ -2368,10 +2380,14 @@ namespace WAEdgeStadnardModule
 
                     Point[] tmpGCPWaferCen = new Point[4];
 
-                    LoggerManager.Debug($"Q1 xpos:{procresults[0].ResultPos.X.Value} ypos{procresults[0].ResultPos.Y.Value}", isInfo: true);
-                    LoggerManager.Debug($"Q2 xpos:{procresults[1].ResultPos.X.Value} ypos{procresults[1].ResultPos.Y.Value}", isInfo: true);
-                    LoggerManager.Debug($"Q3 xpos:{procresults[2].ResultPos.X.Value} ypos{procresults[2].ResultPos.Y.Value}", isInfo: true);
-                    LoggerManager.Debug($"Q4 xpos:{procresults[3].ResultPos.X.Value} ypos{procresults[3].ResultPos.Y.Value}", isInfo: true);
+                    //LoggerManager.Debug($"Q1 xpos:{procresults[0].ResultPos.X.Value} ypos{procresults[0].ResultPos.Y.Value}", isInfo: true);
+                    //LoggerManager.Debug($"Q2 xpos:{procresults[1].ResultPos.X.Value} ypos{procresults[1].ResultPos.Y.Value}", isInfo: true);
+                    //LoggerManager.Debug($"Q3 xpos:{procresults[2].ResultPos.X.Value} ypos{procresults[2].ResultPos.Y.Value}", isInfo: true);
+                    //LoggerManager.Debug($"Q4 xpos:{procresults[3].ResultPos.X.Value} ypos{procresults[3].ResultPos.Y.Value}", isInfo: true);
+                    LoggerManager.PinLog($"Q1 xpos:{procresults[0].ResultPos.X.Value} ypos{procresults[0].ResultPos.Y.Value}");
+                    LoggerManager.PinLog($"Q2 xpos:{procresults[1].ResultPos.X.Value} ypos{procresults[1].ResultPos.Y.Value}");
+                    LoggerManager.PinLog($"Q3 xpos:{procresults[2].ResultPos.X.Value} ypos{procresults[2].ResultPos.Y.Value}");
+                    LoggerManager.PinLog($"Q4 xpos:{procresults[3].ResultPos.X.Value} ypos{procresults[3].ResultPos.Y.Value}");
 
                     double distancex = 2 * (procresults[1].ResultPos.X.Value - procresults[0].ResultPos.X.Value);
                     double distancey = 2 * (procresults[1].ResultPos.Y.Value - procresults[0].ResultPos.Y.Value);
@@ -2507,6 +2523,8 @@ namespace WAEdgeStadnardModule
                             Wafer.GetSubsInfo().WaferCenterOriginatEdge_WF.X.Value = chuckzeroAveXpos;
                             Wafer.GetSubsInfo().WaferCenterOriginatEdge_WF.Y.Value = chuckzeroAveYpos;
 
+                            LoggerManager.PinLog($"Wafer Center X = {chuckzeroAveXpos}");
+                            LoggerManager.PinLog($"Wafer Center Y = {chuckzeroAveYpos}");
                         }
                         else
                         {
@@ -2516,6 +2534,8 @@ namespace WAEdgeStadnardModule
                             Wafer.GetSubsInfo().WaferCenterOriginatEdge.X.Value = chuckzeroAveXpos;
                             Wafer.GetSubsInfo().WaferCenterOriginatEdge.Y.Value = chuckzeroAveYpos;
 
+                            LoggerManager.PinLog($"FD Wafer Center X = {chuckzeroAveXpos}");
+                            LoggerManager.PinLog($"FD Wafer Center Y = {chuckzeroAveYpos}");
                         }
 
                         WaferCoordinate coordinate = this.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
@@ -2620,6 +2640,8 @@ namespace WAEdgeStadnardModule
                 // <--260107 sebas 항상 매뉴얼 등록하도록 수정
                 if (ApplyCount < 5)
                 {
+                    LoggerManager.PinLog($"{ApplyCount}번째 매뉴얼 엣지 등록");
+
                     MovingState.Moving();
                     if (await RegisteManualEdgePos())
                         await NextEdge();
@@ -2696,6 +2718,7 @@ namespace WAEdgeStadnardModule
                 int mapparamindex = -1;
                 RegistCount++;
 
+                LoggerManager.PinLog($"{RegistCount}번째 매뉴얼 엣지 등록");
                 MachineIndex idx = new MachineIndex();
                 if (RegistCount == 1)  // 260107 sebas : coordinate.GetX() > 0 & coordinate.GetY() > 0
                 { 

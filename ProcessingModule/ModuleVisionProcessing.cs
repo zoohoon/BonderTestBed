@@ -976,6 +976,7 @@ namespace Vision.ProcessingModule
                     MIL.MpatFindModel(milProcBuffer, milPMModels, milResult);
 
                     numOfOccur = (int)MIL.MpatGetNumber(milResult);
+                    LoggerManager.PinLog($"패턴매칭 스코어 = {numOfOccur}");
 
                     // 260116 sebas : 계속 매칭 실패시 일단 패스
                     if (numOfOccur == 0)
@@ -985,6 +986,7 @@ namespace Vision.ProcessingModule
                         {
                             numOfOccur = 1;
                             MatchingCount = 0;
+                            LoggerManager.PinLog("패턴매칭 실패. 강제 진행");
                         }
                     }
 

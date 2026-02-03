@@ -2663,16 +2663,26 @@ namespace LogModule
 
             return RetVal;
         }
-
-        public static void PinLog(String msg, List<string> tag = null)
+        // <--260130 sebas Align에서 PinLog 사용 : 내용수정
+        public static void PinLog(String msg, List<string> tag = null, [CallerMemberName] string callFuncNm = null, [CallerFilePath] string filePath = null, [CallerLineNumber] int sourceLineNumber = 0)
         {
-            msg = $"{Alias_DebugLog}{GetTempStr()} | {msg}";
+            string fileName = System.IO.Path.GetFileName(filePath);
+            msg = $"{Alias_DebugLog}{GetTempStr()} | [{fileName}({sourceLineNumber}) '{callFuncNm}'] | {msg}";
 
-            DebugLoggerCtl?.WriteLog(msg);
             PinAlignLoggerCtl?.WriteLog(msg);
 
             WriteInfoLog(msg);
         }
+        //public static void PinLog(String msg, List<string> tag = null)
+        //{
+        //    msg = $"{Alias_DebugLog}{GetTempStr()} | {msg}";
+
+        //    DebugLoggerCtl?.WriteLog(msg);
+        //    PinAlignLoggerCtl?.WriteLog(msg);
+
+        //    WriteInfoLog(msg);
+        //}
+        // -->
         public static void PMILog(String msg, List<string> tag = null)
         {
             msg = $"{Alias_DebugLog}{GetTempStr()} | {msg}";
