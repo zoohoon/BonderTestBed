@@ -645,6 +645,11 @@ namespace ThetaAlignStandatdModule
         protected EventCodeEnum VerifyRevisionWaferCenter(WAStandardPTInfomation ptinfo)
         {
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+            // 260128 sebas*** : 임시 패스
+            retVal = EventCodeEnum.NONE;
+            return retVal;
+
             string tmpfilpath = "";
             try
             {

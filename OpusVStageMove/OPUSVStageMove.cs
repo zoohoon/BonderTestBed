@@ -18051,11 +18051,12 @@ namespace OpusVStageMove
 
                 var stagesupervisor = Module.StageSupervisor();
 
-                if (zpos < stagesupervisor.WaferRegRange)
-                {
-                    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
+                // 260128 sebas : 조건제거
+                //if (zpos < stagesupervisor.WaferRegRange)
+                //{
+                //    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
 
                 ret = WaferHighViewMoveFunc(xpos, ypos, zpos, NotUseHeightProfile, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
@@ -18160,11 +18161,12 @@ namespace OpusVStageMove
                 WaferCoordinate curwafcoord = new WaferCoordinate();
                 curwafcoord = Module.CoordinateManager().WaferHighChuckConvert.CurrentPosConvert();
 
-                if (curwafcoord.Z.Value < Module.StageSupervisor().WaferRegRange)
-                {
-                    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
+                // 260128 sebas : 조건제거
+                //if (curwafcoord.Z.Value < Module.StageSupervisor().WaferRegRange)
+                //{
+                //    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
 
                 ret = WaferHighViewMoveFunc(xpos, ypos, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);

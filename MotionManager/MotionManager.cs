@@ -3611,8 +3611,9 @@ namespace ProbeMotion
             yaxis.Status.RawPosition.Ref = ypos;
             yaxis.Status.Position.Ref = ypos;
 
-            zaxis.Status.RawPosition.Ref = zpos;
-            zaxis.Status.Position.Ref = zpos;
+            // 260128 sebas : Z 위치변경 제외
+            //zaxis.Status.RawPosition.Ref = zpos;
+            //zaxis.Status.Position.Ref = zpos;
 
             try
             {
