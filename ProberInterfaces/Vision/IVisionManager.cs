@@ -87,6 +87,8 @@ namespace ProberInterfaces
         ObservableCollection<GrabDevPosition> Detect_Pad(ImageBuffer _grabedImage, double UserPadSizeX, double UserPadSizeY, ROIParameter roiparam, bool display = true);
         BlobResult Blob(EnumProberCam camtype, BlobParameter blobpatam, ROIParameter roiparam = null,bool fillholes = true, bool invert = false, bool runsort = true);
         ImageBuffer SingleGrab(EnumProberCam type, object assembly);
+        ImageBuffer SingleGrab_egrabber(EnumProberCam type, object assembly);
+
         void Dispose();
         PMResult PatternMatching(PatternInfomation ptinfo, object callassembly, bool angleretry = false, ImageBuffer img = null, bool display = true,
             int offsetx = 0, int offsety = 0, int sizex = 0, int sizey = 0, bool retryautolight = false, bool retrySuccessedLight = false);
@@ -197,6 +199,8 @@ namespace ProberInterfaces
 
         bool EnableImageBufferToTextFile { get; set; }
         void ImageBufferFromTextFiles(string inputFolder, string outputFolder = "");
+
+        Func<int, int, (bool ok, byte[] data, int w, int h, bool isColor)> EGrabOne { get; set; }
     }
 
     public abstract class PatternRegisterStates

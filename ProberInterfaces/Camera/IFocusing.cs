@@ -108,11 +108,33 @@ namespace ProberInterfaces
 
             try
             {
-                buf = this.VisionManager().SingleGrab(cam.GetChannelType(), callerassembly);
+                buf = this.VisionManager().SingleGrab(cam.GetChannelType(), callerassembly);    // 이미지 그랩 코드
 
                 var signaled = this.VisionManager().DigitizerService[cam.GetDigitizerIndex()].GrabberService.WaitOne(60000);
 
-                int focusval = this.VisionManager().GetFocusValue(buf, roi);
+                int focusval = this.VisionManager().GetFocusValue(buf, roi);    // 이미지 그랩 데이터와 ROI를 가지고 포커스 점수 만들기
+                buf.FocusLevelValue = focusval;
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+            }
+
+            return buf;
+        }
+        public ImageBuffer WaitGrab_eGrabber(IFocusParameter focusparam, Rect roi, object callerassembly)
+        {
+            ICamera cam = this.VisionManager().GetCam(focusparam.FocusingCam.Value);
+
+            ImageBuffer buf = new ImageBuffer();
+
+            try
+            {
+                buf = this.VisionManager().SingleGrab_egrabber(cam.GetChannelType(), callerassembly);    // 이미지 그랩 코드
+
+                var signaled = this.VisionManager().DigitizerService[cam.GetDigitizerIndex()].GrabberService.WaitOne(60000);
+
+                int focusval = this.VisionManager().GetFocusValue(buf, roi);    // 이미지 그랩 데이터와 ROI를 가지고 포커스 점수 만들기
                 buf.FocusLevelValue = focusval;
             }
             catch (Exception err)

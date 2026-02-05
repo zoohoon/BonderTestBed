@@ -251,6 +251,14 @@ namespace LotScreenViewModel
                     _visionVM.InitViewModel();
                 }
 
+                var vmgr = this.VisionManager(); // 너희 프로젝트에서 VisionManager 얻는 방식으로 바꿔
+                vmgr.EGrabOne = (camIndex, timeoutMs) =>
+                {
+                    bool ok = _visionVM.TryGrabOneFrameRaw(camIndex, timeoutMs,
+                                                           out var data, out var w, out var h, out var isColor);
+                    return (ok, data, w, h, isColor);
+                };
+
                 var view = new BVisionTestView.BUcVisionTest
                 {
                     DataContext = _visionVM

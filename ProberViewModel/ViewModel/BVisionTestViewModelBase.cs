@@ -267,7 +267,7 @@ namespace BVisionTestViewModel
         private int[] _saveSeq = new int[MAX_CAM];          // 파일명 구분용
 
         // ===== 저장 큐 / 워커 =====
-        private sealed class SaveJob
+        public sealed class SaveJob
         {
             public int CamIndex;
             public string CamName;
@@ -416,6 +416,28 @@ namespace BVisionTestViewModel
                     LoggerManager.Exception(ex);
                 }
             }
+        }
+
+        public bool TryGrabOneFrameRaw(int camIndex, int timeoutMs, out byte[] data, out int w, out int h, out bool isColor)
+        {
+            data = null; w = 0; h = 0; isColor = false;
+
+            // 요청
+            Interlocked.Exchange(ref _saveNextFrameReq[camIndex], 1);
+
+            // Ack 대기
+            if (!_nextFrameCopiedAck[camIndex].WaitOne(timeoutMs))
+                return false;
+
+            // 카메라 1대면 공용 큐 1개로 OK
+            if (!_saveQueue.TryDequeue(out var job) || job?.Data == null || job.Data.Length == 0)
+                return false;
+
+            data = job.Data;
+            w = job.Width;
+            h = job.Height;
+            isColor = job.IsColor;
+            return true;
         }
 
         // 20260121 Nick Raw Image 저장 관련 작업

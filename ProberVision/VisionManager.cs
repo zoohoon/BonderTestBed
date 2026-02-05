@@ -235,6 +235,8 @@ namespace ProberVision
 
         public ImageSaveFilter imageSaveFilter { get; set; }
 
+        public Func<int, int, (bool ok, byte[] data, int w, int h, bool isColor)> EGrabOne { get; set; }
+
         #endregion
 
 
@@ -1165,6 +1167,36 @@ namespace ProberVision
 
             return grabbedImage;
         }
+
+        public ImageBuffer SingleGrab_egrabber(EnumProberCam type, object assembly)
+        {
+            ImageBuffer grabbedImage = null;
+
+            // camIndex 고정
+            const int camIndex = 2;
+
+            // timeout 고정
+            const int timeoutMs = 1000;
+
+            if (EGrabOne == null)
+                throw new Exception("EGrabOne is not set. (VisionManager.EGrabOne)");
+
+            var r = EGrabOne(camIndex, timeoutMs);
+            if (!r.ok || r.data == null || r.data.Length == 0)
+                throw new TimeoutException("E-Grabber SingleGrab timeout");
+
+            grabbedImage = new ImageBuffer
+            {
+                SizeX = r.w,
+                SizeY = r.h,
+                ColorDept = r.isColor ? (int)ColorDept.Color24 : (int)ColorDept.BlackAndWhite,
+                Buffer = r.data
+            };
+
+            return grabbedImage;
+        }
+
+
         public ImageBuffer Line_Equalization(ImageBuffer img, int Cpos)
         {
             ImageBuffer retImg = new ImageBuffer();

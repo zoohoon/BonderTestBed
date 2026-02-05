@@ -57,6 +57,8 @@ namespace LoaderCore
         public bool EnableImageBufferToTextFile { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public ImageSaveFilter imageSaveFilter { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
+        public Func<int, int, (bool ok, byte[] data, int w, int h, bool isColor)> EGrabOne { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void RaisePropertyChanged([CallerMemberName] string propertyName = "")
         {
@@ -305,6 +307,57 @@ namespace LoaderCore
 
             return imgBuf;
         }
+
+        // 20260205 Nick 5 Cam 이미지
+        public ImageBuffer SingleGrab_egrabber(EnumProberCam camType)
+        {
+            ImageBuffer imgBuf = new ImageBuffer();
+
+            try
+            {
+                var grabBuf = VisionManager.SingleGrab(camType, this);
+
+                lock (grabBuf)
+                {
+                    grabBuf.ImageCopyTo(imgBuf);
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+            }
+
+            return imgBuf;
+        }
+
+        public ImageBuffer SingleGrab_egrabber(EnumProberCam type, object assembly)
+        {
+            ImageBuffer grabbedImage = null;
+
+            // camIndex 고정
+            const int camIndex = 2;
+
+            // timeout 고정
+            const int timeoutMs = 1000;
+
+            if (EGrabOne == null)
+                throw new Exception("EGrabOne is not set. (VisionManager.EGrabOne)");
+
+            var r = EGrabOne(camIndex, timeoutMs);
+            if (!r.ok || r.data == null || r.data.Length == 0)
+                throw new TimeoutException("E-Grabber SingleGrab timeout");
+
+            grabbedImage = new ImageBuffer
+            {
+                SizeX = r.w,
+                SizeY = r.h,
+                ColorDept = r.isColor ? (int)ColorDept.Color24 : (int)ColorDept.BlackAndWhite,
+                Buffer = r.data
+            };
+
+            return grabbedImage;
+        }
+
 
         public void LoadImageFromFileToGrabber(string filepath, EnumProberCam camtype)
         {

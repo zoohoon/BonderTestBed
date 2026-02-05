@@ -45,6 +45,13 @@ namespace LoaderBase
         ImageBuffer SingleGrab(EnumProberCam camType);
 
         /// <summary>
+        /// SingleGrab
+        /// </summary>
+        /// <param name="camType"></param>
+        /// <returns></returns>
+        ImageBuffer SingleGrab_egrabber(EnumProberCam camType);
+
+        /// <summary>
         /// FindPreAlignCenteringEdge
         /// </summary>
         /// <param name="ib"></param>
