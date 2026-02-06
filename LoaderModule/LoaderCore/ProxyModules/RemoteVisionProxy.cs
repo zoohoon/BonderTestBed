@@ -60,6 +60,7 @@ namespace LoaderCore.ProxyModules
         public IVisionLib VisionLib => throw new NotImplementedException();
         public bool EnableImageBufferToTextFile { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public ImageSaveFilter imageSaveFilter { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Func<int, int, (bool ok, byte[] data, int w, int h, bool isColor)> EGrabOne { get; set; }
 
         public CassetteScanSlotResult CassetteScanProcessing(ImageBuffer ib, CassetteScanSlotParam slotParams, bool saveDump = false)
         {
@@ -214,7 +215,61 @@ namespace LoaderCore.ProxyModules
 
             return cam;
         }
+        public ImageBuffer SingleGrab_egrabber(EnumProberCam type, object assembly)
+        {
+            ImageBuffer grabbedImage = null;
 
+            // camIndex 고정
+            const int camIndex = 2;
+
+            // timeout 고정
+            const int timeoutMs = 1000;
+
+            if (EGrabOne == null)
+                throw new Exception("EGrabOne is not set. (VisionManager.EGrabOne)");
+
+            var r = EGrabOne(camIndex, timeoutMs);
+            if (!r.ok || r.data == null || r.data.Length == 0)
+                throw new TimeoutException("E-Grabber SingleGrab timeout");
+
+            grabbedImage = new ImageBuffer
+            {
+                SizeX = r.w,
+                SizeY = r.h,
+                ColorDept = r.isColor ? (int)ColorDept.Color24 : (int)ColorDept.BlackAndWhite,
+                Buffer = r.data
+            };
+
+            return grabbedImage;
+        }
+
+        public ImageBuffer SingleGrab_egrabber(EnumProberCam type)
+        {
+            ImageBuffer grabbedImage = null;
+
+            // camIndex 고정
+            const int camIndex = 2;
+
+            // timeout 고정
+            const int timeoutMs = 1000;
+
+            if (EGrabOne == null)
+                throw new Exception("EGrabOne is not set. (VisionManager.EGrabOne)");
+
+            var r = EGrabOne(camIndex, timeoutMs);
+            if (!r.ok || r.data == null || r.data.Length == 0)
+                throw new TimeoutException("E-Grabber SingleGrab timeout");
+
+            grabbedImage = new ImageBuffer
+            {
+                SizeX = r.w,
+                SizeY = r.h,
+                ColorDept = r.isColor ? (int)ColorDept.Color24 : (int)ColorDept.BlackAndWhite,
+                Buffer = r.data
+            };
+
+            return grabbedImage;
+        }
         public void SetDisplayChannel(ICamera cam, IDisplayPort port)
         {
             return;
