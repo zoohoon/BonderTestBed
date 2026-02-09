@@ -9130,8 +9130,6 @@ namespace ManualJogViewModel
             {
                 LoggerManager.Debug($"AcceptanceCommand Start");
 
-                ProbeAxisObject axisEJPZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJPZ1);
-
                 bool startFlag = false; // false : ARM1 , true : ARM2
 
                 // =========================
@@ -9151,7 +9149,7 @@ namespace ManualJogViewModel
                     // =========================
                     // Pick & Place 병렬
                     // =========================
-                    Task pickTask = PickAsync(axisEJPZ1, cycleStartFlag, TestCount);
+                    Task pickTask = PickAsync(cycleStartFlag, TestCount);
                     Task placeTask = PlaceAsync(cycleStartFlag, TestCount);
 
                     await Task.WhenAll(pickTask, placeTask);
@@ -9275,7 +9273,7 @@ namespace ManualJogViewModel
         // =========================
         // Pick (Async) - Task.Run 제거, Thread.Sleep 제거
         // =========================
-        private async Task PickAsync(ProbeAxisObject axisEJPZ1, bool cycleStartFlag, int testCount)
+        private async Task PickAsync(bool cycleStartFlag, int testCount)
         {
             LoggerManager.Debug($"Pick Start {testCount}");
 
@@ -9285,22 +9283,12 @@ namespace ManualJogViewModel
             if (ret != EventCodeEnum.NONE)
                 throw new Exception("MovePickPos_DangerZone() Function Error");
 
-            // Ejection Pin Down
-            //LoggerManager.Debug($"Ejection Pin Down Start");
-            //ret = this.MotionManager().RelMove(axisEJPZ1, -300, axisEJPZ1.Param.Speed.Value, axisEJPZ1.Param.Acceleration.Value);
-            //LoggerManager.Debug($"Ejection Pin Down End");
-            //if (ret != EventCodeEnum.NONE)
-            //    throw new Exception("Ejection Pin Z RelMove Error");
-
             // Rotate 해도 괜찮은 위치로 복귀
             LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick Start");
             ret = MovePickPos_SafeZone_AfterPick();
             LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick End");
             if (ret != EventCodeEnum.NONE)
                 throw new Exception("MovePickPos_SafeZone_AfterPick() Function Error");
-
-            // ❌ Thread.Sleep 대신 비동기 딜레이 (ThreadPool 점유 방지)
-            //await Task.Delay(100);
 
             LoggerManager.Debug($"Pick End {testCount}");
         }
@@ -9354,8 +9342,6 @@ namespace ManualJogViewModel
 
             LoggerManager.MonitoringLog($"Place End {testCount}");
         }
-
-        public bool DomabamFlag = false;
 
         //private async Task AcceptanceCommand_Domabam_Func()
         //{
@@ -9912,17 +9898,9 @@ namespace ManualJogViewModel
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
-                ProbeAxisObject axisX = this.MotionManager().GetAxis(EnumAxisConstants.X);
-                ProbeAxisObject axisY = this.MotionManager().GetAxis(EnumAxisConstants.Y);
-                ProbeAxisObject axisZ = this.MotionManager().GetAxis(EnumAxisConstants.Z);
                 ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
 
-                ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
-                ProbeAxisObject axisEJY1 = this.MotionManager().GetAxis(EnumAxisConstants.EJY1);
-                ProbeAxisObject axisFDT1 = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
-                ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
-
-                double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
+                double pos = 0.0;           // 이동할 고정값을 넣는 변수 (덮어씌워짐)
                 double currentPos = 0.0;    // 현재 위치값 읽기
                 double AcualPos = 0;
 
@@ -9934,19 +9912,6 @@ namespace ManualJogViewModel
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("FD stage Z RelMove Error");
-                }
-
-                if(false == DomabamFlag)
-                {
-                    //pos = 32000.2;    // = 155,000 Ejection Z 축 DtoP = 5
-                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
-                    //currentPos = AcualPos;
-                    //// 움직임 완료까지 대기하는 동작
-                    //retVal = this.MotionManager().RelMove_Wating(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
-                    //if (retVal != EventCodeEnum.NONE)
-                    //{
-                    //    throw new Exception("Ejection Z RelMove Error");
-                    //}
                 }
 
                 // Wafer stage Up
@@ -10416,27 +10381,13 @@ namespace ManualJogViewModel
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
-                ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
                 ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
 
                 double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
                 double currentPos = 0.0;    // 현재 위치값 읽기
                 double AcualPos = 0;
 
-                // 현재위치에서 상대이동
-                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
-                //currentPos = AcualPos;
-
-                //pos = 32000.2;    // = -5,000 Ejection Z 축 DtoP = 5 -> 기존 : -1000, 변경 : -2500 (실제 다이 Pick을 위해서)
-                //LoggerManager.Debug($"Ejection Z Down Start");
-                //retVal = this.MotionManager().RelMove(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
-                //LoggerManager.Debug($"Ejection Z Down End");
-                //if (retVal != EventCodeEnum.NONE)
-                //{
-                //    throw new Exception("Ejection Z RelMove Error");
-                //}
-
-                // FD Z Down 추가
+                // ArmPick Z Up 추가
                 pos = 24000.00;    // = 91,000,000 FD stage Z 축 DtoP = 4194.304 // 20696.091 -> 20,000.00
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
@@ -10464,43 +10415,12 @@ namespace ManualJogViewModel
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
-                ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
-                ProbeAxisObject axisEJPZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJPZ1);
                 ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
 
                 double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
                 double currentPos = 0.0;    // 현재 위치값 읽기
                 double AcualPos = 0;
                 bool IOCheck = false;
-
-                //this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, true);
-                //Thread.Sleep(250);
-
-                if(false == DomabamFlag)
-                {
-                    // 지금 EJZ1의 경우 현재값 읽지않고 상대 거리이동
-                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
-                    //currentPos = AcualPos;
-
-                    //pos = 36100.2;    // = 5000 Ejection Z 축 DtoP = 5 -> 기존 : 33448.2, 변경 : 33420.2 (실제 다이 Pick을 위해서)
-                    //LoggerManager.Debug($"MovePickPos_DangerZone EJZ Up Start");
-                    //retVal = this.MotionManager().RelMove(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
-                    //LoggerManager.Debug($"MovePickPos_DangerZone EJZ Up End");
-                    //if (retVal != EventCodeEnum.NONE)
-                    //{
-                    //    throw new Exception("Ejection Z RelMove Error");
-                    //}
-
-                    //// Ejection Pin Up (상대값 이동)
-                    //pos = 300;    // = 7,000 Ejection Pin Z 축 DtoP = 106
-                    //LoggerManager.Debug($"MovePickPos_DangerZone Ejection Pin Up Start");
-                    //retVal = this.MotionManager().RelMove(axisEJPZ1, pos, axisEJPZ1.Param.Speed.Value, axisEJPZ1.Param.Acceleration.Value);
-                    //LoggerManager.Debug($"MovePickPos_DangerZone Ejection Pin Up End");
-                    //if (retVal != EventCodeEnum.NONE)
-                    //{
-                    //    throw new Exception("Ejection Pin Z RelMove Error");
-                    //}
-                }
 
                 if (false == armFlag)
                 {
@@ -10515,7 +10435,7 @@ namespace ManualJogViewModel
                     LoggerManager.Debug($"Arm2_Vac_On End");
                 }
 
-                // FD Z Up 추가
+                // Arm Pick Down
                 pos = 28500.0;    // = 99,388,609 FD stage Z 축 DtoP = 4194.304 // 기존 : 26800.0 , 도마뱀 : 28500.0
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
@@ -10527,10 +10447,6 @@ namespace ManualJogViewModel
                 {
                     throw new Exception("FD stage Z RelMove Error");
                 }
-
-                // 251119 드라이런으로 IO 체크 임시 제거
-                //this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_EJ_VAC_SENSOR, out IOCheck);      // (Interlock) Ejection Pin Vacuum On / Off 체크
-                //if (IOCheck)
             }
             catch (Exception err)
             {
@@ -11194,7 +11110,7 @@ namespace ManualJogViewModel
                         // =========================
                         // Pick & Place 병렬 (최소화)
                         // =========================
-                        Task pickTask = PickAsync(axisEJPZ1, cycleStartFlag, TestCount);
+                        Task pickTask = PickAsync(cycleStartFlag, TestCount);
                         Task placeTask = PlaceAsync(cycleStartFlag, TestCount);
 
                         await Task.WhenAll(pickTask, placeTask);
@@ -11209,12 +11125,12 @@ namespace ManualJogViewModel
                         LoggerManager.Event($"Arms_Air_On End");
 
                         // 나노스테이지 위치 인터락
-                        bool RotateIntorlock = IsCanRotate();
-                        if(false == RotateIntorlock)
-                        {
-                            LoggerManager.Event($"회전 할 수 없는 상태(나노스테이지 확인 필요)");
-                            return;
-                        }
+                        //bool RotateIntorlock = IsCanRotate();
+                        //if(false == RotateIntorlock)
+                        //{
+                        //    LoggerManager.Event($"회전 할 수 없는 상태(나노스테이지 확인 필요)");
+                        //    return;
+                        //}
 
                         // 마지막 다이 움직일 필요 없음.
                         if (TestCount < 15)
@@ -11230,7 +11146,7 @@ namespace ManualJogViewModel
                         {
                             if (cycleStartFlag == false)
                             {
-                                NanostageUpDownMonitor(cycleStartFlag, 80901);  // 1도 (81901에서 -98081로 가는 방향 기준)
+                                //NanostageUpDownMonitor(cycleStartFlag, 80901);  // 1도 (81901에서 -98081로 가는 방향 기준)
 
                                 LoggerManager.Debug($"Rotate_Minus Start");
                                 retVal = Rotate_Minus();
@@ -11238,7 +11154,7 @@ namespace ManualJogViewModel
                             }
                             else
                             {
-                                NanostageUpDownMonitor(cycleStartFlag, -97081); // 1도 (-98081에서 81901로 가는 방향 기준)
+                                //NanostageUpDownMonitor(cycleStartFlag, -97081); // 1도 (-98081에서 81901로 가는 방향 기준)
 
                                 LoggerManager.Debug($"Rotate_Plus Start");
                                 retVal = Rotate_Plus();
@@ -11248,7 +11164,7 @@ namespace ManualJogViewModel
                         finally
                         {
                             // Rotate 끝났으면 모니터 즉시 종료(중첩/누적 방지)
-                            StopNanoMonitor();
+                            //StopNanoMonitor();
                         }
 
                         if (retVal != EventCodeEnum.NONE)
