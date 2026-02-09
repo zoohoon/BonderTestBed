@@ -9901,6 +9901,7 @@ namespace ManualJogViewModel
             try
             {
                 ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
+                ProbeAxisObject axisNSZ2 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ2);
 
                 double pos = 0.0;           // 이동할 고정값을 넣는 변수 (덮어씌워짐)
                 double currentPos = 0.0;    // 현재 위치값 읽기
@@ -9925,6 +9926,18 @@ namespace ManualJogViewModel
                     throw new Exception("Wafer_Chuck_DangerZone() Function Error");
                 }
 
+                // Arm Pick Up 대기위치 (현재 Homming 없음)
+                pos = 0.0;     // = Arm Pick Down Z 축 DtoP = 4194.304
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ2).AxisType.Value, ref AcualPos);
+                currentPos = AcualPos;
+
+                LoggerManager.Debug($"MovePickPos_DangerZone Arm Pick Z Up Ready Position Start");
+                retVal = this.MotionManager().RelMove_Wating(axisNSZ2, pos - currentPos, axisNSZ2.Param.Speed.Value, axisNSZ2.Param.Acceleration.Value);
+                LoggerManager.Debug($"MovePickPos_DangerZone Arm Pick Z Up Ready Position End");
+                if (retVal != EventCodeEnum.NONE)
+                {
+                    throw new Exception("Arm Pick Z RelMove Error");
+                }
             }
             catch (Exception err)
             {
