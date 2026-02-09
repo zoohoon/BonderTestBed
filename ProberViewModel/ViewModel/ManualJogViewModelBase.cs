@@ -8520,7 +8520,7 @@ namespace ManualJogViewModel
                 ProbeAxisObject AxisObjectNZD1 = axisNZD1;
 
                 // 251125 sebas : Arm 정렬을 위한 DD pos 이동 보정
-                double pos = 81900.0;
+                double pos = -497.768;
                 retVal = this.MotionManager().RelMove_Wating(AxisObjectNZD1, pos, AxisObjectNZD1.Param.Speed.Value, AxisObjectNZD1.Param.Acceleration.Value);
 
                 // 에어 off
@@ -9340,7 +9340,7 @@ namespace ManualJogViewModel
             LoggerManager.MonitoringLog($"Magnetic_Off End");
 
             // 컨텍스트 양보(과도한 점유 방지)
-            await Task.Yield();
+            //await Task.Yield();
 
             LoggerManager.MonitoringLog($"Place End {testCount}");
         }
@@ -9907,7 +9907,7 @@ namespace ManualJogViewModel
                 double currentPos = 0.0;    // 현재 위치값 읽기
                 double AcualPos = 0;
 
-                pos = 24000.00;    // = 91,000,000 FD stage Z 축 DtoP = 4194.304    // 기존 : 21696.091, 변경 : 20696.091 (1mm = 1000)
+                pos = 23000.0;    // = 91,000,000 FD stage Z 축 DtoP = 4194.304    // 기존 : 24933.8, 변경 : 23000.0 (1mm = 1000)
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -9927,12 +9927,12 @@ namespace ManualJogViewModel
                 }
 
                 // Arm Pick Up 대기위치 (현재 Homming 없음)
-                pos = 0.0;     // = Arm Pick Down Z 축 DtoP = 4194.304
+                pos = -600.0;     // = Arm Pick Down Z 축 DtoP = 4194.304
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ2).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
                 LoggerManager.Debug($"MovePickPos_DangerZone Arm Pick Z Up Ready Position Start");
-                retVal = this.MotionManager().RelMove_Wating(axisNSZ2, pos - currentPos, axisNSZ2.Param.Speed.Value, axisNSZ2.Param.Acceleration.Value);
+                retVal = this.MotionManager().RelMove_Wating(axisNSZ2, pos, axisNSZ2.Param.Speed.Value, axisNSZ2.Param.Acceleration.Value);
                 LoggerManager.Debug($"MovePickPos_DangerZone Arm Pick Z Up Ready Position End");
                 if (retVal != EventCodeEnum.NONE)
                 {
@@ -10164,56 +10164,66 @@ namespace ManualJogViewModel
         //    return (EJ_X, EJ_Y);
         //}
 
-        //260121 ybpark 주훈님 수정 사항 
+        // ybpark 260209 Map die index
         public static (double X, double Y) GetPos(int index)
         {
-            const int cols = 3;          // X 방향 개수
-            const int rows = 5;          // Y 방향 개수
-            const double pitch = 10.08;  // Die pitch (mm)
+            const int cols = 5;          // 가로 방향(Y) 개수
+            const int rows = 3;          // 세로 방향(X) 개수
+            const double pitch = 12.0;   // Die(10) + Gap(2) = 12mm
 
             if (index < 0 || index >= cols * rows)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
-            // column 계산 (세로 기준)
-            int col = index / rows;
+            // 현재 몇 번째 행(세로), 몇 번째 열(가로)인지 계산
+            int row = index / cols;      // 0, 1, 2 (X축 결정)
+            int colInRow = index % cols; // 0, 1, 2, 3, 4 (Y축 결정)
 
-            // row 계산 (serpentine)
-            int rowInCol = index % rows;
-            int row;
+            double x = -pitch * row;     // 아래로 갈수록 좌표값이 작아짐 (0, -12, -24)
+            double y;
 
-            if (col % 2 == 0)
-                row = rowInCol;                // 정방향
+            // 행(row)이 짝수일 때는 정방향(0->4), 홀수일 때는 역방향(4->0)
+            if (row % 2 == 0)
+            {
+                y = pitch * colInRow;    // 정방향 (0, 12, 24, 36, 48)
+            }
             else
-                row = rows - 1 - rowInCol;     // 역방향
-
-            double x = -pitch * col;
-            double y = pitch * row;
+            {
+                y = pitch * (cols - 1 - colInRow); // 역방향 (48, 36, 24, 12, 0)
+            }
 
             return (x, y);
         }
 
+
         public static (double X, double Y) GetPos_EJ(int index)
         {
-            const int cols = 3;
-            const int rows = 5;
-            const double pitch = 10.08;
+            const int cols = 5;          // 가로 방향 개수
+            const int rows = 3;          // 세로 방향 개수
+            const double pitch = 12.0;   // Die(10) + Gap(2) = 12mm
 
             if (index < 0 || index >= cols * rows)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
-            int col = index / rows;
+            // 행(row)과 열(col) 계산
+            int row = index / cols;
+            int colInRow = index % cols;
 
-            int rowInCol = index % rows;
-            int row;
+            // 부호 반전 적용
+            // 기존 x = -pitch * row  ==> 수정 x = pitch * row (아래로 갈수록 +)
+            double x = pitch * row;
 
-            if (col % 2 == 0)
-                row = rowInCol;
+            double y;
+            // 기존 y 로직에 전체적으로 -1을 곱함 (오른쪽으로 갈수록 -)
+            if (row % 2 == 0)
+            {
+                // 정방향: 0, -12, -24, -36, -48
+                y = -pitch * colInRow;
+            }
             else
-                row = rows - 1 - rowInCol;
-
-            // 부호 반전
-            double x = pitch * col;   // (- → +)
-            double y = -pitch * row;   // (+ → -)
+            {
+                // 역방향: -48, -36, -24, -12, 0
+                y = -pitch * (cols - 1 - colInRow);
+            }
 
             return (x, y);
         }
@@ -10362,17 +10372,11 @@ namespace ManualJogViewModel
             {
                 ProbeAxisObject axisNSZ2 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ2);
 
-                double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
-                double currentPos = 0.0;    // 현재 위치값 읽기
-                double AcualPos = 0;
-
                 // ArmPick Z Up 추가
-                pos = 0.0;    // = 2,000,000 Nano Stage Z 축 DtoP = 4194.304
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ2).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
+                double posArmPick = 2000.0;    // = 2,000,000 Nano Stage Z 축 DtoP = 4194.304
 
                 LoggerManager.Debug($"Arm Pick Z Up Start");
-                retVal = this.MotionManager().RelMove_Wating(axisNSZ2, pos - currentPos, axisNSZ2.Param.Speed.Value, axisNSZ2.Param.Acceleration.Value);
+                retVal = this.MotionManager().RelMove_Wating(axisNSZ2, posArmPick, axisNSZ2.Param.Speed.Value, axisNSZ2.Param.Acceleration.Value);
                 LoggerManager.Debug($"Arm Pick Z Up End");
                 if (retVal != EventCodeEnum.NONE)
                 {
@@ -10413,12 +10417,9 @@ namespace ManualJogViewModel
                 }
 
                 // Arm Pick Down
-                pos = 0.0;     // = Arm Pick Down Z 축 DtoP = 4194.304
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ2).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
-
+                double posArmPick = -2000.0;     // = Arm Pick Down Z 축 DtoP = 4194.304
                 LoggerManager.Debug($"MovePickPos_DangerZone Arm Pick Z Down Start");
-                retVal = this.MotionManager().RelMove_Wating(axisNSZ2, pos - currentPos, axisNSZ2.Param.Speed.Value, axisNSZ2.Param.Acceleration.Value);
+                retVal = this.MotionManager().RelMove_Wating(axisNSZ2, posArmPick, axisNSZ2.Param.Speed.Value, axisNSZ2.Param.Acceleration.Value);
                 LoggerManager.Debug($"MovePickPos_DangerZone Arm Pick Z Down End");
                 if (retVal != EventCodeEnum.NONE)
                 {
@@ -10902,7 +10903,7 @@ namespace ManualJogViewModel
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
-                double pos = 144000000;   // = 350,000 Z 축 DtoP = 0.0025    (상판부터 척까지 높이 20.8) // 기존 144,000,000 -> 도마뱀테스트 
+                double pos = 130000000;   // = 350,000 Z 축 DtoP = 0.0025    (상판부터 척까지 높이 20.8) // 기존 144,000,000 -> 도마뱀테스트 
                 LoggerManager.Debug($"Wafer_Chuck_Up Start");
                 retVal = this.MotionManager().RelMove_Wating(axisZ, pos - currentPos, axisZ.Param.Speed.Value, axisZ.Param.Acceleration.Value);
                 LoggerManager.Debug($"Wafer_Chuck_Up End");
