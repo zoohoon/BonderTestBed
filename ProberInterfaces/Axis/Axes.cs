@@ -195,6 +195,7 @@ namespace ProberInterfaces
         EJZ1 = 47, //이젝션 Z
         NZD1 = 48, //DD
         FV = 49, //251208 ybpark
+        NSZ2 = 50, //260206 sebas
         // -->
 
         MAX_STAGE_AXIS = Z2,
@@ -11750,252 +11751,254 @@ namespace ProberInterfaces
 
                 #endregion
 
-                #region Axis EJX1
-                ProbeAxisObject axisEJX1 = new ProbeAxisObject(0, 20, EnumAxisConstants.EJX1);
-                axisEJX1.Param.IndexSearchingSpeed.Value = 1000;
-                axisEJX1.Param.HomeOffset.Value = 0;
-                axisEJX1.Param.HomeShift.Value = 0;
-                axisEJX1.AxisType.Value = EnumAxisConstants.EJX1;
-                axisEJX1.Label.Value = "EJX1";
-                axisEJX1.AxisGroupType.Value = EnumAxisGroupType.SINGEAXIS;
-                axisEJX1.Param.FeedOverride.Value = 1;
+                //#region Axis EJX1
+                //ProbeAxisObject axisEJX1 = new ProbeAxisObject(0, 20, EnumAxisConstants.EJX1);
+                //axisEJX1.Param.IndexSearchingSpeed.Value = 1000;
+                //axisEJX1.Param.HomeOffset.Value = 0;
+                //axisEJX1.Param.HomeShift.Value = 0;
+                //axisEJX1.AxisType.Value = EnumAxisConstants.EJX1;
+                //axisEJX1.Label.Value = "EJX1";
+                //axisEJX1.AxisGroupType.Value = EnumAxisGroupType.SINGEAXIS;
+                //axisEJX1.Param.FeedOverride.Value = 1;
 
 
-                axisEJX1.HomingType.Value = HomingMethodType.RLSEDGE;
-                axisEJX1.Param.HomeInvert.Value = false;
-                axisEJX1.Param.IndexInvert.Value = true;
+                //axisEJX1.HomingType.Value = HomingMethodType.RLSEDGE;
+                //axisEJX1.Param.HomeInvert.Value = false;
+                //axisEJX1.Param.IndexInvert.Value = true;
 
-                axisEJX1.Param.HommingSpeed.Value = 2000;
-                axisEJX1.Param.HommingAcceleration.Value = 20000;
-                axisEJX1.Param.HommingDecceleration.Value = 20000;
-                axisEJX1.Param.FinalVelociy.Value = 0;
-                axisEJX1.Param.Speed.Value = 2000;
-                axisEJX1.Param.Acceleration.Value = 20000;
-                axisEJX1.Param.Decceleration.Value = 20000;
-                axisEJX1.Param.AccelerationJerk.Value = 200000;
-                axisEJX1.Param.DeccelerationJerk.Value = 200000;
-                axisEJX1.Param.SeqSpeed.Value = 2000;
-                axisEJX1.Param.SeqAcc.Value = 20000;
-                axisEJX1.Param.SeqDcc.Value = 20000;
-                axisEJX1.Param.DtoPRatio.Value = 1;
-                axisEJX1.Param.NegSWLimit.Value = -1000000;  // Limit 값 크게 줘서 없는셈
-                axisEJX1.Param.PosSWLimit.Value = 1000000;
-                axisEJX1.Param.POTIndex.Value = 0;
-                axisEJX1.Param.NOTIndex.Value = 0;
-                axisEJX1.Param.HOMEIndex.Value = 1;
-                axisEJX1.Param.TimeOut.Value = 600000;    // TimeOut 값 크게 줘서 없는셈
-                axisEJX1.Param.HomeDistLimit.Value = 102000;
-                axisEJX1.Param.IndexDistLimit.Value = 0;
+                //axisEJX1.Param.HommingSpeed.Value = 2000;
+                //axisEJX1.Param.HommingAcceleration.Value = 20000;
+                //axisEJX1.Param.HommingDecceleration.Value = 20000;
+                //axisEJX1.Param.FinalVelociy.Value = 0;
+                //axisEJX1.Param.Speed.Value = 2000;
+                //axisEJX1.Param.Acceleration.Value = 20000;
+                //axisEJX1.Param.Decceleration.Value = 20000;
+                //axisEJX1.Param.AccelerationJerk.Value = 200000;
+                //axisEJX1.Param.DeccelerationJerk.Value = 200000;
+                //axisEJX1.Param.SeqSpeed.Value = 2000;
+                //axisEJX1.Param.SeqAcc.Value = 20000;
+                //axisEJX1.Param.SeqDcc.Value = 20000;
+                //axisEJX1.Param.DtoPRatio.Value = 1;
+                //axisEJX1.Param.NegSWLimit.Value = -1000000;  // Limit 값 크게 줘서 없는셈
+                //axisEJX1.Param.PosSWLimit.Value = 1000000;
+                //axisEJX1.Param.POTIndex.Value = 0;
+                //axisEJX1.Param.NOTIndex.Value = 0;
+                //axisEJX1.Param.HOMEIndex.Value = 1;
+                //axisEJX1.Param.TimeOut.Value = 600000;    // TimeOut 값 크게 줘서 없는셈
+                //axisEJX1.Param.HomeDistLimit.Value = 102000;
+                //axisEJX1.Param.IndexDistLimit.Value = 0;
 
-                axisEJX1.Config.StopRate.Value = 0.05;
-                axisEJX1.Config.EStopRate.Value = 0.025;
-                axisEJX1.Config.Inposition.Value = 200;
-                axisEJX1.Config.NearTargetDistance.Value = 500;
-                axisEJX1.Config.VelocityTolerance.Value = 40000;
-                axisEJX1.Config.SettlingTime.Value = 0;
+                //axisEJX1.Config.StopRate.Value = 0.05;
+                //axisEJX1.Config.EStopRate.Value = 0.025;
+                //axisEJX1.Config.Inposition.Value = 200;
+                //axisEJX1.Config.NearTargetDistance.Value = 500;
+                //axisEJX1.Config.VelocityTolerance.Value = 40000;
+                //axisEJX1.Config.SettlingTime.Value = 0;
 
-                axisEJX1.Config.MoterConfig.AmpEnable.Value = false;
-                axisEJX1.Config.MoterConfig.MotorType.Value = EnumMoterType.STEPPER;
-                axisEJX1.Config.MoterConfig.AmpDisableAction.Value = EnumAmpActionType.CMD_ACT;
+                //axisEJX1.Config.MoterConfig.AmpEnable.Value = false;
+                //axisEJX1.Config.MoterConfig.MotorType.Value = EnumMoterType.STEPPER;
+                //axisEJX1.Config.MoterConfig.AmpDisableAction.Value = EnumAmpActionType.CMD_ACT;
 
-                axisEJX1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(0, false);
-                axisEJX1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(1, false);
+                //axisEJX1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(0, false);
+                //axisEJX1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(1, false);
 
-                axisEJX1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(0, false);
-                axisEJX1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(1, false);
+                //axisEJX1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(0, false);
+                //axisEJX1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(1, false);
 
-                axisEJX1.Config.MoterConfig.FeedbackType.Value.Insert(0, EnumFeedbackType.QUAD_AB);
-                axisEJX1.Config.MoterConfig.FeedbackType.Value.Insert(1, EnumFeedbackType.QUAD_AB);
+                //axisEJX1.Config.MoterConfig.FeedbackType.Value.Insert(0, EnumFeedbackType.QUAD_AB);
+                //axisEJX1.Config.MoterConfig.FeedbackType.Value.Insert(1, EnumFeedbackType.QUAD_AB);
 
-                axisEJX1.Config.MoterConfig.AmpDisableDelay.Value = 0;
-                axisEJX1.Config.MoterConfig.BrakeApplyDelay.Value = 0;
-                axisEJX1.Config.MoterConfig.BrakeReleaseDelay.Value = 0;
-                axisEJX1.Config.MoterConfig.EnableStepLoopBack.Value = false;
-                axisEJX1.Config.MoterConfig.StepPulseWidth.Value = 5.6e-007;
+                //axisEJX1.Config.MoterConfig.AmpDisableDelay.Value = 0;
+                //axisEJX1.Config.MoterConfig.BrakeApplyDelay.Value = 0;
+                //axisEJX1.Config.MoterConfig.BrakeReleaseDelay.Value = 0;
+                //axisEJX1.Config.MoterConfig.EnableStepLoopBack.Value = false;
+                //axisEJX1.Config.MoterConfig.StepPulseWidth.Value = 5.6e-007;
 
-                axisEJX1.Config.MoterConfig.PulseAType.Value = EnumPulseType.MotorStepperPulseTypeQUADA;
-                axisEJX1.Config.MoterConfig.PulseBType.Value = EnumPulseType.MotorStepperPulseTypeQUADB;
+                //axisEJX1.Config.MoterConfig.PulseAType.Value = EnumPulseType.MotorStepperPulseTypeQUADA;
+                //axisEJX1.Config.MoterConfig.PulseBType.Value = EnumPulseType.MotorStepperPulseTypeQUADB;
 
-                axisEJX1.Config.MoterConfig.PulseAInv.Value = false;
-                axisEJX1.Config.MoterConfig.PulseBInv.Value = false;
+                //axisEJX1.Config.MoterConfig.PulseAInv.Value = false;
+                //axisEJX1.Config.MoterConfig.PulseBInv.Value = false;
 
-                axisEJX1.Config.MoterConfig.AmpFaultTrigHigh.Value = false;
-                axisEJX1.Config.MoterConfig.AmpFaultAction.Value = EnumEventActionType.ActionABORT;
-                axisEJX1.Config.MoterConfig.AmpFaultDuration.Value = 0;
+                //axisEJX1.Config.MoterConfig.AmpFaultTrigHigh.Value = false;
+                //axisEJX1.Config.MoterConfig.AmpFaultAction.Value = EnumEventActionType.ActionABORT;
+                //axisEJX1.Config.MoterConfig.AmpFaultDuration.Value = 0;
 
-                axisEJX1.Config.MoterConfig.AmpWarningTrigHigh.Value = true;
-                axisEJX1.Config.MoterConfig.AmpWarningAction.Value = EnumEventActionType.ActionNONE;
-                axisEJX1.Config.MoterConfig.AmpWarningDuration.Value = 0;
+                //axisEJX1.Config.MoterConfig.AmpWarningTrigHigh.Value = true;
+                //axisEJX1.Config.MoterConfig.AmpWarningAction.Value = EnumEventActionType.ActionNONE;
+                //axisEJX1.Config.MoterConfig.AmpWarningDuration.Value = 0;
 
-                axisEJX1.Config.MoterConfig.ErrorLimitTrigger.Value = 5000;
-                axisEJX1.Config.MoterConfig.ErrorLimitAction.Value = EnumEventActionType.ActionABORT;
-                axisEJX1.Config.MoterConfig.ErrorLimitDuration.Value = 0;
+                //axisEJX1.Config.MoterConfig.ErrorLimitTrigger.Value = 5000;
+                //axisEJX1.Config.MoterConfig.ErrorLimitAction.Value = EnumEventActionType.ActionABORT;
+                //axisEJX1.Config.MoterConfig.ErrorLimitDuration.Value = 0;
 
-                axisEJX1.Config.MoterConfig.TorqueLimitTrigger.Value = 32767;
-                axisEJX1.Config.MoterConfig.TorqueLimitAction.Value = EnumEventActionType.ActionNONE;
-                axisEJX1.Config.MoterConfig.TorqueLimitDuration.Value = 0;
+                //axisEJX1.Config.MoterConfig.TorqueLimitTrigger.Value = 32767;
+                //axisEJX1.Config.MoterConfig.TorqueLimitAction.Value = EnumEventActionType.ActionNONE;
+                //axisEJX1.Config.MoterConfig.TorqueLimitDuration.Value = 0;
 
-                axisEJX1.Config.MoterConfig.HWNegLimitTrigHigh.Value = false;
-                axisEJX1.Config.MoterConfig.HWNegLimitAction.Value = EnumEventActionType.ActionABORT;
-                axisEJX1.Config.MoterConfig.HWNegLimitDuration.Value = 0;
+                //axisEJX1.Config.MoterConfig.HWNegLimitTrigHigh.Value = false;
+                //axisEJX1.Config.MoterConfig.HWNegLimitAction.Value = EnumEventActionType.ActionABORT;
+                //axisEJX1.Config.MoterConfig.HWNegLimitDuration.Value = 0;
 
-                axisEJX1.Config.MoterConfig.HWPosLimitTrigHigh.Value = false;
-                axisEJX1.Config.MoterConfig.HWPosLimitAction.Value = EnumEventActionType.ActionABORT;
-                axisEJX1.Config.MoterConfig.HWPosLimitDuration.Value = 0;
+                //axisEJX1.Config.MoterConfig.HWPosLimitTrigHigh.Value = false;
+                //axisEJX1.Config.MoterConfig.HWPosLimitAction.Value = EnumEventActionType.ActionABORT;
+                //axisEJX1.Config.MoterConfig.HWPosLimitDuration.Value = 0;
 
-                axisEJX1.Config.MoterConfig.SWNegLimitTrigger.Value = -116055;
-                axisEJX1.Config.MoterConfig.SWNegLimitAction.Value = EnumEventActionType.ActionE_STOP;
-                axisEJX1.Config.MoterConfig.SWPosLimitTrigger.Value = 116055;
-                axisEJX1.Config.MoterConfig.SWPosLimitAction.Value = EnumEventActionType.ActionE_STOP;
+                //axisEJX1.Config.MoterConfig.SWNegLimitTrigger.Value = -116055;
+                //axisEJX1.Config.MoterConfig.SWNegLimitAction.Value = EnumEventActionType.ActionE_STOP;
+                //axisEJX1.Config.MoterConfig.SWPosLimitTrigger.Value = 116055;
+                //axisEJX1.Config.MoterConfig.SWPosLimitAction.Value = EnumEventActionType.ActionE_STOP;
 
-                axisEJX1.Config.InputHome.Value = EnumDedicateInputs.DedicateInputHOME;
-                axisEJX1.Config.InputIndex.Value = EnumDedicateInputs.DedicateInputINDEX;
-                axisEJX1.Config.InputMotor.Value = EnumMotorDedicatedIn.MotorDedicatedInHOME;
+                //axisEJX1.Config.InputHome.Value = EnumDedicateInputs.DedicateInputHOME;
+                //axisEJX1.Config.InputIndex.Value = EnumDedicateInputs.DedicateInputINDEX;
+                //axisEJX1.Config.InputMotor.Value = EnumMotorDedicatedIn.MotorDedicatedInHOME;
 
-                axisEJX1.Config.ControlType.Value = ControlLoopTypeEnum.PID;
-                axisEJX1.Config.PIDCoeff.GainProportional.Value = 450;
-                axisEJX1.Config.PIDCoeff.GainIntegral.Value = 0.4;
-                axisEJX1.Config.PIDCoeff.GainDerivative.Value = 2500;
-                axisEJX1.Config.PIDCoeff.FeedForwardPosition.Value = 0;
-                axisEJX1.Config.PIDCoeff.FeedForwardVelocity.Value = 0;
-                axisEJX1.Config.PIDCoeff.FeedForwardAcceleration.Value = 0;
-                axisEJX1.Config.PIDCoeff.FeedForwardFriction.Value = 0;
-                axisEJX1.Config.PIDCoeff.DRate.Value = 0;
-                axisEJX1.Config.PIDCoeff.IntegrationMaxMoving.Value = 15000;
-                axisEJX1.Config.PIDCoeff.IntegrationMaxRest.Value = 32767;
-                axisEJX1.Config.PIDCoeff.OutputLimitHigh.Value = 15384;
-                axisEJX1.Config.PIDCoeff.OutputLimtLow.Value = -15384;
-                axisEJX1.Config.PIDCoeff.OutputVelocityLimitHigh.Value = 32767;
-                axisEJX1.Config.PIDCoeff.OutputVelocityLimitLow.Value = -32767;
-                axisEJX1.Config.PIDCoeff.OutputOffset.Value = -32768;
-                axisEJX1.Config.PIDCoeff.NoisePositionFFT.Value = 0;
-
-
-                ProbeAxisProviders.Add(axisEJX1);
-                #endregion
-                #region Axis EJY1
-                ProbeAxisObject axisEJY1 = new ProbeAxisObject(0, 21, EnumAxisConstants.EJY1);
-                axisEJY1.Param.IndexSearchingSpeed.Value = 1000;
-                axisEJY1.Param.HomeOffset.Value = 0;
-                axisEJY1.Param.HomeShift.Value = 0;
-                axisEJY1.AxisType.Value = EnumAxisConstants.EJY1;
-                axisEJY1.Label.Value = "EJY1";
-                axisEJY1.AxisGroupType.Value = EnumAxisGroupType.SINGEAXIS;
-                axisEJY1.Param.FeedOverride.Value = 1;
+                //axisEJX1.Config.ControlType.Value = ControlLoopTypeEnum.PID;
+                //axisEJX1.Config.PIDCoeff.GainProportional.Value = 450;
+                //axisEJX1.Config.PIDCoeff.GainIntegral.Value = 0.4;
+                //axisEJX1.Config.PIDCoeff.GainDerivative.Value = 2500;
+                //axisEJX1.Config.PIDCoeff.FeedForwardPosition.Value = 0;
+                //axisEJX1.Config.PIDCoeff.FeedForwardVelocity.Value = 0;
+                //axisEJX1.Config.PIDCoeff.FeedForwardAcceleration.Value = 0;
+                //axisEJX1.Config.PIDCoeff.FeedForwardFriction.Value = 0;
+                //axisEJX1.Config.PIDCoeff.DRate.Value = 0;
+                //axisEJX1.Config.PIDCoeff.IntegrationMaxMoving.Value = 15000;
+                //axisEJX1.Config.PIDCoeff.IntegrationMaxRest.Value = 32767;
+                //axisEJX1.Config.PIDCoeff.OutputLimitHigh.Value = 15384;
+                //axisEJX1.Config.PIDCoeff.OutputLimtLow.Value = -15384;
+                //axisEJX1.Config.PIDCoeff.OutputVelocityLimitHigh.Value = 32767;
+                //axisEJX1.Config.PIDCoeff.OutputVelocityLimitLow.Value = -32767;
+                //axisEJX1.Config.PIDCoeff.OutputOffset.Value = -32768;
+                //axisEJX1.Config.PIDCoeff.NoisePositionFFT.Value = 0;
 
 
-                axisEJY1.HomingType.Value = HomingMethodType.RLSEDGE;
-                axisEJY1.Param.HomeInvert.Value = false;
-                axisEJY1.Param.IndexInvert.Value = true;
+                //ProbeAxisProviders.Add(axisEJX1);
+                //#endregion
 
-                axisEJY1.Param.HommingSpeed.Value = 2000;
-                axisEJY1.Param.HommingAcceleration.Value = 20000;
-                axisEJY1.Param.HommingDecceleration.Value = 20000;
-                axisEJY1.Param.FinalVelociy.Value = 0;
-                axisEJY1.Param.Speed.Value = 2000;
-                axisEJY1.Param.Acceleration.Value = 20000;
-                axisEJY1.Param.Decceleration.Value = 20000;
-                axisEJY1.Param.AccelerationJerk.Value = 200000;
-                axisEJY1.Param.DeccelerationJerk.Value = 200000;
-                axisEJY1.Param.SeqSpeed.Value = 2000;
-                axisEJY1.Param.SeqAcc.Value = 20000;
-                axisEJY1.Param.SeqDcc.Value = 20000;
-                axisEJY1.Param.DtoPRatio.Value = 1;
-                axisEJY1.Param.NegSWLimit.Value = -1000000;  // Limit 값 크게 줘서 없는셈
-                axisEJY1.Param.PosSWLimit.Value = 1000000;
-                axisEJY1.Param.POTIndex.Value = 0;
-                axisEJY1.Param.NOTIndex.Value = 0;
-                axisEJY1.Param.HOMEIndex.Value = 1;
-                axisEJY1.Param.TimeOut.Value = 600000;    // TimeOut 값 크게 줘서 없는셈
-                axisEJY1.Param.HomeDistLimit.Value = 102000;
-                axisEJY1.Param.IndexDistLimit.Value = 0;
-
-                axisEJY1.Config.StopRate.Value = 0.05;
-                axisEJY1.Config.EStopRate.Value = 0.025;
-                axisEJY1.Config.Inposition.Value = 200;
-                axisEJY1.Config.NearTargetDistance.Value = 500;
-                axisEJY1.Config.VelocityTolerance.Value = 40000;
-                axisEJY1.Config.SettlingTime.Value = 0;
-
-                axisEJY1.Config.MoterConfig.AmpEnable.Value = false;
-                axisEJY1.Config.MoterConfig.MotorType.Value = EnumMoterType.STEPPER;
-                axisEJY1.Config.MoterConfig.AmpDisableAction.Value = EnumAmpActionType.CMD_ACT;
-
-                axisEJY1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(0, false);
-                axisEJY1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(1, false);
-
-                axisEJY1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(0, false);
-                axisEJY1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(1, false);
-
-                axisEJY1.Config.MoterConfig.FeedbackType.Value.Insert(0, EnumFeedbackType.QUAD_AB);
-                axisEJY1.Config.MoterConfig.FeedbackType.Value.Insert(1, EnumFeedbackType.QUAD_AB);
-
-                axisEJY1.Config.MoterConfig.AmpDisableDelay.Value = 0;
-                axisEJY1.Config.MoterConfig.BrakeApplyDelay.Value = 0;
-                axisEJY1.Config.MoterConfig.BrakeReleaseDelay.Value = 0;
-                axisEJY1.Config.MoterConfig.EnableStepLoopBack.Value = false;
-                axisEJY1.Config.MoterConfig.StepPulseWidth.Value = 5.6e-007;
-
-                axisEJY1.Config.MoterConfig.PulseAType.Value = EnumPulseType.MotorStepperPulseTypeQUADA;
-                axisEJY1.Config.MoterConfig.PulseBType.Value = EnumPulseType.MotorStepperPulseTypeQUADB;
-
-                axisEJY1.Config.MoterConfig.PulseAInv.Value = false;
-                axisEJY1.Config.MoterConfig.PulseBInv.Value = false;
-
-                axisEJY1.Config.MoterConfig.AmpFaultTrigHigh.Value = false;
-                axisEJY1.Config.MoterConfig.AmpFaultAction.Value = EnumEventActionType.ActionABORT;
-                axisEJY1.Config.MoterConfig.AmpFaultDuration.Value = 0;
-
-                axisEJY1.Config.MoterConfig.AmpWarningTrigHigh.Value = true;
-                axisEJY1.Config.MoterConfig.AmpWarningAction.Value = EnumEventActionType.ActionNONE;
-                axisEJY1.Config.MoterConfig.AmpWarningDuration.Value = 0;
-
-                axisEJY1.Config.MoterConfig.ErrorLimitTrigger.Value = 5000;
-                axisEJY1.Config.MoterConfig.ErrorLimitAction.Value = EnumEventActionType.ActionABORT;
-                axisEJY1.Config.MoterConfig.ErrorLimitDuration.Value = 0;
-
-                axisEJY1.Config.MoterConfig.TorqueLimitTrigger.Value = 32767;
-                axisEJY1.Config.MoterConfig.TorqueLimitAction.Value = EnumEventActionType.ActionNONE;
-                axisEJY1.Config.MoterConfig.TorqueLimitDuration.Value = 0;
-
-                axisEJY1.Config.MoterConfig.HWNegLimitTrigHigh.Value = false;
-                axisEJY1.Config.MoterConfig.HWNegLimitAction.Value = EnumEventActionType.ActionABORT;
-                axisEJY1.Config.MoterConfig.HWNegLimitDuration.Value = 0;
-
-                axisEJY1.Config.MoterConfig.HWPosLimitTrigHigh.Value = false;
-                axisEJY1.Config.MoterConfig.HWPosLimitAction.Value = EnumEventActionType.ActionABORT;
-                axisEJY1.Config.MoterConfig.HWPosLimitDuration.Value = 0;
-
-                axisEJY1.Config.MoterConfig.SWNegLimitTrigger.Value = -116055;
-                axisEJY1.Config.MoterConfig.SWNegLimitAction.Value = EnumEventActionType.ActionE_STOP;
-                axisEJY1.Config.MoterConfig.SWPosLimitTrigger.Value = 116055;
-                axisEJY1.Config.MoterConfig.SWPosLimitAction.Value = EnumEventActionType.ActionE_STOP;
-
-                axisEJY1.Config.InputHome.Value = EnumDedicateInputs.DedicateInputHOME;
-                axisEJY1.Config.InputIndex.Value = EnumDedicateInputs.DedicateInputINDEX;
-                axisEJY1.Config.InputMotor.Value = EnumMotorDedicatedIn.MotorDedicatedInHOME;
-
-                axisEJY1.Config.ControlType.Value = ControlLoopTypeEnum.PID;
-                axisEJY1.Config.PIDCoeff.GainProportional.Value = 450;
-                axisEJY1.Config.PIDCoeff.GainIntegral.Value = 0.4;
-                axisEJY1.Config.PIDCoeff.GainDerivative.Value = 2500;
-                axisEJY1.Config.PIDCoeff.FeedForwardPosition.Value = 0;
-                axisEJY1.Config.PIDCoeff.FeedForwardVelocity.Value = 0;
-                axisEJY1.Config.PIDCoeff.FeedForwardAcceleration.Value = 0;
-                axisEJY1.Config.PIDCoeff.FeedForwardFriction.Value = 0;
-                axisEJY1.Config.PIDCoeff.DRate.Value = 0;
-                axisEJY1.Config.PIDCoeff.IntegrationMaxMoving.Value = 15000;
-                axisEJY1.Config.PIDCoeff.IntegrationMaxRest.Value = 32767;
-                axisEJY1.Config.PIDCoeff.OutputLimitHigh.Value = 15384;
-                axisEJY1.Config.PIDCoeff.OutputLimtLow.Value = -15384;
-                axisEJY1.Config.PIDCoeff.OutputVelocityLimitHigh.Value = 32767;
-                axisEJY1.Config.PIDCoeff.OutputVelocityLimitLow.Value = -32767;
-                axisEJY1.Config.PIDCoeff.OutputOffset.Value = -32768;
-                axisEJY1.Config.PIDCoeff.NoisePositionFFT.Value = 0;
+                //#region Axis EJY1
+                //ProbeAxisObject axisEJY1 = new ProbeAxisObject(0, 21, EnumAxisConstants.EJY1);
+                //axisEJY1.Param.IndexSearchingSpeed.Value = 1000;
+                //axisEJY1.Param.HomeOffset.Value = 0;
+                //axisEJY1.Param.HomeShift.Value = 0;
+                //axisEJY1.AxisType.Value = EnumAxisConstants.EJY1;
+                //axisEJY1.Label.Value = "EJY1";
+                //axisEJY1.AxisGroupType.Value = EnumAxisGroupType.SINGEAXIS;
+                //axisEJY1.Param.FeedOverride.Value = 1;
 
 
-                ProbeAxisProviders.Add(axisEJY1);
-                #endregion
+                //axisEJY1.HomingType.Value = HomingMethodType.RLSEDGE;
+                //axisEJY1.Param.HomeInvert.Value = false;
+                //axisEJY1.Param.IndexInvert.Value = true;
+
+                //axisEJY1.Param.HommingSpeed.Value = 2000;
+                //axisEJY1.Param.HommingAcceleration.Value = 20000;
+                //axisEJY1.Param.HommingDecceleration.Value = 20000;
+                //axisEJY1.Param.FinalVelociy.Value = 0;
+                //axisEJY1.Param.Speed.Value = 2000;
+                //axisEJY1.Param.Acceleration.Value = 20000;
+                //axisEJY1.Param.Decceleration.Value = 20000;
+                //axisEJY1.Param.AccelerationJerk.Value = 200000;
+                //axisEJY1.Param.DeccelerationJerk.Value = 200000;
+                //axisEJY1.Param.SeqSpeed.Value = 2000;
+                //axisEJY1.Param.SeqAcc.Value = 20000;
+                //axisEJY1.Param.SeqDcc.Value = 20000;
+                //axisEJY1.Param.DtoPRatio.Value = 1;
+                //axisEJY1.Param.NegSWLimit.Value = -1000000;  // Limit 값 크게 줘서 없는셈
+                //axisEJY1.Param.PosSWLimit.Value = 1000000;
+                //axisEJY1.Param.POTIndex.Value = 0;
+                //axisEJY1.Param.NOTIndex.Value = 0;
+                //axisEJY1.Param.HOMEIndex.Value = 1;
+                //axisEJY1.Param.TimeOut.Value = 600000;    // TimeOut 값 크게 줘서 없는셈
+                //axisEJY1.Param.HomeDistLimit.Value = 102000;
+                //axisEJY1.Param.IndexDistLimit.Value = 0;
+
+                //axisEJY1.Config.StopRate.Value = 0.05;
+                //axisEJY1.Config.EStopRate.Value = 0.025;
+                //axisEJY1.Config.Inposition.Value = 200;
+                //axisEJY1.Config.NearTargetDistance.Value = 500;
+                //axisEJY1.Config.VelocityTolerance.Value = 40000;
+                //axisEJY1.Config.SettlingTime.Value = 0;
+
+                //axisEJY1.Config.MoterConfig.AmpEnable.Value = false;
+                //axisEJY1.Config.MoterConfig.MotorType.Value = EnumMoterType.STEPPER;
+                //axisEJY1.Config.MoterConfig.AmpDisableAction.Value = EnumAmpActionType.CMD_ACT;
+
+                //axisEJY1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(0, false);
+                //axisEJY1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(1, false);
+
+                //axisEJY1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(0, false);
+                //axisEJY1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(1, false);
+
+                //axisEJY1.Config.MoterConfig.FeedbackType.Value.Insert(0, EnumFeedbackType.QUAD_AB);
+                //axisEJY1.Config.MoterConfig.FeedbackType.Value.Insert(1, EnumFeedbackType.QUAD_AB);
+
+                //axisEJY1.Config.MoterConfig.AmpDisableDelay.Value = 0;
+                //axisEJY1.Config.MoterConfig.BrakeApplyDelay.Value = 0;
+                //axisEJY1.Config.MoterConfig.BrakeReleaseDelay.Value = 0;
+                //axisEJY1.Config.MoterConfig.EnableStepLoopBack.Value = false;
+                //axisEJY1.Config.MoterConfig.StepPulseWidth.Value = 5.6e-007;
+
+                //axisEJY1.Config.MoterConfig.PulseAType.Value = EnumPulseType.MotorStepperPulseTypeQUADA;
+                //axisEJY1.Config.MoterConfig.PulseBType.Value = EnumPulseType.MotorStepperPulseTypeQUADB;
+
+                //axisEJY1.Config.MoterConfig.PulseAInv.Value = false;
+                //axisEJY1.Config.MoterConfig.PulseBInv.Value = false;
+
+                //axisEJY1.Config.MoterConfig.AmpFaultTrigHigh.Value = false;
+                //axisEJY1.Config.MoterConfig.AmpFaultAction.Value = EnumEventActionType.ActionABORT;
+                //axisEJY1.Config.MoterConfig.AmpFaultDuration.Value = 0;
+
+                //axisEJY1.Config.MoterConfig.AmpWarningTrigHigh.Value = true;
+                //axisEJY1.Config.MoterConfig.AmpWarningAction.Value = EnumEventActionType.ActionNONE;
+                //axisEJY1.Config.MoterConfig.AmpWarningDuration.Value = 0;
+
+                //axisEJY1.Config.MoterConfig.ErrorLimitTrigger.Value = 5000;
+                //axisEJY1.Config.MoterConfig.ErrorLimitAction.Value = EnumEventActionType.ActionABORT;
+                //axisEJY1.Config.MoterConfig.ErrorLimitDuration.Value = 0;
+
+                //axisEJY1.Config.MoterConfig.TorqueLimitTrigger.Value = 32767;
+                //axisEJY1.Config.MoterConfig.TorqueLimitAction.Value = EnumEventActionType.ActionNONE;
+                //axisEJY1.Config.MoterConfig.TorqueLimitDuration.Value = 0;
+
+                //axisEJY1.Config.MoterConfig.HWNegLimitTrigHigh.Value = false;
+                //axisEJY1.Config.MoterConfig.HWNegLimitAction.Value = EnumEventActionType.ActionABORT;
+                //axisEJY1.Config.MoterConfig.HWNegLimitDuration.Value = 0;
+
+                //axisEJY1.Config.MoterConfig.HWPosLimitTrigHigh.Value = false;
+                //axisEJY1.Config.MoterConfig.HWPosLimitAction.Value = EnumEventActionType.ActionABORT;
+                //axisEJY1.Config.MoterConfig.HWPosLimitDuration.Value = 0;
+
+                //axisEJY1.Config.MoterConfig.SWNegLimitTrigger.Value = -116055;
+                //axisEJY1.Config.MoterConfig.SWNegLimitAction.Value = EnumEventActionType.ActionE_STOP;
+                //axisEJY1.Config.MoterConfig.SWPosLimitTrigger.Value = 116055;
+                //axisEJY1.Config.MoterConfig.SWPosLimitAction.Value = EnumEventActionType.ActionE_STOP;
+
+                //axisEJY1.Config.InputHome.Value = EnumDedicateInputs.DedicateInputHOME;
+                //axisEJY1.Config.InputIndex.Value = EnumDedicateInputs.DedicateInputINDEX;
+                //axisEJY1.Config.InputMotor.Value = EnumMotorDedicatedIn.MotorDedicatedInHOME;
+
+                //axisEJY1.Config.ControlType.Value = ControlLoopTypeEnum.PID;
+                //axisEJY1.Config.PIDCoeff.GainProportional.Value = 450;
+                //axisEJY1.Config.PIDCoeff.GainIntegral.Value = 0.4;
+                //axisEJY1.Config.PIDCoeff.GainDerivative.Value = 2500;
+                //axisEJY1.Config.PIDCoeff.FeedForwardPosition.Value = 0;
+                //axisEJY1.Config.PIDCoeff.FeedForwardVelocity.Value = 0;
+                //axisEJY1.Config.PIDCoeff.FeedForwardAcceleration.Value = 0;
+                //axisEJY1.Config.PIDCoeff.FeedForwardFriction.Value = 0;
+                //axisEJY1.Config.PIDCoeff.DRate.Value = 0;
+                //axisEJY1.Config.PIDCoeff.IntegrationMaxMoving.Value = 15000;
+                //axisEJY1.Config.PIDCoeff.IntegrationMaxRest.Value = 32767;
+                //axisEJY1.Config.PIDCoeff.OutputLimitHigh.Value = 15384;
+                //axisEJY1.Config.PIDCoeff.OutputLimtLow.Value = -15384;
+                //axisEJY1.Config.PIDCoeff.OutputVelocityLimitHigh.Value = 32767;
+                //axisEJY1.Config.PIDCoeff.OutputVelocityLimitLow.Value = -32767;
+                //axisEJY1.Config.PIDCoeff.OutputOffset.Value = -32768;
+                //axisEJY1.Config.PIDCoeff.NoisePositionFFT.Value = 0;
+
+
+                //ProbeAxisProviders.Add(axisEJY1);
+                //#endregion
+
                 #region Axis FDT1
                 ProbeAxisObject axisFDT1 = new ProbeAxisObject(0, 22, EnumAxisConstants.FDT1);
                 axisFDT1.Param.IndexSearchingSpeed.Value = 1000;
@@ -12120,376 +12123,502 @@ namespace ProberInterfaces
                 ProbeAxisProviders.Add(axisFDT1);
                 #endregion
 
-                #region Axis EJPZ1
-                ProbeAxisObject axisEJPZ1 = new ProbeAxisObject(0, 23, EnumAxisConstants.EJPZ1);
-                axisEJPZ1.Param.IndexSearchingSpeed.Value = 1000;
-                axisEJPZ1.Param.HomeOffset.Value = 0;
-                axisEJPZ1.Param.HomeShift.Value = 0;
-                axisEJPZ1.AxisType.Value = EnumAxisConstants.EJPZ1;
-                axisEJPZ1.Label.Value = "EJPZ1";
-                axisEJPZ1.AxisGroupType.Value = EnumAxisGroupType.SINGEAXIS;
-                axisEJPZ1.Param.FeedOverride.Value = 1;
-
-
-                axisEJPZ1.HomingType.Value = HomingMethodType.RLSEDGE;
-                axisEJPZ1.Param.HomeInvert.Value = false;
-                axisEJPZ1.Param.IndexInvert.Value = true;
-
-                axisEJPZ1.Param.HommingSpeed.Value = 2000;
-                axisEJPZ1.Param.HommingAcceleration.Value = 20000;
-                axisEJPZ1.Param.HommingDecceleration.Value = 20000;
-                axisEJPZ1.Param.FinalVelociy.Value = 0;
-                axisEJPZ1.Param.Speed.Value = 2000;
-                axisEJPZ1.Param.Acceleration.Value = 20000;
-                axisEJPZ1.Param.Decceleration.Value = 20000;
-                axisEJPZ1.Param.AccelerationJerk.Value = 200000;
-                axisEJPZ1.Param.DeccelerationJerk.Value = 200000;
-                axisEJPZ1.Param.SeqSpeed.Value = 2000;
-                axisEJPZ1.Param.SeqAcc.Value = 20000;
-                axisEJPZ1.Param.SeqDcc.Value = 20000;
-                axisEJPZ1.Param.DtoPRatio.Value = 1;
-                axisEJPZ1.Param.NegSWLimit.Value = -1000000;  // Limit 값 크게 줘서 없는셈
-                axisEJPZ1.Param.PosSWLimit.Value = 1000000;
-                axisEJPZ1.Param.POTIndex.Value = 0;
-                axisEJPZ1.Param.NOTIndex.Value = 0;
-                axisEJPZ1.Param.HOMEIndex.Value = 1;
-                axisEJPZ1.Param.TimeOut.Value = 600000;    // TimeOut 값 크게 줘서 없는셈
-                axisEJPZ1.Param.HomeDistLimit.Value = 102000;
-                axisEJPZ1.Param.IndexDistLimit.Value = 0;
-
-                axisEJPZ1.Config.StopRate.Value = 0.05;
-                axisEJPZ1.Config.EStopRate.Value = 0.025;
-                axisEJPZ1.Config.Inposition.Value = 200;
-                axisEJPZ1.Config.NearTargetDistance.Value = 500;
-                axisEJPZ1.Config.VelocityTolerance.Value = 40000;
-                axisEJPZ1.Config.SettlingTime.Value = 0;
-
-                axisEJPZ1.Config.MoterConfig.AmpEnable.Value = false;
-                axisEJPZ1.Config.MoterConfig.MotorType.Value = EnumMoterType.STEPPER;
-                axisEJPZ1.Config.MoterConfig.AmpDisableAction.Value = EnumAmpActionType.CMD_ACT;
-
-                axisEJPZ1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(0, false);
-                axisEJPZ1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(1, false);
-
-                axisEJPZ1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(0, false);
-                axisEJPZ1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(1, false);
-
-                axisEJPZ1.Config.MoterConfig.FeedbackType.Value.Insert(0, EnumFeedbackType.QUAD_AB);
-                axisEJPZ1.Config.MoterConfig.FeedbackType.Value.Insert(1, EnumFeedbackType.QUAD_AB);
-
-                axisEJPZ1.Config.MoterConfig.AmpDisableDelay.Value = 0;
-                axisEJPZ1.Config.MoterConfig.BrakeApplyDelay.Value = 0;
-                axisEJPZ1.Config.MoterConfig.BrakeReleaseDelay.Value = 0;
-                axisEJPZ1.Config.MoterConfig.EnableStepLoopBack.Value = false;
-                axisEJPZ1.Config.MoterConfig.StepPulseWidth.Value = 5.6e-007;
-
-                axisEJPZ1.Config.MoterConfig.PulseAType.Value = EnumPulseType.MotorStepperPulseTypeQUADA;
-                axisEJPZ1.Config.MoterConfig.PulseBType.Value = EnumPulseType.MotorStepperPulseTypeQUADB;
-
-                axisEJPZ1.Config.MoterConfig.PulseAInv.Value = false;
-                axisEJPZ1.Config.MoterConfig.PulseBInv.Value = false;
-
-                axisEJPZ1.Config.MoterConfig.AmpFaultTrigHigh.Value = false;
-                axisEJPZ1.Config.MoterConfig.AmpFaultAction.Value = EnumEventActionType.ActionABORT;
-                axisEJPZ1.Config.MoterConfig.AmpFaultDuration.Value = 0;
-
-                axisEJPZ1.Config.MoterConfig.AmpWarningTrigHigh.Value = true;
-                axisEJPZ1.Config.MoterConfig.AmpWarningAction.Value = EnumEventActionType.ActionNONE;
-                axisEJPZ1.Config.MoterConfig.AmpWarningDuration.Value = 0;
-
-                axisEJPZ1.Config.MoterConfig.ErrorLimitTrigger.Value = 5000;
-                axisEJPZ1.Config.MoterConfig.ErrorLimitAction.Value = EnumEventActionType.ActionABORT;
-                axisEJPZ1.Config.MoterConfig.ErrorLimitDuration.Value = 0;
-
-                axisEJPZ1.Config.MoterConfig.TorqueLimitTrigger.Value = 32767;
-                axisEJPZ1.Config.MoterConfig.TorqueLimitAction.Value = EnumEventActionType.ActionNONE;
-                axisEJPZ1.Config.MoterConfig.TorqueLimitDuration.Value = 0;
-
-                axisEJPZ1.Config.MoterConfig.HWNegLimitTrigHigh.Value = false;
-                axisEJPZ1.Config.MoterConfig.HWNegLimitAction.Value = EnumEventActionType.ActionABORT;
-                axisEJPZ1.Config.MoterConfig.HWNegLimitDuration.Value = 0;
-
-                axisEJPZ1.Config.MoterConfig.HWPosLimitTrigHigh.Value = false;
-                axisEJPZ1.Config.MoterConfig.HWPosLimitAction.Value = EnumEventActionType.ActionABORT;
-                axisEJPZ1.Config.MoterConfig.HWPosLimitDuration.Value = 0;
-
-                axisEJPZ1.Config.MoterConfig.SWNegLimitTrigger.Value = -116055;
-                axisEJPZ1.Config.MoterConfig.SWNegLimitAction.Value = EnumEventActionType.ActionE_STOP;
-                axisEJPZ1.Config.MoterConfig.SWPosLimitTrigger.Value = 116055;
-                axisEJPZ1.Config.MoterConfig.SWPosLimitAction.Value = EnumEventActionType.ActionE_STOP;
-
-                axisEJPZ1.Config.InputHome.Value = EnumDedicateInputs.DedicateInputHOME;
-                axisEJPZ1.Config.InputIndex.Value = EnumDedicateInputs.DedicateInputINDEX;
-                axisEJPZ1.Config.InputMotor.Value = EnumMotorDedicatedIn.MotorDedicatedInHOME;
-
-                axisEJPZ1.Config.ControlType.Value = ControlLoopTypeEnum.PID;
-                axisEJPZ1.Config.PIDCoeff.GainProportional.Value = 450;
-                axisEJPZ1.Config.PIDCoeff.GainIntegral.Value = 0.4;
-                axisEJPZ1.Config.PIDCoeff.GainDerivative.Value = 2500;
-                axisEJPZ1.Config.PIDCoeff.FeedForwardPosition.Value = 0;
-                axisEJPZ1.Config.PIDCoeff.FeedForwardVelocity.Value = 0;
-                axisEJPZ1.Config.PIDCoeff.FeedForwardAcceleration.Value = 0;
-                axisEJPZ1.Config.PIDCoeff.FeedForwardFriction.Value = 0;
-                axisEJPZ1.Config.PIDCoeff.DRate.Value = 0;
-                axisEJPZ1.Config.PIDCoeff.IntegrationMaxMoving.Value = 15000;
-                axisEJPZ1.Config.PIDCoeff.IntegrationMaxRest.Value = 32767;
-                axisEJPZ1.Config.PIDCoeff.OutputLimitHigh.Value = 15384;
-                axisEJPZ1.Config.PIDCoeff.OutputLimtLow.Value = -15384;
-                axisEJPZ1.Config.PIDCoeff.OutputVelocityLimitHigh.Value = 32767;
-                axisEJPZ1.Config.PIDCoeff.OutputVelocityLimitLow.Value = -32767;
-                axisEJPZ1.Config.PIDCoeff.OutputOffset.Value = -32768;
-                axisEJPZ1.Config.PIDCoeff.NoisePositionFFT.Value = 0;
-
-
-                ProbeAxisProviders.Add(axisEJPZ1);
-                #endregion
-                #region Axis EJZ1
-                ProbeAxisObject axisEJZ1 = new ProbeAxisObject(0, 24, EnumAxisConstants.EJZ1);
-                axisEJZ1.Param.IndexSearchingSpeed.Value = 1000;
-                axisEJZ1.Param.HomeOffset.Value = 0;
-                axisEJZ1.Param.HomeShift.Value = 0;
-                axisEJZ1.AxisType.Value = EnumAxisConstants.EJZ1;
-                axisEJZ1.Label.Value = "EJZ1";
-                axisEJZ1.AxisGroupType.Value = EnumAxisGroupType.SINGEAXIS;
-                axisEJZ1.Param.FeedOverride.Value = 1;
-
-
-                axisEJZ1.HomingType.Value = HomingMethodType.RLSEDGE;
-                axisEJZ1.Param.HomeInvert.Value = false;
-                axisEJZ1.Param.IndexInvert.Value = true;
-
-                axisEJZ1.Param.HommingSpeed.Value = 2000;
-                axisEJZ1.Param.HommingAcceleration.Value = 20000;
-                axisEJZ1.Param.HommingDecceleration.Value = 20000;
-                axisEJZ1.Param.FinalVelociy.Value = 0;
-                axisEJZ1.Param.Speed.Value = 2000;
-                axisEJZ1.Param.Acceleration.Value = 20000;
-                axisEJZ1.Param.Decceleration.Value = 20000;
-                axisEJZ1.Param.AccelerationJerk.Value = 200000;
-                axisEJZ1.Param.DeccelerationJerk.Value = 200000;
-                axisEJZ1.Param.SeqSpeed.Value = 2000;
-                axisEJZ1.Param.SeqAcc.Value = 20000;
-                axisEJZ1.Param.SeqDcc.Value = 20000;
-                axisEJZ1.Param.DtoPRatio.Value = 1;
-                axisEJZ1.Param.NegSWLimit.Value = -1000000;  // Limit 값 크게 줘서 없는셈
-                axisEJZ1.Param.PosSWLimit.Value = 1000000;
-                axisEJZ1.Param.POTIndex.Value = 0;
-                axisEJZ1.Param.NOTIndex.Value = 0;
-                axisEJZ1.Param.HOMEIndex.Value = 1;
-                axisEJZ1.Param.TimeOut.Value = 600000;    // TimeOut 값 크게 줘서 없는셈
-                axisEJZ1.Param.HomeDistLimit.Value = 102000;
-                axisEJZ1.Param.IndexDistLimit.Value = 0;
-
-                axisEJZ1.Config.StopRate.Value = 0.05;
-                axisEJZ1.Config.EStopRate.Value = 0.025;
-                axisEJZ1.Config.Inposition.Value = 200;
-                axisEJZ1.Config.NearTargetDistance.Value = 500;
-                axisEJZ1.Config.VelocityTolerance.Value = 40000;
-                axisEJZ1.Config.SettlingTime.Value = 0;
-
-                axisEJZ1.Config.MoterConfig.AmpEnable.Value = false;
-                axisEJZ1.Config.MoterConfig.MotorType.Value = EnumMoterType.STEPPER;
-                axisEJZ1.Config.MoterConfig.AmpDisableAction.Value = EnumAmpActionType.CMD_ACT;
-
-                axisEJZ1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(0, false);
-                axisEJZ1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(1, false);
-
-                axisEJZ1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(0, false);
-                axisEJZ1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(1, false);
-
-                axisEJZ1.Config.MoterConfig.FeedbackType.Value.Insert(0, EnumFeedbackType.QUAD_AB);
-                axisEJZ1.Config.MoterConfig.FeedbackType.Value.Insert(1, EnumFeedbackType.QUAD_AB);
-
-                axisEJZ1.Config.MoterConfig.AmpDisableDelay.Value = 0;
-                axisEJZ1.Config.MoterConfig.BrakeApplyDelay.Value = 0;
-                axisEJZ1.Config.MoterConfig.BrakeReleaseDelay.Value = 0;
-                axisEJZ1.Config.MoterConfig.EnableStepLoopBack.Value = false;
-                axisEJZ1.Config.MoterConfig.StepPulseWidth.Value = 5.6e-007;
-
-                axisEJZ1.Config.MoterConfig.PulseAType.Value = EnumPulseType.MotorStepperPulseTypeQUADA;
-                axisEJZ1.Config.MoterConfig.PulseBType.Value = EnumPulseType.MotorStepperPulseTypeQUADB;
-
-                axisEJZ1.Config.MoterConfig.PulseAInv.Value = false;
-                axisEJZ1.Config.MoterConfig.PulseBInv.Value = false;
-
-                axisEJZ1.Config.MoterConfig.AmpFaultTrigHigh.Value = false;
-                axisEJZ1.Config.MoterConfig.AmpFaultAction.Value = EnumEventActionType.ActionABORT;
-                axisEJZ1.Config.MoterConfig.AmpFaultDuration.Value = 0;
-
-                axisEJZ1.Config.MoterConfig.AmpWarningTrigHigh.Value = true;
-                axisEJZ1.Config.MoterConfig.AmpWarningAction.Value = EnumEventActionType.ActionNONE;
-                axisEJZ1.Config.MoterConfig.AmpWarningDuration.Value = 0;
-
-                axisEJZ1.Config.MoterConfig.ErrorLimitTrigger.Value = 5000;
-                axisEJZ1.Config.MoterConfig.ErrorLimitAction.Value = EnumEventActionType.ActionABORT;
-                axisEJZ1.Config.MoterConfig.ErrorLimitDuration.Value = 0;
-
-                axisEJZ1.Config.MoterConfig.TorqueLimitTrigger.Value = 32767;
-                axisEJZ1.Config.MoterConfig.TorqueLimitAction.Value = EnumEventActionType.ActionNONE;
-                axisEJZ1.Config.MoterConfig.TorqueLimitDuration.Value = 0;
-
-                axisEJZ1.Config.MoterConfig.HWNegLimitTrigHigh.Value = false;
-                axisEJZ1.Config.MoterConfig.HWNegLimitAction.Value = EnumEventActionType.ActionABORT;
-                axisEJZ1.Config.MoterConfig.HWNegLimitDuration.Value = 0;
-
-                axisEJZ1.Config.MoterConfig.HWPosLimitTrigHigh.Value = false;
-                axisEJZ1.Config.MoterConfig.HWPosLimitAction.Value = EnumEventActionType.ActionABORT;
-                axisEJZ1.Config.MoterConfig.HWPosLimitDuration.Value = 0;
-
-                axisEJZ1.Config.MoterConfig.SWNegLimitTrigger.Value = -116055;
-                axisEJZ1.Config.MoterConfig.SWNegLimitAction.Value = EnumEventActionType.ActionE_STOP;
-                axisEJZ1.Config.MoterConfig.SWPosLimitTrigger.Value = 116055;
-                axisEJZ1.Config.MoterConfig.SWPosLimitAction.Value = EnumEventActionType.ActionE_STOP;
-
-                axisEJZ1.Config.InputHome.Value = EnumDedicateInputs.DedicateInputHOME;
-                axisEJZ1.Config.InputIndex.Value = EnumDedicateInputs.DedicateInputINDEX;
-                axisEJZ1.Config.InputMotor.Value = EnumMotorDedicatedIn.MotorDedicatedInHOME;
-
-                axisEJZ1.Config.ControlType.Value = ControlLoopTypeEnum.PID;
-                axisEJZ1.Config.PIDCoeff.GainProportional.Value = 450;
-                axisEJZ1.Config.PIDCoeff.GainIntegral.Value = 0.4;
-                axisEJZ1.Config.PIDCoeff.GainDerivative.Value = 2500;
-                axisEJZ1.Config.PIDCoeff.FeedForwardPosition.Value = 0;
-                axisEJZ1.Config.PIDCoeff.FeedForwardVelocity.Value = 0;
-                axisEJZ1.Config.PIDCoeff.FeedForwardAcceleration.Value = 0;
-                axisEJZ1.Config.PIDCoeff.FeedForwardFriction.Value = 0;
-                axisEJZ1.Config.PIDCoeff.DRate.Value = 0;
-                axisEJZ1.Config.PIDCoeff.IntegrationMaxMoving.Value = 15000;
-                axisEJZ1.Config.PIDCoeff.IntegrationMaxRest.Value = 32767;
-                axisEJZ1.Config.PIDCoeff.OutputLimitHigh.Value = 15384;
-                axisEJZ1.Config.PIDCoeff.OutputLimtLow.Value = -15384;
-                axisEJZ1.Config.PIDCoeff.OutputVelocityLimitHigh.Value = 32767;
-                axisEJZ1.Config.PIDCoeff.OutputVelocityLimitLow.Value = -32767;
-                axisEJZ1.Config.PIDCoeff.OutputOffset.Value = -32768;
-                axisEJZ1.Config.PIDCoeff.NoisePositionFFT.Value = 0;
-
-
-                ProbeAxisProviders.Add(axisEJZ1);
-                #endregion
-
-                #region Axis NZD1
-
-                ProbeAxisObject axisNZD1 = new ProbeAxisObject(0, 25, EnumAxisConstants.NZD1);
-                axisNZD1.Param.IndexSearchingSpeed.Value = 300;
-                axisNZD1.Param.HomeOffset.Value = 0;
-                axisNZD1.Param.HomeShift.Value = 0;
-                axisNZD1.AxisType.Value = EnumAxisConstants.NZD1;
-                axisNZD1.Label.Value = "NZD1";
-                axisNZD1.AxisGroupType.Value = EnumAxisGroupType.SINGEAXIS;
-                axisNZD1.MasterAxis.Value = EnumAxisConstants.Z;
-
-                axisNZD1.HomingType.Value = HomingMethodType.SYNC_NHPI;
-                axisNZD1.Param.HomeInvert.Value = false;
-                axisNZD1.Param.IndexInvert.Value = false;
-                axisNZD1.Param.FeedOverride.Value = 1;
-
-
-                axisNZD1.Param.HommingSpeed.Value = 2000;
-                axisNZD1.Param.HommingAcceleration.Value = 20000;
-                axisNZD1.Param.HommingDecceleration.Value = 20000;
-                axisNZD1.Param.FinalVelociy.Value = 0;
-                axisNZD1.Param.Speed.Value = 2000;
-                axisNZD1.Param.Acceleration.Value = 20000;
-                axisNZD1.Param.Decceleration.Value = 20000;
-                axisNZD1.Param.AccelerationJerk.Value = 200000;
-                axisNZD1.Param.DeccelerationJerk.Value = 200000;
-                axisNZD1.Param.SeqAcc.Value = 0;
-                axisNZD1.Param.SeqDcc.Value = 0;
-                axisNZD1.Param.DtoPRatio.Value = 2.5;
-                axisNZD1.Param.NegSWLimit.Value = -1000000;
-                axisNZD1.Param.PosSWLimit.Value = -1000000;
-                axisNZD1.Param.POTIndex.Value = 0;
-                axisNZD1.Param.NOTIndex.Value = 0;
-                axisNZD1.Param.HOMEIndex.Value = 1;
-                axisNZD1.Param.TimeOut.Value = 600000;
-                axisNZD1.Param.HomeDistLimit.Value = 49500;
-                axisNZD1.Param.IndexDistLimit.Value = 7000;
-
-                axisNZD1.Config.StopRate.Value = 0.05;
-                axisNZD1.Config.EStopRate.Value = 0.025;
-                axisNZD1.Config.Inposition.Value = 1118;
-                axisNZD1.Config.NearTargetDistance.Value = 5590;
-                axisNZD1.Config.VelocityTolerance.Value = 559241;
-                axisNZD1.Config.SettlingTime.Value = 0;
-
-                axisNZD1.Config.MoterConfig.AmpEnable.Value = true;
-                axisNZD1.Config.MoterConfig.MotorType.Value = EnumMoterType.SERVO;
-                axisNZD1.Config.MoterConfig.AmpDisableAction.Value = EnumAmpActionType.NONE;
-
-                axisNZD1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(0, true);
-                axisNZD1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(1, true);
-
-                axisNZD1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(0, false);
-                axisNZD1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(1, false);
-
-                axisNZD1.Config.MoterConfig.FeedbackType.Value.Insert(0, EnumFeedbackType.QUAD_AB);
-                axisNZD1.Config.MoterConfig.FeedbackType.Value.Insert(1, EnumFeedbackType.QUAD_AB);
-
-                axisNZD1.Config.MoterConfig.AmpDisableDelay.Value = 0;
-                axisNZD1.Config.MoterConfig.BrakeApplyDelay.Value = 0;
-                axisNZD1.Config.MoterConfig.BrakeReleaseDelay.Value = 0;
-                axisNZD1.Config.MoterConfig.EnableStepLoopBack.Value = false;
-                axisNZD1.Config.MoterConfig.StepPulseWidth.Value = 5.6e-007;
-
-                axisNZD1.Config.MoterConfig.PulseAType.Value = EnumPulseType.MotorStepperPulseTypeQUADB;
-                axisNZD1.Config.MoterConfig.PulseBType.Value = EnumPulseType.MotorStepperPulseTypeQUADA;
-
-                axisNZD1.Config.MoterConfig.PulseAInv.Value = false;
-                axisNZD1.Config.MoterConfig.PulseBInv.Value = false;
-
-                axisNZD1.Config.MoterConfig.AmpFaultTrigHigh.Value = true;
-                axisNZD1.Config.MoterConfig.AmpFaultAction.Value = EnumEventActionType.ActionABORT;
-                axisNZD1.Config.MoterConfig.AmpFaultDuration.Value = 0;
-
-                axisNZD1.Config.MoterConfig.AmpWarningTrigHigh.Value = true;
-                axisNZD1.Config.MoterConfig.AmpWarningAction.Value = EnumEventActionType.ActionNONE;
-                axisNZD1.Config.MoterConfig.AmpWarningDuration.Value = 0;
-
-                axisNZD1.Config.MoterConfig.ErrorLimitTrigger.Value = 5000;
-                axisNZD1.Config.MoterConfig.ErrorLimitAction.Value = EnumEventActionType.ActionABORT;
-                axisNZD1.Config.MoterConfig.ErrorLimitDuration.Value = 0;
-
-                axisNZD1.Config.MoterConfig.TorqueLimitTrigger.Value = 32767;
-                axisNZD1.Config.MoterConfig.TorqueLimitAction.Value = EnumEventActionType.ActionNONE;
-                axisNZD1.Config.MoterConfig.TorqueLimitDuration.Value = 0;
-
-                axisNZD1.Config.MoterConfig.HWNegLimitTrigHigh.Value = false;
-                axisNZD1.Config.MoterConfig.HWNegLimitAction.Value = EnumEventActionType.ActionABORT;
-                axisNZD1.Config.MoterConfig.HWNegLimitDuration.Value = 0;
-
-                axisNZD1.Config.MoterConfig.HWPosLimitTrigHigh.Value = false;
-                axisNZD1.Config.MoterConfig.HWPosLimitAction.Value = EnumEventActionType.ActionABORT;
-                axisNZD1.Config.MoterConfig.HWPosLimitDuration.Value = 0;
-
-                axisNZD1.Config.MoterConfig.SWNegLimitTrigger.Value = -1000000;
-                axisNZD1.Config.MoterConfig.SWNegLimitAction.Value = EnumEventActionType.ActionE_STOP;
-                axisNZD1.Config.MoterConfig.SWPosLimitTrigger.Value = -1000000;
-                axisNZD1.Config.MoterConfig.SWPosLimitAction.Value = EnumEventActionType.ActionE_STOP;
-
-                axisNZD1.Config.InputHome.Value = EnumDedicateInputs.DedicateInputHOME;
-                axisNZD1.Config.InputIndex.Value = EnumDedicateInputs.DedicateInputINDEX;
-                axisNZD1.Config.InputMotor.Value = EnumMotorDedicatedIn.MotorDedicatedInINDEX_PRIMARY;
-
-                axisNZD1.Config.ControlType.Value = ControlLoopTypeEnum.PID;
-                axisNZD1.Config.PIDCoeff.GainProportional.Value = 0;
-                axisNZD1.Config.PIDCoeff.GainIntegral.Value = 0;
-                axisNZD1.Config.PIDCoeff.GainDerivative.Value = 0;
-                axisNZD1.Config.PIDCoeff.FeedForwardPosition.Value = 0;
-                axisNZD1.Config.PIDCoeff.FeedForwardVelocity.Value = 0;
-                axisNZD1.Config.PIDCoeff.FeedForwardAcceleration.Value = 0;
-                axisNZD1.Config.PIDCoeff.FeedForwardFriction.Value = 0;
-                axisNZD1.Config.PIDCoeff.DRate.Value = 0;
-                axisNZD1.Config.PIDCoeff.IntegrationMaxMoving.Value = 0;
-                axisNZD1.Config.PIDCoeff.IntegrationMaxRest.Value = 0;
-                axisNZD1.Config.PIDCoeff.OutputLimitHigh.Value = 0;
-                axisNZD1.Config.PIDCoeff.OutputLimtLow.Value = 0;
-                axisNZD1.Config.PIDCoeff.OutputVelocityLimitHigh.Value = 0;
-                axisNZD1.Config.PIDCoeff.OutputVelocityLimitLow.Value = 0;
-                axisNZD1.Config.PIDCoeff.OutputOffset.Value = 0;
-                axisNZD1.Config.PIDCoeff.NoisePositionFFT.Value = 0;
-
-
-                ProbeAxisProviders.Add(axisNZD1);
+                //#region Axis EJPZ1
+                //ProbeAxisObject axisEJPZ1 = new ProbeAxisObject(0, 23, EnumAxisConstants.EJPZ1);
+                //axisEJPZ1.Param.IndexSearchingSpeed.Value = 1000;
+                //axisEJPZ1.Param.HomeOffset.Value = 0;
+                //axisEJPZ1.Param.HomeShift.Value = 0;
+                //axisEJPZ1.AxisType.Value = EnumAxisConstants.EJPZ1;
+                //axisEJPZ1.Label.Value = "EJPZ1";
+                //axisEJPZ1.AxisGroupType.Value = EnumAxisGroupType.SINGEAXIS;
+                //axisEJPZ1.Param.FeedOverride.Value = 1;
+
+
+                //axisEJPZ1.HomingType.Value = HomingMethodType.RLSEDGE;
+                //axisEJPZ1.Param.HomeInvert.Value = false;
+                //axisEJPZ1.Param.IndexInvert.Value = true;
+
+                //axisEJPZ1.Param.HommingSpeed.Value = 2000;
+                //axisEJPZ1.Param.HommingAcceleration.Value = 20000;
+                //axisEJPZ1.Param.HommingDecceleration.Value = 20000;
+                //axisEJPZ1.Param.FinalVelociy.Value = 0;
+                //axisEJPZ1.Param.Speed.Value = 2000;
+                //axisEJPZ1.Param.Acceleration.Value = 20000;
+                //axisEJPZ1.Param.Decceleration.Value = 20000;
+                //axisEJPZ1.Param.AccelerationJerk.Value = 200000;
+                //axisEJPZ1.Param.DeccelerationJerk.Value = 200000;
+                //axisEJPZ1.Param.SeqSpeed.Value = 2000;
+                //axisEJPZ1.Param.SeqAcc.Value = 20000;
+                //axisEJPZ1.Param.SeqDcc.Value = 20000;
+                //axisEJPZ1.Param.DtoPRatio.Value = 1;
+                //axisEJPZ1.Param.NegSWLimit.Value = -1000000;  // Limit 값 크게 줘서 없는셈
+                //axisEJPZ1.Param.PosSWLimit.Value = 1000000;
+                //axisEJPZ1.Param.POTIndex.Value = 0;
+                //axisEJPZ1.Param.NOTIndex.Value = 0;
+                //axisEJPZ1.Param.HOMEIndex.Value = 1;
+                //axisEJPZ1.Param.TimeOut.Value = 600000;    // TimeOut 값 크게 줘서 없는셈
+                //axisEJPZ1.Param.HomeDistLimit.Value = 102000;
+                //axisEJPZ1.Param.IndexDistLimit.Value = 0;
+
+                //axisEJPZ1.Config.StopRate.Value = 0.05;
+                //axisEJPZ1.Config.EStopRate.Value = 0.025;
+                //axisEJPZ1.Config.Inposition.Value = 200;
+                //axisEJPZ1.Config.NearTargetDistance.Value = 500;
+                //axisEJPZ1.Config.VelocityTolerance.Value = 40000;
+                //axisEJPZ1.Config.SettlingTime.Value = 0;
+
+                //axisEJPZ1.Config.MoterConfig.AmpEnable.Value = false;
+                //axisEJPZ1.Config.MoterConfig.MotorType.Value = EnumMoterType.STEPPER;
+                //axisEJPZ1.Config.MoterConfig.AmpDisableAction.Value = EnumAmpActionType.CMD_ACT;
+
+                //axisEJPZ1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(0, false);
+                //axisEJPZ1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(1, false);
+
+                //axisEJPZ1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(0, false);
+                //axisEJPZ1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(1, false);
+
+                //axisEJPZ1.Config.MoterConfig.FeedbackType.Value.Insert(0, EnumFeedbackType.QUAD_AB);
+                //axisEJPZ1.Config.MoterConfig.FeedbackType.Value.Insert(1, EnumFeedbackType.QUAD_AB);
+
+                //axisEJPZ1.Config.MoterConfig.AmpDisableDelay.Value = 0;
+                //axisEJPZ1.Config.MoterConfig.BrakeApplyDelay.Value = 0;
+                //axisEJPZ1.Config.MoterConfig.BrakeReleaseDelay.Value = 0;
+                //axisEJPZ1.Config.MoterConfig.EnableStepLoopBack.Value = false;
+                //axisEJPZ1.Config.MoterConfig.StepPulseWidth.Value = 5.6e-007;
+
+                //axisEJPZ1.Config.MoterConfig.PulseAType.Value = EnumPulseType.MotorStepperPulseTypeQUADA;
+                //axisEJPZ1.Config.MoterConfig.PulseBType.Value = EnumPulseType.MotorStepperPulseTypeQUADB;
+
+                //axisEJPZ1.Config.MoterConfig.PulseAInv.Value = false;
+                //axisEJPZ1.Config.MoterConfig.PulseBInv.Value = false;
+
+                //axisEJPZ1.Config.MoterConfig.AmpFaultTrigHigh.Value = false;
+                //axisEJPZ1.Config.MoterConfig.AmpFaultAction.Value = EnumEventActionType.ActionABORT;
+                //axisEJPZ1.Config.MoterConfig.AmpFaultDuration.Value = 0;
+
+                //axisEJPZ1.Config.MoterConfig.AmpWarningTrigHigh.Value = true;
+                //axisEJPZ1.Config.MoterConfig.AmpWarningAction.Value = EnumEventActionType.ActionNONE;
+                //axisEJPZ1.Config.MoterConfig.AmpWarningDuration.Value = 0;
+
+                //axisEJPZ1.Config.MoterConfig.ErrorLimitTrigger.Value = 5000;
+                //axisEJPZ1.Config.MoterConfig.ErrorLimitAction.Value = EnumEventActionType.ActionABORT;
+                //axisEJPZ1.Config.MoterConfig.ErrorLimitDuration.Value = 0;
+
+                //axisEJPZ1.Config.MoterConfig.TorqueLimitTrigger.Value = 32767;
+                //axisEJPZ1.Config.MoterConfig.TorqueLimitAction.Value = EnumEventActionType.ActionNONE;
+                //axisEJPZ1.Config.MoterConfig.TorqueLimitDuration.Value = 0;
+
+                //axisEJPZ1.Config.MoterConfig.HWNegLimitTrigHigh.Value = false;
+                //axisEJPZ1.Config.MoterConfig.HWNegLimitAction.Value = EnumEventActionType.ActionABORT;
+                //axisEJPZ1.Config.MoterConfig.HWNegLimitDuration.Value = 0;
+
+                //axisEJPZ1.Config.MoterConfig.HWPosLimitTrigHigh.Value = false;
+                //axisEJPZ1.Config.MoterConfig.HWPosLimitAction.Value = EnumEventActionType.ActionABORT;
+                //axisEJPZ1.Config.MoterConfig.HWPosLimitDuration.Value = 0;
+
+                //axisEJPZ1.Config.MoterConfig.SWNegLimitTrigger.Value = -116055;
+                //axisEJPZ1.Config.MoterConfig.SWNegLimitAction.Value = EnumEventActionType.ActionE_STOP;
+                //axisEJPZ1.Config.MoterConfig.SWPosLimitTrigger.Value = 116055;
+                //axisEJPZ1.Config.MoterConfig.SWPosLimitAction.Value = EnumEventActionType.ActionE_STOP;
+
+                //axisEJPZ1.Config.InputHome.Value = EnumDedicateInputs.DedicateInputHOME;
+                //axisEJPZ1.Config.InputIndex.Value = EnumDedicateInputs.DedicateInputINDEX;
+                //axisEJPZ1.Config.InputMotor.Value = EnumMotorDedicatedIn.MotorDedicatedInHOME;
+
+                //axisEJPZ1.Config.ControlType.Value = ControlLoopTypeEnum.PID;
+                //axisEJPZ1.Config.PIDCoeff.GainProportional.Value = 450;
+                //axisEJPZ1.Config.PIDCoeff.GainIntegral.Value = 0.4;
+                //axisEJPZ1.Config.PIDCoeff.GainDerivative.Value = 2500;
+                //axisEJPZ1.Config.PIDCoeff.FeedForwardPosition.Value = 0;
+                //axisEJPZ1.Config.PIDCoeff.FeedForwardVelocity.Value = 0;
+                //axisEJPZ1.Config.PIDCoeff.FeedForwardAcceleration.Value = 0;
+                //axisEJPZ1.Config.PIDCoeff.FeedForwardFriction.Value = 0;
+                //axisEJPZ1.Config.PIDCoeff.DRate.Value = 0;
+                //axisEJPZ1.Config.PIDCoeff.IntegrationMaxMoving.Value = 15000;
+                //axisEJPZ1.Config.PIDCoeff.IntegrationMaxRest.Value = 32767;
+                //axisEJPZ1.Config.PIDCoeff.OutputLimitHigh.Value = 15384;
+                //axisEJPZ1.Config.PIDCoeff.OutputLimtLow.Value = -15384;
+                //axisEJPZ1.Config.PIDCoeff.OutputVelocityLimitHigh.Value = 32767;
+                //axisEJPZ1.Config.PIDCoeff.OutputVelocityLimitLow.Value = -32767;
+                //axisEJPZ1.Config.PIDCoeff.OutputOffset.Value = -32768;
+                //axisEJPZ1.Config.PIDCoeff.NoisePositionFFT.Value = 0;
+
+
+                //ProbeAxisProviders.Add(axisEJPZ1);
+                //#endregion
+                //#region Axis EJZ1
+                //ProbeAxisObject axisEJZ1 = new ProbeAxisObject(0, 24, EnumAxisConstants.EJZ1);
+                //axisEJZ1.Param.IndexSearchingSpeed.Value = 1000;
+                //axisEJZ1.Param.HomeOffset.Value = 0;
+                //axisEJZ1.Param.HomeShift.Value = 0;
+                //axisEJZ1.AxisType.Value = EnumAxisConstants.EJZ1;
+                //axisEJZ1.Label.Value = "EJZ1";
+                //axisEJZ1.AxisGroupType.Value = EnumAxisGroupType.SINGEAXIS;
+                //axisEJZ1.Param.FeedOverride.Value = 1;
+
+
+                //axisEJZ1.HomingType.Value = HomingMethodType.RLSEDGE;
+                //axisEJZ1.Param.HomeInvert.Value = false;
+                //axisEJZ1.Param.IndexInvert.Value = true;
+
+                //axisEJZ1.Param.HommingSpeed.Value = 2000;
+                //axisEJZ1.Param.HommingAcceleration.Value = 20000;
+                //axisEJZ1.Param.HommingDecceleration.Value = 20000;
+                //axisEJZ1.Param.FinalVelociy.Value = 0;
+                //axisEJZ1.Param.Speed.Value = 2000;
+                //axisEJZ1.Param.Acceleration.Value = 20000;
+                //axisEJZ1.Param.Decceleration.Value = 20000;
+                //axisEJZ1.Param.AccelerationJerk.Value = 200000;
+                //axisEJZ1.Param.DeccelerationJerk.Value = 200000;
+                //axisEJZ1.Param.SeqSpeed.Value = 2000;
+                //axisEJZ1.Param.SeqAcc.Value = 20000;
+                //axisEJZ1.Param.SeqDcc.Value = 20000;
+                //axisEJZ1.Param.DtoPRatio.Value = 1;
+                //axisEJZ1.Param.NegSWLimit.Value = -1000000;  // Limit 값 크게 줘서 없는셈
+                //axisEJZ1.Param.PosSWLimit.Value = 1000000;
+                //axisEJZ1.Param.POTIndex.Value = 0;
+                //axisEJZ1.Param.NOTIndex.Value = 0;
+                //axisEJZ1.Param.HOMEIndex.Value = 1;
+                //axisEJZ1.Param.TimeOut.Value = 600000;    // TimeOut 값 크게 줘서 없는셈
+                //axisEJZ1.Param.HomeDistLimit.Value = 102000;
+                //axisEJZ1.Param.IndexDistLimit.Value = 0;
+
+                //axisEJZ1.Config.StopRate.Value = 0.05;
+                //axisEJZ1.Config.EStopRate.Value = 0.025;
+                //axisEJZ1.Config.Inposition.Value = 200;
+                //axisEJZ1.Config.NearTargetDistance.Value = 500;
+                //axisEJZ1.Config.VelocityTolerance.Value = 40000;
+                //axisEJZ1.Config.SettlingTime.Value = 0;
+
+                //axisEJZ1.Config.MoterConfig.AmpEnable.Value = false;
+                //axisEJZ1.Config.MoterConfig.MotorType.Value = EnumMoterType.STEPPER;
+                //axisEJZ1.Config.MoterConfig.AmpDisableAction.Value = EnumAmpActionType.CMD_ACT;
+
+                //axisEJZ1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(0, false);
+                //axisEJZ1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(1, false);
+
+                //axisEJZ1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(0, false);
+                //axisEJZ1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(1, false);
+
+                //axisEJZ1.Config.MoterConfig.FeedbackType.Value.Insert(0, EnumFeedbackType.QUAD_AB);
+                //axisEJZ1.Config.MoterConfig.FeedbackType.Value.Insert(1, EnumFeedbackType.QUAD_AB);
+
+                //axisEJZ1.Config.MoterConfig.AmpDisableDelay.Value = 0;
+                //axisEJZ1.Config.MoterConfig.BrakeApplyDelay.Value = 0;
+                //axisEJZ1.Config.MoterConfig.BrakeReleaseDelay.Value = 0;
+                //axisEJZ1.Config.MoterConfig.EnableStepLoopBack.Value = false;
+                //axisEJZ1.Config.MoterConfig.StepPulseWidth.Value = 5.6e-007;
+
+                //axisEJZ1.Config.MoterConfig.PulseAType.Value = EnumPulseType.MotorStepperPulseTypeQUADA;
+                //axisEJZ1.Config.MoterConfig.PulseBType.Value = EnumPulseType.MotorStepperPulseTypeQUADB;
+
+                //axisEJZ1.Config.MoterConfig.PulseAInv.Value = false;
+                //axisEJZ1.Config.MoterConfig.PulseBInv.Value = false;
+
+                //axisEJZ1.Config.MoterConfig.AmpFaultTrigHigh.Value = false;
+                //axisEJZ1.Config.MoterConfig.AmpFaultAction.Value = EnumEventActionType.ActionABORT;
+                //axisEJZ1.Config.MoterConfig.AmpFaultDuration.Value = 0;
+
+                //axisEJZ1.Config.MoterConfig.AmpWarningTrigHigh.Value = true;
+                //axisEJZ1.Config.MoterConfig.AmpWarningAction.Value = EnumEventActionType.ActionNONE;
+                //axisEJZ1.Config.MoterConfig.AmpWarningDuration.Value = 0;
+
+                //axisEJZ1.Config.MoterConfig.ErrorLimitTrigger.Value = 5000;
+                //axisEJZ1.Config.MoterConfig.ErrorLimitAction.Value = EnumEventActionType.ActionABORT;
+                //axisEJZ1.Config.MoterConfig.ErrorLimitDuration.Value = 0;
+
+                //axisEJZ1.Config.MoterConfig.TorqueLimitTrigger.Value = 32767;
+                //axisEJZ1.Config.MoterConfig.TorqueLimitAction.Value = EnumEventActionType.ActionNONE;
+                //axisEJZ1.Config.MoterConfig.TorqueLimitDuration.Value = 0;
+
+                //axisEJZ1.Config.MoterConfig.HWNegLimitTrigHigh.Value = false;
+                //axisEJZ1.Config.MoterConfig.HWNegLimitAction.Value = EnumEventActionType.ActionABORT;
+                //axisEJZ1.Config.MoterConfig.HWNegLimitDuration.Value = 0;
+
+                //axisEJZ1.Config.MoterConfig.HWPosLimitTrigHigh.Value = false;
+                //axisEJZ1.Config.MoterConfig.HWPosLimitAction.Value = EnumEventActionType.ActionABORT;
+                //axisEJZ1.Config.MoterConfig.HWPosLimitDuration.Value = 0;
+
+                //axisEJZ1.Config.MoterConfig.SWNegLimitTrigger.Value = -116055;
+                //axisEJZ1.Config.MoterConfig.SWNegLimitAction.Value = EnumEventActionType.ActionE_STOP;
+                //axisEJZ1.Config.MoterConfig.SWPosLimitTrigger.Value = 116055;
+                //axisEJZ1.Config.MoterConfig.SWPosLimitAction.Value = EnumEventActionType.ActionE_STOP;
+
+                //axisEJZ1.Config.InputHome.Value = EnumDedicateInputs.DedicateInputHOME;
+                //axisEJZ1.Config.InputIndex.Value = EnumDedicateInputs.DedicateInputINDEX;
+                //axisEJZ1.Config.InputMotor.Value = EnumMotorDedicatedIn.MotorDedicatedInHOME;
+
+                //axisEJZ1.Config.ControlType.Value = ControlLoopTypeEnum.PID;
+                //axisEJZ1.Config.PIDCoeff.GainProportional.Value = 450;
+                //axisEJZ1.Config.PIDCoeff.GainIntegral.Value = 0.4;
+                //axisEJZ1.Config.PIDCoeff.GainDerivative.Value = 2500;
+                //axisEJZ1.Config.PIDCoeff.FeedForwardPosition.Value = 0;
+                //axisEJZ1.Config.PIDCoeff.FeedForwardVelocity.Value = 0;
+                //axisEJZ1.Config.PIDCoeff.FeedForwardAcceleration.Value = 0;
+                //axisEJZ1.Config.PIDCoeff.FeedForwardFriction.Value = 0;
+                //axisEJZ1.Config.PIDCoeff.DRate.Value = 0;
+                //axisEJZ1.Config.PIDCoeff.IntegrationMaxMoving.Value = 15000;
+                //axisEJZ1.Config.PIDCoeff.IntegrationMaxRest.Value = 32767;
+                //axisEJZ1.Config.PIDCoeff.OutputLimitHigh.Value = 15384;
+                //axisEJZ1.Config.PIDCoeff.OutputLimtLow.Value = -15384;
+                //axisEJZ1.Config.PIDCoeff.OutputVelocityLimitHigh.Value = 32767;
+                //axisEJZ1.Config.PIDCoeff.OutputVelocityLimitLow.Value = -32767;
+                //axisEJZ1.Config.PIDCoeff.OutputOffset.Value = -32768;
+                //axisEJZ1.Config.PIDCoeff.NoisePositionFFT.Value = 0;
+
+
+                //ProbeAxisProviders.Add(axisEJZ1);
+                //#endregion
+
+                //#region Axis NZD1
+
+                //ProbeAxisObject axisNZD1 = new ProbeAxisObject(0, 25, EnumAxisConstants.NZD1);
+                //axisNZD1.Param.IndexSearchingSpeed.Value = 300;
+                //axisNZD1.Param.HomeOffset.Value = 0;
+                //axisNZD1.Param.HomeShift.Value = 0;
+                //axisNZD1.AxisType.Value = EnumAxisConstants.NZD1;
+                //axisNZD1.Label.Value = "NZD1";
+                //axisNZD1.AxisGroupType.Value = EnumAxisGroupType.SINGEAXIS;
+                //axisNZD1.MasterAxis.Value = EnumAxisConstants.Z;
+
+                //axisNZD1.HomingType.Value = HomingMethodType.SYNC_NHPI;
+                //axisNZD1.Param.HomeInvert.Value = false;
+                //axisNZD1.Param.IndexInvert.Value = false;
+                //axisNZD1.Param.FeedOverride.Value = 1;
+
+
+                //axisNZD1.Param.HommingSpeed.Value = 2000;
+                //axisNZD1.Param.HommingAcceleration.Value = 20000;
+                //axisNZD1.Param.HommingDecceleration.Value = 20000;
+                //axisNZD1.Param.FinalVelociy.Value = 0;
+                //axisNZD1.Param.Speed.Value = 2000;
+                //axisNZD1.Param.Acceleration.Value = 20000;
+                //axisNZD1.Param.Decceleration.Value = 20000;
+                //axisNZD1.Param.AccelerationJerk.Value = 200000;
+                //axisNZD1.Param.DeccelerationJerk.Value = 200000;
+                //axisNZD1.Param.SeqAcc.Value = 0;
+                //axisNZD1.Param.SeqDcc.Value = 0;
+                //axisNZD1.Param.DtoPRatio.Value = 2.5;
+                //axisNZD1.Param.NegSWLimit.Value = -1000000;
+                //axisNZD1.Param.PosSWLimit.Value = -1000000;
+                //axisNZD1.Param.POTIndex.Value = 0;
+                //axisNZD1.Param.NOTIndex.Value = 0;
+                //axisNZD1.Param.HOMEIndex.Value = 1;
+                //axisNZD1.Param.TimeOut.Value = 600000;
+                //axisNZD1.Param.HomeDistLimit.Value = 49500;
+                //axisNZD1.Param.IndexDistLimit.Value = 7000;
+
+                //axisNZD1.Config.StopRate.Value = 0.05;
+                //axisNZD1.Config.EStopRate.Value = 0.025;
+                //axisNZD1.Config.Inposition.Value = 1118;
+                //axisNZD1.Config.NearTargetDistance.Value = 5590;
+                //axisNZD1.Config.VelocityTolerance.Value = 559241;
+                //axisNZD1.Config.SettlingTime.Value = 0;
+
+                //axisNZD1.Config.MoterConfig.AmpEnable.Value = true;
+                //axisNZD1.Config.MoterConfig.MotorType.Value = EnumMoterType.SERVO;
+                //axisNZD1.Config.MoterConfig.AmpDisableAction.Value = EnumAmpActionType.NONE;
+
+                //axisNZD1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(0, true);
+                //axisNZD1.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(1, true);
+
+                //axisNZD1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(0, false);
+                //axisNZD1.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(1, false);
+
+                //axisNZD1.Config.MoterConfig.FeedbackType.Value.Insert(0, EnumFeedbackType.QUAD_AB);
+                //axisNZD1.Config.MoterConfig.FeedbackType.Value.Insert(1, EnumFeedbackType.QUAD_AB);
+
+                //axisNZD1.Config.MoterConfig.AmpDisableDelay.Value = 0;
+                //axisNZD1.Config.MoterConfig.BrakeApplyDelay.Value = 0;
+                //axisNZD1.Config.MoterConfig.BrakeReleaseDelay.Value = 0;
+                //axisNZD1.Config.MoterConfig.EnableStepLoopBack.Value = false;
+                //axisNZD1.Config.MoterConfig.StepPulseWidth.Value = 5.6e-007;
+
+                //axisNZD1.Config.MoterConfig.PulseAType.Value = EnumPulseType.MotorStepperPulseTypeQUADB;
+                //axisNZD1.Config.MoterConfig.PulseBType.Value = EnumPulseType.MotorStepperPulseTypeQUADA;
+
+                //axisNZD1.Config.MoterConfig.PulseAInv.Value = false;
+                //axisNZD1.Config.MoterConfig.PulseBInv.Value = false;
+
+                //axisNZD1.Config.MoterConfig.AmpFaultTrigHigh.Value = true;
+                //axisNZD1.Config.MoterConfig.AmpFaultAction.Value = EnumEventActionType.ActionABORT;
+                //axisNZD1.Config.MoterConfig.AmpFaultDuration.Value = 0;
+
+                //axisNZD1.Config.MoterConfig.AmpWarningTrigHigh.Value = true;
+                //axisNZD1.Config.MoterConfig.AmpWarningAction.Value = EnumEventActionType.ActionNONE;
+                //axisNZD1.Config.MoterConfig.AmpWarningDuration.Value = 0;
+
+                //axisNZD1.Config.MoterConfig.ErrorLimitTrigger.Value = 5000;
+                //axisNZD1.Config.MoterConfig.ErrorLimitAction.Value = EnumEventActionType.ActionABORT;
+                //axisNZD1.Config.MoterConfig.ErrorLimitDuration.Value = 0;
+
+                //axisNZD1.Config.MoterConfig.TorqueLimitTrigger.Value = 32767;
+                //axisNZD1.Config.MoterConfig.TorqueLimitAction.Value = EnumEventActionType.ActionNONE;
+                //axisNZD1.Config.MoterConfig.TorqueLimitDuration.Value = 0;
+
+                //axisNZD1.Config.MoterConfig.HWNegLimitTrigHigh.Value = false;
+                //axisNZD1.Config.MoterConfig.HWNegLimitAction.Value = EnumEventActionType.ActionABORT;
+                //axisNZD1.Config.MoterConfig.HWNegLimitDuration.Value = 0;
+
+                //axisNZD1.Config.MoterConfig.HWPosLimitTrigHigh.Value = false;
+                //axisNZD1.Config.MoterConfig.HWPosLimitAction.Value = EnumEventActionType.ActionABORT;
+                //axisNZD1.Config.MoterConfig.HWPosLimitDuration.Value = 0;
+
+                //axisNZD1.Config.MoterConfig.SWNegLimitTrigger.Value = -1000000;
+                //axisNZD1.Config.MoterConfig.SWNegLimitAction.Value = EnumEventActionType.ActionE_STOP;
+                //axisNZD1.Config.MoterConfig.SWPosLimitTrigger.Value = -1000000;
+                //axisNZD1.Config.MoterConfig.SWPosLimitAction.Value = EnumEventActionType.ActionE_STOP;
+
+                //axisNZD1.Config.InputHome.Value = EnumDedicateInputs.DedicateInputHOME;
+                //axisNZD1.Config.InputIndex.Value = EnumDedicateInputs.DedicateInputINDEX;
+                //axisNZD1.Config.InputMotor.Value = EnumMotorDedicatedIn.MotorDedicatedInINDEX_PRIMARY;
+
+                //axisNZD1.Config.ControlType.Value = ControlLoopTypeEnum.PID;
+                //axisNZD1.Config.PIDCoeff.GainProportional.Value = 0;
+                //axisNZD1.Config.PIDCoeff.GainIntegral.Value = 0;
+                //axisNZD1.Config.PIDCoeff.GainDerivative.Value = 0;
+                //axisNZD1.Config.PIDCoeff.FeedForwardPosition.Value = 0;
+                //axisNZD1.Config.PIDCoeff.FeedForwardVelocity.Value = 0;
+                //axisNZD1.Config.PIDCoeff.FeedForwardAcceleration.Value = 0;
+                //axisNZD1.Config.PIDCoeff.FeedForwardFriction.Value = 0;
+                //axisNZD1.Config.PIDCoeff.DRate.Value = 0;
+                //axisNZD1.Config.PIDCoeff.IntegrationMaxMoving.Value = 0;
+                //axisNZD1.Config.PIDCoeff.IntegrationMaxRest.Value = 0;
+                //axisNZD1.Config.PIDCoeff.OutputLimitHigh.Value = 0;
+                //axisNZD1.Config.PIDCoeff.OutputLimtLow.Value = 0;
+                //axisNZD1.Config.PIDCoeff.OutputVelocityLimitHigh.Value = 0;
+                //axisNZD1.Config.PIDCoeff.OutputVelocityLimitLow.Value = 0;
+                //axisNZD1.Config.PIDCoeff.OutputOffset.Value = 0;
+                //axisNZD1.Config.PIDCoeff.NoisePositionFFT.Value = 0;
+
+
+                //ProbeAxisProviders.Add(axisNZD1);
+                //#endregion
+
+                #region Axis NSZ2
+
+                ProbeAxisObject axisNSZ2 = new ProbeAxisObject(0, 17, EnumAxisConstants.NSZ2);
+                axisNSZ2.Param.IndexSearchingSpeed.Value = 300;
+                axisNSZ2.Param.HomeOffset.Value = 0;
+                axisNSZ2.Param.HomeShift.Value = 0;
+                axisNSZ2.AxisType.Value = EnumAxisConstants.NSZ1;
+                axisNSZ2.Label.Value = "NSZ1";
+                axisNSZ2.AxisGroupType.Value = EnumAxisGroupType.SINGEAXIS;
+                axisNSZ2.MasterAxis.Value = EnumAxisConstants.Z;
+
+                axisNSZ2.HomingType.Value = HomingMethodType.SYNC_NHPI;
+                axisNSZ2.Param.HomeInvert.Value = false;
+                axisNSZ2.Param.IndexInvert.Value = false;
+                axisNSZ2.Param.FeedOverride.Value = 1;
+
+
+                axisNSZ2.Param.HommingSpeed.Value = 2000;
+                axisNSZ2.Param.HommingAcceleration.Value = 20000;
+                axisNSZ2.Param.HommingDecceleration.Value = 20000;
+                axisNSZ2.Param.FinalVelociy.Value = 0;
+                axisNSZ2.Param.Speed.Value = 2000;
+                axisNSZ2.Param.Acceleration.Value = 20000;
+                axisNSZ2.Param.Decceleration.Value = 20000;
+                axisNSZ2.Param.AccelerationJerk.Value = 200000;
+                axisNSZ2.Param.DeccelerationJerk.Value = 200000;
+                axisNSZ2.Param.SeqAcc.Value = 0;
+                axisNSZ2.Param.SeqDcc.Value = 0;
+                axisNSZ2.Param.DtoPRatio.Value = 2.5;
+                axisNSZ2.Param.NegSWLimit.Value = -1000000;
+                axisNSZ2.Param.PosSWLimit.Value = -1000000;
+                axisNSZ2.Param.POTIndex.Value = 0;
+                axisNSZ2.Param.NOTIndex.Value = 0;
+                axisNSZ2.Param.HOMEIndex.Value = 1;
+                axisNSZ2.Param.TimeOut.Value = 600000;
+                axisNSZ2.Param.HomeDistLimit.Value = 49500;
+                axisNSZ2.Param.IndexDistLimit.Value = 7000;
+
+                axisNSZ2.Config.StopRate.Value = 0.05;
+                axisNSZ2.Config.EStopRate.Value = 0.025;
+                axisNSZ2.Config.Inposition.Value = 1118;
+                axisNSZ2.Config.NearTargetDistance.Value = 5590;
+                axisNSZ2.Config.VelocityTolerance.Value = 559241;
+                axisNSZ2.Config.SettlingTime.Value = 0;
+
+                axisNSZ2.Config.MoterConfig.AmpEnable.Value = true;
+                axisNSZ2.Config.MoterConfig.MotorType.Value = EnumMoterType.SERVO;
+                axisNSZ2.Config.MoterConfig.AmpDisableAction.Value = EnumAmpActionType.NONE;
+
+                axisNSZ2.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(0, true);
+                axisNSZ2.Config.MoterConfig.FeedbackPhaseReverse.Value.Insert(1, true);
+
+                axisNSZ2.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(0, false);
+                axisNSZ2.Config.MoterConfig.EnableFeedbackFilter.Value.Insert(1, false);
+
+                axisNSZ2.Config.MoterConfig.FeedbackType.Value.Insert(0, EnumFeedbackType.QUAD_AB);
+                axisNSZ2.Config.MoterConfig.FeedbackType.Value.Insert(1, EnumFeedbackType.QUAD_AB);
+
+                axisNSZ2.Config.MoterConfig.AmpDisableDelay.Value = 0;
+                axisNSZ2.Config.MoterConfig.BrakeApplyDelay.Value = 0;
+                axisNSZ2.Config.MoterConfig.BrakeReleaseDelay.Value = 0;
+                axisNSZ2.Config.MoterConfig.EnableStepLoopBack.Value = false;
+                axisNSZ2.Config.MoterConfig.StepPulseWidth.Value = 5.6e-007;
+
+                axisNSZ2.Config.MoterConfig.PulseAType.Value = EnumPulseType.MotorStepperPulseTypeQUADB;
+                axisNSZ2.Config.MoterConfig.PulseBType.Value = EnumPulseType.MotorStepperPulseTypeQUADA;
+
+                axisNSZ2.Config.MoterConfig.PulseAInv.Value = false;
+                axisNSZ2.Config.MoterConfig.PulseBInv.Value = false;
+
+                axisNSZ2.Config.MoterConfig.AmpFaultTrigHigh.Value = true;
+                axisNSZ2.Config.MoterConfig.AmpFaultAction.Value = EnumEventActionType.ActionABORT;
+                axisNSZ2.Config.MoterConfig.AmpFaultDuration.Value = 0;
+
+                axisNSZ2.Config.MoterConfig.AmpWarningTrigHigh.Value = true;
+                axisNSZ2.Config.MoterConfig.AmpWarningAction.Value = EnumEventActionType.ActionNONE;
+                axisNSZ2.Config.MoterConfig.AmpWarningDuration.Value = 0;
+
+                axisNSZ2.Config.MoterConfig.ErrorLimitTrigger.Value = 5000;
+                axisNSZ2.Config.MoterConfig.ErrorLimitAction.Value = EnumEventActionType.ActionABORT;
+                axisNSZ2.Config.MoterConfig.ErrorLimitDuration.Value = 0;
+
+                axisNSZ2.Config.MoterConfig.TorqueLimitTrigger.Value = 32767;
+                axisNSZ2.Config.MoterConfig.TorqueLimitAction.Value = EnumEventActionType.ActionNONE;
+                axisNSZ2.Config.MoterConfig.TorqueLimitDuration.Value = 0;
+
+                axisNSZ2.Config.MoterConfig.HWNegLimitTrigHigh.Value = false;
+                axisNSZ2.Config.MoterConfig.HWNegLimitAction.Value = EnumEventActionType.ActionABORT;
+                axisNSZ2.Config.MoterConfig.HWNegLimitDuration.Value = 0;
+
+                axisNSZ2.Config.MoterConfig.HWPosLimitTrigHigh.Value = false;
+                axisNSZ2.Config.MoterConfig.HWPosLimitAction.Value = EnumEventActionType.ActionABORT;
+                axisNSZ2.Config.MoterConfig.HWPosLimitDuration.Value = 0;
+
+                axisNSZ2.Config.MoterConfig.SWNegLimitTrigger.Value = -1000000;
+                axisNSZ2.Config.MoterConfig.SWNegLimitAction.Value = EnumEventActionType.ActionE_STOP;
+                axisNSZ2.Config.MoterConfig.SWPosLimitTrigger.Value = -1000000;
+                axisNSZ2.Config.MoterConfig.SWPosLimitAction.Value = EnumEventActionType.ActionE_STOP;
+
+                axisNSZ2.Config.InputHome.Value = EnumDedicateInputs.DedicateInputHOME;
+                axisNSZ2.Config.InputIndex.Value = EnumDedicateInputs.DedicateInputINDEX;
+                axisNSZ2.Config.InputMotor.Value = EnumMotorDedicatedIn.MotorDedicatedInINDEX_PRIMARY;
+
+                axisNSZ2.Config.ControlType.Value = ControlLoopTypeEnum.PID;
+                axisNSZ2.Config.PIDCoeff.GainProportional.Value = 0;
+                axisNSZ2.Config.PIDCoeff.GainIntegral.Value = 0;
+                axisNSZ2.Config.PIDCoeff.GainDerivative.Value = 0;
+                axisNSZ2.Config.PIDCoeff.FeedForwardPosition.Value = 0;
+                axisNSZ2.Config.PIDCoeff.FeedForwardVelocity.Value = 0;
+                axisNSZ2.Config.PIDCoeff.FeedForwardAcceleration.Value = 0;
+                axisNSZ2.Config.PIDCoeff.FeedForwardFriction.Value = 0;
+                axisNSZ2.Config.PIDCoeff.DRate.Value = 0;
+                axisNSZ2.Config.PIDCoeff.IntegrationMaxMoving.Value = 0;
+                axisNSZ2.Config.PIDCoeff.IntegrationMaxRest.Value = 0;
+                axisNSZ2.Config.PIDCoeff.OutputLimitHigh.Value = 0;
+                axisNSZ2.Config.PIDCoeff.OutputLimtLow.Value = 0;
+                axisNSZ2.Config.PIDCoeff.OutputVelocityLimitHigh.Value = 0;
+                axisNSZ2.Config.PIDCoeff.OutputVelocityLimitLow.Value = 0;
+                axisNSZ2.Config.PIDCoeff.OutputOffset.Value = 0;
+                axisNSZ2.Config.PIDCoeff.NoisePositionFFT.Value = 0;
+
+
+                ProbeAxisProviders.Add(axisNSZ2);
+
                 #endregion
 
                 #endregion

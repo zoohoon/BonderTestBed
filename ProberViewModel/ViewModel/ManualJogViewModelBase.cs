@@ -5631,17 +5631,20 @@ namespace ManualJogViewModel
                     FDZ1ActualVal = currentPulseValue;
                     this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDT1).AxisType.Value, ref currentPulseValue);
                     FDT1ActualVal = currentPulseValue;
-                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJX1).AxisType.Value, ref currentPulseValue);
-                    EJX1ActualVal = currentPulseValue;
-                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJY1).AxisType.Value, ref currentPulseValue);
-                    EJY1ActualVal = currentPulseValue;
-                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref currentPulseValue);
-                    EJZ1ActualVal = currentPulseValue;
-                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJPZ1).AxisType.Value, ref currentPulseValue);
-                    EJPZ1ActualVal = currentPulseValue;
 
-                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NZD1).AxisType.Value, ref currentPulseValue);
-                    NZD1ActualVal = currentPulseValue;
+                    // 260206 sebas : Ejection 축 삭제로 주석처리
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJX1).AxisType.Value, ref currentPulseValue);
+                    //EJX1ActualVal = currentPulseValue;
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJY1).AxisType.Value, ref currentPulseValue);
+                    //EJY1ActualVal = currentPulseValue;
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref currentPulseValue);
+                    //EJZ1ActualVal = currentPulseValue;
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJPZ1).AxisType.Value, ref currentPulseValue);
+                    //EJPZ1ActualVal = currentPulseValue;
+
+                    // 260226 sebas : 아직 DD모터 연결이 안되었으므로 일단 주석처리
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NZD1).AxisType.Value, ref currentPulseValue);
+                    //NZD1ActualVal = currentPulseValue;
 
                     //기존 주석 처리 되어있었음.
                     //XActualVal = Math.Round(Motionmanager.GetAxis(EnumAxisConstants.X).Status.Position.Actual,2);
@@ -8599,18 +8602,20 @@ namespace ManualJogViewModel
                 EventCodeEnum ret = EventCodeEnum.NODATA;
                 EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
 
-                ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
-                Thread.Sleep(250);
-                // Ejection Z축
-                ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.EJZ1);
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                Thread.Sleep(250);
+                // 260206 sebas : 개조 후 이젝션 제외
+                //ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
+                //Thread.Sleep(250);
+                //// Ejection Z축
+                //ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.EJZ1);
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                // Ejection Z 위로 이동 (relmove)
-                ProbeAxisObject AxisObjectEJZ1 = axisEJZ1;
-                double pos = 4000; //251119 ybpark 기존 4에서 4000으로 수정
+                //Thread.Sleep(250);
 
-                retVal = this.MotionManager().RelMove(AxisObjectEJZ1, pos, AxisObjectEJZ1.Param.Speed.Value, AxisObjectEJZ1.Param.Acceleration.Value);
+                //// Ejection Z 위로 이동 (relmove)
+                //ProbeAxisObject AxisObjectEJZ1 = axisEJZ1;
+                //double pos = 4000; //251119 ybpark 기존 4에서 4000으로 수정
+
+                //retVal = this.MotionManager().RelMove(AxisObjectEJZ1, pos, AxisObjectEJZ1.Param.Speed.Value, AxisObjectEJZ1.Param.Acceleration.Value);
 
                 ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
                 // FD 척 Z 축
@@ -8620,16 +8625,16 @@ namespace ManualJogViewModel
 
                 // FD 척 위로 이동 (relmove)
                 ProbeAxisObject AxisObjectFDZ1 = axisFDZ1;
-                pos = 4770; // 20251118 Nick um제어를 위해 (4.77 -> 4770)
+                double pos = 4770; // 20251118 Nick um제어를 위해 (4.77 -> 4770)
 
                 retVal = this.MotionManager().RelMove(AxisObjectFDZ1, pos, AxisObjectFDZ1.Param.Speed.Value, AxisObjectFDZ1.Param.Acceleration.Value);
                 Thread.Sleep(250);
 
                 if (retVal == EventCodeEnum.NONE)
                 {
-                    // Ejection X, Y 및 FD척 theta
-                    ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.EJX1, EnumAxisConstants.EJY1, EnumAxisConstants.EJPZ1);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                    //// Ejection X, Y 및 FD척 theta
+                    //ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.EJX1, EnumAxisConstants.EJY1, EnumAxisConstants.EJPZ1);
+                    //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
                     ProbeAxisObject axisFDT1 = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
                     ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.FDT1);
