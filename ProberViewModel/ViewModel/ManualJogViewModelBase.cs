@@ -9188,62 +9188,62 @@ namespace ManualJogViewModel
                     // =========================
                     try
                     {
+                        #region Image Test Code
                         // 마지막 다이 움직일 필요 없음.
                         if (TestCount < 15)
                         {
-                            EventCodeEnum rv;
+                            //    EventCodeEnum rv;
 
-                            LoggerManager.Event($"나노스테이지 Z Down Start");
-                            rv = DoPlace_Nano_ZDown();
-                            LoggerManager.Event($"나노스테이지 Z Down End");
-                            if (rv != EventCodeEnum.NONE)
-                                throw new Exception("DoPlace_Nano_ZDown() Function Error");
+                            //    LoggerManager.Event($"나노스테이지 Z Down Start");
+                            //    rv = DoPlace_Nano_ZDown();
+                            //    LoggerManager.Event($"나노스테이지 Z Down End");
+                            //    if (rv != EventCodeEnum.NONE)
+                            //        throw new Exception("DoPlace_Nano_ZDown() Function Error");
 
+                                LoggerManager.Event($"MovePickPos_SafeZone_Next Start");
+                                ret = MovePickPos_SafeZone_Next();
+                                LoggerManager.Event($"MovePickPos_SafeZone_Next End");
+                                if (ret != EventCodeEnum.NONE)
+                                    throw new Exception("MovePickPos_SafeZone_Next() Error");
 
-                            LoggerManager.Event($"MovePickPos_SafeZone_Next Start");
-                            ret = MovePickPos_SafeZone_Next();
-                            LoggerManager.Event($"MovePickPos_SafeZone_Next End");
-                            if (ret != EventCodeEnum.NONE)
-                                throw new Exception("MovePickPos_SafeZone_Next() Error");
+                            //    // 이미지 초점을 위한
+                            //    Thread.Sleep(20);
 
-                            // 이미지 초점을 위한
-                            Thread.Sleep(20);
+                            //    // 이미지 촬영
+                            //    _VisionVM.RequestSaveNextFrameRaw(2);
 
-                            // 이미지 촬영
-                            _VisionVM.RequestSaveNextFrameRaw(2);
+                            //    // 저장 완료가 아니라 "프레임 복사 완료"만 최대 50ms 대기
+                            //    bool pass = _VisionVM.WaitNextFrameCopiedAck(2, 50);
+                            //    if (!pass)
+                            //    {
+                            //        LoggerManager.Debug("Next frame copy ACK timeout (<=50ms). Continue Z Up.");
+                            //    }
 
-                            // 저장 완료가 아니라 "프레임 복사 완료"만 최대 50ms 대기
-                            bool pass = _VisionVM.WaitNextFrameCopiedAck(2, 50);
-                            if (!pass)
-                            {
-                                LoggerManager.Debug("Next frame copy ACK timeout (<=50ms). Continue Z Up.");
-                            }
-
-                            LoggerManager.Event($"나노스테이지 Z Up Start");
-                            rv = DoPlace_Nano_ZUp();
-                            LoggerManager.Event($"나노스테이지 Z Up End");
-                            if (rv != EventCodeEnum.NONE)
-                                throw new Exception("DoPlace_Nano_ZUp() Function Error");
+                            //    LoggerManager.Event($"나노스테이지 Z Up Start");
+                            //    rv = DoPlace_Nano_ZUp();
+                            //    LoggerManager.Event($"나노스테이지 Z Up End");
+                            //    if (rv != EventCodeEnum.NONE)
+                            //        throw new Exception("DoPlace_Nano_ZUp() Function Error");
                         }
-                        
-                        //if (cycleStartFlag == false)
-                        //{
-                        //    // 1도 (81901에서 -98081로 가는 방향 기준)
-                        //    NanostageUpDownMonitor(false, 80901);
+                        #endregion
+                        if (cycleStartFlag == false)
+                        {
+                            // 1도 (81901에서 -98081로 가는 방향 기준)
+                            //NanostageUpDownMonitor(false, 80901);
 
-                        //    LoggerManager.Event($"Rotate_Minus Start");
-                        //    ret = Rotate_Minus();
-                        //    LoggerManager.Event($"Rotate_Minus End");
-                        //}
-                        //else
-                        //{
-                        //    // 1도 (-98081에서 81901로 가는 방향 기준)
-                        //    NanostageUpDownMonitor(true, -97081);
+                            LoggerManager.Event($"Rotate_Minus Start");
+                            ret = Rotate_Minus();
+                            LoggerManager.Event($"Rotate_Minus End");
+                        }
+                        else
+                        {
+                            // 1도 (-98081에서 81901로 가는 방향 기준)
+                            //NanostageUpDownMonitor(true, -97081);
 
-                        //    LoggerManager.Event($"Rotate_Plus Start");
-                        //    ret = Rotate_Plus();
-                        //    LoggerManager.Event($"Rotate_Plus End");
-                        //}
+                            LoggerManager.Event($"Rotate_Plus Start");
+                            ret = Rotate_Plus();
+                            LoggerManager.Event($"Rotate_Plus End");
+                        }
                     }
                     finally
                     {
@@ -9309,14 +9309,11 @@ namespace ManualJogViewModel
             Magnetic_On_NoWating();
             LoggerManager.MonitoringLog($"Magnetic_On End");
 
-            //LoggerManager.MonitoringLog($"나노스테이지 Z Down Start");
-            //var ret = DoPlace_Nano_ZDown();
-            //LoggerManager.MonitoringLog($"나노스테이지 Z Down End");
-            //if (ret != EventCodeEnum.NONE)
-            //    throw new Exception("DoPlace_Nano_ZDown() Function Error");
-
-            // 이미지 촬영
-            //_VisionVM.CaptureCamera(4);
+            LoggerManager.MonitoringLog($"나노스테이지 Z Down Start");
+            var ret = DoPlace_Nano_ZDown();
+            LoggerManager.MonitoringLog($"나노스테이지 Z Down End");
+            if (ret != EventCodeEnum.NONE)
+                throw new Exception("DoPlace_Nano_ZDown() Function Error");
 
             // Vacuum Off (Place)
             if (cycleStartFlag == true)
@@ -9332,11 +9329,11 @@ namespace ManualJogViewModel
                 LoggerManager.MonitoringLog($"Arm2_Vac_Off End");
             }
 
-            //LoggerManager.MonitoringLog($"나노스테이지 Z Up Start");
-            //ret = DoPlace_Nano_ZUp();
-            //LoggerManager.MonitoringLog($"나노스테이지 Z Up End");
-            //if (ret != EventCodeEnum.NONE)
-            //    throw new Exception("DoPlace_Nano_ZUp() Function Error");
+            LoggerManager.MonitoringLog($"나노스테이지 Z Up Start");
+            ret = DoPlace_Nano_ZUp();
+            LoggerManager.MonitoringLog($"나노스테이지 Z Up End");
+            if (ret != EventCodeEnum.NONE)
+                throw new Exception("DoPlace_Nano_ZUp() Function Error");
 
             LoggerManager.MonitoringLog($"Magnetic_Off Start");
             Magnetic_Off_NoWating();
@@ -9919,7 +9916,7 @@ namespace ManualJogViewModel
                     throw new Exception("FD stage Z RelMove Error");
                 }
 
-                // Wafer stage Up
+                // Wafer Chuck Up
                 LoggerManager.Debug($"Wafer_Chuck_DangerZone Start");
                 retVal = Wafer_Chuck_DangerZone();  // Wafer Chuck이 arm 바로 아래까지 Up
                 LoggerManager.Debug($"Wafer_Chuck_DangerZone End");
@@ -10218,49 +10215,13 @@ namespace ManualJogViewModel
             double X = GetPos((int)TestCount).X - (GetPos((int)TestCount - 1).X);
             double Y = GetPos((int)TestCount).Y - (GetPos((int)TestCount - 1).Y);
 
-            //double EJ_X = GetPos_EJ((int)TestCount).X - (GetPos_EJ((int)TestCount - 1).X);
-            //double EJ_Y = GetPos_EJ((int)TestCount).Y - (GetPos_EJ((int)TestCount - 1).Y);
-
             try
             {
                 ProbeAxisObject axisX = this.MotionManager().GetAxis(EnumAxisConstants.X);
                 ProbeAxisObject axisY = this.MotionManager().GetAxis(EnumAxisConstants.Y);
 
-                //ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
-                //ProbeAxisObject axisEJY1 = this.MotionManager().GetAxis(EnumAxisConstants.EJY1);
-
-                //ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
                 double posX = 0.0;   // 이동할 고정값을 넣는 변수
                 double posY = 0.0;   // 이동할 고정값을 넣는 변수
-
-                //pos = -11000;   // 11mm , Ejection X 축 DtoP = 1
-                //retVal = this.MotionManager().RelMove(axisEJX1, pos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
-                //if (retVal != EventCodeEnum.NONE)
-                //{
-                //    throw new Exception("EJX1 RelMove Error");
-                //}
-                //double currentPos = 0.0;
-
-                //pos = EJ_Y * 1000;    //Y 는 MapDie 좌표계기준이라서 X축 move
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base EJ X Move) Start");
-                //retVal = this.MotionManager().RelMove(axisEJX1, pos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base EJ X Move) End");
-
-                //if (retVal != EventCodeEnum.NONE)
-                //{
-                //    throw new Exception("Base EJX RelMove Error");
-                //}
-
-                ////251125 ybpark X,Y die index 위치로 이동
-                //pos = EJ_X * 1000;    //X 는 MapDie 좌표계기준이라서 Y축 move
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base EJ Y Move) Start");
-                //retVal = this.MotionManager().RelMove(axisEJY1, pos, axisEJY1.Param.Speed.Value, axisEJY1.Param.Acceleration.Value);
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base EJ Y Move) End");
-                //if (retVal != EventCodeEnum.NONE)
-                //{
-                //    throw new Exception("Base EJY RelMove Error");
-                //}
-
 
                 //251125 ybpark X,Y die index 위치로 이동
                 posX = Y * 1000;    //Y 는 MapDie 좌표계기준이라서 X축 move
@@ -10386,23 +10347,23 @@ namespace ManualJogViewModel
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
-                ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
+                ProbeAxisObject axisNSZ2 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ2);
 
                 double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
                 double currentPos = 0.0;    // 현재 위치값 읽기
                 double AcualPos = 0;
 
                 // ArmPick Z Up 추가
-                pos = 24000.00;    // = 91,000,000 FD stage Z 축 DtoP = 4194.304 // 20696.091 -> 20,000.00
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
+                pos = 0.0;    // = 2,000,000 Nano Stage Z 축 DtoP = 4194.304
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ2).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
-                LoggerManager.Debug($"Ejection FD Z Down Start");
-                retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
-                LoggerManager.Debug($"Ejection FD Z Down End");
+                LoggerManager.Debug($"Arm Pick Z Up Start");
+                retVal = this.MotionManager().RelMove_Wating(axisNSZ2, pos - currentPos, axisNSZ2.Param.Speed.Value, axisNSZ2.Param.Acceleration.Value);
+                LoggerManager.Debug($"Arm Pick Z Up End");
                 if (retVal != EventCodeEnum.NONE)
                 {
-                    throw new Exception("FD stage Z RelMove Error");
+                    throw new Exception("Arm Pick Z RelMove Error");
                 }
             }
             catch (Exception err)
@@ -10415,12 +10376,10 @@ namespace ManualJogViewModel
 
         public EventCodeEnum MovePickPos_DangerZone(bool armFlag)
         {
-            // Ejection Z , Ejection Pin 만 움직이며 X , Y 이동시 충돌위험이 있는 위치
-
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
-                ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
+                ProbeAxisObject axisNSZ2 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ2);
 
                 double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
                 double currentPos = 0.0;    // 현재 위치값 읽기
@@ -10441,16 +10400,16 @@ namespace ManualJogViewModel
                 }
 
                 // Arm Pick Down
-                pos = 28500.0;    // = 99,388,609 FD stage Z 축 DtoP = 4194.304 // 기존 : 26800.0 , 도마뱀 : 28500.0
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
+                pos = 0.0;     // = Arm Pick Down Z 축 DtoP = 4194.304
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ2).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
-                LoggerManager.Debug($"MovePickPos_DangerZone FD Z Up Start");
-                retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
-                LoggerManager.Debug($"MovePickPos_DangerZone FD Z Up End");
+                LoggerManager.Debug($"MovePickPos_DangerZone Arm Pick Z Down Start");
+                retVal = this.MotionManager().RelMove_Wating(axisNSZ2, pos - currentPos, axisNSZ2.Param.Speed.Value, axisNSZ2.Param.Acceleration.Value);
+                LoggerManager.Debug($"MovePickPos_DangerZone Arm Pick Z Down End");
                 if (retVal != EventCodeEnum.NONE)
                 {
-                    throw new Exception("FD stage Z RelMove Error");
+                    throw new Exception("Arm Pick Z RelMove Error");
                 }
             }
             catch (Exception err)
@@ -11014,9 +10973,9 @@ namespace ManualJogViewModel
             {
                 ProbeAxisObject axisNSZ1 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ1);
 
-                double pos = -3995;   // = -2,000,000 Nano Stage Z 축 DtoP = 4194.304 (기존) -2000.0 -> (변경) -3995, 초점을 맞추기 위함 (Wafer)
+                double pos = -2000;   // = -2,000,000 Nano Stage Z 축 DtoP = 4194.304 (기존) -2000.0 -> (변경) -3995, 초점을 맞추기 위함 (Wafer)
                 //LoggerManager.Debug($"나노스테이지 Z Down Start");
-                retVal = this.MotionManager().RelMove(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
+                retVal = this.MotionManager().RelMove_Wating(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
                 //LoggerManager.Debug($"나노스테이지 Z Down End");
                 if (retVal != EventCodeEnum.NONE)
                 {
@@ -11039,7 +10998,7 @@ namespace ManualJogViewModel
             {
                 ProbeAxisObject axisNSZ1 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ1);
 
-                double pos = 3995;   // = 2,000,000 Nano Stage Z 축 DtoP = 4194.304 (기존) 2000.0 -> (변경) 3995 (Wafer) 초점을 맞추기 위함
+                double pos = 2000;   // = 2,000,000 Nano Stage Z 축 DtoP = 4194.304 (기존) 2000.0 -> (변경) 3995 (Wafer) 초점을 맞추기 위함
                 //LoggerManager.Debug($"나노스테이지 Z Up Start");
                 retVal = this.MotionManager().RelMove_Wating(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
                 //LoggerManager.Debug($"나노스테이지 Z Up End");
@@ -11077,8 +11036,6 @@ namespace ManualJogViewModel
                 LoggerManager.Debug($"AcceptanceCommand Start");
                 
                 EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
-
-                ProbeAxisObject axisEJPZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJPZ1);
 
                 bool StartFlag = false;     // false : ARM1 , true : ARM2
                 double pos = 0.0;
