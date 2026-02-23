@@ -6620,6 +6620,11 @@ namespace OpusVStageMove
                     ovrd = 1;
                     mccoord = Module.CoordinateManager().WaferHighChuckConvert.ConvertBack_Wafer(wfcoord);
                 }
+                else if(99 == ovrd)
+                {
+                    // 260223 Nick 5 Cam 추가
+                    mccoord = Module.CoordinateManager().WaferHighChuckConvert.ConvertBack_5Cam(wfcoord);
+                }
                 else
                 {
                     mccoord = Module.CoordinateManager().WaferHighChuckConvert.ConvertBack(wfcoord);
@@ -14509,24 +14514,30 @@ namespace OpusVStageMove
 
             try
             {
-                ret = CheckStage();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // 20260223 Nick 초기 인터락 없이 진행 (추후 필요하다면 주석 해제)
+                //ret = CheckStage();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // end Nick
 
                 var stagesupervisor = Module.StageSupervisor();
 
-                if (zpos < stagesupervisor.WaferRegRange)
-                {
-                    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
+                // 20260223 Nick 초기 인터락 없이 진행 (추후 필요하다면 주석 해제)
+                //if (zpos < stagesupervisor.WaferRegRange)
+                //{
+                //    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
 
-                ret = MoveStageSafePos(true, true, false); // 안전한위치로 가고, 안전한 위치로 가고, 웨이퍼캠 펴고
+                //ret = MoveStageSafePos(true, true, false); // 안전한위치로 가고, 안전한 위치로 가고, 웨이퍼캠 펴고
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // end Nick
+
+                ret = WaferHighViewMoveFunc(xpos, ypos, zpos, NotUseHeightProfile, trjtype, 99);    // 파라미터 값 : 99 (5Cam)
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                ret = WaferHighViewMoveFunc(xpos, ypos, zpos, NotUseHeightProfile, trjtype, ovrd);
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                Module.StageSupervisorStateTransition(new WaferHighViewState(Module));
+                // 20260223 Nick 초기 인터락 없이 진행 (추후 필요하다면 주석 해제)
+                //Module.StageSupervisorStateTransition(new WaferHighViewState(Module));
+                // end Nick
             }
             catch (Exception err)
             {

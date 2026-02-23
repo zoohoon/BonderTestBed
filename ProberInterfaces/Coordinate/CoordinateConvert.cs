@@ -10,6 +10,8 @@ namespace ProberInterfaces
 
         public abstract T Convert(MachineCoordinate machinecoord);
         public abstract MachineCoordinate ConvertBack(T coord);
+        public abstract T Convert_5Cam(MachineCoordinate machinecoord); // 260223 Nick
+        public abstract MachineCoordinate ConvertBack_5Cam(T coord);    // 260223 Nick
         public abstract MachineCoordinate ConvertBack_Wafer(T coord);   // 260119 sabas
         public abstract T CurrentPosConvert();
         public abstract T CurrentPosConvert_Wafer();    // 260122 sebas
@@ -123,6 +125,50 @@ namespace ProberInterfaces
             }
             return mccoord;
         }
+        // 260223 Nick 5 Cam 좌표계 작업
+        public override WaferCoordinate Convert_5Cam(MachineCoordinate machinecoord)
+        {
+            try
+            {
+                WaferCoordinate resultWaferCoord = new WaferCoordinate();
+
+                MachineCoordinate wcenInMac = new MachineCoordinate();
+                wcenInMac = ConvertBack_5Cam(new WaferCoordinate(0, 0, 0));
+
+                resultWaferCoord.X.Value = (wcenInMac.GetX() - machinecoord.GetX()) * 1d;
+                resultWaferCoord.Y.Value = (wcenInMac.GetY() - machinecoord.GetY()) * 1d;
+                resultWaferCoord.Z.Value = (wcenInMac.GetZ() - machinecoord.GetZ()) * 1d;
+
+                return resultWaferCoord;
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+        }
+
+        public override MachineCoordinate ConvertBack_5Cam(WaferCoordinate coord)
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+                ICoordinateManager CoordinateManager = this.CoordinateManager();
+                if (CoordinateManager.StageCoord != null)
+                {
+                    mccoord.X.Value = 124630 - coord.X.Value;
+                    mccoord.Y.Value = -192969 - coord.Y.Value;
+                    mccoord.Z.Value = 0;        // 36,000
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return mccoord;
+        }
+        // end Nick
 
         public override WaferCoordinate CurrentPosConvert()
         {
@@ -369,6 +415,81 @@ namespace ProberInterfaces
             }
             return mccoord;
         }
+        // 260223 Nick 빌드 에러 추가
+        public override WaferCoordinate Convert_5Cam(MachineCoordinate machinecoord)
+        {
+            try
+            {
+                WaferCoordinate resultWaferCoord = new WaferCoordinate();
+
+                MachineCoordinate wcenInMac = new MachineCoordinate();
+                wcenInMac = ConvertBack(new WaferCoordinate(0, 0, 0));
+
+                resultWaferCoord.X.Value = (wcenInMac.GetX() - machinecoord.GetX()) * 1d;
+                resultWaferCoord.Y.Value = (wcenInMac.GetY() - machinecoord.GetY()) * 1d;
+                resultWaferCoord.Z.Value = (wcenInMac.GetZ() - machinecoord.GetZ()) * 1d;
+
+                return resultWaferCoord;
+
+                //WaferCoordinate wafercoord = new WaferCoordinate();
+
+                //wafercoord.X.Value = (machinecoord.X.Value
+                //    - this.CoordinateManager().StageCoord.RefMarkPos.X.Value
+                //    - this.CoordinateManager().StageCoord.MarkPosInChuckCoord.X.Value
+                //    - this.CoordinateManager().StageCoord.WLCAMFromWH.X.Value) * -1d;
+
+                //wafercoord.Y.Value = (machinecoord.Y.Value
+                //    - this.CoordinateManager().StageCoord.RefMarkPos.Y.Value
+                //    - this.CoordinateManager().StageCoord.MarkPosInChuckCoord.Y.Value
+                //    - this.CoordinateManager().StageCoord.WLCAMFromWH.Y.Value) * -1d;
+
+                //wafercoord.Z.Value = (machinecoord.Z.Value
+                //    - this.CoordinateManager().StageCoord.RefMarkPos.Z.Value
+                //    - this.CoordinateManager().StageCoord.MarkPosInChuckCoord.Z.Value
+                //    - this.CoordinateManager().StageCoord.WLCAMFromWH.Z.Value) * -1d;
+
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            //return wafercoord;
+        }
+
+        public override MachineCoordinate ConvertBack_5Cam(WaferCoordinate coord)
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+
+                mccoord.X.Value =
+                    this.CoordinateManager().StageCoord.RefMarkPos.X.Value
+                    + this.CoordinateManager().StageCoord.MarkPosInChuckCoord.X.Value
+                    + this.CoordinateManager().StageCoord.WLCAMFromWH.X.Value
+                    - coord.X.Value;
+
+                mccoord.Y.Value =
+                     this.CoordinateManager().StageCoord.RefMarkPos.Y.Value
+                    + this.CoordinateManager().StageCoord.MarkPosInChuckCoord.Y.Value
+                    + this.CoordinateManager().StageCoord.WLCAMFromWH.Y.Value
+                    - coord.Y.Value;
+
+                mccoord.Z.Value =
+                     this.CoordinateManager().StageCoord.RefMarkPos.Z.Value
+                    + this.CoordinateManager().StageCoord.MarkPosInChuckCoord.Z.Value
+                    + this.CoordinateManager().StageCoord.WLCAMFromWH.Z.Value
+                    - coord.Z.Value;
+
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return mccoord;
+        }
+        // end Nick
 
         public override WaferCoordinate CurrentPosConvert()
         {
@@ -572,6 +693,49 @@ namespace ProberInterfaces
             }
             return mccoord;
         }
+        // 260223 Nick 5 Cam 좌표계 작업
+        public override PinCoordinate Convert_5Cam(MachineCoordinate machinecoord)
+        {
+            try
+            {
+                PinCoordinate resultPinCoord = new PinCoordinate();
+
+                MachineCoordinate wcenInMac = new MachineCoordinate();
+                wcenInMac = ConvertBack_5Cam(new PinCoordinate(0, 0, 0));
+
+                resultPinCoord.X.Value = (wcenInMac.GetX() - machinecoord.GetX()) * -1d;
+                resultPinCoord.Y.Value = (wcenInMac.GetY() - machinecoord.GetY()) * -1d;
+                resultPinCoord.Z.Value = (wcenInMac.GetZ() - machinecoord.GetZ()) * -1d;
+
+                return resultPinCoord;
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+        }
+
+        public override MachineCoordinate ConvertBack_5Cam(PinCoordinate coord)
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+                ICoordinateManager CoordinateManager = this.CoordinateManager();
+                if (CoordinateManager.StageCoord != null)
+                {
+                    // 
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return mccoord;
+        }
+        // end Nick
+
         public override PinCoordinate CurrentPosConvert()
         {
             try
@@ -783,6 +947,48 @@ namespace ProberInterfaces
             }
             return mccoord;
         }
+        // 260223 Nick 5 Cam 좌표계 작업
+        public override PinCoordinate Convert_5Cam(MachineCoordinate machinecoord)
+        {
+            try
+            {
+                PinCoordinate resultPinCoord = new PinCoordinate();
+
+                MachineCoordinate wcenInMac = new MachineCoordinate();
+                wcenInMac = ConvertBack_5Cam(new PinCoordinate(0, 0, 0));
+
+                resultPinCoord.X.Value = (wcenInMac.GetX() - machinecoord.GetX()) * -1d;
+                resultPinCoord.Y.Value = (wcenInMac.GetY() - machinecoord.GetY()) * -1d;
+                resultPinCoord.Z.Value = (wcenInMac.GetZ() - machinecoord.GetZ()) * -1d;
+
+                return resultPinCoord;
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+        }
+
+        public override MachineCoordinate ConvertBack_5Cam(PinCoordinate coord)
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+                ICoordinateManager CoordinateManager = this.CoordinateManager();
+                if (CoordinateManager.StageCoord != null)
+                {
+                    // 
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return mccoord;
+        }
+        // end Nick
 
         public override PinCoordinate CurrentPosConvert()
         {
@@ -963,6 +1169,37 @@ namespace ProberInterfaces
             }
             return mccoord;
         }
+        // 260223 Nick 빌드에러 추가
+        public override NCCoordinate Convert_5Cam(MachineCoordinate machinecoord)
+        {
+            NCCoordinate nccoord = new NCCoordinate();
+            try
+            {
+
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return nccoord;
+        }
+        public override MachineCoordinate ConvertBack_5Cam(NCCoordinate coord)
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return mccoord;
+        }
+        // end Nick
+
         public override NCCoordinate CurrentPosConvert()
         {
             // (*) 주의!! 이건 웨이퍼 카메라 좌표계를 기준으로 현재 위치를 반환함.
@@ -1209,7 +1446,37 @@ namespace ProberInterfaces
             }
             return mccoord;
         }
+        // 260223 Nick 빌드 에러 추가
+        public override NCCoordinate Convert_5Cam(MachineCoordinate machinecoord)
+        {
+            NCCoordinate nccoord = new NCCoordinate();
+            try
+            {
 
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return nccoord;
+        }
+
+        public override MachineCoordinate ConvertBack_5Cam(NCCoordinate coord)
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return mccoord;
+        }
+        // end Nick
         public override NCCoordinate CurrentPosConvert()
         {
             NCCoordinate nccoord = new NCCoordinate();

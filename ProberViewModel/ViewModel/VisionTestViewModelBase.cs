@@ -3041,30 +3041,11 @@ namespace VisionTestViewModel
                 var axisz = this.MotionManager().GetAxis(EnumAxisConstants.Z);
                 double zpos = axisz.Param.HomeOffset.Value;
                 List<CatCoordinates> cornerPosList = new List<CatCoordinates>();
-                //Task<EventCodeEnum> task;
-                //MachineCoordinate mc = new MachineCoordinate();
-                //WaferCoordinate wf = new WaferCoordinate();
-                //mc.X.Value = 150000;
-                //mc.Y.Value = 0;
-                //mc.Z.Value = zpos;
-                //wf = this.CoordinateManager().WaferHighChuckConvert.Convert(mc);
-                //this.StageSupervisor().StageModuleState.WaferHighViewMove(wf.X.Value, wf.Y.Value, wf.Z.Value);
+
                 int cnt = 3;
 
                 for (int i = 0; i < cnt; i++)
                 {
-                    //if (FirstDegree)
-                    //{
-                    //    dx = 110000 * Math.Cos(Math.PI * (i * 10) / 180);
-                    //    dy = 110000 * Math.Sin(Math.PI * (i * 10) / 180);
-                    //}
-                    //else if (SecondDegree)
-                    //{
-                    //    dx = 110000 * Math.Cos(Math.PI * (i * 30) / 180);
-                    //    dy = 110000 * Math.Sin(Math.PI * (i * 30) / 180);
-                    //}
-                    //else if (ThirdDgree)
-                    //{
                     double radius = Radius;
                     if (i == 0)
                     {
@@ -3087,7 +3068,6 @@ namespace VisionTestViewModel
                         return EventCodeEnum.NONE;
                     }
 
-
                     dx = dx;
                     dy = dy;
                     dx = ChuckCenterOffsetX + dx;
@@ -3098,9 +3078,13 @@ namespace VisionTestViewModel
                     mccoord.X.Value = dx;
                     mccoord.Y.Value = dy;
                     mccoord.Z.Value = this.MotionManager().GetActualPos(EnumAxisConstants.Z, ref zpos);
-                    mccoord.Z.Value = zpos;
 
-                    wafercoord = this.CoordinateManager().WaferHighChuckConvert.Convert(mccoord);
+                    // 260223 Nick 일단 Z축 0으로 변경하지 마봐
+                    //mccoord.Z.Value = zpos;
+                    mccoord.Z.Value = 0;
+                    // end Nick
+
+                    wafercoord = this.CoordinateManager().WaferHighChuckConvert.Convert_5Cam(mccoord);
 
 
                     await Task.Run(() =>
