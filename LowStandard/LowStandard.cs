@@ -1312,7 +1312,13 @@ namespace WALowStandardModule
                         }
                         else
                         {
-                            StageSupervisor.StageModuleState.WaferLowViewMove(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter.GetY(), ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter.GetZ());
+                            // <-- 260223 sebas : 개조 후 스트로크 문제로 센터가 아닌 다른 위치로 이동
+                            //StageSupervisor.StageModuleState.WaferLowViewMove(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter.GetY(), ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter.GetZ());
+
+                            double FDCEnterOffsetY = -Wafer.GetSubsInfo().ActualDieSize.Height.Value * 6;    // X축은 변경 없음. Y축만 변경
+                            StageSupervisor.StageModuleState.WaferLowViewMove(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter.GetY() + FDCEnterOffsetY, ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter.GetZ());
+                            LoggerManager.PinLog($"로우얼라인 시작 위치 X = {Wafer.GetSubsInfo().WaferCenter.GetX()}, Y = {Wafer.GetSubsInfo().WaferCenter.GetY() + FDCEnterOffsetY}");
+                            // -->
                         }
 
                         UpdatePatternSize(ptinfo, 0);
@@ -1334,6 +1340,9 @@ namespace WALowStandardModule
                             LoggerManager.PinLog("Move to FD Wafer first low pattern");
                             // 위치 주의
                             //this.StageSupervisor().StageModuleState.WaferLowViewMove(Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY(), Wafer.GetSubsInfo().ActualThickness);
+                            double FDCEnterOffsetY = -Wafer.GetSubsInfo().ActualDieSize.Height.Value * 6;    // X축은 변경 없음. Y축만 변경
+                            this.StageSupervisor().StageModuleState.WaferLowViewMove(Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY() + FDCEnterOffsetY, Wafer.GetSubsInfo().ActualThickness);
+                            LoggerManager.PinLog($"로우얼라인 시작 위치 X = {Wafer.GetSubsInfo().WaferCenter.GetX()}, Y = {Wafer.GetSubsInfo().WaferCenter.GetY() + FDCEnterOffsetY}");
                         }
                         
                         double curtpos = 0.0;

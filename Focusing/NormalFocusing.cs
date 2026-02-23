@@ -841,7 +841,6 @@ namespace Focusing
             EventCodeEnum focusingResult = EventCodeEnum.UNDEFINED;
 
             LoggerManager.PinLog("Focusing_Retry..");
-            return EventCodeEnum.NONE;  // 260116 sebas*** : Focusing_Retry 하지않음
 
             int setGralLevelValue = TargetGrayLevel;
 

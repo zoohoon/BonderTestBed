@@ -853,12 +853,32 @@ namespace WAEdgeStadnardModule
                     {
                         LoggerManager.PinLog("Move to FD Wafer Center");
 
-                        // 에릭손2 후 스트로크 때문에 센터로 이동 불가 => Y축에 offset을 추가하여 센터위치에서 좀 뺴줘야 함
-                        LoggerManager.PinLog("개조 후 FD척 센터를 카메라로 못보기 때문에 ~값만큼 Y축 이동");
-                        //(this).StageSupervisor().StageModuleState.WaferLowViewMove(
-                        //        Wafer.GetSubsInfo().WaferCenter.X.Value,
-                        //        Wafer.GetSubsInfo().WaferCenter.Y.Value,
-                        //        Wafer.GetSubsInfo().WaferCenter.Z.Value);
+                        // 260212 sebas : 센터이동 스트로크 조건 체크
+                        double checkYoffset = 21283.365;
+                        if (Wafer.GetSubsInfo().WaferCenter.Y.Value > checkYoffset)
+                        {
+                            LoggerManager.PinLog($"FD척 센터 위치가 기구 스트로크를 벗어남. Y = {Wafer.GetSubsInfo().WaferCenter.Y.Value} > {checkYoffset}");
+                            Wafer.GetSubsInfo().WaferCenter.Y.Value = Wafer.GetSubsInfo().WaferCenter.Y.Value - (12500 * 2);  // 다이 2개길이
+                            LoggerManager.PinLog($"센터 Y offset 이동 Y = {Wafer.GetSubsInfo().WaferCenter.Y.Value}");
+
+                            if (Wafer.GetSubsInfo().WaferCenter.Y.Value < checkYoffset)
+                            {
+                                (this).StageSupervisor().StageModuleState.WaferLowViewMove(
+                                    Wafer.GetSubsInfo().WaferCenter.X.Value,
+                                    Wafer.GetSubsInfo().WaferCenter.Y.Value,
+                                    Wafer.GetSubsInfo().WaferCenter.Z.Value);
+                            }
+
+                        }
+                        else
+                        {
+                            LoggerManager.PinLog($"FD Center : X = {Wafer.GetSubsInfo().WaferCenter.X.Value} , Y = {Wafer.GetSubsInfo().WaferCenter.Y.Value}");
+
+                            (this).StageSupervisor().StageModuleState.WaferLowViewMove(
+                                    Wafer.GetSubsInfo().WaferCenter.X.Value,
+                                    Wafer.GetSubsInfo().WaferCenter.Y.Value,
+                                    Wafer.GetSubsInfo().WaferCenter.Z.Value);
+                        }
                     }
                     ProcessingType = EnumSetupProgressState.DONE;
                 }
@@ -1024,8 +1044,12 @@ namespace WAEdgeStadnardModule
 
                     foreach (var pos in EdgePos)
                     {
-                        // Wafer Align 반복 실행하면 XIndex와 YIndex가 증가되어 에러발생?
                         MachineIndex edgeindex = this.CoordinateManager().GetCurMachineIndex(pos);
+
+                        if(edgeindex.YIndex > 22)   // 260213 sebas : 인덱스가 좌표상 벗어나는 경우
+                        {
+                            edgeindex.YIndex = 22;
+                        }
                         EdgeMapParams.Add(new EdgeMapParam(edgeindex, Wafer.GetSubsInfo().DIEs[edgeindex.XIndex, edgeindex.YIndex].DieType.Value));
                     }
                     ApplyCount = 0; // 나갔다가 들어오면 0으로 초기화

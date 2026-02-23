@@ -1588,10 +1588,8 @@ namespace ThetaAlignStandatdModule
                     }
                 }
 
-                // sebas***** : jumpindex 위치로 이동하는 부분. 개조 후 y축 offset 거리를 넣어줘야 함
                 if (ptinfo.CamType.Value == EnumProberCam.WAFER_LOW_CAM)
                 {
-                    movey = movey + ((2 * Wafer.GetSubsInfo().ActualDieSize.Height.Value) * 1);     // 2 = index count , 1 = direction
                     LoggerManager.PinLog($"FD chuck jumpindex만큼 Low 이동 : X = {movex}, Y = {movey}");
                     this.StageSupervisor().StageModuleState.WaferLowViewMove(movex, movey);
                 }

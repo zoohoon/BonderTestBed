@@ -7924,7 +7924,7 @@ namespace ManualJogViewModel
         private void ARM_VACOFF1()
         {
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, true);
-            Thread.Sleep(10);
+            Thread.Sleep(50);
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, false);
         }
 
@@ -7941,7 +7941,7 @@ namespace ManualJogViewModel
         private void ARM_VACON1()
         {
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, true);
-            Thread.Sleep(5);
+            Thread.Sleep(50);
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, false);
         }
 
@@ -7973,9 +7973,9 @@ namespace ManualJogViewModel
         private void ARM_BlowON1()
         {
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, true);
-            Thread.Sleep(150);
+            Thread.Sleep(50);
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, false);
-            Thread.Sleep(150);
+            Thread.Sleep(50);
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, true);
         }
 
@@ -7992,7 +7992,7 @@ namespace ManualJogViewModel
         private void ARM_VACOFF2()
         {
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, true);
-            Thread.Sleep(10);
+            Thread.Sleep(50);
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, false);
         }
 
@@ -8041,9 +8041,9 @@ namespace ManualJogViewModel
         private void ARM_VAC_BlowON2()
         {
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, true);
-            Thread.Sleep(250);
+            Thread.Sleep(50);
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, false);
-            Thread.Sleep(250);
+            Thread.Sleep(50);
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, true);
         }
 
