@@ -2880,7 +2880,7 @@ namespace ThetaAlignStandatdModule
                         prevTheta = curTheta;
                         if (rotateangle < 2 || rotateangle > -2)
                         {
-                            double tempRotate = Math.Abs(rotateangle) * 9025 * 2 * 1000;  // sebas : 1mm당 9025 , DtoP = 0.001
+                            double tempRotate = -1 * rotateangle * 9025 *2 * 1000;  // sebas***** : 기구에 맞춰 보정 : -1 회전방향 , 1mm당 9025 , DtoP = 0.001 , 보정배수 = 2
                             LoggerManager.PinLog($"FD Chuck : 회전각 = {tempRotate}");
                             this.StageSupervisor().StageModuleState.StageRelMove(axisFD, tempRotate);
                         }

@@ -890,7 +890,7 @@ namespace WAHighStandardModule
                 }
                 // -->
 
-                ushort defaultlightvalue = 25;  // 260112 sebas : 조명 너무 밝아서 내림 (85 -> 25)
+                ushort defaultlightvalue = 50;  // 260112 sebas : 조명 너무 밝아서 내림 (85 -> 50)
                 for (int lightindex = 0; lightindex < CurCam.LightsChannels.Count; lightindex++)
                 {
                     CurCam.SetLight(CurCam.LightsChannels[lightindex].Type.Value, defaultlightvalue);

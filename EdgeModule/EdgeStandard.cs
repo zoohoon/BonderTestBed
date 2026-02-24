@@ -1097,7 +1097,7 @@ namespace WAEdgeStadnardModule
                     RegistCount = 0; // 나갔다가 들어오면 0으로 초기화
 
                     var FDT1axis = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
-                    FDT1axis.Status.RawPosition.Ref = 5000; // 나갔다 들어오면 FD 회전 초기화
+                    FDT1axis.Status.RawPosition.Ref = 50000000; // 나갔다 들어오면 FDT 초기화 = 5000 -> 50000000
 
                     if (this.WaferAligner().IsNewSetup)
                     {

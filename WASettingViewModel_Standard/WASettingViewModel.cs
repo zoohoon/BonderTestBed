@@ -334,7 +334,8 @@ namespace WASettingViewModel_Standard
         }
         private async Task WaferAlignSubStepSetupCommandFunc(CUI.Button cuiparam)
         {
-            if (System.AppDomain.CurrentDomain.FriendlyName == "ProberSystem.exe")
+            // if (System.AppDomain.CurrentDomain.FriendlyName == "ProberSystem.exe")  // 260223 sebas
+            if (System.AppDomain.CurrentDomain.FriendlyName == "BonderSystem.exe")
             {
                 Guid viewguid = new Guid();
                 List<Guid> pnpsteps = new List<Guid>();

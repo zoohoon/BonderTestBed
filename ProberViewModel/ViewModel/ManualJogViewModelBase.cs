@@ -8639,7 +8639,7 @@ namespace ManualJogViewModel
                     ProbeAxisObject axisFDT1 = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
                     ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.FDT1);
                     ProbeAxisObject AxisObjectFDT1 = axisFDT1;
-                    pos = 5000;
+                    pos = 50000000;    // 260224 sebas : 5000 -> 50000000 얼라인 후 +-세타 움직임때문
                     retVal = this.MotionManager().RelMove(AxisObjectFDT1, pos, AxisObjectFDT1.Param.Speed.Value, AxisObjectFDT1.Param.Acceleration.Value);
                 }
             }

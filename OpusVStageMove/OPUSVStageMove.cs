@@ -7511,44 +7511,51 @@ namespace OpusVStageMove
 
                 mccoord = Module.CoordinateManager().WaferHighChuckConvert.ConvertBack(wfcoord_next);
 
-                curPZ = Module.MotionManager().GetAxis(EnumAxisConstants.PZ).Status.Position.Ref;
-                curZ = Module.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref;
+                // <-- 260224 sebas : pz축 제거 및 z축 조건 제거
+                //curPZ = Module.MotionManager().GetAxis(EnumAxisConstants.PZ).Status.Position.Ref;
+                //curZ = Module.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref;
 
-                ret = Module.CheckHardwareInterference(mccoord.X.Value, mccoord.Y.Value, mccoord.Z.Value, curPZ);
+                //ret = Module.CheckHardwareInterference(mccoord.X.Value, mccoord.Y.Value, mccoord.Z.Value, curPZ);
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                //ret = SwitchThreeLegFunc(false);
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                //mccoord.T.Value = Module.WaferAligner().WaferAlignInfo.AlignAngle * 10000.0;
+
+                //if (curZ > mccoord.Z.Value)
+                //{
+                //    // Z down first
+                //    curX = Module.MotionManager().GetAxis(EnumAxisConstants.X).Status.Position.Ref;
+                //    curY = Module.MotionManager().GetAxis(EnumAxisConstants.Y).Status.Position.Ref;
+
+                //    ret = Module.MotionManager().StageMove(curX, curY, mccoord.Z.Value);
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                //    curZ = Module.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref;
+
+                //    ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, curZ, mccoord.T.Value);
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
+                //else
+                //{
+                //    curZ = Module.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref;
+
+                //    ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, curZ, mccoord.T.Value);
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                //    curX = Module.MotionManager().GetAxis(EnumAxisConstants.X).Status.Position.Ref;
+                //    curY = Module.MotionManager().GetAxis(EnumAxisConstants.Y).Status.Position.Ref;
+
+                //    ret = Module.MotionManager().StageMove(curX, curY, mccoord.Z.Value);
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
+                // -->
+
+                // <-- 260224 sebas add
+                ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, EnumTrjType.Normal, 1);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                ret = SwitchThreeLegFunc(false);
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                mccoord.T.Value = Module.WaferAligner().WaferAlignInfo.AlignAngle * 10000.0;
-
-                if (curZ > mccoord.Z.Value)
-                {
-                    // Z down first
-                    curX = Module.MotionManager().GetAxis(EnumAxisConstants.X).Status.Position.Ref;
-                    curY = Module.MotionManager().GetAxis(EnumAxisConstants.Y).Status.Position.Ref;
-
-                    ret = Module.MotionManager().StageMove(curX, curY, mccoord.Z.Value);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                    curZ = Module.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref;
-
-                    ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, curZ, mccoord.T.Value);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
-                else
-                {
-                    curZ = Module.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref;
-
-                    ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, curZ, mccoord.T.Value);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                    curX = Module.MotionManager().GetAxis(EnumAxisConstants.X).Status.Position.Ref;
-                    curY = Module.MotionManager().GetAxis(EnumAxisConstants.Y).Status.Position.Ref;
-
-                    ret = Module.MotionManager().StageMove(curX, curY, mccoord.Z.Value);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
+                // -->
             }
             catch (Exception err)
             {
@@ -7618,47 +7625,55 @@ namespace OpusVStageMove
 
                 mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack(wfcoord_next);
 
-                curPZ = Module.MotionManager().GetAxis(EnumAxisConstants.PZ).Status.Position.Ref;
-                curZ = Module.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref;
+                // <--260224 sebas : pz축 제외
+                //curPZ = Module.MotionManager().GetAxis(EnumAxisConstants.PZ).Status.Position.Ref;
+                //curZ = Module.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref;
 
-                ret = Module.CheckHardwareInterference(mccoord.X.Value, mccoord.Y.Value, mccoord.Z.Value, curPZ);
+                //ret = Module.CheckHardwareInterference(mccoord.X.Value, mccoord.Y.Value, mccoord.Z.Value, curPZ);
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                //ret = SwitchThreeLegFunc(false);
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                //ret = MoveToPZClearance();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                // -->
+
+                // <-- 260224 sebas : z, T 조건보는거 뺌
+                //mccoord.T.Value = Module.WaferAligner().WaferAlignInfo.AlignAngle * 10000.0;
+
+                //if (curZ > mccoord.Z.Value) 
+                //{
+                //    // Z down first
+                //    curX = Module.MotionManager().GetAxis(EnumAxisConstants.X).Status.Position.Ref;
+                //    curY = Module.MotionManager().GetAxis(EnumAxisConstants.Y).Status.Position.Ref;
+
+                //    ret = Module.MotionManager().StageMove(curX, curY, mccoord.Z.Value);
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                //    curZ = Module.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref;
+
+                //    ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, curZ, mccoord.T.Value);
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
+                //else
+                //{
+                //    curZ = Module.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref;
+
+                //    ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, curZ, mccoord.T.Value);
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                //    curX = Module.MotionManager().GetAxis(EnumAxisConstants.X).Status.Position.Ref;
+                //    curY = Module.MotionManager().GetAxis(EnumAxisConstants.Y).Status.Position.Ref;
+
+                //    ret = Module.MotionManager().StageMove(curX, curY, mccoord.Z.Value);
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
+                // -->
+
+                // 260224 sebas add
+                ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, EnumTrjType.Normal, 1);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                ret = SwitchThreeLegFunc(false);
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                ret = MoveToPZClearance();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                mccoord.T.Value = Module.WaferAligner().WaferAlignInfo.AlignAngle * 10000.0;
-
-                if (curZ > mccoord.Z.Value)
-                {
-                    // Z down first
-                    curX = Module.MotionManager().GetAxis(EnumAxisConstants.X).Status.Position.Ref;
-                    curY = Module.MotionManager().GetAxis(EnumAxisConstants.Y).Status.Position.Ref;
-
-                    ret = Module.MotionManager().StageMove(curX, curY, mccoord.Z.Value);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                    curZ = Module.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref;
-
-                    ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, curZ, mccoord.T.Value);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
-                else
-                {
-                    curZ = Module.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref;
-
-                    ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, curZ, mccoord.T.Value);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                    curX = Module.MotionManager().GetAxis(EnumAxisConstants.X).Status.Position.Ref;
-                    curY = Module.MotionManager().GetAxis(EnumAxisConstants.Y).Status.Position.Ref;
-
-                    ret = Module.MotionManager().StageMove(curX, curY, mccoord.Z.Value);
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
             }
             catch (Exception err)
             {
@@ -17941,14 +17956,14 @@ namespace OpusVStageMove
 
             try
             {
-                ret = CheckStage();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                if (GetState() != StageStateEnum.WAFERHIGHVIEW && GetState() != StageStateEnum.WAFERLOWVIEW && GetState() != StageStateEnum.MARK)
-                {
-                    ret = MoveStageSafePos(true, true, false); // 안전한위치로 가고, 안전한 위치로 가고, 웨이퍼캠 펴고
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
+                // 260224 sebas : 조건 제거
+                //ret = CheckStage();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //if (GetState() != StageStateEnum.WAFERHIGHVIEW && GetState() != StageStateEnum.WAFERLOWVIEW && GetState() != StageStateEnum.MARK)
+                //{
+                //    ret = MoveStageSafePos(true, true, false); // 안전한위치로 가고, 안전한 위치로 가고, 웨이퍼캠 펴고
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
 
                 ret = WaferHighIndexMoveFunc(mach_x, mach_y, zpos, NotUseHeightProfile);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
@@ -18931,14 +18946,14 @@ namespace OpusVStageMove
 
             try
             {
-                ret = CheckStage();
-                ResultValidate(MethodBase.GetCurrentMethod(), ret);
-
-                if (GetState() != StageStateEnum.WAFERHIGHVIEW && GetState() != StageStateEnum.WAFERLOWVIEW && GetState() != StageStateEnum.MARK)
-                {
-                    ret = MoveStageSafePos(true, true, false); // 안전한위치로 가고, 안전한 위치로 가고, 웨이퍼캠 펴고
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
+                // 260224 sebas : 조건 제거
+                //ret = CheckStage();
+                //ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //if (GetState() != StageStateEnum.WAFERHIGHVIEW && GetState() != StageStateEnum.WAFERLOWVIEW && GetState() != StageStateEnum.MARK)
+                //{
+                //    ret = MoveStageSafePos(true, true, false); // 안전한위치로 가고, 안전한 위치로 가고, 웨이퍼캠 펴고
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
 
                 ret = WaferLowIndexMoveFunc(mach_x, mach_y, zpos, NotUseHeightProfile);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
@@ -19070,18 +19085,18 @@ namespace OpusVStageMove
 
             try
             {
-                // 260114 sebas : 조건 제거
+                // <-- 260114 sebas : 조건 제거
                 //ret = CheckStage();
                 //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
-                var stagesupervisor = Module.StageSupervisor();
+                //var stagesupervisor = Module.StageSupervisor();
 
-                if (zpos < stagesupervisor.WaferRegRange)
-                {
-                    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
-
+                //if (zpos < stagesupervisor.WaferRegRange)
+                //{
+                //    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
+                // -->
                 ret = WaferHighViewMoveFunc(xpos, ypos, zpos, NotUseHeightProfile, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
