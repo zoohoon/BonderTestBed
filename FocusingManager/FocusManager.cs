@@ -318,7 +318,7 @@ namespace FocusingManager
 
             param.FocusingROI.Value = new Rect(0, 0, 960, 960);
             param.OutFocusLimit.Value = 40;
-
+            
             if (param.LightParams == null)
             {
                 param.LightParams = new ObservableCollection<LightValueParam>();

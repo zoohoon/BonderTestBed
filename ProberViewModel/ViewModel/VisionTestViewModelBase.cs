@@ -3078,11 +3078,7 @@ namespace VisionTestViewModel
                     mccoord.X.Value = dx;
                     mccoord.Y.Value = dy;
                     mccoord.Z.Value = this.MotionManager().GetActualPos(EnumAxisConstants.Z, ref zpos);
-
-                    // 260223 Nick 일단 Z축 0으로 변경하지 마봐
-                    //mccoord.Z.Value = zpos;
-                    mccoord.Z.Value = 0;
-                    // end Nick
+                    mccoord.Z.Value = zpos;
 
                     wafercoord = this.CoordinateManager().WaferHighChuckConvert.Convert_5Cam(mccoord);
 

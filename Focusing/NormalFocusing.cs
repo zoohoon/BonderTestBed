@@ -180,7 +180,10 @@ namespace Focusing
                 double focusAcc = this.MotionManager().GetAxis(focusparam.FocusingAxis.Value).Param.Acceleration.Value;
 
                 int focusStep;
+
+                // 260225 Nick Test Code
                 Rect focusROI = focusparam.FocusingROI.Value;
+
                 ProbeAxisObject axis = this.MotionManager().GetAxis(focusparam.FocusingAxis.Value);
                 double focusResolution = 0;
 
@@ -271,7 +274,7 @@ namespace Focusing
                                 for (int i = 0; i < focusStep; i++)
                                 {
                                     timeStamp.Add(new KeyValuePair<string, long>(string.Format("WaitGrab Start"), stw.ElapsedMilliseconds));
-                                    ImageBuffer newImageBuffer = WaitGrab(focusparam, focusROI, callerAssembly);
+                                    ImageBuffer newImageBuffer = WaitGrab_eGrabber(focusparam, focusROI, callerAssembly);
                                     timeStamp.Add(new KeyValuePair<string, long>(string.Format("WaitGrab End"), stw.ElapsedMilliseconds));
 
                                     lock (newImageBuffer)

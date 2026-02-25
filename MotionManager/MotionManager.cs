@@ -507,6 +507,7 @@ namespace ProbeMotion
             try
             {
                 ProbeAxisObject axis = GetAxis(axisType);
+                axis.Status.Position.Ref = 144000000;   // 260225 Test Code
                 pos = axis.Status.Position.Ref;
                 returnValue = 1;
             }

@@ -823,18 +823,6 @@ namespace CoordinateSystem
 
                 long indexX = Convert.ToInt64(Wafer.GetPhysInfo().CenM.XIndex.Value + offsetrefdiex);
                 long indexY = Convert.ToInt64(Wafer.GetPhysInfo().CenM.YIndex.Value + offsetrefdiey);
-
-                // 260223 sebas : 인덱스가 좌표상 벗어나는 경우 (개조 후 웨이퍼 프레임을 보다보니 인덱스를 벗어나게 됨)
-                if(indexX < 0)
-                {
-                    indexX = 0;
-                    LoggerManager.PinLog($"indexX = {indexX}를 0 으로 입력");
-                }
-                else if(indexY < 0)
-                {
-                    indexY = 0;
-                    LoggerManager.PinLog($"indexY = {indexY}를 0 으로 입력");
-                }
  
                 return new MachineIndex(indexX, indexY);
             }

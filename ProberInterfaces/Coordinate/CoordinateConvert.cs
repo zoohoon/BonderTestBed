@@ -156,8 +156,8 @@ namespace ProberInterfaces
                 ICoordinateManager CoordinateManager = this.CoordinateManager();
                 if (CoordinateManager.StageCoord != null)
                 {
-                    mccoord.X.Value = 124630 - coord.X.Value;
-                    mccoord.Y.Value = -192969 - coord.Y.Value;
+                    mccoord.X.Value = 124630;
+                    mccoord.Y.Value = -192969;
                     mccoord.Z.Value = 0;        // 36,000
                 }
             }

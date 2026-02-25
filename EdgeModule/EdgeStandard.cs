@@ -938,6 +938,7 @@ namespace WAEdgeStadnardModule
             finally
             {
                 //this.VisionManager().ClearGrabberUserImage(CurCam.GetChannelType());
+                LoggerManager.PinLog("Edge Detection End");
             }
             return RetVal;
         }

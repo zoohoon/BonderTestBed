@@ -1191,6 +1191,27 @@ namespace ManualJogViewModel
                 return _NSZ1NegMoveCommand;
             }
         }
+
+        //20260224 remy add
+        private AsyncCommand _NSZ2PosMoveCommand;
+        public ICommand NSZ2PosMoveCommand
+        {
+            get
+            {
+                if (null == _NSZ2PosMoveCommand) _NSZ2PosMoveCommand = new AsyncCommand(NSZ2PosMoveFunc);
+                return _NSZ2PosMoveCommand;
+            }
+        }
+        private AsyncCommand _NSZ2NegMoveCommand;
+        public ICommand NSZ2NegMoveCommand
+        {
+            get
+            {
+                if (null == _NSZ2NegMoveCommand) _NSZ2NegMoveCommand = new AsyncCommand(NSZ2NegMoveFunc);
+                return _NSZ2NegMoveCommand;
+            }
+        }
+
         #endregion
 
         #region Loader Move
@@ -2541,6 +2562,23 @@ namespace ManualJogViewModel
                 }
             }
         }
+
+        //20260224 remy add
+        private int _NSZ2TextVal = 0;
+
+        public int NSZ2TextVal
+        {
+            get { return _NSZ2TextVal; }
+            set
+            {
+                if (value != _NSZ2TextVal)
+                {
+                    _NSZ2TextVal = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         #region ==> NSZ1TextBoxClickCommand
         private RelayCommand<Object> _NSZ1TextBoxClickCommand;
         public ICommand NSZ1TextBoxClickCommand
@@ -5202,6 +5240,62 @@ namespace ManualJogViewModel
             }
         }
 
+        //20260224 remy add
+        private async Task NSZ2PosMoveFunc()
+        {
+            try
+            {
+
+
+                axis = this.MotionManager().GetAxis(EnumAxisConstants.NSZ2);
+                if (axis == null)
+                {
+
+                }
+                else
+                {
+                    RelMoveStepDist = NSZ2TextVal;
+                    Posmove();
+                }
+
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+            }
+            finally
+            {
+
+            }
+        }
+        private async Task NSZ2NegMoveFunc()
+        {
+            try
+            {
+
+                axis = this.MotionManager().GetAxis(EnumAxisConstants.NSZ2);
+                if (axis == null)
+                {
+
+                }
+                else
+                {
+                    RelMoveStepDist = NSZ2TextVal;
+                    Negmove();
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+            }
+            finally
+            {
+
+            }
+        }
+
+
+
         private async Task NSZ1PosMoveFunc()
         {
             try
@@ -5473,6 +5567,43 @@ namespace ManualJogViewModel
                 }
             }
         }
+        //20260224 remy 5cam add
+        public double _CX1ActualVal = 0.0;
+        public double CX1ActualVal
+        {
+            get
+            {
+                return _CX1ActualVal;
+            }
+            set
+            {
+                if (_CX1ActualVal != value)
+                {
+                    _CX1ActualVal = value;
+                    RaisePropertyChanged("CX1ActualVal");
+                }
+            }
+        }
+
+
+
+        //20260224 remy FD 카메라 추가
+        public double _NSZ2ActualVal = 0.0;
+        public double NSZ2ActualVal
+        {
+            get
+            {
+                return _NSZ2ActualVal;
+            }
+            set
+            {
+                if (_NSZ2ActualVal != value)
+                {
+                    _NSZ2ActualVal = value;
+                    RaisePropertyChanged("NSZ2ActualVal");
+                }
+            }
+        }
 
         public double _FDZ1ActualVal = 0.0;
         public double FDZ1ActualVal
@@ -5626,6 +5757,10 @@ namespace ManualJogViewModel
 
                     this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ1).AxisType.Value, ref currentPulseValue);
                     NSZ1ActualVal = currentPulseValue;
+
+                    //20260224  remy 
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ2).AxisType.Value, ref currentPulseValue);
+                    NSZ2ActualVal = currentPulseValue;
 
                     this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref currentPulseValue);
                     FDZ1ActualVal = currentPulseValue;

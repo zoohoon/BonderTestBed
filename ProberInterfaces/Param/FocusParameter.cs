@@ -279,6 +279,7 @@ namespace ProberInterfaces.Param
                 }
             }
         }
+
         private Element<EnumAxisConstants> _FocusingAxis = new Element<EnumAxisConstants>();
         public Element<EnumAxisConstants> FocusingAxis
         {
