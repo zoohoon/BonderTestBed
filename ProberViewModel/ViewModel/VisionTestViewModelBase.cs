@@ -3082,7 +3082,6 @@ namespace VisionTestViewModel
 
                     wafercoord = this.CoordinateManager().WaferHighChuckConvert.Convert_5Cam(mccoord);
 
-
                     await Task.Run(() =>
                     {
                         ret = this.StageSupervisor().StageModuleState.WaferHighViewMove(wafercoord.X.Value, wafercoord.Y.Value, wafercoord.Z.Value);
