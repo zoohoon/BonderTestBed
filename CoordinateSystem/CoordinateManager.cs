@@ -824,6 +824,11 @@ namespace CoordinateSystem
                 long indexX = Convert.ToInt64(Wafer.GetPhysInfo().CenM.XIndex.Value + offsetrefdiex);
                 long indexY = Convert.ToInt64(Wafer.GetPhysInfo().CenM.YIndex.Value + offsetrefdiey);
  
+                if(indexY < 0)  // 260225 sebas***** : 배열에러
+                {
+                    indexY = 0;
+                }
+
                 return new MachineIndex(indexX, indexY);
             }
             catch (Exception err)

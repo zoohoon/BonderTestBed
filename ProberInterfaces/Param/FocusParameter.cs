@@ -388,7 +388,7 @@ namespace ProberInterfaces.Param
             try
             {
                 _FocusMaxStep.Value = 20;
-                _FocusRange.Value = 200;
+                _FocusRange.Value = 300;
                 _DepthOfField.Value = 1;
                 _FocusThreshold.Value = 10000;
                 _FlatnessThreshold.Value = 20;
@@ -398,10 +398,10 @@ namespace ProberInterfaces.Param
                 _CheckThresholdFocusValue.Value = true;
                 _CheckFlatness.Value = true;
                 _CheckDualPeak.Value = true;
-                _FocusingROI.Value = new Rect(0, 0, 960, 960);
+                _FocusingROI.Value = new Rect(0, 0, 4096, 3000);
                 _FocusingCam.Value = EnumProberCam.WAFER_HIGH_CAM;
                 _FocusingAxis.Value = EnumAxisConstants.Z;
-                _OutFocusLimit.Value = 40;
+                _OutFocusLimit.Value = 7;                                  // 20260225 Nick Focus Prameter ¼öÁ¤
                 //_ChuckRefHight.Value = 0;
             }
             catch (Exception err)

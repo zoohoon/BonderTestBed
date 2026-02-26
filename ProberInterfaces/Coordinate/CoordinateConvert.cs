@@ -158,7 +158,7 @@ namespace ProberInterfaces
                 {
                     mccoord.X.Value = 124630;
                     mccoord.Y.Value = -192969;
-                    mccoord.Z.Value = 0;        // 36,000
+                    mccoord.Z.Value = 144000000;        // 36,000
                 }
             }
             catch (Exception err)

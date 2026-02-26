@@ -224,8 +224,10 @@ namespace Focusing
 
                         //==> Limit Range - z 축이 움직일 영역 범위 지정
                         this.MotionManager().GetRefPos(axis.AxisType.Value, ref curRefPos);
-                        double zAxisLimitCeiling = curRefPos + (focusRange / 2);//==> 상단 영역 좌표
-                        double zAxisLimitFloor = curRefPos - (focusRange / 2);//==> 하단 영역 좌표
+
+                        // 260226 Nick 단위문제로 X*1000
+                        double zAxisLimitCeiling = curRefPos + (focusRange / 2 * 1000);//==> 상단 영역 좌표
+                        double zAxisLimitFloor = curRefPos - (focusRange / 2 * 1000);//==> 하단 영역 좌표
                         prePosition = curRefPos;
 
                         LoggerManager.Debug($"[NormalFocusing], Focusing() : curRefPos : {curRefPos}, zAxisLimitCeiling : {zAxisLimitCeiling}, zAxisLimitFloor : {zAxisLimitFloor}", isInfo: IsInfo);
@@ -241,7 +243,9 @@ namespace Focusing
 
                         timeStamp.Add(new KeyValuePair<string, long>(string.Format("Start position move Start"), stw.ElapsedMilliseconds));
 
-                        this.MotionManager().RelMove(axis, (-focusRange) / 2, focusVel, focusAcc);
+                        // 260226 Nick 단위문제로 X*1000
+                        //this.MotionManager().RelMove(axis, (-focusRange) / 2, focusVel, focusAcc);
+                        this.MotionManager().RelMove(axis, (-focusRange) / 2 * 1000, focusVel, focusAcc);
                         this.MotionManager().WaitForAxisMotionDone(axis);
 
                         this.MotionManager().GetRefPos(axis.AxisType.Value, ref curRefPos);
@@ -299,7 +303,9 @@ namespace Focusing
 
                                     timeStamp.Add(new KeyValuePair<string, long>(string.Format("ZMove Start"), stw.ElapsedMilliseconds));
 
-                                    this.MotionManager().RelMove(axis, focusResolution * step_dir, focusVel, focusAcc);
+                                    // 260226 Nick 단위문제로 X*1000
+                                    //this.MotionManager().RelMove(axis, focusResolution * step_dir, focusVel, focusAcc);
+                                    this.MotionManager().RelMove(axis, focusResolution * step_dir * 1000, focusVel, focusAcc);
                                     timeStamp.Add(new KeyValuePair<string, long>(string.Format("ZMove End"), stw.ElapsedMilliseconds));
 
                                     Thread.Sleep(FocusingStaticParam.FocusDelayTime);
@@ -511,8 +517,10 @@ namespace Focusing
                             double maxPeakFocusValue = peakImageBuffer.Max(image => image.FiliterdFocusValue);
                             ImageBuffer MaxPeakImageBuffer = imageBuffers.First(image => image.FiliterdFocusValue == maxPeakFocusValue);
                             int maxPeakImageIndex = imageBuffers.IndexOf(MaxPeakImageBuffer);
-
-                            double peakRangeThreshold = focusparam.PeakRangeThreshold.Value;
+                            
+                            // 260226 Nick 단위변환 문제로 X*1000
+                            double peakRangeThreshold = 200.0 * 1000.0;
+                            //double peakRangeThreshold = focusparam.PeakRangeThreshold.Value;
 
                             // 최솟값을 200으로 설정
                             if (peakRangeThreshold < 200)
@@ -520,53 +528,56 @@ namespace Focusing
                                 peakRangeThreshold = 200;
                             }
 
-                            if (peakSelectionStrategy == PeakSelectionStrategy.NONE)
-                            {
-                                foreach (var item in peakImageBuffer.Select((value, i) => new { i, value }))
-                                {
-                                    var peakImage = item.value;
-                                    var index = item.i;
+                            // 260226 Nick 테스트 중이므로 듀얼 피크 일단 제거
+                            //if (peakSelectionStrategy == PeakSelectionStrategy.NONE)
+                            //{
+                            //    foreach (var item in peakImageBuffer.Select((value, i) => new { i, value }))
+                            //    {
+                            //        var peakImage = item.value;
+                            //        var index = item.i;
 
-                                    if (Math.Abs(peakImage.ZHeight - MaxPeakImageBuffer.ZHeight) > peakRangeThreshold)
-                                    {
-                                        int CurrentPeakImageIndex = imageBuffers.IndexOf(peakImage);
+                            //        if (Math.Abs(peakImage.ZHeight - MaxPeakImageBuffer.ZHeight) > peakRangeThreshold)
+                            //        {
+                            //            int CurrentPeakImageIndex = imageBuffers.IndexOf(peakImage);
 
-                                        LoggerManager.Debug($"[NormalFocusing], Focusing() : FOCUS_VALUE_DUALPEAK ERROR, Threshold value : {peakRangeThreshold}", isInfo: IsInfo);
-                                        LoggerManager.Debug($"[NormalFocusing], Focusing() : Number of images with peak information = {peakImageBuffer.Count}", isInfo: IsInfo);
+                            //            LoggerManager.Debug($"[NormalFocusing], Focusing() : FOCUS_VALUE_DUALPEAK ERROR, Threshold value : {peakRangeThreshold}", isInfo: IsInfo);
+                            //            LoggerManager.Debug($"[NormalFocusing], Focusing() : Number of images with peak information = {peakImageBuffer.Count}", isInfo: IsInfo);
 
-                                        LoggerManager.Debug($"[NormalFocusing], Focusing() : Current Index in peak image buffers = {index}", isInfo: IsInfo);
-                                        LoggerManager.Debug($"[NormalFocusing], Focusing() : Current Index = {CurrentPeakImageIndex} | Max peak image's index= {maxPeakImageIndex} (In Whole image buffers)", isInfo: IsInfo);
+                            //            LoggerManager.Debug($"[NormalFocusing], Focusing() : Current Index in peak image buffers = {index}", isInfo: IsInfo);
+                            //            LoggerManager.Debug($"[NormalFocusing], Focusing() : Current Index = {CurrentPeakImageIndex} | Max peak image's index= {maxPeakImageIndex} (In Whole image buffers)", isInfo: IsInfo);
 
-                                        focusResult = EventCodeEnum.FOCUS_VALUE_DUALPEAK;
+                            //            focusResult = EventCodeEnum.FOCUS_VALUE_DUALPEAK;
 
-                                        break;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                // NOTHING
-                            }
-
+                            //            break;
+                            //        }
+                            //    }
+                            //}
+                            //else
+                            //{
+                            //    // NOTHING
+                            //}
+                            // 260226 end Nick 테스트 중이므로 듀얼 피크 일단 주석
                             #endregion
 
                             ImageBuffersForDebug = new List<ImageBuffer>(imageBuffers);
 
                             WriteFocusingInfo(ImageBuffersForDebug, focusRange, focusResolution, focusStep);
 
+                            // 260226 end Nick 테스트 중이므로 이미지 저장 일단 주석
                             //==> Analisys Focusing Status
-                            if (focusResult == EventCodeEnum.FOCUS_VALUE_THRESHOLD ||
-                                focusResult == EventCodeEnum.FOCUS_VALUE_FLAT ||
-                                focusResult == EventCodeEnum.FOCUS_VALUE_DUALPEAK)
-                            {
-                                //==> Error
-                                if (ImageBuffersForDebug != null && ImageBuffersForDebug.Count > 0)
-                                {
-                                    SaveFailImage(ImageBuffersForDebug, SaveFailPath);
-                                }
+                            //if (focusResult == EventCodeEnum.FOCUS_VALUE_THRESHOLD ||
+                            //    focusResult == EventCodeEnum.FOCUS_VALUE_FLAT ||
+                            //    focusResult == EventCodeEnum.FOCUS_VALUE_DUALPEAK)
+                            //{
+                            //    //==> Error
+                            //    if (ImageBuffersForDebug != null && ImageBuffersForDebug.Count > 0)
+                            //    {
+                            //        SaveFailImage(ImageBuffersForDebug, SaveFailPath);
+                            //    }
 
-                                break;
-                            }
+                            //    break;
+                            //}
+                            // 260226 end Nick
 
                             var maxZHeight = peakImageBuffer.Max(image => image.ZHeight);
                             ImageBuffer HighestValueImage = peakImageBuffer.FirstOrDefault(image => image.ZHeight == maxZHeight);
@@ -627,7 +638,9 @@ namespace Focusing
                             }
                             else
                             {
-                                this.MotionManager().AbsMove(axis, targetFocusValueImage.ZHeight - (focusRange / 2) * step_dir, focusVel, focusAcc);
+                                // 260226 Nick 단위문제로 X*1000
+                                //this.MotionManager().AbsMove(axis, targetFocusValueImage.ZHeight - (focusRange / 2) * step_dir, focusVel, focusAcc);
+                                this.MotionManager().AbsMove(axis, targetFocusValueImage.ZHeight - ((focusRange / 2) * step_dir * 1000), focusVel, focusAcc);
 
                                 LastZHeightPos = targetFocusValueImage.ZHeight - (focusRange / 2) * step_dir;
                                 AssignedLastZHeightPos = true;
@@ -872,10 +885,11 @@ namespace Focusing
 
                 focusingResult = Focusing(focusparam, callerassembly, SavePassPath: SavePassPath, SaveFailPath: SaveFailPath, peakSelectionStrategy: peakSelectionStrategy);
 
-                if (focusingResult == EventCodeEnum.FOCUS_POS_NEAREDGE)
-                {
-                    focusingResult = Focusing(focusparam, callerassembly, SavePassPath: SavePassPath, SaveFailPath: SaveFailPath, peakSelectionStrategy: peakSelectionStrategy);
-                }
+                // 260226 Nick Setting 중 이므로 일단 이부분 주석 추후 주석 해제 필요
+                //if (focusingResult == EventCodeEnum.FOCUS_POS_NEAREDGE)
+                //{
+                //    focusingResult = Focusing(focusparam, callerassembly, SavePassPath: SavePassPath, SaveFailPath: SaveFailPath, peakSelectionStrategy: peakSelectionStrategy);
+                //}
 
                 timeStamp.Add(new KeyValuePair<string, long>("Focusing First End", stw.ElapsedMilliseconds));
                 stw.Stop();

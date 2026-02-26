@@ -1747,12 +1747,12 @@ namespace ThetaAlignStandatdModule
                         // 260203 sebas***** : 개조 후 y축 offset 추가해야 함
                         if (ptinfo.CamType.Value == EnumProberCam.WAFER_LOW_CAM)
                         {
-                            LoggerManager.PinLog($"Processing : FD chuck jumpindex만큼 Low 이동 X = {movex}, Y = {movey}, Z = {movez}");
+                            LoggerManager.PinLog($"Processing : FD chuck jumpindex만큼 Low 이동 X = {movex}, Y = {movey}");
                             retVal = this.StageSupervisor().StageModuleState.WaferLowViewMove(movex, movey, movez);
                         }
                         else if (ptinfo.CamType.Value == EnumProberCam.WAFER_HIGH_CAM)
                         {
-                            LoggerManager.PinLog($"Processing : FD chuck jumpindex만큼 High 이동 X = {movex}, Y = {movey}, Z = {movez}");
+                            LoggerManager.PinLog($"Processing : FD chuck jumpindex만큼 High 이동 X = {movex}, Y = {movey}");
                             retVal = this.StageSupervisor().StageModuleState.WaferHighViewMove(movex, movey, movez);
                         }
                         else if (ptinfo.CamType.Value == EnumProberCam.PIN_LOW_CAM)  // 260121 sebas : Pin cam 추가
@@ -2859,8 +2859,10 @@ namespace ThetaAlignStandatdModule
                             }
 
                             //this.StageSupervisor().StageModuleState.StageRelMove(axisC, (rotateangle * 10000d), EnumTrjType.Normal, -1);
-                            LoggerManager.PinLog($"Wafer Chuck : 회전각 = {rotateangle}");
-                            this.StageSupervisor().StageModuleState.StageRelMove(axisC, (rotateangle * 10000d / 30.244 * 3), EnumTrjType.Normal, -1);  // 30.244 는 DtoP보정 , x3는 기구 보정값
+
+                            double tempAngle = (rotateangle * 10000d / 30.244 * 3);     // 30.244 는 DtoP보정 , x3는 기구 보정값
+                            LoggerManager.PinLog($"Wafer Chuck : 회전 값 = {tempAngle}");
+                            this.StageSupervisor().StageModuleState.StageRelMove(axisC, tempAngle, EnumTrjType.Normal, -1);
                         }
                         else
                         {
@@ -2878,11 +2880,13 @@ namespace ThetaAlignStandatdModule
                         LoggerManager.Debug($"RevisionAngle : {rotateangle}°.", isInfo: IsInfo);
                         this.MotionManager().GetRefPos(EnumAxisConstants.FDT1, ref curTheta);
                         prevTheta = curTheta;
-                        if (rotateangle < 2 || rotateangle > -2)
+
+                        if (rotateangle > -2 && rotateangle < 2)
                         {
                             double tempRotate = -1 * rotateangle * 9025 *2 * 1000;  // sebas***** : 기구에 맞춰 보정 : -1 회전방향 , 1mm당 9025 , DtoP = 0.001 , 보정배수 = 2
-                            LoggerManager.PinLog($"FD Chuck : 회전각 = {tempRotate}");
+                            LoggerManager.PinLog($"FD Wafer Chuck : 회전 값 = {tempRotate}");
                             this.StageSupervisor().StageModuleState.StageRelMove(axisFD, tempRotate);
+
                         }
 
                         this.WaferAligner().WaferAlignInfo.AlignAngle = curTheta;

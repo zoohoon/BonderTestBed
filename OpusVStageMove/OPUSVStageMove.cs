@@ -19199,11 +19199,11 @@ namespace OpusVStageMove
                 WaferCoordinate curwafcoord = new WaferCoordinate();
                 curwafcoord = Module.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert();
 
-                if (curwafcoord.Z.Value < stagesupervisor.WaferRegRange)
-                {
-                    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
-                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
-                }
+                //if (curwafcoord.Z.Value < stagesupervisor.WaferRegRange)
+                //{
+                //    ret = EventCodeEnum.MOTION_REGISTRATION_RANGE_WAFER_ERROR;
+                //    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                //}
 
                 ret = WaferLowViewMoveFunc(xpos, ypos, trjtype, ovrd);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);

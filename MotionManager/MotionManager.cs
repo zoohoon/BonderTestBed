@@ -507,7 +507,6 @@ namespace ProbeMotion
             try
             {
                 ProbeAxisObject axis = GetAxis(axisType);
-                axis.Status.Position.Ref = 144000000;   // 260225 Test Code
                 pos = axis.Status.Position.Ref;
                 returnValue = 1;
             }
@@ -3613,8 +3612,8 @@ namespace ProbeMotion
             yaxis.Status.Position.Ref = ypos;
 
             // 260128 sebas : Z 위치변경 제외
-            //zaxis.Status.RawPosition.Ref = zpos;
-            //zaxis.Status.Position.Ref = zpos;
+            zaxis.Status.RawPosition.Ref = zpos;
+            zaxis.Status.Position.Ref = zpos;
 
             try
             {
@@ -3640,11 +3639,11 @@ namespace ProbeMotion
                 //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
                 // 260114 sebas : FD Z로 바꿀 예정
-                //retVal = MotionProvider.AbsMove(zaxis, zaxis.Status.RawPosition.Ref, trjtype, ovrd);
-                //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                retVal = MotionProvider.AbsMove(zaxis, zaxis.Status.RawPosition.Ref, trjtype, ovrd);
+                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
-                //retVal = WaitForAxisMotionDone(zaxis);
-                //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                retVal = WaitForAxisMotionDone(zaxis);
+                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
                 ret = EventCodeEnum.NONE;
             }
