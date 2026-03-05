@@ -8398,7 +8398,7 @@ namespace ManualJogViewModel
         private void ARM_VACOFF2()
         {
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, true);
-            Thread.Sleep(50);
+            Thread.Sleep(40);
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, false);
         }
 
@@ -8878,8 +8878,8 @@ namespace ManualJogViewModel
                 Thread.Sleep(250);
 
                 // Nano Z 아래로 이동 (대기 위치)
-                double pos = -2500;
-                retVal = this.MotionManager().RelMove(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
+                //double pos = -2500;
+                //retVal = this.MotionManager().RelMove(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
             }
             catch (Exception err)
             {
