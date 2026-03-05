@@ -145,30 +145,33 @@ namespace LoaderServiceClientModules.VisionManager
 
         public ImageBuffer SingleGrab_egrabber(EnumProberCam type, object assembly)
         {
-            ImageBuffer grabbedImage = null;
+            int camIndex = 2;
 
-            // camIndex 고정
-            const int camIndex = 2;
-
-            // timeout 고정
-            const int timeoutMs = 1000;
+            // timeout 완화 (원래 1000ms)
+            const int timeoutMs = 3000;
 
             if (EGrabOne == null)
                 throw new Exception("EGrabOne is not set. (VisionManager.EGrabOne)");
 
             var r = EGrabOne(camIndex, timeoutMs);
-            if (!r.ok || r.data == null || r.data.Length == 0)
-                throw new TimeoutException("E-Grabber SingleGrab timeout");
 
-            grabbedImage = new ImageBuffer
+            // 실패 사유를 분리하면 디버깅이 훨씬 쉬움
+            if (!r.ok)
+                throw new TimeoutException($"E-Grabber SingleGrab failed (ok=false). camIndex={camIndex}");
+
+            if (r.data == null)
+                throw new TimeoutException($"E-Grabber SingleGrab failed (data=null). camIndex={camIndex}");
+
+            if (r.data.Length == 0)
+                throw new TimeoutException($"E-Grabber SingleGrab failed (data empty). camIndex={camIndex}");
+
+            return new ImageBuffer
             {
                 SizeX = r.w,
                 SizeY = r.h,
                 ColorDept = r.isColor ? (int)ColorDept.Color24 : (int)ColorDept.BlackAndWhite,
                 Buffer = r.data
             };
-
-            return grabbedImage;
         }
 
         public Task DispHostService_ImageUpdate(ICamera Camera, ImageBuffer image)

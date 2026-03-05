@@ -3171,7 +3171,20 @@ namespace Motion
                                (float)axis.DtoP(velocity));
                         SetOperationMode(axis, OPM402.OPM402_CYCLIC_SYNC_POSITION_MODE);
 
-                        nRetVal = ElmoSetPostion(axis, 0);  //251110 ybpark Homing 후 엔코더 값 0 set
+                        if (axis.Label.Value == "Z" ||
+                            axis.Label.Value == "Z1" ||
+                            axis.Label.Value == "Z2" ||
+                            axis.Label.Value == "Z0")
+                        {
+                            // 260304 Nick 조건식 추가 (Z축 Homming Offset)
+                            //nRetVal = RelMove_Wating(axis, axis.DtoP(axis.Param.HomeOffset.Value), axis.Param.HommingSpeed.Value, axis.Param.HommingAcceleration.Value);
+                            //nRetVal = ElmoSetPostion(axis, 0);  //251110 ybpark Homing 후 엔코더 값 0 set
+                        }
+                        else
+                        {
+                            nRetVal = ElmoSetPostion(axis, 0);  //251110 ybpark Homing 후 엔코더 값 0 set
+                        }
+
 
                         Thread.Sleep(500);
                         double posOffset = 0;

@@ -6623,7 +6623,7 @@ namespace OpusVStageMove
                 else if(99 == ovrd)
                 {
                     // 260223 Nick 5 Cam 추가
-                    mccoord = Module.CoordinateManager().WaferHighChuckConvert.ConvertBack_5Cam(wfcoord);
+                    mccoord = Module.CoordinateManager().WaferHighChuckConvert.ConvertBack_5Cam_Test(wfcoord);
                 }
                 else
                 {

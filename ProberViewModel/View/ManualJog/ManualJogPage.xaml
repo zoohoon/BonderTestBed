@@ -107,7 +107,7 @@
                                    HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                                    Foreground="White" 
                                    FontSize="14"
-                                   Content="{Binding CY1.Status.RawPosition.Ref}" 
+                                   Content="{Binding CY1ActualVal}" 
                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                             <Label Grid.Row="2"
@@ -115,7 +115,7 @@
                                    HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                                    Foreground="White" 
                                    FontSize="14"
-                                   Content="{Binding CZ1.Status.RawPosition.Ref}" 
+                                   Content="{Binding CZ1ActualVal}" 
                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                             <Label Grid.Row="3" 
@@ -123,7 +123,7 @@
                                    HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                                    Foreground="White" 
                                    FontSize="14" 
-                                   Content="{Binding CX2.Status.RawPosition.Ref}" 
+                                   Content="{Binding CX2ActualVal}" 
                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                             <Label Grid.Row="4"
@@ -131,7 +131,7 @@
                                    HorizontalAlignment="Right" VerticalAlignment="Stretch"
                                    Foreground="White" 
                                    FontSize="14"
-                                   Content="{Binding CY2.Status.RawPosition.Ref}" 
+                                   Content="{Binding CY2ActualVal}" 
                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                             <Label Grid.Row="5"
@@ -139,7 +139,7 @@
                                    HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                                    Foreground="White" 
                                    FontSize="14"
-                                   Content="{Binding CZ2.Status.RawPosition.Ref}" 
+                                   Content="{Binding CZ2ActualVal}" 
                                    ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                             <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>
@@ -999,8 +999,6 @@
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
                                 <Label Content="Chuck Rot :" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-20,0"/>
@@ -1009,19 +1007,11 @@
                                 <Label Content="3Leg :" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
                             </Grid>
                             <Grid Grid.Row="2">
-                                <Label Content="Z 1 :" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
-                            </Grid>
-                            <Grid Grid.Row="3">
-                                <Label Content="Z 2 :" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
-                            </Grid>
-                            <Grid Grid.Row="4">
-                                <Label Content="Z 3 :" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                                <Label Content="Z :" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
                             </Grid>
                         </Grid>
                         <Grid Grid.Column="1">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
@@ -1053,23 +1043,7 @@
                                 HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                                 Foreground="White" 
                                 FontSize="12"
-                                Content="{Binding Z0ActualVal}" 
-                                ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,5,0"
-                                   />
-                            <Label Grid.Row="3"
-                                Width="130" 
-                                HorizontalAlignment="Right" VerticalAlignment="Stretch" 
-                                Foreground="White" 
-                                FontSize="12"
-                                Content="{Binding Z1ActualVal}" 
-                                ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,5,0"
-                                   />
-                            <Label Grid.Row="4"
-                                Width="130" 
-                                HorizontalAlignment="Right" VerticalAlignment="Stretch" 
-                                Foreground="White" 
-                                FontSize="12"
-                                Content="{Binding Z2ActualVal}" 
+                                Content="{Binding ZActualVal}" 
                                 ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,5,0"
                                    />
 
@@ -1081,18 +1055,10 @@
 
                             <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-25,0" Grid.Column="0" Grid.Row="2"/>
                             <Label Content="&lt; 36000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="2"/>
-
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-25,0" Grid.Column="0" Grid.Row="3"/>
-                            <Label Content="&lt; 36000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="3"/>
-
-                            <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-25,0" Grid.Column="0" Grid.Row="4"/>
-                            <Label Content="&lt; 36000" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="4"/>
                         </Grid>
                     </Grid>
                     <Grid Grid.Column="1" Margin="10,0,0,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -1134,50 +1100,20 @@
                         <Button Grid.Column="1" Grid.Row="2" Content=" ▽ 3Leg- " FontSize="20"  Foreground="White"
                             Command="{Binding TriNegMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
                         <Button Grid.Column="2" Grid.Row="0" Content=" △ Z0+ " FontSize="20"  Foreground="White"
-                            Command="{Binding Z0PosMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+                            Command="{Binding ZPosMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
                         <TextBox Grid.Column="2" Grid.Row="1" Width="70" Height="40" Margin="5" FontSize="20"                             
-                            Text="{Binding Z0TextVal}"
+                            Text="{Binding ZTextVal}"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="PreviewMouseDown" >
-                                    <i:InvokeCommandAction Command="{Binding Z0TextBoxClickCommand}"
+                                    <i:InvokeCommandAction Command="{Binding ZTextBoxClickCommand}"
                                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TextBox}, Mode=FindAncestor}}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBox>
                         <Button Grid.Column="2" Grid.Row="2" Content=" ▽ Z0- " FontSize="20"  Foreground="White"
-                            Command="{Binding Z0NegMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <Button Grid.Column="3" Grid.Row="0" Content=" △ Z1+ " FontSize="20"  Foreground="White"
-                            Command="{Binding Z1PosMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <TextBox Grid.Column="3" Grid.Row="1" Width="70" Height="40" Margin="5" FontSize="20"                             
-                            Text="{Binding Z1TextVal}"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="PreviewMouseDown" >
-                                    <i:InvokeCommandAction Command="{Binding Z1TextBoxClickCommand}"
-                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TextBox}, Mode=FindAncestor}}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </TextBox>
-                        <Button Grid.Column="3" Grid.Row="2" Content=" ▽ Z1- " FontSize="20"  Foreground="White"
-                            Command="{Binding Z1NegMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <Button Grid.Column="4" Grid.Row="0" Content=" △ Z2+ " FontSize="20"  Foreground="White"
-                            Command="{Binding Z2PosMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <TextBox Grid.Column="4" Grid.Row="1" Width="70" Height="40" Margin="5" FontSize="20"                             
-                            Text="{Binding Z2TextVal}"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="PreviewMouseDown" >
-                                    <i:InvokeCommandAction Command="{Binding Z2TextBoxClickCommand}"
-                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TextBox}, Mode=FindAncestor}}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </TextBox>
-                        <Button Grid.Column="4" Grid.Row="2" Content=" ▽ Z2- " FontSize="20"  Foreground="White"
-                            Command="{Binding Z2NegMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+                            Command="{Binding ZNegMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
                     </Grid>
                 </Grid>
             </GroupBox>
@@ -1304,7 +1240,7 @@
                                     HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                                     Foreground="White" 
                                     FontSize="11" 
-                                    Content="{Binding CX3.Status.RawPosition.Ref}" 
+                                    Content="{Binding CX3ActualVal}" 
                                     ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                                 <Label Grid.Row="1"
@@ -1312,7 +1248,7 @@
                                     HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                                     Foreground="White" 
                                     FontSize="11"
-                                    Content="{Binding CY3.Status.RawPosition.Ref}" 
+                                    Content="{Binding CY3ActualVal}" 
                                     ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                                 <Label Grid.Row="2"
@@ -1320,7 +1256,7 @@
                                     HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                                     Foreground="White" 
                                     FontSize="11"
-                                    Content="{Binding CZ3.Status.RawPosition.Ref}" 
+                                    Content="{Binding CZ3ActualVal}" 
                                     ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                                 <Label Grid.Row="3" 
@@ -1328,7 +1264,7 @@
                                     HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                                     Foreground="White" 
                                     FontSize="11" 
-                                    Content="{Binding CX4.Status.RawPosition.Ref}" 
+                                    Content="{Binding CX4ActualVal}" 
                                     ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                                 <Label Grid.Row="4"
@@ -1336,7 +1272,7 @@
                                     HorizontalAlignment="Right" VerticalAlignment="Stretch"
                                     Foreground="White" 
                                     FontSize="11"
-                                    Content="{Binding CY4.Status.RawPosition.Ref}" 
+                                    Content="{Binding CY4ActualVal}" 
                                     ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                                 <Label Grid.Row="5"
@@ -1344,7 +1280,7 @@
                                     HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                                     Foreground="White" 
                                     FontSize="11"
-                                    Content="{Binding CZ4.Status.RawPosition.Ref}" 
+                                    Content="{Binding CZ4ActualVal}" 
                                     ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                                 <Label Grid.Row="6"
@@ -1352,7 +1288,7 @@
                                     HorizontalAlignment="Right" VerticalAlignment="Stretch" 
                                     Foreground="White" 
                                     FontSize="11"
-                                    Content="{Binding CZ5.Status.RawPosition.Ref}" 
+                                    Content="{Binding CZ5ActualVal}" 
                                     ContentStringFormat="F2" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,10,0"
                                    />
                                 <Label Content="0 &lt;" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="0"/>

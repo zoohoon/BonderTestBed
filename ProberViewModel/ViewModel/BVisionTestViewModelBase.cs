@@ -883,62 +883,23 @@ namespace BVisionTestViewModel
                     int h = GetHeight(camIndex);
                     bool isColor = _isColor[camIndex];
 
-                    // ===== 다음 프레임 1장 RAW 저장 요청 처리: 복사 + 큐 enqueue + Ack =====
                     if (Interlocked.CompareExchange(ref _saveNextFrameReq[camIndex], 0, 1) == 1)
                     {
-                        int backlog = Interlocked.Increment(ref _saveBacklogCount);
-                        if (backlog > MAX_SAVE_BACKLOG)
+                        // 1) src 복사 (Grabber 버퍼는 다음 프레임에서 덮일 수 있음)
+                        var copy = new byte[src.Length];
+                        Buffer.BlockCopy(src, 0, copy, 0, src.Length);
+
+                        // 2) 큐에 넣기 (job 타입은 네 프로젝트 타입에 맞게)
+                        _saveQueue.Enqueue(new SaveJob
                         {
-                            // 큐 폭주면 드랍: Ack를 주지 않으면 공정에서 timeout으로 감지됨(권장)
-                            Interlocked.Decrement(ref _saveBacklogCount);
-                            LoggerManager.Debug($"RAW save backlog overflow. Drop frame. backlog={backlog}");
+                            Data = copy,
+                            Width = w,
+                            Height = h,
+                            IsColor = isColor
+                        });
 
-                            // (선택) 공정 지연을 줄이려면 Ack를 주고 진행하게 할 수도 있음
-                            // _nextFrameCopiedAck[camIndex]?.Set();
-                        }
-                        else
-                        {
-                            // grabber 버퍼 재사용 방지: 반드시 복사
-                            byte[] copy = new byte[src.Length];
-                            Buffer.BlockCopy(src, 0, copy, 0, src.Length);
-
-                            // 여기서 copy에 "초록색 크로스헤어"를 픽셀로 직접 그린다
-                            // 중심: 화면 정중앙, 길이: 크게(예: 300), 두께: 1
-                            DrawCrosshairInPlace(
-                                data: copy,
-                                w: w,
-                                h: h,
-                                isColor: isColor,
-                                cx: w / 2,
-                                cy: h / 2,
-                                halfLen: 300,
-                                thickness: 1,
-                                r: 0, g: 255, b: 0,      // 초록색
-                                gray: 255,
-                                rgbOrder: true           // 색이 이상하면 false로 바꿔봐 (BGR일 수 있음)
-                            );
-
-                            string camName = (camIndex >= 0 && camIndex < MAX_CAM)
-                                ? _camDisplayName[camIndex]
-                                : ("CAM" + (camIndex + 1));
-
-                            _saveQueue.Enqueue(new SaveJob
-                            {
-                                CamIndex = camIndex,
-                                CamName = camName,
-                                Data = copy,
-                                Width = w,
-                                Height = h,
-                                IsColor = isColor,
-                                TimestampMs = NowMs()
-                            });
-
-                            // 여기서 Ack: "프레임 복사 완료"
-                            _nextFrameCopiedAck[camIndex]?.Set();
-
-                            // 저장 스레드 깨우기
-                            _saveSignal.Set();
-                        }
+                        // 3) Ack
+                        _nextFrameCopiedAck[camIndex]?.Set();
                     }
 
                     // UI 갱신
@@ -969,6 +930,7 @@ namespace BVisionTestViewModel
                             }));
                         }
                     }
+
                     // 필요 시: _grabber[camIndex].RecycleBuffer();
                 }
             }

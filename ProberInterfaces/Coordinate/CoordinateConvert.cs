@@ -12,6 +12,7 @@ namespace ProberInterfaces
         public abstract MachineCoordinate ConvertBack(T coord);
         public abstract T Convert_5Cam(MachineCoordinate machinecoord); // 260223 Nick
         public abstract MachineCoordinate ConvertBack_5Cam(T coord);    // 260223 Nick
+        public abstract MachineCoordinate ConvertBack_5Cam_Test(T coord);    // 260223 Nick
         public abstract MachineCoordinate ConvertBack_Wafer(T coord);   // 260119 sabas
         public abstract T CurrentPosConvert();
         public abstract T CurrentPosConvert_Wafer();    // 260122 sebas
@@ -135,9 +136,14 @@ namespace ProberInterfaces
                 MachineCoordinate wcenInMac = new MachineCoordinate();
                 wcenInMac = ConvertBack_5Cam(new WaferCoordinate(0, 0, 0));
 
-                resultWaferCoord.X.Value = (wcenInMac.GetX() - machinecoord.GetX()) * 1d;
-                resultWaferCoord.Y.Value = (wcenInMac.GetY() - machinecoord.GetY()) * 1d;
-                resultWaferCoord.Z.Value = (wcenInMac.GetZ() - machinecoord.GetZ()) * 1d;
+                // 260303 Nick 임시 주석
+                //resultWaferCoord.X.Value = (wcenInMac.GetX() - machinecoord.GetX()) * 1d;
+                //resultWaferCoord.Y.Value = (wcenInMac.GetY() - machinecoord.GetY()) * 1d;
+                //resultWaferCoord.Z.Value = (wcenInMac.GetZ() - machinecoord.GetZ()) * 1d;
+
+                resultWaferCoord.X.Value = machinecoord.GetX() * 1d;
+                resultWaferCoord.Y.Value = machinecoord.GetY() * 1d;
+                resultWaferCoord.Z.Value = machinecoord.GetZ() * 1d;
 
                 return resultWaferCoord;
             }
@@ -156,9 +162,30 @@ namespace ProberInterfaces
                 ICoordinateManager CoordinateManager = this.CoordinateManager();
                 if (CoordinateManager.StageCoord != null)
                 {
-                    mccoord.X.Value =  (-coord.X.Value);
-                    mccoord.Y.Value =  (-coord.Y.Value);
-                    mccoord.Z.Value = (-coord.Z.Value);
+                    mccoord.X.Value =  124630 - coord.X.Value;
+                    mccoord.Y.Value =  -192969 - coord.Y.Value;
+                    mccoord.Z.Value = 36000 - coord.Z.Value;
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return mccoord;
+        }
+
+        public override MachineCoordinate ConvertBack_5Cam_Test(WaferCoordinate coord)
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+                ICoordinateManager CoordinateManager = this.CoordinateManager();
+                if (CoordinateManager.StageCoord != null)
+                {
+                    mccoord.X.Value = coord.X.Value;
+                    mccoord.Y.Value = coord.Y.Value;
+                    mccoord.Z.Value = coord.Z.Value;
                 }
             }
             catch (Exception err)
@@ -489,6 +516,39 @@ namespace ProberInterfaces
             }
             return mccoord;
         }
+
+        public override MachineCoordinate ConvertBack_5Cam_Test(WaferCoordinate coord)
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+
+                mccoord.X.Value =
+                    this.CoordinateManager().StageCoord.RefMarkPos.X.Value
+                    + this.CoordinateManager().StageCoord.MarkPosInChuckCoord.X.Value
+                    + this.CoordinateManager().StageCoord.WLCAMFromWH.X.Value
+                    - coord.X.Value;
+
+                mccoord.Y.Value =
+                     this.CoordinateManager().StageCoord.RefMarkPos.Y.Value
+                    + this.CoordinateManager().StageCoord.MarkPosInChuckCoord.Y.Value
+                    + this.CoordinateManager().StageCoord.WLCAMFromWH.Y.Value
+                    - coord.Y.Value;
+
+                mccoord.Z.Value =
+                     this.CoordinateManager().StageCoord.RefMarkPos.Z.Value
+                    + this.CoordinateManager().StageCoord.MarkPosInChuckCoord.Z.Value
+                    + this.CoordinateManager().StageCoord.WLCAMFromWH.Z.Value
+                    - coord.Z.Value;
+
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return mccoord;
+        }
         // end Nick
 
         public override WaferCoordinate CurrentPosConvert()
@@ -717,6 +777,25 @@ namespace ProberInterfaces
         }
 
         public override MachineCoordinate ConvertBack_5Cam(PinCoordinate coord)
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+                ICoordinateManager CoordinateManager = this.CoordinateManager();
+                if (CoordinateManager.StageCoord != null)
+                {
+                    // 
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return mccoord;
+        }
+
+        public override MachineCoordinate ConvertBack_5Cam_Test(PinCoordinate coord)
         {
             MachineCoordinate mccoord = new MachineCoordinate();
             try
@@ -988,6 +1067,25 @@ namespace ProberInterfaces
             }
             return mccoord;
         }
+
+        public override MachineCoordinate ConvertBack_5Cam_Test(PinCoordinate coord)
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+                ICoordinateManager CoordinateManager = this.CoordinateManager();
+                if (CoordinateManager.StageCoord != null)
+                {
+                    // 
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return mccoord;
+        }
         // end Nick
 
         public override PinCoordinate CurrentPosConvert()
@@ -1185,6 +1283,21 @@ namespace ProberInterfaces
             return nccoord;
         }
         public override MachineCoordinate ConvertBack_5Cam(NCCoordinate coord)
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return mccoord;
+        }
+
+        public override MachineCoordinate ConvertBack_5Cam_Test(NCCoordinate coord)
         {
             MachineCoordinate mccoord = new MachineCoordinate();
             try
@@ -1463,6 +1576,21 @@ namespace ProberInterfaces
         }
 
         public override MachineCoordinate ConvertBack_5Cam(NCCoordinate coord)
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+            return mccoord;
+        }
+
+        public override MachineCoordinate ConvertBack_5Cam_Test(NCCoordinate coord)
         {
             MachineCoordinate mccoord = new MachineCoordinate();
             try

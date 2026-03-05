@@ -1176,7 +1176,7 @@ namespace ProberVision
             const int camIndex = 2;
 
             // timeout 고정
-            const int timeoutMs = 1000;
+            const int timeoutMs = 3000;
 
             if (EGrabOne == null)
                 throw new Exception("EGrabOne is not set. (VisionManager.EGrabOne)");

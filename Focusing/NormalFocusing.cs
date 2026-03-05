@@ -225,9 +225,8 @@ namespace Focusing
                         //==> Limit Range - z 축이 움직일 영역 범위 지정
                         this.MotionManager().GetRefPos(axis.AxisType.Value, ref curRefPos);
 
-                        // 260226 Nick 단위문제로 X*1000
-                        double zAxisLimitCeiling = curRefPos + (focusRange / 2 * 1000);//==> 상단 영역 좌표
-                        double zAxisLimitFloor = curRefPos - (focusRange / 2 * 1000);//==> 하단 영역 좌표
+                        double zAxisLimitCeiling = curRefPos + (focusRange / 2);//==> 상단 영역 좌표
+                        double zAxisLimitFloor = curRefPos - (focusRange / 2);//==> 하단 영역 좌표
                         prePosition = curRefPos;
 
                         LoggerManager.Debug($"[NormalFocusing], Focusing() : curRefPos : {curRefPos}, zAxisLimitCeiling : {zAxisLimitCeiling}, zAxisLimitFloor : {zAxisLimitFloor}", isInfo: IsInfo);
@@ -243,9 +242,7 @@ namespace Focusing
 
                         timeStamp.Add(new KeyValuePair<string, long>(string.Format("Start position move Start"), stw.ElapsedMilliseconds));
 
-                        // 260226 Nick 단위문제로 X*1000
-                        //this.MotionManager().RelMove(axis, (-focusRange) / 2, focusVel, focusAcc);
-                        this.MotionManager().RelMove(axis, (-focusRange) / 2 * 1000, focusVel, focusAcc);
+                        this.MotionManager().RelMove(axis, (-focusRange) / 2, focusVel, focusAcc);
                         this.MotionManager().WaitForAxisMotionDone(axis);
 
                         this.MotionManager().GetRefPos(axis.AxisType.Value, ref curRefPos);
@@ -303,9 +300,7 @@ namespace Focusing
 
                                     timeStamp.Add(new KeyValuePair<string, long>(string.Format("ZMove Start"), stw.ElapsedMilliseconds));
 
-                                    // 260226 Nick 단위문제로 X*1000
-                                    //this.MotionManager().RelMove(axis, focusResolution * step_dir, focusVel, focusAcc);
-                                    this.MotionManager().RelMove(axis, focusResolution * step_dir * 1000, focusVel, focusAcc);
+                                    this.MotionManager().RelMove(axis, focusResolution * step_dir, focusVel, focusAcc);
                                     timeStamp.Add(new KeyValuePair<string, long>(string.Format("ZMove End"), stw.ElapsedMilliseconds));
 
                                     Thread.Sleep(FocusingStaticParam.FocusDelayTime);
@@ -638,9 +633,7 @@ namespace Focusing
                             }
                             else
                             {
-                                // 260226 Nick 단위문제로 X*1000
-                                //this.MotionManager().AbsMove(axis, targetFocusValueImage.ZHeight - (focusRange / 2) * step_dir, focusVel, focusAcc);
-                                this.MotionManager().AbsMove(axis, targetFocusValueImage.ZHeight - ((focusRange / 2) * step_dir * 1000), focusVel, focusAcc);
+                                this.MotionManager().AbsMove(axis, targetFocusValueImage.ZHeight - (focusRange / 2) * step_dir, focusVel, focusAcc);
 
                                 LastZHeightPos = targetFocusValueImage.ZHeight - (focusRange / 2) * step_dir;
                                 AssignedLastZHeightPos = true;

@@ -5585,6 +5585,229 @@ namespace ManualJogViewModel
             }
         }
 
+        public double _CY1ActualVal = 0.0;
+        public double CY1ActualVal
+        {
+            get
+            {
+                return _CY1ActualVal;
+            }
+            set
+            {
+                if (_CY1ActualVal != value)
+                {
+                    _CY1ActualVal = value;
+                    RaisePropertyChanged("CY1ActualVal");
+                }
+            }
+        }
+
+        public double _CZ1ActualVal = 0.0;
+        public double CZ1ActualVal
+        {
+            get
+            {
+                return _CZ1ActualVal;
+            }
+            set
+            {
+                if (_CZ1ActualVal != value)
+                {
+                    _CZ1ActualVal = value;
+                    RaisePropertyChanged("CZ1ActualVal");
+                }
+            }
+        }
+
+        public double _CX2ActualVal = 0.0;
+        public double CX2ActualVal
+        {
+            get
+            {
+                return _CX2ActualVal;
+            }
+            set
+            {
+                if (_CX2ActualVal != value)
+                {
+                    _CX2ActualVal = value;
+                    RaisePropertyChanged("CX2ActualVal");
+                }
+            }
+        }
+
+        public double _CY2ActualVal = 0.0;
+        public double CY2ActualVal
+        {
+            get
+            {
+                return _CY2ActualVal;
+            }
+            set
+            {
+                if (_CY2ActualVal != value)
+                {
+                    _CY2ActualVal = value;
+                    RaisePropertyChanged("CY2ActualVal");
+                }
+            }
+        }
+
+        public double _CZ2ActualVal = 0.0;
+        public double CZ2ActualVal
+        {
+            get
+            {
+                return _CZ2ActualVal;
+            }
+            set
+            {
+                if (_CZ2ActualVal != value)
+                {
+                    _CZ2ActualVal = value;
+                    RaisePropertyChanged("CZ2ActualVal");
+                }
+            }
+        }
+
+        public double _CX3ActualVal = 0.0;
+        public double CX3ActualVal
+        {
+            get
+            {
+                return _CX3ActualVal;
+            }
+            set
+            {
+                if (_CX3ActualVal != value)
+                {
+                    _CX3ActualVal = value;
+                    RaisePropertyChanged("CX3ActualVal");
+                }
+            }
+        }
+
+        public double _CY3ActualVal = 0.0;
+        public double CY3ActualVal
+        {
+            get
+            {
+                return _CY3ActualVal;
+            }
+            set
+            {
+                if (_CY3ActualVal != value)
+                {
+                    _CY3ActualVal = value;
+                    RaisePropertyChanged("CY3ActualVal");
+                }
+            }
+        }
+
+        public double _CZ3ActualVal = 0.0;
+        public double CZ3ActualVal
+        {
+            get
+            {
+                return _CZ3ActualVal;
+            }
+            set
+            {
+                if (_CZ3ActualVal != value)
+                {
+                    _CZ3ActualVal = value;
+                    RaisePropertyChanged("CZ3ActualVal");
+                }
+            }
+        }
+
+        public double _CX4ActualVal = 0.0;
+        public double CX4ActualVal
+        {
+            get
+            {
+                return _CX4ActualVal;
+            }
+            set
+            {
+                if (_CX4ActualVal != value)
+                {
+                    _CX4ActualVal = value;
+                    RaisePropertyChanged("CX4ActualVal");
+                }
+            }
+        }
+
+        public double _CY4ActualVal = 0.0;
+        public double CY4ActualVal
+        {
+            get
+            {
+                return _CY4ActualVal;
+            }
+            set
+            {
+                if (_CY4ActualVal != value)
+                {
+                    _CY4ActualVal = value;
+                    RaisePropertyChanged("CY4ActualVal");
+                }
+            }
+        }
+
+        public double _CZ4ActualVal = 0.0;
+        public double CZ4ActualVal
+        {
+            get
+            {
+                return _CZ4ActualVal;
+            }
+            set
+            {
+                if (_CZ4ActualVal != value)
+                {
+                    _CZ4ActualVal = value;
+                    RaisePropertyChanged("CZ4ActualVal");
+                }
+            }
+        }
+
+        public double _CZ5ActualVal = 0.0;
+        public double CZ5ActualVal
+        {
+            get
+            {
+                return _CZ5ActualVal;
+            }
+            set
+            {
+                if (_CZ5ActualVal != value)
+                {
+                    _CZ5ActualVal = value;
+                    RaisePropertyChanged("CZ5ActualVal");
+                }
+            }
+        }
+
+        public double _ZActualVal = 0.0;
+        public double ZActualVal
+        {
+            get
+            {
+                return _ZActualVal;
+            }
+            set
+            {
+                if (_ZActualVal != value)
+                {
+                    _ZActualVal = value;
+                    RaisePropertyChanged("ZActualVal");
+                }
+            }
+        }
+
+
+
 
 
         //20260224 remy FD 카메라 추가
@@ -5745,13 +5968,16 @@ namespace ManualJogViewModel
 
                     this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.C).AxisType.Value, ref currentPulseValue);
                     CActualVal = currentPulseValue;
+
                     this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.TRI).AxisType.Value, ref currentPulseValue);
                     TRIActualVal = currentPulseValue;
 
                     this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z0).AxisType.Value, ref currentPulseValue);
                     Z0ActualVal = currentPulseValue;
+
                     this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z1).AxisType.Value, ref currentPulseValue);
                     Z1ActualVal = currentPulseValue;
+
                     this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z2).AxisType.Value, ref currentPulseValue);
                     Z2ActualVal = currentPulseValue;
 
@@ -5764,8 +5990,53 @@ namespace ManualJogViewModel
 
                     this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref currentPulseValue);
                     FDZ1ActualVal = currentPulseValue;
+
                     this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDT1).AxisType.Value, ref currentPulseValue);
                     FDT1ActualVal = currentPulseValue;
+
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CX1).AxisType.Value, ref currentPulseValue);
+                    CX1ActualVal = currentPulseValue;
+
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CY1).AxisType.Value, ref currentPulseValue);
+                    CY1ActualVal = currentPulseValue;
+
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CZ1).AxisType.Value, ref currentPulseValue);
+                    CZ1ActualVal = currentPulseValue;
+
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CX2).AxisType.Value, ref currentPulseValue);
+                    CX2ActualVal = currentPulseValue;
+
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CY2).AxisType.Value, ref currentPulseValue);
+                    CY2ActualVal = currentPulseValue;
+
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CZ2).AxisType.Value, ref currentPulseValue);
+                    CZ2ActualVal = currentPulseValue;
+
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CX3).AxisType.Value, ref currentPulseValue);
+                    CX3ActualVal = currentPulseValue;
+
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CY3).AxisType.Value, ref currentPulseValue);
+                    CY3ActualVal = currentPulseValue;
+
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CZ3).AxisType.Value, ref currentPulseValue);
+                    CZ3ActualVal = currentPulseValue;
+
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CX4).AxisType.Value, ref currentPulseValue);
+                    CX4ActualVal = currentPulseValue;
+
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CY4).AxisType.Value, ref currentPulseValue);
+                    CY4ActualVal = currentPulseValue;
+
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CZ4).AxisType.Value, ref currentPulseValue);
+                    CZ4ActualVal = currentPulseValue;
+
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.CZ5).AxisType.Value, ref currentPulseValue);
+                    CZ5ActualVal = currentPulseValue;
+
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref currentPulseValue);
+                    ZActualVal = currentPulseValue;
+
+
 
                     // 260206 sebas : Ejection 축 삭제로 주석처리
                     //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJX1).AxisType.Value, ref currentPulseValue);
@@ -11964,7 +12235,7 @@ namespace ManualJogViewModel
                 double AcualPos = 0;
 
                 // Base X 
-                pos = 19500;   // 티칭 값
+                pos = 19750;   // 티칭 값 기존 : 19500 -> 변경 : 19750
                 retVal = this.MotionManager().RelMove_Wating(axisX1, pos, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
                 if (retVal != EventCodeEnum.NONE)
                 {
@@ -11972,7 +12243,7 @@ namespace ManualJogViewModel
                 }
 
                 // Base Y
-                pos = 196500;    // 티칭 값
+                pos = 198500;    // 티칭 값 기존 : 196500 -> 변경 : 198500
                 retVal = this.MotionManager().RelMove_Wating(axisY1, pos, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
                 if (retVal != EventCodeEnum.NONE)
                 {
