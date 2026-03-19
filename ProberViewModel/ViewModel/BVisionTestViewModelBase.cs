@@ -670,7 +670,7 @@ namespace BVisionTestViewModel
 
         public bool CaptureCamera(int slot)
         {
-            var bmp = GetBitmap(slot);  // 카메라에서 Bitmap 얻음
+            var bmp = GetBitmap(slot);  // 카메라에서 Bitmap 얻음 (BitmapSource라고 가정)
             if (bmp == null) return false;
 
             // UI 스레드에서 Bitmap 관련 작업 처리
@@ -691,8 +691,11 @@ namespace BVisionTestViewModel
                 string fileName = $"{camName}_{DateTime.Now:yyyyMMdd_HHmmss_fff}.png";
                 string path = Path.Combine(folder, fileName);
 
+                // ✅ 크로스헤어 그리기
+                var bmpWithCrosshair = DrawCrosshair(bmp);
+
                 var encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(bmp));
+                encoder.Frames.Add(BitmapFrame.Create(bmpWithCrosshair));
                 using (var fs = new FileStream(path, FileMode.Create))
                 {
                     encoder.Save(fs);
@@ -1433,6 +1436,39 @@ namespace BVisionTestViewModel
             }
 
             return retval;
+        }
+
+        // 20260306 Nick 크로스헤어라인 추가
+        private static BitmapSource DrawCrosshair(BitmapSource src)
+        {
+            int w = src.PixelWidth;
+            int h = src.PixelHeight;
+
+            // 1px 선을 또렷하게 보이게 하려면 0.5 오프셋이 핵심
+            double cx = (w / 2) + 0.5;
+            double cy = (h / 2) + 0.5;
+
+            var dv = new DrawingVisual();
+            using (var dc = dv.RenderOpen())
+            {
+                // 원본 그리기
+                dc.DrawImage(src, new Rect(0, 0, w, h));
+
+                // 크로스헤어 (초록색 1px)
+                var pen = new Pen(Brushes.Lime, 1.0);
+                pen.Freeze();
+
+                // 가로선 (y=센터)
+                dc.DrawLine(pen, new Point(0, cy), new Point(w, cy));
+                // 세로선 (x=센터)
+                dc.DrawLine(pen, new Point(cx, 0), new Point(cx, h));
+            }
+
+            var rtb = new RenderTargetBitmap(w, h, src.DpiX, src.DpiY, PixelFormats.Pbgra32);
+            rtb.Render(dv);
+            rtb.Freeze();
+
+            return rtb;
         }
 
         public Task<EventCodeEnum> InitViewModel()
