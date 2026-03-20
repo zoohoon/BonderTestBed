@@ -154,28 +154,209 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- CAM 1 (Top-Left) -->
+                    <!-- CAM 1 (Top-Left) : CX 2 -->
                     <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource Card}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
-                                <!-- 영상 영역 -->
                                 <RowDefinition Height="Auto"/>
-                                <!-- 하단 바 -->
                             </Grid.RowDefinitions>
 
-                            <!-- ===== 영상 영역 (CamImage 기준) ===== -->
                             <Grid Grid.Row="0">
-                                <!-- 영상 -->
-                                <Image x:Name="Cam1Image" Style="{StaticResource CamImage}" Source="{Binding Cam1Source}" SnapsToDevicePixels="True"/>
+                                <Image x:Name="Cam1Image"
+                       Style="{StaticResource CamImage}"
+                       Source="{Binding Cam5Source}"
+                       SnapsToDevicePixels="True"
+                       RenderTransformOrigin="0.5,0.5">
+                                    <Image.RenderTransform>
+                                        <ScaleTransform ScaleX="-1" ScaleY="-1"/>
+                                    </Image.RenderTransform>
+                                </Image>
 
-                                <!-- 크로스헤어: Cam1Image가 차지하는 영역 기준 중앙 -->
                                 <Grid IsHitTestVisible="False" SnapsToDevicePixels="True">
                                     <Border Width="1" Background="Lime" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
                                     <Border Height="1" Background="Lime" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
                                 </Grid>
 
-                                <!-- 배지 / FPS도 영상 기준 오버레이 -->
+                                <Border Style="{StaticResource Badge}">
+                                    <TextBlock Text="CX 2" Foreground="#ddd" FontWeight="SemiBold"/>
+                                </Border>
+
+                                <TextBlock Text="{Binding Cam5Hud}" Foreground="Lime" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,40,0,0"/>
+                            </Grid>
+
+                            <Border Grid.Row="1" Background="#2a2a2a" Opacity="0.95" Padding="8">
+                                <DockPanel LastChildFill="False">
+                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                        <Button Style="{StaticResource CtlButton}" Content="Open"
+                                Command="{Binding OpenCameraCommand}" CommandParameter="4" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}"
+                                Content="{Binding StartStopButtonText[4]}"
+                                Command="{Binding StartStopCameraCommand}" CommandParameter="4" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Capture"
+                                Command="{Binding CaptureCameraCommand}" CommandParameter="4"/>
+                                    </StackPanel>
+                                </DockPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- CAM 2 (Top-Right) : CX 3 -->
+                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource Card}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0">
+                                <Image Style="{StaticResource CamImage}"
+                       Source="{Binding Cam4Source}"
+                       SnapsToDevicePixels="True"
+                       RenderTransformOrigin="0.5,0.5">
+                                    <Image.RenderTransform>
+                                        <ScaleTransform ScaleX="-1" ScaleY="-1"/>
+                                    </Image.RenderTransform>
+                                </Image>
+
+                                <Grid IsHitTestVisible="False" SnapsToDevicePixels="True">
+                                    <Border Width="1" Background="Lime" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+                                    <Border Height="1" Background="Lime" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                </Grid>
+
+                                <Border Style="{StaticResource Badge}">
+                                    <TextBlock Text="CX 3" Foreground="#ddd" FontWeight="SemiBold"/>
+                                </Border>
+
+                                <TextBlock Text="{Binding Cam4Hud}" Foreground="Lime" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,40,0,0"/>
+                            </Grid>
+
+                            <Border Grid.Row="1" Background="#2a2a2a" Opacity="0.95" Padding="8">
+                                <DockPanel LastChildFill="False">
+                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                        <Button Style="{StaticResource CtlButton}" Content="Open"
+                                Command="{Binding OpenCameraCommand}" CommandParameter="3" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}"
+                                Content="{Binding StartStopButtonText[3]}"
+                                Command="{Binding StartStopCameraCommand}" CommandParameter="3" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Capture"
+                                Command="{Binding CaptureCameraCommand}" CommandParameter="3"/>
+                                    </StackPanel>
+                                </DockPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- CAM 3 (Middle, Span=2) : CX 5 -->
+                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Card}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0">
+                                <Image Style="{StaticResource CamImage}"
+                       Source="{Binding Cam3Source}"
+                       SnapsToDevicePixels="True"/>
+
+                                <Grid IsHitTestVisible="False" SnapsToDevicePixels="True">
+                                    <Border Width="1" Background="Lime" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+                                    <Border Height="1" Background="Lime" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                </Grid>
+
+                                <Border Style="{StaticResource Badge}">
+                                    <TextBlock Text="CX 5" Foreground="#ddd" FontWeight="SemiBold"/>
+                                </Border>
+
+                                <TextBlock Text="{Binding Cam3Hud}" Foreground="Lime" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,40,0,0"/>
+                            </Grid>
+
+                            <Border Grid.Row="1" Background="#2a2a2a" Opacity="0.95" Padding="8">
+                                <DockPanel LastChildFill="False">
+                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                        <Button Style="{StaticResource CtlButton}" Content="Open"
+                                Command="{Binding OpenCameraCommand}" CommandParameter="2" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}"
+                                Content="{Binding StartStopButtonText[2]}"
+                                Command="{Binding StartStopCameraCommand}" CommandParameter="2" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Capture"
+                                Command="{Binding CaptureCameraCommand}" CommandParameter="2"/>
+                                    </StackPanel>
+                                </DockPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- CAM 4 (Bottom-Left) : CX 1 -->
+                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource Card}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0">
+                                <Image Style="{StaticResource CamImage}"
+                       Source="{Binding Cam2Source}"
+                       SnapsToDevicePixels="True"
+                       RenderTransformOrigin="0.5,0.5">
+                                    <Image.RenderTransform>
+                                        <ScaleTransform ScaleX="-1" ScaleY="-1"/>
+                                    </Image.RenderTransform>
+                                </Image>
+
+                                <Grid IsHitTestVisible="False" SnapsToDevicePixels="True">
+                                    <Border Width="1" Background="Lime" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+                                    <Border Height="1" Background="Lime" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                </Grid>
+
+                                <Border Style="{StaticResource Badge}">
+                                    <TextBlock Text="CX 1" Foreground="#ddd" FontWeight="SemiBold"/>
+                                </Border>
+
+                                <TextBlock Text="{Binding Cam2Hud}" Foreground="Lime" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,40,0,0"/>
+                            </Grid>
+
+                            <Border Grid.Row="1" Background="#2a2a2a" Opacity="0.95" Padding="8">
+                                <DockPanel LastChildFill="False">
+                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                        <Button Style="{StaticResource CtlButton}" Content="Open"
+                                Command="{Binding OpenCameraCommand}" CommandParameter="1" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}"
+                                Content="{Binding StartStopButtonText[1]}"
+                                Command="{Binding StartStopCameraCommand}" CommandParameter="1" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Capture"
+                                Command="{Binding CaptureCameraCommand}" CommandParameter="1"/>
+                                    </StackPanel>
+                                </DockPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- CAM 5 (Bottom-Right) : CX 4 -->
+                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource Card}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0">
+                                <Image Style="{StaticResource CamImage}"
+                       Source="{Binding Cam1Source}"
+                       SnapsToDevicePixels="True"
+                       RenderTransformOrigin="0.5,0.5">
+                                    <Image.RenderTransform>
+                                        <ScaleTransform ScaleX="-1" ScaleY="-1"/>
+                                    </Image.RenderTransform>
+                                </Image>
+
+                                <Grid IsHitTestVisible="False" SnapsToDevicePixels="True">
+                                    <Border Width="1" Background="Lime" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+                                    <Border Height="1" Background="Lime" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                                </Grid>
+
                                 <Border Style="{StaticResource Badge}">
                                     <TextBlock Text="CX 4" Foreground="#ddd" FontWeight="SemiBold"/>
                                 </Border>
@@ -183,173 +364,16 @@
                                 <TextBlock Text="{Binding Cam1Hud}" Foreground="Lime" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,40,0,0"/>
                             </Grid>
 
-                            <!-- ===== 하단 바 (영상 기준에서 제외) ===== -->
                             <Border Grid.Row="1" Background="#2a2a2a" Opacity="0.95" Padding="8">
                                 <DockPanel LastChildFill="False">
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="0" Margin="0,0,6,0"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="{Binding StartStopButtonText[0]}" Command="{Binding StartStopCameraCommand}" CommandParameter="0" Margin="0,0,6,0"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="Capture" Command="{Binding CaptureCameraCommand}" CommandParameter="0"/>
-                                    </StackPanel>
-                                </DockPanel>
-                            </Border>
-                        </Grid>
-                    </Border>
-
-                    <!-- CAM 2 (Top-Right) -->
-                    <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource Card}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>     <!-- 영상 영역 -->
-                                <RowDefinition Height="Auto"/>  <!-- 하단 바 -->
-                            </Grid.RowDefinitions>
-                    
-                            <!-- ===== 영상 영역 ===== -->
-                            <Grid Grid.Row="0">
-                                <Image Style="{StaticResource CamImage}" Source="{Binding Cam2Source}" SnapsToDevicePixels="True"/>
-                    
-                                <!-- 크로스헤어 오버레이 (영상 기준 중앙) -->
-                                <Grid IsHitTestVisible="False" SnapsToDevicePixels="True">
-                                    <Border Width="1" Background="Lime" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
-                                    <Border Height="1" Background="Lime" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-                                </Grid>
-                    
-                                <Border Style="{StaticResource Badge}">
-                                    <TextBlock Text="CX 1" Foreground="#ddd" FontWeight="SemiBold"/>
-                                </Border>
-                    
-                                <!-- FPS 표시 -->
-                                <TextBlock Text="{Binding Cam2Hud}" Foreground="Lime" FontSize="14" FontWeight="Bold"
-                                           HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,40,0,0"/>
-                            </Grid>
-                    
-                            <!-- ===== 하단 바 ===== -->
-                            <Border Grid.Row="1" Background="#2a2a2a" Opacity="0.95" Padding="8">
-                                <DockPanel LastChildFill="False">
-                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="1" Margin="0,0,6,0"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="{Binding StartStopButtonText[1]}" Command="{Binding StartStopCameraCommand}" CommandParameter="1" Margin="0,0,6,0"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="Capture" Command="{Binding CaptureCameraCommand}" CommandParameter="1"/>
-                                    </StackPanel>
-                                </DockPanel>
-                            </Border>
-                        </Grid>
-                    </Border>
-                    
-                    <!-- CAM 3 (Middle, Span=2) -->
-                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource Card}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>     <!-- 영상 영역 -->
-                                <RowDefinition Height="Auto"/>  <!-- 하단 바 -->
-                            </Grid.RowDefinitions>
-                    
-                            <!-- ===== 영상 영역 ===== -->
-                            <Grid Grid.Row="0">
-                                <Image Style="{StaticResource CamImage}" Source="{Binding Cam3Source}" SnapsToDevicePixels="True"/>
-                    
-                                <!-- 크로스헤어 오버레이 (영상 기준 중앙) -->
-                                <Grid IsHitTestVisible="False" SnapsToDevicePixels="True">
-                                    <Border Width="1" Background="Lime" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
-                                    <Border Height="1" Background="Lime" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-                                </Grid>
-                    
-                                <Border Style="{StaticResource Badge}">
-                                    <TextBlock Text="CX 5" Foreground="#ddd" FontWeight="SemiBold"/>
-                                </Border>
-                    
-                                <!-- FPS 표시 -->
-                                <TextBlock Text="{Binding Cam3Hud}" Foreground="Lime" FontSize="14" FontWeight="Bold"
-                                           HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,40,0,0"/>
-                            </Grid>
-                    
-                            <!-- ===== 하단 바 ===== -->
-                            <Border Grid.Row="1" Background="#2a2a2a" Opacity="0.95" Padding="8">
-                                <DockPanel LastChildFill="False">
-                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="2" Margin="0,0,6,0"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="{Binding StartStopButtonText[2]}" Command="{Binding StartStopCameraCommand}" CommandParameter="2" Margin="0,0,6,0"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="Capture" Command="{Binding CaptureCameraCommand}" CommandParameter="2"/>
-                                    </StackPanel>
-                                </DockPanel>
-                            </Border>
-                        </Grid>
-                    </Border>
-                    
-                    <!-- CAM 4 (Bottom-Left) -->
-                    <Border Grid.Row="2" Grid.Column="0" Style="{StaticResource Card}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>     <!-- 영상 영역 -->
-                                <RowDefinition Height="Auto"/>  <!-- 하단 바 -->
-                            </Grid.RowDefinitions>
-                    
-                            <!-- ===== 영상 영역 ===== -->
-                            <Grid Grid.Row="0">
-                                <Image Style="{StaticResource CamImage}" Source="{Binding Cam4Source}" SnapsToDevicePixels="True"/>
-                    
-                                <!-- 크로스헤어 오버레이 (영상 기준 중앙) -->
-                                <Grid IsHitTestVisible="False" SnapsToDevicePixels="True">
-                                    <Border Width="1" Background="Lime" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
-                                    <Border Height="1" Background="Lime" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-                                </Grid>
-                    
-                                <Border Style="{StaticResource Badge}">
-                                    <TextBlock Text="CX 3" Foreground="#ddd" FontWeight="SemiBold"/>
-                                </Border>
-                    
-                                <!-- FPS 표시 -->
-                                <TextBlock Text="{Binding Cam4Hud}" Foreground="Lime" FontSize="14" FontWeight="Bold"
-                                           HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,40,0,0"/>
-                            </Grid>
-                    
-                            <!-- ===== 하단 바 ===== -->
-                            <Border Grid.Row="1" Background="#2a2a2a" Opacity="0.95" Padding="8">
-                                <DockPanel LastChildFill="False">
-                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="3" Margin="0,0,6,0"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="{Binding StartStopButtonText[3]}" Command="{Binding StartStopCameraCommand}" CommandParameter="3" Margin="0,0,6,0"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="Capture" Command="{Binding CaptureCameraCommand}" CommandParameter="3"/>
-                                    </StackPanel>
-                                </DockPanel>
-                            </Border>
-                        </Grid>
-                    </Border>
-                    
-                    <!-- CAM 5 (Bottom-Right) -->
-                    <Border Grid.Row="2" Grid.Column="1" Style="{StaticResource Card}">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>     <!-- 영상 영역 -->
-                                <RowDefinition Height="Auto"/>  <!-- 하단 바 -->
-                            </Grid.RowDefinitions>
-                    
-                            <!-- ===== 영상 영역 ===== -->
-                            <Grid Grid.Row="0">
-                                <Image Style="{StaticResource CamImage}" Source="{Binding Cam5Source}" SnapsToDevicePixels="True"/>
-                    
-                                <!-- 크로스헤어 오버레이 (영상 기준 중앙) -->
-                                <Grid IsHitTestVisible="False" SnapsToDevicePixels="True">
-                                    <Border Width="1" Background="Lime" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
-                                    <Border Height="1" Background="Lime" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-                                </Grid>
-                    
-                                <Border Style="{StaticResource Badge}">
-                                    <TextBlock Text="CX 2" Foreground="#ddd" FontWeight="SemiBold"/>
-                                </Border>
-                    
-                                <!-- FPS 표시 -->
-                                <TextBlock Text="{Binding Cam5Hud}" Foreground="Lime" FontSize="14" FontWeight="Bold"
-                                           HorizontalAlignment="Left" VerticalAlignment="Top" Margin="8,40,0,0"/>
-                            </Grid>
-                    
-                            <!-- ===== 하단 바 ===== -->
-                            <Border Grid.Row="1" Background="#2a2a2a" Opacity="0.95" Padding="8">
-                                <DockPanel LastChildFill="False">
-                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <Button Style="{StaticResource CtlButton}" Content="Open" Command="{Binding OpenCameraCommand}" CommandParameter="4" Margin="0,0,6,0"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="{Binding StartStopButtonText[4]}" Command="{Binding StartStopCameraCommand}" CommandParameter="4" Margin="0,0,6,0"/>
-                                        <Button Style="{StaticResource CtlButton}" Content="Capture" Command="{Binding CaptureCameraCommand}" CommandParameter="4"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Open"
+                                Command="{Binding OpenCameraCommand}" CommandParameter="0" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}"
+                                Content="{Binding StartStopButtonText[0]}"
+                                Command="{Binding StartStopCameraCommand}" CommandParameter="0" Margin="0,0,6,0"/>
+                                        <Button Style="{StaticResource CtlButton}" Content="Capture"
+                                Command="{Binding CaptureCameraCommand}" CommandParameter="0"/>
                                     </StackPanel>
                                 </DockPanel>
                             </Border>
