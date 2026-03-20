@@ -1419,7 +1419,7 @@ namespace WALowStandardModule
                             LoggerManager.PinLog("Move to FD Wafer first low pattern");
                             // 위치 주의
                             //this.StageSupervisor().StageModuleState.WaferLowViewMove(Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY(), Wafer.GetSubsInfo().ActualThickness);
-                            double FDCEnterOffsetY = -Wafer.GetSubsInfo().ActualDieSize.Height.Value * 6;    // X축은 변경 없음. Y축만 변경
+                            double FDCEnterOffsetY = -Wafer.GetSubsInfo().ActualDieSize.Height.Value * 0;    // X축은 변경 없음. Y축만 변경
                             this.StageSupervisor().StageModuleState.WaferLowViewMove(Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY() + FDCEnterOffsetY, Wafer.GetSubsInfo().ActualThickness);
                             LoggerManager.PinLog($"로우얼라인 시작 위치 X = {Wafer.GetSubsInfo().WaferCenter.GetX()}, Y = {Wafer.GetSubsInfo().WaferCenter.GetY() + FDCEnterOffsetY}");
                         }
@@ -1856,7 +1856,7 @@ namespace WALowStandardModule
                         break;
 
                     case WALowSetupFunction.SIXBUTTON:  // 260317 sebas add : 아직 기능할당 안함
-
+                        retVal = await DieRegPattern();
                         break;
                     case WALowSetupFunction.SEVENBUTTON:
                         break;
@@ -1894,7 +1894,7 @@ namespace WALowStandardModule
         // <-- 260317 sebas func add
         private List<WAStandardPTInfomation> _capturedPatterns = new List<WAStandardPTInfomation>();
         private const int MaxCaptureCount = 3;
-        private string _captureSavePath = @"C:\\ProberSystem\\Default\\Parameters\\DeviceParam\\LowBonder"; // 경로 다시 확인할 것
+        private string _captureSavePath = @"C:\\ProberSystem\\Default\\Parameters\\DeviceParam\\DEFAULTDEVNAME\\WaferAlignParam\\PickCam";
 
         public async Task<EventCodeEnum> DieRegPattern()
         {
@@ -1992,30 +1992,42 @@ namespace WALowStandardModule
                 // Camera check
                 if (CurCam.GetChannelType() != EnumProberCam.PIN_HIGH_CAM) // 핀하이카메라를 픽커카메라로 변경 != LowStandardParam_Clone.CamType)
                 {
-                    await this.MetroDialogManager().ShowMessageDialog("Pattern Register Error", "Please change to Pick camera", EnumMessageStyle.Affirmative);
-                    return retVal;
-                }
+                    await this.MetroDialogManager().ShowMessageDialog("Pattern Register Error", "change to Pick camera", EnumMessageStyle.Affirmative);
 
-                for(int count = 0; count < jumpCount; count++)
-                {
-                    retVal = DieAlign();
+                    CurCam = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM);
 
-                    if (retVal == EventCodeEnum.NONE)
+                    ushort defaultlightvalue = 50;  // 260112 sebas : 조명 너무 밝아서 내림 (85 -> 50)
+                    for (int lightindex = 0; lightindex < CurCam.LightsChannels.Count; lightindex++)
                     {
-                        DiePosAdd(count);
+                        CurCam.SetLight(CurCam.LightsChannels[lightindex].Type.Value, defaultlightvalue);
+                    }
 
-                        Thread.Sleep(1000);
+                    this.VisionManager().StartGrab(EnumProberCam.PIN_HIGH_CAM, this);
+                }
+                else
+                {
+                    for (int count = 0; count < jumpCount; count++)
+                    {
+                        retVal = DieAlign();
 
-                        if(count < jumpCount - 1)   // 마지막 루프일 때 제외
+                        if (retVal == EventCodeEnum.NONE)
                         {
-                            retVal = DieJump(xOffset, yOffset);
+                            DiePosAdd(count);
 
                             Thread.Sleep(1000);
 
-                            retVal = DieEdge();
+                            if (count < jumpCount - 1)   // 마지막 루프일 때 제외
+                            {
+                                retVal = DieJump(xOffset, yOffset);
+
+                                Thread.Sleep(1000);
+
+                                retVal = DieEdge();
+                            }
                         }
                     }
                 }
+
             }
             catch
             {

@@ -21,6 +21,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using UcDisplayPort;
@@ -1176,8 +1177,18 @@ namespace VisionTestViewModel
                         int focusval = this.VisionManager().GetFocusValue(image, roi);
                         image.FocusLevelValue = focusval;
 
+                        // <--260320 sebas cam : 크로스 추가
+                        Point centerPt = new Point(image.SizeX / 2, image.SizeY / 2);
+                        int crossLength = Math.Min(image.SizeX, image.SizeY);   // 필요시 길이 조절
+                        int thickness = 1;
+                        image = this.VisionManager().DrawCrosshair(image, centerPt, crossLength, thickness);
+
+                        string timestamp = DateTime.Now.ToString("yyMMddHHmmssfff");
+                        // -->
+
                         // Save
-                        string SaveBasePath = $"C:\\Logs\\Image\\{curcam.ToString()}\\{curcam.ToString()}_{image.CapturedTime.ToString("yyMMddHHmmss")}.bmp";
+                        //string SaveBasePath = $"C:\\Logs\\Image\\{curcam.ToString()}\\{curcam.ToString()}_{image.CapturedTime.ToString("yyMMddHHmmss")}.bmp";     // 260320 sebas cam 파일명 때문에 아래로 바꿈
+                        string SaveBasePath = $"C:\\Logs\\Image\\{curcam.ToString()}\\{curcam.ToString()}_{timestamp}.bmp";
                         this.VisionManager().SaveImageBuffer(image, SaveBasePath, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
 
                         LoggerManager.Debug($"[{curcam.ToString()}], SaveGrabimgFunc() : {SaveBasePath}");
