@@ -489,10 +489,10 @@
                     </Style>
                 </Grid.Resources>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="300*"/>
-                    <!--Treeview-->
-                    <RowDefinition Height="360*"/>
-                    <!--MiddleJog & Button-->
+                    <RowDefinition Height="200*"/>
+                    <!--Treeview : 300 > 200-->
+                    <RowDefinition Height="460*"/>
+                    <!--MiddleJog & Button : 360 > 460-->
                     <RowDefinition Height="360*"/>
                     <!--MotionJog-->
                 </Grid.RowDefinitions>

@@ -9,7 +9,7 @@
              xmlns:local="clr-namespace:UcPnPButtonJog"
              mc:Ignorable="d" 
              AutomationProperties.AutomationId="UCPnPButtonJog"
-             d:DesignHeight="100" d:DesignWidth="600">
+             d:DesignHeight="200" d:DesignWidth="600">
     <UserControl.Resources>
         <ValueConvert:EnableLockMultiConverter x:Key="LockConverter"/>
     </UserControl.Resources>
@@ -23,6 +23,8 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="10" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
@@ -248,170 +250,163 @@
             </Grid>
         </Grid>
 
+        <!-- ============================= -->
+        <!-- 아래 줄 버튼 6~10 추가 -->
+        <!-- ============================= -->
+
+        <!-- Button 6 -->
+        <Grid Grid.Row="2">
+            <local:JogBtn x:Name="BtnSix"
+                          Margin="7 0 7 0"
+                          Caption="{Binding SixButton.Caption}"
+                          CaptionSize="{Binding SixButton.CaptionSize}"
+                          IconCaption="{Binding SixButton.IconCaption}"
+                          IsEnabled="{Binding SixButton.IsEnabled}"
+                          IconSource="{Binding SixButton.IconSource}"
+                          Softness="{Binding SixButton.Softness}"
+                          Visibility="{Binding SixButton.Visibility}"
+                          Opacity="{Binding SixButton.Opacity}"
+                          Lockable="{Binding SixButton.Lockable}"
+                          GUID="EB991C5E-610B-79A1-5BC9-87B05ABDBA2A"
+                          IconWidth="80"
+                          IconHeight="80">
+
+                <local:JogBtn.BitmapEffect>
+                    <DropShadowBitmapEffect ShadowDepth="4" Color="LightGray" Softness="0"/>
+                </local:JogBtn.BitmapEffect>
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDown">
+                        <i:InvokeCommandAction Command="{Binding SixButton.Command}"
+                                               CommandParameter="{Binding SixButton.CommandParameter}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+            </local:JogBtn>
+        </Grid>
+
+        <!-- Button 7 -->
+        <Grid Grid.Row="2" Grid.Column="1">
+            <local:JogBtn x:Name="BtnSeven"
+                          Margin="7 0 7 0"
+                          Caption="{Binding SevenButton.Caption}"
+                          CaptionSize="{Binding SevenButton.CaptionSize}"
+                          IconCaption="{Binding SevenButton.IconCaption}"
+                          IsEnabled="{Binding SevenButton.IsEnabled}"
+                          IconSource="{Binding SevenButton.IconSource}"
+                          Softness="{Binding SevenButton.Softness}"
+                          Visibility="{Binding SevenButton.Visibility}"
+                          Opacity="{Binding SevenButton.Opacity}"
+                          Lockable="{Binding SevenButton.Lockable}"
+                          GUID="EB991C5E-610B-79A1-5BC9-87B05ABDBA2A"
+                          IconWidth="80"
+                          IconHeight="80">
+
+                <local:JogBtn.BitmapEffect>
+                    <DropShadowBitmapEffect ShadowDepth="4" Color="LightGray" Softness="0"/>
+                </local:JogBtn.BitmapEffect>
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDown">
+                        <i:InvokeCommandAction Command="{Binding SevenButton.Command}"
+                                               CommandParameter="{Binding SevenButton.CommandParameter}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+            </local:JogBtn>
+        </Grid>
+
+        <!-- Button 8 -->
+        <Grid Grid.Row="2" Grid.Column="2">
+            <local:JogBtn x:Name="BtnEight"
+                          Margin="7 0 7 0"
+                          Caption="{Binding EightButton.Caption}"
+                          CaptionSize="{Binding EightButton.CaptionSize}"
+                          IconCaption="{Binding EightButton.IconCaption}"
+                          IsEnabled="{Binding EightButton.IsEnabled}"
+                          IconSource="{Binding EightButton.IconSource}"
+                          Softness="{Binding EightButton.Softness}"
+                          Visibility="{Binding EightButton.Visibility}"
+                          Opacity="{Binding EightButton.Opacity}"
+                          Lockable="{Binding EightButton.Lockable}"
+                          GUID="EB991C5E-610B-79A1-5BC9-87B05ABDBA2A"
+                          IconWidth="80"
+                          IconHeight="80">
+
+                <local:JogBtn.BitmapEffect>
+                    <DropShadowBitmapEffect ShadowDepth="4" Color="LightGray" Softness="0"/>
+                </local:JogBtn.BitmapEffect>
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDown">
+                        <i:InvokeCommandAction Command="{Binding EightButton.Command}"
+                                               CommandParameter="{Binding EightButton.CommandParameter}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+            </local:JogBtn>
+        </Grid>
+
+        <!-- Button 9 -->
+        <Grid Grid.Row="2" Grid.Column="3">
+            <local:JogBtn x:Name="BtnNine"
+                          Margin="7 0 7 0"
+                          Caption="{Binding NineButton.Caption}"
+                          CaptionSize="{Binding NineButton.CaptionSize}"
+                          IconCaption="{Binding NineButton.IconCaption}"
+                          IsEnabled="{Binding NineButton.IsEnabled}"
+                          IconSource="{Binding NineButton.IconSource}"
+                          Softness="{Binding NineButton.Softness}"
+                          Visibility="{Binding NineButton.Visibility}"
+                          Opacity="{Binding NineButton.Opacity}"
+                          Lockable="{Binding NineButton.Lockable}"
+                          GUID="EB991C5E-610B-79A1-5BC9-87B05ABDBA2A"
+                          IconWidth="80"
+                          IconHeight="80">
+
+                <local:JogBtn.BitmapEffect>
+                    <DropShadowBitmapEffect ShadowDepth="4" Color="LightGray" Softness="0"/>
+                </local:JogBtn.BitmapEffect>
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDown">
+                        <i:InvokeCommandAction Command="{Binding NineButton.Command}"
+                                               CommandParameter="{Binding NineButton.CommandParameter}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+            </local:JogBtn>
+        </Grid>
+
+        <!-- Button 10 -->
+        <Grid Grid.Row="2" Grid.Column="4">
+            <local:JogBtn x:Name="BtnTen"
+                          Margin="7 0 7 0"
+                          Caption="{Binding TenButton.Caption}"
+                          CaptionSize="{Binding TenButton.CaptionSize}"
+                          IconCaption="{Binding TenButton.IconCaption}"
+                          IsEnabled="{Binding TenButton.IsEnabled}"
+                          IconSource="{Binding TenButton.IconSource}"
+                          Softness="{Binding TenButton.Softness}"
+                          Visibility="{Binding TenButton.Visibility}"
+                          Opacity="{Binding TenButton.Opacity}"
+                          Lockable="{Binding TenButton.Lockable}"
+                          GUID="EB991C5E-610B-79A1-5BC9-87B05ABDBA2A"
+                          IconWidth="80"
+                          IconHeight="80">
+
+                <local:JogBtn.BitmapEffect>
+                    <DropShadowBitmapEffect ShadowDepth="4" Color="LightGray" Softness="0"/>
+                </local:JogBtn.BitmapEffect>
+
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDown">
+                        <i:InvokeCommandAction Command="{Binding TenButton.Command}"
+                                               CommandParameter="{Binding TenButton.CommandParameter}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+            </local:JogBtn>
+        </Grid>
     </Grid>
 </UserControl>
-<!--<Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        -->
-<!--<Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="70" 
-                Opacity="{Binding OneButton.Opacity}" 
-                IsEnabled="{Binding OneButton.IsEnabled}">
-            <local:JogBtn x:Name="PadJogLeftUpBtn" MouseDown="JogBtn_MouseDown" MouseUp="JogBtn_MouseUp" >
-                -->
-<!--<i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDown">
-                        <i:InvokeCommandAction Command="{Binding PadJogLeftUp.Command}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>-->
-<!--
-            </local:JogBtn>
-            <Button Command="{Binding TwoButton.Command}" MaxHeight="100" MaxWidth="70" />
-            <TextBlock Text="{Binding OneButton.Caption}" FontSize="40" FontWeight="Bold" TextAlignment="Center" Foreground="White" Width="100" VerticalAlignment="Center" IsHitTestVisible="False" Canvas.Top="10"/>
-            <Image Source="{Binding OneButton.IconSource}"  MaxWidth="100" MaxHeight="70" IsHitTestVisible="False">
-                <Image.BitmapEffect>
-                    <DropShadowBitmapEffect ShadowDepth="0" Color="Red" Softness="{Binding OneButton.Softness}"/>
-                </Image.BitmapEffect>
-            </Image>
-        </Canvas>-->
-
-<!--<DockPanel HorizontalAlignment="Stretch" Grid.Column="0">-->
-<!--
-        <Button x:Name="btnPnPStep_1" Grid.Column="0" Command="{Binding OneButton.Command}" Padding="0" DockPanel.Dock="Left" 
-                MaxHeight="100" MaxWidth="70" IsEnabled="{Binding OneButton.IsEnabled}" Visibility="{Binding OneButton.Visibility}" 
-                    VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" >
-                <TextBlock Text="{Binding OneButton.Caption}" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Bold"/>
-            </Button>
-        -->
-<!--</DockPanel>-->
-<!--<DockPanel HorizontalAlignment="Stretch"  Grid.Column="1">-->
-<!--
-        <Button x:Name="btnPnPStep_2" Grid.Column="1"  Command="{Binding TwoButton.Command}" Padding="0"  DockPanel.Dock="Right"
-                MaxHeight="100" MaxWidth="70" IsEnabled="{Binding TwoButton.IsEnabled}" Visibility="{Binding TwoButton.Visibility}"
-                        VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                    <TextBlock Text="{Binding TwoButton.Caption}" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Bold"/>
-                </Button>
-            -->
-<!--</DockPanel>-->
-<!--<DockPanel HorizontalAlignment="Stretch"  Grid.Column="2">-->
-<!--
-        <Button x:Name="btnPnPStep_3" Grid.Column="2" Command="{Binding ThreeButton.Command}" Padding="0" DockPanel.Dock="Left" 
-                MaxHeight="100" MaxWidth="70" IsEnabled="{Binding ThreeButton.IsEnabled}" Visibility="{Binding ThreeButton.Visibility}"
-                        VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                    <TextBlock Text="{Binding ThreeButton.Caption}" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Bold"/>
-                </Button>
-            -->
-<!--</DockPanel>-->
-<!--<DockPanel HorizontalAlignment="Stretch"  Grid.Column="3">-->
-<!--
-        <Button x:Name="btnPnPStep_4" Grid.Column="3" Command="{Binding FourButton.Command}" Padding="0" DockPanel.Dock="Left" 
-                MaxHeight="100" MaxWidth="70" IsEnabled="{Binding FourButton.IsEnabled}" Visibility="{Binding ThreeButton.Visibility}"
-                        VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                <TextBlock Text="{Binding FourButton.Caption}" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Bold"/>
-            </Button>
-            -->
-<!--</DockPanel>-->
-
-
-
-<!--<ItemsControl ItemsSource="{Binding Buttons}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <local:JogBtn Margin="7 0 7 0" 
-                                  Caption="{Binding Caption}" 
-                                  IsEnabled="{Binding IsEnabled}" 
-                                  IconSource="{Binding IconSource}" 
-                                  Softness="{Binding Softness}"
-                                  IconWidth="40" IconHeight="40">
-                            <local:JogBtn.BitmapEffect>
-                                <DropShadowBitmapEffect ShadowDepth="4" Color="LightGray" Softness="0"/>
-                            </local:JogBtn.BitmapEffect>
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseDown" >
-                                    <i:InvokeCommandAction Command="{Binding Command}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </local:JogBtn>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>-->
-<!--
-    </Grid>-->
-
-
-<!--1차 UI-->
-<!--<UserControl x:Class="UcPnPButtonJog.PnPButton"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:pi="clr-namespace:ProberInterfaces.PnpSetup;assembly=ProberInterfaces"     
-             xmlns:ValueConvert="clr-namespace:ValueConverters;assembly=ValueConverters"             
-             xmlns:local="clr-namespace:UcPnPButtonJog"
-             mc:Ignorable="d" 
-          d:DesignHeight="50" d:DesignWidth="272">
-    <UserControl.Resources>
-        <ResourceDictionary>
-        </ResourceDictionary>
-    </UserControl.Resources>
-    <Grid>
-        <ItemsControl ItemsSource="{Binding Buttons}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button x:Name="btn" Command="{Binding Command}"                           
-                            VerticalAlignment="Center" HorizontalAlignment="Center"
-                            Margin="4"  Foreground="White" Background="Transparent"
-                            MinHeight="48" Width="58">
-                        <Button.Content>
-                            <TextBlock Padding="4" Text="{Binding Caption}" 
-                                       TextWrapping="NoWrap" 
-                                       TextTrimming="CharacterEllipsis"/>
-                        </Button.Content>
-                    </Button>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </Grid>
-</UserControl>-->
-
-
-<!--<Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-
-        <Button x:Name="btnPnPStep_1" Grid.Column="0"  Margin="2" Command="{Binding Button1Command}" Padding="0" >
-            <TextBlock Text="btn1" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Bold"/>
-        </Button>
-
-        <Button x:Name="btnPnPStep_2"  Grid.Column="1"  Margin="2" Command="{Binding Button2Command}" Padding="0">
-            <TextBlock Text="btn2" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Bold"/>
-        </Button>
-
-        <Button x:Name="btnPnPStep_3" Grid.Column="2"  Margin="2" Command="{Binding Button3Command}" Padding="0" >
-            <TextBlock Text="btn3" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Bold"/>
-        </Button>
-
-        <Button x:Name="btnPnPStep_4"  Grid.Column="3"  Margin="2" Command="{Binding Button4Command}" Padding="0" >
-            <TextBlock Text="btn4" TextWrapping="Wrap" TextAlignment="Center" FontWeight="Bold"/>
-        </Button>-->

@@ -42,7 +42,12 @@ namespace WALowStandardModule
             UNDIFINE = -1,
             REGPATTERN,
             DELETEPATTERN,
-            FOCUSING
+            FOCUSING,
+            SIXBUTTON,  // 260317 sebas : 6~10 add
+            SEVENBUTTON,
+            EIGHTBUTTON,
+            NINEBUTTON,
+            TENBUTTON
         }
 
 
@@ -812,6 +817,18 @@ namespace WALowStandardModule
                 FourButton.IconCaption = "APPLY";
                 FourButton.Command = new AsyncCommand(Apply);
 
+                // 260317 sebas 6~10 button add
+                SixButton.IconCaption = "Die Patt";
+                SixButton.Command = new AsyncCommand(SixButtonCommand);
+                SevenButton.IconCaption = "Die Align";
+                SevenButton.Command = new AsyncCommand(SevenButtonCommand);
+                EightButton.IconCaption = "1st Die";
+                EightButton.Command = new AsyncCommand(EightButtonCommand);
+                NineButton.IconCaption = "Clear";
+                NineButton.Command = new AsyncCommand(NineButtonCommand);
+                TenButton.IconCaption = "Button2";
+                TenButton.Command = new AsyncCommand(TenButtonCommand);
+
                 EnableUseBtn();
                 ActiveStepLabelChanged();
                 //PadJogRightDown.IsEnabled = false;
@@ -825,7 +842,68 @@ namespace WALowStandardModule
             }
             return retVal;
         }
+        // <-- 260317 sebas button add
+        private async Task SixButtonCommand()
+        {
+            try
+            {
+                ModifyCondition = WALowSetupFunction.SIXBUTTON;
+                await Modify();
+            }
+            catch
+            {
 
+            }
+        }
+        private async Task SevenButtonCommand()
+        {
+            try
+            {
+                ModifyCondition = WALowSetupFunction.SEVENBUTTON;
+                await Modify();
+            }
+            catch
+            {
+
+            }
+        }
+        private async Task EightButtonCommand()
+        {
+            try
+            {
+                ModifyCondition = WALowSetupFunction.EIGHTBUTTON;
+                await Modify();
+            }
+            catch
+            {
+
+            }
+        }
+        private async Task NineButtonCommand()
+        {
+            try
+            {
+                ModifyCondition = WALowSetupFunction.NINEBUTTON;
+                await Modify();
+            }
+            catch
+            {
+
+            }
+        }
+        private async Task TenButtonCommand()
+        {
+            try
+            {
+                ModifyCondition = WALowSetupFunction.TENBUTTON;
+                await Modify();
+            }
+            catch
+            {
+
+            }
+        }
+        // -->
         private EventCodeEnum InitRecoveryPNPSetupUI()
         {
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
@@ -1776,6 +1854,19 @@ namespace WALowStandardModule
                         this.VisionManager().StartGrab(CurCam.GetChannelType(), this);
 
                         break;
+
+                    case WALowSetupFunction.SIXBUTTON:  // 260317 sebas add : 아직 기능할당 안함
+
+                        break;
+                    case WALowSetupFunction.SEVENBUTTON:
+                        break;
+                    case WALowSetupFunction.EIGHTBUTTON:
+                        break;
+                    case WALowSetupFunction.NINEBUTTON:
+                        break;
+                    case WALowSetupFunction.TENBUTTON:
+                        break;
+
                     default:
                         break;
                 }
@@ -1800,6 +1891,516 @@ namespace WALowStandardModule
             return retVal;
         }
 
+        // <-- 260317 sebas func add
+        private List<WAStandardPTInfomation> _capturedPatterns = new List<WAStandardPTInfomation>();
+        private const int MaxCaptureCount = 3;
+        private string _captureSavePath = @"C:\\ProberSystem\\Default\\Parameters\\DeviceParam\\LowBonder"; // 경로 다시 확인할 것
+
+        public async Task<EventCodeEnum> DieRegPattern()
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                // Camera check
+                if (CurCam.GetChannelType() != EnumProberCam.PIN_HIGH_CAM) // 핀하이카메라를 픽커카메라로 변경 != LowStandardParam_Clone.CamType)
+                {
+                    await this.MetroDialogManager().ShowMessageDialog("Pattern Register Error", "Please change to Pick camera", EnumMessageStyle.Affirmative);
+                    return retVal;
+                }
+
+                if(_capturedPatterns.Count >= MaxCaptureCount)
+                {
+                    await this.MetroDialogManager().ShowMessageDialog("Capture", "3 Pictures are already saved.", EnumMessageStyle.Affirmative);
+
+                    //DieCount = 1;
+                    return retVal;
+                }
+
+                if(!Directory.Exists(_captureSavePath))
+                {
+                    Directory.CreateDirectory(_captureSavePath);
+                }
+
+                // ROI 가져오기
+                RegisteImageBufferParam patternparam = GetDisplayPortRectInfo();
+                if(patternparam.Width == 0 || patternparam.Height == 0)
+                {
+                    await this.MetroDialogManager().ShowMessageDialog("Capture Error", "Check the pattern ROI size", EnumMessageStyle.Affirmative);
+                    return retVal;
+                }
+
+                // Image grab
+                ImageBuffer frame = this.VisionManager().SingleGrab(CurCam.GetChannelType(), this);
+                if(frame == null)
+                {
+                    await this.MetroDialogManager().ShowMessageDialog("Capture Error", "Failed to capture frame.", EnumMessageStyle.Affirmative);
+                    return retVal;
+                }
+
+                // PatternInfo 생성 
+                WAStandardPTInfomation patterninfo = new WAStandardPTInfomation();
+
+                patterninfo.CamType.Value = CurCam.GetChannelType();
+                patterninfo.LightParams = new ObservableCollection<LightValueParam>();
+
+                // Light 정보 저장
+                for(int i = 0; i< CurCam.LightsChannels.Count; i++)
+                {
+                    patterninfo.LightParams.Add(new LightValueParam(CurCam.LightsChannels[i].Type.Value, (ushort)CurCam.GetLight(CurCam.LightsChannels[i].Type.Value)));
+                }
+
+                // GrayLevel 계산
+                this.VisionManager().GetGrayValue(ref frame);
+                patterninfo.GrayLevel = frame.GrayLevelValue;
+
+                // ROI 기준 이미지 저장
+                patterninfo.Imagebuffer = this.VisionManager().ReduceImageSize(frame, patternparam.LocationX, patternparam.LocationY, patternparam.Width, patternparam.Height);
+
+                // 리스트 저장
+                _capturedPatterns.Add(patterninfo);
+
+                // 파일 저장
+                string fileName = $"Picture_{_capturedPatterns.Count}.bmp";
+                string fullPath = Path.Combine(_captureSavePath, fileName);
+
+                this.VisionManager().SaveImageBuffer(patterninfo.Imagebuffer, fullPath, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
+
+                LoggerManager.PinLog($"Die Pattern captured : {_capturedPatterns.Count}, Saved : {fullPath}");
+
+                await this.MetroDialogManager().ShowMessageDialog("Capture", $"Frame saved {_capturedPatterns.Count}", EnumMessageStyle.Affirmative);
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                this.VisionManager().StartGrab(CurCam.GetChannelType(), this);
+            }
+            return retVal;
+        }
+        public async Task<EventCodeEnum> DieAlignCommand()
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+            try
+            {
+                int jumpCount = 3;  // 연속 진행할 다이 개수
+                double xOffset = -3000; // 부호 방향 주의, 다이 점프 오프셋
+                double yOffset = -1000; // 부호 방향 주의, 다이 점프 오프셋
+
+                // Camera check
+                if (CurCam.GetChannelType() != EnumProberCam.PIN_HIGH_CAM) // 핀하이카메라를 픽커카메라로 변경 != LowStandardParam_Clone.CamType)
+                {
+                    await this.MetroDialogManager().ShowMessageDialog("Pattern Register Error", "Please change to Pick camera", EnumMessageStyle.Affirmative);
+                    return retVal;
+                }
+
+                for(int count = 0; count < jumpCount; count++)
+                {
+                    retVal = DieAlign();
+
+                    if (retVal == EventCodeEnum.NONE)
+                    {
+                        DiePosAdd(count);
+
+                        Thread.Sleep(1000);
+
+                        if(count < jumpCount - 1)   // 마지막 루프일 때 제외
+                        {
+                            retVal = DieJump(xOffset, yOffset);
+
+                            Thread.Sleep(1000);
+
+                            retVal = DieEdge();
+                        }
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+
+            return retVal;
+        }
+        int saveCount = 1;   // 이미지파일 저장 체크용
+        public EventCodeEnum DieAlign()
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+            try
+            {
+
+                ProbeAxisObject xaxis = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+                ProbeAxisObject zaxis = this.MotionManager().GetAxis(EnumAxisConstants.Z);
+
+                WAStandardPTInfomation patterninfo = new WAStandardPTInfomation();
+                WAStandardPTInfomation patterninfo1 = new WAStandardPTInfomation();
+
+                if (_capturedPatterns.Count > 0)
+                {
+                    // 1번째 캡처 패턴 사용
+                    WAStandardPTInfomation capturedPattern = _capturedPatterns[0];
+
+                    // PMParameter 복사
+                    capturedPattern.PMParameter.CopyTo(patterninfo.PMParameter);
+
+                    // PatternMatching
+                    PMResult pmresult = this.VisionManager().PatternMatching(capturedPattern, this);
+
+                    // 타겟 다이 이미지 파일 저장
+                    string fileName = $"Frame_PatternMaching{saveCount}_1 .bmp";
+                    string fullPath = Path.Combine(_captureSavePath, fileName);
+
+                    this.VisionManager().SaveImageBuffer(
+                        pmresult.ResultBuffer,
+                        fullPath,
+                        IMAGE_LOG_TYPE.NORMAL,
+                        EventCodeEnum.NONE);
+
+
+                    this.VisionManager().StartGrab(capturedPattern.CamType.Value, this);
+
+                    retVal = pmresult.RetValue;
+
+                    if (retVal == EventCodeEnum.NONE)
+                    {
+                        LoggerManager.PinLog($"1st Pattern : X = {pmresult.ResultParam[0].XPoss}, Y = {pmresult.ResultParam[0].YPoss}, Score = {pmresult.ResultParam[0].Score}");
+
+                        WaferCoordinate wcoord = ChangedLocationFormPT(pmresult);
+
+                        patterninfo.X.Value = wcoord.GetX() - xaxis.Status.RawPosition.Ref;
+                        patterninfo.Y.Value = wcoord.GetY() - yaxis.Status.RawPosition.Ref;
+                        patterninfo.Z.Value = wcoord.GetZ() - zaxis.Status.RawPosition.Ref;
+
+                        this.StageSupervisor().StageModuleState.WaferLowViewMove(
+                            patterninfo.GetX() + xaxis.Status.RawPosition.Ref,
+                            patterninfo.GetY() + yaxis.Status.RawPosition.Ref,
+                            1059);
+
+                        // Z = 1059 : 강제 초점 맞춤
+                        // 2번 위치로 이동
+                        this.StageSupervisor().StageModuleState.WaferLowViewMove(patterninfo.GetX() + xaxis.Status.RawPosition.Ref + 10000,
+                                                                                    patterninfo.GetY() + yaxis.Status.RawPosition.Ref,
+                                                                                    1059);
+
+                        // 2번 위치 정렬
+                        WAStandardPTInfomation capturedPattern1 = _capturedPatterns[1];
+                        capturedPattern1.PMParameter.CopyTo(patterninfo1.PMParameter);
+
+                        // PatternMatching
+                        PMResult pmresult1 = this.VisionManager().PatternMatching(capturedPattern1, this);
+
+                        // 타겟 다이 이미지 파일 저장
+                        string fileName1 = $"Frame_PatternMaching{saveCount}_2.bmp";
+                        string fullPath1 = Path.Combine(_captureSavePath, fileName1);
+
+                        this.VisionManager().SaveImageBuffer(
+                            pmresult1.ResultBuffer,
+                            fullPath1,
+                            IMAGE_LOG_TYPE.NORMAL,
+                            EventCodeEnum.NONE);
+
+                        this.VisionManager().StartGrab(capturedPattern1.CamType.Value, this);
+                        retVal = pmresult1.RetValue;
+
+                        if (retVal == EventCodeEnum.NONE)
+                        {
+                            LoggerManager.PinLog($"2nd Pattern X = {pmresult1.ResultParam[0].XPoss}, Y = {pmresult1.ResultParam[0].YPoss}, Score = {pmresult1.ResultParam[0].Score}");
+
+                            // 세타 계산
+                            double rotateangle = 0;
+                            double curTheta = 0;
+                            WaferCoordinate wcoord1 = ChangedLocationFormPT(pmresult1);
+
+                            MachineCoordinate mccoord = new MachineCoordinate();
+                            MachineCoordinate mccoord1 = new MachineCoordinate();
+                            mccoord = this.CoordinateManager().WaferLowChuckConvert.ConvertBack(wcoord);
+                            mccoord1 = this.CoordinateManager().WaferLowChuckConvert.ConvertBack(wcoord1);
+
+                            //double angle = this.CoordinateManager().CalcP2PAngle(patterninfo1.GetX(), patterninfo1.GetY(), patterninfo.GetX(), patterninfo.GetY());
+                            //double angle = this.CoordinateManager().CalcP2PAngle(pmresult1.ResultParam[0].XPoss, pmresult1.ResultParam[0].YPoss, pmresult.ResultParam[0].XPoss, pmresult.ResultParam[0].XPoss);
+                            double angle = this.CoordinateManager().CalcP2PAngle(wcoord1.X.Value, wcoord1.Y.Value, wcoord.X.Value, wcoord.Y.Value);
+
+                            LoggerManager.PinLog($"Number {saveCount} Die's Left Low Corner : X = {wcoord.X.Value}, Y = {wcoord.Y.Value}");
+                            LoggerManager.PinLog($"Number {saveCount} Die's Right Low Corner : X = {wcoord1.X.Value}, Y = {wcoord1.Y.Value}");
+
+                            angle = Math.Round(angle, 6);
+
+                            if (angle <= -1 && angle >= -89)
+                            {
+
+                            }
+                            else if (angle <= -90 & angle > -180)
+                            {
+                                rotateangle = (180 + (angle)) * -1;
+                            }
+                            else if (angle <= -1 && angle >= 90)
+                            {
+
+                            }
+                            else if (angle >= 90 && angle < 180)
+                            {
+                                rotateangle = 180 + (-angle);
+                            }
+
+                            // 세타 보정
+                            rotateangle = Math.Round(rotateangle, 6);
+                            var caxis = this.MotionManager().GetAxis(EnumAxisConstants.C);
+
+                            LoggerManager.PinLog($"Number {saveCount} Die's theta angle = {rotateangle}");
+                            this.StageSupervisor().StageModuleState.StageRelMove(caxis, (rotateangle * 10000d));
+
+                            this.MotionManager().GetRefPos(EnumAxisConstants.C, ref curTheta);
+                            this.WaferAligner().WaferAlignInfo.AlignAngle = curTheta / 10000d;
+
+                            // 세타 이동 후 2번 위치 정렬
+                            PMResult pmresult3 = this.VisionManager().PatternMatching(capturedPattern1, this);
+
+                            this.VisionManager().StartGrab(capturedPattern1.CamType.Value, this);
+
+                            retVal = pmresult3.RetValue;
+
+                            if (retVal == EventCodeEnum.NONE)
+                            {
+
+                                WaferCoordinate wcoord3 = ChangedLocationFormPT(pmresult3);
+
+                                patterninfo1.X.Value = wcoord3.GetX() - xaxis.Status.RawPosition.Ref;
+                                patterninfo1.Y.Value = wcoord3.GetY() - yaxis.Status.RawPosition.Ref;
+                                patterninfo1.Z.Value = wcoord3.GetZ() - zaxis.Status.RawPosition.Ref;
+
+                                this.StageSupervisor().StageModuleState.WaferLowViewMove(
+                                    patterninfo1.GetX() + xaxis.Status.RawPosition.Ref,
+                                    patterninfo1.GetY() + yaxis.Status.RawPosition.Ref,
+                                    1059);
+
+                            }
+                        }
+                    }
+                }
+                saveCount++;
+                retVal = EventCodeEnum.NONE;
+            }
+            catch
+            {
+
+            }
+            return retVal;
+        }
+        public EventCodeEnum DieEdge()
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+            try
+            {
+                double moveoffset = 100;  // 몇 um 간격으로 이동할 것인지
+                int threshold = 120;    // 기준이 되는 조명 수치
+                int moveBackoffset = 4; // 영역안으로 다시 들어가는 거리의 배율
+                int limitCount = 0;    // 이동 횟수 제한(무한이동 제한)
+
+                ProbeAxisObject xaxis = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+
+                // 기존 코드와 동일한 ROI 변수명 사용
+                RegisteImageBufferParam patternparam = GetDisplayPortRectInfo();
+
+                while (true)    // Y축 이동
+                {
+                    // Frame Grab (기존 코드와 동일)
+                    ImageBuffer frame = this.VisionManager().SingleGrab(CurCam.GetChannelType(), this);
+
+                    if (frame == null)
+                        return retVal;
+
+                    // ROI 생성 (기존 코드 동일 함수 사용)
+                    ImageBuffer roi = this.VisionManager().ReduceImageSize(
+                                            frame,
+                                            patternparam.LocationX,
+                                            patternparam.LocationY,
+                                            patternparam.Width,
+                                            patternparam.Height);
+
+                    long sum = 0;
+                    int count = roi.SizeX * roi.SizeY;
+
+                    // ROI 내 픽셀 값을 더해서 평균 내는 부분 (평균 밝기)
+                    for (int i = 0; i < count; i++)
+                    {
+                        sum += roi.Buffer[i];
+                    }
+
+                    double mean = (double)sum / count;
+
+                    // Edge 도달 (밝은 위치 -> 어두운 위치)
+                    if (mean < threshold)
+                    {
+                        LoggerManager.PinLog("Wafer Y edge detected.");
+                        break;
+                    }
+
+                    // Y축 이동 (기존 코드 Motion 구조 사용)
+                    this.StageSupervisor().StageModuleState.StageRelMove(yaxis, moveoffset);
+
+                    limitCount++;
+                    if (limitCount > 20)
+                    {
+                        retVal = EventCodeEnum.UNDEFINED;
+                        limitCount = 0;
+                        LoggerManager.PinLog("Die Edge Move Y Fail");
+                        return retVal;
+                    }
+                }
+
+                this.VisionManager().StartGrab(CurCam.GetChannelType(), this);
+
+                // 되돌아가서 다시 영역 안으로 들어가게 한 다음
+                this.StageSupervisor().StageModuleState.StageRelMove(yaxis, -(moveoffset * moveBackoffset));
+
+                while (true)    // X축 이동
+                {
+                    // Frame Grab (기존 코드와 동일)
+                    ImageBuffer frame = this.VisionManager().SingleGrab(CurCam.GetChannelType(), this);
+
+                    if (frame == null)
+                        return retVal;
+
+                    // ROI 생성 (기존 코드 동일 함수 사용)
+                    ImageBuffer roi = this.VisionManager().ReduceImageSize(
+                                            frame,
+                                            patternparam.LocationX,
+                                            patternparam.LocationY,
+                                            patternparam.Width,
+                                            patternparam.Height);
+
+                    long sum = 0;
+                    int count = roi.SizeX * roi.SizeY;
+
+                    // ROI 내 픽셀 값을 더해서 평균 내는 부분 (평균 밝기)
+                    for (int i = 0; i < count; i++)
+                    {
+                        sum += roi.Buffer[i];
+                    }
+
+                    double mean = (double)sum / count;
+
+                    // Edge 도달 (밝은 위치 -> 어두운 위치)
+                    if (mean < threshold)
+                    {
+                        LoggerManager.PinLog("Wafer X edge detected.");
+
+                        // 되돌아간 Y 원상복귀
+                        this.StageSupervisor().StageModuleState.StageRelMove(yaxis, moveoffset * (moveBackoffset / 2));
+
+                        break;
+                    }
+
+                    // Y축 이동 (기존 코드 Motion 구조 사용)
+                    this.StageSupervisor().StageModuleState.StageRelMove(xaxis, moveoffset);
+
+                    limitCount++;
+                    if (limitCount > 20)
+                    {
+                        retVal = EventCodeEnum.UNDEFINED;
+                        limitCount = 0;
+                        LoggerManager.PinLog("Die Edge Move X Fail");
+                        return retVal;
+                    }
+                }
+
+                this.VisionManager().StartGrab(CurCam.GetChannelType(), this);
+
+                retVal = EventCodeEnum.NONE;
+            }
+            catch
+            {
+
+            }
+            return retVal;
+        }
+        public EventCodeEnum DieJump(double xpos, double ypos)
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+            try
+            {
+                ProbeAxisObject xaxis = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+
+                double curXpos = xaxis.Status.Position.Ref;
+                double curYpos = yaxis.Status.Position.Ref;
+
+                retVal = this.MotionManager.StageMove(curXpos + xpos, curYpos + ypos);
+            }
+            catch
+            {
+
+            }
+
+            return retVal;
+        }
+
+        class PosSave
+        {
+            public double xpos;
+            public double ypos;
+            public double fdzpos;
+            public double cpos;
+        }
+        Dictionary<int, PosSave> data = new Dictionary<int, PosSave>();
+
+        public void DiePosAdd(int key)
+        {
+            ProbeAxisObject xaxis = this.MotionManager().GetAxis(EnumAxisConstants.X);
+            ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+            ProbeAxisObject fdzaxis = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
+            ProbeAxisObject caxis = this.MotionManager().GetAxis(EnumAxisConstants.C);
+
+            double xpos = 0;
+            double ypos = 0;
+            double fdzpos = 0;
+            double cpos = 0;
+
+            this.MotionManager().GetRefPos(EnumAxisConstants.X, ref xpos);
+            this.MotionManager().GetRefPos(EnumAxisConstants.Y, ref ypos);
+            this.MotionManager().GetRefPos(EnumAxisConstants.FDZ1, ref fdzpos);
+            this.MotionManager().GetRefPos(EnumAxisConstants.C, ref cpos);
+
+            data[key] = new PosSave { xpos = xpos, ypos = ypos, fdzpos = fdzpos, cpos = cpos };
+        }
+
+        private async Task<EventCodeEnum> MoveDie1()
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+            try
+            {
+                //Camera 확인.
+                if (CurCam.GetChannelType() != LowStandardParam_Clone.CamType)
+                {
+                    await this.MetroDialogManager().ShowMessageDialog("Pattern Register Error.", "To register the Low pattern, please view the screen with Low camera and register again.", EnumMessageStyle.Affirmative);
+
+                    return retVal;
+                }
+
+                ProbeAxisObject caxis = this.MotionManager().GetAxis(EnumAxisConstants.C);
+                double cpos = data[0].cpos;
+                caxis.Status.RawPosition.Ref = cpos;
+                caxis.Status.Position.Ref = cpos;
+
+                // z축과 c축 값전달 주의할 것
+                //this.MotionManager.StageMove(data[0].xpos, data[0].ypos);
+                //this.MotionManager.StageMove(data[0].xpos, data[0].ypos, data[0].fdzpos);
+            }
+            catch
+            {
+
+            }
+            return retVal;
+        }
+        // -->
 
         private async Task<EventCodeEnum> RegistPattern()
         {

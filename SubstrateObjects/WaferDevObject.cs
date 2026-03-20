@@ -1109,7 +1109,7 @@ namespace SubstrateObjects
             }
         }
         public void CalcWaferCenterIndex()
-        {
+        {   // (설명) 센터다이의 머신인덱스 값만 계산
             try
             {
                 if (!this.GetContainer().IsRegistered<IWaferAligner>())
@@ -1201,7 +1201,7 @@ namespace SubstrateObjects
                 Info.RefDieLeftCorner.X.Value = centerdierefcorner.X;
                 Info.RefDieLeftCorner.Y.Value = centerdierefcorner.Y;
 
-                PhysInfo.CenU = new ElemUserIndex(PhysInfo.CenM.XIndex.Value, PhysInfo.CenM.YIndex.Value);
+                PhysInfo.CenU = new ElemUserIndex(PhysInfo.CenM.XIndex.Value, PhysInfo.CenM.YIndex.Value);  // 머신인덱스를 그대로 유저인덱스에 넣음
                 PhysInfo.OrgM = new ElemMachineIndex(0, 0);
                 PhysInfo.OrgU = new ElemUserIndex(0, 0);
                 PhysInfo.RefU = new ElemUserIndex(0, 0);

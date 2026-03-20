@@ -1726,6 +1726,88 @@ namespace PnPControl
 
         #endregion
 
+        // <-- 260317 sebas button add
+        #region ==> SixButton
+        private PNPCommandButtonDescriptor _SixButton = new PNPCommandButtonDescriptor();
+        public PNPCommandButtonDescriptor SixButton
+        {
+            get { return _SixButton; }
+            set
+            {
+                if (value != _SixButton)
+                {
+                    _SixButton = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+        #endregion
+
+        #region ==> SevenButton
+        private PNPCommandButtonDescriptor _SevenButton = new PNPCommandButtonDescriptor();
+        public PNPCommandButtonDescriptor SevenButton
+        {
+            get { return _SevenButton; }
+            set
+            {
+                if (value != _SevenButton)
+                {
+                    _SevenButton = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+        #endregion
+
+        #region ==> EightButton
+        private PNPCommandButtonDescriptor _EightButton = new PNPCommandButtonDescriptor();
+        public PNPCommandButtonDescriptor EightButton
+        {
+            get { return _EightButton; }
+            set
+            {
+                if (value != _EightButton)
+                {
+                    _EightButton = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+        #endregion
+
+        #region ==> NineButton
+        private PNPCommandButtonDescriptor _NineButton = new PNPCommandButtonDescriptor();
+        public PNPCommandButtonDescriptor NineButton
+        {
+            get { return _NineButton; }
+            set
+            {
+                if (value != _NineButton)
+                {
+                    _NineButton = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+        #endregion
+
+        #region ==> TenButton
+        private PNPCommandButtonDescriptor _TenButton = new PNPCommandButtonDescriptor();
+        public PNPCommandButtonDescriptor TenButton
+        {
+            get { return _TenButton; }
+            set
+            {
+                if (value != _TenButton)
+                {
+                    _TenButton = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+        #endregion
+        // -->
+
         #region ==> Visibilities
         private Visibility _MiniViewTargetVisibility;
         public Visibility MiniViewTargetVisibility
@@ -3369,6 +3451,57 @@ namespace PnPControl
                 FourButton.IsEnabled = false;
                 FourButton.Visibility = Visibility.Visible;
 
+                // <-- 260317 sebas button add
+                SixButton.IconSource = null;
+                SixButton.IconCaption = null;
+                SixButton.IconSoruceArray = null;
+                SixButton.MiniIconSoruceArray = null;
+                SixButton.MiniIconSource = null;
+                SixButton.Caption = null;
+                SixButton.Command = null;
+                SixButton.IsEnabled = false;
+                SixButton.Visibility = Visibility.Visible;
+
+                SevenButton.IconSource = null;
+                SevenButton.IconCaption = null;
+                SevenButton.IconSoruceArray = null;
+                SevenButton.MiniIconSoruceArray = null;
+                SevenButton.MiniIconSource = null;
+                SevenButton.Caption = null;
+                SevenButton.Command = null;
+                SevenButton.IsEnabled = false;
+                SevenButton.Visibility = Visibility.Visible;
+
+                EightButton.IconSource = null;
+                EightButton.IconCaption = null;
+                EightButton.IconSoruceArray = null;
+                EightButton.MiniIconSoruceArray = null;
+                EightButton.MiniIconSource = null;
+                EightButton.Caption = null;
+                EightButton.Command = null;
+                EightButton.IsEnabled = false;
+                EightButton.Visibility = Visibility.Visible;
+
+                NineButton.IconSource = null;
+                NineButton.IconCaption = null;
+                NineButton.IconSoruceArray = null;
+                NineButton.MiniIconSoruceArray = null;
+                NineButton.MiniIconSource = null;
+                NineButton.Caption = null;
+                NineButton.Command = null;
+                NineButton.IsEnabled = false;
+                NineButton.Visibility = Visibility.Visible;
+
+                TenButton.IconSource = null;
+                TenButton.IconCaption = null;
+                TenButton.IconSoruceArray = null;
+                TenButton.MiniIconSoruceArray = null;
+                TenButton.MiniIconSource = null;
+                TenButton.Caption = null;
+                TenButton.Command = null;
+                TenButton.IsEnabled = false;
+                TenButton.Visibility = Visibility.Visible;
+                // -->
 
                 if (AdvanceSetupView == null)
                 {
