@@ -422,6 +422,7 @@ namespace ProberInterfaces
         Element<double> WaferSequareness { get; set; }
         WaferCoordinate WaferCenterOriginatEdge { get; set; }
         WaferCoordinate WaferCenterOriginatEdge_WF { get; set; }    // 260121 sebas WF변수추가
+        Dictionary<int, DiePosElement> DiePosList { get; set; }     // 260324 sebas DiePos 변수추가
         PadGroup Pads { get; set; }
         double DutCenX { get; set; }
         double DutCenY { get; set; }
@@ -598,5 +599,61 @@ namespace ProberInterfaces
         void SetStatusMissing();
         void SetStatusUnloaded();
         void SetStatusLoaded();
+    }
+    // 260324 sebas DiePos 변수추가
+    public class DiePosElement
+    {
+        private Element<double> X;
+        private Element<double> Y;
+        private Element<double> FDZ;
+        private Element<double> C;
+
+        public double GetX()
+        {
+            if (X == null) X = new Element<double>();
+            return X.Value;
+        }
+
+        public void SetX(double value)
+        {
+            if (X == null) X = new Element<double>();
+            X.Value = value;
+        }
+
+        public double GetY()
+        {
+            if (Y == null) Y = new Element<double>();
+            return Y.Value;
+        }
+
+        public void SetY(double value)
+        {
+            if (Y == null) Y = new Element<double>();
+            Y.Value = value;
+        }
+
+        public double GetFDZ()
+        {
+            if (FDZ == null) FDZ = new Element<double>();
+            return FDZ.Value;
+        }
+
+        public void SetFDZ(double value)
+        {
+            if (FDZ == null) FDZ = new Element<double>();
+            FDZ.Value = value;
+        }
+
+        public double GetC()
+        {
+            if (C == null) C = new Element<double>();
+            return C.Value;
+        }
+
+        public void SetC(double value)
+        {
+            if (C == null) C = new Element<double>();
+            C.Value = value;
+        }
     }
 }

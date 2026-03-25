@@ -818,13 +818,13 @@ namespace WALowStandardModule
                 FourButton.Command = new AsyncCommand(Apply);
 
                 // 260317 sebas 6~10 button add
-                SixButton.IconCaption = "Die Patt";
+                SixButton.IconCaption = "DieReg";
                 SixButton.Command = new AsyncCommand(SixButtonCommand);
-                SevenButton.IconCaption = "Die Align";
+                SevenButton.IconCaption = "DAlign";
                 SevenButton.Command = new AsyncCommand(SevenButtonCommand);
-                EightButton.IconCaption = "1st Die";
+                EightButton.IconCaption = "1stDie";
                 EightButton.Command = new AsyncCommand(EightButtonCommand);
-                NineButton.IconCaption = "Clear";
+                NineButton.IconCaption = "DClear";
                 NineButton.Command = new AsyncCommand(NineButtonCommand);
                 TenButton.IconCaption = "Button2";
                 TenButton.Command = new AsyncCommand(TenButtonCommand);
@@ -1395,7 +1395,7 @@ namespace WALowStandardModule
 
                             // 하이캠 -> 로우캠 전환시 사용 됨
                             double FDCEnterOffsetY = 0; // -Wafer.GetSubsInfo().ActualDieSize.Height.Value * 6;    // X축은 변경 없음. Y축만 변경
-                            StageSupervisor.StageModuleState.WaferLowViewMove(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter.GetY() + FDCEnterOffsetY, ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter.GetZ());  // => 다이 위치에서 벗어남
+                            StageSupervisor.StageModuleState.WaferLowViewMove(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter.GetY() + FDCEnterOffsetY, ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter.GetZ());
                             LoggerManager.PinLog($"로우얼라인 시작 위치 X = {Wafer.GetSubsInfo().WaferCenter.GetX()}, Y = {Wafer.GetSubsInfo().WaferCenter.GetY() + FDCEnterOffsetY}");
                             // -->
                         }
@@ -1855,14 +1855,16 @@ namespace WALowStandardModule
 
                         break;
 
-                    case WALowSetupFunction.SIXBUTTON:  // 260317 sebas add : 아직 기능할당 안함
+                    case WALowSetupFunction.SIXBUTTON:
                         retVal = await DieRegPattern();
                         break;
                     case WALowSetupFunction.SEVENBUTTON:
+                        retVal = await DieAlignCommand();
                         break;
                     case WALowSetupFunction.EIGHTBUTTON:
+                        retVal = await MoveDie1();
                         break;
-                    case WALowSetupFunction.NINEBUTTON:
+                    case WALowSetupFunction.NINEBUTTON:     // Die Regist Pattern Clear
                         break;
                     case WALowSetupFunction.TENBUTTON:
                         break;
@@ -1901,14 +1903,28 @@ namespace WALowStandardModule
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
+                WAStandardPTInfomation ptinfo = LowStandardParam_Clone.Patterns.Value[0];
+
                 // Camera check
                 if (CurCam.GetChannelType() != EnumProberCam.PIN_HIGH_CAM) // 핀하이카메라를 픽커카메라로 변경 != LowStandardParam_Clone.CamType)
                 {
-                    await this.MetroDialogManager().ShowMessageDialog("Pattern Register Error", "Please change to Pick camera", EnumMessageStyle.Affirmative);
-                    return retVal;
+                    CurCam = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM);
+
+                    ushort defaultlightvalue = 50;
+                    for (int lightindex = 0; lightindex < CurCam.LightsChannels.Count; lightindex++)
+                    {
+                        CurCam.SetLight(CurCam.LightsChannels[lightindex].Type.Value, defaultlightvalue);
+                    }
+
+                    this.VisionManager().StartGrab(EnumProberCam.PIN_HIGH_CAM, this);
+
+                    // *** PickCAM으로 이동 ***
+                    this.StageSupervisor().StageModuleState.WaferLowViewMove_PickCAM(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter.GetY(), ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter.GetZ());
+                    // 아니면 아래거로?
+                    //this.StageSupervisor().StageModuleState.WaferLowViewMove_PickCAM(Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY(), Wafer.GetSubsInfo().WaferCenter.GetZ());
                 }
 
-                if(_capturedPatterns.Count >= MaxCaptureCount)
+                if (_capturedPatterns.Count >= MaxCaptureCount)
                 {
                     await this.MetroDialogManager().ShowMessageDialog("Capture", "3 Pictures are already saved.", EnumMessageStyle.Affirmative);
 
@@ -2003,35 +2019,40 @@ namespace WALowStandardModule
                     }
 
                     this.VisionManager().StartGrab(EnumProberCam.PIN_HIGH_CAM, this);
-                }
-                else
-                {
-                    for (int count = 0; count < jumpCount; count++)
-                    {
-                        retVal = DieAlign();
 
-                        if (retVal == EventCodeEnum.NONE)
+                    // *** PickCAM으로 이동 ***
+                }
+
+                for (int count = 0; count < jumpCount; count++)
+                {
+                    retVal = DieAlign();
+
+                    if (retVal == EventCodeEnum.NONE)
+                    {
+                        DiePosAdd(count);
+
+                        Thread.Sleep(1000);
+
+                        if (count < jumpCount - 1)   // 마지막 루프일 때 제외
                         {
-                            DiePosAdd(count);
+                            retVal = DieJump(xOffset, yOffset);
 
                             Thread.Sleep(1000);
 
-                            if (count < jumpCount - 1)   // 마지막 루프일 때 제외
-                            {
-                                retVal = DieJump(xOffset, yOffset);
-
-                                Thread.Sleep(1000);
-
-                                retVal = DieEdge();
-                            }
+                            retVal = DieEdge();
                         }
                     }
                 }
-
+                // DiePos 값을 WaferSubstrate쪽에 옮김
+                ConvertDataToWafer();
             }
             catch
             {
 
+            }
+            finally
+            {
+                this.VisionManager().StartGrab(EnumProberCam.PIN_HIGH_CAM, this);
             }
 
             return retVal;
@@ -2087,16 +2108,13 @@ namespace WALowStandardModule
                         patterninfo.Y.Value = wcoord.GetY() - yaxis.Status.RawPosition.Ref;
                         patterninfo.Z.Value = wcoord.GetZ() - zaxis.Status.RawPosition.Ref;
 
-                        this.StageSupervisor().StageModuleState.WaferLowViewMove(
+                        this.StageSupervisor().StageModuleState.WaferLowViewMove_PickCAM(
                             patterninfo.GetX() + xaxis.Status.RawPosition.Ref,
-                            patterninfo.GetY() + yaxis.Status.RawPosition.Ref,
-                            1059);
+                            patterninfo.GetY() + yaxis.Status.RawPosition.Ref);
 
-                        // Z = 1059 : 강제 초점 맞춤
                         // 2번 위치로 이동
-                        this.StageSupervisor().StageModuleState.WaferLowViewMove(patterninfo.GetX() + xaxis.Status.RawPosition.Ref + 10000,
-                                                                                    patterninfo.GetY() + yaxis.Status.RawPosition.Ref,
-                                                                                    1059);
+                        this.StageSupervisor().StageModuleState.WaferLowViewMove_PickCAM(patterninfo.GetX() + xaxis.Status.RawPosition.Ref + 10000,
+                                                                                            patterninfo.GetY() + yaxis.Status.RawPosition.Ref);
 
                         // 2번 위치 정렬
                         WAStandardPTInfomation capturedPattern1 = _capturedPatterns[1];
@@ -2160,12 +2178,12 @@ namespace WALowStandardModule
 
                             // 세타 보정
                             rotateangle = Math.Round(rotateangle, 6);
-                            var caxis = this.MotionManager().GetAxis(EnumAxisConstants.C);
+                            var FDT1axis = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
 
                             LoggerManager.PinLog($"Number {saveCount} Die's theta angle = {rotateangle}");
-                            this.StageSupervisor().StageModuleState.StageRelMove(caxis, (rotateangle * 10000d));
+                            this.StageSupervisor().StageModuleState.StageRelMove(FDT1axis, (rotateangle * 10000d));
 
-                            this.MotionManager().GetRefPos(EnumAxisConstants.C, ref curTheta);
+                            this.MotionManager().GetRefPos(EnumAxisConstants.FDT1, ref curTheta);
                             this.WaferAligner().WaferAlignInfo.AlignAngle = curTheta / 10000d;
 
                             // 세타 이동 후 2번 위치 정렬
@@ -2184,10 +2202,9 @@ namespace WALowStandardModule
                                 patterninfo1.Y.Value = wcoord3.GetY() - yaxis.Status.RawPosition.Ref;
                                 patterninfo1.Z.Value = wcoord3.GetZ() - zaxis.Status.RawPosition.Ref;
 
-                                this.StageSupervisor().StageModuleState.WaferLowViewMove(
+                                this.StageSupervisor().StageModuleState.WaferLowViewMove_PickCAM(
                                     patterninfo1.GetX() + xaxis.Status.RawPosition.Ref,
-                                    patterninfo1.GetY() + yaxis.Status.RawPosition.Ref,
-                                    1059);
+                                    patterninfo1.GetY() + yaxis.Status.RawPosition.Ref);
 
                             }
                         }
@@ -2365,22 +2382,24 @@ namespace WALowStandardModule
 
         public void DiePosAdd(int key)
         {
-            ProbeAxisObject xaxis = this.MotionManager().GetAxis(EnumAxisConstants.X);
-            ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
-            ProbeAxisObject fdzaxis = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
-            ProbeAxisObject caxis = this.MotionManager().GetAxis(EnumAxisConstants.C);
+            //ProbeAxisObject xaxis = this.MotionManager().GetAxis(EnumAxisConstants.X);
+            //ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+            //ProbeAxisObject FDZ1axis = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
+            //ProbeAxisObject FDT1axis = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
 
             double xpos = 0;
             double ypos = 0;
-            double fdzpos = 0;
-            double cpos = 0;
+            double FDZpos = 0;
+            double FDT1pos = 0;
 
             this.MotionManager().GetRefPos(EnumAxisConstants.X, ref xpos);
             this.MotionManager().GetRefPos(EnumAxisConstants.Y, ref ypos);
-            this.MotionManager().GetRefPos(EnumAxisConstants.FDZ1, ref fdzpos);
-            this.MotionManager().GetRefPos(EnumAxisConstants.C, ref cpos);
+            this.MotionManager().GetRefPos(EnumAxisConstants.FDZ1, ref FDZpos);
+            this.MotionManager().GetRefPos(EnumAxisConstants.FDT1, ref FDT1pos);
 
-            data[key] = new PosSave { xpos = xpos, ypos = ypos, fdzpos = fdzpos, cpos = cpos };
+            data[key] = new PosSave { xpos = xpos, ypos = ypos, fdzpos = FDZpos, cpos = FDT1pos };
+
+            // Wafer.GetSubsInfo().~    <- 이쪽에 넣어야할 수 있음
         }
 
         private async Task<EventCodeEnum> MoveDie1()
@@ -2397,10 +2416,11 @@ namespace WALowStandardModule
                     return retVal;
                 }
 
-                ProbeAxisObject caxis = this.MotionManager().GetAxis(EnumAxisConstants.C);
+                ProbeAxisObject FDT1axis = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
                 double cpos = data[0].cpos;
-                caxis.Status.RawPosition.Ref = cpos;
-                caxis.Status.Position.Ref = cpos;
+
+                FDT1axis.Status.RawPosition.Ref = cpos;
+                FDT1axis.Status.Position.Ref = cpos;
 
                 // z축과 c축 값전달 주의할 것
                 //this.MotionManager.StageMove(data[0].xpos, data[0].ypos);
@@ -2411,6 +2431,27 @@ namespace WALowStandardModule
 
             }
             return retVal;
+        }
+        public void ConvertDataToWafer()
+        {
+            var target = Wafer.GetSubsInfo();
+
+            if (target.DiePosList == null)
+                target.DiePosList = new Dictionary<int, DiePosElement>();
+
+            foreach (var item in data)
+            {
+                int key = item.Key;
+                var src = item.Value;
+
+                var dest = new DiePosElement();
+                dest.SetX(src.xpos);
+                dest.SetY(src.ypos);
+                dest.SetFDZ(src.fdzpos);
+                dest.SetC(src.cpos);
+
+                target.DiePosList[key] = dest;
+            }
         }
         // -->
 
@@ -2785,7 +2826,7 @@ namespace WALowStandardModule
                                     // 260127 sebas : 마지막 센터로 이동 구분3    => ***** 개조 후 위치 변경 필요
                                     if (WAEdgeStadnardModule.EdgeStandard.IsWaferEdge == true)
                                     {
-//                                        retVal = StageSupervisor.StageModuleState.WaferLowViewMove_Wafer(patterninfo.GetX() + Wafer.GetSubsInfo().WaferCenter_WF.GetX(), patterninfo.GetY() + Wafer.GetSubsInfo().WaferCenter_WF.GetY(), patterninfo.GetZ() + Wafer.GetSubsInfo().WaferCenter_WF.GetZ(), false, EnumTrjType.Normal, -1);
+                                        //retVal = StageSupervisor.StageModuleState.WaferLowViewMove_Wafer(patterninfo.GetX() + Wafer.GetSubsInfo().WaferCenter_WF.GetX(), patterninfo.GetY() + Wafer.GetSubsInfo().WaferCenter_WF.GetY(), patterninfo.GetZ() + Wafer.GetSubsInfo().WaferCenter_WF.GetZ(), false, EnumTrjType.Normal, -1);
                                         retVal = StageSupervisor.StageModuleState.WaferLowViewMove_Wafer(Wafer.GetSubsInfo().WaferCenter_WF.GetX(),Wafer.GetSubsInfo().WaferCenter_WF.GetY(), patterninfo.GetZ() + Wafer.GetSubsInfo().WaferCenter_WF.GetZ(), false, EnumTrjType.Normal, -1);
                                     }
                                     else

@@ -117,6 +117,23 @@ namespace SubstrateObjects
                 }
             }
         }
+        // 260324 sebas DiePos 변수추가
+        [NonSerialized]
+        private Dictionary<int, DiePosElement> _DiePosList = new Dictionary<int, DiePosElement>();
+
+        [XmlIgnore, JsonIgnore]
+        public Dictionary<int, DiePosElement> DiePosList
+        {
+            get { return _DiePosList; }
+            set
+            {
+                if (value != _DiePosList)
+                {
+                    _DiePosList = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
         // -->
 
         /// <summary>

@@ -1195,6 +1195,16 @@ namespace ServiceProxy
             }
             return retVal;
         }
+        // 260116 sebas
+        public EventCodeEnum WaferLowViewMove_PickCAM(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            if (IsOpened())
+            {
+                retVal = Channel.WaferLowViewMove_PickCAM(xpos, ypos, zpos, NotUseHeightProfile, trjtype, ovrd);
+            }
+            return retVal;
+        }
 
         public EventCodeEnum WaferLowViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {
@@ -1212,6 +1222,16 @@ namespace ServiceProxy
             if (IsOpened())
             {
                 retVal = Channel.WaferLowViewMove_Wafer(xpos, ypos, trjtype, ovrd);
+            }
+            return retVal;
+        }
+        //260121 sebas add
+        public EventCodeEnum WaferLowViewMove_PickCAM(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            if (IsOpened())
+            {
+                retVal = Channel.WaferLowViewMove_PickCAM(xpos, ypos, trjtype, ovrd);
             }
             return retVal;
         }

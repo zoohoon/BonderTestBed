@@ -580,6 +580,25 @@ namespace OpusVStageMove
 
             return retval;
         }
+        // 260323 sebas
+        public EventCodeEnum WaferLowViewMove_PickCAM(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            EventCodeEnum retval = EventCodeEnum.UNDEFINED;
+
+            try
+            {
+                LoggerManager.Debug($"[{this.GetType().Name}], WaferLowViewMove() called in a [{StageMove.GetState()}] state.");
+
+                retval = StageMove.WaferLowViewMove_PickCAM(xpos, ypos, zpos, NotUseHeightProfile, trjtype, ovrd);
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                retval = ExceptionHandler(err);
+            }
+
+            return retval;
+        }
         public EventCodeEnum PinHighViewMove(double xpos, double ypos, double zpos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {
             EventCodeEnum retval = EventCodeEnum.UNDEFINED;
@@ -775,6 +794,25 @@ namespace OpusVStageMove
                 LoggerManager.Debug($"[{this.GetType().Name}], WaferLowViewMove() called in a [{StageMove.GetState()}] state.");
 
                 retval = StageMove.WaferLowViewMove_Wafer(xpos, ypos, trjtype, ovrd);
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                retval = ExceptionHandler(err);
+            }
+
+            return retval;
+        }
+        // 260323 sebas add
+        public EventCodeEnum WaferLowViewMove_PickCAM(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            EventCodeEnum retval = EventCodeEnum.UNDEFINED;
+
+            try
+            {
+                LoggerManager.Debug($"[{this.GetType().Name}], WaferLowViewMove() called in a [{StageMove.GetState()}] state.");
+
+                retval = StageMove.WaferLowViewMove_PickCAM(xpos, ypos, trjtype, ovrd);
             }
             catch (Exception err)
             {
@@ -2911,6 +2949,12 @@ namespace OpusVStageMove
 
             return EventCodeEnum.STAGEMOVE_NOTIMPLEMENT_ERROR;
         }
+        public override EventCodeEnum WaferLowViewMove_PickCAM(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            LoggerManager.Error($"StageStateBase: Error occurred while Move to WaferLowViewMove(xpos,ypos,zpos).");
+
+            return EventCodeEnum.STAGEMOVE_NOTIMPLEMENT_ERROR;
+        }
         public override EventCodeEnum PinHighViewMove(double xpos, double ypos, double zpos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {
             LoggerManager.Error($"StageStateBase: Error occurred while Move to PinHighViewMove(xpos,ypos,zpos).");
@@ -2966,6 +3010,12 @@ namespace OpusVStageMove
         }
         // 260121 sebas add
         public override EventCodeEnum WaferLowViewMove_Wafer(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            LoggerManager.Error($"StageStateBase: Error occurred while Move to WaferLowViewMove(xpos,ypos).");
+
+            return EventCodeEnum.STAGEMOVE_NOTIMPLEMENT_ERROR;
+        }
+        public override EventCodeEnum WaferLowViewMove_PickCAM(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {
             LoggerManager.Error($"StageStateBase: Error occurred while Move to WaferLowViewMove(xpos,ypos).");
 
@@ -6892,6 +6942,78 @@ namespace OpusVStageMove
             }
             return ret;
         }
+        // 260323 sebas add
+        protected EventCodeEnum WaferLowViewMoveFunc_PickCAM(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            // ***내용수정해야함***
+
+            EventCodeEnum ret = EventCodeEnum.UNDEFINED;
+            MachineCoordinate mccoord = new MachineCoordinate();
+            WaferCoordinate wfcoord = new WaferCoordinate();
+
+            double heightzpos = 0.0;
+            double curZpos = 0.0;
+
+            var axisx = Module.MotionManager().GetAxis(EnumAxisConstants.X);
+            var axisy = Module.MotionManager().GetAxis(EnumAxisConstants.Y);
+            var axisz = Module.MotionManager().GetAxis(EnumAxisConstants.Z);
+
+            wfcoord.X.Value = xpos * 1;
+            wfcoord.Y.Value = ypos * 1;
+            wfcoord.Z.Value = zpos * 1;
+
+            try
+            {
+                if (NotUseHeightProfile == false)
+                {
+                    heightzpos = Module.WaferAligner().GetHeightValue(xpos, ypos);
+                }
+                else
+                {
+                    heightzpos = zpos;
+                }
+
+                if (wfcoord.Z.Value <= 0)
+                {
+                    wfcoord.Z.Value = Module.StageSupervisor().WaferObject.GetSubsInfo().ActualThickness;
+                }
+                else if (wfcoord.Z.Value > Module.StageSupervisor().WaferMaxThickness)
+                {
+                    wfcoord.Z.Value = Module.StageSupervisor().WaferMaxThickness;
+                }
+
+                wfcoord.Z.Value = 1d * heightzpos;
+
+                curZpos = axisz.Status.Position.Ref;
+
+                mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack_PickCAM(wfcoord);
+
+                if (curZpos > mccoord.Z.Value)
+                {
+                    //ret = Module.MotionManager().AbsMove(axisz, mccoord.Z.Value, trjtype, ovrd);
+                    //ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                    ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, trjtype, ovrd);
+                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                }
+                else
+                {
+                    ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, trjtype, ovrd);
+                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                    //ret = Module.MotionManager().AbsMove(axisz, mccoord.Z.Value, trjtype, ovrd);
+                    //ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                }
+
+                LoggerManager.Debug($"WaferLowViewMoveFunc() : xpos = {xpos}, ypos = {ypos}, zpos = {zpos}, heightzpos = {heightzpos}", isInfo: IsInfo);
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                ret = ConvertExceptionAndThrow(err, ret);
+            }
+            return ret;
+        }
         protected EventCodeEnum PinHighViewMoveFunc(double xpos, double ypos, double pzpos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {
             EventCodeEnum ret = EventCodeEnum.UNDEFINED;
@@ -7234,6 +7356,44 @@ namespace OpusVStageMove
             }
             return ret;
         }
+
+        // 260323 sebas add
+        protected EventCodeEnum WaferLowViewMoveFunc_PickCAM(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            // ovrd = 1로 기본 사용. FD척 이동 움직임 설정임
+
+            EventCodeEnum ret = EventCodeEnum.UNDEFINED;
+
+            MachineCoordinate mccoord = new MachineCoordinate();
+            WaferCoordinate wfcoord = new WaferCoordinate();
+
+            var axisx = Module.MotionManager().GetAxis(EnumAxisConstants.X);
+            var axisy = Module.MotionManager().GetAxis(EnumAxisConstants.Y);
+            var axisz = Module.MotionManager().GetAxis(EnumAxisConstants.Z);
+
+            wfcoord.X.Value = xpos * 1;
+            wfcoord.Y.Value = ypos * 1;
+
+            try
+            {
+                mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack_PickCAM(wfcoord);
+
+                double curZ = 0;
+                curZ = axisz.Status.Position.Ref;
+
+                ret = Module.MotionManager().StageMove(mccoord.X.Value, mccoord.Y.Value, trjtype, ovrd);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                LoggerManager.Debug($"WaferLowViewMoveFunc() : xpos = {xpos}, ypos = {ypos}", isInfo: IsInfo);
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                ret = ConvertExceptionAndThrow(err, ret);
+            }
+            return ret;
+        }
+
         protected EventCodeEnum CardViewMoveFunc(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {
             EventCodeEnum ret = EventCodeEnum.UNDEFINED;
@@ -14618,6 +14778,26 @@ namespace OpusVStageMove
 
             return ret;
         }
+        // 260323 sebas
+        public override EventCodeEnum WaferLowViewMove_PickCAM(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            EventCodeEnum ret = EventCodeEnum.NODATA;
+
+            try
+            {
+                ret = WaferLowViewMoveFunc_PickCAM(xpos, ypos, zpos, NotUseHeightProfile, trjtype, ovrd);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                Module.StageSupervisorStateTransition(new WaferLowViewState(Module));
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                ret = ConvertExceptionAndThrow(err, ret);
+            }
+
+            return ret;
+        }
         public override EventCodeEnum ZCLEARED()
         {
             EventCodeEnum ret = EventCodeEnum.NODATA;
@@ -19183,6 +19363,27 @@ namespace OpusVStageMove
             return ret;
 
         }
+        // 260323 sebas
+        public override EventCodeEnum WaferLowViewMove_PickCAM(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            EventCodeEnum ret = EventCodeEnum.NODATA;
+
+            try
+            {
+                var stagesupervisor = Module.StageSupervisor();
+
+                ret = WaferLowViewMoveFunc_PickCAM(xpos, ypos, zpos, NotUseHeightProfile, trjtype, ovrd);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                ret = ConvertExceptionAndThrow(err, ret);
+            }
+
+            return ret;
+
+        }
 
         public override EventCodeEnum WaferLowViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {
@@ -19244,6 +19445,28 @@ namespace OpusVStageMove
             }
             return ret;
         }
+        // 260323 sebas add
+        public override EventCodeEnum WaferLowViewMove_PickCAM(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            EventCodeEnum ret = EventCodeEnum.NODATA;
+            try
+            {
+                var stagesupervisor = Module.StageSupervisor();
+
+                //WaferCoordinate curwafcoord = new WaferCoordinate();
+                //curwafcoord = Module.CoordinateManager().WaferLowChuckConvert.CurrentPosConvert_PickCAM();
+
+                ret = WaferLowViewMoveFunc_PickCAM(xpos, ypos, trjtype, ovrd);
+                ResultValidate(MethodBase.GetCurrentMethod(), ret);
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                ret = ConvertExceptionAndThrow(err, ret);
+            }
+            return ret;
+        }
+
         public override EventCodeEnum WaferLowViewMove(ProbeAxisObject axis, double pos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {
             EventCodeEnum ret = EventCodeEnum.NODATA;

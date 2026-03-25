@@ -1948,6 +1948,24 @@ namespace LoaderServiceClientModules
             }
             return retVal;
         }
+        // 260323 sebas
+        public EventCodeEnum WaferLowViewMove_PickCAM(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                if (StageMove != null)
+                {
+                    retVal = StageMove.WaferLowViewMove_Wafer(xpos, ypos, zpos, NotUseHeightProfile, trjtype, ovrd);
+                }
+            }
+            catch (Exception err)
+            {
+                retVal = EventCodeEnum.UNKNOWN_EXCEPTION;
+                LoggerManager.Debug($"StageMoveServiceClient.WaferLowViewMove(xpos, ypos, zpos, NotUseHeightProfile, trjtype, ovrd) err={err}");
+            }
+            return retVal;
+        }
 
         public EventCodeEnum WaferLowViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
         {
@@ -1975,6 +1993,24 @@ namespace LoaderServiceClientModules
                 if (StageMove != null)
                 {
                     retVal = StageMove.WaferLowViewMove_Wafer(xpos, ypos, trjtype, ovrd);
+                }
+            }
+            catch (Exception err)
+            {
+                retVal = EventCodeEnum.UNKNOWN_EXCEPTION;
+                LoggerManager.Debug($"StageMoveServiceClient.WaferLowViewMove(xpos, ypos, trjtype, ovrd) err={err}");
+            }
+            return retVal;
+        }
+        //260323 sebas
+        public EventCodeEnum WaferLowViewMove_PickCAM(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1)
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                if (StageMove != null)
+                {
+                    retVal = StageMove.WaferLowViewMove_PickCAM(xpos, ypos, trjtype, ovrd);
                 }
             }
             catch (Exception err)

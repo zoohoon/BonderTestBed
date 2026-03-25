@@ -457,6 +457,7 @@ namespace ProberInterfaces
         EventCodeEnum WaferLowViewMove(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
         EventCodeEnum WaferLowViewMove_Wafer(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);   // 260119 sebas
         //EventCodeEnum WaferLowViewMove(double xpos, double ypos, double zpos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
+        EventCodeEnum WaferLowViewMove_PickCAM(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);   // 260323 sebas
         [OperationContract(Name = "pinhighviewmove_3pos")]
         EventCodeEnum PinHighViewMove(double xpos, double ypos, double zpos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
         [OperationContract(Name = "pinlowviewmove_3pos")]
@@ -467,6 +468,7 @@ namespace ProberInterfaces
         [OperationContract(Name = "waferlowviewmove_2pos")]
         EventCodeEnum WaferLowViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
         EventCodeEnum WaferLowViewMove_Wafer(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);    // 260121 sebas add
+        EventCodeEnum WaferLowViewMove_PickCAM(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);    // 260323 sebas add
         [OperationContract(Name = "pinhighviewmove_2pos")]
         EventCodeEnum PinHighViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
         [OperationContract(Name = "pinlowviewmove_2pos")]
@@ -699,12 +701,14 @@ namespace ProberInterfaces
         public abstract EventCodeEnum WaferHighViewMove_Wafer(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);  // 260127 sebas
         public abstract EventCodeEnum WaferLowViewMove(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
         public abstract EventCodeEnum WaferLowViewMove_Wafer(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);   // 260116 sebas
+        public abstract EventCodeEnum WaferLowViewMove_PickCAM(double xpos, double ypos, double zpos, bool NotUseHeightProfile = false, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);   // 260323 sebas
         public abstract EventCodeEnum PinHighViewMove(double xpos, double ypos, double zpos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
         public abstract EventCodeEnum PinLowViewMove(double xpos, double ypos, double zpos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
         public abstract EventCodeEnum WaferHighViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
         public abstract EventCodeEnum WaferHighViewMove_Wafer(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1); // 260123 sebas WH add
         public abstract EventCodeEnum WaferLowViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
         public abstract EventCodeEnum WaferLowViewMove_Wafer(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);    // 260116 sebas add
+        public abstract EventCodeEnum WaferLowViewMove_PickCAM(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);    // 260323 sebas add
         public abstract EventCodeEnum PinHighViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
         public abstract EventCodeEnum PinLowViewMove(double xpos, double ypos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
         public abstract EventCodeEnum WaferHighViewMove(ProbeAxisObject axis, double pos, EnumTrjType trjtype = EnumTrjType.Normal, double ovrd = 1);
