@@ -1904,7 +1904,7 @@ namespace WALowStandardModule
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
-                WAStandardPTInfomation ptinfo = LowStandardParam_Clone.Patterns.Value[0];
+                //WAStandardPTInfomation ptinfo = LowStandardParam_Clone.Patterns.Value[0];
 
                 // Camera check
                 if (CurCam.GetChannelType() != EnumProberCam.PIN_HIGH_CAM) // 핀하이카메라를 픽커카메라로 변경 != LowStandardParam_Clone.CamType)
@@ -1920,9 +1920,9 @@ namespace WALowStandardModule
                     this.VisionManager().StartGrab(EnumProberCam.PIN_HIGH_CAM, this);
 
                     // *** PickCAM으로 이동 ***
-                    this.StageSupervisor().StageModuleState.WaferLowViewMove_PickCAM(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter.GetY(), ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter.GetZ());
+                    //this.StageSupervisor().StageModuleState.WaferLowViewMove_PickCAM(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter.GetY(), ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter.GetZ());
                     // 아니면 아래거로?
-                    //this.StageSupervisor().StageModuleState.WaferLowViewMove_PickCAM(Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY(), Wafer.GetSubsInfo().WaferCenter.GetZ());
+                    this.StageSupervisor().StageModuleState.WaferLowViewMove_PickCAM(Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY(), Wafer.GetSubsInfo().WaferCenter.GetZ());
                 }
 
                 if (_capturedPatterns.Count >= MaxCaptureCount)
@@ -1962,7 +1962,7 @@ namespace WALowStandardModule
 
                 // Light 정보 저장
                 for(int i = 0; i< CurCam.LightsChannels.Count; i++)
-                {
+                { 
                     patterninfo.LightParams.Add(new LightValueParam(CurCam.LightsChannels[i].Type.Value, (ushort)CurCam.GetLight(CurCam.LightsChannels[i].Type.Value)));
                 }
 
@@ -1989,10 +1989,6 @@ namespace WALowStandardModule
             catch
             {
                 throw;
-            }
-            finally
-            {
-                this.VisionManager().StartGrab(CurCam.GetChannelType(), this);
             }
             return retVal;
         }

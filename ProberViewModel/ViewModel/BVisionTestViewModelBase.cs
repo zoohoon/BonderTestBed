@@ -670,41 +670,73 @@ namespace BVisionTestViewModel
 
         public bool CaptureCamera(int slot)
         {
-            var bmp = GetBitmap(slot);  // 카메라에서 Bitmap 얻음 (BitmapSource라고 가정)
+            var bmp = GetBitmap(slot);   // 원본 이미지
             if (bmp == null) return false;
 
-            // UI 스레드에서 Bitmap 관련 작업 처리
-            Application.Current.Dispatcher.Invoke(() =>
+            string camName = (slot >= 0 && slot < MAX_CAM)
+                ? _camDisplayName[slot]
+                : ("CAM" + (slot + 1));
+
+            string root = @"D:\Capture";
+            string folder = Path.Combine(root,
+                DateTime.Now.ToString("yyyy"),
+                DateTime.Now.ToString("MM"),
+                DateTime.Now.ToString("dd"));
+
+            Directory.CreateDirectory(folder);
+
+            string fileName = $"{camName}_{DateTime.Now:yyyyMMdd_HHmmss_fff}.png";
+            string path = Path.Combine(folder, fileName);
+
+            // 1. UI와 같은 회전/반전 적용
+            var transformedBmp = ApplyUiTransform(bmp, slot);
+
+            // 2. 크로스헤어 그리기
+            var finalBmp = DrawCrosshair(transformedBmp);
+
+            // 3. 저장
+            var encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(finalBmp));
+
+            using (var fs = new FileStream(path, FileMode.Create))
             {
-                string camName = (slot >= 0 && slot < MAX_CAM)
-                    ? _camDisplayName[slot]
-                    : ("CAM" + (slot + 1));
-
-                string root = @"D:\Capture";
-                string folder = Path.Combine(root,
-                    DateTime.Now.ToString("yyyy"),
-                    DateTime.Now.ToString("MM"),
-                    DateTime.Now.ToString("dd"));
-
-                Directory.CreateDirectory(folder);
-
-                string fileName = $"{camName}_{DateTime.Now:yyyyMMdd_HHmmss_fff}.png";
-                string path = Path.Combine(folder, fileName);
-
-                // ✅ 크로스헤어 그리기
-                var bmpWithCrosshair = DrawCrosshair(bmp);
-
-                var encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(bmpWithCrosshair));
-                using (var fs = new FileStream(path, FileMode.Create))
-                {
-                    encoder.Save(fs);
-                }
-            });
+                encoder.Save(fs);
+            }
 
             return true;
         }
 
+        private BitmapSource ApplyUiTransform(BitmapSource source, int slot)
+        {
+            if (source == null)
+                return null;
+
+            switch (slot)
+            {
+                case 1: // CX1 = 180도
+                    return new TransformedBitmap(source, new RotateTransform(180));
+
+                case 4: // CX2 = 90도 회전 + X/Y 반전
+                    {
+                        var tg = new TransformGroup();
+                        tg.Children.Add(new RotateTransform(90));
+                        tg.Children.Add(new ScaleTransform(-1, -1));
+                        return new TransformedBitmap(source, tg);
+                    }
+
+                case 3: // CX3 = 그대로
+                    return source;
+
+                case 0: // CX4 = 90도
+                    return new TransformedBitmap(source, new RotateTransform(90));
+
+                case 2: // CX5 = 180도
+                    return new TransformedBitmap(source, new RotateTransform(180));
+
+                default:
+                    return source;
+            }
+        }
 
         private void OnOpenCamera(object param)
         {

@@ -291,9 +291,15 @@ namespace HexagonJogControl
                     //{
                     //    this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(this.StageSupervisor().StageModuleState.PinViewAxis), zAxisRelPos);
                     //}
-                    zAxisRelPos = zAxisRelPos * 1000;   // Z축 DtoP가 0.0025이므로 1000배 보정, 조작 방향값 변경
-                    if (this.MotionManager().CheckSWLimit(EnumAxisConstants.Z, this.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref - zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return;
-                    this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.Z), zAxisRelPos);
+
+                    // <- 260326 sebas : PickCAM 조절을 위해 Z축 => FD축 이동으로 임시 수정
+                    //zAxisRelPos = zAxisRelPos * 1000;   // Z축 DtoP가 0.0025이므로 1000배 보정, 조작 방향값 변경
+                    //if (this.MotionManager().CheckSWLimit(EnumAxisConstants.Z, this.MotionManager().GetAxis(EnumAxisConstants.Z).Status.Position.Ref - zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return;
+                    //this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.Z), zAxisRelPos);
+
+                    if (this.MotionManager().CheckSWLimit(EnumAxisConstants.FDZ1, this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).Status.Position.Ref - zAxisRelPos) != ProberErrorCode.EventCodeEnum.NONE) return;
+                    this.StageSupervisor().StageModuleState.StageRelMove(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1), (zAxisRelPos * 10));
+                    // -->
                 }
             }
         }
