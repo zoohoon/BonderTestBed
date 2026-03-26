@@ -818,13 +818,13 @@ namespace WALowStandardModule
                 FourButton.Command = new AsyncCommand(Apply);
 
                 // 260317 sebas 6~10 button add
-                SixButton.IconCaption = "DieReg";
+                SixButton.IconCaption = "D_Reg";
                 SixButton.Command = new AsyncCommand(SixButtonCommand);
-                SevenButton.IconCaption = "DAlign";
+                SevenButton.IconCaption = "D_Ali";
                 SevenButton.Command = new AsyncCommand(SevenButtonCommand);
-                EightButton.IconCaption = "1stDie";
+                EightButton.IconCaption = "Die_1";
                 EightButton.Command = new AsyncCommand(EightButtonCommand);
-                NineButton.IconCaption = "DClear";
+                NineButton.IconCaption = "D_Clr";
                 NineButton.Command = new AsyncCommand(NineButtonCommand);
                 TenButton.IconCaption = "Button2";
                 TenButton.Command = new AsyncCommand(TenButtonCommand);
@@ -1865,6 +1865,7 @@ namespace WALowStandardModule
                         retVal = await MoveDie1();
                         break;
                     case WALowSetupFunction.NINEBUTTON:     // Die Regist Pattern Clear
+                        ClearDiePos();
                         break;
                     case WALowSetupFunction.TENBUTTON:
                         break;
@@ -2398,8 +2399,6 @@ namespace WALowStandardModule
             this.MotionManager().GetRefPos(EnumAxisConstants.FDT1, ref FDT1pos);
 
             data[key] = new PosSave { xpos = xpos, ypos = ypos, fdzpos = FDZpos, cpos = FDT1pos };
-
-            // Wafer.GetSubsInfo().~    <- 이쪽에 넣어야할 수 있음
         }
 
         private async Task<EventCodeEnum> MoveDie1()
@@ -2451,6 +2450,20 @@ namespace WALowStandardModule
                 dest.SetC(src.cpos);
 
                 target.DiePosList[key] = dest;
+            }
+        }
+        public void ClearDiePos()
+        {
+            var target = Wafer.GetSubsInfo();
+
+            if (target.DiePosList != null)
+            {
+                target.DiePosList.Clear();
+            }
+
+            if(data != null)
+            {
+                data.Clear();
             }
         }
         // -->
