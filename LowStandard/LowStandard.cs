@@ -1911,7 +1911,7 @@ namespace WALowStandardModule
                 {
                     CurCam = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM);
 
-                    ushort defaultlightvalue = 50;
+                    ushort defaultlightvalue = 70;
                     for (int lightindex = 0; lightindex < CurCam.LightsChannels.Count; lightindex++)
                     {
                         CurCam.SetLight(CurCam.LightsChannels[lightindex].Type.Value, defaultlightvalue);

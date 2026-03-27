@@ -514,14 +514,14 @@ namespace ProberInterfaces
                     this.CoordinateManager().StageCoord.RefMarkPos.X.Value
                     + this.CoordinateManager().StageCoord.MarkPosInChuckCoord.X.Value
                     + this.CoordinateManager().StageCoord.WLCAMFromWH.X.Value
-                    + 24000     // PickCAM 티칭 임시값
+                    + 23871.93468     // PickCAM 티칭 임시값
                     - coord.X.Value;
 
                 mccoord.Y.Value =
                      this.CoordinateManager().StageCoord.RefMarkPos.Y.Value
                     + this.CoordinateManager().StageCoord.MarkPosInChuckCoord.Y.Value
                     + this.CoordinateManager().StageCoord.WLCAMFromWH.Y.Value
-                    + 194000    // PickCAM 티칭 임시값
+                    + 194252.98464    // PickCAM 티칭 임시값
                     - coord.Y.Value;
 
                 mccoord.Z.Value =

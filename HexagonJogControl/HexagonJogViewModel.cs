@@ -191,7 +191,7 @@ namespace HexagonJogControl
             {
                 if (camtype == EnumProberCam.WAFER_LOW_CAM || camtype == EnumProberCam.WAFER_HIGH_CAM)
                 {
-                    SingleAxisMove(EnumAxisConstants.X, _XAxis, -(xAxisRelPos));
+                    SingleAxisMove(EnumAxisConstants.X, _XAxis, xAxisRelPos);    // 260327 sebas : -(xAxisRelPos) 앞에 - 부호 뺌
                 }
                 else if (camtype == EnumProberCam.PIN_LOW_CAM || camtype == EnumProberCam.PIN_HIGH_CAM)
                 {
@@ -206,7 +206,7 @@ namespace HexagonJogControl
             {
                 if (camtype == EnumProberCam.WAFER_LOW_CAM || camtype == EnumProberCam.WAFER_HIGH_CAM)
                 {
-                    SingleAxisMove(EnumAxisConstants.Y, _YAxis, -(yAxisRelPos));
+                    SingleAxisMove(EnumAxisConstants.Y, _YAxis, yAxisRelPos);    // 260327 sebas : -(yAxisRelPos) 앞에 - 부호 뺌
                 }
                 else if (camtype == EnumProberCam.PIN_LOW_CAM || camtype == EnumProberCam.PIN_HIGH_CAM)
                 {
