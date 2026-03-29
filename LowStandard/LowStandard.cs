@@ -818,15 +818,15 @@ namespace WALowStandardModule
                 FourButton.Command = new AsyncCommand(Apply);
 
                 // 260317 sebas 6~10 button add
-                SixButton.IconCaption = "D_Reg";
+                SixButton.IconCaption = "P_Cam";
                 SixButton.Command = new AsyncCommand(SixButtonCommand);
-                SevenButton.IconCaption = "D_Ali";
+                SevenButton.IconCaption = "D_Reg";
                 SevenButton.Command = new AsyncCommand(SevenButtonCommand);
-                EightButton.IconCaption = "Die_1";
+                EightButton.IconCaption = "D_Ali";
                 EightButton.Command = new AsyncCommand(EightButtonCommand);
                 NineButton.IconCaption = "D_Clr";
                 NineButton.Command = new AsyncCommand(NineButtonCommand);
-                TenButton.IconCaption = "Button2";
+                TenButton.IconCaption = "Die_1";
                 TenButton.Command = new AsyncCommand(TenButtonCommand);
 
                 EnableUseBtn();
@@ -1856,18 +1856,19 @@ namespace WALowStandardModule
                         break;
 
                     case WALowSetupFunction.SIXBUTTON:
-                        retVal = await DieRegPattern();
+                        retVal = await ChangePickCAM();
                         break;
                     case WALowSetupFunction.SEVENBUTTON:
-                        retVal = await DieAlignCommand();
+                        retVal = await DieRegPattern();
                         break;
                     case WALowSetupFunction.EIGHTBUTTON:
-                        retVal = await MoveDie1();
+                        retVal = await DieAlignCommand();
                         break;
                     case WALowSetupFunction.NINEBUTTON:     // Die Regist Pattern Clear
                         ClearDiePos();
                         break;
                     case WALowSetupFunction.TENBUTTON:
+                        retVal = await MoveDie1();
                         break;
 
                     default:
@@ -1904,25 +1905,12 @@ namespace WALowStandardModule
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
-                //WAStandardPTInfomation ptinfo = LowStandardParam_Clone.Patterns.Value[0];
-
-                // Camera check
-                if (CurCam.GetChannelType() != EnumProberCam.PIN_HIGH_CAM) // 핀하이카메라를 픽커카메라로 변경 != LowStandardParam_Clone.CamType)
+                //Camera 확인.
+                if (CurCam.GetChannelType() != LowStandardParam_Clone.CamType)
                 {
-                    CurCam = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM);
+                    await this.MetroDialogManager().ShowMessageDialog("Pattern Register Error.", "To register the Low pattern, please view the screen with Low camera and register again.", EnumMessageStyle.Affirmative);
 
-                    ushort defaultlightvalue = 70;
-                    for (int lightindex = 0; lightindex < CurCam.LightsChannels.Count; lightindex++)
-                    {
-                        CurCam.SetLight(CurCam.LightsChannels[lightindex].Type.Value, defaultlightvalue);
-                    }
-
-                    this.VisionManager().StartGrab(EnumProberCam.PIN_HIGH_CAM, this);
-
-                    // *** PickCAM으로 이동 ***
-                    //this.StageSupervisor().StageModuleState.WaferLowViewMove_PickCAM(ptinfo.GetX() + Wafer.GetSubsInfo().WaferCenter.GetX(), ptinfo.GetY() + Wafer.GetSubsInfo().WaferCenter.GetY(), ptinfo.GetZ() + Wafer.GetSubsInfo().WaferCenter.GetZ());
-                    // 아니면 아래거로?
-                    this.StageSupervisor().StageModuleState.WaferLowViewMove_PickCAM(Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY(), Wafer.GetSubsInfo().WaferCenter.GetZ());
+                    return retVal;
                 }
 
                 if (_capturedPatterns.Count >= MaxCaptureCount)
@@ -2002,22 +1990,12 @@ namespace WALowStandardModule
                 double xOffset = -3000; // 부호 방향 주의, 다이 점프 오프셋
                 double yOffset = -1000; // 부호 방향 주의, 다이 점프 오프셋
 
-                // Camera check
-                if (CurCam.GetChannelType() != EnumProberCam.PIN_HIGH_CAM) // 핀하이카메라를 픽커카메라로 변경 != LowStandardParam_Clone.CamType)
+                //Camera 확인.
+                if (CurCam.GetChannelType() != LowStandardParam_Clone.CamType)
                 {
-                    await this.MetroDialogManager().ShowMessageDialog("Pattern Register Error", "change to Pick camera", EnumMessageStyle.Affirmative);
+                    await this.MetroDialogManager().ShowMessageDialog("Pattern Register Error.", "To register the Low pattern, please view the screen with Low camera and register again.", EnumMessageStyle.Affirmative);
 
-                    CurCam = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM);
-
-                    ushort defaultlightvalue = 50;  // 260112 sebas : 조명 너무 밝아서 내림 (85 -> 50)
-                    for (int lightindex = 0; lightindex < CurCam.LightsChannels.Count; lightindex++)
-                    {
-                        CurCam.SetLight(CurCam.LightsChannels[lightindex].Type.Value, defaultlightvalue);
-                    }
-
-                    this.VisionManager().StartGrab(EnumProberCam.PIN_HIGH_CAM, this);
-
-                    // *** PickCAM으로 이동 ***
+                    return retVal;
                 }
 
                 for (int count = 0; count < jumpCount; count++)
@@ -2461,6 +2439,37 @@ namespace WALowStandardModule
             {
                 data.Clear();
             }
+        }
+        private async Task<EventCodeEnum> ChangePickCAM()
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+            try
+            {
+                // Camera check
+                if (CurCam.GetChannelType() != EnumProberCam.PIN_HIGH_CAM) // 핀하이카메라를 픽커카메라로 변경 != LowStandardParam_Clone.CamType)
+                {
+                    await this.MetroDialogManager().ShowMessageDialog("Pattern Register Error", "change to Pick camera", EnumMessageStyle.Affirmative);
+
+                    CurCam = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM);
+
+                    ushort defaultlightvalue = 50;  // 조명 조작이 안되는데 흠;;;
+                    for (int lightindex = 0; lightindex < CurCam.LightsChannels.Count; lightindex++)
+                    {
+                        CurCam.SetLight(CurCam.LightsChannels[lightindex].Type.Value, defaultlightvalue);
+                    }
+
+                    this.VisionManager().StartGrab(EnumProberCam.PIN_HIGH_CAM, this);
+
+                    // *** PickCAM으로 이동 ***
+                    this.StageSupervisor().StageModuleState.WaferLowViewMove_PickCAM(Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY(), Wafer.GetSubsInfo().WaferCenter.GetZ());
+                }
+            }
+            catch
+            {
+
+            }
+            return retVal;
         }
         // -->
 
