@@ -584,7 +584,55 @@ namespace CameraModule
             {
                 if (img != null)
                 {
-                    this.MotionManager()?.GetRefPos(ref xpos, ref ypos, ref zpos, ref tpos);
+                    // 260330 sebas : PickCAM의 경우에만 반시계방향으로 90도 이미지 회전
+                    if (this.GetChannelType() == EnumProberCam.PIN_HIGH_CAM)  // 신규추가
+                    {
+                        int width = img.SizeX;
+                        int height = img.SizeY;
+                        int band = img.Band;
+
+                        byte[] src = img.Buffer;
+                        byte[] dst = new byte[src.Length];
+
+                        for (int y = 0; y < height; y++)
+                        {
+                            for (int x = 0; x < width; x++)
+                            {
+                                for (int c = 0; c < band; c++)
+                                {
+                                    int srcIndex = (y * width + x) * band + c;
+
+                                    int newX = height - 1 - y;
+                                    int newY = x;
+
+                                    int dstIndex = (newY * height + newX) * band + c;
+
+                                    dst[dstIndex] = src[srcIndex];
+                                }
+                            }
+                        }
+
+                        // 버퍼 교체
+                        img.Buffer = dst;
+
+                        // Width / Height swap
+                        img.SizeX = height;
+                        img.SizeY = width;
+
+                        // 2. 좌표 가져오기
+                        this.MotionManager()?.GetRefPos(ref xpos, ref ypos, ref zpos, ref tpos);
+
+                        // 3. 좌표도 같이 회전 (반시계 90도)
+                        double rotatedX = img.SizeY - ypos;
+                        double rotatedY = xpos;
+
+                        xpos = rotatedX;
+                        ypos = rotatedY;
+                    }
+                    else
+                    {
+                        this.MotionManager()?.GetRefPos(ref xpos, ref ypos, ref zpos, ref tpos);    // 기존코드 위치옮김
+                    }
 
                     MachineCoordinate machinecoord = new MachineCoordinate(xpos, ypos, zpos, tpos);
                     CatCoordinates camcoord = new CatCoordinates();

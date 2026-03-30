@@ -1370,6 +1370,9 @@ namespace WALowStandardModule
                 LoggerManager.Exception(err);
             }
         }
+        // 260330 sebas : 로우캠 시작위치 저장 변수
+        double waferXPos = 0;
+        double waferYPos = 0;
 
         private void MoveFirstPattern()
         {
@@ -1439,6 +1442,10 @@ namespace WALowStandardModule
                         }
                         
                         this.WaferAligner().WaferAlignInfo.AlignAngle = 0;
+
+                        // 260330 sebas : 로우캠 시작위치 저장 변수
+                        this.MotionManager().GetActualPos(EnumAxisConstants.X, ref waferXPos);
+                        this.MotionManager().GetActualPos(EnumAxisConstants.Y, ref waferYPos);
                     }
                 }
                 else
@@ -2440,6 +2447,9 @@ namespace WALowStandardModule
                 data.Clear();
             }
         }
+        // 260330 sebas : PickCAM 위치좌표 저장 변수
+        double pickcamXPos = 0;
+        double pickcamYPos = 0;
         private async Task<EventCodeEnum> ChangePickCAM()
         {
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
@@ -2461,8 +2471,17 @@ namespace WALowStandardModule
 
                     this.VisionManager().StartGrab(EnumProberCam.PIN_HIGH_CAM, this);
 
+                    // 이동하기전 jog로 이동한 거리만큼 추가
+                    this.MotionManager().GetActualPos(EnumAxisConstants.X, ref pickcamXPos);
+                    this.MotionManager().GetActualPos(EnumAxisConstants.Y, ref pickcamYPos);
+
+                    double WaferPickPosOffsetX = (pickcamXPos - waferXPos + 408) / 102.4;     // 102.4 = X,Y축 DtoP
+                    double WaferPickPosOffsetY = (pickcamYPos - waferYPos + 484) / 102.4;     // X의 0 , Y의 +560은 카메라로 보고 맞춘 상세 보정값
+
                     // *** PickCAM으로 이동 ***
-                    this.StageSupervisor().StageModuleState.WaferLowViewMove_PickCAM(Wafer.GetSubsInfo().WaferCenter.GetX(), Wafer.GetSubsInfo().WaferCenter.GetY(), Wafer.GetSubsInfo().WaferCenter.GetZ());
+                    this.StageSupervisor().StageModuleState.WaferLowViewMove_PickCAM(Wafer.GetSubsInfo().WaferCenter.GetX() + WaferPickPosOffsetX,
+                                                                                        Wafer.GetSubsInfo().WaferCenter.GetY() + WaferPickPosOffsetY, 
+                                                                                        Wafer.GetSubsInfo().WaferCenter.GetZ());
                 }
             }
             catch
