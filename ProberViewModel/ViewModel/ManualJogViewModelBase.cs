@@ -8910,39 +8910,17 @@ namespace ManualJogViewModel
                 EventCodeEnum ret = EventCodeEnum.NODATA;
                 ProbeAxisObject axisNZD1 = this.MotionManager().GetAxis(EnumAxisConstants.NZD1);
 
-                // 돌리기전 에어 켜야 함!!!
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, true);
-                Thread.Sleep(250);
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, true);
-                Thread.Sleep(250);
-
-                // 전자석 off 체크
-
                 ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.NZD1);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
                 Thread.Sleep(250);
                  
                 // DD모터 뒤로 이동 (relmove)
-                ProbeAxisObject AxisObjectNZD1 = axisNZD1;
+                //ProbeAxisObject AxisObjectNZD1 = axisNZD1;
 
                 // 251125 sebas : Arm 정렬을 위한 DD pos 이동 보정
-                double pos = -497.768;
-                retVal = this.MotionManager().RelMove_Wating(AxisObjectNZD1, pos, AxisObjectNZD1.Param.Speed.Value, AxisObjectNZD1.Param.Acceleration.Value);
-
-                // 에어 off
-                Thread.Sleep(250);
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1, false);
-                Thread.Sleep(250);
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1_OFF, true);
-                Thread.Sleep(250);
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR1_OFF, false);
-                Thread.Sleep(250);
-
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2, false);
-                Thread.Sleep(250);
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2_OFF, true);
-                Thread.Sleep(250);
-                this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_AIR2_OFF, false);
+                //double pos = -497.768;
+                //retVal = this.MotionManager().RelMove_Wating(AxisObjectNZD1, pos, AxisObjectNZD1.Param.Speed.Value, AxisObjectNZD1.Param.Acceleration.Value);
+                
             }
             catch (Exception err)
             {
@@ -11269,7 +11247,7 @@ namespace ManualJogViewModel
 
                 double pos = 0.0;   //이동할 고정값을 넣는 변수 (덮어씌워짐)
 
-                pos = -524288 / 2.913;    // = 524,288 DD motor 회전 DtoP = 2.913// 524288
+                pos = -524288 / 2.913;    // = 524,288 DD motor 회전 DtoP = 2.913 / 524288
                 retVal = this.MotionManager().RelMove_Wating(axisNZD1, pos, axisNZD1.Param.Speed.Value, axisNZD1.Param.Acceleration.Value);
                 if (retVal != EventCodeEnum.NONE)
                 {
@@ -12052,58 +12030,55 @@ namespace ManualJogViewModel
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
-                ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
-                ProbeAxisObject axisX1 = this.MotionManager().GetAxis(EnumAxisConstants.X);
-                ProbeAxisObject axisY1 = this.MotionManager().GetAxis(EnumAxisConstants.Y);
-                ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
+                // DD Motor Test (Target 0.25 이내)
+                ProbeAxisObject axisNZD1 = this.MotionManager().GetAxis(EnumAxisConstants.NZD1);
 
-                double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
-                double currentPos = 0.0;    // 현재 위치값 읽기
-                double AcualPos = 0;
+                LoggerManager.Event($"Rotate_Minus Start");
+                retVal = Rotate_Minus();
+                LoggerManager.Event($"Rotate_Minus End");
 
-                // FD Z Down (간섭을 피하기 위해 내림)
-                pos = 4770;   // 티칭 값
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
+                Thread.Sleep(3000);
 
-                retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("FD Z RelMove Error");
-                }
+                LoggerManager.Event($"Rotate_Minus Start");
+                retVal = Rotate_Plus();
+                LoggerManager.Event($"Rotate_Minus End");
 
-                // Base X
-                pos = 43763;    // 티칭 값
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
+                // Stage Test (Taget 0.15 이내)
+                //ProbeAxisObject axisX1 = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                //ProbeAxisObject axisY1 = this.MotionManager().GetAxis(EnumAxisConstants.Y);
 
-                retVal = this.MotionManager().RelMove_Wating(axisX1, pos - currentPos, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Base X RelMove Error");
-                }
+                //double posX1 = 0.0;   // 이동할 고정값을 넣는 변수
+                //double posY1 = 0.0;   // 이동할 고정값을 넣는 변수
+                //double posX2 = 0.0;   // 이동할 고정값을 넣는 변수
+                //double posY2 = 0.0;   // 이동할 고정값을 넣는 변수
 
-                // Base Y
-                pos = -514294;
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
+                ////251125 ybpark X,Y die index 위치로 이동
+                //posX1 = 1000;
+                //posY1 = 1000;
+                //posX2 = -1000;
+                //posY2 = -1000;
 
-                retVal = this.MotionManager().RelMove_Wating(axisY1, pos - currentPos, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Base Y RelMove Error");
-                }
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) Start");
+                //retVal = this.MotionManager().RelMove_Wating(axisX1, posX1, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) End");
 
-                // Ejection Z Up (이젝션 센터 찾기 위해)
-                pos = 19899;
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
+                //Thread.Sleep(5000);
 
-                retVal = this.MotionManager().RelMove_Wating(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Ejection Z RelMove Error");
-                }
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) Start");
+                //retVal = this.MotionManager().RelMove_Wating(axisX1, posX2, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) End");
+
+                //Thread.Sleep(5000);
+
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) Start");
+                //retVal = this.MotionManager().RelMove_Wating(axisY1, posY1, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
+
+                //Thread.Sleep(5000);
+
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) Start");
+                //retVal = this.MotionManager().RelMove_Wating(axisY1, posY2, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
             }
             catch (Exception err)
             {
