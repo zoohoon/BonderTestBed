@@ -9596,10 +9596,6 @@ namespace ManualJogViewModel
                     // =========================
                     LoggerManager.Event($"Rotate Start {TestCount}");
 
-                    LoggerManager.Event($"Arms_Air_On Start");
-                    Arms_Air_On_NoWaiting();
-                    LoggerManager.Event($"Arms_Air_On End");
-
                     // 나노스테이지 위치 인터락
                     //bool RotateIntorlock = IsCanRotate();
                     //if(false == RotateIntorlock)
@@ -9617,54 +9613,35 @@ namespace ManualJogViewModel
                         // 마지막 다이 움직일 필요 없음.
                         if (TestCount < 15)
                         {
-                            //    EventCodeEnum rv;
+                            EventCodeEnum rv;
 
-                            //    LoggerManager.Event($"나노스테이지 Z Down Start");
-                            //    rv = DoPlace_Nano_ZDown();
-                            //    LoggerManager.Event($"나노스테이지 Z Down End");
-                            //    if (rv != EventCodeEnum.NONE)
-                            //        throw new Exception("DoPlace_Nano_ZDown() Function Error");
+                            LoggerManager.Event($"나노스테이지 Z Down Start");
+                            rv = DoPlace_Nano_ZDown();
+                            LoggerManager.Event($"나노스테이지 Z Down End");
+                            if (rv != EventCodeEnum.NONE)
+                                throw new Exception("DoPlace_Nano_ZDown() Function Error");
 
-                                LoggerManager.Event($"MovePickPos_SafeZone_Next Start");
-                                ret = MovePickPos_SafeZone_Next();
-                                LoggerManager.Event($"MovePickPos_SafeZone_Next End");
-                                if (ret != EventCodeEnum.NONE)
-                                    throw new Exception("MovePickPos_SafeZone_Next() Error");
+                            LoggerManager.Event($"MovePickPos_SafeZone_Next Start");
+                            ret = MovePickPos_SafeZone_Next();
+                            LoggerManager.Event($"MovePickPos_SafeZone_Next End");
+                            if (ret != EventCodeEnum.NONE)
+                                throw new Exception("MovePickPos_SafeZone_Next() Error");
 
-                            //    // 이미지 초점을 위한
-                            //    Thread.Sleep(20);
-
-                            //    // 이미지 촬영
-                            //    _VisionVM.RequestSaveNextFrameRaw(2);
-
-                            //    // 저장 완료가 아니라 "프레임 복사 완료"만 최대 50ms 대기
-                            //    bool pass = _VisionVM.WaitNextFrameCopiedAck(2, 50);
-                            //    if (!pass)
-                            //    {
-                            //        LoggerManager.Debug("Next frame copy ACK timeout (<=50ms). Continue Z Up.");
-                            //    }
-
-                            //    LoggerManager.Event($"나노스테이지 Z Up Start");
-                            //    rv = DoPlace_Nano_ZUp();
-                            //    LoggerManager.Event($"나노스테이지 Z Up End");
-                            //    if (rv != EventCodeEnum.NONE)
-                            //        throw new Exception("DoPlace_Nano_ZUp() Function Error");
+                            LoggerManager.Event($"나노스테이지 Z Up Start");
+                            rv = DoPlace_Nano_ZUp();
+                            LoggerManager.Event($"나노스테이지 Z Up End");
+                            if (rv != EventCodeEnum.NONE)
+                                throw new Exception("DoPlace_Nano_ZUp() Function Error");
                         }
                         #endregion
                         if (cycleStartFlag == false)
                         {
-                            // 1도 (81901에서 -98081로 가는 방향 기준)
-                            //NanostageUpDownMonitor(false, 80901);
-
                             LoggerManager.Event($"Rotate_Minus Start");
                             ret = Rotate_Minus();
                             LoggerManager.Event($"Rotate_Minus End");
                         }
                         else
                         {
-                            // 1도 (-98081에서 81901로 가는 방향 기준)
-                            //NanostageUpDownMonitor(true, -97081);
-
                             LoggerManager.Event($"Rotate_Plus Start");
                             ret = Rotate_Plus();
                             LoggerManager.Event($"Rotate_Plus End");
@@ -9678,10 +9655,6 @@ namespace ManualJogViewModel
 
                     if (ret != EventCodeEnum.NONE)
                         throw new Exception("Rotate Function Error");
-
-                    LoggerManager.Event($"Arms_Air_Off Start");
-                    Arms_Air_Off_NoWating();
-                    LoggerManager.Event($"Arms_Air_Off End");
 
                     // 다음 사이클용 StartFlag 토글 (병렬 구간 밖)
                     startFlag = !cycleStartFlag;
@@ -9730,10 +9703,6 @@ namespace ManualJogViewModel
         {
             LoggerManager.MonitoringLog($"Place Start {testCount}");
 
-            LoggerManager.MonitoringLog($"Magnetic_On Start");
-            Magnetic_On_NoWating();
-            LoggerManager.MonitoringLog($"Magnetic_On End");
-
             LoggerManager.MonitoringLog($"나노스테이지 Z Down Start");
             var ret = DoPlace_Nano_ZDown();
             LoggerManager.MonitoringLog($"나노스테이지 Z Down End");
@@ -9759,10 +9728,6 @@ namespace ManualJogViewModel
             LoggerManager.MonitoringLog($"나노스테이지 Z Up End");
             if (ret != EventCodeEnum.NONE)
                 throw new Exception("DoPlace_Nano_ZUp() Function Error");
-
-            LoggerManager.MonitoringLog($"Magnetic_Off Start");
-            Magnetic_Off_NoWating();
-            LoggerManager.MonitoringLog($"Magnetic_Off End");
 
             // 컨텍스트 양보(과도한 점유 방지)
             //await Task.Yield();
@@ -10646,7 +10611,7 @@ namespace ManualJogViewModel
             }
             else
             {
-                // 역방향: -48, -36, -24, -12, 0
+                // 역방향: -48, -36, -24, -12, 0E
                 y = -pitch * (cols - 1 - colInRow);
             }
 
@@ -12030,55 +11995,77 @@ namespace ManualJogViewModel
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
-                // DD Motor Test (Target 0.25 이내)
-                ProbeAxisObject axisNZD1 = this.MotionManager().GetAxis(EnumAxisConstants.NZD1);
+                // Arm Test
+                // Vacuum On
+                //var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON1, true);
+                //Thread.Sleep(500);
+                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON2, true);
+                //Thread.Sleep(500);
 
-                LoggerManager.Event($"Rotate_Minus Start");
-                retVal = Rotate_Minus();
-                LoggerManager.Event($"Rotate_Minus End");
+                //// DD Motor Test (Target 0.25 이내)
+                //ProbeAxisObject axisNZD1 = this.MotionManager().GetAxis(EnumAxisConstants.NZD1);
 
-                Thread.Sleep(3000);
+                //LoggerManager.Event($"Rotate_Minus Start");
+                //retVal = Rotate_Minus();
+                //LoggerManager.Event($"Rotate_Minus End");
 
-                LoggerManager.Event($"Rotate_Minus Start");
-                retVal = Rotate_Plus();
-                LoggerManager.Event($"Rotate_Minus End");
+                //Thread.Sleep(3000);
+
+                //LoggerManager.Event($"Rotate_Minus Start");
+                //retVal = Rotate_Plus();
+                //LoggerManager.Event($"Rotate_Minus End");
 
                 // Stage Test (Taget 0.15 이내)
-                //ProbeAxisObject axisX1 = this.MotionManager().GetAxis(EnumAxisConstants.X);
-                //ProbeAxisObject axisY1 = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+                ProbeAxisObject axisX1 = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                ProbeAxisObject axisY1 = this.MotionManager().GetAxis(EnumAxisConstants.Y);
 
-                //double posX1 = 0.0;   // 이동할 고정값을 넣는 변수
-                //double posY1 = 0.0;   // 이동할 고정값을 넣는 변수
-                //double posX2 = 0.0;   // 이동할 고정값을 넣는 변수
-                //double posY2 = 0.0;   // 이동할 고정값을 넣는 변수
+                double posX1 = 0.0;   // 이동할 고정값을 넣는 변수
+                double posY1 = 0.0;   // 이동할 고정값을 넣는 변수
+                double posX2 = 0.0;   // 이동할 고정값을 넣는 변수
+                double posY2 = 0.0;   // 이동할 고정값을 넣는 변수
 
-                ////251125 ybpark X,Y die index 위치로 이동
-                //posX1 = 1000;
-                //posY1 = 1000;
-                //posX2 = -1000;
-                //posY2 = -1000;
+                //251125 ybpark X,Y die index 위치로 이동
+                posX1 = 11500;
+                posY1 = 11500;
+                posX2 = -11500;
+                posY2 = -11500;
 
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) Start");
-                //retVal = this.MotionManager().RelMove_Wating(axisX1, posX1, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) End");
+                Thread.Sleep(1000);
 
-                //Thread.Sleep(5000);
+                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) Start");
+                retVal = this.MotionManager().RelMove_Wating(axisX1, posX1, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
+                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) End");
 
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) Start");
-                //retVal = this.MotionManager().RelMove_Wating(axisX1, posX2, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) End");
+                Thread.Sleep(1000);
 
-                //Thread.Sleep(5000);
+                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) Start");
+                retVal = this.MotionManager().RelMove_Wating(axisX1, posX2, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
+                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) End");
 
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) Start");
-                //retVal = this.MotionManager().RelMove_Wating(axisY1, posY1, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
+                Thread.Sleep(1000);
 
-                //Thread.Sleep(5000);
+                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) Start");
+                retVal = this.MotionManager().RelMove_Wating(axisY1, posY1, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
+                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
 
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) Start");
-                //retVal = this.MotionManager().RelMove_Wating(axisY1, posY2, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
+                Thread.Sleep(1000);
+
+                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) Start");
+                retVal = this.MotionManager().RelMove_Wating(axisY1, posY2, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
+                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
+
+                // Arm Test
+                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON1, false);
+                //Thread.Sleep(500);
+                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON2, false);
+                //Thread.Sleep(500);
+                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF1, true);
+                //Thread.Sleep(500);
+                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF2, true);
+                //Thread.Sleep(500);
+                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF1, false);
+                //Thread.Sleep(500);
+                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF2, false);
             }
             catch (Exception err)
             {
