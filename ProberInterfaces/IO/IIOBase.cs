@@ -8793,6 +8793,86 @@ namespace ProberInterfaces
             }
         }
         // -->
+        // <-- 260705 sebas IO add
+        private IOPortDescripter<bool> _DO_HOLD_VACON1 = new IOPortDescripter<bool>(nameof(DO_HOLD_VACON1), EnumIOType.OUTPUT);
+        public IOPortDescripter<bool> DO_HOLD_VACON1
+        {
+            get { return _DO_HOLD_VACON1; }
+            set
+            {
+                if (value != this._DO_HOLD_VACON1)
+                {
+                    _DO_HOLD_VACON1 = value;
+                    NotifyPropertyChanged(nameof(DO_HOLD_VACON1));
+                }
+            }
+        }
+        private IOPortDescripter<bool> _DO_HOLD_VACOFF1 = new IOPortDescripter<bool>(nameof(DO_HOLD_VACOFF1), EnumIOType.OUTPUT);
+        public IOPortDescripter<bool> DO_HOLD_VACOFF1
+        {
+            get { return _DO_HOLD_VACOFF1; }
+            set
+            {
+                if (value != this._DO_HOLD_VACOFF1)
+                {
+                    _DO_HOLD_VACOFF1 = value;
+                    NotifyPropertyChanged(nameof(DO_HOLD_VACOFF1));
+                }
+            }
+        }
+        private IOPortDescripter<bool> _DO_HOLD_VACON2 = new IOPortDescripter<bool>(nameof(DO_HOLD_VACON2), EnumIOType.OUTPUT);
+        public IOPortDescripter<bool> DO_HOLD_VACON2
+        {
+            get { return _DO_HOLD_VACON2; }
+            set
+            {
+                if (value != this._DO_HOLD_VACON2)
+                {
+                    _DO_HOLD_VACON2 = value;
+                    NotifyPropertyChanged(nameof(DO_HOLD_VACON2));
+                }
+            }
+        }
+        private IOPortDescripter<bool> _DO_HOLD_VACOFF2 = new IOPortDescripter<bool>(nameof(DO_HOLD_VACOFF2), EnumIOType.OUTPUT);
+        public IOPortDescripter<bool> DO_HOLD_VACOFF2
+        {
+            get { return _DO_HOLD_VACOFF2; }
+            set
+            {
+                if (value != this._DO_HOLD_VACOFF2)
+                {
+                    _DO_HOLD_VACOFF2 = value;
+                    NotifyPropertyChanged(nameof(DO_HOLD_VACOFF2));
+                }
+            }
+        }
+        private IOPortDescripter<bool> _DI_HOLD_BLOW1 = new IOPortDescripter<bool>("DI_HOLD_BLOW1", EnumIOType.INPUT);
+        public IOPortDescripter<bool> DI_HOLD_BLOW1
+        {
+            get { return _DI_HOLD_BLOW1; }
+            set
+            {
+                if (value != this._DI_HOLD_BLOW1)
+                {
+                    _DI_HOLD_BLOW1 = value;
+                    NotifyPropertyChanged(nameof(DI_HOLD_BLOW1));
+                }
+            }
+        }
+        private IOPortDescripter<bool> _DI_HOLD_BLOW2 = new IOPortDescripter<bool>("DI_HOLD_BLOW2", EnumIOType.INPUT);
+        public IOPortDescripter<bool> DI_HOLD_BLOW2
+        {
+            get { return _DI_HOLD_BLOW2; }
+            set
+            {
+                if (value != this._DI_HOLD_BLOW2)
+                {
+                    _DI_HOLD_BLOW2 = value;
+                    NotifyPropertyChanged(nameof(DI_HOLD_BLOW2));
+                }
+            }
+        }
+        // -->
     }
 
     [Serializable]

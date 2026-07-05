@@ -9008,6 +9008,42 @@ namespace ManualJogViewModel
                 EventCodeEnum ret = EventCodeEnum.NODATA;
                 EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
 
+                //var sw = System.Diagnostics.Stopwatch.StartNew();
+
+                //int totalGrabCount = 0;
+                //int timeoutCount = 0;
+
+                //while (sw.Elapsed < TimeSpan.FromSeconds(1))
+                //{
+                //    _VisionVM.RequestSaveNextFrameRaw(3);
+
+                //    // 프레임 복사 완료를 최대 50ms 대기
+                //    bool pass = _VisionVM.WaitNextFrameCopiedAck(3, 50);
+
+                //    if (pass)
+                //    {
+                //        totalGrabCount++;
+                //    }
+                //    else
+                //    {
+                //        timeoutCount++;
+                //        LoggerManager.Debug("Next frame copy ACK timeout (<=50ms). Continue Z Up.");
+                //    }
+                //}
+
+                //sw.Stop();
+
+                //double elapsedSec = sw.Elapsed.TotalSeconds;
+                //double fps = totalGrabCount / elapsedSec;
+
+                //LoggerManager.Debug("========== Grab Test Result ==========");
+                //LoggerManager.Debug($"Test Time        : {elapsedSec:F3} sec");
+                //LoggerManager.Debug($"Total Grab Count : {totalGrabCount}");
+                //LoggerManager.Debug($"Timeout Count    : {timeoutCount}");
+                //LoggerManager.Debug($"Average FPS      : {fps:F2}");
+                //LoggerManager.Debug("======================================");
+
+                // 20260630 LJH 주석
                 // 260206 sebas : 개조 후 이젝션 제외
                 //ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
                 //Thread.Sleep(250);
@@ -9041,6 +9077,11 @@ namespace ManualJogViewModel
                     //// Ejection X, Y 및 FD척 theta
                     //ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.EJX1, EnumAxisConstants.EJY1, EnumAxisConstants.EJPZ1);
                     //ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                    // 260705 sebas : PickCAM Z축 호밍 추가
+                    ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.NSZ2);
+                    ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                    Thread.Sleep(250);
 
                     ProbeAxisObject axisFDT1 = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
                     ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.FDT1);
