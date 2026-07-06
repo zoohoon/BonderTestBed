@@ -726,19 +726,27 @@ namespace BVisionTestViewModel
         {
             try
             {
-                BitmapSource copiedBmp;
+                BitmapSource copiedBmp = null;
 
-                lock (_captureLock)
+                // 1. UI Thread에서 Bitmap 복사 + Freeze
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    WriteableBitmap src = GetBitmap(slot);
-                    if (src == null)
-                        return false;
+                    lock (_captureLock)
+                    {
+                        WriteableBitmap src = GetBitmap(slot);
 
-                    // 원본 WriteableBitmap과 완전히 분리된 복사본 생성
-                    copiedBmp = new WriteableBitmap(src);
-                    copiedBmp.Freeze();
-                }
+                        if (src == null)
+                            return;
 
+                        copiedBmp = new WriteableBitmap(src);
+                        copiedBmp.Freeze();
+                    }
+                });
+
+                if (copiedBmp == null)
+                    return false;
+
+                // 2. 저장은 Background Thread에서 수행
                 Task.Run(() =>
                 {
                     try
@@ -760,38 +768,25 @@ namespace BVisionTestViewModel
             }
         }
 
-        private void SaveCaptureImage(BitmapSource sourceBmp, int slot)
+        private void SaveCaptureImage(BitmapSource bitmap, int slot)
         {
-            string camName = (slot >= 0 && slot < MAX_CAM)
-                ? _camDisplayName[slot]
-                : ("CAM" + (slot + 1));
+            string folderPath = @"D:\CaptureImage";
 
-            string root = @"D:\Capture";
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
 
-            string folder = Path.Combine(
-                root,
-                DateTime.Now.ToString("yyyy"),
-                DateTime.Now.ToString("MM"),
-                DateTime.Now.ToString("dd")
+            string filePath = Path.Combine(
+                folderPath,
+                $"Slot{slot}_{DateTime.Now:yyyyMMdd_HHmmss_fff}.png"
             );
 
-            Directory.CreateDirectory(folder);
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bitmap));
 
-            string fileName = $"{camName}_{DateTime.Now:yyyyMMdd_HHmmss_fff}.png";
-            string path = Path.Combine(folder, fileName);
-
-            BitmapSource finalBmp = ApplyUiTransform(sourceBmp, slot);
-            finalBmp.Freeze();
-
-            var encoder = new PngBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(finalBmp));
-
-            using (var fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None))
+            using (FileStream fs = new FileStream(filePath, FileMode.Create))
             {
                 encoder.Save(fs);
             }
-
-            LoggerManager.Event($"Image Saved : {path}");
         }
 
         private BitmapSource ApplyUiTransform(BitmapSource source, int slot)
