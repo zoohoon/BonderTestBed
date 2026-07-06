@@ -2604,6 +2604,32 @@ namespace ManualJogViewModel
             }
         }
         #endregion
+        //260706 Remy
+        #region ==> NSZ2TextBoxClickCommand
+        private RelayCommand<Object> _NSZ2TextBoxClickCommand;
+        public ICommand NSZ2TextBoxClickCommand
+        {
+            get
+            {
+                if (null == _NSZ2TextBoxClickCommand) _NSZ2TextBoxClickCommand = new RelayCommand<Object>(NSZ2TextBoxClickCommandFunc);
+                return _NSZ2TextBoxClickCommand;
+            }
+        }
+
+        private void NSZ2TextBoxClickCommandFunc(Object param)
+        {
+            try
+            {
+                System.Windows.Controls.TextBox tb = (System.Windows.Controls.TextBox)param;
+                tb.Text = VirtualKeyboard.Show(tb.Text, KB_TYPE.DECIMAL, 0, 500);
+                tb.GetBindingExpression(System.Windows.Controls.TextBox.TextProperty).UpdateSource();
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+            }
+        }
+        #endregion
         #endregion
 
 
@@ -5862,74 +5888,6 @@ namespace ManualJogViewModel
             }
         }
 
-        public double _EJX1ActualVal = 0.0;
-        public double EJX1ActualVal
-        {
-            get
-            {
-                return _EJX1ActualVal;
-            }
-            set
-            {
-                if (_EJX1ActualVal != value)
-                {
-                    _EJX1ActualVal = value;
-                    RaisePropertyChanged("EJX1ActualVal");
-                }
-            }
-        }
-
-        public double _EJY1ActualVal = 0.0;
-        public double EJY1ActualVal
-        {
-            get
-            {
-                return _EJY1ActualVal;
-            }
-            set
-            {
-                if (_EJY1ActualVal != value)
-                {
-                    _EJY1ActualVal = value;
-                    RaisePropertyChanged("EJY1ActualVal");
-                }
-            }
-        }
-
-        public double _EJZ1ActualVal = 0.0;
-        public double EJZ1ActualVal
-        {
-            get
-            {
-                return _EJZ1ActualVal;
-            }
-            set
-            {
-                if (_EJZ1ActualVal != value)
-                {
-                    _EJZ1ActualVal = value;
-                    RaisePropertyChanged("EJZ1ActualVal");
-                }
-            }
-        }
-
-        public double _EJPZ1ActualVal = 0.0;
-        public double EJPZ1ActualVal
-        {
-            get
-            {
-                return _EJPZ1ActualVal;
-            }
-            set
-            {
-                if (_EJPZ1ActualVal != value)
-                {
-                    _EJPZ1ActualVal = value;
-                    RaisePropertyChanged("EJPZ1ActualVal");
-                }
-            }
-        }
-
         public double _NZD1ActualVal = 0.0;
         public double NZD1ActualVal
         {
@@ -8816,6 +8774,75 @@ namespace ManualJogViewModel
         private void ARM2VAC_ON()
         {
             this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_EJ_VAC, true);
+        }
+
+        // 260706 Remy
+        private RelayCommand _HOLD1VAC_OFFCommand;
+        public ICommand HOLD1VAC_OFFCommand
+        {
+            get
+            {
+                if (null == _HOLD1VAC_OFFCommand) _HOLD1VAC_OFFCommand = new RelayCommand(HOLD1VAC_OFF);
+                return _HOLD1VAC_OFFCommand;
+            }
+        }
+
+        private void HOLD1VAC_OFF()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF1, true);
+            Thread.Sleep(50);
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF1, false);
+        }
+
+        private RelayCommand _HOLD1VAC_ONCommand;
+        public ICommand HOLD1VAC_ONCommand
+        {
+            get
+            {
+                if (null == _HOLD1VAC_ONCommand) _HOLD1VAC_ONCommand = new RelayCommand(HOLD1VAC_ON);
+                return _HOLD1VAC_ONCommand;
+            }
+        }
+
+        private void HOLD1VAC_ON()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON1, true);
+            Thread.Sleep(50);
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON1, false);
+        }
+        // 260706 Remy
+        private RelayCommand _HOLD2VAC_OFFCommand;
+        public ICommand HOLD2VAC_OFFCommand
+        {
+            get
+            {
+                if (null == _HOLD2VAC_OFFCommand) _HOLD2VAC_OFFCommand = new RelayCommand(HOLD2VAC_OFF);
+                return _HOLD2VAC_OFFCommand;
+            }
+        }
+
+        private void HOLD2VAC_OFF()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF2, true);
+            Thread.Sleep(50);
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF2, false);
+        }
+
+        private RelayCommand _HOLD2VAC_ONCommand;
+        public ICommand HOLD2VAC_ONCommand
+        {
+            get
+            {
+                if (null == _HOLD2VAC_ONCommand) _HOLD2VAC_ONCommand = new RelayCommand(HOLD2VAC_ON);
+                return _HOLD2VAC_ONCommand;
+            }
+        }
+
+        private void HOLD2VAC_ON()
+        {
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON2, true);
+            Thread.Sleep(50);
+            this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON2, false);
         }
 
         #endregion

@@ -566,7 +566,7 @@
                                 <Label Content="FD Chuck Z :" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-20,0"/>
                             </Grid>
                             <Grid Grid.Row="2">
-                                <Label Content="Ejection Base X :" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-23,0"/>
+                                <Label Content="FD Camera Z :" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,-23,0"/>
                             </Grid>
                         </Grid>
                         <Grid Grid.Column="1">
@@ -582,7 +582,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Grid.Row="0" Content="{Binding FDT1ActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0" ContentStringFormat="F2" />
                             <Label Grid.Row="1" Content="{Binding FDZ1ActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0" ContentStringFormat="F2" />
-                            <Label Grid.Row="2" Content="{Binding EJX1ActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0" ContentStringFormat="F2" />
+                            <Label Grid.Row="2" Content="{Binding NSZ2ActualVal}" Foreground="White" Width="130" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontSize="12" Grid.ColumnSpan="2" Grid.Column="1" Margin="0,0,0,0" ContentStringFormat="F2" />
 
                             <Label Content="0 &lt;" FontSize="14" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,-35,0" Grid.Column="0" Grid.Row="0"/>
                             <Label Content="&lt; check" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="0"/>
@@ -596,9 +596,6 @@
                     </Grid>
                     <Grid Grid.Column="1" Margin="10,0,10,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -639,66 +636,21 @@
                         </TextBox>
                         <Button Grid.Column="1" Grid.Row="2" Content=" ▽ FD Z- " FontSize="15"  Foreground="White"
                             Command="{Binding FDZ1NegMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <Button Grid.Column="2" Grid.Row="0" Content="△ Eject Base X+" FontSize="15"  Foreground="White"
-                            Command="{Binding EJX1PosMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+                        <Button Grid.Column="2" Grid.Row="0" Content="△ FD Camera Z+" FontSize="15"  Foreground="White"
+                            Command="{Binding NSZ2PosMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
                         <TextBox Grid.Column="2" Grid.Row="1" Width="70" Height="40" Margin="5" FontSize="20"                             
-                            Text="{Binding EJX1TextVal}"
+                            Text="{Binding NSZ2TextVal}"
                             VerticalAlignment="Center"
                             HorizontalAlignment="Center">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="PreviewMouseDown" >
-                                    <i:InvokeCommandAction Command="{Binding EJX1TextBoxClickCommand}"
+                                    <i:InvokeCommandAction Command="{Binding NSZ2TextBoxClickCommand}"
                                         CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TextBox}, Mode=FindAncestor}}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBox>
-                        <Button Grid.Column="2" Grid.Row="2" Content="▽ Eject Base X-" FontSize="15"  Foreground="White"
-                            Command="{Binding EJX1NegMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <Button Grid.Column="3" Grid.Row="0" Content="△ Eject Base Y+" FontSize="15"  Foreground="White"
-                            Command="{Binding EJY1PosMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <TextBox Grid.Column="3" Grid.Row="1" Width="70" Height="40" Margin="5" FontSize="20"                             
-                            Text="{Binding EJY1TextVal}"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="PreviewMouseDown" >
-                                    <i:InvokeCommandAction Command="{Binding EJY1TextBoxClickCommand}"
-                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TextBox}, Mode=FindAncestor}}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </TextBox>
-                        <Button Grid.Column="3" Grid.Row="2" Content="▽ Eject Base Y-" FontSize="15"  Foreground="White"
-                            Command="{Binding EJY1NegMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <Button Grid.Column="4" Grid.Row="0" Content="△ Eject Base Z+" FontSize="15"  Foreground="White"
-                            Command="{Binding EJZ1PosMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <TextBox Grid.Column="4" Grid.Row="1" Width="70" Height="40" Margin="5" FontSize="20"                             
-                            Text="{Binding EJZ1TextVal}"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="PreviewMouseDown" >
-                                    <i:InvokeCommandAction Command="{Binding EJZ1TextBoxClickCommand}"
-                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TextBox}, Mode=FindAncestor}}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </TextBox>
-                        <Button Grid.Column="4" Grid.Row="2" Content="▽ Eject Base Z-" FontSize="15"  Foreground="White"
-                            Command="{Binding EJZ1NegMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <Button Grid.Column="5" Grid.Row="0" Content="△ Eject Pin Z+ " FontSize="15"  Foreground="White"
-                            Command="{Binding EJPZ1PosMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        <TextBox Grid.Column="5" Grid.Row="1" Width="70" Height="40" Margin="5" FontSize="20"                             
-                            Text="{Binding EJPZ1TextVal}"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="PreviewMouseDown" >
-                                    <i:InvokeCommandAction Command="{Binding EJPZ1TextBoxClickCommand}"
-                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TextBox}, Mode=FindAncestor}}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </TextBox>
-                        <Button Grid.Column="5" Grid.Row="2" Content="▽ Eject Base Z-" FontSize="15"  Foreground="White"
-                            Command="{Binding EJPZ1NegMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
+                        <Button Grid.Column="2" Grid.Row="2" Content="▽ FD Camera Z-" FontSize="15"  Foreground="White"
+                            Command="{Binding NSZ2NegMoveCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
                     </Grid>
                 </Grid>
 
@@ -1873,6 +1825,16 @@
                                         <Label Content=" ARM2 VAC ON / OFF " FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
                                     </Border>
                                 </Grid>
+                                <Grid Grid.Row="6">
+                                    <Border BorderBrush="White" BorderThickness="0,0,0,5">
+                                        <Label Content=" Holder VAC1 ON / OFF " FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                                    </Border>
+                                </Grid>
+                                <Grid Grid.Row="7">
+                                    <Border BorderBrush="White" BorderThickness="0,0,0,5">
+                                        <Label Content=" Holder VAC2 ON / OFF " FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
+                                    </Border>
+                                </Grid>
                             </Grid>
                             <Grid Grid.Column="3">
                                 <Grid.RowDefinitions>
@@ -1888,6 +1850,7 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="*"/>
+                                    
                                 </Grid.RowDefinitions>
                                 <Border Grid.Row="0" BorderBrush="White" BorderThickness="0,0,0,5">
                                     <ToggleButton FontSize="40" FontWeight="Bold" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
@@ -1997,7 +1960,7 @@
                                     <ToggleButton FontSize="40" FontWeight="Bold" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Checked">
-                                                <i:InvokeCommandAction Command="{Binding ARM1VAC_ONCommand}"/>
+                                                <i:InvokeCommandAction Command="{Binding HOLD1VAC_ONCommand}"/>
                                             </i:EventTrigger>
                                             <i:EventTrigger EventName="Unchecked">
                                                 <i:InvokeCommandAction Command="{Binding ARM1VAC_OFFCommand}"/>
@@ -2027,6 +1990,58 @@
                                             </i:EventTrigger>
                                             <i:EventTrigger EventName="Unchecked">
                                                 <i:InvokeCommandAction Command="{Binding ARM2VAC_OFFCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <ToggleButton.Style>
+                                            <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
+                                                <Setter Property="Foreground" Value="Red"/>
+                                                <Setter Property="Content" Value="OFF"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter Property="Background" Value="#40FFFFFF"/>
+                                                        <Setter Property="Foreground" Value="Blue"/>
+                                                        <Setter Property="Content" Value="ON" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ToggleButton.Style>
+                                    </ToggleButton>
+                                </Border>
+                                <Border Grid.Row="6" BorderBrush="White" BorderThickness="0,0,0,5">
+                                    <ToggleButton FontSize="40" FontWeight="Bold" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding HOLD1VAC_ONCommand}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding HOLD1VAC_OFFCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                        <ToggleButton.Style>
+                                            <Style TargetType="ToggleButton">
+                                                <Setter Property="Background" Value="#40FFFFFF"/>
+                                                <Setter Property="Foreground" Value="Red"/>
+                                                <Setter Property="Content" Value="OFF"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter Property="Background" Value="#40FFFFFF"/>
+                                                        <Setter Property="Foreground" Value="Blue"/>
+                                                        <Setter Property="Content" Value="ON" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </ToggleButton.Style>
+                                    </ToggleButton>
+                                </Border>
+                                <Border Grid.Row="7" BorderBrush="White" BorderThickness="0,0,0,5">
+                                    <ToggleButton FontSize="40" FontWeight="Bold" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding HOLD2VAC_ONCommand}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Unchecked">
+                                                <i:InvokeCommandAction Command="{Binding HOLD2VAC_OFFCommand}"/>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                         <ToggleButton.Style>
