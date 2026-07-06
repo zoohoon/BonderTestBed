@@ -4327,6 +4327,9 @@ namespace Motion
                                 retVal = ((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).MoveRelativeEx(targetPos, veltopulsecnt, acctopulsecnt, acctopulsecnt, jerktopulsecnt,
                                 dir, MC_BUFFERED_MODE_ENUM.MC_BUFFERED_MODE);
 
+                                // StandStill 대기시간 측정
+                                Stopwatch waitSw = Stopwatch.StartNew();
+
                                 // <-- 251113 sebas add 단일 move 실행용
                                 while (((MMCSingleAxis)MMCAxes[axis.AxisIndex.Value]).ReadStatus() != VALID_STAND_STILL_MASK)
                                 {
@@ -5671,60 +5674,50 @@ namespace Motion
 
             stw.Restart();
             stw.Start();
-            //timeStamp.Add(new KeyValuePair<string, long>(string.Format("Start {0}axis", axis.Label), stw.ElapsedMilliseconds));
+
             try
             {
-                //using (Locker locker = new Locker(axis, $"Axis Lock - {axis.Label}"))
-                //{
-                //    if (locker.AcquiredLock == false)
-                //    {
-                //        System.Diagnostics.Debugger.Break();
-                //        return retVal;
-                //    }
-
                 bool runFlag = true;
                 bool state = false;
                 bool isEnter = false;
                 uint ustatus = 0;
-                //mreUpdateEvent.WaitOne(1);
-                //timeStamp.Add(new KeyValuePair<string, long>(string.Format("First Enter GetAxisStatus {0}axis", axis.Label), stw.ElapsedMilliseconds));
-                //GetAxisStatus(axis);
 
                 retVal = IsInposition(axis, ref isinpos);
                 ResultValidate(retVal);
                 isAxisbusy = !isinpos;
 
-                //retVal = QueryIsMoving(axis, ref isAxisbusy);
-                //ResultValidate(retVal);
                 retVal = GetElmoAxisStatus(axis, ref ustatus);
                 ResultValidate(retVal);
                 axisState = GetServoState1(ustatus);
+
                 int actpulse = 0;
                 int cmdpulse = 0;
                 int subpulse = 0;
-                //timeStamp.Add(new KeyValuePair<string, long>(string.Format("First End GetAxisStatus {0}axis", axis.Label), stw.ElapsedMilliseconds));
+
                 do
                 {
                     state = GetSourceLevel();
+
                     if (isEnter && (state == resumeLevel))
                     {
                         retVal = SetFeedrate(axis, 1, 1);
                         ResultValidate(retVal);
-                        //Resume(axis);
                         isEnter = false;
                     }
                     else if (!isEnter && (!state == resumeLevel))
                     {
-                        //Stop(axis);
                         retVal = SetFeedrate(axis, 0, 0);
                         ResultValidate(retVal);
                         isEnter = true;
                         elapsedStopWatch.Reset();
                         elapsedStopWatch.Start();
+
+                        LoggerManager.Event(
+                            $"WaitDone Feedrate Stop | Axis={axis.Label.Value}, " +
+                            $"t={elapsedStopWatch.ElapsedMilliseconds}ms"
+                        );
                     }
 
-
-                    //timeStamp.Add(new KeyValuePair<string, long>(string.Format("Enter GetAxisStatus {0}axis", axis.Label), stw.ElapsedMilliseconds));
                     if (axis.Param.FeedOverride.Value == 0)
                     {
                         timeout = 0;
@@ -5732,11 +5725,6 @@ namespace Motion
                     }
                     else
                     {
-                        //if (overrideflag == true)
-                        //{
-                        //    elapsedStopWatch.Reset();
-                        //    elapsedStopWatch.Start();
-                        //}
                         overrideflag = false;
                     }
 
@@ -5744,15 +5732,24 @@ namespace Motion
                     ResultValidate(retVal);
                     isAxisbusy = !isinpos;
 
-                    //retVal = QueryIsMoving(axis, ref isAxisbusy);
-                    //ResultValidate(retVal);
                     retVal = GetElmoAxisStatus(axis, ref ustatus);
                     ResultValidate(retVal);
                     axisState = GetServoState1(ustatus);
 
+                    // ============================
+                    // 추가 로그 1: 반복 상태 확인
+                    // ============================
+                    LoggerManager.Event(
+                        $"WaitDone Check | Axis={axis.Label.Value}, " +
+                        $"t={elapsedStopWatch.ElapsedMilliseconds}ms, " +
+                        $"isinpos={isinpos}, " +
+                        $"isAxisbusy={isAxisbusy}, " +
+                        $"axisState={axisState}, " +
+                        $"feedOverride={axis.Param.FeedOverride.Value}"
+                    );
+
                     if (isinpos == false || isAxisbusy == true || axisState != EnumAxisState.IDLE)
                     {
-
                         if (timeout != 0)
                         {
                             if (elapsedStopWatch.ElapsedMilliseconds > timeout)
@@ -5767,6 +5764,7 @@ namespace Motion
                         else
                         {
                             runFlag = true;
+
                             if (timeout == 0 && overrideflag == false)
                             {
                                 if (elapsedStopWatch.ElapsedMilliseconds > limitTimeout)
@@ -5791,6 +5789,7 @@ namespace Motion
                                 }
                             }
                         }
+
                         if (axisState == EnumAxisState.ERROR)
                         {
                             runFlag = false;
@@ -5802,12 +5801,27 @@ namespace Motion
                     {
                         retVal = IsInposition(axis, ref isinpos);
                         ResultValidate(retVal);
+
                         if (isinpos == true)
                         {
                             GetCommandPulse(axis, ref cmdpulse);
                             GetActualPulse(axis, ref actpulse);
+
                             subpulse = cmdpulse - actpulse;
                             subpulse = Math.Abs(subpulse);
+
+                            // ============================
+                            // 추가 로그 2: 위치 오차 확인
+                            // ============================
+                            LoggerManager.Event(
+                                $"WaitDone InposCheck | Axis={axis.Label.Value}, " +
+                                $"t={elapsedStopWatch.ElapsedMilliseconds}ms, " +
+                                $"cmdpulse={cmdpulse}, " +
+                                $"actpulse={actpulse}, " +
+                                $"subpulse={subpulse}, " +
+                                $"inposLimit={axis.DtoP(axis.Config.Inposition.Value)}, " +
+                                $"axisState={axisState}"
+                            );
 
                             if (subpulse > axis.DtoP(axis.Config.Inposition.Value))
                             {
@@ -5818,10 +5832,12 @@ namespace Motion
                                 }
                                 else
                                 {
-                                    LoggerManager.Debug($"WaitForAxisMotionDone(Axis:{axis.Label.Value}): Position out of window. Wait for inposition window lock in. CMD = {cmdpulse}, ACT = {actpulse}.");
+                                    LoggerManager.Debug(
+                                        $"WaitForAxisMotionDone(Axis:{axis.Label.Value}): Position out of window. " +
+                                        $"CMD={cmdpulse}, ACT={actpulse}, SUB={subpulse}, LIMIT={axis.DtoP(axis.Config.Inposition.Value)}"
+                                    );
                                 }
                             }
-
                             else if (axisState == EnumAxisState.IDLE)
                             {
                                 if (axis.Status.IsHoming == true || axis.Config.MoterConfig.MotorType.Value == EnumMoterType.STEPPER)
@@ -5832,25 +5848,37 @@ namespace Motion
                                 else
                                 {
                                     runFlag = false;
+
                                     double errorpos = 0.0;
                                     retVal = GetErrorPosition(axis, ref errorpos);
                                     ResultValidate(retVal);
+
+                                    // ============================
+                                    // 추가 로그 3: 최종 완료 확인
+                                    // ============================
+                                    LoggerManager.Event(
+                                        $"WaitDone Complete | Axis={axis.Label.Value}, " +
+                                        $"t={elapsedStopWatch.ElapsedMilliseconds}ms, " +
+                                        $"errorpos={errorpos}, " +
+                                        $"retVal={retVal}"
+                                    );
+
                                     if (axis.Config.MoterConfig.ErrorLimitTrigger.Value < errorpos)
                                     {
                                         retVal = GetErrorPosition(axis, ref errorpos);
                                         ResultValidate(retVal);
+
                                         if (axis.Config.MoterConfig.ErrorLimitTrigger.Value < errorpos)
                                         {
                                             retVal = (int)EnumMotionBaseReturnCode.ErrorPositionLimitError;
                                         }
-                                        retVal = (int)EnumMotionBaseReturnCode.ReturnCodeOK;
 
+                                        retVal = (int)EnumMotionBaseReturnCode.ReturnCodeOK;
                                     }
                                     else
                                     {
                                         retVal = (int)EnumMotionBaseReturnCode.ReturnCodeOK;
                                     }
-                                    //LoggerManager.Debug($"WaitForAxisMotionDone({axis.Label.Value}) : Axis motion done. Position is {axis.Status.Position.Actual}");
                                 }
                             }
                             else
@@ -5858,51 +5886,33 @@ namespace Motion
                                 DisableAxis(axis);
                                 retVal = (int)EnumMotionBaseReturnCode.GetAxisStateError;
                                 throw new MotionException($"{axis.Label.Value} Axis error occurred while wait for motion done. State = {axisState}", EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
-                                //LoggerManager.DebugError($"WaitForAxisMotionDone({axis.AxisIndex.Value}, {MMCAxes[axis.AxisIndex.Value].AxisName}) : Axis motion error occurred. Err code = {axis.Status.ErrCode}");
                             }
                         }
                     }
-                    //timeStamp.Add(new KeyValuePair<string, long>(string.Format("End GetAxisStatus {0}axis", axis.Label), stw.ElapsedMilliseconds));
-                } while (runFlag == true);
 
-                //}
+                } while (runFlag == true);
             }
             catch (MMCException err)
             {
                 LoggerManager.Debug($"WaitforMotiondone({axis.Label.Value}): MMCException occurred. Command ID = {err.CommandID}, Err. code = {err.MMCError}, {err.What}");
                 retVal = (int)EnumMotionBaseReturnCode.WaitforMotionDoneError;
-                //LoggerManager.Error($string.Format("WaitForAxisMotionDone() Function error: {0}" + err.Message));
                 LoggerManager.Exception(err);
             }
             catch (Exception err)
             {
-                //LoggerManager.Error($string.Format("WaitForAxisMotionDone() Function error: {0}" + err.Message));
                 retVal = (int)EnumMotionBaseReturnCode.WaitforMotionDoneError;
                 LoggerManager.Exception(err);
-                //  throw new MotionException(string.Format("WaitForAxisMotionDone({0}) : Axis motion error occurred. Err code = {1}", axis.AxisIndex.Value, axis.Status.ErrCode));
             }
             finally
             {
                 elapsedStopWatch?.Stop();
-
-                //double pos=0;
-                // GetCmdPosition(axis, ref pos);
-                // axis.Status.Position.Ref = pos;
             }
-            //timeStamp.Add(new KeyValuePair<string, long>(string.Format("Settling.... {0}axis", axis.Label), stw.ElapsedMilliseconds));
 
             if (axis.SettlingTime > 0)
             {
                 Thread.Sleep((int)axis.SettlingTime);
             }
-            //timeStamp.Add(new KeyValuePair<string, long>(string.Format("End {0}axis", axis.Label), stw.ElapsedMilliseconds));
-            //stw.Stop();
-            //int step = 0;
-            //foreach (var item in timeStamp)
-            //{
-            //    step++;
-            //    LoggerManager.Debug($string.Format("Time Stamp [{0}] - Desc: {1}, Time: {2}", step, item.Key, item.Value));
-            //}
+
             return retVal;
         }
         public int WaitForAxisMotionDone(AxisObject axis, Func<bool> GetSourceLevel, bool resumeLevel, long timeout = 0, long settlingtime = 0)

@@ -720,6 +720,75 @@ namespace BVisionTestViewModel
             return true;
         }
 
+        private readonly object _captureLock = new object();
+
+        public bool CaptureCameraAsyncSave(int slot)
+        {
+            try
+            {
+                BitmapSource copiedBmp = null;
+
+                // 1. UI Thread에서 Bitmap 복사 + Freeze
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    lock (_captureLock)
+                    {
+                        WriteableBitmap src = GetBitmap(slot);
+
+                        if (src == null)
+                            return;
+
+                        copiedBmp = new WriteableBitmap(src);
+                        copiedBmp.Freeze();
+                    }
+                });
+
+                if (copiedBmp == null)
+                    return false;
+
+                // 2. 저장은 Background Thread에서 수행
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        SaveCaptureImage(copiedBmp, slot);
+                    }
+                    catch (Exception ex)
+                    {
+                        LoggerManager.Exception(ex);
+                    }
+                });
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LoggerManager.Exception(ex);
+                return false;
+            }
+        }
+
+        private void SaveCaptureImage(BitmapSource bitmap, int slot)
+        {
+            string folderPath = @"D:\CaptureImage";
+
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+
+            string filePath = Path.Combine(
+                folderPath,
+                $"Slot{slot}_{DateTime.Now:yyyyMMdd_HHmmss_fff}.png"
+            );
+
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bitmap));
+
+            using (FileStream fs = new FileStream(filePath, FileMode.Create))
+            {
+                encoder.Save(fs);
+            }
+        }
+
         private BitmapSource ApplyUiTransform(BitmapSource source, int slot)
         {
             if (source == null)
@@ -891,132 +960,132 @@ namespace BVisionTestViewModel
             UpdateHud(slot, 0.0, _setpointFps[slot], _frameAveraging[slot]);
         }
 
-private void DisplayThreadProc(object state)
-{
-    int camIndex = (int)state;
-    const int WAIT_TIMEOUT_MS = 100;
-
-    try
-    {
-        while (_isWorking[camIndex])
+        private void DisplayThreadProc(object state)
         {
-            Thread.Sleep(1);
+            int camIndex = (int)state;
+            const int WAIT_TIMEOUT_MS = 100;
 
-            var handle = _grabber[camIndex].GrabDone;
-            if (handle == null)
-                continue;
-
-            if (!handle.WaitOne(WAIT_TIMEOUT_MS))
-                continue;
-
-            if (!_isWorking[camIndex])
-                break;
-
-            byte[] src = _isColor[camIndex]
-                ? _grabber[camIndex].ColorBuffer
-                : _grabber[camIndex].Buffer;
-
-            if (src == null || src.Length == 0)
-                continue;
-
-            int w = GetWidth(camIndex);
-            int h = GetHeight(camIndex);
-            bool isColor = _isColor[camIndex];
-
-            // 다음 프레임 저장 요청이 있는 경우
-            if (Interlocked.CompareExchange(ref _saveNextFrameReq[camIndex], 0, 1) == 1)
+            try
             {
-                var copy = new byte[src.Length];
-                Buffer.BlockCopy(src, 0, copy, 0, src.Length);
-
-                _saveQueue.Enqueue(new SaveJob
+                while (_isWorking[camIndex])
                 {
-                    Data = copy,
-                    Width = w,
-                    Height = h,
-                    IsColor = isColor
-                });
+                    Thread.Sleep(1);
 
-                // Grab 시간 로그
-                long start = Interlocked.Read(ref _reqStartMs[camIndex]);
-                if (start != 0)
-                {
-                    long end = NowMs();
-                    long elapsedMs = end - start;
+                    var handle = _grabber[camIndex].GrabDone;
+                    if (handle == null)
+                        continue;
 
-                    DateTime startTime = DateTimeOffset
-                        .FromUnixTimeMilliseconds(start)
-                        .ToLocalTime()
-                        .DateTime;
+                    if (!handle.WaitOne(WAIT_TIMEOUT_MS))
+                        continue;
 
-                    DateTime endTime = DateTimeOffset
-                        .FromUnixTimeMilliseconds(end)
-                        .ToLocalTime()
-                        .DateTime;
+                    if (!_isWorking[camIndex])
+                        break;
 
-                    LoggerManager.Debug(
-                        $"[GRAB]\r\n" +
-                        $"Start : {startTime:HH:mm:ss.fff}\r\n" +
-                        $"End   : {endTime:HH:mm:ss.fff}\r\n" +
-                        $"Time  : {elapsedMs} ms");
+                    byte[] src = _isColor[camIndex]
+                        ? _grabber[camIndex].ColorBuffer
+                        : _grabber[camIndex].Buffer;
 
-                    // 다음 요청을 위해 초기화
-                    Interlocked.Exchange(ref _reqStartMs[camIndex], 0);
-                }
+                    if (src == null || src.Length == 0)
+                        continue;
 
-                // ACK
-                _nextFrameCopiedAck[camIndex]?.Set();
-            }
+                    int w = GetWidth(camIndex);
+                    int h = GetHeight(camIndex);
+                    bool isColor = _isColor[camIndex];
 
-            // UI 갱신
-            SafeUpdateFrame(camIndex, src, w, h, isColor);
-
-            // FPS 계산
-            _frameCounter[camIndex]++;
-
-            long now = NowMs();
-            long windowElapsed = now - _fpsWindowStartMs[camIndex];
-
-            if (windowElapsed >= 1000)
-            {
-                _measuredFps[camIndex] =
-                    (_frameCounter[camIndex] * 1000.0) / windowElapsed;
-
-                _frameCounter[camIndex] = 0;
-                _fpsWindowStartMs[camIndex] = now;
-
-                var disp = Application.Current?.Dispatcher;
-
-                if (disp == null)
-                {
-                    UpdateHud(
-                        camIndex,
-                        _measuredFps[camIndex],
-                        _setpointFps[camIndex],
-                        _frameAveraging[camIndex]);
-                }
-                else
-                {
-                    disp.BeginInvoke(new Action(() =>
+                    // 다음 프레임 저장 요청이 있는 경우
+                    if (Interlocked.CompareExchange(ref _saveNextFrameReq[camIndex], 0, 1) == 1)
                     {
-                        UpdateHud(
-                            camIndex,
-                            _measuredFps[camIndex],
-                            _setpointFps[camIndex],
-                            _frameAveraging[camIndex]);
-                    }));
+                        var copy = new byte[src.Length];
+                        Buffer.BlockCopy(src, 0, copy, 0, src.Length);
+
+                        _saveQueue.Enqueue(new SaveJob
+                        {
+                            Data = copy,
+                            Width = w,
+                            Height = h,
+                            IsColor = isColor
+                        });
+
+                        // Grab 시간 로그
+                        long start = Interlocked.Read(ref _reqStartMs[camIndex]);
+                        if (start != 0)
+                        {
+                            long end = NowMs();
+                            long elapsedMs = end - start;
+
+                            DateTime startTime = DateTimeOffset
+                                .FromUnixTimeMilliseconds(start)
+                                .ToLocalTime()
+                                .DateTime;
+
+                            DateTime endTime = DateTimeOffset
+                                .FromUnixTimeMilliseconds(end)
+                                .ToLocalTime()
+                                .DateTime;
+
+                            LoggerManager.Debug(
+                                $"[GRAB]\r\n" +
+                                $"Start : {startTime:HH:mm:ss.fff}\r\n" +
+                                $"End   : {endTime:HH:mm:ss.fff}\r\n" +
+                                $"Time  : {elapsedMs} ms");
+
+                            // 다음 요청을 위해 초기화
+                            Interlocked.Exchange(ref _reqStartMs[camIndex], 0);
+                        }
+
+                        // ACK
+                        _nextFrameCopiedAck[camIndex]?.Set();
+                    }
+
+                    // UI 갱신
+                    SafeUpdateFrame(camIndex, src, w, h, isColor);
+
+                    // FPS 계산
+                    _frameCounter[camIndex]++;
+
+                    long now = NowMs();
+                    long windowElapsed = now - _fpsWindowStartMs[camIndex];
+
+                    if (windowElapsed >= 1000)
+                    {
+                        _measuredFps[camIndex] =
+                            (_frameCounter[camIndex] * 1000.0) / windowElapsed;
+
+                        _frameCounter[camIndex] = 0;
+                        _fpsWindowStartMs[camIndex] = now;
+
+                        var disp = Application.Current?.Dispatcher;
+
+                        if (disp == null)
+                        {
+                            UpdateHud(
+                                camIndex,
+                                _measuredFps[camIndex],
+                                _setpointFps[camIndex],
+                                _frameAveraging[camIndex]);
+                        }
+                        else
+                        {
+                            disp.BeginInvoke(new Action(() =>
+                            {
+                                UpdateHud(
+                                    camIndex,
+                                    _measuredFps[camIndex],
+                                    _setpointFps[camIndex],
+                                    _frameAveraging[camIndex]);
+                            }));
+                        }
+                    }
                 }
+            }
+            catch (ThreadAbortException)
+            {
+            }
+            catch (Exception ex)
+            {
+                LoggerManager.Exception(ex);
             }
         }
-    }
-    catch (ThreadAbortException)
-    {
-    }
-    catch (Exception ex)
-    {
-        LoggerManager.Exception(ex);
-    }
-}
 
         private void StopThread(int index)
         {
@@ -1333,7 +1402,7 @@ private void DisplayThreadProc(object state)
                 }
 
                 // 2) 카메라/그랩버 해제
-                try { CloseAllCameras(); } catch { }    
+                try { CloseAllCameras(); } catch { }
 
                 // 3) Start/Stop 버튼 상태 초기화
                 for (int i = 0; i < MAX_CAM; i++)
@@ -1473,7 +1542,7 @@ private void DisplayThreadProc(object state)
                     StageCamList.Add(new StageCamera(enumStageCamType.UNDEFINED));
 
                     PosList = new List<CatCoordinates>();
-                    
+
                     for (int i = 0; i < MAX_CAM; i++)
                     {
                         _slotToDevice[0] = 3;   // CX 4
@@ -2434,7 +2503,7 @@ private void DisplayThreadProc(object state)
                     this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
                     currentPos = AcualPos;
 
-                    double pos = 144000000;                  
+                    double pos = 144000000;
                     LoggerManager.Debug($"Wafer_Chuck_Up TC Start");
                     ret = this.MotionManager().RelMove_Wating(zaxis, pos - currentPos, zaxis.Param.Speed.Value, zaxis.Param.Acceleration.Value);
                     LoggerManager.Debug($"Wafer_Chuck_Up TC End");
