@@ -17,14 +17,18 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using UcDisplayPort;
+using BWaferMapTest;
 
 namespace VisionTestViewModel
 {
@@ -1532,6 +1536,1131 @@ namespace VisionTestViewModel
             }
         }
 
+        // 260413 sebas button add
+        private AsyncCommand _SetPointsCommand;
+        public ICommand SetPointsCommand
+        {
+            get
+            {
+                if (null == _SetPointsCommand) _SetPointsCommand = new AsyncCommand(SetPointsCommandFunc);
+                return _SetPointsCommand;
+            }
+        }
+        public static List<CatCoordinates> points = new List<CatCoordinates>();
+        public static List<CatCoordinates> pointsAll = new List<CatCoordinates>();
+        public static double centerX = 0;
+        public static double centerY = 0;
+        private async Task SetPointsCommandFunc()
+        {
+            try
+            {
+                // 특정 웨이퍼에 맞게 임시 등록
+                SetPointsHardCoding(centerX, centerY);
+
+                // 25P 데이터로 전체 영역 Z 계산
+                CalcZAllPoints();
+
+                //// 격자 범위 설정 (원 전체를 커버하도록)
+                //int maxIndex = (int)Math.Ceiling(radius / pitch);
+
+                //for (int ix = -maxIndex; ix <= maxIndex; ix++)
+                //{
+                //    for (int iy = -maxIndex; iy <= maxIndex; iy++)
+                //    {
+                //        double x = centerX + ix * pitch;
+                //        double y = centerY + iy * pitch;
+
+                //        // 중심으로부터 거리 계산
+                //        double dx = x - centerX;
+                //        double dy = y - centerY;
+
+                //        double distanceSq = dx * dx + dy * dy;
+
+                //        // 원 내부 포함 조건
+                //        if (distanceSq <= radius * radius)
+                //        {
+                //            CatCoordinates pos = new CatCoordinates();
+
+                //            pos.X.Value = x;
+                //            pos.Y.Value = y;
+
+                //            points.Add(pos);
+                //        }
+                //    }
+                //}
+
+                // Print Log
+                PrintLogCommandFunc();
+            }
+            catch
+            {
+
+            }
+
+        }
+        private void SetPointsHardCoding(double centerX, double centerY)
+        {
+            pointsAll.Clear();     // points -> pointsAll
+
+            double pitch = 10080;
+            void AddLine(int y, int xStart, int xEnd)
+            {
+                for (int x = xStart; x >= xEnd; x--)
+                {
+                    CatCoordinates pos = new CatCoordinates();
+                    pos.X.Value = centerX + x * pitch;
+                    pos.Y.Value = centerY + y * pitch;
+
+                    pointsAll.Add(pos);    // points -> pointsAll
+                }
+            }
+
+            AddLine(-14, 3, -4);
+            AddLine(-13, 5, -6);
+            AddLine(-12, 7, -8);
+            AddLine(-11, 8, -9);
+            AddLine(-10, 9, -10);
+            AddLine(-9, 10, -11);
+            AddLine(-8, 11, -12);
+            AddLine(-7, 11, -12);
+            AddLine(-6, 12, -13);
+            AddLine(-5, 12, -13);
+            AddLine(-4, 13, -14);
+            AddLine(-3, 13, -14);
+            AddLine(-2, 13, -14);
+            AddLine(-1, 13, -14);
+            AddLine(0, 13, -14);
+            AddLine(1, 13, -14);
+            AddLine(2, 13, -14);
+            AddLine(3, 13, -14);
+            AddLine(4, 12, -13);
+            AddLine(5, 12, -13);
+            AddLine(6, 11, -12);
+            AddLine(7, 11, -12);
+            AddLine(8, 10, -11);
+            AddLine(9, 9, -10);
+            AddLine(10, 8, -9);
+            AddLine(11, 7, -8);
+            AddLine(12, 5, -6);
+            AddLine(13, 3, -4);
+        }
+        public void CalcZAllPoints()
+        {
+            if (points == null || points.Count == 0)
+                return;
+
+            if (pointsAll == null || pointsAll.Count == 0)
+                return;
+
+            // points = 측정된 25개 (Z 있음)
+            // pointsAll = 전체 616개 (Z 채울 대상)
+
+            foreach (var p in pointsAll)
+            {
+                double z = GetZFromPoints(
+                    p.X.Value,
+                    p.Y.Value,
+                    setPointCenZ,
+                    points   // 반드시 측정 포인트만 넣는다
+                );
+
+                p.Z.Value = z;
+            }
+        }
+        private AsyncCommand _Calc17PCommand;
+        public ICommand Calc17PCommand
+        {
+            get
+            {
+                if (null == _Calc17PCommand) _Calc17PCommand = new AsyncCommand(Calc25PCommandFunc);
+                return _Calc17PCommand;
+            }
+        }
+        public static double setPointCenZ = 0;
+        private async Task Calc25PCommandFunc()
+        {
+            try
+            {
+                // 현재 x,y 읽어온 위치값을 센터값으로 입력
+                double centerZ = 0;
+                this.MotionManager().GetActualPos(EnumAxisConstants.X, ref centerX);
+                this.MotionManager().GetActualPos(EnumAxisConstants.Y, ref centerY);
+                this.MotionManager().GetActualPos(EnumAxisConstants.Z, ref centerZ);
+
+                setPointCenZ = centerZ;
+
+                // 특정 웨이퍼에 맞게 임시 등록
+                SetPointsHardCoding25(centerX, centerY);
+
+                // 25P Points Move
+                await MovePointsCommandFunc();
+            }
+            catch
+            {
+
+            }
+        }
+        private void SetPointsHardCoding25(double centerX, double centerY)
+        {
+            points.Clear();
+
+            double pitch = 10080;
+            var indexList = new (int x, int y)[]
+            {
+                (0, -14),
+                (5, -13),
+                (-6, -13),
+                (9, -10),
+                (-10, -10),
+                (0, -8),
+                (12, -6),
+                (5, -6),
+                (-6, -6),
+                (-13, -6),
+                (13, 0),
+                (7, 0),
+                (0, 0),
+                (-7, 0),
+                (-14, 0),
+                (12, 5),
+                (5, 6),
+                (0, 7),
+                (-6, 6),
+                (-13, 5),
+                (9, 9),
+                (-10, 9),
+                (5, 12),
+                (-6, 12),
+                (0, 13)
+            };
+
+            foreach (var (x, y) in indexList)
+            {
+                CatCoordinates pos = new CatCoordinates();
+                pos.X.Value = centerX + x * pitch;
+                pos.Y.Value = centerY + y * pitch;
+
+                points.Add(pos);
+            }
+        }
+        private async Task<EventCodeEnum> MovePointsCommandFunc()
+        {
+            EventCodeEnum ret = EventCodeEnum.UNDEFINED;
+
+            try
+            {
+                ProbeAxisObject xaxis = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                ProbeAxisObject yaxis = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+                ProbeAxisObject zaxis = this.MotionManager().GetAxis(EnumAxisConstants.Z);
+
+                MachineCoordinate mccoord = new MachineCoordinate();
+                WaferCoordinate wafercoord = new WaferCoordinate();
+
+                double zpos = 0;
+                mccoord.Z.Value = this.MotionManager().GetActualPos(EnumAxisConstants.Z, ref zpos);
+
+                for (int i = 0; i < points.Count; i++)
+                {
+                    mccoord.X.Value = points[i].X.Value;
+                    mccoord.Y.Value = points[i].Y.Value;
+                    mccoord.Z.Value = zpos;
+
+                    wafercoord = this.CoordinateManager().WaferHighChuckConvert.Convert(mccoord);
+
+                    int fixNum = i;
+
+                    await Task.Run(() =>
+                    {
+                        ret = this.StageSupervisor().StageModuleState.WaferHighViewMove(
+                            wafercoord.X.Value,
+                            wafercoord.Y.Value,
+                            wafercoord.Z.Value);
+
+                        if (ret == EventCodeEnum.NONE)
+                        {
+                            FocusingParam.FlatnessThreshold.Value = 95.0;
+                            FocusingParam.FocusRange.Value = 500;
+
+                            // points 개수에 따라 반복 횟수 결정
+                            int focusRetryCount = points.Count < 30 ? 5 : 1;
+
+                            //double focusResultSum = 0;
+                            //int focusSuccessCount = 0;
+                            double bestFocusValue = double.MinValue;
+                            double bestFocusResultPos = 0;
+
+                            for (int retry = 0; retry < focusRetryCount; retry++)
+                            {
+                                ret = FocusingModule.Focusing_Retry(
+                                    FocusingParam,
+                                    false,
+                                    false,
+                                    false,
+                                    this);
+
+                                Thread.Sleep(200);
+
+                                if (ret == EventCodeEnum.NONE)
+                                {
+                                    //focusResultSum += FocusingParam.FocusResultPos;
+                                    //focusSuccessCount++;
+                                    if (FocusingParam.FocusValue > bestFocusValue)
+                                    {
+                                        bestFocusValue = FocusingParam.FocusValue;
+                                        bestFocusResultPos = FocusingParam.FocusResultPos;
+                                    }
+                                }
+                            }
+
+                            //if (focusSuccessCount > 0)
+                            if (bestFocusValue != double.MinValue)
+                            {
+                                //points[fixNum].Z.Value = focusResultSum / focusSuccessCount;
+                                points[fixNum].Z.Value = bestFocusResultPos;
+
+                                double actZpos = 0;
+                                this.MotionManager().GetActualPos(EnumAxisConstants.Z, ref actZpos);
+
+                                LoggerManager.PinLog($"Current Pos : X = {mccoord.X.Value} , Y = {mccoord.Y.Value}");
+                                LoggerManager.PinLog($"Focusing Z = {points[fixNum].Z.Value} , Score = {bestFocusValue} , Relpos Z = {actZpos}");
+                            }
+                        }
+                    });
+
+                    // 각 points별 이미지 체크용 저장
+                    SaveImageFunc_Score(i, points[i].Z.Value, FocusingParam.FocusValue);
+                }
+            }
+            catch
+            {
+
+            }
+
+            return ret;
+        }
+        private AsyncCommand _CalcZMoveCommand;
+        public ICommand CalcZMoveCommand
+        {
+            get
+            {
+                if (null == _CalcZMoveCommand) _CalcZMoveCommand = new AsyncCommand(CalcZMoveCommandFunc);
+                return _CalcZMoveCommand;
+            }
+        }
+        private async Task CalcZMoveCommandFunc()
+        {
+            try
+            {
+                double xrelpos = 0;
+                double yrelpos = 0;
+                double zcalcpos = 0;
+
+                this.MotionManager().GetRefPos(EnumAxisConstants.X, ref xrelpos);
+                this.MotionManager().GetRefPos(EnumAxisConstants.Y, ref yrelpos);
+
+                zcalcpos = GetZFromPoints(xrelpos, yrelpos, setPointCenZ, points);
+
+                MachineCoordinate mccoord = new MachineCoordinate();
+                WaferCoordinate wafercoord = new WaferCoordinate();
+
+                mccoord.X.Value = xrelpos;
+                mccoord.Y.Value = yrelpos;
+                mccoord.Z.Value = zcalcpos;
+
+                wafercoord = this.CoordinateManager().WaferHighChuckConvert.Convert(mccoord);
+
+                this.StageSupervisor().StageModuleState.WaferHighViewMove(wafercoord.X.Value, wafercoord.Y.Value, wafercoord.Z.Value);
+            }
+            catch
+            {
+
+            }
+        }
+        public double GetZFromPoints(double tx, double ty, double tz, List<CatCoordinates> points)
+        {
+            double returnValue = tz;
+
+            try
+            {
+                const double tol = 0.01;
+                const double limitpos = 100;
+                const double radius = 70000;
+
+                bool IsSame(double a, double b) => Math.Abs(a - b) < tol;
+
+                // 유효 포인트만 추출
+                var validPoints = points
+                    .Where(p => Math.Abs(p.Z.Value - tz) <= limitpos)
+                    .ToList();
+
+                // 중복 제거 (같은 XY는 하나만 사용)
+                List<CatCoordinates> uniquePoints = new List<CatCoordinates>();
+
+                foreach (var p in validPoints)
+                {
+                    bool exists = uniquePoints.Any(u =>
+                        IsSame(u.X.Value, p.X.Value) &&
+                        IsSame(u.Y.Value, p.Y.Value));
+
+                    if (!exists)
+                    {
+                        uniquePoints.Add(p);
+                    }
+                }
+
+                // radius 내 nearest points 추출
+                var nearestPoints = uniquePoints
+                    .Where(p =>
+                    {
+                        double dx = p.X.Value - tx;
+                        double dy = p.Y.Value - ty;
+
+                        double distSq = dx * dx + dy * dy;
+
+                        return distSq <= radius * radius;
+                    })
+                    .OrderBy(p =>
+                    {
+                        double dx = p.X.Value - tx;
+                        double dy = p.Y.Value - ty;
+
+                        return dx * dx + dy * dy;
+                    })
+                .Take(4)
+                    .ToList();
+
+                // nearest >= 4
+                // weighted local plane fitting
+                if (nearestPoints.Count >= 4)
+                {
+                    double sw = 0;
+
+                    double sX = 0;
+                    double sY = 0;
+                    double sZ = 0;
+
+                    double sXX = 0;
+                    double sYY = 0;
+                    double sXY = 0;
+
+                    double sXZ = 0;
+                    double sYZ = 0;
+
+                    foreach (var p in nearestPoints)
+                    {
+                        double x = p.X.Value;
+                        double y = p.Y.Value;
+                        double z = p.Z.Value;
+
+                        double dx = x - tx;
+                        double dy = y - ty;
+
+                        double distSq = dx * dx + dy * dy;
+
+                        // exact point
+                        if (distSq < 1e-12)
+                        {
+                            return z;
+                        }
+
+                        double w = 1.0 / distSq;
+
+                        sw += w;
+
+                        sX += w * x;
+                        sY += w * y;
+                        sZ += w * z;
+
+                        sXX += w * x * x;
+                        sYY += w * y * y;
+                        sXY += w * x * y;
+
+                        sXZ += w * x * z;
+                        sYZ += w * y * z;
+                    }
+
+                    // solve:
+                    // z = ax + by + c
+
+                    double[,] m =
+                    {
+                { sXX, sXY, sX },
+                { sXY, sYY, sY },
+                { sX,  sY,  sw }
+            };
+
+                    double[] v =
+                    {
+                sXZ,
+                sYZ,
+                sZ
+            };
+
+                    double det =
+                          m[0, 0] * (m[1, 1] * m[2, 2] - m[1, 2] * m[2, 1])
+                        - m[0, 1] * (m[1, 0] * m[2, 2] - m[1, 2] * m[2, 0])
+                        + m[0, 2] * (m[1, 0] * m[2, 1] - m[1, 1] * m[2, 0]);
+
+                    if (Math.Abs(det) > 1e-12)
+                    {
+                        double detA =
+                              v[0] * (m[1, 1] * m[2, 2] - m[1, 2] * m[2, 1])
+                            - m[0, 1] * (v[1] * m[2, 2] - m[1, 2] * v[2])
+                            + m[0, 2] * (v[1] * m[2, 1] - m[1, 1] * v[2]);
+
+                        double detB =
+                              m[0, 0] * (v[1] * m[2, 2] - m[1, 2] * v[2])
+                            - v[0] * (m[1, 0] * m[2, 2] - m[1, 2] * m[2, 0])
+                            + m[0, 2] * (m[1, 0] * v[2] - v[1] * m[2, 0]);
+
+                        double detC =
+                              m[0, 0] * (m[1, 1] * v[2] - v[1] * m[2, 1])
+                            - m[0, 1] * (m[1, 0] * v[2] - v[1] * m[2, 0])
+                            + v[0] * (m[1, 0] * m[2, 1] - m[1, 1] * m[2, 0]);
+
+                        double a = detA / det;
+                        double b = detB / det;
+                        double c = detC / det;
+
+                        returnValue = a * tx + b * ty + c;
+                    }
+                }
+
+                // nearest == 3
+                // plane fitting
+                else if (nearestPoints.Count == 3)
+                {
+                    var pA = nearestPoints[0];
+                    var pB = nearestPoints[1];
+                    var pC = nearestPoints[2];
+
+                    double xA = pA.X.Value;
+                    double yA = pA.Y.Value;
+                    double zA = pA.Z.Value;
+
+                    double xB = pB.X.Value;
+                    double yB = pB.Y.Value;
+                    double zB = pB.Z.Value;
+
+                    double xC = pC.X.Value;
+                    double yC = pC.Y.Value;
+                    double zC = pC.Z.Value;
+
+                    double A =
+                        (yB - yA) * (zC - zA) -
+                        (zB - zA) * (yC - yA);
+
+                    double B =
+                        (zB - zA) * (xC - xA) -
+                        (xB - xA) * (zC - zA);
+
+                    double C =
+                        (xB - xA) * (yC - yA) -
+                        (yB - yA) * (xC - xA);
+
+                    double D =
+                        -(A * xA + B * yA + C * zA);
+
+                    if (Math.Abs(C) > tol)
+                    {
+                        returnValue =
+                            -(A * tx + B * ty + D) / C;
+                    }
+                }
+
+                // nearest == 2
+                // IDW
+                else if (nearestPoints.Count == 2)
+                {
+                    double weightedZ = 0;
+                    double weightSum = 0;
+
+                    foreach (var p in nearestPoints)
+                    {
+                        double dx = p.X.Value - tx;
+                        double dy = p.Y.Value - ty;
+
+                        double distSq = dx * dx + dy * dy;
+
+                        if (distSq < 1e-12)
+                        {
+                            return p.Z.Value;
+                        }
+
+                        double w = 1.0 / distSq;
+
+                        weightedZ += w * p.Z.Value;
+                        weightSum += w;
+                    }
+
+                    if (weightSum > 0)
+                    {
+                        returnValue = weightedZ / weightSum;
+                    }
+                }
+
+                // nearest <= 1
+                // nearest
+                else if (nearestPoints.Count == 1)
+                {
+                    returnValue = nearestPoints[0].Z.Value;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+
+            return returnValue;
+        }
+        public int GetListIndexFromXY(double tx, double ty)
+        {
+            // 임의의 지점에 해당하는 List 번호를 알려 줌. points[번호].Z.Value로 Z값 사용하면 됨
+            // 인덱스 위치의 다이의 Z값을 사용하려는 경우. (Z는 계단식으로 변함)
+            double pitch = 10080;
+
+            // 1. tx, ty → grid index
+            double dx = tx - centerX;
+            double dy = ty - centerY;
+
+            int xIndex = (int)Math.Round(dx / pitch);
+            int yIndex = (int)Math.Round(dy / pitch);
+
+            // 2. index → 실제 좌표
+            double targetX = centerX + xIndex * pitch;
+            double targetY = centerY + yIndex * pitch;
+
+            // 3. List에서 검색 (Add 순서 = index)
+            for (int i = 0; i < points.Count; i++)
+            {
+                var p = points[i];
+
+                if (Math.Abs(p.X.Value - targetX) < 0.01 &&
+                    Math.Abs(p.Y.Value - targetY) < 0.01)
+                {
+                    return i;
+                }
+            }
+
+            return -1; // 없음
+        }
+        private async Task PrintLogCommandFunc()
+        {
+            try
+            {
+                // 로그 남기기
+                for (int i = 0; i < points.Count; i++)
+                {
+                    LoggerManager.PinLog($"points{i} : x = {points[i].X.Value} , y = {points[i].Y.Value} , z = {points[i].Z.Value}");
+                }
+
+                LoggerManager.PinLog($"****************************************************************************");
+
+                // 로그 남기기
+                for (int i = 0; i < pointsAll.Count; i++)
+                {
+                    LoggerManager.PinLog($"pointsAll{i} : x = {pointsAll[i].X.Value} , y = {pointsAll[i].Y.Value} , z = {pointsAll[i].Z.Value}");
+                }
+            }
+            catch
+            {
+
+            }
+        }
+        private AsyncCommand _FocusReCommand;
+        public ICommand FocusReCommand
+        {
+            get
+            {
+                if (null == _FocusReCommand) _FocusReCommand = new AsyncCommand(FocusReCommandFunc);
+                return _FocusReCommand;
+            }
+        }
+        private async Task FocusReCommandFunc()
+        {
+            MachineCoordinate mccoord = new MachineCoordinate();
+            try
+            {
+                await Task.Run(() =>
+                {
+                    FocusingParam.FlatnessThreshold.Value = 95.0;
+                    FocusingParam.FocusRange.Value = 500;
+                    FocusingModule.Focusing_Retry(FocusingParam, false, false, false, this);
+
+                    CatCoordinates pos = new CatCoordinates();
+                    pos.X.Value = mccoord.X.Value;
+                    pos.Y.Value = mccoord.Y.Value;
+                    double actZpos = 0;
+                    this.MotionManager().GetActualPos(EnumAxisConstants.Z, ref actZpos);
+                    pos.Z.Value = actZpos;
+
+                    LoggerManager.PinLog($"FocusCommand : Z = {FocusingParam.FocusResultPos} , Score = {FocusingParam.FocusValue}");
+                });
+            }
+            catch
+            {
+
+            }
+        }
+        private async Task<EventCodeEnum> SaveImageFunc_Score(int number, double zpos, double score)
+        {
+            EventCodeEnum ret = EventCodeEnum.UNDEFINED;
+            try
+            {
+                EnumProberCam curcam = EnumProberCam.UNDEFINED;
+
+                switch (SelectedCam)
+                {
+                    case enumStageCamType.UNDEFINED:
+                        curcam = EnumProberCam.UNDEFINED;
+                        break;
+                    case enumStageCamType.WaferHigh:
+                        curcam = EnumProberCam.WAFER_HIGH_CAM;
+                        Cam = this.VisionManager().GetCam(EnumProberCam.WAFER_HIGH_CAM);
+                        break;
+                    case enumStageCamType.WaferLow:
+                        curcam = EnumProberCam.WAFER_LOW_CAM;
+                        Cam = this.VisionManager().GetCam(EnumProberCam.WAFER_LOW_CAM);
+                        break;
+                    case enumStageCamType.PinHigh:
+                        curcam = EnumProberCam.PIN_HIGH_CAM;
+                        Cam = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM);
+                        break;
+                    case enumStageCamType.PinLow:
+                        curcam = EnumProberCam.PIN_LOW_CAM;
+                        Cam = this.VisionManager().GetCam(EnumProberCam.PIN_LOW_CAM);
+                        break;
+                    case enumStageCamType.MAP_REF:
+                        curcam = EnumProberCam.MAP_REF_CAM;
+                        Cam = this.VisionManager().GetCam(EnumProberCam.MAP_REF_CAM);
+                        break;
+                    default:
+                        break;
+                }
+
+                if (curcam != EnumProberCam.UNDEFINED)
+                {
+                    bool signaled = false;
+                    ImageBuffer image = new ImageBuffer();
+
+                    try
+                    {
+                        image = this.VisionManager().SingleGrab(Cam.GetChannelType(), this);
+
+                        signaled = this.VisionManager().DigitizerService[Cam.GetDigitizerIndex()].GrabberService.WaitOne(60000);
+                        var roi = new System.Windows.Rect(0, 0, 960, 960);
+                        int focusval = this.VisionManager().GetFocusValue(image, roi);
+                        image.FocusLevelValue = focusval;
+
+                        // Save
+                        string SaveBasePath = $"C:\\Logs\\Image\\CPC\\points{number}_Z({zpos}_Score({score})).bmp";
+                        this.VisionManager().SaveImageBuffer(image, SaveBasePath, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
+                    }
+                    catch (Exception err)
+                    {
+                        LoggerManager.Exception(err);
+                    }
+
+                    this.VisionManager().StartGrab(curcam, this);
+
+                    LightJog.InitCameraJog(this, curcam);
+                }
+                LoggerManager.PinLog($"points{number} SaveImageFunc end : zpos = {zpos} , score = {score}");
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+            }
+            return ret;
+        }
+
+        private async Task<EventCodeEnum> SaveImageFunc_XY(int number, double zpos, double xpos, double ypos)
+        {
+            EventCodeEnum ret = EventCodeEnum.UNDEFINED;
+            try
+            {
+                EnumProberCam curcam = EnumProberCam.UNDEFINED;
+
+                switch (SelectedCam)
+                {
+                    case enumStageCamType.UNDEFINED:
+                        curcam = EnumProberCam.UNDEFINED;
+                        break;
+                    case enumStageCamType.WaferHigh:
+                        curcam = EnumProberCam.WAFER_HIGH_CAM;
+                        Cam = this.VisionManager().GetCam(EnumProberCam.WAFER_HIGH_CAM);
+                        break;
+                    case enumStageCamType.WaferLow:
+                        curcam = EnumProberCam.WAFER_LOW_CAM;
+                        Cam = this.VisionManager().GetCam(EnumProberCam.WAFER_LOW_CAM);
+                        break;
+                    case enumStageCamType.PinHigh:
+                        curcam = EnumProberCam.PIN_HIGH_CAM;
+                        Cam = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM);
+                        break;
+                    case enumStageCamType.PinLow:
+                        curcam = EnumProberCam.PIN_LOW_CAM;
+                        Cam = this.VisionManager().GetCam(EnumProberCam.PIN_LOW_CAM);
+                        break;
+                    case enumStageCamType.MAP_REF:
+                        curcam = EnumProberCam.MAP_REF_CAM;
+                        Cam = this.VisionManager().GetCam(EnumProberCam.MAP_REF_CAM);
+                        break;
+                    default:
+                        break;
+                }
+
+                if (curcam != EnumProberCam.UNDEFINED)
+                {
+                    bool signaled = false;
+                    ImageBuffer image = new ImageBuffer();
+
+                    try
+                    {
+                        image = this.VisionManager().SingleGrab(Cam.GetChannelType(), this);
+
+                        signaled = this.VisionManager().DigitizerService[Cam.GetDigitizerIndex()].GrabberService.WaitOne(60000);
+                        var roi = new System.Windows.Rect(0, 0, 960, 960);
+                        int focusval = this.VisionManager().GetFocusValue(image, roi);
+                        image.FocusLevelValue = focusval;
+
+                        // Save
+                        string SaveBasePath = $"C:\\Logs\\Image\\CPC\\points{number}_X({xpos})_Y({ypos})_Z({zpos}).bmp";
+                        this.VisionManager().SaveImageBuffer(image, SaveBasePath, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
+                    }
+                    catch (Exception err)
+                    {
+                        LoggerManager.Exception(err);
+                    }
+
+                    this.VisionManager().StartGrab(curcam, this);
+
+                    LightJog.InitCameraJog(this, curcam);
+                }
+                LoggerManager.PinLog($"points{number} SaveImageFunc end : xpos = {xpos}, ypos = {ypos}, zpos = {zpos}");
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+            }
+            return ret;
+        }
+
+        public async Task<EventCodeEnum> SaveImageFunc_Index(int number, double zpos, long xindex, long yindex, bool ex = false)
+        {
+            EventCodeEnum ret = EventCodeEnum.UNDEFINED;
+            try
+            {
+                EnumProberCam curcam = EnumProberCam.UNDEFINED;
+
+                switch (SelectedCam)
+                {
+                    case enumStageCamType.UNDEFINED:
+                        curcam = EnumProberCam.UNDEFINED;
+                        break;
+                    case enumStageCamType.WaferHigh:
+                        curcam = EnumProberCam.WAFER_HIGH_CAM;
+                        Cam = this.VisionManager().GetCam(EnumProberCam.WAFER_HIGH_CAM);
+                        break;
+                    case enumStageCamType.WaferLow:
+                        curcam = EnumProberCam.WAFER_LOW_CAM;
+                        Cam = this.VisionManager().GetCam(EnumProberCam.WAFER_LOW_CAM);
+                        break;
+                    case enumStageCamType.PinHigh:
+                        curcam = EnumProberCam.PIN_HIGH_CAM;
+                        Cam = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM);
+                        break;
+                    case enumStageCamType.PinLow:
+                        curcam = EnumProberCam.PIN_LOW_CAM;
+                        Cam = this.VisionManager().GetCam(EnumProberCam.PIN_LOW_CAM);
+                        break;
+                    case enumStageCamType.MAP_REF:
+                        curcam = EnumProberCam.MAP_REF_CAM;
+                        Cam = this.VisionManager().GetCam(EnumProberCam.MAP_REF_CAM);
+                        break;
+                    default:
+                        break;
+                }
+
+                if (curcam != EnumProberCam.UNDEFINED)
+                {
+                    bool signaled = false;
+                    ImageBuffer image = new ImageBuffer();
+
+                    try
+                    {
+                        image = this.VisionManager().SingleGrab(Cam.GetChannelType(), this);
+
+                        signaled = this.VisionManager().DigitizerService[Cam.GetDigitizerIndex()].GrabberService.WaitOne(60000);
+                        var roi = new System.Windows.Rect(0, 0, 960, 960);
+                        int focusval = this.VisionManager().GetFocusValue(image, roi);
+                        image.FocusLevelValue = focusval;
+
+                        // Save
+                        string SaveBasePath = $"C:\\Logs\\Image\\CPC\\points{number}_X({xindex})_Y({yindex})_Z({zpos}).bmp";
+                        this.VisionManager().SaveImageBuffer(image, SaveBasePath, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
+                    }
+                    catch (Exception err)
+                    {
+                        LoggerManager.Exception(err);
+                    }
+
+                    this.VisionManager().StartGrab(curcam, this);
+
+                    LightJog.InitCameraJog(this, curcam);
+                }
+                else
+                {
+                    if(ex == true)
+                    {
+                        // WaferMapTest에서 HighCam 예외사용
+                        curcam = EnumProberCam.WAFER_HIGH_CAM;
+                        Cam = this.VisionManager().GetCam(EnumProberCam.WAFER_HIGH_CAM);
+
+                        bool signaled = false;
+                        ImageBuffer image = new ImageBuffer();
+                        try
+                        {
+                            image = this.VisionManager().SingleGrab(Cam.GetChannelType(), this);
+
+                            signaled = this.VisionManager().DigitizerService[Cam.GetDigitizerIndex()].GrabberService.WaitOne(60000);
+                            var roi = new System.Windows.Rect(0, 0, 960, 960);
+                            int focusval = this.VisionManager().GetFocusValue(image, roi);
+                            image.FocusLevelValue = focusval;
+
+                            // Save (경로변경)
+                            string SaveBasePath = $"C:\\Logs\\Image\\CPC\\WaferMapTest\\points{number}_X({xindex})_Y({yindex})_Z({zpos}).bmp";
+                            this.VisionManager().SaveImageBuffer(image, SaveBasePath, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
+                        }
+                        catch (Exception err)
+                        {
+                            LoggerManager.Exception(err);
+                        }
+                        this.VisionManager().StartGrab(curcam, this);
+                    }
+                }
+                LoggerManager.PinLog($"points{number} SaveImageFunc end : xIndex = {xindex}, yIndex = {yindex}, zpos = {zpos}");
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+            }
+            return ret;
+        }
+        private AsyncCommand _CaptureAllCommand;
+        public ICommand CaptureAllCommand
+        {
+            get
+            {
+                if (null == _CaptureAllCommand) _CaptureAllCommand = new AsyncCommand(CaptureAllCommandFunc);
+                return _CaptureAllCommand;
+            }
+        }
+        private async Task<EventCodeEnum> CaptureAllCommandFunc()
+        {
+            // All points capture
+            EventCodeEnum ret = EventCodeEnum.UNDEFINED;
+            try
+            {
+                MachineCoordinate mccoord = new MachineCoordinate();
+                WaferCoordinate wafercoord = new WaferCoordinate();
+
+                double zpos = 0;
+                for (int i = 0; i < pointsAll.Count; i++)
+                {
+                    mccoord.X.Value = pointsAll[i].X.Value;
+                    mccoord.Y.Value = pointsAll[i].Y.Value;
+
+                    zpos = GetZValue(pointsAll[i].Z.Value, setPointCenZ);
+                    mccoord.Z.Value = zpos;
+
+                    wafercoord = this.CoordinateManager().WaferHighChuckConvert.Convert(mccoord);
+
+                    ret = this.StageSupervisor().StageModuleState.WaferHighViewMove(
+                        wafercoord.X.Value,
+                        wafercoord.Y.Value,
+                        wafercoord.Z.Value);
+
+                    Thread.Sleep(200);
+                    if (ret == EventCodeEnum.NONE)
+                    {
+                        // 각 points별 이미지 체크용 저장
+                        //SaveImageFunc_XY(i, zpos, pointsAll[i].X.Value, pointsAll[i].Y.Value);
+
+                        // 유저 인덱스 호출
+                        CatCoordinates indexPos = new CatCoordinates();
+
+                        indexPos.X.Value = wafercoord.X.Value;
+                        indexPos.Y.Value = wafercoord.Y.Value;
+
+                        UserIndex userIndex = this.CoordinateManager().GetCurUserIndex(indexPos);
+
+                        SaveImageFunc_Index(i, zpos, userIndex.XIndex, userIndex.YIndex);
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+            return ret;
+        }
+        public double GetZValue(double zpos, double centerZ)
+        {
+            // 10 -> 5 단위로 변경
+            double delta = zpos - centerZ;
+            double bucket;
+
+            if (delta >= 0)
+                bucket = Math.Floor(delta / 5.0) * 5.0;
+            else
+                bucket = Math.Ceiling(delta / 5.0) * 5.0;
+
+            // 범위 제한
+            if (bucket < -80) bucket = -80;
+            if (bucket > 80) bucket = 80;
+
+            return centerZ + bucket;
+        }
+        public void LoadPointsFromLog(string filePath)
+        {
+            points.Clear();
+
+            string pattern =
+                @"points(?<idx>\d+)\s*:\s*x\s*=\s*(?<x>-?\d+(\.\d+)?)\s*,\s*y\s*=\s*(?<y>-?\d+(\.\d+)?)\s*,\s*z\s*=\s*(?<z>-?\d+(\.\d+)?)";
+
+            foreach (var line in File.ReadLines(filePath))
+            {
+                var match = Regex.Match(line, pattern);
+                if (!match.Success)
+                    continue;
+
+                double x = double.Parse(match.Groups["x"].Value, CultureInfo.InvariantCulture);
+                double y = double.Parse(match.Groups["y"].Value, CultureInfo.InvariantCulture);
+                double z = double.Parse(match.Groups["z"].Value, CultureInfo.InvariantCulture);
+
+                var pos = new CatCoordinates
+                {
+                    X = new Element<double>(),
+                    Y = new Element<double>(),
+                    Z = new Element<double>()
+                };
+
+                pos.X.Value = x;
+                pos.Y.Value = y;
+                pos.Z.Value = z;
+
+                points.Add(pos);
+            }
+        }
+        // sebas 신규 창
+        private AsyncCommand _PrintLogCommand;
+        public ICommand PrintLogCommand
+        {
+            get
+            {
+                if (null == _PrintLogCommand) _PrintLogCommand = new AsyncCommand(NewWindowFunc);
+                return _PrintLogCommand;
+            }
+        }
+        private Window _waferMapWindow;
+        private WaferMapTest _waferMapVM;
+        private async Task NewWindowFunc()
+        {
+            try
+            {
+                if (_waferMapWindow != null && _waferMapWindow.IsVisible)
+                {
+                    _waferMapWindow.Activate();
+                    return;
+                }
+
+                if (_waferMapVM == null)
+                {
+                    _waferMapVM = new WaferMapTest();
+                    _waferMapVM.InitModule();
+                }
+
+                // UI 쓰레드로 실행
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    var view = new BWaferMapTestView.BWaferMapTest
+                    {
+                        DataContext = _waferMapVM
+                    };
+
+                    _waferMapWindow = new Window
+                    {
+                        Title = "WaferMap Test",
+                        Content = view,
+                        Owner = Application.Current.MainWindow,
+                        Width = 975,
+                        Height = 655,
+                        WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                        Background = System.Windows.Media.Brushes.Black,
+                        ShowInTaskbar = false,
+                        Topmost = false
+                    };
+
+                    foreach (var dict in Application.Current.Resources.MergedDictionaries)
+                    {
+                        _waferMapWindow.Resources.MergedDictionaries.Add(dict);
+                    }
+
+                    _waferMapWindow.Closed += (s, e) =>
+                    {
+                        try
+                        {
+                            // ViewModel 원복 처리
+                            _waferMapVM?.RestoreOriginalDieType();
+
+                            var w = (Window)s;
+
+                            if (w.Content is FrameworkElement fe)
+                                fe.DataContext = null;
+
+                            w.Content = null;
+
+                            _waferMapVM = null;
+                        }
+                        catch (Exception ex)
+                        {
+                            LoggerManager.Exception(ex);
+                        }
+                        finally
+                        {
+                            _waferMapWindow = null;
+                        }
+                    };
+
+                    _waferMapWindow.Show();
+                });
+            }
+            catch (Exception err)
+            {
+                throw;
+            }
+        }
+        private AsyncCommand _MovePointsCommand;
+        public ICommand MovePointsCommand
+        {
+            get
+            {
+                if (null == _MovePointsCommand) _MovePointsCommand = new AsyncCommand(VoidFunc);
+                return _MovePointsCommand;
+            }
+        }
+        private async Task VoidFunc()
+        {
+            try
+            {
+
+            }
+            catch
+            {
+
+            }
+        }
         #endregion
 
         #region Move

@@ -6824,7 +6824,8 @@ namespace OpusVStageMove
 
                 curZpos = axisz.Status.Position.Ref;
 
-                mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack(wfcoord);
+                //mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack(wfcoord);     // 260420 sebas : Low캠 기준을 Pick캠으로 변경
+                mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack_PickCAM(wfcoord);
 
                 // <-- 260102 sebas : PZ 축 조건체크 제외
                 //double curPZ = 0;
@@ -7290,7 +7291,8 @@ namespace OpusVStageMove
 
             try
             {
-                mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack(wfcoord);
+                //mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack(wfcoord);     // 260420 sebas : Low캠 기준을 Pick캠으로 변경
+                mccoord = Module.CoordinateManager().WaferLowChuckConvert.ConvertBack_PickCAM(wfcoord);
 
                 double curZ = 0;
                 double curPZ = 0;

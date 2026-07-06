@@ -1116,8 +1116,6 @@ namespace SubstrateObjects
                     return;
 
                 Point centerdierefcorner = this.WaferAligner().GetLeftCornerPosition(Info.WaferCenter);
-                //PhysInfo.LowLeftCorner.X.Value = centerdierefcorner.X;
-                //PhysInfo.LowLeftCorner.Y.Value = centerdierefcorner.Y;
 
                 Point gDWWaferAlignLLC = new Point(
                     Info.WaferCenter.GetX() + PhysInfo.LowLeftCorner.GetX(),
@@ -1141,20 +1139,11 @@ namespace SubstrateObjects
 
                 var avaWaferSize = PhysInfo.WaferSize_um.Value - PhysInfo.WaferMargin_um.Value * 2.0;
 
-                //double ddummyrightcount = ((avaWaferSize / 2) + (Info.WaferCenter.GetX() - centerdierefcorner.X)) / Info.ActualDieSize.Width.Value;
                 //rightcount : Center die 기준으로 오른쪽에 다이가 몇 개 있나
                 int rightcount = Convert.ToInt32(Math.Round(((avaWaferSize / 2) + (Info.WaferCenter.GetX() - centerdierefcorner.X)) / Info.ActualDieSize.Width.Value)) - 1;
-                //if ((ddummyrightcount % Info.ActualDieSize.Width.Value) != 0)
-                //    rightcount = rightcount + 1;
 
-                //double ddummyleftcount = ((avaWaferSize / 2) - (Info.WaferCenter.GetX() - centerdierefcorner.X)) / Info.ActualDieSize.Width.Value;
                 //leftcount : Center die 포함해서 왼쪽으로 다이가 몇 개 있나 (즉, 이 값이 센터 다이의 머신 좌표 X) 
                 int leftcount = Convert.ToInt32(Math.Round(((avaWaferSize / 2) - (Info.WaferCenter.GetX() - centerdierefcorner.X)) / Info.ActualDieSize.Width.Value));
-
-                //if ((ddummyleftcount % Info.ActualDieSize.Width.Value) != 0)
-                //{
-                //    leftcount = leftcount + 1;
-                //}
 
                 PhysInfo.MapCountX.Value = rightcount + leftcount;
                 if (PhysInfo.CenM == null)
@@ -1173,19 +1162,9 @@ namespace SubstrateObjects
                 //uppercount : Center die �������� ���ʿ� ���̰� �� �� �ֳ�
                 int uppercount = Convert.ToInt32(Math.Round(((avaWaferSize / 2) + (Info.WaferCenter.GetY() - centerdierefcorner.Y)) / Info.ActualDieSize.Height.Value)) - 1;
 
-                //if ((ddummyuppercount % Info.ActualDieSize.Height.Value) != 0)
-                //{
-                //    uppercount = uppercount + 1;
-                //}
-
                 double ddummylowercount = ((avaWaferSize / 2) - (Info.WaferCenter.GetY() - centerdierefcorner.Y)) / Info.ActualDieSize.Height.Value;
                 //lowercount : Center die �����ؼ� �Ʒ������� ���̰� �� �� �ֳ�
                 int lowercount = Convert.ToInt32(Math.Round(((avaWaferSize / 2) - (Info.WaferCenter.GetY() - centerdierefcorner.Y)) / Info.ActualDieSize.Height.Value));
-
-                //if ((ddummylowercount % Info.ActualDieSize.Height.Value) != 0)
-                //{
-                //    lowercount = lowercount + 1;
-                //}
 
                 PhysInfo.MapCountY.Value = uppercount + lowercount;
 
