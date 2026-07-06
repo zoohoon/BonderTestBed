@@ -2604,7 +2604,7 @@ namespace ManualJogViewModel
             }
         }
         #endregion
-        //260706 Remy
+        //260706 Remy ZZang!
         #region ==> NSZ2TextBoxClickCommand
         private RelayCommand<Object> _NSZ2TextBoxClickCommand;
         public ICommand NSZ2TextBoxClickCommand
