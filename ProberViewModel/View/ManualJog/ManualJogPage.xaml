@@ -1850,7 +1850,7 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="*"/>
-
+                                    
                                 </Grid.RowDefinitions>
                                 <Border Grid.Row="0" BorderBrush="White" BorderThickness="0,0,0,5">
                                     <ToggleButton FontSize="40" FontWeight="Bold" BorderBrush="White" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="80">
