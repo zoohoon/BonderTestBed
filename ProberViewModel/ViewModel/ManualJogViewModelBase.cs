@@ -8913,14 +8913,12 @@ namespace ManualJogViewModel
                 ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.NZD1);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
                 Thread.Sleep(250);
-                 
-                // DD모터 뒤로 이동 (relmove)
-                //ProbeAxisObject AxisObjectNZD1 = axisNZD1;
 
-                // 251125 sebas : Arm 정렬을 위한 DD pos 이동 보정
-                //double pos = -497.768;
-                //retVal = this.MotionManager().RelMove_Wating(AxisObjectNZD1, pos, AxisObjectNZD1.Param.Speed.Value, AxisObjectNZD1.Param.Acceleration.Value);
-                
+                // 260705 sebas : Arm 정렬을 위한 DD pos 이동 보정
+                ProbeAxisObject AxisObjectNZD1 = axisNZD1;
+                double pos = 300;
+                retVal = this.MotionManager().RelMove_Wating(AxisObjectNZD1, pos, AxisObjectNZD1.Param.Speed.Value, AxisObjectNZD1.Param.Acceleration.Value);
+
             }
             catch (Exception err)
             {
@@ -10297,7 +10295,8 @@ namespace ManualJogViewModel
                 double currentPos = 0.0;    // 현재 위치값 읽기
                 double AcualPos = 0;
 
-                pos = 23000.0;    // = 91,000,000 FD stage Z 축 DtoP = 4194.304    // 기존 : 24933.8, 변경 : 23000.0 (1mm = 1000)
+                // 260705 sebas : pos 값 변경
+                pos = 23480;    // = 91,000,000 FD stage Z 축 DtoP = 4194.304    // 기존 : 23000.0, 변경 : 23480 (1mm = 1000)
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -10316,8 +10315,9 @@ namespace ManualJogViewModel
                     throw new Exception("Wafer_Chuck_DangerZone() Function Error");
                 }
 
-                // Arm Pick Up 대기위치 (현재 Homming 없음)
-                pos = -600.0;     // = Arm Pick Down Z 축 DtoP = 4194.304
+                // Arm Pick Up 대기위치
+                // 260705 sebas : pos 값 변경
+                pos = -1000.0;     // = Arm Pick Down Z 축 DtoP = 4194.304    // 기존 : -600 , 변경 : -1000
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ2).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -12085,12 +12085,13 @@ namespace ManualJogViewModel
         }
         private async Task FirstDieCommand_Func()
         {
-            // 20251124 Nick 첫 다이 찾기
+            // 260705 sebas 버튼 수정
 
+            // 20251124 Nick 첫 다이 찾기
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
-                ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
+                //ProbeAxisObject axisEJZ1 = this.MotionManager().GetAxis(EnumAxisConstants.EJZ1);
                 ProbeAxisObject axisX1 = this.MotionManager().GetAxis(EnumAxisConstants.X);
                 ProbeAxisObject axisY1 = this.MotionManager().GetAxis(EnumAxisConstants.Y);
                 ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
@@ -12099,19 +12100,19 @@ namespace ManualJogViewModel
                 double currentPos = 0.0;    // 현재 위치값 읽기
                 double AcualPos = 0;
 
-                // Ejection Z Down (간섭을 피하기 위해 내림)
-                pos = 4770;   // 티칭 값
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
+                //// Ejection Z Down (간섭을 피하기 위해 내림)
+                //pos = 4770;   // 티칭 값
+                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJZ1).AxisType.Value, ref AcualPos);
+                //currentPos = AcualPos;
 
-                retVal = this.MotionManager().RelMove_Wating(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Ejection Z RelMove Error");
-                }
+                //retVal = this.MotionManager().RelMove_Wating(axisEJZ1, pos - currentPos, axisEJZ1.Param.Speed.Value, axisEJZ1.Param.Acceleration.Value);
+                //if (retVal != EventCodeEnum.NONE)
+                //{
+                //    throw new Exception("Ejection Z RelMove Error");
+                //}
 
                 // Base X
-                pos = 83405;    // 티칭 값
+                pos = 94900;    // 티칭 값
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -12122,7 +12123,7 @@ namespace ManualJogViewModel
                 }
 
                 // Base Y
-                pos = -538593;
+                pos = -143794;  // 티칭 값
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -12133,7 +12134,7 @@ namespace ManualJogViewModel
                 }
 
                 // FD Z Up (첫 다이 찾기 위해)
-                pos = 17000;
+                pos = 21480;    // 티칭 값
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
