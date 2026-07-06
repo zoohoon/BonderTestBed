@@ -720,6 +720,80 @@ namespace BVisionTestViewModel
             return true;
         }
 
+        private readonly object _captureLock = new object();
+
+        public bool CaptureCameraAsyncSave(int slot)
+        {
+            try
+            {
+                BitmapSource copiedBmp;
+
+                lock (_captureLock)
+                {
+                    WriteableBitmap src = GetBitmap(slot);
+                    if (src == null)
+                        return false;
+
+                    // 원본 WriteableBitmap과 완전히 분리된 복사본 생성
+                    copiedBmp = new WriteableBitmap(src);
+                    copiedBmp.Freeze();
+                }
+
+                Task.Run(() =>
+                {
+                    try
+                    {
+                        SaveCaptureImage(copiedBmp, slot);
+                    }
+                    catch (Exception ex)
+                    {
+                        LoggerManager.Exception(ex);
+                    }
+                });
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LoggerManager.Exception(ex);
+                return false;
+            }
+        }
+
+        private void SaveCaptureImage(BitmapSource sourceBmp, int slot)
+        {
+            string camName = (slot >= 0 && slot < MAX_CAM)
+                ? _camDisplayName[slot]
+                : ("CAM" + (slot + 1));
+
+            string root = @"D:\Capture";
+
+            string folder = Path.Combine(
+                root,
+                DateTime.Now.ToString("yyyy"),
+                DateTime.Now.ToString("MM"),
+                DateTime.Now.ToString("dd")
+            );
+
+            Directory.CreateDirectory(folder);
+
+            string fileName = $"{camName}_{DateTime.Now:yyyyMMdd_HHmmss_fff}.png";
+            string path = Path.Combine(folder, fileName);
+
+            BitmapSource finalBmp = ApplyUiTransform(sourceBmp, slot);
+            finalBmp.Freeze();
+
+            var encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(finalBmp));
+
+            using (var fs = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                encoder.Save(fs);
+            }
+
+            LoggerManager.Event($"Image Saved : {path}");
+        }
+
         private BitmapSource ApplyUiTransform(BitmapSource source, int slot)
         {
             if (source == null)
