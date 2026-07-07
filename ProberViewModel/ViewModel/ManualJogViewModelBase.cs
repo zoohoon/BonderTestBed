@@ -9624,11 +9624,10 @@ namespace ManualJogViewModel
                     // 나노스테이지 위치 인터락
 
                     // =========================
-                    // Rotate + Nano Monitor
+                    // Rotate
                     // =========================
                     try
                     {
-                        // 마지막 다이 움직일 필요 없음.
                         if (TestCount < 15)
                         {
                             // 현재 Nano 위치 읽기
@@ -9775,7 +9774,9 @@ namespace ManualJogViewModel
             }
 
             // 이미지 그랩 추가 필요 (Die Grab)
-
+            LoggerManager.MonitoringLog($"Die Image Grab Start");
+            FireNanoThresholdEventFast();
+            LoggerManager.MonitoringLog($"Die Image Grab End");
             //
 
             LoggerManager.MonitoringLog($"나노스테이지 Z Up Start");
@@ -10372,19 +10373,19 @@ namespace ManualJogViewModel
                 //    throw new Exception("Wafer_Chuck_DangerZone() Function Error");
                 //}
 
-                // Arm Pick Up 대기위치
+                // Arm Pick Up 대기위치 --> 20260707 Nick 대기위치 홈위치
                 // 260705 sebas : pos 값 변경
-                pos = -1000.0;     // = Arm Pick Down Z 축 DtoP = 4194.304    // 기존 : -600 , 변경 : -1000
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ2).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
+                //pos = -1000.0;     // = Arm Pick Down Z 축 DtoP = 4194.304    // 기존 : -600 , 변경 : -1000
+                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ2).AxisType.Value, ref AcualPos);
+                //currentPos = AcualPos;
 
-                LoggerManager.Debug($"MovePickPos_DangerZone Arm Pick Z Up Ready Position Start");
-                retVal = this.MotionManager().RelMove_Wating(axisNSZ2, pos, axisNSZ2.Param.Speed.Value, axisNSZ2.Param.Acceleration.Value);
-                LoggerManager.Debug($"MovePickPos_DangerZone Arm Pick Z Up Ready Position End");
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Arm Pick Z RelMove Error");
-                }
+                //LoggerManager.Debug($"MovePickPos_DangerZone Arm Pick Z Up Ready Position Start");
+                //retVal = this.MotionManager().RelMove_Wating(axisNSZ2, pos, axisNSZ2.Param.Speed.Value, axisNSZ2.Param.Acceleration.Value);
+                //LoggerManager.Debug($"MovePickPos_DangerZone Arm Pick Z Up Ready Position End");
+                //if (retVal != EventCodeEnum.NONE)
+                //{
+                //    throw new Exception("Arm Pick Z RelMove Error");
+                //}
             }
             catch (Exception err)
             {
@@ -10491,7 +10492,7 @@ namespace ManualJogViewModel
         //}
 
         #region 251125 ybpark Map die Index 함수 추가
-        //public static (double X, double Y) GetPos(int index)
+        //public static (double X, double Y) GetPos(int index)      // Map die 수정전
         //{
         //    if (index < 0 || index > 15)
         //        throw new ArgumentOutOfRangeException(nameof(index));
@@ -10612,35 +10613,68 @@ namespace ManualJogViewModel
         //}
 
         // ybpark 260209 Map die index
+        //public static (double X, double Y) GetPos(int index)
+        //{
+        //    const int cols = 5;          // 가로 방향(Y) 개수
+        //    const int rows = 3;          // 세로 방향(X) 개수
+        //    const double pitch = 12.0;   // Die(10) + Gap(2) = 12mm
+
+        //    if (index < 0 || index >= cols * rows)
+        //        throw new ArgumentOutOfRangeException(nameof(index));
+
+        //    // 현재 몇 번째 행(세로), 몇 번째 열(가로)인지 계산
+        //    int row = index / cols;      // 0, 1, 2 (X축 결정)
+        //    int colInRow = index % cols; // 0, 1, 2, 3, 4 (Y축 결정)
+
+        //    double x = -pitch * row;     // 아래로 갈수록 좌표값이 작아짐 (0, -12, -24)
+        //    double y;
+
+        //    // 행(row)이 짝수일 때는 정방향(0->4), 홀수일 때는 역방향(4->0)
+        //    if (row % 2 == 0)
+        //    {
+        //        y = pitch * colInRow;    // 정방향 (0, 12, 24, 36, 48)
+        //    }
+        //    else
+        //    {
+        //        y = pitch * (cols - 1 - colInRow); // 역방향 (48, 36, 24, 12, 0)
+        //    }
+
+        //    return (x, y);
+        //}
+
+
+        // 260707 sebas Map die 수정
         public static (double X, double Y) GetPos(int index)
         {
-            const int cols = 5;          // 가로 방향(Y) 개수
-            const int rows = 3;          // 세로 방향(X) 개수
-            const double pitch = 12.0;   // Die(10) + Gap(2) = 12mm
+            const int cols = 6;          // 가로 방향(X) 개수
+            const int rows = 6;          // 세로 방향(Y) 개수
+            const double pitch = 11.5;   // Die Pitch
 
             if (index < 0 || index >= cols * rows)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
-            // 현재 몇 번째 행(세로), 몇 번째 열(가로)인지 계산
-            int row = index / cols;      // 0, 1, 2 (X축 결정)
-            int colInRow = index % cols; // 0, 1, 2, 3, 4 (Y축 결정)
+            // 현재 몇 번째 행(Y), 몇 번째 열(X)인지 계산
+            int row = index / cols;      // 0,1,2,3,4,5 (Y축 결정)
+            int colInRow = index % cols; // 0,1,2,3,4,5 (X축 결정)
 
-            double x = -pitch * row;     // 아래로 갈수록 좌표값이 작아짐 (0, -12, -24)
-            double y;
+            // 아래에서 위로 증가
+            double y = pitch * row;
 
-            // 행(row)이 짝수일 때는 정방향(0->4), 홀수일 때는 역방향(4->0)
+            double x;
+
+            // 짝수 행 : 오른쪽 -> 왼쪽
             if (row % 2 == 0)
             {
-                y = pitch * colInRow;    // 정방향 (0, 12, 24, 36, 48)
+                x = -pitch * colInRow;
             }
+            // 홀수 행 : 왼쪽 -> 오른쪽
             else
             {
-                y = pitch * (cols - 1 - colInRow); // 역방향 (48, 36, 24, 12, 0)
+                x = -pitch * (cols - 1 - colInRow);
             }
 
             return (x, y);
         }
-
 
         public static (double X, double Y) GetPos_EJ(int index)
         {
@@ -10694,8 +10728,8 @@ namespace ManualJogViewModel
                 double posY = 0.0;   // 이동할 고정값을 넣는 변수
 
                 //251125 ybpark X,Y die index 위치로 이동
-                posX = Y * 1000;    //Y 는 MapDie 좌표계기준이라서 X축 move
-                posY = X * 1000;    //X 는 MapDie 좌표계기준이라서 Y축 move
+                posX = X * 1000;    //Y 는 MapDie 좌표계기준이라서 X축 move   // 260707 sebas 기존 Y -> X 로 
+                posY = Y * 1000;    //X 는 MapDie 좌표계기준이라서 Y축 move   // 260707 sebas 기존 X -> Y 로
 
                 if (posX != 0)
                 {
@@ -10820,7 +10854,7 @@ namespace ManualJogViewModel
                 ProbeAxisObject axisNSZ2 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ2);
 
                 // ArmPick Z Up 추가
-                double posArmPick = 3000.0;    // = 2,000,000 Nano Stage Z 축 DtoP = 4194.304
+                double posArmPick = 4000.0;    // = 2,000,000 Nano Stage Z 축 DtoP = 4194.304
                 LoggerManager.Debug($"Arm Pick Z Up Start");
                 retVal = this.MotionManager().RelMove_Wating(axisNSZ2, posArmPick, axisNSZ2.Param.Speed.Value, axisNSZ2.Param.Acceleration.Value);
                 LoggerManager.Debug($"Arm Pick Z Up End");
@@ -10863,7 +10897,7 @@ namespace ManualJogViewModel
                 }
 
                 // Arm Pick Down
-                double posArmPick = -3000.0;     // = Arm Pick Down Z 축 DtoP = 4194.304
+                double posArmPick = -4000.0;     // = Arm Pick Down Z 축 DtoP = 4194.304
                 LoggerManager.Debug($"MovePickPos_DangerZone Arm Pick Z Down Start");
                 retVal = this.MotionManager().RelMove_Wating(axisNSZ2, posArmPick, axisNSZ2.Param.Speed.Value, axisNSZ2.Param.Acceleration.Value);
                 LoggerManager.Debug($"MovePickPos_DangerZone Arm Pick Z Down End");
@@ -12053,62 +12087,62 @@ namespace ManualJogViewModel
             {
                 // Arm Test
                 // Vacuum On
-                //var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON1, true);
-                //Thread.Sleep(500);
-                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON2, true);
-                //Thread.Sleep(500);
+                var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON1, true);
+                Thread.Sleep(500);
+                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON2, true);
+                Thread.Sleep(500);
 
-                //// DD Motor Test (Target 0.25 이내)
-                //ProbeAxisObject axisNZD1 = this.MotionManager().GetAxis(EnumAxisConstants.NZD1);
+                // DD Motor Test (Target 0.25 이내)
+                ProbeAxisObject axisNZD1 = this.MotionManager().GetAxis(EnumAxisConstants.NZD1);
 
-                //LoggerManager.Event($"Rotate_Minus Start");
-                //retVal = Rotate_Minus();
-                //LoggerManager.Event($"Rotate_Minus End");
+                LoggerManager.Event($"Rotate_Minus Start");
+                retVal = Rotate_Minus();
+                LoggerManager.Event($"Rotate_Minus End");
 
-                //Thread.Sleep(3000);
+                Thread.Sleep(3000);
 
-                //LoggerManager.Event($"Rotate_Minus Start");
-                //retVal = Rotate_Plus();
-                //LoggerManager.Event($"Rotate_Minus End");
+                LoggerManager.Event($"Rotate_Minus Start");
+                retVal = Rotate_Plus();
+                LoggerManager.Event($"Rotate_Minus End");
 
                 // Stage Test (Taget 0.15 이내)
-                ProbeAxisObject axisX1 = this.MotionManager().GetAxis(EnumAxisConstants.X);
-                ProbeAxisObject axisY1 = this.MotionManager().GetAxis(EnumAxisConstants.Y);
+                //ProbeAxisObject axisX1 = this.MotionManager().GetAxis(EnumAxisConstants.X);
+                //ProbeAxisObject axisY1 = this.MotionManager().GetAxis(EnumAxisConstants.Y);
 
-                double posX1 = 0.0;   // 이동할 고정값을 넣는 변수
-                double posY1 = 0.0;   // 이동할 고정값을 넣는 변수
-                double posX2 = 0.0;   // 이동할 고정값을 넣는 변수
-                double posY2 = 0.0;   // 이동할 고정값을 넣는 변수
+                //double posX1 = 0.0;   // 이동할 고정값을 넣는 변수
+                //double posY1 = 0.0;   // 이동할 고정값을 넣는 변수
+                //double posX2 = 0.0;   // 이동할 고정값을 넣는 변수
+                //double posY2 = 0.0;   // 이동할 고정값을 넣는 변수
 
-                //251125 ybpark X,Y die index 위치로 이동
-                posX1 = 11500;
-                posY1 = 11500;
-                posX2 = -11500;
-                posY2 = -11500;
+                ////251125 ybpark X,Y die index 위치로 이동
+                //posX1 = 11500;
+                //posY1 = 11500;
+                //posX2 = -11500;
+                //posY2 = -11500;
 
-                Thread.Sleep(1000);
+                //Thread.Sleep(1000);
 
-                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) Start");
-                retVal = this.MotionManager().RelMove_Wating(axisX1, posX1, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
-                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) End");
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) Start");
+                //retVal = this.MotionManager().RelMove_Wating(axisX1, posX1, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) End");
 
-                Thread.Sleep(1000);
+                //Thread.Sleep(1000);
 
-                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) Start");
-                retVal = this.MotionManager().RelMove_Wating(axisX1, posX2, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
-                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) End");
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) Start");
+                //retVal = this.MotionManager().RelMove_Wating(axisX1, posX2, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) End");
 
-                Thread.Sleep(1000);
+                //Thread.Sleep(1000);
 
-                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) Start");
-                retVal = this.MotionManager().RelMove_Wating(axisY1, posY1, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
-                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) Start");
+                //retVal = this.MotionManager().RelMove_Wating(axisY1, posY1, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
 
-                Thread.Sleep(1000);
+                //Thread.Sleep(1000);
 
-                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) Start");
-                retVal = this.MotionManager().RelMove_Wating(axisY1, posY2, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
-                LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) Start");
+                //retVal = this.MotionManager().RelMove_Wating(axisY1, posY2, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
+                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
 
                 // Arm Test
                 //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON1, false);
