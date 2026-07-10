@@ -9723,6 +9723,187 @@ namespace ManualJogViewModel
             Arm2_Vac_Off_NoWating();
         }
 
+        private async Task RemyServoing_Func()
+        {
+            try
+            {
+                LoggerManager.Debug($"RemyServoing Start");
+
+                bool startFlag = false; // false : ARM1 , true : ARM2
+
+                // =========================
+                // Ready
+                // =========================
+                var ret = MovePickPos_SafeZone_First();
+                if (ret != EventCodeEnum.NONE)
+                    throw new Exception("MovePickPos_SafeZone_First() Error");
+
+                for (TestCount = 1; TestCount <= TestCountActualVal; TestCount++)
+                {
+                    LoggerManager.Event($"Sequence Start {TestCount}");
+
+                    // 병렬 구간에서 흔들리지 않게 사이클 시작값
+                    bool cycleStartFlag = startFlag;
+
+                    // =========================
+                    // Pick
+                    // =========================
+                    LoggerManager.Debug($"Pick Start {TestCount}");
+
+                    LoggerManager.Debug($"MovePickPos_DangerZone Start");
+                    ret = MovePickPos_DangerZone(cycleStartFlag);
+                    LoggerManager.Debug($"MovePickPos_DangerZone End");
+                    if (ret != EventCodeEnum.NONE)
+                        throw new Exception("MovePickPos_DangerZone() Function Error");
+
+                    // Rotate 해도 괜찮은 위치로 복귀
+                    LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick Start");
+                    ret = MovePickPos_SafeZone_AfterPick();
+                    LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick End");
+                    if (ret != EventCodeEnum.NONE)
+                        throw new Exception("MovePickPos_SafeZone_AfterPick() Function Error");
+
+                    LoggerManager.Debug($"Pick End {TestCount}");
+
+
+                    // =========================
+                    // Place
+                    // =========================
+                    LoggerManager.MonitoringLog($"Place Start {TestCount}");
+
+                    LoggerManager.MonitoringLog($"나노스테이지 Z Down Start");
+                    ret = DoPlace_Nano_ZDown();
+                    LoggerManager.MonitoringLog($"나노스테이지 Z Down End");
+                    if (ret != EventCodeEnum.NONE)
+                        throw new Exception("DoPlace_Nano_ZDown() Function Error");
+
+                    // Vacuum Off (Place)
+                    if (cycleStartFlag == true)
+                    {
+                        LoggerManager.MonitoringLog($"Arm1_Vac_Off Start");
+                        Arm1_Vac_Off_NoWating();
+                        LoggerManager.MonitoringLog($"Arm1_Vac_Off End");
+                    }
+                    else
+                    {
+                        LoggerManager.MonitoringLog($"Arm2_Vac_Off Start");
+                        Arm2_Vac_Off_NoWating();
+                        LoggerManager.MonitoringLog($"Arm2_Vac_Off End");
+                    }
+
+                    // 이미지 그랩 추가 필요 (Die Grab)
+                    //
+
+                    LoggerManager.MonitoringLog($"나노스테이지 Z Up Start");
+                    ret = DoPlace_Nano_ZUp();
+                    LoggerManager.MonitoringLog($"나노스테이지 Z Up End");
+                    if (ret != EventCodeEnum.NONE)
+                        throw new Exception("DoPlace_Nano_ZUp() Function Error");
+
+                    LoggerManager.MonitoringLog($"Place End {TestCount}");
+
+                    LoggerManager.Event($"Rotate Start {TestCount}");
+
+                    // =========================
+                    // Rotate
+                    // =========================
+                    try
+                    {
+                        if (TestCount < 15)
+                        {
+                            // 현재 Nano 위치 읽기
+                            double currentPos = GetNZD1Pulse();
+
+                            // 1도에 해당하는 Pulse
+                            const double DtoP = 2.913;
+                            const double MotorPulse = 524288.0;
+                            double oneDegreePulse = (MotorPulse / DtoP) / 180.0;   // ≒ 1000.084
+
+                            double threshold;
+
+                            if (!cycleStartFlag)
+                            {
+                                // Minus 방향 : 현재 위치에서 -1도
+                                threshold = currentPos - oneDegreePulse;
+
+                                NanostageUpDownMonitor(false, threshold);
+
+                                LoggerManager.Event($"Rotate_Minus Start (Current={currentPos:F3}, Threshold={threshold:F3})");
+
+                                ret = Rotate_Minus();
+
+                                LoggerManager.Event("Rotate_Minus End");
+                            }
+                            else
+                            {
+                                // Plus 방향 : 현재 위치에서 +1도
+                                threshold = currentPos + oneDegreePulse;
+
+                                NanostageUpDownMonitor(true, threshold);
+
+                                LoggerManager.Event($"Rotate_Plus Start (Current={currentPos:F3}, Threshold={threshold:F3})");
+
+                                ret = Rotate_Plus();
+
+                                LoggerManager.Event("Rotate_Plus End");
+                            }
+                        }
+                        else
+                        {
+                            EventCodeEnum rv;
+
+                            LoggerManager.Event($"나노스테이지 Z Down Start");
+                            rv = DoPlace_Nano_ZDown();
+                            LoggerManager.Event($"나노스테이지 Z Down End");
+                            if (rv != EventCodeEnum.NONE)
+                                throw new Exception("DoPlace_Nano_ZDown() Function Error");
+
+                            // 이미지 초점을 위한
+                            Thread.Sleep(20);
+
+                            // 이미지 촬영
+                            _VisionVM.RequestSaveNextFrameRaw(2);
+
+                            // 저장 완료가 아니라 "프레임 복사 완료"만 최대 50ms 대기
+                            bool pass = _VisionVM.WaitNextFrameCopiedAck(4, 50);
+                            if (!pass)
+                            {
+                                LoggerManager.Debug("Next frame copy ACK timeout (<=50ms). Continue Z Up.");
+                            }
+
+                            LoggerManager.Event($"나노스테이지 Z Up Start");
+                            rv = DoPlace_Nano_ZUp();
+                            LoggerManager.Event($"나노스테이지 Z Up End");
+                            if (rv != EventCodeEnum.NONE)
+                                throw new Exception("DoPlace_Nano_ZUp() Function Error");
+                        }
+                    }
+                    finally
+                    {
+                        // Rotate 끝났으면 모니터 즉시 종료(중첩/누적 방지)
+                        StopNanoMonitor();
+                    }
+
+                    if (ret != EventCodeEnum.NONE)
+                        throw new Exception("Rotate Function Error");
+
+                    // 다음 사이클용 StartFlag 토글 (병렬 구간 밖)
+                    startFlag = !cycleStartFlag;
+
+                    LoggerManager.Event($"Rotate End {TestCount}");
+                    LoggerManager.Event($"Sequence End {TestCount}");
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+
+            Arm1_Vac_Off_NoWating();
+            Arm2_Vac_Off_NoWating();
+        }
+
         // =========================
         // Pick (Async) - Task.Run 제거, Thread.Sleep 제거
         // =========================
@@ -11615,7 +11796,7 @@ namespace ManualJogViewModel
                             }
                             else
                             {
-                                //NanostageUpDownMonitor(cycleStartFlag, -97081); // 1도 (-98081에서 81901로 가는 방향 기준)
+                                NanostageUpDownMonitor(cycleStartFlag, -97081); // 1도 (-98081에서 81901로 가는 방향 기준)
 
                                 LoggerManager.Debug($"Rotate_Plus Start");
                                 retVal = Rotate_Plus();
