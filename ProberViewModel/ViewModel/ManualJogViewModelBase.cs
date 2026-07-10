@@ -12233,7 +12233,64 @@ namespace ManualJogViewModel
         }
         private async Task EjectionPositionCommand_Func()
         {
-           
+            //// 20251124 Nick 이젝션 위치 보정
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                // 260707 sebas test button
+                for (TestCount = 1; TestCount <= 35; TestCount++)
+                {
+                    MovePickPos_SafeZone_Next();
+                }
+
+                // <-- 260707 이전 내용 주석처리
+                //ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
+                //ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
+                //ProbeAxisObject axisEJY1 = this.MotionManager().GetAxis(EnumAxisConstants.EJY1);
+
+                //double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
+                //double currentPos = 0.0;    // 현재 위치값 읽기
+                //double AcualPos = 0;
+
+                //// FD Z Down (간섭을 피하기 위해 내림)
+                //pos = 4770;   // 티칭 값
+                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
+                //currentPos = AcualPos;
+
+                //retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
+                //if (retVal != EventCodeEnum.NONE)
+                //{
+                //    throw new Exception("FD Z RelMove Error");
+                //}
+
+                //// EJ X
+                //pos = -39642;    // 티칭 값
+                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJX1).AxisType.Value, ref AcualPos);
+                //currentPos = AcualPos;
+
+                //retVal = this.MotionManager().RelMove_Wating(axisEJX1, pos - currentPos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
+                //if (retVal != EventCodeEnum.NONE)
+                //{
+                //    throw new Exception("EJ X RelMove Error");
+                //}
+
+                //// EJ Y
+                //pos = 24299;
+                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJY1).AxisType.Value, ref AcualPos);
+                //currentPos = AcualPos;
+
+                //retVal = this.MotionManager().RelMove_Wating(axisEJY1, pos - currentPos, axisEJY1.Param.Speed.Value, axisEJY1.Param.Acceleration.Value);
+                //if (retVal != EventCodeEnum.NONE)
+                //{
+                //    throw new Exception("EJ Y  RelMove Error");
+                //}
+                // --> 260707
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
         }
 
         private AsyncCommand _ArmPickerCommand;
