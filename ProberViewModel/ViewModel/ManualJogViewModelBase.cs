@@ -12233,118 +12233,66 @@ namespace ManualJogViewModel
         }
         private async Task EjectionPositionCommand_Func()
         {
-            // 20251124 Nick 이젝션 위치 보정
-            try
             {
-                // 20251124 Nick 이젝션 위치 보정 (임시 테스트 테스트 시퀀스)
-                //LoggerManager.Debug("[Sequence Test] Nano Stage Sequence Move Started.");
-
-                //// 💡 [핵심 조치] await를 붙여서 3축 이동이 완벽히 끝날 때까지 대기합니다.
-                //double moveTime3Axis = await Move3AxisAsync(50.0, 0.01000, 0.01500);
-                //LoggerManager.Debug($"[Sequence Test] 3-Axis Move Done. Result Time: {moveTime3Axis} ms");
-
-                //// 💡 [핵심 조치] await를 붙여서 6축 이동이 완벽히 끝날 때까지 대기합니다.
-                //double moveTime6Axis = await Move6AxisAsync(50.0, 90.321, 80.159, 0.01150, 0.01150, 0.01150);
-                //LoggerManager.Debug($"[Sequence Test] 6-Axis Move Done. Result Time: {moveTime6Axis} ms");
-                
-                // 260710 Remytest
-                // 서버 시작 호출
-                _ = StartServerAsync();
-                //AddLog(">>> [Sequence] 자동 시퀀스 시작");
-
-                // 1. 서버/클라이언트 연결 상태 확인
-                if (_connectedClient == null || !_connectedClient.Connected)
+                //// 20251124 Nick 이젝션 위치 보정
+                EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+                try
                 {
-                    //AddLog("!!! [Sequence] 비전 장비가 접속되지 않았습니다.");
-                    return;
-                }
-
-                // 2. WAFER 명령 전송 및 응답 수신
-                //string waferResp = await SendAndGetResultAsync("WAFER");
-                //if (string.IsNullOrEmpty(waferResp) || !waferResp.StartsWith("OK"))
-                //{
-                //    //AddLog("!!! [Sequence] WAFER 응답 실패.");
-                //    return;
-                //}
-                //AddLog(">>> [Sequence] WAFER 정렬 완료.");
-
-                // 3. DIE 명령 전송 및 응답 수신 (좌표 포함)
-                string dieResp = await SendAndGetResultAsync("DIE");
-                if (!string.IsNullOrEmpty(dieResp) && dieResp.StartsWith("OK"))
-                {
-                    // 응답 예시: "OK,10.123,20.456" 파싱
-                    string[] parts = dieResp.Split(',');
-                    if (parts.Length == 3)
+                    // 260707 sebas test button
+                    for (TestCount = 1; TestCount <= 35; TestCount++)
                     {
-                        double dx = double.Parse(parts[1]);
-                        double dy = double.Parse(parts[2]);
-
-                        //AddLog($">>> [Sequence] 좌표 수신: X={dx}, Y={dy}. 이동 시작...");
-
-                        double moveTime6Axis = await Move6AxisAsync(dx, dy, 0, 0, 0, 0);
+                        MovePickPos_SafeZone_Next();
                     }
+
+                    // <-- 260707 이전 내용 주석처리
+                    //ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
+                    //ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
+                    //ProbeAxisObject axisEJY1 = this.MotionManager().GetAxis(EnumAxisConstants.EJY1);
+
+                    //double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
+                    //double currentPos = 0.0;    // 현재 위치값 읽기
+                    //double AcualPos = 0;
+
+                    //// FD Z Down (간섭을 피하기 위해 내림)
+                    //pos = 4770;   // 티칭 값
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
+                    //currentPos = AcualPos;
+
+                    //retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
+                    //if (retVal != EventCodeEnum.NONE)
+                    //{
+                    //    throw new Exception("FD Z RelMove Error");
+                    //}
+
+                    //// EJ X
+                    //pos = -39642;    // 티칭 값
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJX1).AxisType.Value, ref AcualPos);
+                    //currentPos = AcualPos;
+
+                    //retVal = this.MotionManager().RelMove_Wating(axisEJX1, pos - currentPos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
+                    //if (retVal != EventCodeEnum.NONE)
+                    //{
+                    //    throw new Exception("EJ X RelMove Error");
+                    //}
+
+                    //// EJ Y
+                    //pos = 24299;
+                    //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJY1).AxisType.Value, ref AcualPos);
+                    //currentPos = AcualPos;
+
+                    //retVal = this.MotionManager().RelMove_Wating(axisEJY1, pos - currentPos, axisEJY1.Param.Speed.Value, axisEJY1.Param.Acceleration.Value);
+                    //if (retVal != EventCodeEnum.NONE)
+                    //{
+                    //    throw new Exception("EJ Y  RelMove Error");
+                    //}
+                    // --> 260707
                 }
-                else
+                catch (Exception err)
                 {
-                    //AddLog("!!! [Sequence] DIE 검사 실패.");
+                    LoggerManager.Exception(err);
+                    throw;
                 }
-
-
             }
-            catch (Exception ex)
-            {
-                LoggerManager.Exception(ex);
-            }
-
-            //EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
-            //try
-            //{
-            //    ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
-            //    ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
-            //    ProbeAxisObject axisEJY1 = this.MotionManager().GetAxis(EnumAxisConstants.EJY1);
-
-            //    double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
-            //    double currentPos = 0.0;    // 현재 위치값 읽기
-            //    double AcualPos = 0;
-
-            //    // FD Z Down (간섭을 피하기 위해 내림)
-            //    pos = 4770;   // 티칭 값
-            //    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
-            //    currentPos = AcualPos;
-
-            //    retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
-            //    if (retVal != EventCodeEnum.NONE)
-            //    {
-            //        throw new Exception("FD Z RelMove Error");
-            //    }
-
-            //    // EJ X
-            //    pos = -39642;    // 티칭 값
-            //    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJX1).AxisType.Value, ref AcualPos);
-            //    currentPos = AcualPos;
-
-            //    retVal = this.MotionManager().RelMove_Wating(axisEJX1, pos - currentPos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
-            //    if (retVal != EventCodeEnum.NONE)
-            //    {
-            //        throw new Exception("EJ X RelMove Error");
-            //    }
-
-            //    // EJ Y
-            //    pos = 24299;
-            //    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJY1).AxisType.Value, ref AcualPos);
-            //    currentPos = AcualPos;
-
-            //    retVal = this.MotionManager().RelMove_Wating(axisEJY1, pos - currentPos, axisEJY1.Param.Speed.Value, axisEJY1.Param.Acceleration.Value);
-            //    if (retVal != EventCodeEnum.NONE)
-            //    {
-            //        throw new Exception("EJ Y  RelMove Error");
-            //    }
-            //}
-            //catch (Exception err)
-            //{
-            //    LoggerManager.Exception(err);
-            //    throw;
-            //}
         }
 
         private AsyncCommand _ArmPickerCommand;
