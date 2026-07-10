@@ -8904,9 +8904,9 @@ namespace ManualJogViewModel
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
                 Thread.Sleep(250);
 
-                // Nano Z 아래로 이동 (대기 위치)
-                //double pos = -2500;
-                //retVal = this.MotionManager().RelMove(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
+                // Nano Z 위로 이동 (대기 위치)
+                double pos = 1500;
+                retVal = this.MotionManager().RelMove(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
             }
             catch (Exception err)
             {
@@ -9081,9 +9081,17 @@ namespace ManualJogViewModel
                     //ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.EJX1, EnumAxisConstants.EJY1, EnumAxisConstants.EJPZ1);
                     //ResultValidate(MethodBase.GetCurrentMethod(), ret);
 
+
                     // 260705 sebas : PickCAM Z축 호밍 추가
+                    ProbeAxisObject axisNSZ2 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ2);
                     ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.NSZ2);
                     ResultValidate(MethodBase.GetCurrentMethod(), ret);
+                    Thread.Sleep(250);
+
+                    // 260705 sebas : PickCAM Z축 호밍 후 이동 추가
+                    ProbeAxisObject AxisObjectNSZ2 = axisNSZ2;
+                    pos = 1200;
+                    retVal = this.MotionManager().RelMove(AxisObjectNSZ2, pos, AxisObjectNSZ2.Param.Speed.Value, AxisObjectNSZ2.Param.Acceleration.Value);
                     Thread.Sleep(250);
 
                     ProbeAxisObject axisFDT1 = this.MotionManager().GetAxis(EnumAxisConstants.FDT1);
@@ -9581,11 +9589,13 @@ namespace ManualJogViewModel
         #region => 251119 sebas sequence add
         private async Task AcceptanceCommand_Func()
         {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
             try
             {
                 LoggerManager.Debug($"AcceptanceCommand Start");
 
-                bool startFlag = false; // false : ARM1 , true : ARM2
+                bool startFlag = true; // false : ARM1 , true : ARM2
 
                 // =========================
                 // Ready
@@ -9604,97 +9614,76 @@ namespace ManualJogViewModel
                     // =========================
                     // Pick & Place 병렬
                     // =========================
-                    Task pickTask = PickAsync(cycleStartFlag, TestCount);
-                    Task placeTask = PlaceAsync(cycleStartFlag, TestCount);
+                    LoggerManager.Event($"Pick/Place Start {TestCount}");
+
+                    Task pickTask = Task.Run(async () => await PickAsync(cycleStartFlag, TestCount));
+                    Task placeTask = Task.Run(async () => await PlaceAsync(cycleStartFlag, TestCount));
 
                     await Task.WhenAll(pickTask, placeTask);
 
+                    LoggerManager.Event($"Pick/Place All End {TestCount}");
+
                     // 마지막 다이 내려 놓고 정리
-                    if (TestCount == 16)
+                    if (TestCount == 33)
                     {
                         LoggerManager.Event($"Sequence End {TestCount}");
                         break;
                     }
 
                     // =========================
-                    // Rotate 준비
-                    // =========================
-                    LoggerManager.Event($"Rotate Start {TestCount}");
-
-                    // 나노스테이지 위치 인터락
-
-                    // =========================
                     // Rotate
                     // =========================
+
+                    LoggerManager.Event($"Rotate Start {TestCount}");
+
+                    // 마지막 다이는 안 움직임.
+                    if (TestCount < 32)
+                    {
+                        LoggerManager.Event($"MovePickPos_SafeZone_Next Start");
+                        retVal = MovePickPos_SafeZone_Next();
+                        LoggerManager.Event($"MovePickPos_SafeZone_Next End");
+                        if (retVal != EventCodeEnum.NONE)
+                            throw new Exception("MovePickPos_SafeZone_Next() Function Error");
+                    }
+
                     try
                     {
-                        if (TestCount < 15)
+                        // 현재 Nano 위치 읽기
+                        double currentPos = GetNZD1Pulse();
+
+                        const double DtoP = 2.913;
+                        const double MotorPulse = 524288.0;
+
+                        // 5도에 해당하는 Pulse
+                        double fiveDegreePulse = (MotorPulse / DtoP) / 180.0 * 50;
+
+                        double threshold;
+
+                        if (!cycleStartFlag)
                         {
-                            // 현재 Nano 위치 읽기
-                            double currentPos = GetNZD1Pulse();
+                            // Minus 방향 : 현재 위치에서 -10도
+                            threshold = currentPos - fiveDegreePulse;
 
-                            // 1도에 해당하는 Pulse
-                            const double DtoP = 2.913;
-                            const double MotorPulse = 524288.0;
-                            double oneDegreePulse = (MotorPulse / DtoP) / 180.0;   // ≒ 1000.084
+                            NanostageUpDownMonitor(false, threshold);
 
-                            double threshold;
+                            LoggerManager.Event($"Rotate_Minus Start (Current={currentPos:F3}, Threshold={threshold:F3})");
 
-                            if (!cycleStartFlag)
-                            {
-                                // Minus 방향 : 현재 위치에서 -1도
-                                threshold = currentPos - oneDegreePulse;
+                            ret = Rotate_Minus();
 
-                                NanostageUpDownMonitor(false, threshold);
-
-                                LoggerManager.Event($"Rotate_Minus Start (Current={currentPos:F3}, Threshold={threshold:F3})");
-
-                                ret = Rotate_Minus();
-
-                                LoggerManager.Event("Rotate_Minus End");
-                            }
-                            else
-                            {
-                                // Plus 방향 : 현재 위치에서 +1도
-                                threshold = currentPos + oneDegreePulse;
-
-                                NanostageUpDownMonitor(true, threshold);
-
-                                LoggerManager.Event($"Rotate_Plus Start (Current={currentPos:F3}, Threshold={threshold:F3})");
-
-                                ret = Rotate_Plus();
-
-                                LoggerManager.Event("Rotate_Plus End");
-                            }
+                            LoggerManager.Event("Rotate_Minus End");
                         }
                         else
                         {
-                            EventCodeEnum rv;
+                            // Plus 방향 : 현재 위치에서 +10도
+                            threshold = currentPos + fiveDegreePulse;
 
-                            LoggerManager.Event($"나노스테이지 Z Down Start");
-                            rv = DoPlace_Nano_ZDown();
-                            LoggerManager.Event($"나노스테이지 Z Down End");
-                            if (rv != EventCodeEnum.NONE)
-                                throw new Exception("DoPlace_Nano_ZDown() Function Error");
+                            NanostageUpDownMonitor(true, threshold);
 
-                            // 이미지 초점을 위한
-                            Thread.Sleep(20);
+                            LoggerManager.Event($"Rotate_Plus Start (Current={currentPos:F3}, Threshold={threshold:F3})");
 
-                            // 이미지 촬영
-                            _VisionVM.RequestSaveNextFrameRaw(2);
+                            ret = Rotate_Plus();
 
-                            // 저장 완료가 아니라 "프레임 복사 완료"만 최대 50ms 대기
-                            bool pass = _VisionVM.WaitNextFrameCopiedAck(4, 50);
-                            if (!pass)
-                            {
-                                LoggerManager.Debug("Next frame copy ACK timeout (<=50ms). Continue Z Up.");
-                            }
-
-                            LoggerManager.Event($"나노스테이지 Z Up Start");
-                            rv = DoPlace_Nano_ZUp();
-                            LoggerManager.Event($"나노스테이지 Z Up End");
-                            if (rv != EventCodeEnum.NONE)
-                                throw new Exception("DoPlace_Nano_ZUp() Function Error");
+                            LoggerManager.Event("Rotate_Plus End");
                         }
                     }
                     finally
@@ -9944,21 +9933,17 @@ namespace ManualJogViewModel
             if (cycleStartFlag == true)
             {
                 LoggerManager.MonitoringLog($"Arm1_Vac_Off Start");
-                Arm1_Vac_Off_NoWating();
+                //Arm1_Vac_Off_NoWating();
+                Arm1_Vac_Off();
                 LoggerManager.MonitoringLog($"Arm1_Vac_Off End");
             }
             else
             {
                 LoggerManager.MonitoringLog($"Arm2_Vac_Off Start");
-                Arm2_Vac_Off_NoWating();
+                //Arm2_Vac_Off_NoWating();
+                Arm2_Vac_Off();
                 LoggerManager.MonitoringLog($"Arm2_Vac_Off End");
             }
-
-            // 이미지 그랩 추가 필요 (Die Grab)
-            LoggerManager.MonitoringLog($"Die Image Grab Start");
-            FireNanoThresholdEventFast();
-            LoggerManager.MonitoringLog($"Die Image Grab End");
-            //
 
             LoggerManager.MonitoringLog($"나노스테이지 Z Up Start");
             ret = DoPlace_Nano_ZUp();
@@ -9966,6 +9951,7 @@ namespace ManualJogViewModel
             if (ret != EventCodeEnum.NONE)
                 throw new Exception("DoPlace_Nano_ZUp() Function Error");
 
+            // 이미지 그랩
             // 컨텍스트 양보(과도한 점유 방지)
             //await Task.Yield();
 
@@ -10535,7 +10521,7 @@ namespace ManualJogViewModel
                 double AcualPos = 0;
 
                 // 260705 sebas : pos 값 변경
-                pos = 23480;    // = 91,000,000 FD stage Z 축 DtoP = 4194.304    // 기존 : 23000.0, 변경 : 23480 (1mm = 1000)
+                pos = 21600;    // = 91,000,000 FD stage Z 축 DtoP = 4194.304    // 기존 : 23000.0, 변경 : 21800에서 닿기도 하고 안 닿기도 함 (1mm = 1000)
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -10544,29 +10530,6 @@ namespace ManualJogViewModel
                 {
                     throw new Exception("FD stage Z RelMove Error");
                 }
-
-                // Wafer Chuck Up (일단 임시 막아)
-                //LoggerManager.Debug($"Wafer_Chuck_DangerZone Start");
-                //retVal = Wafer_Chuck_DangerZone();  // Wafer Chuck이 arm 바로 아래까지 Up
-                //LoggerManager.Debug($"Wafer_Chuck_DangerZone End");
-                //if (retVal != EventCodeEnum.NONE)
-                //{
-                //    throw new Exception("Wafer_Chuck_DangerZone() Function Error");
-                //}
-
-                // Arm Pick Up 대기위치 --> 20260707 Nick 대기위치 홈위치
-                // 260705 sebas : pos 값 변경
-                //pos = -1000.0;     // = Arm Pick Down Z 축 DtoP = 4194.304    // 기존 : -600 , 변경 : -1000
-                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ2).AxisType.Value, ref AcualPos);
-                //currentPos = AcualPos;
-
-                //LoggerManager.Debug($"MovePickPos_DangerZone Arm Pick Z Up Ready Position Start");
-                //retVal = this.MotionManager().RelMove_Wating(axisNSZ2, pos, axisNSZ2.Param.Speed.Value, axisNSZ2.Param.Acceleration.Value);
-                //LoggerManager.Debug($"MovePickPos_DangerZone Arm Pick Z Up Ready Position End");
-                //if (retVal != EventCodeEnum.NONE)
-                //{
-                //    throw new Exception("Arm Pick Z RelMove Error");
-                //}
             }
             catch (Exception err)
             {
@@ -10905,6 +10868,16 @@ namespace ManualJogViewModel
                 ProbeAxisObject axisX = this.MotionManager().GetAxis(EnumAxisConstants.X);
                 ProbeAxisObject axisY = this.MotionManager().GetAxis(EnumAxisConstants.Y);
 
+                // 속도 업
+                axisX.Param.Speed.Value = 40000;
+                axisX.Param.Acceleration.Value = 600000;
+                axisX.Param.AccelerationJerk.Value = 12000000;
+
+                axisY.Param.Speed.Value = 40000;
+                axisY.Param.Acceleration.Value = 600000;
+                axisY.Param.AccelerationJerk.Value = 12000000;
+                //
+
                 double posX = 0.0;   // 이동할 고정값을 넣는 변수
                 double posY = 0.0;   // 이동할 고정값을 넣는 변수
 
@@ -10919,8 +10892,8 @@ namespace ManualJogViewModel
                 //
 
                 //251125 ybpark X,Y die index 위치로 이동
-                posX = X * 1000;    //Y 는 MapDie 좌표계기준이라서 X축 move   // 260707 sebas 기존 Y -> X 로 
-                posY = Y * 1000;    //X 는 MapDie 좌표계기준이라서 Y축 move   // 260707 sebas 기존 X -> Y 로
+                posX = -(X * 1000);    //Y 는 MapDie 좌표계기준이라서 X축 move   // 260707 sebas 기존 Y -> X 로 
+                posY = -(Y * 1000);    //X 는 MapDie 좌표계기준이라서 Y축 move   // 260707 sebas 기존 X -> Y 로
 
                 if (posX != 0)
                 {
@@ -10929,7 +10902,7 @@ namespace ManualJogViewModel
                     LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
 
                     LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) Start");
-                    retVal = this.MotionManager().RelMove_Wating(axisX, posX, axisX.Param.Speed.Value, axisX.Param.Acceleration.Value);
+                    retVal = this.MotionManager().RelMove(axisX, posX, axisX.Param.Speed.Value, axisX.Param.Acceleration.Value);
                     LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) End");
                 }
                 else
@@ -10939,7 +10912,7 @@ namespace ManualJogViewModel
                     LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) End");
 
                     LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) Start");
-                    retVal = this.MotionManager().RelMove_Wating(axisY, posY, axisY.Param.Speed.Value, axisY.Param.Acceleration.Value);
+                    retVal = this.MotionManager().RelMove(axisY, posY, axisY.Param.Speed.Value, axisY.Param.Acceleration.Value);
                     LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
                 }
             }
@@ -11045,7 +11018,7 @@ namespace ManualJogViewModel
                 ProbeAxisObject axisNSZ2 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ2);
 
                 // ArmPick Z Up 추가
-                double posArmPick = 4000.0;    // = 2,000,000 Nano Stage Z 축 DtoP = 4194.304
+                double posArmPick = 6500.0;    // = 2,000,000 Nano Stage Z 축 DtoP = 4194.304
                 LoggerManager.Debug($"Arm Pick Z Up Start");
                 retVal = this.MotionManager().RelMove_Wating(axisNSZ2, posArmPick, axisNSZ2.Param.Speed.Value, axisNSZ2.Param.Acceleration.Value);
                 LoggerManager.Debug($"Arm Pick Z Up End");
@@ -11074,27 +11047,29 @@ namespace ManualJogViewModel
                 double AcualPos = 0;
                 bool IOCheck = false;
 
-                if (false == armFlag)
-                {
-                    LoggerManager.Debug($"Arm1_Vac_On Start");
-                    Arm1_Vac_On_NoWating();  // Pick 동작 (Vacuum)
-                    LoggerManager.Debug($"Arm1_Vac_On End");
-                }
-                else
-                {
-                    LoggerManager.Debug($"Arm2_Vac_On Start");
-                    Arm2_Vac_On_NoWating();  // Pick 동작 (Vacuum)
-                    LoggerManager.Debug($"Arm2_Vac_On End");
-                }
-
                 // Arm Pick Down
-                double posArmPick = -4000.0;     // = Arm Pick Down Z 축 DtoP = 4194.304
+                double posArmPick = -6500.0;     // = Arm Pick Down Z 축 DtoP = 4194.304
                 LoggerManager.Debug($"MovePickPos_DangerZone Arm Pick Z Down Start");
                 retVal = this.MotionManager().RelMove_Wating(axisNSZ2, posArmPick, axisNSZ2.Param.Speed.Value, axisNSZ2.Param.Acceleration.Value);
                 LoggerManager.Debug($"MovePickPos_DangerZone Arm Pick Z Down End");
                 if (retVal != EventCodeEnum.NONE)
                 {
                     throw new Exception("Arm Pick Z RelMove Error");
+                }
+
+                if (false == armFlag)
+                {
+                    LoggerManager.Debug($"Arm1_Vac_On Start");
+                    //Arm1_Vac_On_NoWating();  // Pick 동작 (Vacuum)
+                    Arm1_Vac_On();  // Pick 동작 (Vacuum)
+                    LoggerManager.Debug($"Arm1_Vac_On End");
+                }
+                else
+                {
+                    LoggerManager.Debug($"Arm2_Vac_On Start");
+                    //Arm2_Vac_On_NoWating();  // Pick 동작 (Vacuum)
+                    Arm2_Vac_On();  // Pick 동작 (Vacuum)
+                    LoggerManager.Debug($"Arm2_Vac_On End");
                 }
             }
             catch (Exception err)
@@ -11213,7 +11188,7 @@ namespace ManualJogViewModel
                 if(DryRepeat == false)  // 251223 sebas : Dryrun repeat 일 때는 arm vac on/off 안하기 때문
                 {
                     var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, true);
-                    Thread.Sleep(50);
+                    Thread.Sleep(70);
                     ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, false);
                 }
             }
@@ -11233,7 +11208,7 @@ namespace ManualJogViewModel
                 if (DryRepeat == false)  // 251223 sebas : Dryrun repeat 일 때는 arm vac on/off 안하기 때문
                 {
                     var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, true);
-                    Thread.Sleep(50);
+                    Thread.Sleep(70);
                     ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON2, false);
                 }
             }
@@ -11283,7 +11258,7 @@ namespace ManualJogViewModel
                 if (DryRepeat == false)  // 251223 sebas : Dryrun repeat 일 때는 arm vac on/off 안하기 때문
                 {
                     var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, true);
-                    Thread.Sleep(50);
+                    Thread.Sleep(70);
                     ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF1, false);
                 }
             }
@@ -11309,7 +11284,7 @@ namespace ManualJogViewModel
                 if (DryRepeat == false)  // 251223 sebas : Dryrun repeat 일 때는 arm vac on/off 안하기 때문
                 {
                     var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, true);
-                    Thread.Sleep(50);
+                    Thread.Sleep(70);
                     ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACOFF2, false);
                 }
             }
@@ -11658,7 +11633,7 @@ namespace ManualJogViewModel
             {
                 ProbeAxisObject axisNSZ1 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ1);
 
-                double pos = -2000;   // = -2,000,000 Nano Stage Z 축 DtoP = 4194.304 (기존) -2000.0 -> (변경) -3995, 초점을 맞추기 위함 (Wafer)
+                double pos = -3500;   // = -2,000,000 Nano Stage Z 축 DtoP = 4194.304 (기존) -2000.0 -> (변경) -3995, 초점을 맞추기 위함 (Wafer)
                 retVal = this.MotionManager().RelMove_Wating(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
                 if (retVal != EventCodeEnum.NONE)
                 {
@@ -11681,7 +11656,7 @@ namespace ManualJogViewModel
             {
                 ProbeAxisObject axisNSZ1 = this.MotionManager().GetAxis(EnumAxisConstants.NSZ1);
 
-                double pos = 2000;   // = 2,000,000 Nano Stage Z 축 DtoP = 4194.304 (기존) 2000.0 -> (변경) 3995 (Wafer) 초점을 맞추기 위함
+                double pos = 3500;   // = 2,000,000 Nano Stage Z 축 DtoP = 4194.304 (기존) 2000.0 -> (변경) 3995 (Wafer) 초점을 맞추기 위함
                 retVal = this.MotionManager().RelMove_Wating(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
                 if (retVal != EventCodeEnum.NONE)
                 {
@@ -11935,66 +11910,35 @@ namespace ManualJogViewModel
 
             _nanoMonitorTask = Task.Run(() =>
             {
+                LoggerManager.Event("Nano Monitor Thread Start");
+
                 try
                 {
-                    // 스케줄링 지터 완화
                     Thread.CurrentThread.Priority = ThreadPriority.Highest;
-
-                    // pollMs 기반 주기 (Stopwatch tick 단위)
-                    long intervalTicks = (long)(Stopwatch.Frequency * (pollMs / 1000.0));
-                    if (intervalTicks <= 0) intervalTicks = 1;
-
-                    long nextTick = Stopwatch.GetTimestamp();
 
                     while (!ct.IsCancellationRequested)
                     {
-                        // 다음 tick까지 대기 (가능하면 Sleep/Delay, 부족하면 Spin)
-                        nextTick += intervalTicks;
-
-                        while (true)
-                        {
-                            long now = Stopwatch.GetTimestamp();
-                            long remain = nextTick - now;
-
-                            if (remain <= 0)
-                                break;
-
-                            // 남은 시간이 충분하면 Sleep으로 양보 (CPU 절약)
-                            double remainMs = remain * 1000.0 / Stopwatch.Frequency;
-
-                            if (remainMs >= 1.0)
-                            {
-                                // C# 7.3 / .NET Framework에서도 동작
-                                Thread.Sleep(1);
-                            }
-                            else
-                            {
-                                // 1ms 미만은 스핀으로 정밀하게 맞춤 (지터 감소)
-                                Thread.SpinWait(50);
-                            }
-                        }
-
-                        double curr = GetNZD1Pulse();   // ★ 1회만 호출
+                        double curr = GetNZD1Pulse();
 
                         bool trigger = !rotateFlag
-                            ? curr <= threshold   // Minus 방향
-                            : curr >= threshold;  // Plus 방향
+                            ? curr <= threshold
+                            : curr >= threshold;
 
-                        if (!trigger)
-                            continue;
-
-                        // 1회 트리거 보장
-                        if (Interlocked.Exchange(ref _nanoTriggered, 1) == 0)
+                        if (trigger)
                         {
-                            FireNanoThresholdEventFast();
+                            if (Interlocked.Exchange(ref _nanoTriggered, 1) == 0)
+                            {
+                                LoggerManager.Event($"Nano Detected curr={curr:F3}, threshold={threshold:F3}");
+                                FireNanoThresholdEventFast(true);
+                            }
+                            break;
                         }
 
-                        break;
+                        Thread.Sleep(pollMs);
                     }
                 }
                 catch (Exception ex)
                 {
-                    // 취소 예외도 여기로 올 수 있어 그냥 Exception으로 묶어도 됨
                     LoggerManager.Exception(ex);
                 }
             }, ct);
@@ -12014,7 +11958,7 @@ namespace ManualJogViewModel
             catch { }
         }
 
-        private void FireNanoThresholdEventFast()
+        private void FireNanoThresholdEventFast(bool flag) // True : Wafer, False : Die
         {
             // 감지 시각 기록 (정밀)
             _nanoEventQueue.Enqueue(Stopwatch.GetTimestamp());
@@ -12029,7 +11973,7 @@ namespace ManualJogViewModel
                         while (_nanoEventQueue.TryDequeue(out var ts))
                         {
                             LoggerManager.Event("NanoStage Threshold Reached");
-                            OnNanoThresholdCrossed(); // 실제 처리 (여기서 오래 걸려도 감지엔 영향 최소)
+                            OnNanoThresholdCrossed(flag); // 실제 처리 (여기서 오래 걸려도 감지엔 영향 최소)
                         }
                     }
                     finally
@@ -12040,31 +11984,47 @@ namespace ManualJogViewModel
             }
         }
 
-        private void OnNanoThresholdCrossed()
+        private void OnNanoThresholdCrossed(bool flag) // True : Wafer, False : Die
         {
             try
             {
                 EventCodeEnum rv;
 
-                LoggerManager.Event("나노스테이지 Z Down Start");
-                rv = DoPlace_Nano_ZDown();
-                LoggerManager.Event("나노스테이지 Z Down End");
-
-                if (rv != EventCodeEnum.NONE)
-                    throw new Exception("DoPlace_Nano_ZDown() Function Error");
-
-                // 캡처 저장 요청
-                if (_VisionVM != null)
+                if (true == flag)
                 {
-                    _VisionVM.CaptureCameraAsyncSave(2);
+                    LoggerManager.Event("나노스테이지 Z Down Start");
+                    rv = DoPlace_Nano_ZDown();
+                    LoggerManager.Event("나노스테이지 Z Down End");
+
+                    if (rv != EventCodeEnum.NONE)
+                        throw new Exception("DoPlace_Nano_ZDown() Function Error");
+
+                    // 캡처 저장 요청
+                    //if (_VisionVM != null)
+                    //{
+                    //    _VisionVM.CaptureCameraAsyncSave(2);
+                    //}
+
+                    LoggerManager.Event("나노스테이지 Z Up Start");
+                    rv = DoPlace_Nano_ZUp();
+                    LoggerManager.Event("나노스테이지 Z Up End");
+
+                    if (rv != EventCodeEnum.NONE)
+                        throw new Exception("DoPlace_Nano_ZUp() Function Error");
                 }
+                else
+                {
+                    //for(int i = 0; i < 20; i++)
+                    //{
+                    //    Thread.Sleep(100);
 
-                LoggerManager.Event("나노스테이지 Z Up Start");
-                rv = DoPlace_Nano_ZUp();
-                LoggerManager.Event("나노스테이지 Z Up End");
-
-                if (rv != EventCodeEnum.NONE)
-                    throw new Exception("DoPlace_Nano_ZUp() Function Error");
+                    //    // 캡처 저장 요청
+                    //    if (_VisionVM != null)
+                    //    {
+                    //        _VisionVM.CaptureCameraAsyncSave(2);
+                    //    }
+                    //}
+                }
             }
             catch (Exception ex)
             {
@@ -12284,17 +12244,55 @@ namespace ManualJogViewModel
                 Thread.Sleep(500);
 
                 // DD Motor Test (Target 0.25 이내)
-                ProbeAxisObject axisNZD1 = this.MotionManager().GetAxis(EnumAxisConstants.NZD1);
+                LoggerManager.Event($"Rotate Start {TestCount}");
 
-                LoggerManager.Event($"Rotate_Minus Start");
-                retVal = Rotate_Minus();
-                LoggerManager.Event($"Rotate_Minus End");
+                // 마지막 다이는 안 움직임.
+                LoggerManager.Event($"MovePickPos_SafeZone_Next Start");
+                retVal = MovePickPos_SafeZone_Next();
+                LoggerManager.Event($"MovePickPos_SafeZone_Next End");
+                if (retVal != EventCodeEnum.NONE)
+                    throw new Exception("MovePickPos_SafeZone_Next() Function Error");
 
-                Thread.Sleep(3000);
+                try
+                {
+                    // 현재 Nano 위치 읽기
+                    double currentPos = GetNZD1Pulse();
 
-                LoggerManager.Event($"Rotate_Minus Start");
-                retVal = Rotate_Plus();
-                LoggerManager.Event($"Rotate_Minus End");
+                    const double DtoP = 2.913;
+                    const double MotorPulse = 524288.0;
+
+                    // ~도에 해당하는 Pulse
+                    double DegreePulse = (MotorPulse / DtoP) / 180.0 * 20.0;
+
+                    double threshold;
+
+                    // Minus 방향 : 현재 위치에서 -10도
+                    threshold = currentPos - DegreePulse;
+                    NanostageUpDownMonitor(false, threshold);
+                    LoggerManager.Event($"Rotate_Minus Start (Current={currentPos:F3}, Threshold={threshold:F3})");
+
+                    retVal = Rotate_Minus();
+
+                    LoggerManager.Event("Rotate_Minus End");
+
+                    Thread.Sleep(5000);
+
+                    // Plus 방향 : 현재 위치에서 +10도
+                    currentPos = GetNZD1Pulse();
+                    threshold = currentPos + DegreePulse;
+                    NanostageUpDownMonitor(true, threshold);
+
+                    LoggerManager.Event($"Rotate_Plus Start (Current={currentPos:F3}, Threshold={threshold:F3})");
+
+                    retVal = Rotate_Plus();
+
+                    LoggerManager.Event("Rotate_Plus End");
+                }
+                finally
+                {
+                    // Rotate 끝났으면 모니터 즉시 종료(중첩/누적 방지)
+                    StopNanoMonitor();
+                }
 
                 // Stage Test (Taget 0.15 이내)
                 //ProbeAxisObject axisX1 = this.MotionManager().GetAxis(EnumAxisConstants.X);
@@ -12336,17 +12334,17 @@ namespace ManualJogViewModel
                 //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
 
                 // Arm Test
-                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON1, false);
-                //Thread.Sleep(500);
-                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON2, false);
-                //Thread.Sleep(500);
-                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF1, true);
-                //Thread.Sleep(500);
-                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF2, true);
-                //Thread.Sleep(500);
-                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF1, false);
-                //Thread.Sleep(500);
-                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF2, false);
+                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON1, false);
+                Thread.Sleep(500);
+                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON2, false);
+                Thread.Sleep(500);
+                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF1, true);
+                Thread.Sleep(500);
+                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF2, true);
+                Thread.Sleep(500);
+                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF1, false);
+                Thread.Sleep(500);
+                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF2, false);
             }
             catch (Exception err)
             {
@@ -12393,7 +12391,7 @@ namespace ManualJogViewModel
                 //}
 
                 // Base X
-                pos = 94900;    // 티칭 값
+                pos = 94340;    // 티칭 값
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -12404,7 +12402,7 @@ namespace ManualJogViewModel
                 }
 
                 // Base Y
-                pos = -143794;  // 티칭 값
+                pos = -188630;  // 티칭 값
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -12415,7 +12413,7 @@ namespace ManualJogViewModel
                 }
 
                 // FD Z Up (첫 다이 찾기 위해)
-                pos = 21480;    // 티칭 값
+                pos = 22620;    // 티칭 값
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -12443,51 +12441,58 @@ namespace ManualJogViewModel
         }
         private async Task EjectionPositionCommand_Func()
         {
-            // 20251124 Nick 이젝션 위치 보정
-
+            //// 20251124 Nick 이젝션 위치 보정
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
-                ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
-                ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
-                ProbeAxisObject axisEJY1 = this.MotionManager().GetAxis(EnumAxisConstants.EJY1);
-
-                double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
-                double currentPos = 0.0;    // 현재 위치값 읽기
-                double AcualPos = 0;
-
-                // FD Z Down (간섭을 피하기 위해 내림)
-                pos = 4770;   // 티칭 값
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
-
-                retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
+                // 260707 sebas test button
+                for (TestCount = 1; TestCount <= 35; TestCount++)
                 {
-                    throw new Exception("FD Z RelMove Error");
+                    MovePickPos_SafeZone_Next();
                 }
 
-                // EJ X
-                pos = -39642;    // 티칭 값
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJX1).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
+                // <-- 260707 이전 내용 주석처리
+                //ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
+                //ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
+                //ProbeAxisObject axisEJY1 = this.MotionManager().GetAxis(EnumAxisConstants.EJY1);
 
-                retVal = this.MotionManager().RelMove_Wating(axisEJX1, pos - currentPos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("EJ X RelMove Error");
-                }
+                //double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
+                //double currentPos = 0.0;    // 현재 위치값 읽기
+                //double AcualPos = 0;
 
-                // EJ Y
-                pos = 24299;
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJY1).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
+                //// FD Z Down (간섭을 피하기 위해 내림)
+                //pos = 4770;   // 티칭 값
+                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
+                //currentPos = AcualPos;
 
-                retVal = this.MotionManager().RelMove_Wating(axisEJY1, pos - currentPos, axisEJY1.Param.Speed.Value, axisEJY1.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("EJ Y  RelMove Error");
-                }
+                //retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
+                //if (retVal != EventCodeEnum.NONE)
+                //{
+                //    throw new Exception("FD Z RelMove Error");
+                //}
+
+                //// EJ X
+                //pos = -39642;    // 티칭 값
+                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJX1).AxisType.Value, ref AcualPos);
+                //currentPos = AcualPos;
+
+                //retVal = this.MotionManager().RelMove_Wating(axisEJX1, pos - currentPos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
+                //if (retVal != EventCodeEnum.NONE)
+                //{
+                //    throw new Exception("EJ X RelMove Error");
+                //}
+
+                //// EJ Y
+                //pos = 24299;
+                //this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJY1).AxisType.Value, ref AcualPos);
+                //currentPos = AcualPos;
+
+                //retVal = this.MotionManager().RelMove_Wating(axisEJY1, pos - currentPos, axisEJY1.Param.Speed.Value, axisEJY1.Param.Acceleration.Value);
+                //if (retVal != EventCodeEnum.NONE)
+                //{
+                //    throw new Exception("EJ Y  RelMove Error");
+                //}
+                // --> 260707
             }
             catch (Exception err)
             {
