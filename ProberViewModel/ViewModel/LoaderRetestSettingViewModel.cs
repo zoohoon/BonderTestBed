@@ -94,6 +94,17 @@ namespace ProberViewModel.ViewModel
         {
             return Task.FromResult<EventCodeEnum>(EventCodeEnum.NONE);
         }
+        private void ModeChangedCommandFunc(object parameter)
+        {
+            try
+            {
+                ParamSynchronization();
+            }
+            catch (Exception err)
+            {
+                // 예외 처리 로직
+            }
+        }
 
         private RelayCommand _ModeChangedCommand;
         public ICommand ModeChangedCommand

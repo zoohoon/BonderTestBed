@@ -26,10 +26,22 @@ using ProberViewModel.Data;
 using System.Threading;
 using BVisionTestViewModel;
 using System.Diagnostics;
+using System.Windows;
+using ManualJogView; // Window가 있는 네임스페이스 확인
+using System.IO;              // StreamReader용
+using System.Net.Sockets;     // NetworkStream, TcpClient용
+using System.Text;            // Encoding용
+
+//260708 Remy 
+using ProberViewModel.ViewModel;
+using CUI;
+using PI; // PI_GCS2 라이브러리 (MOV, IsMoving 등 사용)
+using System.Net;
 //using ProberInterfaces.ThreadSync;
 
 namespace ManualJogViewModel
 {
+
     public class AxisObjectVM : INotifyPropertyChanged, IFactoryModule
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -150,6 +162,14 @@ namespace ManualJogViewModel
 
     public class ManualJogViewModelBase : IMainScreenViewModel, IFactoryModule, INotifyPropertyChanged, ISetUpState
     {
+        //260708 remy
+        private NanoStageViewModel _nanoStage3AxisVM = new NanoStageViewModel();
+        private NanoStage6AxisViewModel _nanoStage6AxisVM = new NanoStage6AxisViewModel();
+
+        protected TcpClient _connectedClient;
+        protected TcpListener _server;
+        protected bool _isWaitingForResponse = false;
+
         // 클래스 전체에서 공유되는 Vision VM
         private BVisionTestViewModelBase _VisionVM;
 
@@ -2604,7 +2624,7 @@ namespace ManualJogViewModel
             }
         }
         #endregion
-        //260706 Remy ZZang!
+        //260706 Remy
         #region ==> NSZ2TextBoxClickCommand
         private RelayCommand<Object> _NSZ2TextBoxClickCommand;
         public ICommand NSZ2TextBoxClickCommand
@@ -5604,7 +5624,7 @@ namespace ManualJogViewModel
             set
             {
                 if (_CX1ActualVal != value)
-                {
+                { 
                     _CX1ActualVal = value;
                     RaisePropertyChanged("CX1ActualVal");
                 }
@@ -11970,69 +11990,64 @@ namespace ManualJogViewModel
         }
         #endregion
 
-        #region 251124 ybpark vision
-        private AsyncCommand _DiducaialMarkCommand;
-        public ICommand DiducaialMarkCommand
+        #region 260706 remy Manualjog에서 nanostage 창열기
+        private ICommand _NanoStageControlCommand;
+        public ICommand NanoStageControlCommand
         {
             get
             {
-                if (null == _DiducaialMarkCommand) _DiducaialMarkCommand = new AsyncCommand(DiducaialMarkCommand_Func);
-                return _DiducaialMarkCommand;
+                if (_NanoStageControlCommand == null)
+                {
+                    _NanoStageControlCommand = new RelayCommand(NanoStageControlCommand_Func);
+                }
+                return _NanoStageControlCommand;
             }
         }
-        private async Task DiducaialMarkCommand_Func()
+
+        private void NanoStageControlCommand_Func()
         {
-            // 20251124 Nick 피두셜 마크를 찾아 이동하는 함수
-
-            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
-            try
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
             {
-                ProbeAxisObject axisX1 = this.MotionManager().GetAxis(EnumAxisConstants.X);
-                ProbeAxisObject axisY1 = this.MotionManager().GetAxis(EnumAxisConstants.Y);
-                ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
+                // 1. 팝업 윈도우 인스턴스 생성
+                ManualJogView.NanoStageControlWindow nanoWindow = new ManualJogView.NanoStageControlWindow();
 
-                double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
-                double currentPos = 0.0;    // 현재 위치값 읽기
-                double AcualPos = 0;
-
-                // Base Y
-                pos = -785201;    // 티칭 값
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
-
-                retVal = this.MotionManager().RelMove_Wating(axisY1, pos - currentPos, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
+                // 2. 마스터 커맨드 정의 (부모가 들고 있는 인스턴스를 직접 조준)
+                var masterDisconnectCommand = new NanoStage6AxisViewModel.localRelayCommand(p =>
                 {
-                    throw new Exception("Base Y RelMove Error");
+                    _nanoStage3AxisVM.DisconnectCommand.Execute(null);
+                    _nanoStage6AxisVM.DisconnectCommand.Execute(null);
+                });
+
+                var masterTotalMoveCommand = new NanoStage6AxisViewModel.localRelayCommand(p =>
+                {
+                    _nanoStage3AxisVM.TotalMoveCommand.Execute(null);
+                    _nanoStage6AxisVM.TotalMoveCommand.Execute(null);
+                });
+
+                var masterClearLogCommand = new NanoStage6AxisViewModel.localRelayCommand(p =>
+                {
+                    _nanoStage3AxisVM.ErrorClearCommand.Execute(null);
+                    _nanoStage6AxisVM.ErrorClearCommand.Execute(null);
+                });
+
+                // 3. 💡 [핵심] 리플렉션 싹 다 걷어내고 부모의 인스턴스를 패키징 주입
+                nanoWindow.DataContext = new
+                {
+                    Axis3VM = _nanoStage3AxisVM,
+                    Axis6VM = _nanoStage6AxisVM,
+                    MainDisconnectCommand = masterDisconnectCommand,
+                    MainTotalMoveCommand = masterTotalMoveCommand,
+                    MainClearLogCommand = masterClearLogCommand
+                };
+
+                if (System.Windows.Application.Current.MainWindow != null)
+                {
+                    nanoWindow.Owner = System.Windows.Application.Current.MainWindow;
                 }
 
-                // Base X
-                pos = 105255;   // 티칭 값
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
-
-                retVal = this.MotionManager().RelMove_Wating(axisX1, pos - currentPos, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("Base X RelMove Error");
-                }
-
-                // FD Z Up (피두셜 마크를 찍기위해)
-                pos = 25990;
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
-
-                retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, FDZ1.Param.Speed.Value, FDZ1.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("FD Z RelMove Error");
-                }
-            }
-            catch (Exception err)
-            {
-                LoggerManager.Exception(err);
-                throw;
-            }
+                // 모달리스로 오픈 (양쪽 다 클릭 가능)
+                nanoWindow.Show();
+            });
         }
 
         private AsyncCommand _EjectionCenterCommand;
@@ -12219,56 +12234,117 @@ namespace ManualJogViewModel
         private async Task EjectionPositionCommand_Func()
         {
             // 20251124 Nick 이젝션 위치 보정
-
-            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             try
             {
-                ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
-                ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
-                ProbeAxisObject axisEJY1 = this.MotionManager().GetAxis(EnumAxisConstants.EJY1);
+                // 20251124 Nick 이젝션 위치 보정 (임시 테스트 테스트 시퀀스)
+                //LoggerManager.Debug("[Sequence Test] Nano Stage Sequence Move Started.");
 
-                double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
-                double currentPos = 0.0;    // 현재 위치값 읽기
-                double AcualPos = 0;
+                //// 💡 [핵심 조치] await를 붙여서 3축 이동이 완벽히 끝날 때까지 대기합니다.
+                //double moveTime3Axis = await Move3AxisAsync(50.0, 0.01000, 0.01500);
+                //LoggerManager.Debug($"[Sequence Test] 3-Axis Move Done. Result Time: {moveTime3Axis} ms");
 
-                // FD Z Down (간섭을 피하기 위해 내림)
-                pos = 4770;   // 티칭 값
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
+                //// 💡 [핵심 조치] await를 붙여서 6축 이동이 완벽히 끝날 때까지 대기합니다.
+                //double moveTime6Axis = await Move6AxisAsync(50.0, 90.321, 80.159, 0.01150, 0.01150, 0.01150);
+                //LoggerManager.Debug($"[Sequence Test] 6-Axis Move Done. Result Time: {moveTime6Axis} ms");
+                
+                // 260710 Remytest
+                // 서버 시작 호출
+                _ = StartServerAsync();
+                //AddLog(">>> [Sequence] 자동 시퀀스 시작");
 
-                retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
+                // 1. 서버/클라이언트 연결 상태 확인
+                if (_connectedClient == null || !_connectedClient.Connected)
                 {
-                    throw new Exception("FD Z RelMove Error");
+                    //AddLog("!!! [Sequence] 비전 장비가 접속되지 않았습니다.");
+                    return;
                 }
 
-                // EJ X
-                pos = -39642;    // 티칭 값
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJX1).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
+                // 2. WAFER 명령 전송 및 응답 수신
+                //string waferResp = await SendAndGetResultAsync("WAFER");
+                //if (string.IsNullOrEmpty(waferResp) || !waferResp.StartsWith("OK"))
+                //{
+                //    //AddLog("!!! [Sequence] WAFER 응답 실패.");
+                //    return;
+                //}
+                //AddLog(">>> [Sequence] WAFER 정렬 완료.");
 
-                retVal = this.MotionManager().RelMove_Wating(axisEJX1, pos - currentPos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
+                // 3. DIE 명령 전송 및 응답 수신 (좌표 포함)
+                string dieResp = await SendAndGetResultAsync("DIE");
+                if (!string.IsNullOrEmpty(dieResp) && dieResp.StartsWith("OK"))
                 {
-                    throw new Exception("EJ X RelMove Error");
+                    // 응답 예시: "OK,10.123,20.456" 파싱
+                    string[] parts = dieResp.Split(',');
+                    if (parts.Length == 3)
+                    {
+                        double dx = double.Parse(parts[1]);
+                        double dy = double.Parse(parts[2]);
+
+                        //AddLog($">>> [Sequence] 좌표 수신: X={dx}, Y={dy}. 이동 시작...");
+
+                        double moveTime6Axis = await Move6AxisAsync(dx, dy, 0, 0, 0, 0);
+                    }
+                }
+                else
+                {
+                    //AddLog("!!! [Sequence] DIE 검사 실패.");
                 }
 
-                // EJ Y
-                pos = 24299;
-                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJY1).AxisType.Value, ref AcualPos);
-                currentPos = AcualPos;
 
-                retVal = this.MotionManager().RelMove_Wating(axisEJY1, pos - currentPos, axisEJY1.Param.Speed.Value, axisEJY1.Param.Acceleration.Value);
-                if (retVal != EventCodeEnum.NONE)
-                {
-                    throw new Exception("EJ Y  RelMove Error");
-                }
             }
-            catch (Exception err)
+            catch (Exception ex)
             {
-                LoggerManager.Exception(err);
-                throw;
+                LoggerManager.Exception(ex);
             }
+
+            //EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            //try
+            //{
+            //    ProbeAxisObject axisFDZ1 = this.MotionManager().GetAxis(EnumAxisConstants.FDZ1);
+            //    ProbeAxisObject axisEJX1 = this.MotionManager().GetAxis(EnumAxisConstants.EJX1);
+            //    ProbeAxisObject axisEJY1 = this.MotionManager().GetAxis(EnumAxisConstants.EJY1);
+
+            //    double pos = 0.0;   // 이동할 고정값을 넣는 변수 (덮어씌워짐)
+            //    double currentPos = 0.0;    // 현재 위치값 읽기
+            //    double AcualPos = 0;
+
+            //    // FD Z Down (간섭을 피하기 위해 내림)
+            //    pos = 4770;   // 티칭 값
+            //    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.FDZ1).AxisType.Value, ref AcualPos);
+            //    currentPos = AcualPos;
+
+            //    retVal = this.MotionManager().RelMove_Wating(axisFDZ1, pos - currentPos, axisFDZ1.Param.Speed.Value, axisFDZ1.Param.Acceleration.Value);
+            //    if (retVal != EventCodeEnum.NONE)
+            //    {
+            //        throw new Exception("FD Z RelMove Error");
+            //    }
+
+            //    // EJ X
+            //    pos = -39642;    // 티칭 값
+            //    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJX1).AxisType.Value, ref AcualPos);
+            //    currentPos = AcualPos;
+
+            //    retVal = this.MotionManager().RelMove_Wating(axisEJX1, pos - currentPos, axisEJX1.Param.Speed.Value, axisEJX1.Param.Acceleration.Value);
+            //    if (retVal != EventCodeEnum.NONE)
+            //    {
+            //        throw new Exception("EJ X RelMove Error");
+            //    }
+
+            //    // EJ Y
+            //    pos = 24299;
+            //    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.EJY1).AxisType.Value, ref AcualPos);
+            //    currentPos = AcualPos;
+
+            //    retVal = this.MotionManager().RelMove_Wating(axisEJY1, pos - currentPos, axisEJY1.Param.Speed.Value, axisEJY1.Param.Acceleration.Value);
+            //    if (retVal != EventCodeEnum.NONE)
+            //    {
+            //        throw new Exception("EJ Y  RelMove Error");
+            //    }
+            //}
+            //catch (Exception err)
+            //{
+            //    LoggerManager.Exception(err);
+            //    throw;
+            //}
         }
 
         private AsyncCommand _ArmPickerCommand;
@@ -12323,5 +12399,232 @@ namespace ManualJogViewModel
         }
 
         #endregion
+        /////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////
+        ///Nano Stage Move 함수//////////////////////////////////
+        /////////////////////////////////////////////////////////
+        ///
+        protected int _id = -1;
+        // 단위 변환 상수 (Degree <-> Micro-radian)
+        protected const double DegToUrad = (Math.PI / 180.0) * 1000000.0;
+        protected const double UradToDeg = 1.0 / DegToUrad;
+
+        /// <summary>
+        /// 💡 [3축 시퀀스 이동 함수]
+        /// </summary>
+        public async Task<double> Move3AxisAsync(double targetZ, double targetRx, double targetRy)
+        {
+            // 💡 [변경] 3축 뷰모델에 박혀있는 진짜 하드웨어 ID를 리플렉션 없이 안전한 프로퍼티나 필드로 우회 조회합니다.
+            // NanoStageViewModel 내부의 private _id 값을 안전하게 읽어옵니다.
+            int currentId = (int)typeof(NanoStageViewModel).GetField("_id", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(_nanoStage3AxisVM);
+
+            if (currentId < 0)
+            {
+                LoggerManager.Error("[3-Axis Sequence] Error: PI Controller not connected. Please connect from popup window first.");
+                return -1;
+            }
+
+            double fZ = Math.Round(targetZ, 3);
+            double fRx = Math.Round(targetRx, 5);
+            double fRy = Math.Round(targetRy, 5);
+
+            double hwZ = fZ;
+            double hwRx = fRx * DegToUrad;
+            double hwRy = fRy * DegToUrad;
+
+            // 리미트 체크 시에도 현재 발급된 ID를 주입
+            if (!CheckAxisLimit(currentId, "1", hwZ) || !CheckAxisLimit(currentId, "2", hwRx) || !CheckAxisLimit(currentId, "3", hwRy))
+            {
+                return -1;
+            }
+
+            try
+            {
+                GCS2.SVO(currentId, "1 2 3", new int[] { 1, 1, 1 });
+                double[] targets = { hwZ, hwRx, hwRy };
+
+                if (GCS2.MOV(currentId, "1 2 3", targets) == 1)
+                {
+                    LoggerManager.Debug($"[Seq-3Axis] MOV Started -> Z:{fZ:F3}, Rx:{fRx:F5}, Ry:{fRy:F5}");
+                    return await WaitStageStopAsync(currentId, "1 2 3", 3);
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggerManager.Exception(ex);
+            }
+            return -1;
+        }
+
+        /// <summary>
+        /// 💡 [6축 시퀀스 이동 함수]
+        /// </summary>
+        public async Task<double> Move6AxisAsync(double targetX, double targetY, double targetZ, double targetRx, double targetRy, double targetRz)
+        {
+            int currentId = (int)typeof(NanoStage6AxisViewModel).GetField("_id", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(_nanoStage6AxisVM);
+
+            if (currentId < 0)
+            {
+                LoggerManager.Error("[6-Axis Sequence] Error: PI Controller not connected.");
+                return -1;
+            }
+
+            double fX = Math.Round(targetX, 3);
+            double fY = Math.Round(targetY, 3);
+            double fZ = Math.Round(targetZ, 3);
+            double fRx = Math.Round(targetRx, 5);
+            double fRy = Math.Round(targetRy, 5);
+            double fRz = Math.Round(targetRz, 5);
+
+            double[] hwTargets = { fX, fY, fRz * DegToUrad, fZ, fRx * DegToUrad, fRy * DegToUrad };
+
+            if (!CheckAxisLimit(currentId, "1", hwTargets[0]) || !CheckAxisLimit(currentId, "2", hwTargets[1]) ||
+                !CheckAxisLimit(currentId, "3", hwTargets[2]) || !CheckAxisLimit(currentId, "4", hwTargets[3]) ||
+                !CheckAxisLimit(currentId, "5", hwTargets[4]) || !CheckAxisLimit(currentId, "6", hwTargets[5]))
+            {
+                return -1;
+            }
+
+            try
+            {
+                GCS2.SVO(currentId, "1 2 3 4 5 6", new int[] { 1, 1, 1, 1, 1, 1 });
+
+                if (GCS2.MOV(currentId, "1 2 3 4 5 6", hwTargets) == 1)
+                {
+                    LoggerManager.Debug($"[Seq-6Axis] MOV Started -> X:{fX:F3}, Y:{fY:F3}, Z:{fZ:F3}");
+                    return await WaitStageStopAsync(currentId, "1 2 3 4 5 6", 6);
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggerManager.Exception(ex);
+            }
+            return -1;
+        }
+
+        private async Task<double> WaitStageStopAsync(int currentId, string axisString, int axisCount)
+        {
+            int[] isMoving = new int[axisCount];
+            var sw = System.Diagnostics.Stopwatch.StartNew();
+
+            while (sw.ElapsedMilliseconds < 5000)
+            {
+                if (GCS2.IsMoving(currentId, axisString, isMoving) == 0) break;
+
+                bool stillMoving = false;
+                for (int i = 0; i < axisCount; i++)
+                {
+                    if (isMoving[i] == 1) { stillMoving = true; break; }
+                }
+                if (!stillMoving) break;
+
+                await Task.Delay(5);
+            }
+            sw.Stop();
+            return sw.ElapsedMilliseconds;
+        }
+
+        private bool CheckAxisLimit(int currentId, string axis, double target)
+        {
+            double[] minLimit = new double[1];
+            double[] maxLimit = new double[1];
+            if (GCS2.qTMN(currentId, axis, minLimit) == 0 || GCS2.qTMX(currentId, axis, maxLimit) == 0) return false;
+
+            double margin = (axis == "1" || axis == "2" || axis == "4") ? 0.0 : 0.0;
+            if (target < minLimit[0] + margin || target > maxLimit[0] - margin)
+            {
+                LoggerManager.Error($"[PI SoftLimit Error] Axis {axis} Range Out! Target:{target:F4}");
+                return false;
+            }
+            return true;
+        }
+
+        //////////////////////////TCP통신 //////////////////
+        public async Task StartServerAsync()
+        {
+            if (_server != null) return; // 이미 서버가 실행 중이면 무시
+
+            try
+            {
+                // 1. 서버 시작
+                _server = new TcpListener(IPAddress.Any, 5000);
+                _server.Start();
+                //AddCommLog(">>> [Server] 서버 시작됨. 5000번 포트 대기 중...");
+
+                // 2. 클라이언트 접속 루프 (백그라운드에서 계속 실행)
+                _ = Task.Run(async () =>
+                {
+                    while (true)
+                    {
+                        try
+                        {
+                            // 비전 장비가 접속할 때까지 여기서 대기
+                            TcpClient client = await _server.AcceptTcpClientAsync();
+
+                            // 접속 성공 시 해당 클라이언트를 _connectedClient에 할당
+                            _connectedClient = client;
+                            //AddCommLog(">>> [Server] 비전 장비 접속 완료.");
+
+                            // 여기서부터는 ListenForDataAsync(client)를 호출하여 
+                            // 비전 장비가 보내는 데이터를 감시할 수 있습니다.
+                            // (이미 구현하신 루프가 있다면 그것을 여기서 호출하세요)
+                        }
+                        catch (Exception ex)
+                        {
+                            //AddCommLog($"!!! [Server] 접속 에러: {ex.Message}");
+                            break;
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                //AddCommLog($"!!! [Server] 서버 실행 실패: {ex.Message}");
+            }
+        }
+
+        protected async Task<string> SendAndGetResultAsync(string cmd, int timeoutMs = 10000)
+        {
+            // 1. 연결 확인
+            if (_connectedClient == null || !_connectedClient.Connected)
+            {
+                //AddCommLog("!!! [Seq] 비전 장비가 연결되어 있지 않습니다.");
+                return null;
+            }
+
+            try
+            {
+                NetworkStream stream = _connectedClient.GetStream();
+
+                // 2. 명령 전송
+                byte[] data = Encoding.ASCII.GetBytes(cmd + "\n");
+                await stream.WriteAsync(data, 0, data.Length);
+                await stream.FlushAsync();
+                //AddCommLog($">>> [Seq] Sent: {cmd}");
+
+                // 3. 응답 대기
+                var reader = new StreamReader(stream, Encoding.ASCII);
+                var readTask = reader.ReadLineAsync();
+                var delayTask = Task.Delay(timeoutMs);
+
+                if (await Task.WhenAny(readTask, delayTask) == readTask)
+                {
+                    string response = await readTask;
+                    //AddCommLog($"<<< [Seq] Received: {response}");
+                    return response; // 성공 시 전체 문자열 반환
+                }
+                else
+                {
+                    //AddCommLog($"!!! [Seq] 응답 타임아웃 ({cmd})");
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                //AddCommLog($"!!! [Seq] 통신 에러: {ex.Message}");
+                return null;
+            }
+        }
     }
 }
+
