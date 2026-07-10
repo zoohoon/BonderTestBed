@@ -10700,6 +10700,16 @@ namespace ManualJogViewModel
                 double posX = 0.0;   // 이동할 고정값을 넣는 변수
                 double posY = 0.0;   // 이동할 고정값을 넣는 변수
 
+                // 20260707 Nick 빠르게 변경
+                //axisX.Param.Speed = ;
+                //axisX.Param.Acceleration = ;
+                //axisX.Param.AccelerationJerk = ;
+
+                //axisY.Param.Speed = ;
+                //axisY.Param.Acceleration = ;
+                //axisY.Param.AccelerationJerk = ;
+                //
+
                 //251125 ybpark X,Y die index 위치로 이동
                 posX = -(X * 1000);    //Y 는 MapDie 좌표계기준이라서 X축 move   // 260707 sebas 기존 Y -> X 로 
                 posY = -(Y * 1000);    //X 는 MapDie 좌표계기준이라서 Y축 move   // 260707 sebas 기존 X -> Y 로
