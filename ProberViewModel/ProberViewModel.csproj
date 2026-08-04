@@ -173,8 +173,14 @@
     <Compile Include="ViewModel\AccuracyCheckSubSettingViewModel.cs" />
     <Compile Include="ViewModel\ActiveStageInformationUCViewModel.cs" />
     <Compile Include="ViewModel\BVisionTestViewModelBase.cs" />
+    <Compile Include="ViewModel\Jog6AxisWindow.xaml.cs">
+      <DependentUpon>Jog6AxisWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\LogCollectViewModel.cs" />
     <Compile Include="ViewModel\GP_LoaderFoupRecoveryControlViewModel.cs" />
+    <Compile Include="ViewModel\NanoStage6AxisViewModel.cs" />
+    <Compile Include="ViewModel\NanoStageViewModel.cs" />
+    <Compile Include="ViewModel\PI_GCS2.cs" />
     <Compile Include="ViewModel\UcCardChangeSettingViewModel.cs" />
     <Compile Include="ViewModel\DigitalTwinSettingViewModel.cs" />
     <Compile Include="ViewModel\DigitalTwinViewModel.cs" />
@@ -577,6 +583,9 @@
     </Compile>
     <Compile Include="View\ManualJog\ManualJogPage.xaml.cs">
       <DependentUpon>ManualJogPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ManualJog\NanoStageControlWindow.xaml.cs">
+      <DependentUpon>NanoStageControlWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ManualJog\RadiusMeasuremnt.xaml.cs">
       <DependentUpon>RadiusMeasuremnt.xaml</DependentUpon>
@@ -1728,6 +1737,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ViewModel\Jog6AxisWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\AccuracyCheck\AccuracyCheckSetup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -2011,6 +2024,10 @@
     <Page Include="View\ManualJog\ManualJogPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ManualJog\NanoStageControlWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ManualJog\RadiusMeasuremnt.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -2849,6 +2866,10 @@
     <Resource Include="View\Handling\Resources\selecteicon.png" />
     <Resource Include="Resources\Computer.png" />
     <Resource Include="View\MultiManualContact\Resources\FOUP.png" />
+    <Content Include="PI_GCS2_DLL.dll" />
+    <Content Include="PI_GCS2_DLL_x64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="View\Operation\Resources\Arm.png" />
     <Content Include="View\Operation\Resources\BT.png" />
     <Content Include="View\Operation\Resources\Buffer.png" />
@@ -2897,7 +2918,9 @@
     <Resource Include="View\Wafer\Images\Seq1.png" />
     <Resource Include="View\Wafer\Images\compass.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
