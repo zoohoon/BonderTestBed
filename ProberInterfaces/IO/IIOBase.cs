@@ -5667,6 +5667,35 @@ namespace ProberInterfaces
                 }
             }
         }
+        // 260715 Nick Arm Hoder Vacuum Ãß°¡
+        private IOPortDescripter<bool> _DI_ARM_HODER_VAC_SENSOR1 = new IOPortDescripter<bool>("DI_ARM_HODER_VAC_SENSOR1", EnumIOType.INPUT);
+        public IOPortDescripter<bool> DI_ARM_HODER_VAC_SENSOR1
+        {
+            get { return _DI_ARM_HODER_VAC_SENSOR1; }
+            set
+            {
+                if (value != this._DI_ARM_HODER_VAC_SENSOR1)
+                {
+                    _DI_ARM_HODER_VAC_SENSOR1 = value;
+                    NotifyPropertyChanged(nameof(DI_ARM_HODER_VAC_SENSOR1));
+                }
+            }
+        }
+
+        private IOPortDescripter<bool> _DI_ARM_HODER_VAC_SENSOR2 = new IOPortDescripter<bool>("DI_ARM_HODER_VAC_SENSOR2", EnumIOType.INPUT);
+        public IOPortDescripter<bool> DI_ARM_HODER_VAC_SENSOR2
+        {
+            get { return _DI_ARM_HODER_VAC_SENSOR2; }
+            set
+            {
+                if (value != this._DI_ARM_HODER_VAC_SENSOR2)
+                {
+                    _DI_ARM_HODER_VAC_SENSOR2 = value;
+                    NotifyPropertyChanged(nameof(DI_ARM_HODER_VAC_SENSOR2));
+                }
+            }
+        }
+
         private IOPortDescripter<bool> _DI_ARM_FLOW2 = new IOPortDescripter<bool>("DI_ARM_FLOW2", EnumIOType.INPUT);
         public IOPortDescripter<bool> DI_ARM_FLOW2
         {
