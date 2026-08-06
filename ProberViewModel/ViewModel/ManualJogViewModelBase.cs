@@ -11875,137 +11875,38 @@ namespace ManualJogViewModel
         #endregion
 
         #region 251124 ybpark Normal, FD Wafer Out 
-        private AsyncCommand _DryRunRepeatCommand;
-        public ICommand DryRunRepeatCommand
+        private AsyncCommand _PickTestCommand;
+        public ICommand PickTestCommand
         {
             get
             {
-                if (null == _DryRunRepeatCommand) _DryRunRepeatCommand = new AsyncCommand(DryRunRepeatCommand_Func);
-                return _DryRunRepeatCommand;
+                if (null == _PickTestCommand) _PickTestCommand = new AsyncCommand(PickTestCommand_Func);
+                return _PickTestCommand;
             }
         }
 
-        public bool DryRepeat = false;  // 251223 sebas add : false일 때는 vac 실행, true일 때는 vac 안함
-        private async Task DryRunRepeatCommand_Func()
+        private async Task PickTestCommand_Func()
         {
+            // Pick Test Code 2026/08/06 Nick
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
             try
             {
-                LoggerManager.Debug($"AcceptanceCommand Start");
-                
-                EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+                // Start 
 
-                bool StartFlag = false;     // false : ARM1 , true : ARM2
-                double pos = 0.0;
+                // ARM Holder Vacuum On (양쪽)
 
-                #region Ready
-                retVal = MovePickPos_SafeZone_First();
-                if (retVal != EventCodeEnum.NONE)
-                    throw new Exception("MovePickPos_SafeZone_First() Function Error");
-                #endregion
+                // ARM Holder Vacuum Off (양쪽)
 
-                int repeatNum = 1;  // 251224 sebas 홀수 = 정방향 , 짝수 = 역방향
-                int maxNum = 1000;   // 무한반복이지만, 일단 최대치 설정해 놓음
+                // Pick Down
 
-                DryRepeat = true;
-                while (repeatNum < maxNum)   // 251224 sebas : while 추가
-                {
-                    if (repeatNum % 2 == 0)
-                    {
-                        ReverseRun = true;
-                    }
-                    else
-                    {
-                        ReverseRun = false;
-                    }
-                    repeatNum++;
+                // ARM Holder Vacuum On (양쪽)
 
-                    for (TestCount = 1; TestCount <= 15; TestCount++)
-                    {
-                        LoggerManager.Debug($"Sequence Start {TestCount}");
+                // Pick Up
 
-                        // 병렬 구간에서 흔들리지 않게 사이클 시작값
-                        bool cycleStartFlag = StartFlag;        // cycleStartFlag = false (ARM1) , cycleStartFlag = true (ARM2)
+                // End
 
-                        // =========================
-                        // Pick & Place 병렬 (최소화)
-                        // =========================
-                        Task pickTask = PickAsync(cycleStartFlag, TestCount);
-                        Task placeTask = PlaceAsync(cycleStartFlag, TestCount);
-
-                        await Task.WhenAll(pickTask, placeTask);
-
-                        // =========================
-                        // Rotate 준비
-                        // =========================
-                        LoggerManager.Debug($"Rotate Start {TestCount}");
-
-                        LoggerManager.Event($"Arms_Air_On Start");
-                        Arms_Air_On_NoWaiting();
-                        LoggerManager.Event($"Arms_Air_On End");
-
-                        // 나노스테이지 위치 인터락
-                        //bool RotateIntorlock = IsCanRotate();
-                        //if(false == RotateIntorlock)
-                        //{
-                        //    LoggerManager.Event($"회전 할 수 없는 상태(나노스테이지 확인 필요)");
-                        //    return;
-                        //}
-
-                        // 마지막 다이 움직일 필요 없음.
-                        if (TestCount < 15)
-                        {
-                            LoggerManager.Debug($"MovePickPos_SafeZone_Next Start");
-                            retVal = MovePickPos_SafeZone_NextReverse();
-                            LoggerManager.Debug($"MovePickPos_SafeZone_Next End");
-                            if (retVal != EventCodeEnum.NONE)
-                                throw new Exception("MovePickPos_SafeZone_Next() Function Error");
-                        }
-
-                        try
-                        {
-                            if (cycleStartFlag == false)
-                            {
-                                //NanostageUpDownMonitor(cycleStartFlag, 80901);  // 1도 (81901에서 -98081로 가는 방향 기준)
-
-                                LoggerManager.Debug($"Rotate_Minus Start");
-                                retVal = Rotate_Minus();
-                                LoggerManager.Debug($"Rotate_Minus End");
-                            }
-                            else
-                            {
-                                NanostageUpDownMonitor(cycleStartFlag, -97081); // 1도 (-98081에서 81901로 가는 방향 기준)
-
-                                LoggerManager.Debug($"Rotate_Plus Start");
-                                retVal = Rotate_Plus();
-                                LoggerManager.Debug($"Rotate_Plus End");
-                            }
-                        }
-                        finally
-                        {
-                            // Rotate 끝났으면 모니터 즉시 종료(중첩/누적 방지)
-                            //StopNanoMonitor();
-                        }
-
-                        if (retVal != EventCodeEnum.NONE)
-                            throw new Exception("Rotate Function Error");
-
-                        LoggerManager.Event($"Arms_Air_Off Start");
-                        Arms_Air_Off_NoWating();
-                        LoggerManager.Event($"Arms_Air_Off End");
-
-                        // 다음 사이클용 StartFlag 토글 (병렬 구간 밖에서)
-                        StartFlag = !cycleStartFlag;
-
-                        if (dryRunStop == true)
-                            break;  // dryrun fisnish
-
-                        LoggerManager.Debug($"Rotate End {TestCount}");
-                        LoggerManager.Debug($"Sequence End {TestCount}");
-                    }
-                }
-
-                DryRepeat = false;
-                dryRunStop = false;
+                // ARM Hodler Vacuu, Off
             }
             catch (Exception err)
             {
@@ -12014,13 +11915,172 @@ namespace ManualJogViewModel
             }
         }
 
-        private AsyncCommand _RotateAndCaptureCommand;
-        public ICommand RotateAndCaptureCommand
+        public bool DryRepeat = false;  // 251223 sebas add : false일 때는 vac 실행, true일 때는 vac 안함
+        //private async Task DryRunRepeatCommand_Func()
+        //{
+        //    try
+        //    {
+        //        LoggerManager.Debug($"AcceptanceCommand Start");
+
+        //        EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+        //        bool StartFlag = false;     // false : ARM1 , true : ARM2
+        //        double pos = 0.0;
+
+        //        #region Ready
+        //        retVal = MovePickPos_SafeZone_First();
+        //        if (retVal != EventCodeEnum.NONE)
+        //            throw new Exception("MovePickPos_SafeZone_First() Function Error");
+        //        #endregion
+
+        //        int repeatNum = 1;  // 251224 sebas 홀수 = 정방향 , 짝수 = 역방향
+        //        int maxNum = 1000;   // 무한반복이지만, 일단 최대치 설정해 놓음
+
+        //        DryRepeat = true;
+        //        while (repeatNum < maxNum)   // 251224 sebas : while 추가
+        //        {
+        //            if (repeatNum % 2 == 0)
+        //            {
+        //                ReverseRun = true;
+        //            }
+        //            else
+        //            {
+        //                ReverseRun = false;
+        //            }
+        //            repeatNum++;
+
+        //            for (TestCount = 1; TestCount <= 15; TestCount++)
+        //            {
+        //                LoggerManager.Debug($"Sequence Start {TestCount}");
+
+        //                // 병렬 구간에서 흔들리지 않게 사이클 시작값
+        //                bool cycleStartFlag = StartFlag;        // cycleStartFlag = false (ARM1) , cycleStartFlag = true (ARM2)
+
+        //                // =========================
+        //                // Pick & Place 병렬 (최소화)
+        //                // =========================
+        //                Task pickTask = PickAsync(cycleStartFlag, TestCount);
+        //                Task placeTask = PlaceAsync(cycleStartFlag, TestCount);
+
+        //                await Task.WhenAll(pickTask, placeTask);
+
+        //                // =========================
+        //                // Rotate 준비
+        //                // =========================
+        //                LoggerManager.Debug($"Rotate Start {TestCount}");
+
+        //                LoggerManager.Event($"Arms_Air_On Start");
+        //                Arms_Air_On_NoWaiting();
+        //                LoggerManager.Event($"Arms_Air_On End");
+
+        //                // 나노스테이지 위치 인터락
+        //                //bool RotateIntorlock = IsCanRotate();
+        //                //if(false == RotateIntorlock)
+        //                //{
+        //                //    LoggerManager.Event($"회전 할 수 없는 상태(나노스테이지 확인 필요)");
+        //                //    return;
+        //                //}
+
+        //                // 마지막 다이 움직일 필요 없음.
+        //                if (TestCount < 15)
+        //                {
+        //                    LoggerManager.Debug($"MovePickPos_SafeZone_Next Start");
+        //                    retVal = MovePickPos_SafeZone_NextReverse();
+        //                    LoggerManager.Debug($"MovePickPos_SafeZone_Next End");
+        //                    if (retVal != EventCodeEnum.NONE)
+        //                        throw new Exception("MovePickPos_SafeZone_Next() Function Error");
+        //                }
+
+        //                try
+        //                {
+        //                    if (cycleStartFlag == false)
+        //                    {
+        //                        //NanostageUpDownMonitor(cycleStartFlag, 80901);  // 1도 (81901에서 -98081로 가는 방향 기준)
+
+        //                        LoggerManager.Debug($"Rotate_Minus Start");
+        //                        retVal = Rotate_Minus();
+        //                        LoggerManager.Debug($"Rotate_Minus End");
+        //                    }
+        //                    else
+        //                    {
+        //                        NanostageUpDownMonitor(cycleStartFlag, -97081); // 1도 (-98081에서 81901로 가는 방향 기준)
+
+        //                        LoggerManager.Debug($"Rotate_Plus Start");
+        //                        retVal = Rotate_Plus();
+        //                        LoggerManager.Debug($"Rotate_Plus End");
+        //                    }
+        //                }
+        //                finally
+        //                {
+        //                    // Rotate 끝났으면 모니터 즉시 종료(중첩/누적 방지)
+        //                    //StopNanoMonitor();
+        //                }
+
+        //                if (retVal != EventCodeEnum.NONE)
+        //                    throw new Exception("Rotate Function Error");
+
+        //                LoggerManager.Event($"Arms_Air_Off Start");
+        //                Arms_Air_Off_NoWating();
+        //                LoggerManager.Event($"Arms_Air_Off End");
+
+        //                // 다음 사이클용 StartFlag 토글 (병렬 구간 밖에서)
+        //                StartFlag = !cycleStartFlag;
+
+        //                if (dryRunStop == true)
+        //                    break;  // dryrun fisnish
+
+        //                LoggerManager.Debug($"Rotate End {TestCount}");
+        //                LoggerManager.Debug($"Sequence End {TestCount}");
+        //            }
+        //        }
+
+        //        DryRepeat = false;
+        //        dryRunStop = false;
+        //    }
+        //    catch (Exception err)
+        //    {
+        //        LoggerManager.Exception(err);
+        //        throw;
+        //    }
+        //}
+
+        private AsyncCommand _PlaceTestCommand;
+        public ICommand PlaceTestCommand
         {
             get
             {
-                if (null == _RotateAndCaptureCommand) _RotateAndCaptureCommand = new AsyncCommand(RotateAndCapture_Func);
-                return _RotateAndCaptureCommand;
+                if (null == _PlaceTestCommand) _PlaceTestCommand = new AsyncCommand(PlaceTestCommand_Func);
+                return _PlaceTestCommand;
+            }
+        }
+
+        private async Task PlaceTestCommand_Func()
+        {
+            // Place Test Code 2026/08/06 Nick
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
+            try
+            {
+                // Start 
+
+                // ARM Holder Vacuum On (양쪽)
+
+                // ARM Holder Vacuum Off (양쪽)
+
+                // Place Down
+
+                // ARM Holder Vacuum On (양쪽)
+
+                // Place Up
+
+                // End
+
+                // ARM Hodler Vacuu, Off
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
             }
         }
 
@@ -12235,9 +12295,9 @@ namespace ManualJogViewModel
         }
 
         public bool dryRunStop = false;    // 251224 sebas
-        private async Task RotateAndCapture_Func()
-        {
-            dryRunStop = true;  // 251224 sebas
+        //private async Task RotateAndCapture_Func()
+        //{
+        //    dryRunStop = true;  // 251224 sebas
 
             //EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
             //try
@@ -12335,7 +12395,7 @@ namespace ManualJogViewModel
             //    LoggerManager.Exception(err);
             //    throw;
             //}
-        }
+        //}
         #endregion
 
         #region 251124 ybpark Test Count
@@ -12417,224 +12477,60 @@ namespace ManualJogViewModel
             });
         }
 
-        private AsyncCommand _EjectionCenterCommand;
-        public ICommand EjectionCenterCommand
+        private AsyncCommand _RotateTestCommand;
+        public ICommand RotateTestCommand
         {
             get
             {
-                if (null == _EjectionCenterCommand) _EjectionCenterCommand = new AsyncCommand(EjectionCenterCommand_Func);
-                return _EjectionCenterCommand;
+                if (null == _RotateTestCommand) _RotateTestCommand = new AsyncCommand(RotateTestCommand_Func);
+                return _RotateTestCommand;
             }
         }
-        private async Task EjectionCenterCommand_Func()
-        {
-            // 20251124 Nick 이젝션 센터 찾기
 
+        /// <summary>
+        /// false: 정방향 (CW)
+        /// true : 역방향 (CCW)
+        /// </summary>
+        private bool _isReverseRotate = false;
+
+        public bool IsReverseRotate
+        {
+            get
+            {
+                return _isReverseRotate;
+            }
+            set
+            {
+                _isReverseRotate = value;
+            }
+        }
+
+        private async Task RotateTestCommand_Func()
+        {
+            // Rotate Test Code 2026/08/06 Nick
             EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+
             try
             {
-                bool IOCheck1, IOCheck2 = false;
-                bool cycleStartFlag = true;
+                // ARM Holder Vacuum On (양쪽)
 
-                // Pick Test
-                // Vacuum On
-                var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON2, true);
-                Thread.Sleep(50);
-                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON2, false);
-                Thread.Sleep(50);
+                // Start
 
-                CheckArmHoderVacuum(true);
+                // Stage Move
 
-                LoggerManager.Debug($"Pick Start");
+                // Rotate ARM
 
-                // Vacuum Off
-                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF2, true);
-                Thread.Sleep(50);
-                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF2, false);
-                Thread.Sleep(50);
+                // ARM Holder Vacuum Off (양쪽)
 
-                CheckArmHoderVacuum(true);
+                // Place Down (Wafer Grab)
 
-                LoggerManager.Debug($"MovePickPos_DangerZone Start");
-                var ret = MovePickPos_DangerZone(cycleStartFlag);
-                LoggerManager.Debug($"MovePickPos_DangerZone End");
-                if (ret != EventCodeEnum.NONE)
-                    throw new Exception("MovePickPos_DangerZone() Function Error");
+                // ARM Holder Vacuum On (양쪽)
 
-                // Vacuum On
-                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON2, true);
-                Thread.Sleep(50);
-                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON2, false);
-                Thread.Sleep(50);
+                // Place Up (Wafer Grab)
 
-                CheckArmHoderVacuum(true);
+                // End
 
-                // Rotate 해도 괜찮은 위치로 복귀
-                LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick Start");
-                ret = MovePickPos_SafeZone_AfterPick();
-                LoggerManager.Debug($"MovePickPos_SafeZone_AfterPick End");
-                if (ret != EventCodeEnum.NONE)
-                    throw new Exception("MovePickPos_SafeZone_AfterPick() Function Error");
-
-                LoggerManager.Debug($"Pick End");
-
-               // Place Test
-               // Vacuum On
-               ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON1, true);
-               Thread.Sleep(50);
-               ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON1, false);
-                Thread.Sleep(50);
-
-                CheckArmHoderVacuum(false);
-
-                // Vacuum Off
-                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF1, true);
-                Thread.Sleep(50);
-                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF1, false);
-                Thread.Sleep(50);
-
-                CheckArmHoderVacuum(false);
-
-                LoggerManager.MonitoringLog($"Place Start");
-
-                LoggerManager.MonitoringLog($"나노스테이지 Z Down Start");
-                var ret2 = DoPlace_Nano_ZDown();
-                LoggerManager.MonitoringLog($"나노스테이지 Z Down End");
-                if (ret != EventCodeEnum.NONE)
-                    throw new Exception("DoPlace_Nano_ZDown() Function Error");
-
-                // Vacuum Off (Place)
-                if (cycleStartFlag == true)
-                {
-                    LoggerManager.MonitoringLog($"Arm1_Vac_Off Start");
-                    Arm1_Vac_Off();
-                    LoggerManager.MonitoringLog($"Arm1_Vac_Off End");
-                }
-                else
-                {
-                    LoggerManager.MonitoringLog($"Arm2_Vac_Off Start");
-                    Arm2_Vac_Off();
-                    LoggerManager.MonitoringLog($"Arm2_Vac_Off End");
-                }
-
-                // Vacuum On
-                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON1, true);
-                Thread.Sleep(50);
-                ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON1, false);
-                Thread.Sleep(50);
-
-                CheckArmHoderVacuum(false);
-
-                LoggerManager.MonitoringLog($"나노스테이지 Z Up Start");
-                ret = DoPlace_Nano_ZUp();
-                LoggerManager.MonitoringLog($"나노스테이지 Z Up End");
-                if (ret != EventCodeEnum.NONE)
-                    throw new Exception("DoPlace_Nano_ZUp() Function Error");
-
-                // Place Test End
-
-                //// DD Motor Test (Target 0.25 이내)
-                //LoggerManager.Event($"Rotate Start {TestCount}");
-
-                ////마지막 다이는 안 움직임.
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next Start");
-                //retVal = MovePickPos_SafeZone_Next();
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next End");
-                //if (retVal != EventCodeEnum.NONE)
-                //    throw new Exception("MovePickPos_SafeZone_Next() Function Error");
-
-                //try
-                //{
-                //    // 현재 Nano 위치 읽기
-                //    double currentPos = GetNZD1Pulse();
-
-                //    const double DtoP = 2.913;
-                //    const double MotorPulse = 524288.0;
-
-                //    // ~도에 해당하는 Pulse
-                //    double DegreePulse = (MotorPulse / DtoP) / 180.0 * 1.0;
-
-                //    double threshold;
-
-                //    // Minus 방향 : 현재 위치에서 -10도
-                //    threshold = currentPos - DegreePulse;
-                //    NanostageUpDownMonitor(false, threshold);
-                //    LoggerManager.Event($"Rotate_Minus Start (Current={currentPos:F3}, Threshold={threshold:F3})");
-
-                //    retVal = Rotate_Minus();
-
-                //    LoggerManager.Event("Rotate_Minus End");
-
-                //    Thread.Sleep(5000);
-
-                //    // Plus 방향 : 현재 위치에서 +10도
-                //    currentPos = GetNZD1Pulse();
-                //    threshold = currentPos + DegreePulse;
-                //    NanostageUpDownMonitor(true, threshold);
-
-                //    LoggerManager.Event($"Rotate_Plus Start (Current={currentPos:F3}, Threshold={threshold:F3})");
-
-                //    retVal = Rotate_Plus();
-
-                //    LoggerManager.Event("Rotate_Plus End");
-                //}
-                //finally
-                //{
-                //    // Rotate 끝났으면 모니터 즉시 종료(중첩/누적 방지)
-                //    StopNanoMonitor();
-                //}
-
-                // Rotate Test End
-
-                // Rotate Test
-
-                // Stage Test (Taget 0.15 이내)
-                //ProbeAxisObject axisX1 = this.MotionManager().GetAxis(EnumAxisConstants.X);
-                //ProbeAxisObject axisY1 = this.MotionManager().GetAxis(EnumAxisConstants.Y);
-
-                //double posX1 = 0.0;   // 이동할 고정값을 넣는 변수
-                //double posY1 = 0.0;   // 이동할 고정값을 넣는 변수
-                //double posX2 = 0.0;   // 이동할 고정값을 넣는 변수
-                //double posY2 = 0.0;   // 이동할 고정값을 넣는 변수
-
-                ////251125 ybpark X,Y die index 위치로 이동
-                //posX1 = 11500;
-                //posY1 = 11500;
-                //posX2 = -11500;
-                //posY2 = -11500;
-
-                //Thread.Sleep(1000);
-
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) Start");
-                //retVal = this.MotionManager().RelMove_Wating(axisX1, posX1, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) End");
-
-                //Thread.Sleep(1000);
-
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) Start");
-                //retVal = this.MotionManager().RelMove_Wating(axisX1, posX2, axisX1.Param.Speed.Value, axisX1.Param.Acceleration.Value);
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base X Move) End");
-
-                //Thread.Sleep(1000);
-
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) Start");
-                //retVal = this.MotionManager().RelMove_Wating(axisY1, posY1, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
-
-                //Thread.Sleep(1000);
-
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) Start");
-                //retVal = this.MotionManager().RelMove_Wating(axisY1, posY2, axisY1.Param.Speed.Value, axisY1.Param.Acceleration.Value);
-                //LoggerManager.Event($"MovePickPos_SafeZone_Next(Base Y Move) End");
-
-                // Vacuum Off
-                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF1, true);
-                //Thread.Sleep(50);
-                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF2, true);
-                //Thread.Sleep(50);
-                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF1, false);
-                //Thread.Sleep(50);
-                //ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF2, false);
+                // ARM Holder Vacuum Off (양쪽)
             }
             catch (Exception err)
             {
