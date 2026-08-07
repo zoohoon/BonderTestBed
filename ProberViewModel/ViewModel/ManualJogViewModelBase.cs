@@ -8963,7 +8963,7 @@ namespace ManualJogViewModel
 
                 // 260705 sebas : Arm 정렬을 위한 DD pos 이동 보정
                 ProbeAxisObject AxisObjectNZD1 = axisNZD1;
-                double pos = 500;
+                double pos = 200;
                 retVal = this.MotionManager().RelMove_Wating(AxisObjectNZD1, pos, AxisObjectNZD1.Param.Speed.Value, AxisObjectNZD1.Param.Acceleration.Value);
 
             }
