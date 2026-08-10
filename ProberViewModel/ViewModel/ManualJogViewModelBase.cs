@@ -11340,7 +11340,7 @@ namespace ManualJogViewModel
             try
             {
                 // Arm1 Vacuum On
-                if(DryRepeat == false)  // 251223 sebas : Dryrun repeat 일 때는 arm vac on/off 안하기 때문
+                if (DryRepeat == false)  // 251223 sebas : Dryrun repeat 일 때는 arm vac on/off 안하기 때문
                 {
                     var ioret = this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_ARM_VACON1, true);
                     Thread.Sleep(70);
@@ -11532,7 +11532,7 @@ namespace ManualJogViewModel
             try
             {
                 // (Interlock) Nano Stage Z Position Check
-                for(long i = 1; i < 4; i++)
+                for (long i = 1; i < 4; i++)
                 {
                     this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ1).AxisType.Value, ref AcualPos);
 
@@ -12216,7 +12216,7 @@ namespace ManualJogViewModel
                         double curr = GetNZD1Pulse();
 
                         // "통과" 순간에 NanoStage Down/Up
-                        if(false == rotateFlag)
+                        if (false == rotateFlag)
                         {
                             if (curr > threshold)
                             {

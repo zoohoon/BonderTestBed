@@ -370,7 +370,7 @@
 
                             <Label Content="0 &lt;" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="5"/>
                             <Label Content="&lt; 0" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="5"/>
-                            
+
                             <Label Content="0 &lt;" FontSize="11" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="0" Grid.Row="6"/>
                             <Label Content="&lt; 0" FontSize="11" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0" Grid.Column="2" Grid.Row="6"/>
 
@@ -831,7 +831,7 @@
                         <Grid Grid.Column="0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>  
+                                <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
                                 <Label Content="Nano Z:" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0"/>
@@ -2165,22 +2165,22 @@
                         </Grid.ColumnDefinitions>
                         <Button Grid.Column="0" Grid.Row="0" Content=" A Axis&#10;Homing " FontSize="20"  Foreground="White"
                             Command="{Binding A_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        
+
                         <Button Grid.Column="1" Grid.Row="0" Content=" E Axis &#10;Homing " FontSize="20"  Foreground="White"
                             Command="{Binding E_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        
+
                         <Button Grid.Column="2" Grid.Row="0" Content=" W Axis &#10; Homing " FontSize="20"  Foreground="White" 
                             Command="{Binding W_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        
+
                         <Button Grid.Column="3" Grid.Row="0" Content=" FV Axis &#10; Homing " FontSize="20"  Foreground="White"
                             Command="{Binding FV_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        
+
                         <Button Grid.Column="4" Grid.Row="0" Content=" U1 Axis &#10; Homing " FontSize="20"  Foreground="White"
                             Command="{Binding U1_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        
+
                         <Button Grid.Column="5" Grid.Row="0" Content=" U2 Axis &#10; Homing " FontSize="20"  Foreground="White" 
                             Command="{Binding U2_HomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
-                        
+
                         <Button Grid.Column="0" Grid.Row="2" Content=" Total Module Homing (Loader) " FontSize="20"  Foreground="White" Grid.ColumnSpan="6"
                             Command="{Binding LoaderTotalModuleHomingCommand}" IsEnabled="{Binding StageButtonsVisibility}"/>
                     </Grid>

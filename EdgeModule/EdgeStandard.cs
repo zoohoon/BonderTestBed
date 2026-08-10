@@ -1084,7 +1084,8 @@ namespace WAEdgeStadnardModule
                     LoggerManager.PinLog("FD Wafer Edge Detection Start.");
 
                     LoggerManager.PinLog("FD Wafer edge 계산 : SetEdgePosition_FD()");
-                    SetEdgePosition_FD();
+                    //SetEdgePosition_FD();   // 260420 PickCAM으로 얼라인 진행하기로 변경
+                    SetEdgePosition();
 
                     LoggerManager.PinLog($"Move to first FD wafer edge : X = {EdgePos[0].GetX()} , Y = {EdgePos[0].GetY()}");
                     this.StageSupervisor().StageModuleState.WaferLowViewMove(EdgePos[0].GetX(), EdgePos[0].GetY(), WaferObject.GetSubsInfo().AveWaferThick);    // 260107 sebas 아래에서 수정
@@ -1399,21 +1400,30 @@ namespace WAEdgeStadnardModule
                         chuck_center_Yoffset = 0;
                     }
 
-                    // 260105 sebas : 엣지 좌표 계산값을 FD척에 맞게 변경
+                    //// 260105 sebas : 엣지 좌표 계산값을 FD척에 맞게 변경
+                    //// 1번 엣지 (3사분면)
+                    //EdgePos.Add(new WaferCoordinate(-edgepos + chuck_center_Xoffset, -edgepos + chuck_center_Yoffset));
+                    //// 2번 엣지 (30도 CCW 회전)
+                    //var rotated30 = RotatePoint(-edgepos, -edgepos, Math.PI * 30 / 180);
+                    //EdgePos.Add(new WaferCoordinate(rotated30.x + chuck_center_Xoffset, rotated30.y + chuck_center_Yoffset));
+                    //// 3번 엣지 (60도 CCW 회전)
+                    //var rotated60 = RotatePoint(-edgepos, -edgepos, Math.PI * 60 / 180);
+                    //EdgePos.Add(new WaferCoordinate(rotated60.x + chuck_center_Xoffset, rotated60.y + chuck_center_Yoffset));
+                    //// 4번 엣지
+                    //var rotated90 = RotatePoint(-edgepos, -edgepos, Math.PI * 90 / 180);
+                    //EdgePos.Add(new WaferCoordinate(rotated90.x + chuck_center_Xoffset, rotated90.y + chuck_center_Yoffset));
+
+                    // 230330 sebas : 엣지 좌표값을 현 장비에 맞게 변경
                     // 1번 엣지 (3사분면)
-                    EdgePos.Add(new WaferCoordinate(-edgepos + chuck_center_Xoffset, -edgepos + chuck_center_Yoffset));
-
+                    EdgePos.Add(new WaferCoordinate(-106066, -106066));
                     // 2번 엣지 (30도 CCW 회전)
-                    var rotated30 = RotatePoint(-edgepos, -edgepos, Math.PI * 30 / 180);
-                    EdgePos.Add(new WaferCoordinate(rotated30.x + chuck_center_Xoffset, rotated30.y + chuck_center_Yoffset));
-
+                    EdgePos.Add(new WaferCoordinate(-38822.9, -1357988.9));
                     // 3번 엣지 (60도 CCW 회전)
-                    var rotated60 = RotatePoint(-edgepos, -edgepos, Math.PI * 60 / 180);
-                    EdgePos.Add(new WaferCoordinate(rotated60.x + chuck_center_Xoffset, rotated60.y + chuck_center_Yoffset));
-
+                    EdgePos.Add(new WaferCoordinate(38822.9, -134188.9));
                     // 4번 엣지
-                    var rotated90 = RotatePoint(-edgepos, -edgepos, Math.PI * 90 / 180);
-                    EdgePos.Add(new WaferCoordinate(rotated90.x + chuck_center_Xoffset, rotated90.y + chuck_center_Yoffset));
+                    EdgePos.Add(new WaferCoordinate(106066, -100866));
+
+
                 }
                 else
                 {
@@ -1541,8 +1551,8 @@ namespace WAEdgeStadnardModule
 
                 this.VisionManager().StartGrab(EnumProberCam.WAFER_LOW_CAM, this);
 
-
-                SetEdgePosition_FD();  // 260105 sebas : SetEdgePosition();
+                //SetEdgePosition_FD();   // 260420 PickCAM으로 얼라인 진행하기로 변경
+                SetEdgePosition();
 
                 var axisX = this.MotionManager().GetAxis(EnumAxisConstants.X);
                 var axisY = this.MotionManager().GetAxis(EnumAxisConstants.Y);

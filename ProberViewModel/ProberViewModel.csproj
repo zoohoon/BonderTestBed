@@ -348,6 +348,7 @@
     <Compile Include="ViewModel\VMPatternViewer.cs" />
     <Compile Include="ViewModel\VmTestSetupPage.cs" />
     <Compile Include="ViewModel\WaferAlignSysSubViewModel.cs" />
+    <Compile Include="ViewModel\WaferMapTest.cs" />
     <Compile Include="ViewModel\Wafer_SetupViewModel.cs" />
     <Compile Include="ViewModel\SettingTemplateVM.cs" />
     <Compile Include="ViewModel\SoakingRecipeSettingViewModel.cs" />
@@ -1080,6 +1081,9 @@
     </Compile>
     <Compile Include="View\WaferHandling\UserControl\UcWaferHandleIcon.xaml.cs">
       <DependentUpon>UcWaferHandleIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WaferMapTest\BWaferMapTest.xaml.cs">
+      <DependentUpon>BWaferMapTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\WaferSelection\UcWaferSelectionView.xaml.cs">
       <DependentUpon>UcWaferSelectionView.xaml</DependentUpon>
@@ -2680,6 +2684,10 @@
     <Page Include="View\WaferHandling\UserControl\UcWaferHandleIcon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\WaferMapTest\BWaferMapTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\WaferSelection\UcWaferSelectionView.xaml">
       <Generator>MSBuild:Compile</Generator>
