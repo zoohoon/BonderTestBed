@@ -8924,9 +8924,9 @@ namespace ManualJogViewModel
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
                 Thread.Sleep(250);
 
-                // Nano Z 위로 이동 (대기 위치)
-                //double pos = 1500;
-                //retVal = this.MotionManager().RelMove(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
+                // Nano Z 아래로 이동 (대기 위치)
+                double pos = -1500;
+                retVal = this.MotionManager().RelMove(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
             }
             catch (Exception err)
             {
@@ -11947,7 +11947,6 @@ namespace ManualJogViewModel
                 // End
 
                 LoggerManager.Debug($"!!!! 종료 동작 !!!!");
-                Thread.Sleep(3000);
                 // ARM Hodler Vacuu, Off
                 LoggerManager.Debug($"Arm2_Holder_Vac_Off Start");
                 this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF2, true);
@@ -12629,13 +12628,13 @@ namespace ManualJogViewModel
                 // ARM Hodler Vacuum Interlock
                 bool IOCheck1 = false;
                 bool IOCheck2 = false;
-                this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_ARM_HODER_VAC_SENSOR1, out IOCheck1);      // Arm1
                 this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_ARM_HODER_VAC_SENSOR2, out IOCheck2);      // Arm2
-                LoggerManager.Debug($"Vacuum Sensor - IOCheck ARM 1 : {IOCheck1}, IOCheck ARM 1 :{IOCheck2}");
+                this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_ARM_HODER_VAC_SENSOR1, out IOCheck1);      // Arm1
+                LoggerManager.Debug($"Vacuum Sensor - IOCheck ARM 1 : {IOCheck1}, IOCheck ARM 2 :{IOCheck2}");
 
                 if (false == IOCheck1 || false == IOCheck2)
                 {
-                    LoggerManager.Debug($"Vacuum Sensor - Not Working IOCheck ARM 1 : {IOCheck1}, IOCheck ARM 1 :{IOCheck2}");
+                    LoggerManager.Debug($"Vacuum Sensor - Not Working IOCheck ARM 1 : {IOCheck1}, IOCheck ARM 2 :{IOCheck2}");
                     return;
                 }
 
