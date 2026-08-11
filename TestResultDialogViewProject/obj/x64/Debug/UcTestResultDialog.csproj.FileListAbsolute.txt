@@ -62,7 +62,6 @@ D:\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.g.reso
 D:\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.csproj.CoreCompileInputs.cache
 D:\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.dll
 D:\NPOS\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.pdb
-D:\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.csproj.AssemblyReference.cache
 C:\Users\정슬찬\Source\Repos\BonderTestBed\bin\x64\Debug\UcTestResultDialog.dll
 C:\Users\정슬찬\Source\Repos\BonderTestBed\bin\x64\Debug\UcTestResultDialog.pdb
 C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.csproj.AssemblyReference.cache

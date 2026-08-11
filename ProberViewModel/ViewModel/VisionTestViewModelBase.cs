@@ -1560,35 +1560,6 @@ namespace VisionTestViewModel
                 // 25P 데이터로 전체 영역 Z 계산
                 CalcZAllPoints();
 
-                //// 격자 범위 설정 (원 전체를 커버하도록)
-                //int maxIndex = (int)Math.Ceiling(radius / pitch);
-
-                //for (int ix = -maxIndex; ix <= maxIndex; ix++)
-                //{
-                //    for (int iy = -maxIndex; iy <= maxIndex; iy++)
-                //    {
-                //        double x = centerX + ix * pitch;
-                //        double y = centerY + iy * pitch;
-
-                //        // 중심으로부터 거리 계산
-                //        double dx = x - centerX;
-                //        double dy = y - centerY;
-
-                //        double distanceSq = dx * dx + dy * dy;
-
-                //        // 원 내부 포함 조건
-                //        if (distanceSq <= radius * radius)
-                //        {
-                //            CatCoordinates pos = new CatCoordinates();
-
-                //            pos.X.Value = x;
-                //            pos.Y.Value = y;
-
-                //            points.Add(pos);
-                //        }
-                //    }
-                //}
-
                 // Print Log
                 PrintLogCommandFunc();
             }
@@ -1765,12 +1736,14 @@ namespace VisionTestViewModel
                     mccoord.Y.Value = points[i].Y.Value;
                     mccoord.Z.Value = zpos;
 
+                    // 260809 sebas 하이카메라 -> 5CAM 으로 변경 필요
                     wafercoord = this.CoordinateManager().WaferHighChuckConvert.Convert(mccoord);
 
                     int fixNum = i;
 
                     await Task.Run(() =>
                     {
+                        // 260809 sebas 하이카메라 -> 5CAM 으로 변경 필요
                         ret = this.StageSupervisor().StageModuleState.WaferHighViewMove(
                             wafercoord.X.Value,
                             wafercoord.Y.Value,
@@ -1778,14 +1751,13 @@ namespace VisionTestViewModel
 
                         if (ret == EventCodeEnum.NONE)
                         {
+                            // 260809 sebas 5CAM용 셋팅값으로 변경 필요
                             FocusingParam.FlatnessThreshold.Value = 95.0;
                             FocusingParam.FocusRange.Value = 500;
 
                             // points 개수에 따라 반복 횟수 결정
                             int focusRetryCount = points.Count < 30 ? 5 : 1;
 
-                            //double focusResultSum = 0;
-                            //int focusSuccessCount = 0;
                             double bestFocusValue = double.MinValue;
                             double bestFocusResultPos = 0;
 
@@ -1802,8 +1774,6 @@ namespace VisionTestViewModel
 
                                 if (ret == EventCodeEnum.NONE)
                                 {
-                                    //focusResultSum += FocusingParam.FocusResultPos;
-                                    //focusSuccessCount++;
                                     if (FocusingParam.FocusValue > bestFocusValue)
                                     {
                                         bestFocusValue = FocusingParam.FocusValue;
@@ -1812,10 +1782,8 @@ namespace VisionTestViewModel
                                 }
                             }
 
-                            //if (focusSuccessCount > 0)
                             if (bestFocusValue != double.MinValue)
                             {
-                                //points[fixNum].Z.Value = focusResultSum / focusSuccessCount;
                                 points[fixNum].Z.Value = bestFocusResultPos;
 
                                 double actZpos = 0;
@@ -1867,8 +1835,10 @@ namespace VisionTestViewModel
                 mccoord.Y.Value = yrelpos;
                 mccoord.Z.Value = zcalcpos;
 
+                // 260809 sebas : High캠 -> 5CAM 변경 필요
                 wafercoord = this.CoordinateManager().WaferHighChuckConvert.Convert(mccoord);
 
+                // 260809 sebas : High캠 -> 5CAM 변경 필요
                 this.StageSupervisor().StageModuleState.WaferHighViewMove(wafercoord.X.Value, wafercoord.Y.Value, wafercoord.Z.Value);
             }
             catch
@@ -2209,6 +2179,7 @@ namespace VisionTestViewModel
             {
                 EnumProberCam curcam = EnumProberCam.UNDEFINED;
 
+                // 260809 sebas : 5CAM과 PickerCAM은 현재 어떤 이름으로 설정되어 있지??
                 switch (SelectedCam)
                 {
                     case enumStageCamType.UNDEFINED:
@@ -2253,7 +2224,7 @@ namespace VisionTestViewModel
                         image.FocusLevelValue = focusval;
 
                         // Save
-                        string SaveBasePath = $"C:\\Logs\\Image\\CPC\\points{number}_Z({zpos}_Score({score})).bmp";
+                        string SaveBasePath = $"C:\\Logs\\Image\\CPC\\points{number}_Z({zpos}_Score({score})).bmp"; // 260809 sebas : 테스트베드에 맞게 저장경로 변경 필요
                         this.VisionManager().SaveImageBuffer(image, SaveBasePath, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
                     }
                     catch (Exception err)
@@ -2263,6 +2234,7 @@ namespace VisionTestViewModel
 
                     this.VisionManager().StartGrab(curcam, this);
 
+                    // 260809 sebas : 5CAM 조명은 별도 제어하므로 필요 없을 듯
                     LightJog.InitCameraJog(this, curcam);
                 }
                 LoggerManager.PinLog($"points{number} SaveImageFunc end : zpos = {zpos} , score = {score}");
@@ -2353,6 +2325,7 @@ namespace VisionTestViewModel
             {
                 EnumProberCam curcam = EnumProberCam.UNDEFINED;
 
+                // 260809 sebas : High캠 -> 5CAM으로 변경 필요
                 switch (SelectedCam)
                 {
                     case enumStageCamType.UNDEFINED:
@@ -2397,6 +2370,7 @@ namespace VisionTestViewModel
                         image.FocusLevelValue = focusval;
 
                         // Save
+                        // 260809 sebas : 테스트베드에 맞게 저장경로 변경 필요
                         string SaveBasePath = $"C:\\Logs\\Image\\CPC\\points{number}_X({xindex})_Y({yindex})_Z({zpos}).bmp";
                         this.VisionManager().SaveImageBuffer(image, SaveBasePath, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
                     }
@@ -2407,6 +2381,7 @@ namespace VisionTestViewModel
 
                     this.VisionManager().StartGrab(curcam, this);
 
+                    // 260809 sebas : 5CAM의 경우 조명처리 불필요할듯
                     LightJog.InitCameraJog(this, curcam);
                 }
                 else
@@ -2414,6 +2389,7 @@ namespace VisionTestViewModel
                     if(ex == true)
                     {
                         // WaferMapTest에서 HighCam 예외사용
+                        // 260809 sebas : High캠 -> 5CAM으로 변경 필요
                         curcam = EnumProberCam.WAFER_HIGH_CAM;
                         Cam = this.VisionManager().GetCam(EnumProberCam.WAFER_HIGH_CAM);
 
@@ -2429,6 +2405,7 @@ namespace VisionTestViewModel
                             image.FocusLevelValue = focusval;
 
                             // Save (경로변경)
+                            // 260809 sebas : 테스트베드에 맞게 저장경로 변경 필요
                             string SaveBasePath = $"C:\\Logs\\Image\\CPC\\WaferMapTest\\points{number}_X({xindex})_Y({yindex})_Z({zpos}).bmp";
                             this.VisionManager().SaveImageBuffer(image, SaveBasePath, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
                         }
@@ -2474,8 +2451,10 @@ namespace VisionTestViewModel
                     zpos = GetZValue(pointsAll[i].Z.Value, setPointCenZ);
                     mccoord.Z.Value = zpos;
 
+                    // 260809 sebas : 하이캠 -> 5CAM 변경 필요
                     wafercoord = this.CoordinateManager().WaferHighChuckConvert.Convert(mccoord);
 
+                    // 260809 sebas : 하이캠 -> 5CAM 변경 필요
                     ret = this.StageSupervisor().StageModuleState.WaferHighViewMove(
                         wafercoord.X.Value,
                         wafercoord.Y.Value,
@@ -2484,9 +2463,6 @@ namespace VisionTestViewModel
                     Thread.Sleep(200);
                     if (ret == EventCodeEnum.NONE)
                     {
-                        // 각 points별 이미지 체크용 저장
-                        //SaveImageFunc_XY(i, zpos, pointsAll[i].X.Value, pointsAll[i].Y.Value);
-
                         // 유저 인덱스 호출
                         CatCoordinates indexPos = new CatCoordinates();
 
