@@ -8924,9 +8924,9 @@ namespace ManualJogViewModel
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
                 Thread.Sleep(250);
 
-                // Nano Z 위로 이동 (대기 위치)
-                //double pos = 1500;
-                //retVal = this.MotionManager().RelMove(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
+                // Nano Z 아래로 이동 (대기 위치)
+                double pos = -1500;
+                retVal = this.MotionManager().RelMove(axisNSZ1, pos, axisNSZ1.Param.Speed.Value, axisNSZ1.Param.Acceleration.Value);
             }
             catch (Exception err)
             {
@@ -8963,7 +8963,7 @@ namespace ManualJogViewModel
 
                 // 260705 sebas : Arm 정렬을 위한 DD pos 이동 보정
                 ProbeAxisObject AxisObjectNZD1 = axisNZD1;
-                double pos = 500;
+                double pos = 200;
                 retVal = this.MotionManager().RelMove_Wating(AxisObjectNZD1, pos, AxisObjectNZD1.Param.Speed.Value, AxisObjectNZD1.Param.Acceleration.Value);
 
             }
@@ -8993,9 +8993,21 @@ namespace ManualJogViewModel
             try
             {
                 EventCodeEnum ret = EventCodeEnum.NODATA;
+                EventCodeEnum retVal = EventCodeEnum.UNDEFINED;     // 260810 sebas add
 
                 ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Z0, EnumAxisConstants.Z1, EnumAxisConstants.Z2);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                // <-- 260810 sebas : 척 평탄도를 위한 3 POD 설정값 추가
+                ProbeAxisObject axisZ1 = this.MotionManager().GetAxis(EnumAxisConstants.Z1);
+                ProbeAxisObject axisZ2 = this.MotionManager().GetAxis(EnumAxisConstants.Z2);
+
+                double posZ1 = 258.8;  // Z1 DtoP = 10 이고 +2588 이동하므로 258.8
+                double posZ2 = 92.6;  // Z2 Dtop = 10 이고 +926 이동하므로 92.6
+                retVal = this.MotionManager().RelMove(axisZ1, posZ1, axisZ1.Param.Speed.Value, axisZ1.Param.Acceleration.Value);
+                retVal = this.MotionManager().RelMove(axisZ2, posZ2, axisZ2.Param.Speed.Value, axisZ2.Param.Acceleration.Value);
+                Thread.Sleep(250);
+                // -->
 
                 ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.C);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
@@ -11947,7 +11959,6 @@ namespace ManualJogViewModel
                 // End
 
                 LoggerManager.Debug($"!!!! 종료 동작 !!!!");
-                Thread.Sleep(3000);
                 // ARM Hodler Vacuu, Off
                 LoggerManager.Debug($"Arm2_Holder_Vac_Off Start");
                 this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACOFF2, true);
@@ -12629,13 +12640,13 @@ namespace ManualJogViewModel
                 // ARM Hodler Vacuum Interlock
                 bool IOCheck1 = false;
                 bool IOCheck2 = false;
-                this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_ARM_HODER_VAC_SENSOR1, out IOCheck1);      // Arm1
                 this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_ARM_HODER_VAC_SENSOR2, out IOCheck2);      // Arm2
-                LoggerManager.Debug($"Vacuum Sensor - IOCheck ARM 1 : {IOCheck1}, IOCheck ARM 1 :{IOCheck2}");
+                this.IOManager().IOServ.ReadBit(this.IOManager().IO.Inputs.DI_ARM_HODER_VAC_SENSOR1, out IOCheck1);      // Arm1
+                LoggerManager.Debug($"Vacuum Sensor - IOCheck ARM 1 : {IOCheck1}, IOCheck ARM 2 :{IOCheck2}");
 
                 if (false == IOCheck1 || false == IOCheck2)
                 {
-                    LoggerManager.Debug($"Vacuum Sensor - Not Working IOCheck ARM 1 : {IOCheck1}, IOCheck ARM 1 :{IOCheck2}");
+                    LoggerManager.Debug($"Vacuum Sensor - Not Working IOCheck ARM 1 : {IOCheck1}, IOCheck ARM 2 :{IOCheck2}");
                     return;
                 }
 

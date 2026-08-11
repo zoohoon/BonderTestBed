@@ -1212,8 +1212,8 @@ namespace Motion
                                 for (int i = 0; i < axis.GroupMembers.Count; i++)
                                 {
                                     int groupactpulse = 0;
-
                                     grouppos[i] = targetPos + axis.GroupMembers[i].DtoP(axis.GroupMembers[i].Status.CompValue);
+
                                     retVal = GetActualPulse(axis.GroupMembers[i], ref groupactpulse);
                                     ResultValidate(retVal);
                                     if (grouppos[i] != groupactpulse)

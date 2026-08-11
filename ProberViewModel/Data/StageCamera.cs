@@ -12,6 +12,7 @@ namespace ProberViewModel.Data
         PinLow,
         WaferHighNC,
         MAP_REF,
+        CX3,    // 260810 sebas : 5CAM Center Camera 추가
     }
 
     public enum StageCamEnum

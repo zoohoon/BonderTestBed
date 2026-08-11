@@ -6639,6 +6639,7 @@ namespace OpusVStageMove
 
             wfcoord.X.Value = xpos * 1d;
             wfcoord.Y.Value = ypos * 1d;
+            wfcoord.Z.Value = zpos * 1d;    // 260810 sebas : Z 값에 현재 위치값이 들어가도록 추가
 
             if (NotUseHeightProfile == false)
             {
@@ -6650,22 +6651,25 @@ namespace OpusVStageMove
             }
 
             //z 값이 안전한지
-            if (wfcoord.Z.Value <= 0)
-            {
-                wfcoord.Z.Value = Module.StageSupervisor().WaferObject.GetSubsInfo().ActualThickness;
-            }
-            else if (wfcoord.Z.Value > Module.StageSupervisor().WaferMaxThickness)
-            {
-                wfcoord.Z.Value = Module.StageSupervisor().WaferMaxThickness;
-            }
+            // <-- 260810 sebas : Z 값이 바뀌지 않도록 주석처리
+            //if (wfcoord.Z.Value <= 0)
+            //{
+            //    wfcoord.Z.Value = Module.StageSupervisor().WaferObject.GetSubsInfo().ActualThickness;
+            //}
+            //else if (wfcoord.Z.Value > Module.StageSupervisor().WaferMaxThickness)
+            //{
+            //    wfcoord.Z.Value = Module.StageSupervisor().WaferMaxThickness;
+            //}
 
-            wfcoord.Z.Value = 1d * heightzpos;
+            //wfcoord.Z.Value = 1d * heightzpos;
+            // -->
 
             try
             {
-                curZpos = axisz.Status.Position.Ref;
+                //curZpos = axisz.Status.Position.Ref;
+                curZpos = zpos;     // 260810 sebas 수정 : Z 값이 0이 되는 것 방지
 
-                if(ovrd == -1)
+                if (ovrd == -1)
                 {
                     ovrd = 1;
                     mccoord = Module.CoordinateManager().WaferHighChuckConvert.ConvertBack_Wafer(wfcoord);
