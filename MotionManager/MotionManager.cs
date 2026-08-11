@@ -3618,32 +3618,81 @@ namespace ProbeMotion
             try
             {
                 retVal = ErrorManager.CalcErrorComp();
+                ret = EventCodeEnum.UNDEFINED;
 
-                retVal = MotionProvider.AbsMove(xaxis, xaxis.Status.RawPosition.Ref, trjtype, ovrd);
-                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                if(ovrd == 99)
+                {
+                    // 5CAM 사용
+                    // 260811 sebas : Z축 이동을 AbsMove 대신 RelMove로 변경 (AbsMove하면 3POD 값이 다 같게 고정되기 때문)
 
-                retVal = MotionProvider.AbsMove(yaxis, yaxis.Status.RawPosition.Ref, trjtype, ovrd);
-                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                    ovrd = 1;   // 260811 sebas : ovrd 값 디폴트인 1로 변경. ovrd가 99면 하위단에서 속도가 99배 될 수 있음
 
-                // 260114 sebas : FD T로 바꿀 예정
-                //retVal = MotionProvider.AbsMove(caxis, caxis.Status.RawPosition.Ref, trjtype, ovrd);
-                //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                    retVal = MotionProvider.AbsMove(xaxis, xaxis.Status.RawPosition.Ref, trjtype, ovrd);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
-                retVal = WaitForAxisMotionDone(xaxis);
-                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                    retVal = MotionProvider.AbsMove(yaxis, yaxis.Status.RawPosition.Ref, trjtype, ovrd);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
-                retVal = WaitForAxisMotionDone(yaxis);
-                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                    //retVal = MotionProvider.AbsMove(caxis, caxis.Status.RawPosition.Ref, trjtype, ovrd);
+                    //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
-                //retVal = WaitForAxisMotionDone(caxis);
-                //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                    retVal = WaitForAxisMotionDone(xaxis);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
-                // 260114 sebas : FD Z로 바꿀 예정
-                retVal = MotionProvider.AbsMove(zaxis, zaxis.Status.RawPosition.Ref, trjtype, ovrd);
-                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                    retVal = WaitForAxisMotionDone(yaxis);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
 
-                retVal = WaitForAxisMotionDone(zaxis);
-                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                    // 260811 sebas : Z축 이동을 RelMove로 변경
+                    //retVal = MotionProvider.AbsMove(zaxis, zaxis.Status.RawPosition.Ref, trjtype, ovrd);
+
+                    double pos = 0;
+                    double targetPos = zaxis.Status.RawPosition.Ref;
+                    double AcualPos = 0;
+                    double currentPos = 0;
+
+                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
+                    currentPos = AcualPos;
+
+                    ret = this.MotionManager().RelMove_Wating(zaxis, targetPos - currentPos, zaxis.Param.Speed.Value, zaxis.Param.Acceleration.Value);
+                    if(ret != EventCodeEnum.NONE)
+                    {
+                        return ret;
+                    }
+
+                    retVal = WaitForAxisMotionDone(zaxis);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                }
+                else
+                {
+                    ovrd = 1;   // 260811 sebas : ovrd 값 디폴트인 1로 변경. ovrd가 99면 하위단에서 속도가 99배 될 수 있음
+
+                    retVal = MotionProvider.AbsMove(xaxis, xaxis.Status.RawPosition.Ref, trjtype, ovrd);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                    retVal = MotionProvider.AbsMove(yaxis, yaxis.Status.RawPosition.Ref, trjtype, ovrd);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                    // 260114 sebas : FD T로 바꿀 예정
+                    //retVal = MotionProvider.AbsMove(caxis, caxis.Status.RawPosition.Ref, trjtype, ovrd);
+                    //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                    retVal = WaitForAxisMotionDone(xaxis);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                    retVal = WaitForAxisMotionDone(yaxis);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                    //retVal = WaitForAxisMotionDone(caxis);
+                    //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                    retVal = MotionProvider.AbsMove(zaxis, zaxis.Status.RawPosition.Ref, trjtype, ovrd);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+
+                    retVal = WaitForAxisMotionDone(zaxis);
+                    ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(retVal));
+                }
+
 
                 ret = EventCodeEnum.NONE;
             }

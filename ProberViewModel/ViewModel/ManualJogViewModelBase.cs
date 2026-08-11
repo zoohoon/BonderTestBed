@@ -8993,9 +8993,21 @@ namespace ManualJogViewModel
             try
             {
                 EventCodeEnum ret = EventCodeEnum.NODATA;
+                EventCodeEnum retVal = EventCodeEnum.UNDEFINED;     // 260810 sebas add
 
                 ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.Z0, EnumAxisConstants.Z1, EnumAxisConstants.Z2);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
+
+                // <-- 260810 sebas : 척 평탄도를 위한 3 POD 설정값 추가
+                ProbeAxisObject axisZ1 = this.MotionManager().GetAxis(EnumAxisConstants.Z1);
+                ProbeAxisObject axisZ2 = this.MotionManager().GetAxis(EnumAxisConstants.Z2);
+
+                double posZ1 = 258.8;  // Z1 DtoP = 10 이고 +2588 이동하므로 258.8
+                double posZ2 = 92.6;  // Z2 Dtop = 10 이고 +926 이동하므로 92.6
+                retVal = this.MotionManager().RelMove(axisZ1, posZ1, axisZ1.Param.Speed.Value, axisZ1.Param.Acceleration.Value);
+                retVal = this.MotionManager().RelMove(axisZ2, posZ2, axisZ2.Param.Speed.Value, axisZ2.Param.Acceleration.Value);
+                Thread.Sleep(250);
+                // -->
 
                 ret = this.MotionManager().HomingTaskRun(EnumAxisConstants.C);
                 ResultValidate(MethodBase.GetCurrentMethod(), ret);
