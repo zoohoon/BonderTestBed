@@ -73,3 +73,4 @@ C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogViewProject\obj\x6
 C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.csproj.CoreCompileInputs.cache
 C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.dll
 C:\Users\정슬찬\Source\Repos\BonderTestBed\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.pdb
+D:\NPOS\TestResultDialogViewProject\obj\x64\Debug\UcTestResultDialog.csproj.AssemblyReference.cache

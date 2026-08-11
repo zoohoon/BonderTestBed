@@ -33,6 +33,7 @@ using FTech_CoaxlinkEx;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using System.Diagnostics;
 
 namespace VisionTestViewModel
 {
@@ -205,7 +206,7 @@ namespace VisionTestViewModel
         }
     }
 
-    public class VisionTestViewModelBase : IMainScreenViewModel, INotifyPropertyChanged, ISetUpState, IUseLightJog
+    public class VisionTestViewModelBase : IMainScreenViewModel, INotifyPropertyChanged, ISetUpState, IUseLightJog, ICoaxLinkExFocusFrameProvider
     {
         #region ==> PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
@@ -377,11 +378,34 @@ namespace VisionTestViewModel
                 }
             }
         }
+        private bool _IsMoveCenCompleted = false;
+        public bool IsMoveCenCompleted
+        {
+            get { return _IsMoveCenCompleted; }
+            set
+            {
+                if (_IsMoveCenCompleted != value)
+                {
+                    _IsMoveCenCompleted = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
         public ImageSource CX3CameraSource
         {
             get
             {
                 return _cx3CameraBitmap;
+            }
+        }
+        public bool IsReady
+        {
+            get
+            {
+                return _cx3Grabber != null &&
+                       _cx3IsWorking &&
+                       _cx3Width > 0 &&
+                       _cx3Height > 0;
             }
         }
 
@@ -499,12 +523,10 @@ namespace VisionTestViewModel
                             _cx3LatestFrame = new byte[src.Length];
                         }
 
-                        Buffer.BlockCopy(
-                            src,
-                            0,
-                            _cx3LatestFrame,
-                            0,
-                            src.Length);
+                        Buffer.BlockCopy(src, 0, _cx3LatestFrame, 0, src.Length);
+
+                        _cx3FrameSequence++;
+                        Monitor.PulseAll(_cx3FrameLock);
                     }
 
                     // 기존 화면 Display
@@ -549,6 +571,51 @@ namespace VisionTestViewModel
             {
                 LoggerManager.Exception(ex);
             }
+        }
+        private long _cx3FrameSequence = 0;
+        public ImageBuffer WaitNextImage(int timeoutMilliseconds = 3000)
+        {
+            Stopwatch stopwatch = Stopwatch.StartNew();
+            byte[] copiedFrame;
+            long startSequence;
+
+            lock (_cx3FrameLock)
+            {
+                startSequence = _cx3FrameSequence;
+
+                while (_cx3FrameSequence <= startSequence)
+                {
+                    int remainingTime = timeoutMilliseconds - (int)stopwatch.ElapsedMilliseconds;
+
+                    if (remainingTime <= 0)
+                    {
+                        throw new TimeoutException("CX3 새 프레임 대기 시간이 초과되었습니다.");
+                    }
+
+                    Monitor.Wait(_cx3FrameLock, Math.Min(remainingTime, 100));
+                }
+
+                if (_cx3LatestFrame == null || _cx3LatestFrame.Length == 0)
+                {
+                    throw new InvalidOperationException("CX3 프레임이 없습니다.");
+                }
+
+                copiedFrame = new byte[_cx3LatestFrame.Length];
+                Buffer.BlockCopy(_cx3LatestFrame, 0, copiedFrame, 0, copiedFrame.Length);
+            }
+
+            int band = _cx3IsColor ? 3 : 1;
+
+            ImageBuffer image = new ImageBuffer(
+                copiedFrame,
+                _cx3Width,
+                _cx3Height,
+                band,
+                8);
+
+            image.CapturedTime = DateTime.Now;
+
+            return image;
         }
         #endregion        // -->
 
@@ -1970,10 +2037,22 @@ namespace VisionTestViewModel
                             double bestFocusValue = double.MinValue;
                             double bestFocusResultPos = 0;
 
+                            var coaxFocusing = FocusingModule as ICoaxLinkExFocusing;
+                            if (coaxFocusing == null)
+                            {
+                                LoggerManager.Error("CoaxLinkEx Focusing을 지원하지 않는 모듈입니다.");
+                                return;
+                            }
+
                             for (int retry = 0; retry < focusRetryCount; retry++)
                             {
-                                // 스테이지 이동 확인 전까지 주석처리
-                                //ret = FocusingModule.Focusing_Retry(FocusingParam, false, false, false, this);
+                                ret = coaxFocusing.Focusing_Retry_CoaxLinkEx(
+                                    FocusingParam,
+                                    this,   // CX3 프레임 공급자
+                                    false,
+                                    false,
+                                    false,
+                                    this);  // 호출자 정보(callerassembly) 역할
 
                                 Thread.Sleep(200);
 
@@ -2040,7 +2119,8 @@ namespace VisionTestViewModel
                 mccoord.Y.Value = yrelpos;
                 mccoord.Z.Value = zcalcpos;
 
-                wafercoord = this.CoordinateManager().WaferHighChuckConvert.Convert(mccoord);
+                //wafercoord = this.CoordinateManager().WaferHighChuckConvert.Convert(mccoord);
+                wafercoord = this.CoordinateManager().WaferHighChuckConvert.Convert_5Cam(mccoord);
 
                 this.StageSupervisor().StageModuleState.WaferHighViewMove(wafercoord.X.Value, wafercoord.Y.Value, wafercoord.Z.Value);
             }
@@ -2356,18 +2436,31 @@ namespace VisionTestViewModel
             {
                 await Task.Run(() =>
                 {
+                    FocusingParam.FocusingAxis.Value = EnumAxisConstants.Z;
                     FocusingParam.FlatnessThreshold.Value = 95.0;
                     FocusingParam.FocusRange.Value = 500;
-                    FocusingModule.Focusing_Retry(FocusingParam, false, false, false, this);
 
-                    CatCoordinates pos = new CatCoordinates();
-                    pos.X.Value = mccoord.X.Value;
-                    pos.Y.Value = mccoord.Y.Value;
+                    var coaxFocusing = FocusingModule as ICoaxLinkExFocusing;
+
+                    if (coaxFocusing == null)
+                    {
+                        LoggerManager.Error("CoaxLinkEx Focusing을 지원하지 않는 모듈입니다.");
+                        return;
+                    }
+
+                    EventCodeEnum result = coaxFocusing.Focusing_Retry_CoaxLinkEx(
+                        FocusingParam,
+                        this,   // CX3 프레임 공급자
+                        false,
+                        false,
+                        false,
+                        this);  // callerassembly
+
                     double actZpos = 0;
                     this.MotionManager().GetActualPos(EnumAxisConstants.Z, ref actZpos);
-                    pos.Z.Value = actZpos;
 
-                    LoggerManager.PinLog($"FocusCommand : Z = {FocusingParam.FocusResultPos} , Score = {FocusingParam.FocusValue}");
+                    LoggerManager.PinLog(
+                        $"CX3 FocusCommand : Result = {result}, Z = {FocusingParam.FocusResultPos}, Score = {FocusingParam.FocusValue}");
                 });
             }
             catch
@@ -2671,10 +2764,10 @@ namespace VisionTestViewModel
             }
             return ret;
         }
-
         public async Task<EventCodeEnum> SaveImageFunc_Index(int number, double zpos, long xindex, long yindex, bool ex = false)
         {
             EventCodeEnum ret = EventCodeEnum.UNDEFINED;
+
             try
             {
                 EnumProberCam curcam = EnumProberCam.UNDEFINED;
@@ -2684,93 +2777,257 @@ namespace VisionTestViewModel
                     case enumStageCamType.UNDEFINED:
                         curcam = EnumProberCam.UNDEFINED;
                         break;
+
                     case enumStageCamType.WaferHigh:
                         curcam = EnumProberCam.WAFER_HIGH_CAM;
-                        Cam = this.VisionManager().GetCam(EnumProberCam.WAFER_HIGH_CAM);
+                        Cam = this.VisionManager().GetCam(
+                            EnumProberCam.WAFER_HIGH_CAM);
                         break;
+
                     case enumStageCamType.WaferLow:
                         curcam = EnumProberCam.WAFER_LOW_CAM;
-                        Cam = this.VisionManager().GetCam(EnumProberCam.WAFER_LOW_CAM);
+                        Cam = this.VisionManager().GetCam(
+                            EnumProberCam.WAFER_LOW_CAM);
                         break;
+
                     case enumStageCamType.PinHigh:
                         curcam = EnumProberCam.PIN_HIGH_CAM;
-                        Cam = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM);
+                        Cam = this.VisionManager().GetCam(
+                            EnumProberCam.PIN_HIGH_CAM);
                         break;
+
                     case enumStageCamType.PinLow:
                         curcam = EnumProberCam.PIN_LOW_CAM;
-                        Cam = this.VisionManager().GetCam(EnumProberCam.PIN_LOW_CAM);
+                        Cam = this.VisionManager().GetCam(
+                            EnumProberCam.PIN_LOW_CAM);
                         break;
+
                     case enumStageCamType.MAP_REF:
                         curcam = EnumProberCam.MAP_REF_CAM;
-                        Cam = this.VisionManager().GetCam(EnumProberCam.MAP_REF_CAM);
+                        Cam = this.VisionManager().GetCam(
+                            EnumProberCam.MAP_REF_CAM);
                         break;
+
+                    case enumStageCamType.CX3:
+                        // CX3는 VisionManager의 SingleGrab을 사용하지 않고,
+                        // Display Thread에서 전달받은 최신 Frame을 사용합니다.
+                        break;
+
                     default:
                         break;
                 }
 
-                if (curcam != EnumProberCam.UNDEFINED)
+                // ---------------------------------------------------------
+                // CX3(CoaxLinkEx) 카메라 이미지 저장
+                // ---------------------------------------------------------
+                if (SelectedCam == enumStageCamType.CX3)
+                {
+                    try
+                    {
+                        byte[] saveBuffer = null;
+
+                        // Display Thread에서 복사해 놓은 최신 Frame을
+                        // 저장 전용 Buffer로 다시 복사합니다.
+                        lock (_cx3FrameLock)
+                        {
+                            if (_cx3LatestFrame != null &&
+                                _cx3LatestFrame.Length > 0)
+                            {
+                                saveBuffer =
+                                    new byte[_cx3LatestFrame.Length];
+
+                                Buffer.BlockCopy(
+                                    _cx3LatestFrame,
+                                    0,
+                                    saveBuffer,
+                                    0,
+                                    _cx3LatestFrame.Length);
+                            }
+                        }
+
+                        // 아직 CX3 Frame이 들어오지 않은 경우
+                        if (saveBuffer == null ||
+                            saveBuffer.Length == 0)
+                        {
+                            LoggerManager.PinLog(
+                                "SaveImageFunc_Index CX3 : Latest Frame is empty");
+
+                            return ret;
+                        }
+
+                        string saveBasePath;
+
+                        if (ex)
+                        {
+                            // WaferMapTest 경로
+                            saveBasePath =
+                                $"C:\\Logs\\Image\\CPC\\WaferMapTest\\" +
+                                $"points{number}_X({xindex})_Y({yindex})_Z({zpos}).bmp";
+                        }
+                        else
+                        {
+                            // 일반 저장 경로
+                            saveBasePath =
+                                $"C:\\Logs\\Image\\CPC\\" +
+                                $"points{number}_X({xindex})_Y({yindex})_Z({zpos}).bmp";
+                        }
+
+                        SaveCX3Bitmap(
+                            saveBuffer,
+                            saveBasePath);
+
+                        LoggerManager.PinLog(
+                            $"CX3 Image Save : {saveBasePath}");
+                    }
+                    catch (Exception err)
+                    {
+                        LoggerManager.Exception(err);
+                    }
+                }
+                // ---------------------------------------------------------
+                // 기존 카메라 이미지 저장
+                // ---------------------------------------------------------
+                else if (curcam != EnumProberCam.UNDEFINED)
                 {
                     bool signaled = false;
                     ImageBuffer image = new ImageBuffer();
 
                     try
                     {
-                        image = this.VisionManager().SingleGrab(Cam.GetChannelType(), this);
+                        image = this.VisionManager().SingleGrab(
+                            Cam.GetChannelType(),
+                            this);
 
-                        signaled = this.VisionManager().DigitizerService[Cam.GetDigitizerIndex()].GrabberService.WaitOne(60000);
-                        var roi = new System.Windows.Rect(0, 0, 960, 960);
-                        int focusval = this.VisionManager().GetFocusValue(image, roi);
+                        signaled =
+                            this.VisionManager()
+                                .DigitizerService[Cam.GetDigitizerIndex()]
+                                .GrabberService
+                                .WaitOne(60000);
+
+                        if (!signaled)
+                        {
+                            LoggerManager.PinLog(
+                                $"SaveImageFunc_Index : Grab timeout, " +
+                                $"Camera = {curcam}");
+
+                            return ret;
+                        }
+
+                        var roi =
+                            new System.Windows.Rect(
+                                0,
+                                0,
+                                960,
+                                960);
+
+                        int focusval =
+                            this.VisionManager().GetFocusValue(
+                                image,
+                                roi);
+
                         image.FocusLevelValue = focusval;
 
-                        // Save
-                        string SaveBasePath = $"C:\\Logs\\Image\\CPC\\points{number}_X({xindex})_Y({yindex})_Z({zpos}).bmp";
-                        this.VisionManager().SaveImageBuffer(image, SaveBasePath, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
+                        string saveBasePath =
+                            $"C:\\Logs\\Image\\CPC\\" +
+                            $"points{number}_X({xindex})_Y({yindex})_Z({zpos}).bmp";
+
+                        this.VisionManager().SaveImageBuffer(
+                            image,
+                            saveBasePath,
+                            IMAGE_LOG_TYPE.NORMAL,
+                            EventCodeEnum.NONE);
                     }
                     catch (Exception err)
                     {
                         LoggerManager.Exception(err);
                     }
 
-                    this.VisionManager().StartGrab(curcam, this);
+                    this.VisionManager().StartGrab(
+                        curcam,
+                        this);
 
-                    LightJog.InitCameraJog(this, curcam);
+                    LightJog.InitCameraJog(
+                        this,
+                        curcam);
                 }
-                else
+                // ---------------------------------------------------------
+                // WaferMapTest용 High 카메라 예외 처리
+                // ---------------------------------------------------------
+                else if (ex)
                 {
-                    if(ex == true)
+                    curcam = EnumProberCam.WAFER_HIGH_CAM;
+
+                    Cam = this.VisionManager().GetCam(
+                        EnumProberCam.WAFER_HIGH_CAM);
+
+                    bool signaled = false;
+                    ImageBuffer image = new ImageBuffer();
+
+                    try
                     {
-                        // WaferMapTest에서 HighCam 예외사용
-                        curcam = EnumProberCam.WAFER_HIGH_CAM;
-                        Cam = this.VisionManager().GetCam(EnumProberCam.WAFER_HIGH_CAM);
+                        image = this.VisionManager().SingleGrab(
+                            Cam.GetChannelType(),
+                            this);
 
-                        bool signaled = false;
-                        ImageBuffer image = new ImageBuffer();
-                        try
+                        signaled =
+                            this.VisionManager()
+                                .DigitizerService[Cam.GetDigitizerIndex()]
+                                .GrabberService
+                                .WaitOne(60000);
+
+                        if (!signaled)
                         {
-                            image = this.VisionManager().SingleGrab(Cam.GetChannelType(), this);
+                            LoggerManager.PinLog(
+                                "SaveImageFunc_Index WaferMapTest : Grab timeout");
 
-                            signaled = this.VisionManager().DigitizerService[Cam.GetDigitizerIndex()].GrabberService.WaitOne(60000);
-                            var roi = new System.Windows.Rect(0, 0, 960, 960);
-                            int focusval = this.VisionManager().GetFocusValue(image, roi);
-                            image.FocusLevelValue = focusval;
+                            return ret;
+                        }
 
-                            // Save (경로변경)
-                            string SaveBasePath = $"C:\\Logs\\Image\\CPC\\WaferMapTest\\points{number}_X({xindex})_Y({yindex})_Z({zpos}).bmp";
-                            this.VisionManager().SaveImageBuffer(image, SaveBasePath, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
-                        }
-                        catch (Exception err)
-                        {
-                            LoggerManager.Exception(err);
-                        }
-                        this.VisionManager().StartGrab(curcam, this);
+                        var roi =
+                            new System.Windows.Rect(
+                                0,
+                                0,
+                                960,
+                                960);
+
+                        int focusval =
+                            this.VisionManager().GetFocusValue(
+                                image,
+                                roi);
+
+                        image.FocusLevelValue = focusval;
+
+                        string saveBasePath =
+                            $"C:\\Logs\\Image\\CPC\\WaferMapTest\\" +
+                            $"points{number}_X({xindex})_Y({yindex})_Z({zpos}).bmp";
+
+                        this.VisionManager().SaveImageBuffer(
+                            image,
+                            saveBasePath,
+                            IMAGE_LOG_TYPE.NORMAL,
+                            EventCodeEnum.NONE);
                     }
+                    catch (Exception err)
+                    {
+                        LoggerManager.Exception(err);
+                    }
+
+                    this.VisionManager().StartGrab(
+                        curcam,
+                        this);
                 }
-                LoggerManager.PinLog($"points{number} SaveImageFunc end : xIndex = {xindex}, yIndex = {yindex}, zpos = {zpos}");
+
+                LoggerManager.PinLog(
+                    $"points{number} SaveImageFunc_Index end : " +
+                    $"xIndex = {xindex}, " +
+                    $"yIndex = {yindex}, " +
+                    $"zpos = {zpos}");
             }
             catch (Exception err)
             {
                 LoggerManager.Exception(err);
             }
+
             return ret;
         }
         private AsyncCommand _CaptureAllCommand;
@@ -2800,7 +3057,8 @@ namespace VisionTestViewModel
                     zpos = GetZValue(pointsAll[i].Z.Value, setPointCenZ);
                     mccoord.Z.Value = zpos;
 
-                    wafercoord = this.CoordinateManager().WaferHighChuckConvert.Convert(mccoord);
+                    //wafercoord = this.CoordinateManager().WaferHighChuckConvert.Convert(mccoord);
+                    wafercoord = this.CoordinateManager().WaferHighChuckConvert.Convert_5Cam(mccoord);
 
                     ret = this.StageSupervisor().StageModuleState.WaferHighViewMove(
                         wafercoord.X.Value,
@@ -3018,6 +3276,8 @@ namespace VisionTestViewModel
                 {
                     throw new Exception("Base Z RelMove Error");
                 }
+
+                IsMoveCenCompleted = true;
             }
             catch (Exception err)
             {

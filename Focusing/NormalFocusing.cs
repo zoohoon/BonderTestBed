@@ -20,7 +20,7 @@ namespace Focusing
     using System.Windows;
 
     [Serializable]
-    public class NormalFocusing : FocusingBase, INotifyPropertyChanged
+    public class NormalFocusing : FocusingBase, INotifyPropertyChanged, ICoaxLinkExFocusing
     {
 
         #region ==> PropertyChanged
@@ -839,6 +839,1293 @@ namespace Focusing
             return retval;
         }
 
+        #region // 260811 sebas : CoaxLink카메라용
+        public EventCodeEnum Focusing_CoaxLinkEx(IFocusParameter focusparam, ICoaxLinkExFocusFrameProvider frameProvider, object callerAssembly, bool isOutRangeFind = false,
+                                                    string SavePassPath = "", string SaveFailPath = "", PeakSelectionStrategy peakSelectionStrategy = PeakSelectionStrategy.NONE)
+        {
+            EventCodeEnum focusResult = EventCodeEnum.UNDEFINED;
+
+            double prePosition = 0.0;
+            double lastZHeightPos = 0.0;
+
+            bool assignedLastZHeightPos = false;
+
+            ProbeAxisObject axis = null;
+
+            double originalPosition = 0.0;
+            double focusVelocity = 0.0;
+            double focusAcceleration = 0.0;
+
+            Stopwatch stopwatch =
+                new Stopwatch();
+
+            List<KeyValuePair<string, long>> timeStamp =
+                new List<KeyValuePair<string, long>>();
+
+            try
+            {
+                LoggerManager.PinLog(
+                    "Focusing_CoaxLinkEx..");
+
+                if (focusparam == null)
+                {
+                    LoggerManager.Error(
+                        "[CoaxLinkExFocusing] focusparam is null.");
+
+                    return EventCodeEnum.FOCUS_PARAMETER_INVALID;
+                }
+
+                if (frameProvider == null)
+                {
+                    LoggerManager.Error(
+                        "[CoaxLinkExFocusing] frameProvider is null.");
+
+                    return EventCodeEnum.FOCUS_PARAMETER_INVALID;
+                }
+
+                if (!frameProvider.IsReady)
+                {
+                    LoggerManager.Error(
+                        "[CoaxLinkExFocusing] CX3 camera is not ready.");
+
+                    return EventCodeEnum.FOCUS_PARAMETER_INVALID;
+                }
+
+                if (focusparam.FocusingAxis == null ||
+                    focusparam.FocusingAxis.Value ==
+                        EnumAxisConstants.Undefined)
+                {
+                    LoggerManager.Error(
+                        "[CoaxLinkExFocusing] " +
+                        "Focusing axis is invalid.");
+
+                    return EventCodeEnum.FOCUS_PARAMETER_INVALID;
+                }
+
+                if (focusparam.FocusRange == null ||
+                    focusparam.FocusRange.Value <= 0)
+                {
+                    LoggerManager.Error(
+                        $"[CoaxLinkExFocusing] " +
+                        $"FocusRange is invalid. " +
+                        $"Value={focusparam.FocusRange?.Value}");
+
+                    return EventCodeEnum.FOCUS_PARAMETER_INVALID;
+                }
+
+                Rect focusROI =
+                    focusparam.FocusingROI.Value;
+
+                if (focusROI.Width <= 0 ||
+                    focusROI.Height <= 0)
+                {
+                    LoggerManager.Error(
+                        $"[CoaxLinkExFocusing] " +
+                        $"Focusing ROI is invalid. ROI={focusROI}");
+
+                    return EventCodeEnum.FOCUS_PARAMETER_INVALID;
+                }
+
+                if (this.VisionManager().GetVisionProcRaft() !=
+                    ProberInterfaces.Vision.EnumVisionProcRaft.MIL)
+                {
+                    if (FocusingStaticParam.ErrorEventCodeEnum !=
+                            EventCodeEnum.UNDEFINED &&
+                        focusparam.FocusingAxis.Value !=
+                            EnumAxisConstants.PZ)
+                    {
+                        return
+                            FocusingStaticParam.ErrorEventCodeEnum;
+                    }
+
+                    return EventCodeEnum.NONE;
+                }
+
+                stopwatch.Start();
+
+                timeStamp.Add(
+                    new KeyValuePair<string, long>(
+                        "CoaxLinkEx Focusing Start",
+                        stopwatch.ElapsedMilliseconds));
+
+                XyDataSeries<double, double> dataSeries =
+                    null;
+
+                axis =
+                    this.MotionManager().GetAxis(
+                        focusparam.FocusingAxis.Value);
+
+                if (axis == null)
+                {
+                    LoggerManager.Error(
+                        "[CoaxLinkExFocusing] " +
+                        "Failed to get focusing axis.");
+
+                    return EventCodeEnum.FOCUS_PARAMETER_INVALID;
+                }
+
+                focusVelocity =
+                    axis.Param.Speed.Value;
+
+                focusAcceleration =
+                    axis.Param.Acceleration.Value;
+
+                int focusStep = 0;
+                double focusResolution = 0.0;
+                double currentReferencePosition = 0.0;
+
+                List<ImageBuffer> imageBuffersForDebug =
+                    null;
+
+                this.MotionManager().GetRefPos(
+                    axis.AxisType.Value,
+                    ref currentReferencePosition);
+
+                originalPosition =
+                    currentReferencePosition;
+
+                if (focusGraph != null)
+                {
+                    focusGraph.ClearData();
+                }
+
+                double focusRange =
+                    focusparam.FocusRange.Value;
+
+                GetFocusResolution(
+                    focusparam,
+                    focusRange,
+                    out focusStep,
+                    out focusResolution);
+
+                LoggerManager.Debug(
+                    $"[CoaxLinkExFocusing] " +
+                    $"Range={focusRange}, " +
+                    $"Step={focusStep}, " +
+                    $"Resolution={focusResolution}");
+
+                if (focusStep == 0 ||
+                    focusResolution == 0.0)
+                {
+                    LoggerManager.Debug(
+                        "[CoaxLinkExFocusing] " +
+                        "Focusing is not required because " +
+                        "focus step or resolution is zero.");
+
+                    return EventCodeEnum.NONE;
+                }
+
+                lock (lockObject)
+                {
+                    Dataserices.AcceptsUnsortedData =
+                        true;
+
+                    double settling = 0.0;
+
+                    this.MotionManager().GetRefPos(
+                        axis.AxisType.Value,
+                        ref currentReferencePosition);
+
+                    double zAxisLimitCeiling =
+                        currentReferencePosition +
+                        (focusRange / 2.0);
+
+                    double zAxisLimitFloor =
+                        currentReferencePosition -
+                        (focusRange / 2.0);
+
+                    prePosition =
+                        currentReferencePosition;
+
+                    LoggerManager.Debug(
+                        $"[CoaxLinkExFocusing] " +
+                        $"Current={currentReferencePosition}, " +
+                        $"Ceiling={zAxisLimitCeiling}, " +
+                        $"Floor={zAxisLimitFloor}");
+
+                    double stepDirection = 1.0;
+
+                    bool checkedFlatness = false;
+                    bool appliedPeakSelectionStrategy = false;
+
+                    List<ImageBuffer> imageBuffers =
+                        new List<ImageBuffer>();
+
+                    timeStamp.Add(
+                        new KeyValuePair<string, long>(
+                            "Start Position Move Start",
+                            stopwatch.ElapsedMilliseconds));
+
+                    /*
+                     * 최초 위치에서 FocusRange 절반만큼 아래로 이동한다.
+                     */
+                    this.MotionManager().RelMove(
+                        axis,
+                        (-focusRange) / 2.0,
+                        focusVelocity,
+                        focusAcceleration);
+
+                    this.MotionManager()
+                        .WaitForAxisMotionDone(axis);
+
+                    this.MotionManager().GetRefPos(
+                        axis.AxisType.Value,
+                        ref currentReferencePosition);
+
+                    VirtualStageConnector
+                        .VirtualStageConnector
+                        .Instance
+                        .SetFocusingStartPos(
+                            currentReferencePosition);
+
+                    stepDirection = 1.0;
+                    checkedFlatness = false;
+
+                    while (true)
+                    {
+                        Dataserices.Clear();
+                        imageBuffers.Clear();
+
+                        settling =
+                            focusResolution / 1000.0 * 8.0;
+
+                        // 기존 Focusing과 동일하게 0.001 적용
+                        settling = 0.001;
+
+                        this.MotionManager().SetSettlingTime(
+                            axis,
+                            settling);
+
+                        timeStamp.Add(
+                            new KeyValuePair<string, long>(
+                                "Move Start",
+                                stopwatch.ElapsedMilliseconds));
+
+                        dataSeries =
+                            new XyDataSeries<double, double>();
+
+                        try
+                        {
+                            /*
+                             * CX3 카메라는 계속 Grab 중이므로
+                             * 기존 SingleGrab 대신 새 프레임만 버린다.
+                             */
+                            for (int count = 0;
+                                 count <
+                                    FocusingStaticParam.SetIdleGrabCount;
+                                 count++)
+                            {
+                                ImageBuffer idleImage =
+                                    frameProvider.WaitNextImage(3000);
+
+                                Thread.Sleep(
+                                    FocusingStaticParam.FocusDelayTime);
+                            }
+
+                            for (int i = 0;
+                                 i < focusStep;
+                                 i++)
+                            {
+                                timeStamp.Add(
+                                    new KeyValuePair<string, long>(
+                                        "WaitGrab Start",
+                                        stopwatch.ElapsedMilliseconds));
+
+                                ImageBuffer newImageBuffer =
+                                    WaitGrab_CoaxLinkEx(
+                                        frameProvider,
+                                        focusROI,
+                                        3000);
+
+                                timeStamp.Add(
+                                    new KeyValuePair<string, long>(
+                                        "WaitGrab End",
+                                        stopwatch.ElapsedMilliseconds));
+
+                                if (newImageBuffer == null ||
+                                    newImageBuffer.Buffer == null ||
+                                    newImageBuffer.Buffer.Length == 0)
+                                {
+                                    LoggerManager.Error(
+                                        "[CoaxLinkExFocusing] " +
+                                        "Failed to acquire CX3 image.");
+
+                                    focusResult =
+                                        EventCodeEnum.UNDEFINED;
+
+                                    break;
+                                }
+
+                                lock (newImageBuffer)
+                                {
+                                    double actualPosition = 0.0;
+
+                                    this.MotionManager().GetRefPos(
+                                        axis.AxisType.Value,
+                                        ref actualPosition);
+
+                                    newImageBuffer.ZHeight =
+                                        actualPosition;
+
+                                    LoggerManager.Debug(
+                                        $"[CoaxLinkExFocusing] " +
+                                        $"Focus Value " +
+                                        $"@{newImageBuffer.ZHeight:0.000} " +
+                                        $"= {newImageBuffer.FocusLevelValue}");
+
+                                    imageBuffers.Add(
+                                        newImageBuffer);
+                                }
+
+                                this.MotionManager().GetRefPos(
+                                    axis.AxisType.Value,
+                                    ref currentReferencePosition);
+
+                                if (currentReferencePosition +
+                                        focusResolution *
+                                        stepDirection >
+                                    zAxisLimitCeiling)
+                                {
+                                    break;
+                                }
+
+                                if (currentReferencePosition +
+                                        focusResolution *
+                                        stepDirection <
+                                    zAxisLimitFloor)
+                                {
+                                    break;
+                                }
+
+                                timeStamp.Add(
+                                    new KeyValuePair<string, long>(
+                                        "ZMove Start",
+                                        stopwatch.ElapsedMilliseconds));
+
+                                this.MotionManager().RelMove(
+                                    axis,
+                                    focusResolution *
+                                        stepDirection,
+                                    focusVelocity,
+                                    focusAcceleration);
+
+                                this.MotionManager()
+                                    .WaitForAxisMotionDone(axis);
+
+                                timeStamp.Add(
+                                    new KeyValuePair<string, long>(
+                                        "ZMove End",
+                                        stopwatch.ElapsedMilliseconds));
+
+                                Thread.Sleep(
+                                    FocusingStaticParam.FocusDelayTime);
+                            }
+                        }
+                        catch (Exception err)
+                        {
+                            LoggerManager.Exception(err);
+                            focusResult =
+                                EventCodeEnum.UNDEFINED;
+                        }
+
+                        timeStamp.Add(
+                            new KeyValuePair<string, long>(
+                                "Move End",
+                                stopwatch.ElapsedMilliseconds));
+
+                        if (imageBuffers.Count == 0)
+                        {
+                            LoggerManager.Error(
+                                "[CoaxLinkExFocusing] " +
+                                "No focusing images were acquired.");
+
+                            focusResult =
+                                EventCodeEnum.UNDEFINED;
+
+                            break;
+                        }
+
+                        #region Save Debug Image
+
+                        try
+                        {
+                            if (FocusingStaticParam.SaveImageFlag)
+                            {
+                                if (!Directory.Exists(
+                                        FocusingStaticParam
+                                            .SaveDebugImagePath))
+                                {
+                                    Directory.CreateDirectory(
+                                        FocusingStaticParam
+                                            .SaveDebugImagePath);
+                                }
+
+                                foreach (var item in
+                                    imageBuffers.Select(
+                                        (value, index) =>
+                                            new
+                                            {
+                                                value,
+                                                index
+                                            }))
+                                {
+                                    ImageBuffer image =
+                                        item.value;
+
+                                    int index =
+                                        item.index;
+
+                                    string saveFullPath =
+                                        $"{FocusingStaticParam.SaveDebugImagePath}\\" +
+                                        $"{image.CapturedTime:yyyy-MM-dd-HH-mm-ss-fff}" +
+                                        $"_CoaxLinkExFocusing#_{index + 1}" +
+                                        $"_Height_{image.ZHeight:F2}" +
+                                        $"_Value_{image.FocusLevelValue}.bmp";
+
+                                    if (FocusingStaticParam
+                                        .OverlayFocusROIFlag)
+                                    {
+                                        this.VisionManager()
+                                            .SaveImageBufferWithRectnagle(
+                                                image,
+                                                saveFullPath,
+                                                IMAGE_LOG_TYPE.NORMAL,
+                                                EventCodeEnum.NONE,
+                                                focusROI);
+                                    }
+                                    else
+                                    {
+                                        this.VisionManager()
+                                            .SaveImageBuffer(
+                                                image,
+                                                saveFullPath,
+                                                IMAGE_LOG_TYPE.NORMAL,
+                                                EventCodeEnum.NONE);
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception err)
+                        {
+                            LoggerManager.Exception(err);
+                        }
+
+                        #endregion
+
+                        foreach (ImageBuffer image in imageBuffers)
+                        {
+                            image.FiliterdFocusValue =
+                                image.FocusLevelValue;
+                        }
+
+                        int maxFocusValue =
+                            imageBuffers.Max(
+                                image =>
+                                    image.FiliterdFocusValue);
+
+                        ImageBuffer maxFocusValueImage =
+                            imageBuffers.First(
+                                image =>
+                                    image.FiliterdFocusValue ==
+                                    maxFocusValue);
+
+                        int maxFocusValueIndex =
+                            imageBuffers.FindIndex(
+                                image =>
+                                    image.FiliterdFocusValue ==
+                                    maxFocusValue);
+
+                        LoggerManager.Debug(
+                            $"[CoaxLinkExFocusing] " +
+                            $"MaxIndex={maxFocusValueIndex}, " +
+                            $"MaxFocusValue={maxFocusValue}, " +
+                            $"Range={focusRange}, " +
+                            $"Resolution={focusResolution}, " +
+                            $"Step={focusStep}");
+
+                        #region Check focus threshold
+
+                        double focusThreshold =
+                            focusparam.FocusThreshold.Value;
+
+                        if (focusThreshold <= 0)
+                        {
+                            focusThreshold = 70;
+                        }
+
+                        List<ImageBuffer> thresholdPassedImages =
+                            imageBuffers
+                                .Where(
+                                    image =>
+                                        image.FiliterdFocusValue >
+                                        focusThreshold)
+                                .ToList();
+
+                        if (thresholdPassedImages.Count == 0)
+                        {
+                            LoggerManager.Debug(
+                                $"[CoaxLinkExFocusing] " +
+                                $"FOCUS_VALUE_THRESHOLD. " +
+                                $"Max={maxFocusValue}, " +
+                                $"Threshold={focusThreshold}");
+
+                            /*
+                             * 기존 Focusing과 동일하게 최대값 이미지는
+                             * 유지하여 위치 계산을 계속 수행한다.
+                             */
+                            thresholdPassedImages.Add(
+                                maxFocusValueImage);
+
+                            focusResult =
+                                EventCodeEnum.FOCUS_VALUE_THRESHOLD;
+                        }
+
+                        imageBuffers =
+                            thresholdPassedImages;
+
+                        #endregion
+
+                        #region Check flatness
+
+                        double focusMaxTotal = 0.0;
+                        double filteredFocusValue = 0.0;
+                        double focusValueTotal = 0.0;
+                        double focusFlatness = 0.0;
+
+                        if (maxFocusValue > 100000)
+                        {
+                            double convertedMaxValue =
+                                maxFocusValue * 0.00001;
+
+                            focusMaxTotal =
+                                convertedMaxValue * focusStep;
+
+                            foreach (ImageBuffer image in
+                                imageBuffers)
+                            {
+                                filteredFocusValue =
+                                    Convert.ToDouble(
+                                        image.FiliterdFocusValue);
+
+                                focusValueTotal +=
+                                    filteredFocusValue;
+                            }
+
+                            focusValueTotal =
+                                focusValueTotal / 100000.0;
+
+                            focusFlatness =
+                                focusValueTotal /
+                                focusMaxTotal *
+                                100.0;
+                        }
+                        else
+                        {
+                            focusMaxTotal =
+                                maxFocusValue * focusStep;
+
+                            foreach (ImageBuffer image in
+                                imageBuffers)
+                            {
+                                filteredFocusValue =
+                                    Convert.ToDouble(
+                                        image.FiliterdFocusValue);
+
+                                focusValueTotal +=
+                                    filteredFocusValue;
+                            }
+
+                            if (focusMaxTotal != 0.0)
+                            {
+                                focusFlatness =
+                                    focusValueTotal /
+                                    focusMaxTotal *
+                                    100.0;
+                            }
+                        }
+
+                        if (!checkedFlatness)
+                        {
+                            double flatnessThreshold =
+                                focusparam.FlatnessThreshold.Value;
+
+                            if (flatnessThreshold <= 0)
+                            {
+                                flatnessThreshold = 50;
+                            }
+
+                            /*
+                             * CX3는 VisionManager.GetCam()에 등록되어 있지
+                             * 않으므로 RatioX/RatioY 판정은 하지 않는다.
+                             */
+                            if (focusResolution < 10)
+                            {
+                                flatnessThreshold = 99.9;
+
+                                LoggerManager.Debug(
+                                    "[CoaxLinkExFocusing] " +
+                                    "Apply maximum flatness for " +
+                                    $"fine resolution. " +
+                                    $"Resolution={focusResolution}");
+                            }
+
+                            LoggerManager.Debug(
+                                $"[CoaxLinkExFocusing] " +
+                                $"Flatness={focusFlatness:0.00}, " +
+                                $"Threshold={flatnessThreshold}");
+
+                            if (focusFlatness >
+                                flatnessThreshold)
+                            {
+                                focusResult =
+                                    EventCodeEnum.FOCUS_VALUE_FLAT;
+
+                                LoggerManager.Debug(
+                                    "[CoaxLinkExFocusing] " +
+                                    "FOCUS_VALUE_FLAT");
+                            }
+
+                            checkedFlatness = true;
+                        }
+
+                        #endregion
+
+                        #region Check peak
+
+                        List<ImageBuffer> peakImageBuffers =
+                            new List<ImageBuffer>();
+
+                        double mean =
+                            imageBuffers.Average(
+                                image =>
+                                    image.FiliterdFocusValue);
+
+                        double variance =
+                            imageBuffers.Sum(
+                                image =>
+                                    Math.Pow(
+                                        image.FiliterdFocusValue -
+                                        mean,
+                                        2)) /
+                            imageBuffers.Count;
+
+                        double standardDeviation =
+                            Math.Sqrt(variance);
+
+                        const double k = 1.0;
+
+                        double peakThreshold =
+                            mean +
+                            (k * standardDeviation);
+
+                        for (int i = 1;
+                             i < imageBuffers.Count - 1;
+                             i++)
+                        {
+                            if (imageBuffers[i]
+                                    .FiliterdFocusValue >
+                                    peakThreshold &&
+                                imageBuffers[i]
+                                    .FiliterdFocusValue >
+                                    imageBuffers[i - 1]
+                                        .FiliterdFocusValue &&
+                                imageBuffers[i]
+                                    .FiliterdFocusValue >
+                                    imageBuffers[i + 1]
+                                        .FiliterdFocusValue)
+                            {
+                                peakImageBuffers.Add(
+                                    imageBuffers[i]);
+
+                                LoggerManager.Debug(
+                                    $"[CoaxLinkExFocusing] " +
+                                    $"Peak candidate added. " +
+                                    $"Index={i}, " +
+                                    $"Value=" +
+                                    $"{imageBuffers[i].FiliterdFocusValue}");
+                            }
+                        }
+
+                        if (peakImageBuffers.Count == 0)
+                        {
+                            peakImageBuffers.Add(
+                                maxFocusValueImage);
+                        }
+
+                        double maxPeakFocusValue =
+                            peakImageBuffers.Max(
+                                image =>
+                                    image.FiliterdFocusValue);
+
+                        ImageBuffer maxPeakImageBuffer =
+                            peakImageBuffers.First(
+                                image =>
+                                    image.FiliterdFocusValue ==
+                                    maxPeakFocusValue);
+
+                        #endregion
+
+                        imageBuffersForDebug =
+                            new List<ImageBuffer>(
+                                imageBuffers);
+
+                        WriteFocusingInfo(
+                            imageBuffersForDebug,
+                            focusRange,
+                            focusResolution,
+                            focusStep);
+
+                        ImageBuffer highestPositionImage =
+                            peakImageBuffers
+                                .OrderByDescending(
+                                    image =>
+                                        image.ZHeight)
+                                .First();
+
+                        ImageBuffer lowestPositionImage =
+                            peakImageBuffers
+                                .OrderBy(
+                                    image =>
+                                        image.ZHeight)
+                                .First();
+
+                        ImageBuffer targetFocusValueImage =
+                            maxPeakImageBuffer;
+
+                        if (!appliedPeakSelectionStrategy)
+                        {
+                            appliedPeakSelectionStrategy =
+                                true;
+
+                            switch (peakSelectionStrategy)
+                            {
+                                case PeakSelectionStrategy.NONE:
+                                    break;
+
+                                case PeakSelectionStrategy.HIGHEST:
+
+                                    if (lowestPositionImage
+                                            .FiliterdFocusValue *
+                                            2.0 <
+                                        highestPositionImage
+                                            .FiliterdFocusValue)
+                                    {
+                                        targetFocusValueImage =
+                                            highestPositionImage;
+                                    }
+
+                                    break;
+
+                                case PeakSelectionStrategy.LOWEST:
+
+                                    if (lowestPositionImage
+                                            .FiliterdFocusValue *
+                                            2.0 <
+                                        highestPositionImage
+                                            .FiliterdFocusValue)
+                                    {
+                                        targetFocusValueImage =
+                                            lowestPositionImage;
+                                    }
+
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            targetFocusValueImage =
+                                imageBuffers
+                                    .OrderByDescending(
+                                        image =>
+                                            image.FiliterdFocusValue)
+                                    .First();
+                        }
+
+                        int nextFocusStep = 0;
+                        double nextFocusResolution = 0.0;
+
+                        GetNextResolution(
+                            focusparam,
+                            focusResolution,
+                            out nextFocusStep,
+                            out nextFocusResolution);
+
+                        focusStep =
+                            nextFocusStep;
+
+                        focusResolution =
+                            nextFocusResolution;
+
+                        stepDirection *= -1.0;
+
+                        focusRange =
+                            focusResolution *
+                            focusStep;
+
+                        /*
+                         * 최종 정밀도까지 도달한 경우 최대 초점값 위치로 이동
+                         */
+                        if (focusStep == 0 ||
+                            focusResolution == 0.0)
+                        {
+                            this.MotionManager().AbsMove(
+                                axis,
+                                targetFocusValueImage.ZHeight,
+                                focusVelocity,
+                                focusAcceleration);
+
+                            this.MotionManager()
+                                .WaitForAxisMotionDone(axis);
+
+                            lastZHeightPos =
+                                targetFocusValueImage.ZHeight;
+
+                            assignedLastZHeightPos =
+                                true;
+
+                            focusparam.FocusResultPos =
+                                targetFocusValueImage.ZHeight;
+
+                            focusparam.FocusValue =
+                                targetFocusValueImage
+                                    .FocusLevelValue;
+
+                            focusResult =
+                                EventCodeEnum.NONE;
+
+                            break;
+                        }
+
+                        /*
+                         * 다음 정밀 포커싱 시작 위치로 이동
+                         */
+                        double nextStartPosition =
+                            targetFocusValueImage.ZHeight -
+                            (focusRange / 2.0) *
+                            stepDirection;
+
+                        this.MotionManager().AbsMove(
+                            axis,
+                            nextStartPosition,
+                            focusVelocity,
+                            focusAcceleration);
+
+                        this.MotionManager()
+                            .WaitForAxisMotionDone(axis);
+
+                        lastZHeightPos =
+                            nextStartPosition;
+
+                        assignedLastZHeightPos =
+                            true;
+
+                        focusparam.FocusResultPos =
+                            targetFocusValueImage.ZHeight;
+
+                        focusparam.FocusValue =
+                            targetFocusValueImage
+                                .FocusLevelValue;
+
+                        Thread.Sleep(1);
+                    }
+                }
+
+                if (assignedLastZHeightPos)
+                {
+                    LoggerManager.Debug(
+                        $"[CoaxLinkExFocusing] " +
+                        $"Last Z={lastZHeightPos}, " +
+                        $"Start Z={originalPosition}, " +
+                        $"Difference=" +
+                        $"{lastZHeightPos - originalPosition}");
+                }
+                else
+                {
+                    LoggerManager.Debug(
+                        "[CoaxLinkExFocusing] " +
+                        "Last Z height was not assigned.");
+                }
+
+                if (focusResult != EventCodeEnum.NONE)
+                {
+                    LoggerManager.Debug(
+                        $"[CoaxLinkExFocusing] " +
+                        $"Focusing failed. Result={focusResult}");
+
+                    LoggerManager.Debug(
+                        $"[CoaxLinkExFocusing] " +
+                        $"Move back to original position: " +
+                        $"{originalPosition}");
+
+                    this.MotionManager().AbsMove(
+                        axis,
+                        originalPosition,
+                        focusVelocity,
+                        focusAcceleration);
+
+                    this.MotionManager()
+                        .WaitForAxisMotionDone(axis);
+                }
+                else
+                {
+                    double nearEdgeThreshold =
+                        (focusparam.FocusRange.Value / 2.0) *
+                        0.8;
+
+                    if (Math.Abs(
+                            originalPosition -
+                            lastZHeightPos) >
+                        nearEdgeThreshold)
+                    {
+                        focusResult =
+                            EventCodeEnum.FOCUS_POS_NEAREDGE;
+
+                        LoggerManager.Debug(
+                            $"[CoaxLinkExFocusing] " +
+                            $"Focused near edge. " +
+                            $"Origin={originalPosition:0.00}, " +
+                            $"Focused={lastZHeightPos:0.00}, " +
+                            $"Range=" +
+                            $"{focusparam.FocusRange.Value:0.0}");
+                    }
+                    else
+                    {
+                        LoggerManager.Debug(
+                            "[CoaxLinkExFocusing] " +
+                            "Focusing completed.");
+                    }
+                }
+
+                timeStamp.Add(
+                    new KeyValuePair<string, long>(
+                        "CoaxLinkEx Focusing End",
+                        stopwatch.ElapsedMilliseconds));
+
+                if (stopwatch.ElapsedMilliseconds > 10000)
+                {
+                    foreach (KeyValuePair<string, long> item in
+                        timeStamp)
+                    {
+                        LoggerManager.Debug(
+                            $"CoaxLinkEx Focusing TimeStamp - " +
+                            $"Description={item.Key}, " +
+                            $"Time={item.Value}");
+                    }
+                }
+
+                if (FocusingStaticParam.ErrorEventCodeEnum !=
+                    EventCodeEnum.UNDEFINED)
+                {
+                    focusResult =
+                        FocusingStaticParam.ErrorEventCodeEnum;
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+                focusResult =
+                    EventCodeEnum.UNDEFINED;
+
+                /*
+                 * 예외 발생 시에도 원래 위치로 복귀한다.
+                 */
+                try
+                {
+                    if (axis != null)
+                    {
+                        this.MotionManager().AbsMove(
+                            axis,
+                            originalPosition,
+                            focusVelocity,
+                            focusAcceleration);
+
+                        this.MotionManager()
+                            .WaitForAxisMotionDone(axis);
+                    }
+                }
+                catch (Exception moveException)
+                {
+                    LoggerManager.Exception(
+                        moveException);
+                }
+            }
+            finally
+            {
+                stopwatch.Stop();
+
+                /*
+                 * CX3 Grab은 ViewModel Display Thread가 계속 담당하므로
+                 * 여기서 StartGrab/StopGrab하지 않는다.
+                 */
+                try
+                {
+                    if (axis != null)
+                    {
+                        this.MotionManager().SetSettlingTime(
+                            axis,
+                            axis.SettlingTime);
+                    }
+                }
+                catch (Exception err)
+                {
+                    LoggerManager.Exception(err);
+                }
+
+                LoggerManager.Debug(
+                    $"[CoaxLinkExFocusing] " +
+                    $"Result={focusResult}, " +
+                    $"Time={stopwatch.ElapsedMilliseconds}ms");
+            }
+
+            return focusResult;
+        }
+        private EventCodeEnum Validation_CoaxLinkEx(IFocusParameter focusparam, ICoaxLinkExFocusFrameProvider frameProvider)
+        {
+            try
+            {
+                if (focusparam == null)
+                {
+                    LoggerManager.Error(
+                        "[CoaxLinkExFocusing] FocusParameter is null.");
+
+                    return EventCodeEnum.FOCUS_PARAMETER_INVALID;
+                }
+
+                if (frameProvider == null ||
+                    !frameProvider.IsReady)
+                {
+                    LoggerManager.Error(
+                        "[CoaxLinkExFocusing] Camera is not ready.");
+
+                    return EventCodeEnum.FOCUS_PARAMETER_INVALID;
+                }
+
+                if (focusparam.FocusRange == null ||
+                    focusparam.FocusRange.Value <= 0)
+                {
+                    LoggerManager.Error(
+                        $"[CoaxLinkExFocusing] Invalid FocusRange: " +
+                        $"{focusparam.FocusRange?.Value}");
+
+                    return EventCodeEnum.FOCUS_PARAMETER_INVALID;
+                }
+
+                if (focusparam.FocusingAxis == null ||
+                    focusparam.FocusingAxis.Value ==
+                        EnumAxisConstants.Undefined)
+                {
+                    LoggerManager.Error(
+                        "[CoaxLinkExFocusing] Invalid focusing axis.");
+
+                    return EventCodeEnum.FOCUS_PARAMETER_INVALID;
+                }
+
+                if (focusparam.FocusingROI == null ||
+                    focusparam.FocusingROI.Value.Width <= 0 ||
+                    focusparam.FocusingROI.Value.Height <= 0)
+                {
+                    LoggerManager.Error(
+                        $"[CoaxLinkExFocusing] Invalid ROI: " +
+                        $"{focusparam.FocusingROI?.Value}");
+
+                    return EventCodeEnum.FOCUS_PARAMETER_INVALID;
+                }
+
+                if (focusparam.DepthOfField == null ||
+                    focusparam.DepthOfField.Value <= 0)
+                {
+                    LoggerManager.Error(
+                        $"[CoaxLinkExFocusing] Invalid DepthOfField: " +
+                        $"{focusparam.DepthOfField?.Value}");
+
+                    return EventCodeEnum.FOCUS_PARAMETER_INVALID;
+                }
+
+                return EventCodeEnum.NONE;
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+                return EventCodeEnum.FOCUS_PARAMETER_INVALID;
+            }
+        }
+        public EventCodeEnum Focusing_Retry_CoaxLinkEx(IFocusParameter focusparam, ICoaxLinkExFocusFrameProvider frameProvider, bool lightChange_retry, bool bruteForce_retry, 
+                                                        bool outRangeFind_retry, object callerassembly, int TargetGrayLevel = 0, bool ForcedApplyAutolight = false, string SavePassPath = "", 
+                                                        string SaveFailPath = "", PeakSelectionStrategy peakSelectionStrategy = PeakSelectionStrategy.NONE)
+        {
+            Stopwatch stopwatch =
+                Stopwatch.StartNew();
+
+            EventCodeEnum focusingResult =
+                EventCodeEnum.UNDEFINED;
+
+            LoggerManager.PinLog(
+                "Focusing_Retry_CoaxLinkEx..");
+
+            try
+            {
+                LoggerManager.Debug(
+                    $"[CoaxLinkExFocusing] Caller: " +
+                    $"{callerassembly?.GetType()?.FullName}");
+
+                LoggerManager.Debug(
+                    $"[CoaxLinkExFocusing] ROI: " +
+                    $"X={focusparam?.FocusingROI?.Value.X}, " +
+                    $"Y={focusparam?.FocusingROI?.Value.Y}, " +
+                    $"Width={focusparam?.FocusingROI?.Value.Width}, " +
+                    $"Height={focusparam?.FocusingROI?.Value.Height}");
+
+                // 기존 ParamVaildation()은 호출하지 않음
+                focusingResult =
+                    Validation_CoaxLinkEx(
+                        focusparam,
+                        frameProvider);
+
+                if (focusingResult != EventCodeEnum.NONE)
+                {
+                    LoggerManager.Error(
+                        "[CoaxLinkExFocusing] " +
+                        "Validation failed.");
+
+                    return focusingResult;
+                }
+
+                focusingResult =
+                    Focusing_CoaxLinkEx(
+                        focusparam,
+                        frameProvider,
+                        callerassembly,
+                        false,
+                        SavePassPath,
+                        SaveFailPath,
+                        peakSelectionStrategy);
+
+                if (focusingResult == EventCodeEnum.NONE)
+                {
+                    return EventCodeEnum.NONE;
+                }
+
+                ProbeAxisObject axis =
+                    this.MotionManager().GetAxis(
+                        focusparam.FocusingAxis.Value);
+
+                double retryPosition = 0;
+
+                this.MotionManager().GetRefPos(
+                    axis.AxisType.Value,
+                    ref retryPosition);
+
+                LoggerManager.Debug(
+                    $"[CoaxLinkExFocusing] " +
+                    $"Current retry position: " +
+                    $"{retryPosition:0.00}");
+
+                /*
+                 * CX3가 AutoLightAdvisor의 EnumProberCam에 등록되지 않았으므로
+                 * 현재는 lightChange_retry를 수행하지 않습니다.
+                 */
+                if (lightChange_retry)
+                {
+                    LoggerManager.Debug(
+                        "[CoaxLinkExFocusing] " +
+                        "lightChange_retry skipped. " +
+                        "CX3 light control is not connected.");
+                }
+
+                if (bruteForce_retry)
+                {
+                    LoggerManager.Debug(
+                        "[CoaxLinkExFocusing] " +
+                        "bruteForce_retry start.");
+
+                    focusingResult =
+                        Focusing_CoaxLinkEx(
+                            focusparam,
+                            frameProvider,
+                            callerassembly,
+                            false,
+                            SavePassPath,
+                            SaveFailPath,
+                            peakSelectionStrategy);
+
+                    if (focusingResult ==
+                        EventCodeEnum.FOCUS_POS_NEAREDGE)
+                    {
+                        focusingResult =
+                            Focusing_CoaxLinkEx(
+                                focusparam,
+                                frameProvider,
+                                callerassembly,
+                                false,
+                                SavePassPath,
+                                SaveFailPath,
+                                peakSelectionStrategy);
+                    }
+
+                    LoggerManager.Debug(
+                        "[CoaxLinkExFocusing] " +
+                        "bruteForce_retry end.");
+
+                    if (focusingResult == EventCodeEnum.NONE)
+                    {
+                        return EventCodeEnum.NONE;
+                    }
+                }
+
+                if (outRangeFind_retry)
+                {
+                    LoggerManager.Debug(
+                        "[CoaxLinkExFocusing] " +
+                        "outRangeFind_retry start.");
+
+                    focusingResult =
+                        Focusing_CoaxLinkEx(
+                            focusparam,
+                            frameProvider,
+                            callerassembly,
+                            true,
+                            SavePassPath,
+                            SaveFailPath,
+                            peakSelectionStrategy);
+
+                    LoggerManager.Debug(
+                        "[CoaxLinkExFocusing] " +
+                        "outRangeFind_retry end.");
+
+                    if (focusingResult == EventCodeEnum.NONE)
+                    {
+                        return EventCodeEnum.NONE;
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+            }
+            finally
+            {
+                stopwatch.Stop();
+
+                if (focusparam != null)
+                {
+                    focusparam.FocusTime =
+                        stopwatch.ElapsedMilliseconds;
+                }
+
+                LoggerManager.Debug(
+                    $"[CoaxLinkExFocusing] " +
+                    $"Retry result={focusingResult}, " +
+                    $"Time={stopwatch.ElapsedMilliseconds}ms");
+            }
+
+            return focusingResult;
+        }
+        #endregion
         public override EventCodeEnum Focusing_Retry(IFocusParameter focusparam, bool lightChange_retry, bool bruteForce_retry, bool outRangeFind_retry, object callerassembly, int TargetGrayLevel = 0, bool ForcedApplyAutolight = false, string SavePassPath = "", string SaveFailPath = "", PeakSelectionStrategy peakSelectionStrategy = PeakSelectionStrategy.NONE)
         {
             Stopwatch stw = new Stopwatch();
