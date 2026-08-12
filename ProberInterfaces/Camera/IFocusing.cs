@@ -141,6 +141,73 @@ namespace ProberInterfaces
 
             return buf;
         }
+        //260811 sebas : CoaxLink 카메라용 추가
+        protected ImageBuffer WaitGrab_CoaxLinkEx(ICoaxLinkExFocusFrameProvider frameProvider, Rect roi, int timeoutMilliseconds = 3000)
+        {
+            ImageBuffer imageBuffer = null;
+
+            try
+            {
+                if (frameProvider == null)
+                {
+                    LoggerManager.Error(
+                        "[CoaxLinkExFocusing] FrameProvider is null.");
+
+                    return null;
+                }
+
+                if (!frameProvider.IsReady)
+                {
+                    LoggerManager.Error(
+                        "[CoaxLinkExFocusing] Camera is not ready.");
+
+                    return null;
+                }
+
+                imageBuffer =
+                    frameProvider.WaitNextImage(
+                        timeoutMilliseconds);
+
+                if (imageBuffer == null ||
+                    imageBuffer.Buffer == null ||
+                    imageBuffer.Buffer.Length == 0)
+                {
+                    LoggerManager.Error(
+                        "[CoaxLinkExFocusing] Image buffer is empty.");
+
+                    return null;
+                }
+
+                if (imageBuffer.SizeX <= 0 ||
+                    imageBuffer.SizeY <= 0)
+                {
+                    LoggerManager.Error(
+                        $"[CoaxLinkExFocusing] Invalid image size. " +
+                        $"Width={imageBuffer.SizeX}, " +
+                        $"Height={imageBuffer.SizeY}");
+
+                    return null;
+                }
+
+                int focusValue =
+                    this.VisionManager().GetFocusValue(
+                        imageBuffer,
+                        roi);
+
+                imageBuffer.FocusLevelValue =
+                    focusValue;
+
+                imageBuffer.CapturedTime =
+                    DateTime.Now;
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                imageBuffer = null;
+            }
+
+            return imageBuffer;
+        }
         protected void GetFocusResolution(IFocusParameter focusparam, double focusRange, out int focusStep, out double focusResolution, bool NextResolution = false)
         {
             try
@@ -309,4 +376,41 @@ namespace ProberInterfaces
             }
         }
     }
+
+    #region // 260811 sebas : CoaxLink 카메라용
+    public interface ICoaxLinkExFocusFrameProvider
+    {
+        bool IsReady { get; }
+
+        ImageBuffer WaitNextImage(
+            int timeoutMilliseconds = 3000);
+    }
+
+    public interface ICoaxLinkExFocusing
+    {
+        EventCodeEnum Focusing_CoaxLinkEx(
+            IFocusParameter focusparam,
+            ICoaxLinkExFocusFrameProvider frameProvider,
+            object callerAssembly,
+            bool isOutRangeFind = false,
+            string SavePassPath = "",
+            string SaveFailPath = "",
+            PeakSelectionStrategy peakSelectionStrategy =
+                PeakSelectionStrategy.NONE);
+
+        EventCodeEnum Focusing_Retry_CoaxLinkEx(
+            IFocusParameter focusparam,
+            ICoaxLinkExFocusFrameProvider frameProvider,
+            bool lightChange_retry,
+            bool bruteForce_retry,
+            bool outRangeFind_retry,
+            object callerassembly,
+            int TargetGrayLevel = 0,
+            bool ForcedApplyAutolight = false,
+            string SavePassPath = "",
+            string SaveFailPath = "",
+            PeakSelectionStrategy peakSelectionStrategy =
+                PeakSelectionStrategy.NONE);
+    }
+    #endregion
 }
