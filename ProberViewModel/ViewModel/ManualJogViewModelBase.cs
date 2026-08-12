@@ -12628,13 +12628,13 @@ namespace ManualJogViewModel
                 this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON1, true);
                 Thread.Sleep(50);
                 this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON1, false);
-                Thread.Sleep(50);
+                Thread.Sleep(300);
                 LoggerManager.Debug($"Arm1_Holder_Vac_On End");
                 LoggerManager.Debug($"Arm2_Holder_Vac_On Start");
                 this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON2, true);
                 Thread.Sleep(50);
                 this.IOManager().IOServ.WriteBit(this.IOManager().IO.Outputs.DO_HOLD_VACON2, false);
-                Thread.Sleep(50);
+                Thread.Sleep(300);
                 LoggerManager.Debug($"Arm2_Holder_Vac_On End");
 
                 // ARM Hodler Vacuum Interlock
