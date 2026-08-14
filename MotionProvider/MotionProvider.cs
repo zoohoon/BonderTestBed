@@ -137,6 +137,7 @@ namespace Motion
                 throw;
             }
         }
+        private readonly HashSet<AxisObject> _ignoredAxes = new HashSet<AxisObject>();      // 260812 sebas add
         public EventCodeEnum InitMotionProvider(ObservableCollection<AxisObject> axes)
         {
             EventCodeEnum RetVal = EventCodeEnum.UNDEFINED;
@@ -167,39 +168,100 @@ namespace Motion
                     }
                 }
 
+                // <-- 260811 sebas : foreach문 새로 작성. 기존 주석처리
+                //foreach (AxisObject axis in AxisProviders.AxisObjects)
+                //{
+                //    double cmdPos = 0;
+                //    axis.Status = new AxisStatus();
+                //    axis.Status.Position = new Positions();
+                //    axis.Status.RawPosition = new Positions();
+                //    axis.Status.Torque = 0.0;
+                //    GetCommandPosition(axis, ref cmdPos);
+                //    axis.Status.RawPosition.Ref = cmdPos;
+                //    axis.Status.Position.Ref = cmdPos;
+
+                //    if (MotionConfigurators.MotionBaseDescriptors[axis.PortNum.Value].Type.Value == MotionType.MPI)
+                //    {
+                //        ClearUserLimit(axis);
+                //        Abort(axis);
+                //        SetPosition(axis, 0);
+                //        AmpFaultClear(axis);
+                //    }
+
+                //    Thread.Sleep(100);
+                //    GetAxisState(axis, ref state);
+                //    GetPosError(axis, ref posError);
+
+                //    if ((EnumAxisState)state != EnumAxisState.IDLE | posError > axis.Config.Inposition.Value)
+                //    {
+                //        AmpFaultClear(axis);
+                //        SetZeroPosition(axis);
+                //        AmpFaultClear(axis);
+                //        Thread.Sleep(100);
+                //    }
+
+                //    ApplyAxisConfig(axis);
+                //}
+
+                _ignoredAxes.Clear();
                 foreach (AxisObject axis in AxisProviders.AxisObjects)
                 {
-                    double cmdPos = 0;
-                    axis.Status = new AxisStatus();
-                    axis.Status.Position = new Positions();
-                    axis.Status.RawPosition = new Positions();
-                    axis.Status.Torque = 0.0;
-                    GetCommandPosition(axis, ref cmdPos);
-                    axis.Status.RawPosition.Ref = cmdPos;
-                    axis.Status.Position.Ref = cmdPos;
-
-                    if (MotionConfigurators.MotionBaseDescriptors[axis.PortNum.Value].Type.Value == MotionType.MPI)
+                    try
                     {
-                        ClearUserLimit(axis);
-                        Abort(axis);
-                        SetPosition(axis, 0);
-                        AmpFaultClear(axis);
-                    }
+                        int axisState = -1;
+                        double cmdPos = 0;
+                        double axisPosError = 0;
 
-                    Thread.Sleep(100);
-                    GetAxisState(axis, ref state);
-                    GetPosError(axis, ref posError);
+                        axis.Status = new AxisStatus();
+                        axis.Status.Position = new Positions();
+                        axis.Status.RawPosition = new Positions();
+                        axis.Status.Torque = 0.0;
 
-                    if ((EnumAxisState)state != EnumAxisState.IDLE | posError > axis.Config.Inposition.Value)
-                    {
-                        AmpFaultClear(axis);
-                        SetZeroPosition(axis);
-                        AmpFaultClear(axis);
+                        GetCommandPosition(axis, ref cmdPos);
+
+                        axis.Status.RawPosition.Ref = cmdPos;
+                        axis.Status.Position.Ref = cmdPos;
+
+                        if (MotionConfigurators.MotionBaseDescriptors[axis.PortNum.Value].Type.Value == MotionType.MPI)
+                        {
+                            ClearUserLimit(axis);
+                            Abort(axis);
+                            SetPosition(axis, 0);
+                            AmpFaultClear(axis);
+                        }
+
                         Thread.Sleep(100);
-                    }
 
-                    ApplyAxisConfig(axis);
+                        GetAxisState(axis, ref axisState);
+                        GetPosError(axis, ref axisPosError);
+
+                        if ((EnumAxisState)axisState != EnumAxisState.IDLE ||
+                            axisPosError > axis.Config.Inposition.Value)
+                        {
+                            AmpFaultClear(axis);
+                            SetZeroPosition(axis);
+                            AmpFaultClear(axis);
+                            Thread.Sleep(100);
+                        }
+
+                        ApplyAxisConfig(axis);
+                    }
+                    catch (Exception err)
+                    {
+                        _ignoredAxes.Add(axis);
+
+                        // 축 이름을 따로 찾지 않아도 로그에는 남겨두는 것이 좋음
+                        LoggerManager.Error(
+                            $"InitMotionProvider(): Axis ignored. " +
+                            $"Port={axis?.PortNum?.Value}, " +
+                            $"Index={axis?.AxisIndex?.Value}, " +
+                            $"Error={err.Message}");
+
+                        // throw 하지 않고 다음 축으로 진행
+                        continue;
+                    }
                 }
+                // -->
 
                 bStopUpdateThread = false;
                 UpdateThread = new Thread(new ThreadStart(UpdateMotionProc));
@@ -1835,9 +1897,94 @@ namespace Motion
             return retVal;
 
         }
+        // 260812 sebas : 기존 UpdateMotionProc 주석처리하고 새로 작성
+        //private void UpdateMotionProc()
+        //{
+        //    var emp = MotionProviders.FirstOrDefault(m => m is ElmoMotionBase);
+        //    try
+        //    {
+        //        while (bStopUpdateThread == false)
+        //        {
+        //            if (emp != null)
+        //            {
+        //                UpdateProcTime = emp.UpdateProcTime;
+        //            }
+
+        //            for (int i = 0; i < AxisProviders.AxisObjects.Count; i++)
+        //            {
+        //                double actpos = 0.0;
+        //                double commandpos = 0.0;
+        //                double erropos = 0.0;
+        //                double pActPos = 0.0;
+        //                double pCommandPos = 0.0;
+        //                double pErrorPos = 0.0;
+        //                double auxpulse = 0;
+        //                //bool turnAmp = false;
+
+        //                var tPortNum = AxisProviders.AxisObjects[i].PortNum;
+        //                var tAxisIndex = AxisProviders.AxisObjects[i].AxisIndex;
+
+        //                Positions pulsePos = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].Pulse;
+
+        //                AxisProviders.AxisObjects[i].Status.State = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].State;
+        //                AxisProviders.AxisObjects[i].Status.StatusCode = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].StatusCode;
+        //                AxisProviders.AxisObjects[i].Status.AxisBusy = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].AxisBusy;
+        //                AxisProviders.AxisObjects[i].Status.Torque = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].Torque;
+
+        //                actpos = AxisProviders.AxisObjects[i].PtoD(pulsePos.Actual);
+        //                commandpos = AxisProviders.AxisObjects[i].PtoD(pulsePos.Command);
+        //                erropos = AxisProviders.AxisObjects[i].PtoD(pulsePos.Error);
+
+        //                pActPos = pulsePos.Actual;
+        //                pCommandPos = pulsePos.Command;
+        //                pErrorPos = pulsePos.Error;
+
+        //                //actpos = Math.Truncate(actpos);
+
+        //                AxisProviders.AxisObjects[i].Status.RawPosition.Actual = actpos;
+        //                AxisProviders.AxisObjects[i].Status.Pulse.Actual = pActPos;
+
+        //                //commandpos = Math.Truncate(commandpos);
+        //                //AxisProviders.AxisObjects[i].Status.RawPosition.Command = commandpos;
+        //                //AxisProviders.AxisObjects[i].Status.Pulse.Command = pCommandPos;
+        //                AxisProviders.AxisObjects[i].Status.RawPosition.Command
+        //                    = AxisProviders.AxisObjects[i].PtoD(AxisProviders.AxisObjects[i].Status.Pulse.Command);
+
+        //                //erropos = Math.Truncate(erropos);
+        //                AxisProviders.AxisObjects[i].Status.RawPosition.Error = erropos;
+        //                AxisProviders.AxisObjects[i].Status.Pulse.Error = pErrorPos;
+
+        //                //AxisProviders.AxisObjects[i].Status.AxisEnabled = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].AxisEnabled;
+        //                AxisProviders.AxisObjects[i].Status.AxisEnabled = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].AxisEnabled;
+        //                AxisProviders.AxisObjects[i].Status.CapturePositions = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].CapturePositions;
+        //                AxisProviders.AxisObjects[i].Status.IsHomeSensor = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].IsHomeSensor;
+        //                AxisProviders.AxisObjects[i].Status.IsLimitSensor = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].IsLimitSensor;
+
+        //                auxpulse = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].AuxPosition;
+        //                //double dauxpulse = Convert.ToDouble(auxpulse);
+        //                //AxisProviders.AxisObjects[i].Status.AuxPosition = Convert.ToInt32(AxisProviders.AxisObjects[i].(dauxpulse));
+        //                AxisProviders.AxisObjects[i].Status.AuxPosition = auxpulse;
+        //            }
+
+
+        //            //minskim// GC 호출 및 CPU 사용률 절감을 위해 기존 timer+resetevent로 thread 제어하던 로직을 제거 하고 sleep으로 대체함, sleep시간은 기존 timer interval 주기 값으로 설정함
+        //            System.Threading.Thread.Sleep(MonitoringInterValInms);
+
+
+        //        }
+
+        //    }
+        //    catch (Exception err)
+        //    {
+        //        //LoggerManager.Error($string.Format("UpdateIOProc(): Error occurred while update io proc. Err = {0}", err.Message));
+        //        LoggerManager.Exception(err);
+        //    }
+
+        //}
         private void UpdateMotionProc()
         {
             var emp = MotionProviders.FirstOrDefault(m => m is ElmoMotionBase);
+
             try
             {
                 while (bStopUpdateThread == false)
@@ -1849,72 +1996,67 @@ namespace Motion
 
                     for (int i = 0; i < AxisProviders.AxisObjects.Count; i++)
                     {
-                        double actpos = 0.0;
-                        double commandpos = 0.0;
-                        double erropos = 0.0;
-                        double pActPos = 0.0;
-                        double pCommandPos = 0.0;
-                        double pErrorPos = 0.0;
-                        double auxpulse = 0;
-                        //bool turnAmp = false;
+                        AxisObject axis = AxisProviders.AxisObjects[i];
 
-                        var tPortNum = AxisProviders.AxisObjects[i].PortNum;
-                        var tAxisIndex = AxisProviders.AxisObjects[i].AxisIndex;
+                        // 초기화 또는 이전 업데이트에서 실패한 축은 무시
+                        if (_ignoredAxes.Contains(axis))
+                        {
+                            continue;
+                        }
 
-                        Positions pulsePos = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].Pulse;
+                        try
+                        {
+                            int portNum = axis.PortNum.Value;
+                            int axisIndex = axis.AxisIndex.Value;
 
-                        AxisProviders.AxisObjects[i].Status.State = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].State;
-                        AxisProviders.AxisObjects[i].Status.StatusCode = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].StatusCode;
-                        AxisProviders.AxisObjects[i].Status.AxisBusy = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].AxisBusy;
-                        AxisProviders.AxisObjects[i].Status.Torque = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].Torque;
+                            var motionStatus = _MotionProviders[portNum].AxisStatusList[axisIndex];
+                            Positions pulsePos = motionStatus.Pulse;
 
-                        actpos = AxisProviders.AxisObjects[i].PtoD(pulsePos.Actual);
-                        commandpos = AxisProviders.AxisObjects[i].PtoD(pulsePos.Command);
-                        erropos = AxisProviders.AxisObjects[i].PtoD(pulsePos.Error);
+                            double actpos = axis.PtoD(pulsePos.Actual);
+                            double errorpos = axis.PtoD(pulsePos.Error);
 
-                        pActPos = pulsePos.Actual;
-                        pCommandPos = pulsePos.Command;
-                        pErrorPos = pulsePos.Error;
+                            axis.Status.State = motionStatus.State;
+                            axis.Status.StatusCode = motionStatus.StatusCode;
+                            axis.Status.AxisBusy = motionStatus.AxisBusy;
+                            axis.Status.Torque = motionStatus.Torque;
 
-                        //actpos = Math.Truncate(actpos);
+                            axis.Status.RawPosition.Actual = actpos;
+                            axis.Status.Pulse.Actual = pulsePos.Actual;
 
-                        AxisProviders.AxisObjects[i].Status.RawPosition.Actual = actpos;
-                        AxisProviders.AxisObjects[i].Status.Pulse.Actual = pActPos;
+                            axis.Status.RawPosition.Command =
+                                axis.PtoD(axis.Status.Pulse.Command);
 
-                        //commandpos = Math.Truncate(commandpos);
-                        //AxisProviders.AxisObjects[i].Status.RawPosition.Command = commandpos;
-                        //AxisProviders.AxisObjects[i].Status.Pulse.Command = pCommandPos;
-                        AxisProviders.AxisObjects[i].Status.RawPosition.Command
-                            = AxisProviders.AxisObjects[i].PtoD(AxisProviders.AxisObjects[i].Status.Pulse.Command);
+                            axis.Status.RawPosition.Error = errorpos;
+                            axis.Status.Pulse.Error = pulsePos.Error;
 
-                        //erropos = Math.Truncate(erropos);
-                        AxisProviders.AxisObjects[i].Status.RawPosition.Error = erropos;
-                        AxisProviders.AxisObjects[i].Status.Pulse.Error = pErrorPos;
+                            axis.Status.AxisEnabled = motionStatus.AxisEnabled;
+                            axis.Status.CapturePositions = motionStatus.CapturePositions;
+                            axis.Status.IsHomeSensor = motionStatus.IsHomeSensor;
+                            axis.Status.IsLimitSensor = motionStatus.IsLimitSensor;
+                            axis.Status.AuxPosition = motionStatus.AuxPosition;
+                        }
+                        catch (Exception err)
+                        {
+                            // 문제가 발생한 축은 이후 업데이트에서 무시
+                            _ignoredAxes.Add(axis);
 
-                        //AxisProviders.AxisObjects[i].Status.AxisEnabled = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].AxisEnabled;
-                        AxisProviders.AxisObjects[i].Status.AxisEnabled = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].AxisEnabled;
-                        AxisProviders.AxisObjects[i].Status.CapturePositions = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].CapturePositions;
-                        AxisProviders.AxisObjects[i].Status.IsHomeSensor = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].IsHomeSensor;
-                        AxisProviders.AxisObjects[i].Status.IsLimitSensor = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].IsLimitSensor;
-
-                        auxpulse = _MotionProviders[tPortNum.Value].AxisStatusList[tAxisIndex.Value].AuxPosition;
-                        //double dauxpulse = Convert.ToDouble(auxpulse);
-                        //AxisProviders.AxisObjects[i].Status.AuxPosition = Convert.ToInt32(AxisProviders.AxisObjects[i].(dauxpulse));
-                        AxisProviders.AxisObjects[i].Status.AuxPosition = auxpulse;
+                            LoggerManager.Error(
+                                $"UpdateMotionProc(): Axis ignored. " +
+                                $"Port={axis?.PortNum?.Value}, " +
+                                $"Index={axis?.AxisIndex?.Value}, " +
+                                $"Error={err}");
+                        }
                     }
-                    //minskim// GC 호출 및 CPU 사용률 절감을 위해 기존 timer+resetevent로 thread 제어하던 로직을 제거 하고 sleep으로 대체함, sleep시간은 기존 timer interval 주기 값으로 설정함
+
+                    // 기존 모니터링 주기 유지
                     System.Threading.Thread.Sleep(MonitoringInterValInms);
-
-
                 }
-
             }
             catch (Exception err)
             {
-                //LoggerManager.Error($string.Format("UpdateIOProc(): Error occurred while update io proc. Err = {0}", err.Message));
+                // 축별 처리 외부에서 발생한 예상하지 못한 오류
                 LoggerManager.Exception(err);
             }
-
         }
         int IMotionProvider.LoadMotionBaseDescriptor(string MotionBaseParamFilePath)
         {

@@ -1582,8 +1582,9 @@ namespace ProbeMotion
                             }
                             else
                             {
-                                returnValue = MotionProvider.AbsMove(compAxis, compAxis.Status.RawPosition.Ref, compAxis.Param.Speed.Value, compAxis.Param.Acceleration.Value);
-                                ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(returnValue));
+                                // 260812 sebas : 5CAM 포커싱 중 값이 이상해서 주석처리
+                                //returnValue = MotionProvider.AbsMove(compAxis, compAxis.Status.RawPosition.Ref, compAxis.Param.Speed.Value, compAxis.Param.Acceleration.Value);
+                                //ResultValidate(MethodBase.GetCurrentMethod(), EnumReturnCodesConverter.EnumReturnCodeToEventCodeConvert(returnValue));
                             }
                         }
                     }

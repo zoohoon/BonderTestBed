@@ -1416,6 +1416,71 @@ namespace VisionTestViewModel
             {
                 EnumProberCam curcam = EnumProberCam.UNDEFINED;
 
+                // <-- 260813 sebas : CX3 CoaxLink Camera
+                if (SelectedCam == enumStageCamType.CX3)
+                {
+                    try
+                    {
+                        byte[] copiedFrame;
+
+                        lock (_cx3FrameLock)
+                        {
+                            if (_cx3LatestFrame == null || _cx3LatestFrame.Length == 0)
+                            {
+                                LoggerManager.Error("SaveGrabimgFunc() : CoaxLink Frame is null");
+                                return EventCodeEnum.UNDEFINED;
+                            }
+
+                            copiedFrame = new byte[_cx3LatestFrame.Length];
+                            Buffer.BlockCopy(_cx3LatestFrame, 0, copiedFrame, 0, copiedFrame.Length);
+                        }
+
+                        int bpp = _cx3IsColor ? 3 : 1;
+                        int stride = _cx3Width * bpp;
+
+                        PixelFormat pixelFormat = _cx3IsColor? PixelFormats.Bgr24 : PixelFormats.Gray8;
+
+                        BitmapSource bmp = BitmapSource.Create(
+                            _cx3Width,
+                            _cx3Height,
+                            96,
+                            96,
+                            pixelFormat,
+                            null,
+                            copiedFrame,
+                            stride);
+
+                        // 다른 Thread에서도 안전하게 사용할 수 있도록 Freeze
+                        bmp.Freeze();
+
+                        string saveDirectory = @"C:\Logs\Image\CoaxLink";
+
+                        if (Directory.Exists(saveDirectory) == false)
+                            Directory.CreateDirectory(saveDirectory);
+
+                        string timestamp = DateTime.Now.ToString("yyMMddHHmmssfff");
+                        string savePath = Path.Combine(saveDirectory, $"CoaxLink_{timestamp}.bmp");
+
+                        var encoder = new BmpBitmapEncoder();
+                        encoder.Frames.Add(BitmapFrame.Create(bmp));
+
+                        using (var fs = new FileStream(savePath, FileMode.Create, FileAccess.Write))
+                        {
+                            encoder.Save(fs);
+                        }
+
+                        LoggerManager.Debug($"[CoaxLink], SaveGrabimgFunc() : {savePath}");
+
+                        ret = EventCodeEnum.NONE;
+                    }
+                    catch (Exception err)
+                    {
+                        LoggerManager.Exception(err);
+                    }
+                    return ret;
+                }
+                // -->
+
                 switch (SelectedCam)
                 {
                     case enumStageCamType.UNDEFINED:
@@ -2029,10 +2094,10 @@ namespace VisionTestViewModel
                         if (ret == EventCodeEnum.NONE)
                         {
                             FocusingParam.FlatnessThreshold.Value = 95.0;
-                            FocusingParam.FocusRange.Value = 500;
+                            FocusingParam.FocusRange.Value = 300;   // 기존 500 -> 300
 
                             // points 개수에 따라 반복 횟수 결정
-                            int focusRetryCount = points.Count < 30 ? 1 : 1;    // int focusRetryCount = points.Count < 30 ? 5 : 1; 에서 일단 시간상 전부 1회로 변경
+                            int focusRetryCount = points.Count < 30 ? 3 : 1;    // int focusRetryCount = points.Count < 30 ? 5 : 1; 에서 일단 시간상 전부 1회로 변경
 
                             double bestFocusValue = double.MinValue;
                             double bestFocusResultPos = 0;
@@ -2438,7 +2503,7 @@ namespace VisionTestViewModel
                 {
                     FocusingParam.FocusingAxis.Value = EnumAxisConstants.Z;
                     FocusingParam.FlatnessThreshold.Value = 95.0;
-                    FocusingParam.FocusRange.Value = 500;
+                    FocusingParam.FocusRange.Value = 300;   // 400 -> 300
 
                     var coaxFocusing = FocusingModule as ICoaxLinkExFocusing;
 
@@ -3222,6 +3287,43 @@ namespace VisionTestViewModel
                 throw;
             }
         }
+        private AsyncCommand _RegistWaferCen;
+        public ICommand RegistWaferCen
+        {
+            get
+            {
+                if (null == _RegistWaferCen) _RegistWaferCen = new AsyncCommand(RegistWaferCenFunc);
+                return _RegistWaferCen;
+            }
+        }
+        double RegistWaferCenX = 128759.91;
+        double RegistWaferCenY = -188030.85;
+        double RegistWaferCenZ = 34900.2;
+        private async Task RegistWaferCenFunc()
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                double AcualPos = 0;
+
+                // Base X
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref AcualPos);
+                RegistWaferCenX = AcualPos;
+
+                // Base Y
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref AcualPos);
+                RegistWaferCenY = AcualPos;
+
+                // Base Z
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
+                RegistWaferCenZ = AcualPos;
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+        }
         private AsyncCommand _MoveWaferCen;
         public ICommand MoveWaferCen
         {
@@ -3244,8 +3346,13 @@ namespace VisionTestViewModel
                 double currentPos = 0.0;    // 현재 위치값 읽기
                 double AcualPos = 0;
 
+                if (RegistWaferCenX == 0 || RegistWaferCenY == 0 || RegistWaferCenZ == 0)
+                {
+                    return;
+                }
+
                 // Base X
-                pos = 128759.91;
+                pos = RegistWaferCenX;  // 128759.91;
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.X).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -3256,7 +3363,7 @@ namespace VisionTestViewModel
                 }
 
                 // Base Y
-                pos = -188030.85;
+                pos = RegistWaferCenY;  // - 188030.85;
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Y).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 
@@ -3267,7 +3374,7 @@ namespace VisionTestViewModel
                 }
 
                 // Base Z
-                pos = 34900.2;
+                pos = RegistWaferCenZ;  // 34900.2;
                 this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.Z).AxisType.Value, ref AcualPos);
                 currentPos = AcualPos;
 

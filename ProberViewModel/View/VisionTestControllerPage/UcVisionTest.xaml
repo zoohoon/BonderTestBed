@@ -85,6 +85,13 @@
                         
                         <!-- 260810 sebas CoaxlinkEx add -->
                         <Image Width="600" Height="600" Source="{Binding CX3CameraSource}" Stretch="Uniform" Visibility="{Binding CX3CameraVisibility}"/>
+
+                        <!-- 260812 sebas CX3 Crosshair add -->
+                        <!-- Horizontal Line -->
+                        <Rectangle Width="600" Height="1" Fill="Lime" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CX3CameraVisibility}" IsHitTestVisible="False"/>
+
+                        <!-- Vertical Line -->
+                        <Rectangle Width="1" Height="600" Fill="Lime" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CX3CameraVisibility}" IsHitTestVisible="False"/>
                     </Grid>
                 </Border>
                 <ljc:UcLightJog Grid.Row="1" Width="250" Height="100"
@@ -140,8 +147,16 @@
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
 
-                                    <Button Grid.Column="0" Grid.Row="0" Margin="5"
-                                            Content="Move Cen" Command="{Binding MoveWaferCen}"/>
+                                    <Grid Grid.Column="0" Grid.Row="0" Margin="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button Grid.Column="0" Margin="0,0,2,0" Content="Regist&#x0a;Cen" Command="{Binding RegistWaferCen}"/>
+                                        <Button Grid.Column="1" Margin="2,0,0,0" Content="Move&#x0a;Cen" Command="{Binding MoveWaferCen}"/>
+                                    </Grid>
+                                    
                                     <Button Grid.Column="1" Grid.Row="0" Margin="4,5,6,5"
                                             Content="25P Move" Command="{Binding Calc17PCommand}" IsEnabled="{Binding IsMoveCenCompleted}"/>
                                     <Button Grid.Column="0" Grid.Row="1" Margin="5"
@@ -151,7 +166,7 @@
                                     <Button Grid.Column="0" Grid.Row="2" Margin="5"
                                             Content="Calc Z Move" Command="{Binding CalcZMoveCommand}" IsEnabled="{Binding IsMoveCenCompleted}"/>
                                     <Button Grid.Column="1" Grid.Row="2" Margin="5" 
-                                            Content="Focus_Retry" Command="{Binding FocusReCommand}" IsEnabled="{Binding IsMoveCenCompleted}"/>
+                                            Content="Focus_Retry" Command="{Binding FocusReCommand}" />
 
                                     <Button Grid.Column="0" Grid.Row="3" Margin="5"
                                             Content="WaferMap" Command="{Binding PrintLogCommand}"/>

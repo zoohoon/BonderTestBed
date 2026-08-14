@@ -189,6 +189,13 @@ namespace ProberInterfaces
                     return null;
                 }
 
+                const int focusRoiSize = 960;
+
+                double roiX = (imageBuffer.SizeX - focusRoiSize) / 2.0;
+                double roiY = (imageBuffer.SizeY - focusRoiSize) / 2.0;
+
+                roi = new Rect(roiX, roiY, focusRoiSize, focusRoiSize);
+
                 int focusValue =
                     this.VisionManager().GetFocusValue(
                         imageBuffer,
@@ -355,6 +362,195 @@ namespace ProberInterfaces
                 throw;
             }
         }
+        // <-- 260813 sebas : CoaxLink 카메라용 추가
+        protected void GetFocusResolution_CoaxLinkEx(IFocusParameter focusparam, double focusRange, out int focusStep, out double focusResolution, bool nextResolution = false)
+        {
+            try
+            {
+                int step = 0;
+                double tmpStep = 0.0;
+                double minResolution = 40.0;
+
+                if (focusparam.OutFocusLimit != null)
+                {
+                    if (nextResolution)
+                    {
+                        minResolution = 40.0;
+                    }
+                    else
+                    {
+                        minResolution = focusparam.OutFocusLimit.Value;
+                    }
+                }
+
+                if (minResolution <= 0)
+                {
+                    minResolution = 30.0;
+                }
+
+                /*
+                 * CX3에서도 기존 설정된 DepthOfField를 그대로 사용한다.
+                 * 값이 없는 경우에만 기본값 생성.
+                 */
+                if (focusparam.DepthOfField == null)
+                {
+                    focusparam.DepthOfField = new Element<double>();
+                    focusparam.DepthOfField.Value = 1.0;
+                }
+
+                if (focusparam.DepthOfField.Value <= 0)
+                {
+                    focusparam.DepthOfField.Value = 1.0;
+                }
+
+                LoggerManager.Debug(
+                    $"[CoaxLinkExFocusing] GetFocusResolution - Range={focusRange:F6}, " +
+                    $"OutFocusLimit={focusparam.OutFocusLimit?.Value}, MinResolution={minResolution:F6}, " +
+                    $"DOF={focusparam.DepthOfField.Value:F6}, Next={nextResolution}");
+
+                if (focusparam.DepthOfField.Value > focusRange)
+                {
+                    focusStep = 0;
+                    focusResolution = 0.0;
+                    return;
+                }
+
+                tmpStep = focusRange / minResolution;
+
+                if (tmpStep > 10.0)
+                {
+                    step = (int)tmpStep;
+                    focusStep = step;
+                    focusResolution = focusRange / step;
+                }
+                else if (tmpStep <= 10.0 && tmpStep > 5.0)
+                {
+                    tmpStep = focusRange / 15.0;
+                    step = (int)tmpStep;
+
+                    focusStep = step;
+                    focusResolution = focusRange / step;
+                }
+                else if (tmpStep <= 5.0 && tmpStep > 2.5)
+                {
+                    tmpStep = focusRange / 10.0;
+                    step = (int)tmpStep;
+
+                    focusStep = step;
+                    focusResolution = focusRange / step;
+                }
+                else if (tmpStep <= 2.5 && tmpStep > 1.0)
+                {
+                    tmpStep = focusRange / 5.0;
+                    step = (int)tmpStep;
+
+                    focusStep = step;
+                    focusResolution = focusRange / step;
+                }
+                else if (tmpStep <= 1.0 && tmpStep > 0.5)
+                {
+                    tmpStep = focusRange / 3.0;
+                    step = (int)tmpStep;
+
+                    focusStep = step;
+                    focusResolution = focusRange / step;
+                }
+                else
+                {
+                    step = (int)focusRange;
+                    focusStep = step;
+                    focusResolution = 1.0;
+                }
+
+                /*
+                 * Resolution이 DOF보다 더 작아지지 않도록
+                 * 기존 Focusing 로직 유지.
+                 */
+                if (focusResolution < focusparam.DepthOfField.Value)
+                {
+                    step = (int)(focusRange / focusparam.DepthOfField.Value);
+
+                    if (step > 0)
+                    {
+                        focusStep = step;
+                        focusResolution = focusRange / step;
+                    }
+                }
+
+                if (focusStep <= 2)
+                {
+                    focusStep = 0;
+                    focusResolution = 0.0;
+                }
+
+                LoggerManager.Debug(
+                    $"[CoaxLinkExFocusing] GetFocusResolution Result - " +
+                    $"Range={focusRange:F6}, Step={focusStep}, " +
+                    $"Resolution={focusResolution:F6}, DOF={focusparam.DepthOfField.Value:F6}");
+            }
+            catch (Exception err)
+            {
+                focusStep = 0;
+                focusResolution = 0.0;
+
+                LoggerManager.Debug(
+                    "[CoaxLinkExFocusing] Failed to initialize focusing resolution and step.");
+
+                LoggerManager.Exception(err);
+                throw;
+            }
+        }
+        protected void GetNextResolution_CoaxLinkEx(IFocusParameter focusparam, double focusResolution, out int focusStep, out double nextFocusResolution)
+        {
+            try
+            {
+                focusStep = 0;
+                nextFocusResolution = 0.0;
+
+                LoggerManager.Debug(
+                    $"[CoaxLinkExFocusing] GetNextResolution CHECK - " +
+                    $"CurrentResolution={focusResolution:F6}, " +
+                    $"DOF={focusparam.DepthOfField.Value:F6}");
+
+                if (focusResolution > focusparam.DepthOfField.Value)
+                {
+                    GetFocusResolution_CoaxLinkEx(
+                        focusparam,
+                        focusResolution * 2.0,
+                        out focusStep,
+                        out nextFocusResolution,
+                        true);
+
+                    LoggerManager.Debug(
+                        $"[CoaxLinkExFocusing] GetNextResolution - " +
+                        $"CurrentResolution={focusResolution:F6}, " +
+                        $"NextRange={(focusResolution * 2.0):F6}, " +
+                        $"NextStep={focusStep}, NextResolution={nextFocusResolution:F6}, " +
+                        $"DOF={focusparam.DepthOfField.Value:F6}");
+                }
+                else
+                {
+                    LoggerManager.Debug(
+                        $"[CoaxLinkExFocusing] GetNextResolution END - " +
+                        $"Resolution={focusResolution:F6} <= DOF={focusparam.DepthOfField.Value:F6}");
+
+                    focusStep = 0;
+                    nextFocusResolution = 0.0;
+                }
+            }
+            catch (Exception err)
+            {
+                focusStep = 0;
+                nextFocusResolution = 0.0;
+
+                LoggerManager.Debug(
+                    "[CoaxLinkExFocusing] Failed to get next focusing resolution and step.");
+
+                LoggerManager.Exception(err);
+                throw;
+            }
+        }
+        // -->
         public virtual void ShowFocusGraph()
         {
         }
