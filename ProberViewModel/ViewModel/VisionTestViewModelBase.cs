@@ -419,8 +419,8 @@ namespace VisionTestViewModel
                 CoaxlinkEx.UpdateCameraList();
 
                 // TODO:
-                // BVision에서 CX3(CenterCAM)에 실제로 매핑되어 있던 Device Index 사용
-                int deviceIndex = 2;
+                // CX3 순서 인덱스 번호
+                int deviceIndex = 1;
 
                 var camInfo = CoaxlinkEx.GetCameraInfo(deviceIndex);
 

@@ -5237,7 +5237,12 @@ namespace ManualJogViewModel
         {
             try
             {
-
+                // 260818 Nick 회전 인터락 추가
+                bool RotateInterlock = IsCanRotate();
+                if(false == RotateInterlock)
+                {
+                    return;
+                }
 
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.NZD1);
                 if (axis == null)
@@ -5264,6 +5269,12 @@ namespace ManualJogViewModel
         {
             try
             {
+                // 260818 Nick 회전 인터락 추가
+                bool RotateInterlock = IsCanRotate();
+                if (false == RotateInterlock)
+                {
+                    return;
+                }
 
                 axis = this.MotionManager().GetAxis(EnumAxisConstants.NZD1);
                 if (axis == null)
@@ -11536,41 +11547,38 @@ namespace ManualJogViewModel
 
         public bool IsCanRotate()
         {
-            // 조건 체크 : Nano Z
-            bool ret = false;
-            double AcualPos = 0.0;
-            double NanoStagePosCheck = -3000.0;         // 나노스테이지 Z축 안전 위치
+            // 조건 체크 : Nano Z, FD Z
+            double ActualPosNanoStage = 0.0;
+            double ActualPosFDStage = 0.0;
+            double NanoStagePosCheck = -1505.0;         // 나노스테이지 Z축 안전 위치
+            double FDStagePosCheck = 2995.0;            // FD스테이지 Z축 안전 위치
 
             try
             {
-                // (Interlock) Nano Stage Z Position Check
-                for (long i = 1; i < 4; i++)
-                {
-                    this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ1).AxisType.Value, ref AcualPos);
+                // (Interlock) Nano Stage Z Position Check, FD Stage Z Position Check
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ1).AxisType.Value, ref ActualPosNanoStage);
+                this.MotionManager().GetActualPos(this.MotionManager().GetAxis(EnumAxisConstants.NSZ2).AxisType.Value, ref ActualPosFDStage);
 
-                    if (AcualPos < NanoStagePosCheck)
-                    {
-                        LoggerManager.Event($"현재 나노스테이지 Z축 간섭 위치, 현재위치 : {AcualPos}, {i} / 3");
-                        if (i > 3)
-                        {
-                            LoggerManager.Event($"회전 할 수 없는 상태 (나노스테이지 확인 필요)");
-                            ret = false;
-                            return ret;
-                        }
-                    }
-                    else
-                    {
-                        ret = true;
-                        return ret;
-                    }
+                if (ActualPosNanoStage < NanoStagePosCheck)
+                {
+                    LoggerManager.Event($"회전 할 수 없는 상태 (나노스테이지 Z 축 간섭)");
+                    LoggerManager.Event($"Nano Z 인터락 위치 : {NanoStagePosCheck}, Nano Z 현재 위치 : {ActualPosNanoStage}");
+                    return false;
                 }
+                else if(ActualPosFDStage < FDStagePosCheck)
+                {
+                    LoggerManager.Event($"회전 할 수 없는 상태 (현재 FD 스테이지 Z축 간섭 위치)");
+                    LoggerManager.Event($" FD Z 인터락 위치 : {FDStagePosCheck}, FD Z 현재 위치 : {ActualPosFDStage}");
+                    return false;
+                }
+
+                return true;
             }
             catch (Exception err)
             {
                 LoggerManager.Exception(err);
                 throw;
             }
-            return ret;
         }
 
         public EventCodeEnum Rotate_Edit()
