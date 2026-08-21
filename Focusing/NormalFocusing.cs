@@ -1395,7 +1395,7 @@ namespace Focusing
                             double finalCurrentZ = 0.0;
                             this.MotionManager().GetActualPos(axis.AxisType.Value, ref finalCurrentZ);
 
-                            double focusZOffset = -25.0;   // 임시 Offset 값
+                            double focusZOffset = 0.0;   // 임시 Offset 값 : -25에서 0으로 제거
                             double peakZ = targetFocusValueImage.ZHeight;
                             double finalTargetZ = peakZ + focusZOffset;
 
