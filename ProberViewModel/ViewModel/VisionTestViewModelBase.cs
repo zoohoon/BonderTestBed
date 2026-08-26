@@ -2093,64 +2093,179 @@ namespace VisionTestViewModel
 
                         if (ret == EventCodeEnum.NONE)
                         {
-                            FocusingParam.FlatnessThreshold.Value = 95.0;
-                            FocusingParam.FocusRange.Value = 300;   // 기존 500 -> 300
+                            int focusRetryCount = points.Count < 30 ? 9 : 1;
 
-                            // points 개수에 따라 반복 횟수 결정
-                            int focusRetryCount = points.Count < 30 ? 3 : 1;    // int focusRetryCount = points.Count < 30 ? 5 : 1; 에서 일단 시간상 전부 1회로 변경
-
-                            double bestFocusValue = double.MinValue;
-                            double bestFocusResultPos = 0;
-
-                            var coaxFocusing = FocusingModule as ICoaxLinkExFocusing;
-                            if (coaxFocusing == null)
-                            {
-                                LoggerManager.Error("CoaxLinkEx Focusing을 지원하지 않는 모듈입니다.");
-                                return;
-                            }
-
-                            for (int retry = 0; retry < focusRetryCount; retry++)
-                            {
-                                ret = coaxFocusing.Focusing_Retry_CoaxLinkEx(
-                                    FocusingParam,
-                                    this,   // CX3 프레임 공급자
-                                    false,
-                                    false,
-                                    false,
-                                    this);  // 호출자 정보(callerassembly) 역할
-
-                                Thread.Sleep(200);
-
-                                if (ret == EventCodeEnum.NONE)
-                                {
-                                    if (FocusingParam.FocusValue > bestFocusValue)
-                                    {
-                                        bestFocusValue = FocusingParam.FocusValue;
-                                        bestFocusResultPos = FocusingParam.FocusResultPos;
-                                    }
-                                }
-                            }
-
-                            if (bestFocusValue != double.MinValue)
-                            {
-                                points[fixNum].Z.Value = bestFocusResultPos;
-
-                                double actZpos = 0;
-                                this.MotionManager().GetActualPos(EnumAxisConstants.Z, ref actZpos);
-
-                                LoggerManager.PinLog($"Current Pos : X = {mccoord.X.Value} , Y = {mccoord.Y.Value}");
-                                LoggerManager.PinLog($"Focusing Z = {points[fixNum].Z.Value} , Score = {bestFocusValue} , Relpos Z = {actZpos}");
-                            }
+                            ret = ExecuteFocusPoint(
+                                wafercoord,
+                                mccoord,
+                                fixNum,
+                                focusRetryCount);
                         }
                     });
 
                     // 각 points별 이미지 체크용 저장
-                    SaveImageFunc_Score(i, points[i].Z.Value, FocusingParam.FocusValue);
+                    this.MotionManager().GetActualPos(EnumAxisConstants.Z, ref zpos);
+                    SaveImageFunc_Score(i, zpos, FocusingParam.FocusValue);
                 }
             }
             catch
             {
 
+            }
+
+            return ret;
+        }
+        private EventCodeEnum ExecuteFocusPoint(WaferCoordinate wafercoord, MachineCoordinate mccoord, int fixNum, int focusRetryCount)
+        {
+            EventCodeEnum ret = EventCodeEnum.UNDEFINED;
+
+            try
+            {
+                FocusingParam.FlatnessThreshold.Value = 95.0;
+                FocusingParam.FocusRange.Value = 300;
+
+                List<double> focusZList = new List<double>();
+                List<double> focusScoreList = new List<double>();
+
+                var coaxFocusing = FocusingModule as ICoaxLinkExFocusing;
+
+                if (coaxFocusing == null)
+                {
+                    LoggerManager.Error("CoaxLinkEx Focusing을 지원하지 않는 모듈입니다.");
+                    return EventCodeEnum.UNDEFINED;
+                }
+
+                // =========================================================
+                // Focusing 반복
+                // =========================================================
+                for (int retry = 0; retry < focusRetryCount; retry++)
+                {
+                    ret = coaxFocusing.Focusing_Retry_CoaxLinkEx(
+                        FocusingParam,
+                        this,
+                        false,
+                        false,
+                        false,
+                        this);
+
+                    Thread.Sleep(200);
+
+                    if (ret == EventCodeEnum.NONE)
+                    {
+                        focusZList.Add(FocusingParam.FocusResultPos);
+                        focusScoreList.Add(FocusingParam.FocusValue);
+
+                        LoggerManager.PinLog(
+                            $"Focus Retry [{retry + 1}/{focusRetryCount}] : Z = {FocusingParam.FocusResultPos}, Score = {FocusingParam.FocusValue}");
+                    }
+                }
+
+                if (focusZList.Count == 0)
+                {
+                    LoggerManager.PinLog("Focus Result : No valid focus data");
+                    return ret;
+                }
+
+                // =========================================================
+                // Focus Z 계산
+                // 전체 평균에서 ±10 벗어난 값 제외
+                // =========================================================
+                double averageZ = focusZList.Average();
+
+                List<double> validZList = focusZList
+                    .Where(z => Math.Abs(z - averageZ) <= 10)
+                    .ToList();
+
+                List<double> excludedZList = focusZList
+                    .Where(z => Math.Abs(z - averageZ) > 10)
+                    .ToList();
+
+                LoggerManager.PinLog(
+                    $"Focus Z All = [{string.Join(", ", focusZList)}] , Average = {averageZ}");
+
+                if (excludedZList.Count > 0)
+                {
+                    LoggerManager.PinLog(
+                        $"Focus Z Excluded = [{string.Join(", ", excludedZList)}]");
+                }
+                else
+                {
+                    LoggerManager.PinLog(
+                        $"Focus Z Excluded = [None]");
+                }
+
+                double finalFocusZ;
+
+                if (validZList.Count > 0)
+                {
+                    finalFocusZ = validZList.Average();
+                }
+                else
+                {
+                    finalFocusZ = averageZ;
+                }
+
+                LoggerManager.PinLog(
+                    $"Focus Z Valid = [{string.Join(", ", validZList)}] , Final Average = {finalFocusZ}");
+
+                // 최종 Focus Z Offset
+                finalFocusZ += 0;
+
+                points[fixNum].Z.Value = finalFocusZ;
+
+                // =========================================================
+                // Focus Score 계산
+                // =========================================================
+                double finalFocusScore = 0;
+
+                if (focusScoreList.Count > 0)
+                {
+                    List<double> sortedScoreList = focusScoreList
+                        .OrderBy(x => x)
+                        .ToList();
+
+                    if (sortedScoreList.Count >= 5)
+                    {
+                        List<double> validScoreList = sortedScoreList
+                            .Skip(2)
+                            .Take(sortedScoreList.Count - 4)
+                            .ToList();
+
+                        finalFocusScore = validScoreList.Average();
+                    }
+                    else
+                    {
+                        finalFocusScore = sortedScoreList.Average();
+                    }
+                }
+
+                // =========================================================
+                // 최종 Focus Z 위치로 이동
+                // =========================================================
+                ret = this.StageSupervisor().StageModuleState.WaferHighViewMove(
+                    wafercoord.X.Value,
+                    wafercoord.Y.Value,
+                    finalFocusZ);
+
+                if (ret == EventCodeEnum.NONE)
+                {
+                    double actZpos = 0;
+
+                    this.MotionManager().GetActualPos(
+                        EnumAxisConstants.Z,
+                        ref actZpos);
+
+                    LoggerManager.PinLog(
+                        $"Current Pos : X = {mccoord.X.Value} , Y = {mccoord.Y.Value}");
+
+                    LoggerManager.PinLog(
+                        $"Focusing Z = {points[fixNum].Z.Value} , Score = {finalFocusScore} , Relpos Z = {actZpos}");
+                }
+            }
+            catch (Exception ex)
+            {
+                LoggerManager.Error(
+                    $"ExecuteFocusPoint() Error : {ex.Message}");
             }
 
             return ret;
@@ -2761,6 +2876,7 @@ namespace VisionTestViewModel
         private async Task<EventCodeEnum> SaveImageFunc_XY(int number, double zpos, double xpos, double ypos)
         {
             EventCodeEnum ret = EventCodeEnum.UNDEFINED;
+
             try
             {
                 EnumProberCam curcam = EnumProberCam.UNDEFINED;
@@ -2770,31 +2886,84 @@ namespace VisionTestViewModel
                     case enumStageCamType.UNDEFINED:
                         curcam = EnumProberCam.UNDEFINED;
                         break;
+
                     case enumStageCamType.WaferHigh:
                         curcam = EnumProberCam.WAFER_HIGH_CAM;
                         Cam = this.VisionManager().GetCam(EnumProberCam.WAFER_HIGH_CAM);
                         break;
+
                     case enumStageCamType.WaferLow:
                         curcam = EnumProberCam.WAFER_LOW_CAM;
                         Cam = this.VisionManager().GetCam(EnumProberCam.WAFER_LOW_CAM);
                         break;
+
                     case enumStageCamType.PinHigh:
                         curcam = EnumProberCam.PIN_HIGH_CAM;
                         Cam = this.VisionManager().GetCam(EnumProberCam.PIN_HIGH_CAM);
                         break;
+
                     case enumStageCamType.PinLow:
                         curcam = EnumProberCam.PIN_LOW_CAM;
                         Cam = this.VisionManager().GetCam(EnumProberCam.PIN_LOW_CAM);
                         break;
+
                     case enumStageCamType.MAP_REF:
                         curcam = EnumProberCam.MAP_REF_CAM;
                         Cam = this.VisionManager().GetCam(EnumProberCam.MAP_REF_CAM);
                         break;
+
+                    case enumStageCamType.CX3:
+                        // CX3는 VisionManager의 SingleGrab을 사용하지 않고
+                        // Display Thread에서 전달받은 최신 Frame을 사용
+                        break;
+
                     default:
                         break;
                 }
 
-                if (curcam != EnumProberCam.UNDEFINED)
+                // =========================================================
+                // CX3 / CoaxLinkEx Camera
+                // =========================================================
+                if (SelectedCam == enumStageCamType.CX3)
+                {
+                    try
+                    {
+                        byte[] saveBuffer = null;
+
+                        // Display Thread에서 복사해 놓은 최신 Frame을
+                        // 저장 전용 Buffer로 다시 복사
+                        lock (_cx3FrameLock)
+                        {
+                            if (_cx3LatestFrame != null && _cx3LatestFrame.Length > 0)
+                            {
+                                saveBuffer = new byte[_cx3LatestFrame.Length];
+                                Buffer.BlockCopy(_cx3LatestFrame, 0, saveBuffer, 0, _cx3LatestFrame.Length);
+                            }
+                        }
+
+                        // 아직 CX3 Frame이 들어오지 않은 경우
+                        if (saveBuffer == null || saveBuffer.Length == 0)
+                        {
+                            LoggerManager.PinLog("SaveImageFunc_XY CX3 : Latest Frame is empty");
+                            return ret;
+                        }
+
+                        string saveBasePath = $"C:\\Logs\\Image\\CPC\\points{number}_X({xpos})_Y({ypos})_Z({zpos}).bmp";
+
+                        SaveCX3Bitmap(saveBuffer, saveBasePath);
+
+                        LoggerManager.PinLog($"CX3 Image Save : {saveBasePath}");
+                    }
+                    catch (Exception err)
+                    {
+                        LoggerManager.Exception(err);
+                    }
+                }
+
+                // =========================================================
+                // 기존 Camera
+                // =========================================================
+                else if (curcam != EnumProberCam.UNDEFINED)
                 {
                     bool signaled = false;
                     ImageBuffer image = new ImageBuffer();
@@ -2804,13 +2973,25 @@ namespace VisionTestViewModel
                         image = this.VisionManager().SingleGrab(Cam.GetChannelType(), this);
 
                         signaled = this.VisionManager().DigitizerService[Cam.GetDigitizerIndex()].GrabberService.WaitOne(60000);
+
+                        if (!signaled)
+                        {
+                            LoggerManager.PinLog($"SaveImageFunc_XY : Grab timeout, Camera = {curcam}");
+                            return ret;
+                        }
+
                         var roi = new System.Windows.Rect(0, 0, 960, 960);
+
                         int focusval = this.VisionManager().GetFocusValue(image, roi);
                         image.FocusLevelValue = focusval;
 
-                        // Save
-                        string SaveBasePath = $"C:\\Logs\\Image\\CPC\\points{number}_X({xpos})_Y({ypos})_Z({zpos}).bmp";
-                        this.VisionManager().SaveImageBuffer(image, SaveBasePath, IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
+                        string saveBasePath = $"C:\\Logs\\Image\\CPC\\points{number}_X({xpos})_Y({ypos})_Z({zpos}).bmp";
+
+                        this.VisionManager().SaveImageBuffer(
+                            image,
+                            saveBasePath,
+                            IMAGE_LOG_TYPE.NORMAL,
+                            EventCodeEnum.NONE);
                     }
                     catch (Exception err)
                     {
@@ -2818,15 +2999,16 @@ namespace VisionTestViewModel
                     }
 
                     this.VisionManager().StartGrab(curcam, this);
-
                     LightJog.InitCameraJog(this, curcam);
                 }
+
                 LoggerManager.PinLog($"points{number} SaveImageFunc end : xpos = {xpos}, ypos = {ypos}, zpos = {zpos}");
             }
             catch (Exception err)
             {
                 LoggerManager.Exception(err);
             }
+
             return ret;
         }
         public async Task<EventCodeEnum> SaveImageFunc_Index(int number, double zpos, long xindex, long yindex, bool ex = false)
@@ -3082,11 +3264,7 @@ namespace VisionTestViewModel
                         this);
                 }
 
-                LoggerManager.PinLog(
-                    $"points{number} SaveImageFunc_Index end : " +
-                    $"xIndex = {xindex}, " +
-                    $"yIndex = {yindex}, " +
-                    $"zpos = {zpos}");
+                LoggerManager.PinLog($"points{number} SaveImageFunc_Index end : " + $"xIndex = {xindex}, " + $"yIndex = {yindex}, " + $"zpos = {zpos}");
             }
             catch (Exception err)
             {
@@ -3113,6 +3291,8 @@ namespace VisionTestViewModel
                 MachineCoordinate mccoord = new MachineCoordinate();
                 WaferCoordinate wafercoord = new WaferCoordinate();
 
+                double xpos = 0;
+                double ypos = 0;
                 double zpos = 0;
                 for (int i = 0; i < pointsAll.Count; i++)
                 {
@@ -3134,14 +3314,15 @@ namespace VisionTestViewModel
                     if (ret == EventCodeEnum.NONE)
                     {
                         // 유저 인덱스 호출
-                        CatCoordinates indexPos = new CatCoordinates();
+                        //CatCoordinates indexPos = new CatCoordinates();
+                        //indexPos.X.Value = wafercoord.X.Value;
+                        //indexPos.Y.Value = wafercoord.Y.Value;
+                        //UserIndex userIndex = this.CoordinateManager().GetCurUserIndex(indexPos);
+                        //SaveImageFunc_Index(i, zpos, userIndex.XIndex, userIndex.YIndex);
 
-                        indexPos.X.Value = wafercoord.X.Value;
-                        indexPos.Y.Value = wafercoord.Y.Value;
-
-                        UserIndex userIndex = this.CoordinateManager().GetCurUserIndex(indexPos);
-
-                        SaveImageFunc_Index(i, zpos, userIndex.XIndex, userIndex.YIndex);
+                        this.MotionManager().GetActualPos(EnumAxisConstants.X, ref xpos);
+                        this.MotionManager().GetActualPos(EnumAxisConstants.Y, ref ypos);
+                        SaveImageFunc_XY(i, zpos, xpos, ypos);
                     }
                 }
             }
@@ -3153,14 +3334,17 @@ namespace VisionTestViewModel
         }
         public double GetZValue(double zpos, double centerZ)
         {
-            // 10 -> 5 단위로 변경
             double delta = zpos - centerZ;
             double bucket;
 
+            // 10 -> 5 단위로 변경
             if (delta >= 0)
                 bucket = Math.Floor(delta / 5.0) * 5.0;
             else
                 bucket = Math.Ceiling(delta / 5.0) * 5.0;
+
+            // 입력된 값 그대로 사용할 경우
+            //bucket = delta;
 
             // 범위 제한
             if (bucket < -80) bucket = -80;
@@ -3287,6 +3471,189 @@ namespace VisionTestViewModel
                 throw;
             }
         }
+        private int? _RegistImageNumber = 0;
+        public int? RegistImageNumber
+        {
+            get { return _RegistImageNumber; }
+            set
+            {
+                if (value != _RegistImageNumber)
+                {
+                    _RegistImageNumber = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+        private AsyncCommand _GetImageScore;
+        public ICommand GetImageScore
+        {
+            get
+            {
+                if (null == _GetImageScore) _GetImageScore = new AsyncCommand(GetImageScoreFunc);
+                return _GetImageScore;
+            }
+        }
+        private BitmapSource _registImage = null;
+        private async Task GetImageScoreFunc()
+        {
+            try
+            {
+                if (RegistImageNumber == null || RegistImageNumber < 0)
+                {
+                    return;
+                }
+
+                // 저장된 이미지 불러오기
+                BitmapSource registImage = LoadRegistImage(RegistImageNumber.Value);
+
+                if (registImage == null)
+                {
+                    return;
+                }
+
+                // 2. BitmapSource -> ImageBuffer 변환
+                ImageBuffer imageBuffer = ConvertBitmapSourceToImageBuffer(registImage);
+
+                if (imageBuffer == null || imageBuffer.Buffer == null || imageBuffer.Buffer.Length == 0)
+                {
+                    LoggerManager.Error("GetImageScoreFunc() : ImageBuffer is null.");
+                    return;
+                }
+
+                // 3. 기존 Focusing과 동일하게 Center 960x960 ROI 생성
+                const int focusRoiSize = 960;
+
+                int roiWidth = Math.Min(focusRoiSize, imageBuffer.SizeX);
+                int roiHeight = Math.Min(focusRoiSize, imageBuffer.SizeY);
+                double roiX = (imageBuffer.SizeX - roiWidth) / 2.0;
+                double roiY = (imageBuffer.SizeY - roiHeight) / 2.0;
+
+                Rect focusROI = new Rect(roiX, roiY, roiWidth, roiHeight);
+
+                // 4. 기존과 동일한 GetFocusValue 실행
+                int focusValue = this.VisionManager().GetFocusValue_CoaxLinkEx(imageBuffer, focusROI);
+
+                imageBuffer.FocusLevelValue = focusValue;
+
+                LoggerManager.PinLog($"GetImageScoreFunc() : Image{RegistImageNumber}, Score = {focusValue}");
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+            }
+        }
+        private ImageBuffer ConvertBitmapSourceToImageBuffer(BitmapSource bitmap)
+        {
+            try
+            {
+                if (bitmap == null)
+                {
+                    return null;
+                }
+
+                BitmapSource source = bitmap;
+
+                int width = source.PixelWidth;
+                int height = source.PixelHeight;
+
+                ImageBuffer imageBuffer = new ImageBuffer();
+
+                // =========================================================
+                // Gray8
+                // =========================================================
+                if (source.Format == PixelFormats.Gray8)
+                {
+                    int bytesPerPixel = 1;
+                    int stride = width * bytesPerPixel;
+
+                    byte[] buffer =
+                        new byte[stride * height];
+
+                    source.CopyPixels(
+                        buffer,
+                        stride,
+                        0);
+
+                    imageBuffer.SizeX = width;
+                    imageBuffer.SizeY = height;
+                    imageBuffer.Buffer = buffer;
+                    imageBuffer.ColorDept = (int)ColorDept.BlackAndWhite;
+                }
+
+                // =========================================================
+                // Bgr24
+                // =========================================================
+                else
+                {
+                    // BMP가 다른 Format이어도 Bgr24로 통일
+                    if (source.Format != PixelFormats.Bgr24)
+                    {
+                        source =
+                            new FormatConvertedBitmap(
+                                source,
+                                PixelFormats.Bgr24,
+                                null,
+                                0);
+                    }
+
+                    int bytesPerPixel = 3;
+                    int stride = width * bytesPerPixel;
+
+                    byte[] buffer =
+                        new byte[stride * height];
+
+                    source.CopyPixels(
+                        buffer,
+                        stride,
+                        0);
+
+                    imageBuffer.SizeX = width;
+                    imageBuffer.SizeY = height;
+                    imageBuffer.Buffer = buffer;
+                    imageBuffer.ColorDept = (int)ColorDept.Color24;
+                }
+
+                imageBuffer.CapturedTime = DateTime.Now;
+
+                return imageBuffer;
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                return null;
+            }
+        }
+        private BitmapSource LoadRegistImage(int imageNumber)
+        {
+            try
+            {
+                string loadDirectory = @"C:\Logs\Image\CoaxLink";
+                string fileName = $"Image{imageNumber}.bmp";
+                string loadPath = Path.Combine(loadDirectory, fileName);
+
+                if (File.Exists(loadPath) == false)
+                {
+                    LoggerManager.Error($"LoadRegistImage() : Image File Not Found : {loadPath}");
+                    return null;
+                }
+
+                BitmapImage bmp = new BitmapImage();
+
+                bmp.BeginInit();
+                bmp.CacheOption = BitmapCacheOption.OnLoad;
+                bmp.UriSource = new Uri(loadPath, UriKind.Absolute);
+                bmp.EndInit();
+
+                bmp.Freeze();
+
+                return bmp;
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                return null;
+            }
+        }
         private AsyncCommand _RegistWaferCen;
         public ICommand RegistWaferCen
         {
@@ -3385,6 +3752,50 @@ namespace VisionTestViewModel
                 }
 
                 IsMoveCenCompleted = true;
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+                throw;
+            }
+        }
+        private AsyncCommand _FocusTestCommand;
+        public ICommand FocusTestCommand
+        {
+            get
+            {
+                if (null == _FocusTestCommand) _FocusTestCommand = new AsyncCommand(FocusTestFunc);
+                return _FocusTestCommand;
+            }
+        }
+        private async Task FocusTestFunc()
+        {
+            EventCodeEnum retVal = EventCodeEnum.UNDEFINED;
+            try
+            {
+                MachineCoordinate mccoord = new MachineCoordinate();
+                WaferCoordinate wafercoord = new WaferCoordinate();
+
+                double xpos = 0;
+                double ypos = 0;
+                double zpos = 0;
+
+                this.MotionManager().GetActualPos(EnumAxisConstants.X, ref xpos);
+                this.MotionManager().GetActualPos(EnumAxisConstants.Y, ref ypos);
+                this.MotionManager().GetActualPos(EnumAxisConstants.Z, ref zpos);
+
+                mccoord.X.Value = xpos;
+                mccoord.Y.Value = ypos;
+                mccoord.Z.Value = zpos;
+
+                wafercoord = this.CoordinateManager().WaferHighChuckConvert.Convert_5Cam(mccoord);
+
+                int fixNum = 0;
+
+                ExecuteFocusPoint(wafercoord, mccoord, fixNum, 9);
+
+                this.MotionManager().GetActualPos(EnumAxisConstants.Z, ref zpos);
+                SaveImageFunc_Score(-1, zpos, FocusingParam.FocusValue);     // -1 은 테스트 표시
             }
             catch (Exception err)
             {

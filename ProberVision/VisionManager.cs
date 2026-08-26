@@ -2036,6 +2036,19 @@ namespace ProberVision
                 throw err;
             }
         }
+        public int GetFocusValue_CoaxLinkEx(ImageBuffer img, Rect roi = new Rect()) // 260825 sebas add
+        {
+            try
+            {
+                return VisionProcessing.GetFocusValue_CoaxLinkEx(img, roi);
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Exception(err);
+
+                throw err;
+            }
+        }
 
         public EventCodeEnum GetGrayValue(ref ImageBuffer img)
         {

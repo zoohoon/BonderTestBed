@@ -521,6 +521,10 @@ namespace LoaderCore
         {
             throw new NotImplementedException();
         }
+        public int GetFocusValue_CoaxLinkEx(ImageBuffer img, Rect roi = default)
+        {
+            throw new NotImplementedException();
+        }
 
         public EventCodeEnum GetGrayValue(ref ImageBuffer img)
         {

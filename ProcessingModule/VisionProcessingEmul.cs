@@ -242,6 +242,30 @@ namespace ProcessingModule
             }
 
         }
+        // 260825 sebas : 인터페이스 구현용
+        public int GetFocusValue_CoaxLinkEx(ImageBuffer img, Rect roi = default(Rect))
+        {
+            try
+            {
+                FocusingResultValue = 0;
+                FocusingResultValue = DefaultFocusingValue;
+                if (UpdateFocuingCount == 20)
+                {
+                    UpdateFocuingCount = 0;
+                    return Convert.ToInt32(FocusingResultValue * FocusingMultiplyRate);
+                }
+                else
+                {
+                    UpdateFocuingCount++;
+                    return FocusingResultValue;
+                }
+            }
+            catch (Exception err)
+            {
+                throw new VisionException("GetFocusValue Error", err, EventCodeEnum.VISION_PROC_EXCEPTION, this);
+            }
+
+        }
         public EventCodeEnum GetGrayLevel(ref ImageBuffer img)
         {
             try

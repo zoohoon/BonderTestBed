@@ -133,6 +133,7 @@ namespace ProberInterfaces
         EventCodeEnum AddEdgePosBuffer(ImageBuffer _grabedImage, double x = 0, double y = 0, int width = 0, int height = 0, double rotangle = 0.0);
         EventCodeEnum GetGrayLevel(ref ImageBuffer img);
         int GetFocusValue(ImageBuffer img, Rect roi = new Rect());
+        int GetFocusValue_CoaxLinkEx(ImageBuffer img, Rect roi = new Rect());   // 260825 sebas add
         int CutSizeConvertEdge(ref ImageBuffer ib);
         ObservableCollection<GrabDevPosition> Detect_Pad(ImageBuffer _grabedImage, double UserPadSizeX, double UserPadSizeY, ROIParameter roiparam, bool fillholes = true);
         EdgeResult EdgeProcessing(ImageBuffer ib);

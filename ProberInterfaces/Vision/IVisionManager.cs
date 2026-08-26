@@ -109,6 +109,7 @@ namespace ProberInterfaces
         void SetDispHorFlip(DispFlipEnum value);
         void SetDispVerFlip(DispFlipEnum value);
         int GetFocusValue(ImageBuffer img, Rect roi = new Rect());
+        int GetFocusValue_CoaxLinkEx(ImageBuffer img, Rect roi = new Rect());   // 260825 sebas add
         EventCodeEnum GetGrayValue(ref ImageBuffer img);
         ImageBuffer LoadImageFile(string filepath);
         ImageBuffer ResizeImageBuffer(ImageBuffer ib, int ScaleFactorX, int ScaleFactorY);

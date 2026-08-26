@@ -1310,7 +1310,106 @@ namespace Vision.ProcessingModule
             return focusval;
         }
 
+        // 260825 sebas add
+        public int GetFocusValue_CoaxLinkEx(ImageBuffer img, Rect roi = new Rect())
+        {
+            Rect roiRect = roi;
+            int focusval = 0;
 
+            MIL_ID ROIImage = MIL.M_NULL;
+            MIL_ID focusImage = MIL.M_NULL;
+            MIL_ID edgeImage = MIL.M_NULL;
+            MIL_ID statResult = MIL.M_NULL;
+
+            // 1. Debug Image 저장 경로 생성
+            //string debugPath = Path.Combine(@"C:\Logs\Image\CoaxLink\FocusDebug", DateTime.Now.ToString("yyyyMMdd_HHmmss_fff"));
+            //if (!Directory.Exists(debugPath))
+            //{
+            //    Directory.CreateDirectory(debugPath);
+            //}
+
+            // ROI 유효성 검사 (유효하지 않을 경우 전체 이미지 영역 할당)
+            if ((roiRect.Left < 0) || (roiRect.Top < 0) ||
+                (roiRect.Left >= img.SizeX) || (roiRect.Top >= img.SizeY) ||
+                (roiRect.Width <= 0) || (roiRect.Height <= 0))
+            {
+                roiRect.X = 0;
+                roiRect.Y = 0;
+                roiRect.Width = img.SizeX;
+                roiRect.Height = img.SizeY;
+            }
+
+            try
+            {
+                if (img.SizeX != 0 && img.SizeY != 0)
+                {
+                    // 2. 전체 이미지 버퍼 할당
+                    MIL.MbufAlloc2d(MilSystem, img.SizeX, img.SizeY, 8 + MIL.M_UNSIGNED, iAttributes, ref focusImage);
+
+                    // 3. 이미지 데이터 복사 및 01_GrayImage 저장
+                    if (img.ColorDept == (int)ColorDept.BlackAndWhite)
+                    {
+                        MIL.MbufPut(focusImage, img.Buffer);
+                        //SaveMilIdToImage(focusImage, Path.Combine(debugPath, "01_GrayImage.bmp"), IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
+                    }
+                    else if (img.ColorDept == (int)ColorDept.Color24)
+                    {
+                        ColorToBlackAndWrite(img, ref focusImage);
+                        //SaveMilIdToImage(focusImage, Path.Combine(debugPath, "01_GrayImage.bmp"), IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
+                    }
+
+                    // 4. ROI Child Buffer 생성 및 02_ROIImage 저장
+                    MIL.MbufChild2d(focusImage, (int)roiRect.X, (int)roiRect.Y, (int)roiRect.Width, (int)roiRect.Height, ref ROIImage);
+                    //SaveMilIdToImage(ROIImage, Path.Combine(debugPath, "02_ROIImage.bmp"), IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
+
+                    // 5. Sobel 에지 검출 및 03_HighFreqEdgeImage 저장
+                    MIL.MbufAlloc2d(MilSystem, (int)roiRect.Width, (int)roiRect.Height, 8 + MIL.M_UNSIGNED, MIL.M_IMAGE + MIL.M_PROC, ref edgeImage);
+                    MIL.MimConvolve(ROIImage, edgeImage, MIL.M_EDGE_DETECT_SOBEL_FAST);
+                    //SaveMilIdToImage(edgeImage, Path.Combine(debugPath, "03_HighFreqEdgeImage.bmp"), IMAGE_LOG_TYPE.NORMAL, EventCodeEnum.NONE);
+
+                    // 6. 노이즈 및 흐릿한 번짐을 제거하는 조건부 에지 에너지 연산
+                    // M_GREATER 조건을 통해 노이즈(그레이값 0~35)와 연한 번짐을 컷오프하고, 날카로운 피크 에지만 적분합니다.
+                    const double NOISE_THRESHOLD = 40.0; // 환경에 맞게 35.0 ~ 50.0 사이로 미세 조정 가능합니다.
+
+                    MIL.MimAllocResult(MilSystem, 1, MIL.M_STAT_LIST, ref statResult);
+                    MIL.MimStat(edgeImage, statResult, MIL.M_SUM_OF_SQUARES, MIL.M_GREATER, NOISE_THRESHOLD, 0.0);
+
+                    double sumSquared = 0.0;
+                    MIL.MimGetResult(statResult, MIL.M_SUM_OF_SQUARES, ref sumSquared);
+
+                    // 스케일링 변환
+                    focusval = (int)(sumSquared / 100.0);
+
+                    // 7. 최종 점수 PinLog 기록
+                    LoggerManager.PinLog($"[GetFocusValue_CoaxLinkEx] Focus Level Score: {focusval} (Valid Edge Energy: {sumSquared:F0}, Thresh: {NOISE_THRESHOLD}, ROI: X={roiRect.X}, Y={roiRect.Y}, W={roiRect.Width}, H={roiRect.Height})");
+                }
+                else
+                {
+                    focusval = 0;
+                    LoggerManager.PinLog("[GetFocusValue_CoaxLinkEx] Image size is 0. Focus score set to 0.");
+                }
+            }
+            catch (MILException err)
+            {
+                LoggerManager.Debug($"GetFocusValue(): Exception occurred. Err = {err.Message}, Stack Trace = {err.StackTrace}");
+                throw new VisionException("GetFocusValue Error", err, EventCodeEnum.VISION_PROC_EXCEPTION, this);
+            }
+            catch (Exception err)
+            {
+                LoggerManager.Debug($"GetFocusValue(): Exception occurred. Err = {err.Message}, Stack Trace = {err.StackTrace}");
+                throw new Exception(err.Message, err);
+            }
+            finally
+            {
+                // 8. 버퍼 및 결과 메모리 해제
+                if (statResult != MIL.M_NULL) MIL.MimFree(statResult);
+                if (edgeImage != MIL.M_NULL) MIL.MbufFree(edgeImage);
+                if (ROIImage != MIL.M_NULL) MIL.MbufFree(ROIImage);
+                if (focusImage != MIL.M_NULL) MIL.MbufFree(focusImage);
+            }
+
+            return focusval;
+        }
         #endregion
 
         #region //.. RegistPattenModel

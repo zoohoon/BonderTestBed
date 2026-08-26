@@ -196,10 +196,8 @@ namespace ProberInterfaces
 
                 roi = new Rect(roiX, roiY, focusRoiSize, focusRoiSize);
 
-                int focusValue =
-                    this.VisionManager().GetFocusValue(
-                        imageBuffer,
-                        roi);
+                //int focusValue = this.VisionManager().GetFocusValue(imageBuffer, roi);
+                int focusValue = this.VisionManager().GetFocusValue_CoaxLinkEx(imageBuffer, roi);
 
                 imageBuffer.FocusLevelValue =
                     focusValue;
